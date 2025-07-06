@@ -2,6 +2,7 @@ import puppeteer, { Browser } from 'puppeteer';
 import ollama from 'ollama';
 import fs from 'fs/promises';
 import { allLesons } from './allLessons';
+import { stdout } from 'process';
 
 interface ILessonContent {
     tag: string;
@@ -94,17 +95,21 @@ const fetchPage = async (lesson: ILessonContent): Promise<string> => {
 
 const analyzePage = async (content: string): Promise<string> => {
     try {
+        let responseText = ''
         const response = await ollama.chat({
             model: 'qwen3:8b',
             messages: [{
                 role: 'user',
                 content: `翻译这个网页，不需要保留原始的页面代码和广告信息，我不需要你去做总结，将英文的内容翻译成中文给我就好：${content}`
             }],
-            stream: false,
+            stream: true,
             think: false
         });
-
-        return response.message.content;
+        for await (const part of response) {
+            stdout.write(part.message.content)
+            responseText += part.message.content
+        }
+        return responseText
     } catch (error) {
         console.error('AI分析失败:', error);
         throw error;
