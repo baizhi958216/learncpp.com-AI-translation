@@ -1,7 +1,7 @@
 {
-  "name": "nodejs-ts-starter",
+  "name": "learncpp.com AI translate",
   "version": "1.0.0",
-  "description": "Start A TypeScript Project With NodeJS",
+  "description": "使用AI翻译learncpp.com",
   "main": "app.js",
   "scripts": {
     "start": "nodemon --watch src/**/*.ts --exec \"ts-node\" src/app.ts"
@@ -15,6 +15,9 @@
   "dependencies": {
     "@types/node": "^24.0.10",
     "nodemon": "^3.1.10",
+    "ollama": "^0.5.16",
+    "puppeteer": "^24.11.2",
+    "puppeteer-core": "^24.11.2",
     "ts-node": "^10.9.2"
   }
 }
