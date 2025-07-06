@@ -81,6 +81,14 @@ const fetchPage = async (lesson: ILessonContent): Promise<string> => {
         await page.waitForSelector('.entry-content', { timeout: 15000 });
 
         return await page.evaluate(() => {
+            const insert = document.querySelector('.humix-universal-js-insert')
+            if (insert) {
+                insert.remove()
+            }
+            const cf_monitor = document.querySelectorAll('.cf_monitor')
+            if (cf_monitor.length) {
+                cf_monitor.forEach(el => el.remove())
+            }
             const content = document.querySelector('.entry-content')?.innerHTML;
             if (!content) throw new Error('没有找到页面元素.entry-content');
             return content;
