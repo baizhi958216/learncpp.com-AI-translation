@@ -111,7 +111,12 @@ const fetchPage = async (lesson: ILessonContent): Promise<string> => {
             }
             const content = document.querySelector('.entry-content')?.innerHTML;
             if (!content) throw new Error('没有找到页面元素.entry-content');
-            return content;
+            const cleanContent = content!
+                .replace(/<script[\s\S]*?<\/script>/gi, '') // 移除脚本
+                .replace(/<!--[\s\S]*?-->/gi, '') // 移除注释
+                .replace(/(class|id)=["'].*(ad|banner|tracking)["']/gi, 'class="filtered"') // 过滤广告类class
+                .replace(/<style[\s\S]*?<\/style>/gi, ''); // 移除样式表
+            return cleanContent;
         });
     } catch (error) {
         console.error(`爬取页面错误 ${lesson.url}:`, error);
