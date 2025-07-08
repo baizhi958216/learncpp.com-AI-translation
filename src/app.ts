@@ -1,8 +1,9 @@
-import puppeteer, { Browser } from 'puppeteer';
+import puppeteer, { Browser } from 'puppeteer-core';
 import ollama from 'ollama';
 import fs from 'fs/promises';
 import { allLesons } from './allLessons';
 import { stdout } from 'process';
+import { platform } from 'os';
 
 interface ILessonContent {
     tag: string;
@@ -20,7 +21,26 @@ let browserInstance: Browser | null
 
 async function getBrowserInstance() {
     if (!browserInstance) {
-        browserInstance = await puppeteer.launch();
+        const os = platform()
+        let executablePath = ''
+        switch (os) {
+            case 'linux':
+                executablePath = '/usr/bin/google-chrome'
+                break;
+            case 'win32':
+                executablePath = "C:/Program Files/Google/Chrome/Application/chrome.exe"
+                break;
+            case 'darwin':
+                executablePath = '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'
+                break;
+            default:
+                executablePath = '/usr/bin/google-chrome'
+                break;
+        }
+        browserInstance = await puppeteer.launch({
+            executablePath
+        });
+
     }
     return browserInstance;
 }
