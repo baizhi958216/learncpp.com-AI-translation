@@ -155,14 +155,14 @@ const startLesson = async (lesson: ILessonContent, retryCount = 10): Promise<str
         console.log(`正在爬取 ${lesson.title} ...`);
 
         const content = await fetchPage(lesson);
-        const fileHtml = `${sanitizeFilename(lesson.title)}.html`;
+        const fileHtml = `${lesson.tag} ${sanitizeFilename(lesson.title)}.html`;
         await fs.writeFile(fileHtml, content, 'utf8');
 
         console.log(`保存网页文件: ${fileHtml}`);
         console.log(`爬取完成 分析 ${lesson.title} ...`);
 
         const analyzed = await analyzePage(content);
-        const fileMD = `${sanitizeFilename(lesson.title)}.md`;
+        const fileMD = `${lesson.tag} ${sanitizeFilename(lesson.title)}.md`;
         await fs.writeFile(fileMD, analyzed, 'utf8');
         console.log(`成功生成文件: ${fileMD}`);
         return analyzed;
