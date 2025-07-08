@@ -1,0 +1,353 @@
+<div
+  class="code-block code-block-1"
+  style="margin: 8px 8px 8px 0; float: left"
+></div>
+<p>
+  现代计算机非常快，并且一直在变得更快。然而，计算机也有一些显著的限制：它们只能原生理解有限的一组指令，并且必须被明确告诉做什么。
+</p>
+<p>
+  一个<strong>计算机程序</strong>是一系列指令，这些指令指导计算机按照指定的顺序执行某些操作。计算机程序通常用<strong>编程语言</strong>编写，这是一种设计用来方便为计算机编写指令的语言。有许多不同的编程语言可用，每种都针对不同的需求。编写程序的行为（以及艺术）称为<strong>编程</strong>。我们将在本章接下来的课程中更具体地讨论如何用C++创建程序。
+</p>
+<p>
+  当计算机执行计算机程序中描述的动作时，我们说它正在<strong>运行</strong>或<strong>执行</strong>该程序。计算机在被告知之前不会开始执行程序。这通常需要用户<strong>启动</strong>（或<strong>运行</strong>或<strong>执行</strong>）程序，尽管其他程序也可以启动程序。
+</p>
+<p>
+  程序在计算机的<strong>硬件</strong>上执行，硬件由构成计算机的物理组件组成。典型的计算设备上发现的著名硬件包括：
+</p>
+<ul>
+  <li>
+    CPU（中央处理单元，通常被称为“计算机的大脑”），它实际上执行指令。
+  </li>
+  <li>内存，在执行之前程序会被加载到内存中。</li>
+  <li>
+    交互设备（例如显示器、触摸屏、键盘或鼠标），允许人们与计算机互动。
+  </li>
+  <li>
+    存储设备（例如硬盘、SSD或闪存），即使计算机关闭后也能保留信息（包括已安装的程序）。
+  </li>
+</ul>
+<p>
+  相比之下，术语<strong>软件</strong>广泛指的是系统上的程序，这些程序旨在硬件上执行。
+</p>
+<div class="code-block code-block-2" style="margin: 8px 0; clear: both"></div>
+<p>
+  在现代计算中，程序不仅与硬件交互——它们还与其他系统上的软件（尤其是操作系统）交互。术语<strong>平台</strong>指的是兼容的硬件和软件（OS、浏览器等）集合，它为软件提供了一个运行环境。例如，“PC”一词通常用来表示由Windows OS运行在x86家族CPU上的平台。
+</p>
+<p>
+  平台通常为运行在其上的程序提供有用的服务。例如，桌面应用程序可能会请求操作系统提供一块空闲内存，创建一个文件，或者播放声音。运行的程序不需要知道这是如何实际实现的。如果程序使用了平台提供的功能或服务，它就会依赖于该平台，无法在没有修改的情况下在其他平台上运行。可以在不同平台之间轻松转移的程序被称为<strong>可移植的</strong>。将程序修改为在不同平台运行的过程称为<strong>移植</strong>。
+</p>
+<p>
+  现在我们已经讨论了程序，让我们来谈谈编程语言。这不仅仅是一堂历史课，我们还将介绍一些未来课程中会提到的术语。
+</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  机器语言
+</p>
+<p>
+  计算机的CPU无法理解C++。相反，CPU只能处理用<strong>机器语言</strong>（或<strong>机器代码</strong>）编写的指令。给定CPU能够理解的所有可能的机器语言指令的集合称为<strong>指令集</strong>。
+</p>
+<p>
+  这是一个示例机器语言指令：<code>10110000 01100001</code>。
+</p>
+<div class="code-block code-block-3" style="margin: 8px 0; clear: both"></div>
+<p>
+  每条指令都被CPU理解为一个非常具体的任务，例如“比较这两个数字”，或者“将这个数字复制到那个内存位置”。在计算机刚发明的时候，程序员必须直接用机器语言编写程序，这是一件非常困难和耗时的事情。
+</p>
+<p>
+  如何组织和解释这些指令超出了本教程系列的范围，但值得一提的是几点。
+</p>
+<p>
+  首先，每条指令由一系列1和0组成。每个单独的0或1称为一个<strong>二进制位</strong>，或简称为<strong>位</strong>。机器语言指令中的位数各不相同——例如，一些CPU处理固定长度为32位的指令，而其他CPU（如x86家族的CPU，你可能正在使用）的指令可以是可变长度的。
+</p>
+<p>
+  其次，每个兼容的CPU家族（例如x86、Arm64）都有自己的机器语言，这种机器语言与其它CPU家族的机器语言不兼容。这意味着为一个CPU家族编写的机器语言程序不能在其他CPU家族的CPU上运行！
+</p>
+<div class="cpp-note cpp-lightgraybackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">相关内容</p>
+  <p>
+    “CPU家族”正式称为“指令集架构”（“ISA”）。维基百科有一个不同CPU家族的列表
+    <a
+      href="https://en.wikipedia.org/wiki/Comparison_of_instruction_set_architectures#Instruction_sets"
+      >在这里</a
+    >。
+  </p>
+</div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  汇编语言
+</p>
+<div class="code-block code-block-4" style="margin: 8px 0; clear: both"></div>
+<p>
+  机器语言指令（如<code>10110000 01100001</code>）对CPU来说是理想的，但对于人类来说很难理解。由于程序（至少历史上）是由人类编写和维护的，因此编程语言应该以人类需求为中心是有道理的。
+</p>
+<p>
+  一种<strong>汇编语言</strong>（通常简称为<strong>汇编</strong>）是一种基本上作为更易读的机器语言的编程语言。下面是上面的同一指令在x86汇编语言中的形式：<code>mov al, 0x61</code>。
+</p>
+<div class="cpp-note cpp-lightgraybackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">可选阅读</p>
+  <p>
+    这个指令说明了许多使汇编比机器语言更易读的能力。
+  </p>
+  <ul>
+    <li>
+      操作（指令所做的）由一个简短的助记符（通常是3-5个字母的名称）标识。<code>mov</code>很容易理解为“移动”的助记符，这是一个将位从一个位置复制到另一个位置的操作。
+    </li>
+    <li>
+      寄存器（CPU本身的快速内存位置）通过名称访问。<code>al</code>是x86 CPU的一个特定寄存器的名称。
+    </li>
+    <li>
+      数字可以用更方便的格式指定。汇编语言通常支持十进制数字（例如<code>97</code>）和十六进制数字（例如<code>0x61</code>）。
+    </li>
+  </ul>
+  <p>
+    很容易理解汇编指令<code>mov al, 0x61</code>将十六进制数字<code>0x61</code>复制到<code>al</code> CPU寄存器中。
+  </p>
+</div>
+<p>
+  由于CPU不理解汇编语言，所以汇编程序必须在执行前转换为机器语言。这个转换由一个叫做<strong>汇编器</strong>的程序完成。因为每个汇编语言指令通常设计成对应一个等效的机器语言指令，所以转换过程通常是直接的。
+</p>
+<p>
+  就像每个CPU家族都有自己的机器语言一样，每个CPU家族也有自己的汇编语言（设计用于为同一CPU家族生成机器语言）。这意味着有很多不同的汇编语言。虽然概念上相似，但不同的汇编语言支持不同的指令，使用不同的命名约定等等……
+</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  低级语言简介
+</p>
+<p>
+  机器语言和汇编语言被认为是低级语言，因为这些语言为机器架构提供了最小的抽象。换句话说，编程语言本身是根据它将运行的特定指令集架构量身定制的。
+</p>
+<div class="code-block code-block-5" style="margin: 8px 0; clear: both"></div>
+<p>低级语言有几个显著的缺点：</p>
+<ul>
+  <li>
+    用低级语言编写的程序不可移植。由于低级语言是为特定指令集架构量身定制的，因此用这种语言编写的程序也是如此。将这样的程序移植到其他架构上通常是非平凡的。
+  </li>
+  <li>
+    在低级语言中编写程序需要对架构本身有详细的了解。例如，指令<code>mov al, 061h</code>要求知道<code>al</code>指的是这个特定平台上的CPU寄存器，并理解如何使用该寄存器。在不同的架构上，这个寄存器可能有不同的名称，有不同的限制，或者根本不存在。
+  </li>
+  <li>
+    低级程序难以理解。虽然单个汇编指令可以相当容易理解，但仍然很难推断出一段汇编代码实际上在做什么。而且由于汇编程序需要许多指令才能完成简单的任务，它们往往很长。
+  </li>
+  <li>
+    编写具有显著复杂性的汇编程序很困难，因为该语言只提供基本的功能。程序员必须自己实现他们所需的一切。
+  </li>
+</ul>
+<p>
+  低级语言的主要优点是速度快。汇编语言今天仍在使用，当有性能关键的代码部分时。它也用于一些其他情况，我们稍后会讨论其中一个。
+</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  高级语言简介
+</p>
+<p>
+  为了应对上述许多缺点，开发了新的“高级”编程语言，如C、C++、Pascal（后来还有Java、Javascript和Perl等语言）。
+</p>
+<p>下面是上面的同一指令在C/C++中的形式：<code>a = 97;</code>。</p>
+<p>
+  就像汇编程序（必须被汇编成机器语言）一样，用高级语言编写的程序必须在运行前翻译成机器语言。主要有两种方式完成这一过程：编译和解释。
+</p>
+<div class="code-block code-block-6" style="margin: 8px 0; clear: both"></div>
+<p>
+  C++程序通常是编译的。一个<strong>编译器</strong>是一个程序（或一组程序），它读取一种语言的源代码（通常是高级语言），并将其翻译成另一种语言（通常是低级语言）。例如，C++编译器将C++源代码翻译成机器码。
+</p>
+<div class="cpp-note cpp-lightgraybackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">可选阅读</p>
+  <p>
+    大多数C++编译器也可以配置为生成汇编代码。这对于程序员想要查看编译器为程序的一部分生成的具体指令时很有用。
+  </p>
+</div>
+<p>
+  编译器输出的机器码可以打包成一个可执行文件（包含机器语言指令），可以分发给其他人，并由操作系统启动。值得注意的是，运行可执行文件不需要安装编译器。
+</p>
+<p>
+  最初，编译器是原始的，会产生慢速、未优化的汇编或机器码。然而，多年来，编译器已经变得非常擅长生成快速、优化的代码，有时甚至比人类做得更好！
+</p>
+<p>这里是编译过程的简化表示：</p>
+<div class="cpp-image-wrapper">
+  <img
+    src="https://www.learncpp.com/images/CppTutorial/Chapter0/Compiling-min.png"
+    alt="编译示例"
+  />
+</div>
+<p>
+  另一方面，一个<strong>解释器</strong>是一个程序，它可以直接执行源代码中的指令，而不需要首先进行编译。解释器通常比编译器更灵活，但在运行程序时效率较低，因为每次运行程序都需要进行解释过程。这也意味着解释器必须安装在每个将运行解释程序的机器上。
+</p>
+<div class="code-block code-block-7" style="margin: 8px 0; clear: both"></div>
+<p>这里是解释过程的简化表示：</p>
+<div class="cpp-image-wrapper">
+  <img
+    src="https://www.learncpp.com/images/CppTutorial/Chapter0/Interpreting-min.png"
+    alt="解释示例"
+  />
+</div>
+<div class="cpp-note cpp-lightgraybackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">可选阅读</p>
+  <p>
+    一个关于编译器与解释器优势的好比较可以在<a href="https://stackoverflow.com/a/38491646">这里</a>找到。
+  </p>
+  <p>
+    另一个编译程序的优势是分发编译后的程序不需要分发源代码。在非开源环境中，这对知识产权（IP）保护非常重要。
+  </p>
+</div>
+<p>
+  大多数高级语言可以是编译型或解释型的。传统上，像C、C++和Pascal这样的高级语言是编译型的，而“脚本”语言如Perl和JavaScript倾向于是解释型的。有些语言，比如Java，使用两者的结合。我们将稍后更详细地探讨C++编译器。
+</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  高级语言的好处
+</p>
+<p>
+  高级语言之所以这样命名，是因为它们提供了对底层架构的高程度抽象。
+</p>
+<p>
+  考虑指令<code>a = 97;</code>。这条指令让我们存储值<code>97</code>到内存中的某个地方，而无需知道该值将被放置在哪里，或者CPU需要什么特定的机器码指令来存储该值。事实上，这条指令与平台无关。编译器会做所有的工作，以确定如何将这个C++指令转换为特定平台的机器码。
+</p>
+<div class="code-block code-block-8" style="margin: 8px 0; clear: both"></div>
+<p>
+  高级语言允许程序员在不知道程序将在哪个平台上运行的情况下编写程序。这不仅使程序更容易编写，也使其更加可移植。如果我们小心的话，我们可以编写一个C++程序，它可以在任何拥有C++编译器的平台上编译！一个设计为在多个平台上运行的程序被称为<strong>跨平台</strong>。
+</p>
+<div class="cpp-image-wrapper">
+  <img
+    src="https://www.learncpp.com/images/CppTutorial/Chapter0/Portability-min.png"
+    alt="可移植性示例"
+  />
+</div>
+<div class="cpp-note cpp-lightgraybackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">高级读者</p>
+  <p>
+    以下是一个部分列出的可能妨碍你的C++代码可移植性的内容：
+  </p>
+  <ul>
+    <li>
+      许多操作系统，如Microsoft Windows，提供平台特定的功能，你可以在代码中使用这些功能。这些功能可以使编写特定操作系统的程序变得更加容易，或者提供比其他方式更深层次的集成。
+    </li>
+    <li>
+      许多第三方库仅在某些平台上可用。如果你使用其中之一，那么你将局限于该库所支持的平台。
+    </li>
+    <li>
+      一些编译器支持编译器特定的扩展，这些扩展只能在该编译器中使用。如果你使用这些，你的程序将无法在不支持相同扩展的其他编译器上编译，除非进行修改。我们将在你安装编译器之后再详细讨论这些内容。
+    </li>
+    <li>
+      在某些情况下，C++语言允许编译器决定某件事应该如何表现。我们在第< a
+        href="https://www.learncpp.com/cpp-tutorial/uninitialized-variables-and-undefined-behavior/"
+        >1.6 -- 未初始化变量和未定义行为</a
+      >节中讨论了这一点，名为“实现定义行为”。
+    </li>
+  </ul>
+  <p>
+    如果你只针对一个平台，那么可移植性可能不太重要。但是，如今许多应用程序都针对多个平台以扩大其覆盖面。例如，一个移动应用很可能希望同时针对iOS和Android。
+  </p>
+  <p>
+    即使可移植性在最初似乎没用，许多最初针对单一平台（例如PC）的应用程序在看到一定程度的成功和兴趣后决定将其移植到其他平台（例如Mac和各种游戏机）。如果你一开始就不是以可移植性为目标，以后移植你的应用程序将更加困难。
+  </p>
+</div>
+<p>
+  在这些教程中，我们将尽可能避免使用平台特定的代码，以便我们的程序可以在任何拥有现代C++编译器的平台上运行。
+</p>
+<p>高级语言还有其他好处：</p>
+<ul>
+  <li>
+    用高级语言编写的程序更容易阅读、编写和学习，因为它们的指令更接近我们日常使用的自然语言和数学。在许多情况下，高级语言完成相同任务所需的指令比低级语言少。例如，在C++中，你可以用一行代码编写<code>a = b * 2 + 5;</code>。在汇编语言中，这需要4到6条不同的指令。这使得使用高级语言编写的程序更加简洁，从而更容易理解。
+  </li>
+  <li>
+    高级语言通常包含额外的功能，使常见的编程任务更容易执行，例如请求一块内存或操作文本。例如，只需一条指令即可确定“abc”字符是否存在于一个大块文本中（以及如果存在，要检查多少个字符才能找到“abc”）。这可以显著减少复杂性和开发时间。
+  </li>
+</ul>
+<div class="cpp-note cpp-lightgraybackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">术语</p>
+  <p>
+    虽然C++在技术上被认为是一种高级语言，但较新的编程语言（如脚本语言）提供了更高层次的抽象。因此，C++有时会被错误地称为“低级语言”。
+  </p>
+</div>
+<div class="cpp-note cpp-lightgraybackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">作者注</p>
+  <p>
+    今天，C++可能更准确地描述为一种中级语言。然而，这也突显了C++的一个关键优势：它通常提供在不同抽象级别工作的能力。你可以选择在较低的级别工作以获得更好的性能和精确度，或者在较高的级别工作以获得更大的便利性和简单性。
+  </p>
+</div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  规则、最佳实践和警告
+</p>
+<p>
+  随着我们继续这些教程，我们将突出显示以下三个类别中的许多重要点：
+</p>
+<div class="cpp-note cpp-lightpurplebackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">规则</p>
+  <p>
+    规则是你必须做的，因为语言要求如此。不遵守规则通常会导致你的程序无法工作。
+  </p>
+</div>
+<div class="cpp-note cpp-lightgreenbackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">最佳实践</p>
+  <p>
+    最佳实践是你应该做的，因为这种方式是常规的（习惯性的）或推荐的。也就是说，大家都是这样做的（如果你不做，你会做一些人们意想不到的事情），或者它通常优于其他方法。
+  </p>
+</div>
+<div class="cpp-note cpp-lightredbackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">警告</p>
+  <p>
+    警告是你不应该做的，因为它们通常会导致意外的结果。
+  </p>
+</div>
+<div class="prevnext">
+  <div class="prevnext-inline">
+    <a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/introduction-to-cplusplus/"
+      ><div class="nav-button nav-button-next">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-right" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">下一课</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">0.3</span>C/C++简介
+          </div>
+        </div>
+      </div></a
+    ><a class="nav-link" href="/"
+      ><div class="nav-button nav-button-index">
+        <div class="nav-button-icon">
+          <i class="fa fa-home" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">返回目录</div>
+        </div>
+      </div></a
+    ><a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/introduction-to-these-tutorials/"
+      ><div class="nav-button nav-button-prev">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-left" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">上一课</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">0.1</span>这些教程简介
+          </div>
+        </div>
+      </div></a
+    >
+  </div>
+</div>
+<div class="code-block code-block-10" style="margin: 8px 0; clear: both"></div>

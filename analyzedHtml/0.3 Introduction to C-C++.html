@@ -1,0 +1,141 @@
+<div
+  class="code-block code-block-1"
+  style="margin: 8px 8px 8px 0; float: left"
+></div>
+<p class="cpp-section" data-ezoic-video-excluded="1">在C++之前有C语言</p>
+<p>
+  C语言是由Dennis Ritchie在1972年于贝尔电话实验室开发的，主要用于系统编程（一种用于编写操作系统的语言）。Ritchie的主要目标是创建一种简洁的语言，易于编译，允许高效访问内存，生成高效的代码，并且是自包含的（不依赖其他程序）。对于一种高级语言来说，C语言设计为给予程序员很大的控制权，同时允许开发者编写可以在不同平台上运行的程序。
+</p>
+<p>
+  C最终变得如此高效和灵活，以至于在1973年，Ritchie和Ken Thompson使用C重写了大部分Unix操作系统。许多以前的操作系统都是用汇编语言编写的。与只能在特定CPU上运行的汇编语言不同，C具有出色的可移植性，使Unix可以轻松地在许多不同类型的计算机上重新编译，并加快了其采用速度。C和Unix的命运紧密相连，C的流行部分归功于Unix作为操作系统的成功。
+</p>
+<p>
+  1978年，Brian Kernighan和Dennis Ritchie出版了一本名为《C程序设计语言》的书。这本书通常被称为K&amp;R（根据作者的姓氏），为该语言提供了非正式的规范，并成为事实上的标准。当需要最大可移植性时，程序员会坚持K&amp;R中的建议，因为当时的大多数编译器都按照K&amp;R标准实现。
+</p>
+<p>
+  1983年，美国国家标准协会（ANSI）成立了一个委员会来制定C语言的正式标准。1989年（委员会做事情总是很慢），他们完成了并发布了C89标准，更常见的是称为ANSI C。1990年，国际标准化组织（ISO）采用了ANSI C（稍作修改）。这个版本的C被称为C90。最终编译器变得符合ANSI C/C90标准，希望获得最大可移植性的程序都按照此标准编写。
+</p>
+<div class="code-block code-block-2" style="margin: 8px 0; clear: both"></div>
+<p>
+  1999年，ISO委员会发布了一个新版本的C，非正式地命名为C99。C99采纳了许多已经进入编译器扩展或已在C++中实现的功能。
+</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  C++
+</p>
+<p>
+  C++（发音为“see plus plus”）由Bjarne Stroustrup在贝尔实验室开发，作为C语言的扩展，始于1979年。C++向C语言添加了许多新功能，或许最好将其视为C的超集，尽管这并不严格正确（因为C99引入了一些C++中不存在的功能）。C++相比C最显著的创新是它支持面向对象编程。至于“对象”是什么以及它与传统编程方法有何不同，我们将在后面的章节中进行讲解。
+</p>
+<p>
+  C++于1998年由ISO委员会标准化。这意味着ISO标准委员会批准了一份文档（称为< strong>标准文档< /strong>），该文档对C++语言进行了正式描述。标准化的目标是帮助确保C++代码在不同的编译器和平台上行为一致。
+</p>
+<p>
+  2003年对该语言进行了小幅度更新（非正式地命名为C++03）。
+</p>
+<p>
+  自那时以来，C++语言经历了五次重大更新（非正式地命名为C++11、C++14、C++17、C++20和C++23），每次都会增加额外的功能。特别是C++11增加了大量的新功能，被认为是语言的新基准版本。预计每三到四年会有一次语言升级。
+</p>
+<div class="code-block code-block-3" style="margin: 8px 0; clear: both"></div>
+<p>
+  因为批准的标准的正式名称比较复杂（C++20的正式名称是ISO/IEC 14882:2020），所以通常以非正式名称来称呼这些标准，这些名称包括出版年份的最后两位数字（或预期的出版年份）。例如，C++20指的是2020年发布的语言版本。
+</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  C和C++的设计哲学
+</p>
+<p>
+  C和C++的基础设计哲学可以概括为“信任程序员”——这既好又危险。C++被设计成让程序员有高度的自由去做他们想做的事情。然而，这也意味着该语言通常不会阻止你做一些没有意义的事情，因为它会假设你这样做是有原因的，而它不了解这个原因。如果程序员没有意识到，他们可能会陷入很多陷阱。这也是为什么了解在C/C++中不应该做什么几乎和知道应该做什么一样重要。
+</p>
+<div class="cpp-note cpp-lightbluebackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">问：C++擅长什么？</p>
+  <p>
+    当需要高性能和精确控制内存及其他资源时，C++表现突出。以下是一些C++将表现出色的应用类型：
+  </p>
+  <ul>
+    <li>视频游戏</li>
+    <li>实时系统（如交通、制造等）</li>
+    <li>
+      高性能金融应用（如高频交易）
+    </li>
+    <li>图形应用程序和模拟</li>
+    <li>生产力/办公应用程序</li>
+    <li>嵌入式软件</li>
+    <li>音频和视频处理</li>
+    <li>人工智能和神经网络</li>
+  </ul>
+  <p>
+    C++还拥有大量高质量的第三方库，可以显著缩短开发时间。
+  </p>
+</div>
+<div class="cpp-note cpp-lightbluebackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">问：C++是否正在消亡？</p>
+  <p>
+    不是。调查显示，C++是第二或第三受欢迎的编译语言（仅次于Java，有时也比C#更受欢迎，但略高于C），并且总体上是第五或第六受欢迎的语言（不包括HTML、SQL和shell脚本语言）。
+  </p>
+  <p>
+    C++之所以受到欢迎，是因为教学资源丰富、社区庞大，而且有很多大学课程教授它。
+  </p>
+  <p>
+    每三年一次的语言更新、大量有用的第三方库，以及在广受欢迎的游戏行业中的主导地位，使得C++继续蓬勃发展。
+  </p>
+</div>
+<div class="cpp-note cpp-lightbluebackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">
+    问：我需要在学习这些教程之前先了解C吗？
+  </p>
+  <p>
+    不需要！从C++开始学习是完全没问题的，我们会教你一切你需要知道的内容（包括要避免的陷阱）。
+  </p>
+  <p>
+    一旦你掌握了C++，如果你以后需要，学习标准C应该会很容易。如今，C主要应用于一些特定的用途：运行在嵌入式设备上的代码，当你需要与其他只能与C接口的语言交互时等等……对于大多数其他情况，推荐使用C++。
+  </p>
+</div>
+<div class="prevnext">
+  <div class="prevnext-inline">
+    <a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/introduction-to-cpp-development/"
+      ><div class="nav-button nav-button-next">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-right" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">下一课</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">0.4</span>介绍C++开发
+          </div>
+        </div>
+      </div></a
+    ><a class="nav-link" href="/"
+      ><div class="nav-button nav-button-index">
+        <div class="nav-button-icon">
+          <i class="fa fa-home" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">返回目录</div>
+        </div>
+      </div></a
+    ><a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/introduction-to-programming-languages/"
+      ><div class="nav-button nav-button-prev">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-left" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">上一课</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">0.2</span>程序和编程语言简介
+          </div>
+        </div>
+      </div></a
+    >
+  </div>
+</div>
+<div class="code-block code-block-10" style="margin: 8px 0; clear: both"></div>

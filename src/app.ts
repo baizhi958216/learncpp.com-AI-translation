@@ -1,9 +1,16 @@
 import puppeteer, { Browser } from 'puppeteer-core';
-import ollama from 'ollama';
 import fs from 'fs/promises';
 import { allLesons } from './allLessons';
-import { stdout } from 'process';
 import { platform } from 'os';
+import OpenAI from "openai";
+import { stdout } from 'process';
+
+const openai = new OpenAI(
+    {
+        apiKey: '',
+        baseURL: "https://dashscope.aliyuncs.com/compatible-mode/v1"
+    }
+);
 
 interface ILessonContent {
     tag: string;
@@ -129,18 +136,28 @@ const fetchPage = async (lesson: ILessonContent): Promise<string> => {
 const analyzePage = async (content: string): Promise<string> => {
     try {
         let responseText = ''
-        const response = await ollama.chat({
-            model: 'qwen3:8b',
-            messages: [{
-                role: 'user',
-                content: `翻译这个网页，不需要保留原始的页面代码和广告信息，我不需要你去做总结，将英文的内容翻译成中文给我就好：${content}`
-            }],
+        const completion = await openai.chat.completions.create({
+            model: "qwen-turbo",
+            messages: [
+                {
+                    "role": "system", "content": `
+                你是一名精通C/C++的计算机专业的教授，你精通程序编写和中英互译
+                请严格按以下要求处理：
+                1. 仅翻译英文内容，逐字逐句翻译
+                2. 完全保留原始HTML标签结构和排版格式
+                3. 需过滤以下元素：
+                   - <script>、<style>、<noscript>等非内容标签
+                   - 广告类class（如ad-banner、sponsored）
+                   - 跟踪代码（如google-analytics）
+                4. 输出结果需包含完整DOM树结构
+                5. 若遇无法翻译的代码片段，用<!-- UNTRANSLATED_CODE -->标记` },
+                { "role": "user", "content": content }
+            ],
             stream: true,
-            think: false
         });
-        for await (const part of response) {
-            stdout.write(part.message.content)
-            responseText += part.message.content
+        for await (const chunk of completion) {
+            stdout.write(chunk.choices[0].delta.content!)
+            responseText += chunk.choices[0].delta.content
         }
         return responseText
     } catch (error) {
@@ -167,9 +184,9 @@ const startLesson = async (lesson: ILessonContent, retryCount = 10): Promise<str
         console.log(`爬取完成 分析 ${lesson.title} ...`);
 
         const analyzed = await analyzePage(content);
-        const fileMD = `${lesson.tag} ${sanitizeFilename(lesson.title)}.md`;
-        await fs.writeFile(fileMD, analyzed, 'utf8');
-        console.log(`成功生成文件: ${fileMD}`);
+        const analyzedHtml = `${lesson.tag} ${sanitizeFilename(lesson.title)}.html`;
+        await fs.writeFile(analyzedHtml, analyzed, 'utf8');
+        console.log(`成功生成文件: ${analyzedHtml}`);
         return analyzed;
     } catch (error) {
         if (retryCount > 0) {

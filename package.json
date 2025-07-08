@@ -16,6 +16,7 @@
     "@types/node": "^24.0.10",
     "nodemon": "^3.1.10",
     "ollama": "^0.5.16",
+    "openai": "^5.8.2",
     "puppeteer-core": "^24.11.2",
     "ts-node": "^10.9.2"
   }

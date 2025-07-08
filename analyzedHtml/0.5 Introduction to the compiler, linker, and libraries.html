@@ -1,0 +1,195 @@
+<div
+  class="code-block code-block-1"
+  style="margin: 8px 8px 8px 0; float: left"
+></div>
+<p>
+继续我们之前课程中讨论的这个图示（<a
+    href="https://www.learncpp.com/cpp-tutorial/introduction-to-cpp-development/"
+    >0.4 -- C++开发简介</a
+  >）：
+</p>
+<div class="cpp-image-wrapper">
+  <img
+    src="https://www.learncpp.com/images/CppTutorial/Chapter0/Development-min.png"
+    alt="软件开发过程"
+  />
+</div>
+<p>让我们讨论第4到第7步。</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  第4步：编译您的源代码
+</p>
+<p>
+为了编译C++源代码文件，我们使用C++编译器。C++编译器依次处理程序中的每个源代码（.cpp）文件，并执行两个重要任务：
+</p>
+<p>
+首先，编译器会检查您的C++代码，确保它符合C++语言的规则。如果不符合，编译器会给出一个错误（以及相应的行号），以帮助定位需要修复的问题。在错误修复之前，编译过程将被中止。
+</p>
+<p>
+其次，编译器会将您的C++代码转换为机器语言指令。这些指令存储在一个称为<strong>目标文件</strong>的中间文件中。目标文件还包含后续步骤所需的其他数据（包括链接器在第5步所需的数据，以及第7步调试所需的数据）。
+</p>
+<div class="code-block code-block-2" style="margin: 8px 0; clear: both"></div>
+<p>
+目标文件通常命名为<em>name.o</em>或<em>name.obj</em>，其中<em>name</em>与生成它的.cpp文件相同。
+</p>
+<p>
+例如，如果您的程序有3个.cpp文件，编译器将生成3个目标文件：
+</p>
+<div class="cpp-image-wrapper">
+  <img
+    src="https://www.learncpp.com/images/CppTutorial/Chapter0/CompileSource-min.png"
+    alt="编译过程"
+  />
+</div>
+<p>
+C++编译器适用于许多不同的操作系统。我们很快将讨论如何安装编译器，因此现在不需要进行安装。
+</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  第5步：链接目标文件和库并创建所需的输出文件
+</p>
+<p>
+在编译器成功完成后，另一个名为<strong>链接器</strong>的程序会启动。链接器的任务是将所有目标文件组合起来并生成所需的输出文件（如可执行文件，您可以运行它）。此过程称为<strong>链接</strong>。如果链接过程中的任何步骤失败，链接器将生成描述问题的错误信息，然后中止。
+</p>
+<div class="code-block code-block-3" style="margin: 8px 0; clear: both"></div>
+<p>
+首先，链接器读取由编译器生成的每个目标文件，并确保它们有效。
+</p>
+<p>
+其次，链接器确保所有跨文件依赖项正确解决。例如，如果您在某个.cpp文件中定义了某物，然后在另一个.cpp文件中使用它，链接器会将两者连接在一起。如果链接器无法将对某物的引用与其定义连接起来，您将收到链接器错误，链接过程将中止。
+</p>
+<p>
+第三，链接器通常会链接一个或多个<strong>库文件</strong>，这些文件是预先编译好的代码集合，已经“打包”以便在其他程序中重复使用。
+</p>
+<p>
+最后，链接器输出所需的输出文件。通常这将是可执行文件，可以启动（但如果是按项目设置的方式，也可能是库文件）。
+</p>
+<div class="cpp-image-wrapper">
+  <img
+    src="https://www.learncpp.com/images/CppTutorial/Chapter0/LinkingObjects-min.png"
+    alt="链接过程"
+  />
+</div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  标准库
+</p>
+<p>
+C++附带了一个称为<strong>C++标准库</strong>（通常称为“标准库”）的广泛库，为您的程序提供了一组有用的功能。C++标准库中最常用的部分是输入/输出库（通常称为“iostream”），它包含在监视器上打印文本和从用户获取键盘输入的功能。
+</p>
+<div class="code-block code-block-4" style="margin: 8px 0; clear: both"></div>
+<p>
+几乎每个编写过的C++程序都以某种方式利用了标准库，因此将C++标准库链接到您的程序中是非常常见的。大多数C++链接器默认配置为链接标准库，因此这通常不是您需要担心的事情。
+</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  第三方库
+</p>
+<p>
+您可以选择链接<strong>第三方库</strong>，这些库是由独立实体创建和分发的库（而不是C++标准的一部分）。例如，假设您想编写一个播放声音的程序。C++标准库中没有这样的功能。虽然您可以编写自己的代码来从磁盘读取声音文件、检查它们是否有效，或者找出如何将声音数据路由到操作系统或硬件以通过扬声器播放——这将是一项艰巨的工作！相反，您更可能找到一个现有的软件项目，其库已经为您实现了所有这些功能。
+</p>
+<p>
+我们将在附录中讨论如何链接库（以及创建自己的库！）。
+</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  构建
+</p>
+<p>
+由于涉及多个步骤，术语<strong>构建</strong>常用于指将源代码文件转换为可运行的可执行文件的完整过程。作为构建结果生成的特定可执行文件有时被称为<strong>构建</strong>。
+</p>
+<div class="cpp-note cpp-lightgraybackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">对于高级读者</p>
+  <p>
+    对于复杂的项目，通常使用构建自动化工具（如<strong>make</strong>或<strong>build2</strong>）来帮助自动化构建程序和运行自动化测试的过程。尽管这些工具强大且灵活，但由于它们不属于C++核心语言的一部分，而且您无需使用它们即可继续，因此我们不会在这套教程中讨论它们。
+  </p>
+</div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  第6和第7步：测试和调试
+</p>
+<div class="code-block code-block-5" style="margin: 8px 0; clear: both"></div>
+<p>
+这是有趣的部分！你现在可以运行你的可执行文件并看看它做了什么！
+</p>
+<p>
+一旦你可以运行你的程序，那么你就可以测试它。<strong>测试</strong>是评估你的软件是否按预期工作的过程。基本测试通常涉及尝试不同的输入组合，以确保软件在不同情况下都能正确运行。
+</p>
+<p>
+如果程序没有按预期运行，那么你就必须做一些<strong>调试</strong>，这是查找和修复编程错误的过程。
+</p>
+<p>
+我们将在以后的章节中详细讨论如何测试和调试你的程序。
+</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  集成开发环境（IDE）
+</p>
+<p>
+请注意，第3、4、5和7步都涉及必须安装的软件程序（编辑器、编译器、链接器、调试器）。虽然你可以为这些活动分别使用不同的程序，但一个称为集成开发环境（IDE）的软件包将这些功能捆绑并集成在一起。我们将在下一节中讨论IDE，并安装一个。
+</p>
+<div class="code-block code-block-6" style="margin: 8px 0; clear: both"></div>
+<div class="prevnext">
+  <div class="prevnext-inline">
+    <a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/installing-an-integrated-development-environment-ide/"
+      ><div class="nav-button nav-button-next">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-right" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">下一课</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">0.6</span>安装集成开发环境（IDE）
+          </div>
+        </div>
+      </div></a
+    ><a class="nav-link" href="/"
+      ><div class="nav-button nav-button-index">
+        <div class="nav-button-icon">
+          <i class="fa fa-home" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">返回目录</div>
+        </div>
+      </div></a
+    ><a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/introduction-to-cpp-development/"
+      ><div class="nav-button nav-button-prev">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-left" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">上一课</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">0.4</span>C++开发简介
+          </div>
+        </div>
+      </div></a
+    >
+  </div>
+</div>
+<div class="code-block code-block-10" style="margin: 8px 0; clear: both"></div>
