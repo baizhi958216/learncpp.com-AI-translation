@@ -1,0 +1,510 @@
+<div
+  class="code-block code-block-1"
+  style="margin: 8px 8px 8px 0; float: left"
+></div>
+<p class="cpp-section" data-ezoic-video-excluded="1">
+  Unary arithmetic operators
+</p>
+<p>
+  There are two unary arithmetic operators, plus (+), and minus (-). As a
+  reminder, unary operators are operators that only take one operand.
+</p>
+<div class="cpp-table-wrapper" data-ezoic-video-excluded="1">
+  <p></p>
+  <p></p>
+  <table class="cpp-table" data-ezoic-video-excluded="1">
+    <tbody>
+      <tr>
+        <th>Operator</th>
+        <th>Symbol</th>
+        <th>Form</th>
+        <th>Operation</th>
+      </tr>
+      <tr>
+        <td>Unary plus</td>
+        <td>+</td>
+        <td>+x</td>
+        <td>Value of x</td>
+      </tr>
+      <tr>
+        <td>Unary minus</td>
+        <td>-</td>
+        <td>-x</td>
+        <td>Negation of x</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<p>
+  The <strong>unary minus</strong> operator returns the operand multiplied by
+  -1. In other words, if x = 5, -x is -5.
+</p>
+<p>
+  The <strong>unary plus</strong> operator returns the value of the operand. In
+  other words, +5 is 5, and +x is x. Generally you won’t need to use this
+  operator since it’s redundant. It was added largely to provide symmetry with
+  the <em>unary minus</em> operator.
+</p>
+<p>
+  For readability, both of these operators should be placed immediately
+  preceding the operand (e.g. <code>-x</code>, not <code>- x</code>).
+</p>
+<p>
+  Do not confuse the <em>unary minus</em> operator with the
+  <em>binary subtraction</em> operator, which uses the same symbol. For example,
+  in the expression <code>x = 5 - -3;</code>, the first minus is the
+  <em>binary subtraction</em> operator, and the second is the
+  <em>unary minus</em> operator.
+</p>
+<div class="code-block code-block-2" style="margin: 8px 0; clear: both"></div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Binary arithmetic operators
+</p>
+<p>
+  There are 5 binary arithmetic operators. Binary operators are operators that
+  take a left and right operand.
+</p>
+<div class="cpp-table-wrapper" data-ezoic-video-excluded="1">
+  <p></p>
+  <p></p>
+  <table class="cpp-table" data-ezoic-video-excluded="1">
+    <tbody>
+      <tr>
+        <th>Operator</th>
+        <th>Symbol</th>
+        <th>Form</th>
+        <th>Operation</th>
+      </tr>
+      <tr>
+        <td>Addition</td>
+        <td>+</td>
+        <td>x + y</td>
+        <td>x plus y</td>
+      </tr>
+      <tr>
+        <td>Subtraction</td>
+        <td>-</td>
+        <td>x - y</td>
+        <td>x minus y</td>
+      </tr>
+      <tr>
+        <td>Multiplication</td>
+        <td>*</td>
+        <td>x * y</td>
+        <td>x multiplied by y</td>
+      </tr>
+      <tr>
+        <td>Division</td>
+        <td>/</td>
+        <td>x / y</td>
+        <td>x divided by y</td>
+      </tr>
+      <tr>
+        <td>Remainder</td>
+        <td>%</td>
+        <td>x % y</td>
+        <td>The remainder of x divided by y</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<p>
+  The addition, subtraction, and multiplication operators work just like they do
+  in real life, with no caveats.
+</p>
+<p>
+  Division and remainder need some additional explanation. We’ll talk about
+  division below, and remainder in the next lesson.
+</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Integer and floating point division
+</p>
+<p>
+  It is easiest to think of the division operator as having two different
+  “modes”.
+</p>
+<div class="code-block code-block-3" style="margin: 8px 0; clear: both"></div>
+<p>
+  If either (or both) of the operands are floating point values, the
+  <em>division operator</em> performs floating point division.
+  <strong>Floating point division</strong> returns a floating point value, and
+  the fraction is kept. For example, <code>7.0 / 4 = 1.75</code>,
+  <code>7 / 4.0 = 1.75</code>, and <code>7.0 / 4.0 = 1.75</code>. As with all
+  floating point arithmetic operations, rounding errors may occur.
+</p>
+<p>
+  If both of the operands are integers, the <em>division operator</em> performs
+  integer division instead. <strong>Integer division</strong> drops any
+  fractions and returns an integer value. For example,
+  <code>7 / 4 = 1</code> because the fractional portion of the result is
+  dropped. Similarly, <code>-7 / 4 = -1</code> because the fraction is dropped.
+</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Using static_cast&lt;&gt; to do floating point division with integers
+</p>
+<p>
+  The above raises the question -- if we have two integers, and want to divide
+  them without losing the fraction, how would we do so?
+</p>
+<p>
+  In lesson
+  <a
+    href="https://www.learncpp.com/cpp-tutorial/introduction-to-type-conversion-and-static_cast/"
+    >4.12 -- Introduction to type conversion and static_cast</a
+  >, we showed how we could use the <em>static_cast&lt;&gt;</em> operator to
+  convert a char into an integer so it would print as an integer rather than a
+  character.
+</p>
+<div class="code-block code-block-4" style="margin: 8px 0; clear: both"></div>
+<p>
+  We can similarly use <em>static_cast&lt;&gt;</em> to convert an integer to a
+  floating point number so that we can do
+  <em>floating point division</em> instead of <em>integer division</em>.
+  Consider the following code:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-46-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-46-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-53-close">{</span>
+    <span class="token keyword keyword-constexpr">constexpr</span> <span class="token keyword keyword-int">int</span> x<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-51-close">{</span> <span class="token number">7</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-51-open">}</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-constexpr">constexpr</span> <span class="token keyword keyword-int">int</span> y<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-52-close">{</span> <span class="token number">4</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-52-open">}</span><span class="token punctuation">;</span>
+
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"int / int = "</span> <span class="token operator">&lt;&lt;</span> x <span class="token operator">/</span> y <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"double / int = "</span> <span class="token operator">&lt;&lt;</span> <span class="token generic-function"><span class="token function">static_cast</span><span class="token generic class-name"><span class="token operator">&lt;</span><span class="token keyword keyword-double">double</span><span class="token operator">&gt;</span></span></span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-47-close">(</span>x<span class="token punctuation brace-round brace-close brace-level-2" id="pair-47-open">)</span> <span class="token operator">/</span> y <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"int / double = "</span> <span class="token operator">&lt;&lt;</span> x <span class="token operator">/</span> <span class="token generic-function"><span class="token function">static_cast</span><span class="token generic class-name"><span class="token operator">&lt;</span><span class="token keyword keyword-double">double</span><span class="token operator">&gt;</span></span></span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-48-close">(</span>y<span class="token punctuation brace-round brace-close brace-level-2" id="pair-48-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"double / double = "</span> <span class="token operator">&lt;&lt;</span> <span class="token generic-function"><span class="token function">static_cast</span><span class="token generic class-name"><span class="token operator">&lt;</span><span class="token keyword keyword-double">double</span><span class="token operator">&gt;</span></span></span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-49-close">(</span>x<span class="token punctuation brace-round brace-close brace-level-2" id="pair-49-open">)</span> <span class="token operator">/</span> <span class="token generic-function"><span class="token function">static_cast</span><span class="token generic class-name"><span class="token operator">&lt;</span><span class="token keyword keyword-double">double</span><span class="token operator">&gt;</span></span></span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-50-close">(</span>y<span class="token punctuation brace-round brace-close brace-level-2" id="pair-50-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-53-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>This produces the result:</p>
+<pre>
+int / int = 1
+double / int = 1.75
+int / double = 1.75
+double / double = 1.75
+</pre>
+<p>
+  The above illustrates that if either operand is a floating point number, the
+  result will be floating point division, not integer division.
+</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Dividing by 0 and 0.0
+</p>
+<p>
+  Integer division with a divisor of <code>0</code> will cause undefined
+  behavior, as the results are mathematically undefined!
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-54-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-54-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-57-close">{</span>
+	<span class="token keyword keyword-constexpr">constexpr</span> <span class="token keyword keyword-int">int</span> apples <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-55-close">{</span> <span class="token number">12</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-55-open">}</span><span class="token punctuation">;</span>
+	std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"You have "</span> <span class="token operator">&lt;&lt;</span> apples <span class="token operator">&lt;&lt;</span> <span class="token string">" apples. Enter how many people to divide them between: "</span><span class="token punctuation">;</span>
+	<span class="token keyword keyword-int">int</span> x <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-56-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-56-open">}</span><span class="token punctuation">;</span>
+	std<span class="token double-colon punctuation">::</span>cin <span class="token operator">&gt;&gt;</span> x<span class="token punctuation">;</span>
+
+	std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Each person gets "</span> <span class="token operator">&lt;&lt;</span> apples <span class="token operator">/</span> x <span class="token operator">&lt;&lt;</span> <span class="token string">" whole apples.\n"</span><span class="token punctuation">;</span> <span class="token comment">// apples and x are int, so this is integer division</span>
+
+	<span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-57-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  If you run the above program and enter <code>0</code>, your program will
+  likely crash. Go ahead and try it, it won’t harm your computer.
+</p>
+<div class="code-block code-block-5" style="margin: 8px 0; clear: both"></div>
+<p>
+  The result of dividing by floating point value <code>0.0</code> is
+  implementation-defined (meaning the behavior is determined by the
+  compiler/architecture). On architectures that support IEEE754 floating point
+  format, the result will be <code>NaN</code> or <code>Inf</code>. On other
+  architectures, the result will likely be undefined behavior.
+</p>
+<div class="cpp-note cpp-lightgraybackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Related content</p>
+  <p>
+    We discuss <code>NaN</code> and <code>Inf</code> in lesson
+    <a href="https://www.learncpp.com/cpp-tutorial/floating-point-numbers/"
+      >4.8 -- Floating point numbers</a
+    >.
+  </p>
+</div>
+<p>
+  You can see what your program does by running the following program and
+  entering <code>0</code> or <code>0.0</code>:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-58-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-58-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-61-close">{</span>
+	<span class="token keyword keyword-constexpr">constexpr</span> <span class="token keyword keyword-int">int</span> apples <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-59-close">{</span> <span class="token number">12</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-59-open">}</span><span class="token punctuation">;</span>
+	std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"You have "</span> <span class="token operator">&lt;&lt;</span> apples <span class="token operator">&lt;&lt;</span> <span class="token string">" apples. Enter how many servings of apples you want: "</span><span class="token punctuation">;</span>
+
+	<span class="token keyword keyword-double">double</span> d <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-60-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-60-open">}</span><span class="token punctuation">;</span>
+	std<span class="token double-colon punctuation">::</span>cin <span class="token operator">&gt;&gt;</span> d<span class="token punctuation">;</span>
+
+	std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Each serving is "</span> <span class="token operator">&lt;&lt;</span> apples <span class="token operator">/</span> d <span class="token operator">&lt;&lt;</span> <span class="token string">" apples.\n"</span><span class="token punctuation">;</span> <span class="token comment">// d is double, so this is floating point division</span>
+
+	<span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-61-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Arithmetic assignment operators
+</p>
+<div class="cpp-table-wrapper" data-ezoic-video-excluded="1">
+  <p></p>
+  <p></p>
+  <table class="cpp-table" data-ezoic-video-excluded="1">
+    <tbody>
+      <tr>
+        <th>Operator</th>
+        <th>Symbol</th>
+        <th>Form</th>
+        <th>Operation</th>
+      </tr>
+      <tr>
+        <td>Addition assignment</td>
+        <td>+=</td>
+        <td>x += y</td>
+        <td>Add y to x</td>
+      </tr>
+      <tr>
+        <td>Subtraction assignment</td>
+        <td>-=</td>
+        <td>x -= y</td>
+        <td>Subtract y from x</td>
+      </tr>
+      <tr>
+        <td>Multiplication assignment</td>
+        <td>*=</td>
+        <td>x *= y</td>
+        <td>Multiply x by y</td>
+      </tr>
+      <tr>
+        <td>Division assignment</td>
+        <td>/=</td>
+        <td>x /= y</td>
+        <td>Divide x by y</td>
+      </tr>
+      <tr>
+        <td>Remainder assignment</td>
+        <td>%=</td>
+        <td>x %= y</td>
+        <td>Put the remainder of x / y in x</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<p>
+  Up to this point, when you’ve needed to add 4 to a variable, you’ve likely
+  done the following:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp">x <span class="token operator">=</span> x <span class="token operator">+</span> <span class="token number">4</span><span class="token punctuation">;</span> <span class="token comment">// add 4 to existing value of x</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  This works, but it’s a little clunky, and takes two operators to execute
+  (operator+, and operator=).
+</p>
+<div class="code-block code-block-6" style="margin: 8px 0; clear: both"></div>
+<p>
+  Because writing statements such as <code>x = x + 4</code> is so common, C++
+  provides five arithmetic assignment operators for convenience. Instead of
+  writing <code>x = x + 4</code>, you can write <code>x += 4</code>. Instead of
+  <code>x = x * y</code>, you can write <code>x *= y</code>.
+</p>
+<p>Thus, the above becomes:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp">x <span class="token operator">+=</span> <span class="token number">4</span><span class="token punctuation">;</span> <span class="token comment">// add 4 to existing value of x</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Modifying and non-modifying operators
+</p>
+<p>
+  An operator that can modify the value of one of its operands is informally
+  called a <strong>modifying operator</strong>. In C++, most operators are
+  non-modifying -- they just use the operands to calculate and return a value.
+  However, two categories of built-in operators do modify their left operand (as
+  well as return a value):
+</p>
+<ul>
+  <li>
+    The assignment operators, including the standard assignment operator
+    (<code>=</code>), the arithmetic assignment operators (<code>+=</code>,
+    <code>-=</code>, <code>*=</code>, <code>/=</code>, and <code>%=</code>), and
+    the bitwise assignment operators (<code>&lt;&lt;=</code>,
+    <code>&gt;&gt;=</code>, <code>&amp;=</code>, <code>|=</code> and
+    <code>^=</code>).
+  </li>
+  <li>
+    The increment and decrement operators (<code>++</code> and
+    <code>--</code> respectively). We discuss these in lesson
+    <a
+      href="https://www.learncpp.com/cpp-tutorial/increment-decrement-operators-and-side-effects/"
+      >6.4 -- Increment/decrement operators, and side effects</a
+    >.
+  </li>
+</ul>
+<p>
+  Excluded from this list are operators <code>==</code>, <code>!=</code>,
+  <code>&lt;=</code>, and <code>&gt;=</code>, as these are non-modifying
+  relational (comparison) operators (the <code>=</code> means “is equal to”). We
+  discuss these in lesson
+  <a
+    href="https://www.learncpp.com/cpp-tutorial/relational-operators-and-floating-point-comparisons/"
+    >6.7 -- Relational operators and floating point comparisons</a
+  >.
+</p>
+<div class="cpp-note cpp-lightgraybackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">For advanced readers</p>
+  <p>
+    Overloaded operators can be redefined to have different behavior than
+    built-in operators, and this may include modifying the left operand even if
+    the built-in version does not (or vice-versa). For example, the overloaded
+    version of <code>operator&lt;&lt;</code> used for output modifies its left
+    operand (the output stream object).
+  </p>
+</div>
+<div class="prevnext">
+  <div class="prevnext-inline">
+    <a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/remainder-and-exponentiation/"
+      ><div class="nav-button nav-button-next">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-right" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Next lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">6.3</span>Remainder and
+            Exponentiation
+          </div>
+        </div>
+      </div></a
+    ><a class="nav-link" href="/"
+      ><div class="nav-button nav-button-index">
+        <div class="nav-button-icon">
+          <i class="fa fa-home" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Back to table of contents</div>
+        </div>
+      </div></a
+    ><a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/operator-precedence-and-associativity/"
+      ><div class="nav-button nav-button-prev">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-left" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Previous lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">6.1</span>Operator precedence
+            and associativity
+          </div>
+        </div>
+      </div></a
+    >
+  </div>
+</div>
+<div class="code-block code-block-10" style="margin: 8px 0; clear: both"></div>

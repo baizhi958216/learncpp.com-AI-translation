@@ -1,0 +1,1280 @@
+<div
+  class="code-block code-block-1"
+  style="margin: 8px 8px 8px 0; float: left"
+></div>
+<p>
+  Although unscoped enumerations are distinct types in C++, they are not type
+  safe, and in some cases will allow you to do things that don’t make sense.
+  Consider the following case:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-0-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-0-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-6-close">{</span>
+    <span class="token keyword keyword-enum">enum</span> <span class="token class-name">Color</span>
+    <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-2-close">{</span>
+        red<span class="token punctuation">,</span>
+        blue<span class="token punctuation">,</span>
+    <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-2-open">}</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-enum">enum</span> <span class="token class-name">Fruit</span>
+    <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-3-close">{</span>
+        banana<span class="token punctuation">,</span>
+        apple<span class="token punctuation">,</span>
+    <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-3-open">}</span><span class="token punctuation">;</span>
+
+    Color color <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-4-close">{</span> red <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-4-open">}</span><span class="token punctuation">;</span>
+    Fruit fruit <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-5-close">{</span> banana <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-5-open">}</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-if">if</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-1-close">(</span>color <span class="token operator">==</span> fruit<span class="token punctuation brace-round brace-close brace-level-2" id="pair-1-open">)</span> <span class="token comment">// The compiler will compare color and fruit as integers</span>
+        std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"color and fruit are equal\n"</span><span class="token punctuation">;</span> <span class="token comment">// and find they are equal!</span>
+    <span class="token keyword keyword-else">else</span>
+        std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"color and fruit are not equal\n"</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-6-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>This prints:</p>
+<pre>
+color and fruit are equal
+</pre>
+<div
+  class="google-auto-placed ap_container"
+  style="width: 100%; height: auto; clear: both; text-align: center"
+>
+  <ins
+    data-ad-format="auto"
+    class="adsbygoogle adsbygoogle-noablate"
+    data-ad-client="ca-pub-0588844875925051"
+    data-adsbygoogle-status="done"
+    style="
+      display: block;
+      margin: auto;
+      background-color: transparent;
+      height: 0px;
+    "
+    data-ad-status="unfilled"
+    ><div
+      id="aswift_5_host"
+      style="
+        border: none;
+        height: 0px;
+        width: 1027px;
+        margin: 0px;
+        padding: 0px;
+        position: relative;
+        visibility: visible;
+        background-color: transparent;
+        display: inline-block;
+        overflow: hidden;
+        opacity: 0;
+      "
+    >
+      <iframe
+        id="aswift_5"
+        name="aswift_5"
+        browsingtopics="true"
+        style="
+          left: 0px;
+          position: absolute;
+          top: 0px;
+          border: 0px;
+          width: 1027px;
+          height: 0px;
+          min-height: auto;
+          max-height: none;
+          min-width: auto;
+          max-width: none;
+        "
+        sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation"
+        width="1027"
+        height="0"
+        frameborder="0"
+        marginwidth="0"
+        marginheight="0"
+        vspace="0"
+        hspace="0"
+        allowtransparency="true"
+        scrolling="no"
+        allow="attribution-reporting; run-ad-auction"
+        src="https://googleads.g.doubleclick.net/pagead/ads?client=ca-pub-0588844875925051&amp;output=html&amp;h=280&amp;adk=1204970897&amp;adf=1818701348&amp;w=1027&amp;abgtt=11&amp;fwrn=4&amp;fwrnh=100&amp;lmt=1751503713&amp;num_ads=1&amp;rafmt=1&amp;armr=3&amp;sem=mc&amp;pwprc=4633386603&amp;ad_type=text_image&amp;format=1027x280&amp;url=https%3A%2F%2Fwww.learncpp.com%2Fcpp-tutorial%2Fscoped-enumerations-enum-classes%2F&amp;fwr=0&amp;pra=3&amp;rh=200&amp;rw=1026&amp;rpe=1&amp;resp_fmts=3&amp;wgl=1&amp;fa=27&amp;uach=WyJXaW5kb3dzIiwiMTkuMC4wIiwieDg2IiwiIiwiMTM3LjAuNzE1MS4xMjIiLG51bGwsMCxudWxsLCI2NCIsW1siR29vZ2xlIENocm9tZSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJDaHJvbWl1bSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJOb3QvQSlCcmFuZCIsIjI0LjAuMC4wIl1dLDBd&amp;dt=1751962798590&amp;bpp=1&amp;bdt=1350&amp;idt=-M&amp;shv=r20250702&amp;mjsv=m202507020101&amp;ptt=9&amp;saldr=aa&amp;abxe=1&amp;cookie=ID%3D05f6e82287d810b4%3AT%3D1751962604%3ART%3D1751962604%3AS%3DALNI_MaQYA0TSAU2k8xwY5tqlN0xFCcd6g&amp;gpic=UID%3D00001157d9e27d0a%3AT%3D1751962604%3ART%3D1751962604%3AS%3DALNI_MYgtHzQJAQQXY_151HTGSSfVxE8_A&amp;eo_id_str=ID%3D52c21936d98c6d2b%3AT%3D1751962604%3ART%3D1751962604%3AS%3DAA-AfjZsJ15yjdEPJ8d11hPojsJQ&amp;prev_fmts=0x0%2C336x280%2C160x600%2C160x600&amp;nras=2&amp;correlator=1915808658031&amp;frm=20&amp;pv=1&amp;u_tz=480&amp;u_his=2&amp;u_h=600&amp;u_w=800&amp;u_ah=600&amp;u_aw=800&amp;u_cd=24&amp;u_sd=1&amp;dmc=8&amp;adx=27&amp;ady=1060&amp;biw=1080&amp;bih=1024&amp;scr_x=0&amp;scr_y=0&amp;eid=31093235%2C31093272%2C95353387%2C95362655%2C95365225%2C95365234%2C95365107%2C95359266%2C95365119%2C95365798&amp;oid=2&amp;pvsid=7106097868838327&amp;tmod=1708485235&amp;uas=0&amp;nvt=1&amp;fc=1408&amp;brdim=10%2C10%2C10%2C10%2C800%2C0%2C780%2C580%2C1080%2C1024&amp;vis=1&amp;rsz=%7C%7Cs%7C&amp;abl=NS&amp;fu=128&amp;bc=31&amp;bz=0.72&amp;td=1&amp;tdf=2&amp;psd=W251bGwsbnVsbCxudWxsLDNd&amp;nt=1&amp;ifi=6&amp;uci=a!6&amp;btvi=1&amp;fsb=1&amp;dtd=19"
+        data-google-container-id="a!6"
+        tabindex="0"
+        title="Advertisement"
+        aria-label="Advertisement"
+        data-load-complete="true"
+        data-google-query-id="CKPI3IHqrI4DFRryTAIdAkI2VA"
+      ></iframe></div
+  ></ins>
+</div>
+<p>
+  When <code>color</code> and <code>fruit</code> are compared, the compiler will
+  look to see if it knows how to compare a <code>Color</code> and a
+  <code>Fruit</code>. It doesn’t. Next, it will try converting
+  <code>Color</code> and/or <code>Fruit</code> to integers to see if it can find
+  a match. Eventually the compiler will determine that if it converts both to
+  integers, it can do the comparison. Since <code>color</code> and
+  <code>fruit</code> are both set to enumerators that convert to integer value
+  <code>0</code>, <code>color</code> will equal <code>fruit</code>.
+</p>
+<p>
+  This doesn’t make sense semantically since <code>color</code> and
+  <code>fruit</code> are from different enumerations and are not intended to be
+  comparable. With standard enumerators, there’s no easy way to prevent this.
+</p>
+<p>
+  Because of such challenges, as well as the namespace pollution problem
+  (unscoped enumerations defined in the global scope put their enumerators in
+  the global namespace), the C++ designers determined that a cleaner solution
+  for enumerations would be of use.
+</p>
+<p class="cpp-section cpp-topline" style="clear: both">Scoped enumerations</p>
+<p>
+  That solution is the <strong>scoped enumeration</strong> (often called an
+  <strong>enum class</strong> in C++ for reasons that will become obvious
+  shortly).
+</p>
+<div class="code-block code-block-2" style="margin: 8px 0; clear: both"></div>
+
+<p>
+  Scoped enumerations work similarly to unscoped enumerations (<a
+    href="https://www.learncpp.com/cpp-tutorial/unscoped-enumerations/"
+    >13.2 -- Unscoped enumerations</a
+  >), but have two primary differences: They won’t implicitly convert to
+  integers, and the enumerators are <em>only</em> placed into the scope region
+  of the enumeration (not into the scope region where the enumeration is
+  defined).
+</p>
+<p>
+  To make a scoped enumeration, we use the keywords <code>enum class</code>. The
+  rest of the scoped enumeration definition is the same as an unscoped
+  enumeration definition. Here’s an example:
+</p>
+<div
+  class="google-auto-placed ap_container"
+  style="width: 100%; height: auto; clear: both; text-align: center"
+>
+  <ins
+    data-ad-format="auto"
+    class="adsbygoogle adsbygoogle-noablate"
+    data-ad-client="ca-pub-0588844875925051"
+    data-adsbygoogle-status="done"
+    style="
+      display: block;
+      margin: auto;
+      background-color: transparent;
+      height: 0px;
+    "
+    data-ad-status="unfilled"
+    ><div
+      id="aswift_6_host"
+      style="
+        border: none;
+        height: 0px;
+        width: 1027px;
+        margin: 0px;
+        padding: 0px;
+        position: relative;
+        visibility: visible;
+        background-color: transparent;
+        display: inline-block;
+        overflow: hidden;
+        opacity: 0;
+      "
+    >
+      <iframe
+        id="aswift_6"
+        name="aswift_6"
+        browsingtopics="true"
+        style="
+          left: 0px;
+          position: absolute;
+          top: 0px;
+          border: 0px;
+          width: 1027px;
+          height: 0px;
+          min-height: auto;
+          max-height: none;
+          min-width: auto;
+          max-width: none;
+        "
+        sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation"
+        width="1027"
+        height="0"
+        frameborder="0"
+        marginwidth="0"
+        marginheight="0"
+        vspace="0"
+        hspace="0"
+        allowtransparency="true"
+        scrolling="no"
+        allow="attribution-reporting; run-ad-auction"
+        src="https://googleads.g.doubleclick.net/pagead/ads?client=ca-pub-0588844875925051&amp;output=html&amp;h=280&amp;adk=1204970897&amp;adf=3340434044&amp;w=1027&amp;abgtt=11&amp;fwrn=4&amp;fwrnh=100&amp;lmt=1751503713&amp;num_ads=1&amp;rafmt=1&amp;armr=3&amp;sem=mc&amp;pwprc=4633386603&amp;ad_type=text_image&amp;format=1027x280&amp;url=https%3A%2F%2Fwww.learncpp.com%2Fcpp-tutorial%2Fscoped-enumerations-enum-classes%2F&amp;fwr=0&amp;pra=3&amp;rh=200&amp;rw=1026&amp;rpe=1&amp;resp_fmts=3&amp;wgl=1&amp;fa=27&amp;uach=WyJXaW5kb3dzIiwiMTkuMC4wIiwieDg2IiwiIiwiMTM3LjAuNzE1MS4xMjIiLG51bGwsMCxudWxsLCI2NCIsW1siR29vZ2xlIENocm9tZSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJDaHJvbWl1bSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJOb3QvQSlCcmFuZCIsIjI0LjAuMC4wIl1dLDBd&amp;dt=1751962798590&amp;bpp=1&amp;bdt=1349&amp;idt=-M&amp;shv=r20250702&amp;mjsv=m202507020101&amp;ptt=9&amp;saldr=aa&amp;abxe=1&amp;cookie=ID%3D05f6e82287d810b4%3AT%3D1751962604%3ART%3D1751962604%3AS%3DALNI_MaQYA0TSAU2k8xwY5tqlN0xFCcd6g&amp;gpic=UID%3D00001157d9e27d0a%3AT%3D1751962604%3ART%3D1751962604%3AS%3DALNI_MYgtHzQJAQQXY_151HTGSSfVxE8_A&amp;eo_id_str=ID%3D52c21936d98c6d2b%3AT%3D1751962604%3ART%3D1751962604%3AS%3DAA-AfjZsJ15yjdEPJ8d11hPojsJQ&amp;prev_fmts=0x0%2C336x280%2C160x600%2C160x600%2C1027x280&amp;nras=3&amp;correlator=1915808658031&amp;frm=20&amp;pv=1&amp;u_tz=480&amp;u_his=2&amp;u_h=600&amp;u_w=800&amp;u_ah=600&amp;u_aw=800&amp;u_cd=24&amp;u_sd=1&amp;dmc=8&amp;adx=27&amp;ady=1726&amp;biw=1080&amp;bih=1024&amp;scr_x=0&amp;scr_y=0&amp;eid=31093235%2C31093272%2C95353387%2C95362655%2C95365225%2C95365234%2C95365107%2C95359266%2C95365119%2C95365798&amp;oid=2&amp;pvsid=7106097868838327&amp;tmod=1708485235&amp;uas=0&amp;nvt=1&amp;fc=1408&amp;brdim=10%2C10%2C10%2C10%2C800%2C0%2C780%2C580%2C1080%2C1024&amp;vis=1&amp;rsz=%7C%7Cs%7C&amp;abl=NS&amp;fu=128&amp;bc=31&amp;bz=0.72&amp;td=1&amp;tdf=2&amp;psd=W251bGwsbnVsbCxudWxsLDNd&amp;nt=1&amp;ifi=7&amp;uci=a!7&amp;btvi=2&amp;fsb=1&amp;dtd=20"
+        data-google-container-id="a!7"
+        tabindex="0"
+        title="Advertisement"
+        aria-label="Advertisement"
+        data-load-complete="true"
+        data-google-query-id="CNvQ3IHqrI4DFeX0TAIdjM4wSw"
+      ></iframe></div
+  ></ins>
+</div>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-7-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-7-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-13-close">{</span>
+    <span class="token keyword keyword-enum">enum</span> <span class="token keyword keyword-class">class</span> <span class="token class-name">Color</span> <span class="token comment">// "enum class" defines this as a scoped enumeration rather than an unscoped enumeration</span>
+    <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-9-close">{</span>
+        red<span class="token punctuation">,</span> <span class="token comment">// red is considered part of Color's scope region</span>
+        blue<span class="token punctuation">,</span>
+    <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-9-open">}</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-enum">enum</span> <span class="token keyword keyword-class">class</span> <span class="token class-name">Fruit</span>
+    <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-10-close">{</span>
+        banana<span class="token punctuation">,</span> <span class="token comment">// banana is considered part of Fruit's scope region</span>
+        apple<span class="token punctuation">,</span>
+    <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-10-open">}</span><span class="token punctuation">;</span>
+
+    Color color <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-11-close">{</span> Color<span class="token double-colon punctuation">::</span>red <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-11-open">}</span><span class="token punctuation">;</span> <span class="token comment">// note: red is not directly accessible, we have to use Color::red</span>
+    Fruit fruit <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-12-close">{</span> Fruit<span class="token double-colon punctuation">::</span>banana <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-12-open">}</span><span class="token punctuation">;</span> <span class="token comment">// note: banana is not directly accessible, we have to use Fruit::banana</span>
+
+    <span class="token keyword keyword-if">if</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-8-close">(</span>color <span class="token operator">==</span> fruit<span class="token punctuation brace-round brace-close brace-level-2" id="pair-8-open">)</span> <span class="token comment">// compile error: the compiler doesn't know how to compare different types Color and Fruit</span>
+        std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"color and fruit are equal\n"</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-else">else</span>
+        std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"color and fruit are not equal\n"</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-13-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<div
+  class="google-auto-placed ap_container"
+  style="width: 100%; height: auto; clear: both; text-align: center"
+>
+  <ins
+    data-ad-format="auto"
+    class="adsbygoogle adsbygoogle-noablate"
+    data-ad-client="ca-pub-0588844875925051"
+    data-adsbygoogle-status="done"
+    style="
+      display: block;
+      margin: auto;
+      background-color: transparent;
+      height: 0px;
+    "
+    data-ad-status="unfilled"
+    ><div
+      id="aswift_7_host"
+      style="
+        border: none;
+        height: 0px;
+        width: 1027px;
+        margin: 0px;
+        padding: 0px;
+        position: relative;
+        visibility: visible;
+        background-color: transparent;
+        display: inline-block;
+        overflow: hidden;
+        opacity: 0;
+      "
+    >
+      <iframe
+        id="aswift_7"
+        name="aswift_7"
+        browsingtopics="true"
+        style="
+          left: 0px;
+          position: absolute;
+          top: 0px;
+          border: 0px;
+          width: 1027px;
+          height: 0px;
+          min-height: auto;
+          max-height: none;
+          min-width: auto;
+          max-width: none;
+        "
+        sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation"
+        width="1027"
+        height="0"
+        frameborder="0"
+        marginwidth="0"
+        marginheight="0"
+        vspace="0"
+        hspace="0"
+        allowtransparency="true"
+        scrolling="no"
+        allow="attribution-reporting; run-ad-auction"
+        src="https://googleads.g.doubleclick.net/pagead/ads?client=ca-pub-0588844875925051&amp;output=html&amp;h=280&amp;adk=1204970897&amp;adf=2910246326&amp;w=1027&amp;abgtt=11&amp;fwrn=4&amp;fwrnh=100&amp;lmt=1751503713&amp;num_ads=1&amp;rafmt=1&amp;armr=3&amp;sem=mc&amp;pwprc=4633386603&amp;ad_type=text_image&amp;format=1027x280&amp;url=https%3A%2F%2Fwww.learncpp.com%2Fcpp-tutorial%2Fscoped-enumerations-enum-classes%2F&amp;fwr=0&amp;pra=3&amp;rh=200&amp;rw=1026&amp;rpe=1&amp;resp_fmts=3&amp;wgl=1&amp;fa=27&amp;uach=WyJXaW5kb3dzIiwiMTkuMC4wIiwieDg2IiwiIiwiMTM3LjAuNzE1MS4xMjIiLG51bGwsMCxudWxsLCI2NCIsW1siR29vZ2xlIENocm9tZSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJDaHJvbWl1bSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJOb3QvQSlCcmFuZCIsIjI0LjAuMC4wIl1dLDBd&amp;dt=1751962798590&amp;bpp=1&amp;bdt=1349&amp;idt=-M&amp;shv=r20250702&amp;mjsv=m202507020101&amp;ptt=9&amp;saldr=aa&amp;abxe=1&amp;cookie=ID%3D05f6e82287d810b4%3AT%3D1751962604%3ART%3D1751962604%3AS%3DALNI_MaQYA0TSAU2k8xwY5tqlN0xFCcd6g&amp;gpic=UID%3D00001157d9e27d0a%3AT%3D1751962604%3ART%3D1751962604%3AS%3DALNI_MYgtHzQJAQQXY_151HTGSSfVxE8_A&amp;eo_id_str=ID%3D52c21936d98c6d2b%3AT%3D1751962604%3ART%3D1751962604%3AS%3DAA-AfjZsJ15yjdEPJ8d11hPojsJQ&amp;prev_fmts=0x0%2C336x280%2C160x600%2C160x600%2C1027x280%2C1027x280&amp;nras=4&amp;correlator=1915808658031&amp;frm=20&amp;pv=1&amp;u_tz=480&amp;u_his=2&amp;u_h=600&amp;u_w=800&amp;u_ah=600&amp;u_aw=800&amp;u_cd=24&amp;u_sd=1&amp;dmc=8&amp;adx=27&amp;ady=2458&amp;biw=1080&amp;bih=1024&amp;scr_x=0&amp;scr_y=0&amp;eid=31093235%2C31093272%2C95353387%2C95362655%2C95365225%2C95365234%2C95365107%2C95359266%2C95365119%2C95365798&amp;oid=2&amp;pvsid=7106097868838327&amp;tmod=1708485235&amp;uas=0&amp;nvt=1&amp;fc=1408&amp;brdim=10%2C10%2C10%2C10%2C800%2C0%2C780%2C580%2C1080%2C1024&amp;vis=1&amp;rsz=%7C%7Cs%7C&amp;abl=NS&amp;fu=128&amp;bc=31&amp;bz=0.72&amp;td=1&amp;tdf=2&amp;psd=W251bGwsbnVsbCxudWxsLDNd&amp;nt=1&amp;ifi=8&amp;uci=a!8&amp;btvi=3&amp;fsb=1&amp;dtd=21"
+        data-google-container-id="a!8"
+        tabindex="0"
+        title="Advertisement"
+        aria-label="Advertisement"
+        data-load-complete="true"
+        data-google-query-id="CJfo3IHqrI4DFYT5TAIdh88dTQ"
+      ></iframe></div
+  ></ins>
+</div>
+<p>
+  This program produces a compile error on line 19, since the scoped enumeration
+  won’t convert to any type that can be compared with another type.
+</p>
+<div class="cpp-note cpp-lightgraybackground">
+  <p class="cpp-note-title cpp-bottomline">As an aside…</p>
+  <p>
+    The <code>class</code> keyword (along with the <code>static</code> keyword),
+    is one of the most overloaded keywords in the C++ language, and can have
+    different meanings depending on context. Although scoped enumerations use
+    the <code>class</code> keyword, they aren’t considered to be a “class type”
+    (which is reserved for structs, classes, and unions).
+  </p>
+  <p>
+    <code>enum struct</code> also works in this context, and behaves identically
+    to <code>enum class</code>. However, use of <code>enum struct</code> is
+    non-idiomatic, so avoid its use.
+  </p>
+</div>
+<p class="cpp-section cpp-topline" style="clear: both">
+  Scoped enumerations define their own scope regions
+</p>
+<p>
+  Unlike unscoped enumerations, which place their enumerators in the same scope
+  as the enumeration itself, scoped enumerations place their enumerators
+  <em>only</em> in the scope region of the enumeration. In other words, scoped
+  enumerations act like a namespace for their enumerators. This built-in
+  namespacing helps reduce global namespace pollution and the potential for name
+  conflicts when scoped enumerations are used in the global scope.
+</p>
+<div class="code-block code-block-3" style="margin: 8px 0; clear: both"></div>
+
+<p>
+  To access a scoped enumerator, we do so just as if it was in a namespace
+  having the same name as the scoped enumeration:
+</p>
+<div
+  class="google-auto-placed ap_container"
+  style="width: 100%; height: auto; clear: both; text-align: center"
+>
+  <ins
+    data-ad-format="auto"
+    class="adsbygoogle adsbygoogle-noablate"
+    data-ad-client="ca-pub-0588844875925051"
+    data-adsbygoogle-status="done"
+    style="
+      display: block;
+      margin: auto;
+      background-color: transparent;
+      height: 0px;
+    "
+    data-ad-status="unfilled"
+    ><div
+      id="aswift_8_host"
+      style="
+        border: none;
+        height: 0px;
+        width: 1027px;
+        margin: 0px;
+        padding: 0px;
+        position: relative;
+        visibility: visible;
+        background-color: transparent;
+        display: inline-block;
+        overflow: hidden;
+        opacity: 0;
+      "
+    >
+      <iframe
+        id="aswift_8"
+        name="aswift_8"
+        browsingtopics="true"
+        style="
+          left: 0px;
+          position: absolute;
+          top: 0px;
+          border: 0px;
+          width: 1027px;
+          height: 0px;
+          min-height: auto;
+          max-height: none;
+          min-width: auto;
+          max-width: none;
+        "
+        sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation"
+        width="1027"
+        height="0"
+        frameborder="0"
+        marginwidth="0"
+        marginheight="0"
+        vspace="0"
+        hspace="0"
+        allowtransparency="true"
+        scrolling="no"
+        allow="attribution-reporting; run-ad-auction"
+        src="https://googleads.g.doubleclick.net/pagead/ads?client=ca-pub-0588844875925051&amp;output=html&amp;h=280&amp;adk=1204970897&amp;adf=829748017&amp;w=1027&amp;abgtt=11&amp;fwrn=4&amp;fwrnh=100&amp;lmt=1751503713&amp;num_ads=1&amp;rafmt=1&amp;armr=3&amp;sem=mc&amp;pwprc=4633386603&amp;ad_type=text_image&amp;format=1027x280&amp;url=https%3A%2F%2Fwww.learncpp.com%2Fcpp-tutorial%2Fscoped-enumerations-enum-classes%2F&amp;fwr=0&amp;pra=3&amp;rh=200&amp;rw=1026&amp;rpe=1&amp;resp_fmts=3&amp;wgl=1&amp;fa=27&amp;uach=WyJXaW5kb3dzIiwiMTkuMC4wIiwieDg2IiwiIiwiMTM3LjAuNzE1MS4xMjIiLG51bGwsMCxudWxsLCI2NCIsW1siR29vZ2xlIENocm9tZSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJDaHJvbWl1bSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJOb3QvQSlCcmFuZCIsIjI0LjAuMC4wIl1dLDBd&amp;dt=1751962798590&amp;bpp=1&amp;bdt=1349&amp;idt=-M&amp;shv=r20250702&amp;mjsv=m202507020101&amp;ptt=9&amp;saldr=aa&amp;abxe=1&amp;cookie=ID%3D05f6e82287d810b4%3AT%3D1751962604%3ART%3D1751962604%3AS%3DALNI_MaQYA0TSAU2k8xwY5tqlN0xFCcd6g&amp;gpic=UID%3D00001157d9e27d0a%3AT%3D1751962604%3ART%3D1751962604%3AS%3DALNI_MYgtHzQJAQQXY_151HTGSSfVxE8_A&amp;eo_id_str=ID%3D52c21936d98c6d2b%3AT%3D1751962604%3ART%3D1751962604%3AS%3DAA-AfjZsJ15yjdEPJ8d11hPojsJQ&amp;prev_fmts=0x0%2C336x280%2C160x600%2C160x600%2C1027x280%2C1027x280%2C1027x280&amp;nras=5&amp;correlator=1915808658031&amp;frm=20&amp;pv=1&amp;u_tz=480&amp;u_his=2&amp;u_h=600&amp;u_w=800&amp;u_ah=600&amp;u_aw=800&amp;u_cd=24&amp;u_sd=1&amp;dmc=8&amp;adx=27&amp;ady=3107&amp;biw=1080&amp;bih=1024&amp;scr_x=0&amp;scr_y=0&amp;eid=31093235%2C31093272%2C95353387%2C95362655%2C95365225%2C95365234%2C95365107%2C95359266%2C95365119%2C95365798&amp;oid=2&amp;pvsid=7106097868838327&amp;tmod=1708485235&amp;uas=0&amp;nvt=1&amp;fc=1408&amp;brdim=10%2C10%2C10%2C10%2C800%2C0%2C780%2C580%2C1080%2C1024&amp;vis=1&amp;rsz=%7C%7Cs%7C&amp;abl=NS&amp;fu=128&amp;bc=31&amp;bz=0.72&amp;td=1&amp;tdf=2&amp;psd=W251bGwsbnVsbCxudWxsLDNd&amp;nt=1&amp;ifi=9&amp;uci=a!9&amp;btvi=4&amp;fsb=1&amp;dtd=22"
+        data-google-container-id="a!9"
+        tabindex="0"
+        title="Advertisement"
+        aria-label="Advertisement"
+        data-load-complete="true"
+        data-google-query-id="CIfx3IHqrI4DFavyTAIdWScCaQ"
+      ></iframe></div
+  ></ins>
+</div>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-14-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-14-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-17-close">{</span>
+    <span class="token keyword keyword-enum">enum</span> <span class="token keyword keyword-class">class</span> <span class="token class-name">Color</span> <span class="token comment">// "enum class" defines this as a scoped enum rather than an unscoped enum</span>
+    <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-15-close">{</span>
+        red<span class="token punctuation">,</span> <span class="token comment">// red is considered part of Color's scope region</span>
+        blue<span class="token punctuation">,</span>
+    <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-15-open">}</span><span class="token punctuation">;</span>
+
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> red <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>        <span class="token comment">// compile error: red not defined in this scope region</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> Color<span class="token double-colon punctuation">::</span>red <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span> <span class="token comment">// compile error: std::cout doesn't know how to print this (will not implicitly convert to int)</span>
+
+    Color color <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-16-close">{</span> Color<span class="token double-colon punctuation">::</span>blue <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-16-open">}</span><span class="token punctuation">;</span> <span class="token comment">// okay</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-17-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 32px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<div
+  class="google-auto-placed ap_container"
+  style="width: 100%; height: auto; clear: both; text-align: center"
+>
+  <ins
+    data-ad-format="auto"
+    class="adsbygoogle adsbygoogle-noablate"
+    data-ad-client="ca-pub-0588844875925051"
+    data-adsbygoogle-status="done"
+    style="
+      display: block;
+      margin: auto;
+      background-color: transparent;
+      height: 0px;
+    "
+    data-ad-status="unfilled"
+    ><div
+      id="aswift_9_host"
+      style="
+        border: none;
+        height: 0px;
+        width: 1027px;
+        margin: 0px;
+        padding: 0px;
+        position: relative;
+        visibility: visible;
+        background-color: transparent;
+        display: inline-block;
+        overflow: hidden;
+        opacity: 0;
+      "
+    >
+      <iframe
+        id="aswift_9"
+        name="aswift_9"
+        browsingtopics="true"
+        style="
+          left: 0px;
+          position: absolute;
+          top: 0px;
+          border: 0px;
+          width: 1027px;
+          height: 0px;
+          min-height: auto;
+          max-height: none;
+          min-width: auto;
+          max-width: none;
+        "
+        sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation"
+        width="1027"
+        height="0"
+        frameborder="0"
+        marginwidth="0"
+        marginheight="0"
+        vspace="0"
+        hspace="0"
+        allowtransparency="true"
+        scrolling="no"
+        allow="attribution-reporting; run-ad-auction"
+        src="https://googleads.g.doubleclick.net/pagead/ads?client=ca-pub-0588844875925051&amp;output=html&amp;h=280&amp;adk=1204970897&amp;adf=1837024367&amp;w=1027&amp;abgtt=11&amp;fwrn=4&amp;fwrnh=100&amp;lmt=1751503713&amp;num_ads=1&amp;rafmt=1&amp;armr=3&amp;sem=mc&amp;pwprc=4633386603&amp;ad_type=text_image&amp;format=1027x280&amp;url=https%3A%2F%2Fwww.learncpp.com%2Fcpp-tutorial%2Fscoped-enumerations-enum-classes%2F&amp;fwr=0&amp;pra=3&amp;rh=200&amp;rw=1026&amp;rpe=1&amp;resp_fmts=3&amp;wgl=1&amp;fa=27&amp;uach=WyJXaW5kb3dzIiwiMTkuMC4wIiwieDg2IiwiIiwiMTM3LjAuNzE1MS4xMjIiLG51bGwsMCxudWxsLCI2NCIsW1siR29vZ2xlIENocm9tZSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJDaHJvbWl1bSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJOb3QvQSlCcmFuZCIsIjI0LjAuMC4wIl1dLDBd&amp;dt=1751962798590&amp;bpp=1&amp;bdt=1349&amp;idt=1&amp;shv=r20250702&amp;mjsv=m202507020101&amp;ptt=9&amp;saldr=aa&amp;abxe=1&amp;cookie=ID%3D05f6e82287d810b4%3AT%3D1751962604%3ART%3D1751962604%3AS%3DALNI_MaQYA0TSAU2k8xwY5tqlN0xFCcd6g&amp;gpic=UID%3D00001157d9e27d0a%3AT%3D1751962604%3ART%3D1751962604%3AS%3DALNI_MYgtHzQJAQQXY_151HTGSSfVxE8_A&amp;eo_id_str=ID%3D52c21936d98c6d2b%3AT%3D1751962604%3ART%3D1751962604%3AS%3DAA-AfjZsJ15yjdEPJ8d11hPojsJQ&amp;prev_fmts=0x0%2C336x280%2C160x600%2C160x600%2C1027x280%2C1027x280%2C1027x280%2C1027x280&amp;nras=6&amp;correlator=1915808658031&amp;frm=20&amp;pv=1&amp;u_tz=480&amp;u_his=2&amp;u_h=600&amp;u_w=800&amp;u_ah=600&amp;u_aw=800&amp;u_cd=24&amp;u_sd=1&amp;dmc=8&amp;adx=27&amp;ady=3727&amp;biw=1080&amp;bih=1024&amp;scr_x=0&amp;scr_y=0&amp;eid=31093235%2C31093272%2C95353387%2C95362655%2C95365225%2C95365234%2C95365107%2C95359266%2C95365119%2C95365798&amp;oid=2&amp;pvsid=7106097868838327&amp;tmod=1708485235&amp;uas=0&amp;nvt=1&amp;fc=1408&amp;brdim=10%2C10%2C10%2C10%2C800%2C0%2C780%2C580%2C1080%2C1024&amp;vis=1&amp;rsz=%7C%7Cs%7C&amp;abl=NS&amp;fu=128&amp;bc=31&amp;bz=0.72&amp;td=1&amp;tdf=2&amp;psd=W251bGwsbnVsbCxudWxsLDNd&amp;nt=1&amp;ifi=10&amp;uci=a!a&amp;btvi=5&amp;fsb=1&amp;dtd=23"
+        data-google-container-id="a!a"
+        tabindex="0"
+        title="Advertisement"
+        aria-label="Advertisement"
+        data-load-complete="true"
+        data-google-query-id="CMeY3YHqrI4DFWX5TAIdDFwZPA"
+      ></iframe></div
+  ></ins>
+</div>
+<p>
+  Because scoped enumerations offer their own implicit namespacing for
+  enumerators, there’s no need to put scoped enumerations inside another scope
+  region (such as a namespace), unless there’s some other compelling reason to
+  do so, as it would be redundant.
+</p>
+<p class="cpp-section cpp-topline" style="clear: both">
+  Scoped enumerations don’t implicitly convert to integers
+</p>
+<p>
+  Unlike non-scoped enumerators, scoped enumerators won’t implicitly convert to
+  integers. In most cases, this is a good thing because it rarely makes sense to
+  do so, and it helps prevent semantic errors, such as comparing enumerators
+  from different enumerations, or expressions such as <code>red + 5</code>.
+</p>
+<p>
+  Note that you can still compare enumerators from within the same scoped
+  enumeration (since they are of the same type):
+</p>
+<div class="code-block code-block-4" style="margin: 8px 0; clear: both"></div>
+
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-18-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-18-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-23-close">{</span>
+    <span class="token keyword keyword-enum">enum</span> <span class="token keyword keyword-class">class</span> <span class="token class-name">Color</span>
+    <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-21-close">{</span>
+        red<span class="token punctuation">,</span>
+        blue<span class="token punctuation">,</span>
+    <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-21-open">}</span><span class="token punctuation">;</span>
+
+    Color shirt <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-22-close">{</span> Color<span class="token double-colon punctuation">::</span>red <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-22-open">}</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-if">if</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-19-close">(</span>shirt <span class="token operator">==</span> Color<span class="token double-colon punctuation">::</span>red<span class="token punctuation brace-round brace-close brace-level-2" id="pair-19-open">)</span> <span class="token comment">// this Color to Color comparison is okay</span>
+        std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"The shirt is red!\n"</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-else">else</span> <span class="token keyword keyword-if">if</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-20-close">(</span>shirt <span class="token operator">==</span> Color<span class="token double-colon punctuation">::</span>blue<span class="token punctuation brace-round brace-close brace-level-2" id="pair-20-open">)</span>
+        std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"The shirt is blue!\n"</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-23-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<div
+  class="google-auto-placed ap_container"
+  style="width: 100%; height: auto; clear: both; text-align: center"
+>
+  <ins
+    data-ad-format="auto"
+    class="adsbygoogle adsbygoogle-noablate"
+    data-ad-client="ca-pub-0588844875925051"
+    data-adsbygoogle-status="done"
+    style="
+      display: block;
+      margin: auto;
+      background-color: transparent;
+      height: 0px;
+    "
+    data-ad-status="unfilled"
+    ><div
+      id="aswift_10_host"
+      style="
+        border: none;
+        height: 0px;
+        width: 1027px;
+        margin: 0px;
+        padding: 0px;
+        position: relative;
+        visibility: visible;
+        background-color: transparent;
+        display: inline-block;
+        overflow: hidden;
+        opacity: 0;
+      "
+    >
+      <iframe
+        id="aswift_10"
+        name="aswift_10"
+        browsingtopics="true"
+        style="
+          left: 0px;
+          position: absolute;
+          top: 0px;
+          border: 0px;
+          width: 1027px;
+          height: 0px;
+          min-height: auto;
+          max-height: none;
+          min-width: auto;
+          max-width: none;
+        "
+        sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation"
+        width="1027"
+        height="0"
+        frameborder="0"
+        marginwidth="0"
+        marginheight="0"
+        vspace="0"
+        hspace="0"
+        allowtransparency="true"
+        scrolling="no"
+        allow="attribution-reporting; run-ad-auction"
+        src="https://googleads.g.doubleclick.net/pagead/ads?client=ca-pub-0588844875925051&amp;output=html&amp;h=280&amp;adk=1204970897&amp;adf=1418838096&amp;w=1027&amp;abgtt=11&amp;fwrn=4&amp;fwrnh=100&amp;lmt=1751503713&amp;num_ads=1&amp;rafmt=1&amp;armr=3&amp;sem=mc&amp;pwprc=4633386603&amp;ad_type=text_image&amp;format=1027x280&amp;url=https%3A%2F%2Fwww.learncpp.com%2Fcpp-tutorial%2Fscoped-enumerations-enum-classes%2F&amp;fwr=0&amp;pra=3&amp;rh=200&amp;rw=1026&amp;rpe=1&amp;resp_fmts=3&amp;wgl=1&amp;fa=27&amp;uach=WyJXaW5kb3dzIiwiMTkuMC4wIiwieDg2IiwiIiwiMTM3LjAuNzE1MS4xMjIiLG51bGwsMCxudWxsLCI2NCIsW1siR29vZ2xlIENocm9tZSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJDaHJvbWl1bSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJOb3QvQSlCcmFuZCIsIjI0LjAuMC4wIl1dLDBd&amp;dt=1751962798592&amp;bpp=1&amp;bdt=1352&amp;idt=0&amp;shv=r20250702&amp;mjsv=m202507020101&amp;ptt=9&amp;saldr=aa&amp;abxe=1&amp;cookie=ID%3D05f6e82287d810b4%3AT%3D1751962604%3ART%3D1751962604%3AS%3DALNI_MaQYA0TSAU2k8xwY5tqlN0xFCcd6g&amp;gpic=UID%3D00001157d9e27d0a%3AT%3D1751962604%3ART%3D1751962604%3AS%3DALNI_MYgtHzQJAQQXY_151HTGSSfVxE8_A&amp;eo_id_str=ID%3D52c21936d98c6d2b%3AT%3D1751962604%3ART%3D1751962604%3AS%3DAA-AfjZsJ15yjdEPJ8d11hPojsJQ&amp;prev_fmts=0x0%2C336x280%2C160x600%2C160x600%2C1027x280%2C1027x280%2C1027x280%2C1027x280%2C1027x280&amp;nras=7&amp;correlator=1915808658031&amp;frm=20&amp;pv=1&amp;u_tz=480&amp;u_his=2&amp;u_h=600&amp;u_w=800&amp;u_ah=600&amp;u_aw=800&amp;u_cd=24&amp;u_sd=1&amp;dmc=8&amp;adx=27&amp;ady=3415&amp;biw=1080&amp;bih=1024&amp;scr_x=0&amp;scr_y=0&amp;eid=31093235%2C31093272%2C95353387%2C95362655%2C95365225%2C95365234%2C95365107%2C95359266%2C95365119%2C95365798&amp;oid=2&amp;pvsid=7106097868838327&amp;tmod=1708485235&amp;uas=0&amp;nvt=1&amp;fc=1408&amp;brdim=10%2C10%2C10%2C10%2C800%2C0%2C780%2C580%2C1080%2C1024&amp;vis=1&amp;rsz=%7C%7Cs%7C&amp;abl=NS&amp;fu=128&amp;bc=31&amp;bz=0.72&amp;td=1&amp;tdf=2&amp;psd=W251bGwsbnVsbCxudWxsLDNd&amp;nt=1&amp;ifi=11&amp;uci=a!b&amp;btvi=6&amp;fsb=1&amp;dtd=432"
+        data-google-container-id="a!b"
+        tabindex="0"
+        title="Advertisement"
+        aria-label="Advertisement"
+        data-load-complete="true"
+        data-google-query-id="CM759YHqrI4DFQH0TAIdDpACQA"
+      ></iframe></div
+  ></ins>
+</div>
+<p>
+  There are occasionally cases where it is useful to be able to treat a scoped
+  enumerator as an integral value. In these cases, you can explicitly convert a
+  scoped enumerator to an integer by using a <code>static_cast</code>. A better
+  choice in C++23 is to use <code>std::to_underlying()</code> (defined in the
+  &lt;utility&gt; header), which converts an enumerator to a value of the
+  underlying type of the enumeration.
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;utility&gt;</span> <span class="token comment">// for std::to_underlying() (C++23)</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-24-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-24-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-29-close">{</span>
+    <span class="token keyword keyword-enum">enum</span> <span class="token keyword keyword-class">class</span> <span class="token class-name">Color</span>
+    <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-27-close">{</span>
+        red<span class="token punctuation">,</span>
+        blue<span class="token punctuation">,</span>
+    <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-27-open">}</span><span class="token punctuation">;</span>
+
+    Color color <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-28-close">{</span> Color<span class="token double-colon punctuation">::</span>blue <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-28-open">}</span><span class="token punctuation">;</span>
+
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> color <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span> <span class="token comment">// won't work, because there's no implicit conversion to int</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token generic-function"><span class="token function">static_cast</span><span class="token generic class-name"><span class="token operator">&lt;</span><span class="token keyword keyword-int">int</span><span class="token operator">&gt;</span></span></span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-25-close">(</span>color<span class="token punctuation brace-round brace-close brace-level-2" id="pair-25-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>   <span class="token comment">// explicit conversion to int, will print 1</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> std<span class="token double-colon punctuation">::</span><span class="token function">to_underlying</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-26-close">(</span>color<span class="token punctuation brace-round brace-close brace-level-2" id="pair-26-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span> <span class="token comment">// convert to underlying type, will print 1 (C++23)</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-29-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<div
+  class="google-auto-placed ap_container"
+  style="width: 100%; height: auto; clear: both; text-align: center"
+>
+  <ins
+    data-ad-format="auto"
+    class="adsbygoogle adsbygoogle-noablate"
+    data-ad-client="ca-pub-0588844875925051"
+    data-adsbygoogle-status="done"
+    style="
+      display: block;
+      margin: auto;
+      background-color: transparent;
+      height: 0px;
+    "
+    data-ad-status="unfilled"
+    ><div
+      id="aswift_11_host"
+      style="
+        border: none;
+        height: 0px;
+        width: 1027px;
+        margin: 0px;
+        padding: 0px;
+        position: relative;
+        visibility: visible;
+        background-color: transparent;
+        display: inline-block;
+        overflow: hidden;
+        opacity: 0;
+      "
+    >
+      <iframe
+        id="aswift_11"
+        name="aswift_11"
+        browsingtopics="true"
+        style="
+          left: 0px;
+          position: absolute;
+          top: 0px;
+          border: 0px;
+          width: 1027px;
+          height: 0px;
+          min-height: auto;
+          max-height: none;
+          min-width: auto;
+          max-width: none;
+        "
+        sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation"
+        width="1027"
+        height="0"
+        frameborder="0"
+        marginwidth="0"
+        marginheight="0"
+        vspace="0"
+        hspace="0"
+        allowtransparency="true"
+        scrolling="no"
+        allow="attribution-reporting; run-ad-auction"
+        src="https://googleads.g.doubleclick.net/pagead/ads?client=ca-pub-0588844875925051&amp;output=html&amp;h=280&amp;adk=1204970897&amp;adf=1985606706&amp;w=1027&amp;abgtt=11&amp;fwrn=4&amp;fwrnh=100&amp;lmt=1751503713&amp;num_ads=1&amp;rafmt=1&amp;armr=3&amp;sem=mc&amp;pwprc=4633386603&amp;ad_type=text_image&amp;format=1027x280&amp;url=https%3A%2F%2Fwww.learncpp.com%2Fcpp-tutorial%2Fscoped-enumerations-enum-classes%2F&amp;fwr=0&amp;pra=3&amp;rh=200&amp;rw=1026&amp;rpe=1&amp;resp_fmts=3&amp;wgl=1&amp;fa=27&amp;uach=WyJXaW5kb3dzIiwiMTkuMC4wIiwieDg2IiwiIiwiMTM3LjAuNzE1MS4xMjIiLG51bGwsMCxudWxsLCI2NCIsW1siR29vZ2xlIENocm9tZSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJDaHJvbWl1bSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJOb3QvQSlCcmFuZCIsIjI0LjAuMC4wIl1dLDBd&amp;dt=1751962798594&amp;bpp=1&amp;bdt=1353&amp;idt=0&amp;shv=r20250702&amp;mjsv=m202507020101&amp;ptt=9&amp;saldr=aa&amp;abxe=1&amp;cookie=ID%3D05f6e82287d810b4%3AT%3D1751962604%3ART%3D1751962604%3AS%3DALNI_MaQYA0TSAU2k8xwY5tqlN0xFCcd6g&amp;gpic=UID%3D00001157d9e27d0a%3AT%3D1751962604%3ART%3D1751962604%3AS%3DALNI_MYgtHzQJAQQXY_151HTGSSfVxE8_A&amp;eo_id_str=ID%3D52c21936d98c6d2b%3AT%3D1751962604%3ART%3D1751962604%3AS%3DAA-AfjZsJ15yjdEPJ8d11hPojsJQ&amp;prev_fmts=0x0%2C336x280%2C160x600%2C160x600%2C1027x280%2C1027x280%2C1027x280%2C1027x280%2C1027x280%2C1027x280&amp;nras=8&amp;correlator=1915808658031&amp;frm=20&amp;pv=1&amp;u_tz=480&amp;u_his=2&amp;u_h=600&amp;u_w=800&amp;u_ah=600&amp;u_aw=800&amp;u_cd=24&amp;u_sd=1&amp;dmc=8&amp;adx=27&amp;ady=3843&amp;biw=1080&amp;bih=1024&amp;scr_x=0&amp;scr_y=0&amp;eid=31093235%2C31093272%2C95353387%2C95362655%2C95365225%2C95365234%2C95365107%2C95359266%2C95365119%2C95365798&amp;oid=2&amp;pvsid=7106097868838327&amp;tmod=1708485235&amp;uas=0&amp;nvt=1&amp;fc=1408&amp;brdim=10%2C10%2C10%2C10%2C800%2C0%2C780%2C580%2C1080%2C1024&amp;vis=1&amp;rsz=%7C%7Cs%7C&amp;abl=NS&amp;cms=2&amp;fu=128&amp;bc=31&amp;bz=0.72&amp;td=1&amp;tdf=2&amp;psd=W251bGwsbnVsbCxudWxsLDNd&amp;nt=1&amp;ifi=12&amp;uci=a!c&amp;btvi=7&amp;fsb=1&amp;dtd=440"
+        data-google-container-id="a!c"
+        tabindex="0"
+        title="Advertisement"
+        aria-label="Advertisement"
+        data-load-complete="true"
+        data-google-query-id="CJbS9oHqrI4DFWntTAIdNg0SQA"
+      ></iframe></div
+  ></ins>
+</div>
+<p>
+  Conversely, you can also <code>static_cast</code> an integer to a scoped
+  enumerator, which can be useful when doing input from users:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-30-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-30-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-35-close">{</span>
+    <span class="token keyword keyword-enum">enum</span> <span class="token keyword keyword-class">class</span> <span class="token class-name">Pet</span>
+    <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-32-close">{</span>
+        cat<span class="token punctuation">,</span> <span class="token comment">// assigned 0</span>
+        dog<span class="token punctuation">,</span> <span class="token comment">// assigned 1</span>
+        pig<span class="token punctuation">,</span> <span class="token comment">// assigned 2</span>
+        whale<span class="token punctuation">,</span> <span class="token comment">// assigned 3</span>
+    <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-32-open">}</span><span class="token punctuation">;</span>
+
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Enter a pet (0=cat, 1=dog, 2=pig, 3=whale): "</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-int">int</span> input<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-33-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-33-open">}</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>cin <span class="token operator">&gt;&gt;</span> input<span class="token punctuation">;</span> <span class="token comment">// input an integer</span>
+
+    Pet pet<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-34-close">{</span> <span class="token generic-function"><span class="token function">static_cast</span><span class="token generic class-name"><span class="token operator">&lt;</span>Pet<span class="token operator">&gt;</span></span></span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-31-close">(</span>input<span class="token punctuation brace-round brace-close brace-level-3" id="pair-31-open">)</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-34-open">}</span><span class="token punctuation">;</span> <span class="token comment">// static_cast our integer to a Pet</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-35-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<div
+  class="google-auto-placed ap_container"
+  style="width: 100%; height: auto; clear: both; text-align: center"
+>
+  <ins
+    data-ad-format="auto"
+    class="adsbygoogle adsbygoogle-noablate"
+    data-ad-client="ca-pub-0588844875925051"
+    data-adsbygoogle-status="done"
+    style="
+      display: block;
+      margin: auto;
+      background-color: transparent;
+      height: 0px;
+    "
+    ><div
+      id="aswift_12_host"
+      style="
+        border: none;
+        height: 0px;
+        width: 1027px;
+        margin: 0px;
+        padding: 0px;
+        position: relative;
+        visibility: visible;
+        background-color: transparent;
+        display: inline-block;
+        overflow: hidden;
+        opacity: 0;
+      "
+    >
+      <iframe
+        id="aswift_12"
+        name="aswift_12"
+        browsingtopics="true"
+        style="
+          left: 0px;
+          position: absolute;
+          top: 0px;
+          border: 0px;
+          width: 1027px;
+          height: 0px;
+          min-height: auto;
+          max-height: none;
+          min-width: auto;
+          max-width: none;
+        "
+        sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation"
+        width="1027"
+        height="0"
+        frameborder="0"
+        marginwidth="0"
+        marginheight="0"
+        vspace="0"
+        hspace="0"
+        allowtransparency="true"
+        scrolling="no"
+        allow="attribution-reporting; run-ad-auction"
+        src="https://googleads.g.doubleclick.net/pagead/ads?client=ca-pub-0588844875925051&amp;output=html&amp;h=280&amp;adk=1204970897&amp;adf=2609195175&amp;w=1027&amp;abgtt=11&amp;fwrn=4&amp;fwrnh=100&amp;lmt=1751503713&amp;num_ads=1&amp;rafmt=1&amp;armr=3&amp;sem=mc&amp;pwprc=4633386603&amp;ad_type=text_image&amp;format=1027x280&amp;url=https%3A%2F%2Fwww.learncpp.com%2Fcpp-tutorial%2Fscoped-enumerations-enum-classes%2F&amp;fwr=0&amp;pra=3&amp;rh=200&amp;rw=1026&amp;rpe=1&amp;resp_fmts=3&amp;wgl=1&amp;fa=27&amp;uach=WyJXaW5kb3dzIiwiMTkuMC4wIiwieDg2IiwiIiwiMTM3LjAuNzE1MS4xMjIiLG51bGwsMCxudWxsLCI2NCIsW1siR29vZ2xlIENocm9tZSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJDaHJvbWl1bSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJOb3QvQSlCcmFuZCIsIjI0LjAuMC4wIl1dLDBd&amp;dt=1751962798596&amp;bpp=1&amp;bdt=1355&amp;idt=0&amp;shv=r20250702&amp;mjsv=m202507020101&amp;ptt=9&amp;saldr=aa&amp;abxe=1&amp;cookie=ID%3D05f6e82287d810b4%3AT%3D1751962604%3ART%3D1751962604%3AS%3DALNI_MaQYA0TSAU2k8xwY5tqlN0xFCcd6g&amp;gpic=UID%3D00001157d9e27d0a%3AT%3D1751962604%3ART%3D1751962604%3AS%3DALNI_MYgtHzQJAQQXY_151HTGSSfVxE8_A&amp;eo_id_str=ID%3D52c21936d98c6d2b%3AT%3D1751962604%3ART%3D1751962604%3AS%3DAA-AfjZsJ15yjdEPJ8d11hPojsJQ&amp;prev_fmts=0x0%2C336x280%2C160x600%2C160x600%2C1027x280%2C1027x280%2C1027x280%2C1027x280%2C1027x280%2C1027x280%2C1027x280&amp;nras=9&amp;correlator=1915808658031&amp;frm=20&amp;pv=1&amp;u_tz=480&amp;u_his=2&amp;u_h=600&amp;u_w=800&amp;u_ah=600&amp;u_aw=800&amp;u_cd=24&amp;u_sd=1&amp;dmc=8&amp;adx=27&amp;ady=3980&amp;biw=1080&amp;bih=1024&amp;scr_x=0&amp;scr_y=0&amp;eid=31093235%2C31093272%2C95353387%2C95362655%2C95365225%2C95365234%2C95365107%2C95359266%2C95365119%2C95365798&amp;oid=2&amp;pvsid=7106097868838327&amp;tmod=1708485235&amp;uas=0&amp;nvt=1&amp;fc=1408&amp;brdim=10%2C10%2C10%2C10%2C800%2C0%2C780%2C580%2C1080%2C1024&amp;vis=1&amp;rsz=%7C%7Cs%7C&amp;abl=NS&amp;fu=128&amp;bc=31&amp;bz=0.72&amp;td=1&amp;tdf=2&amp;psd=W251bGwsbnVsbCxudWxsLDNd&amp;nt=1&amp;ifi=13&amp;uci=a!d&amp;btvi=8&amp;fsb=1&amp;dtd=723"
+        data-google-container-id="a!d"
+        tabindex="0"
+        title="Advertisement"
+        aria-label="Advertisement"
+        data-load-complete="true"
+        data-google-query-id="CJ6ciILqrI4DFV_rTAId5YY01w"
+      ></iframe></div
+  ></ins>
+</div>
+<p>
+  As of C++17, you can list initialize a scoped enumeration using an integral
+  value without the static_cast (and unlike an unscoped enumeration, you don’t
+  need to specify a base):
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token comment">// using enum class Pet from prior example</span>
+Pet pet <span class="token punctuation brace-curly brace-open brace-level-1" id="pair-36-close">{</span> <span class="token number">1</span> <span class="token punctuation brace-curly brace-close brace-level-1" id="pair-36-open">}</span><span class="token punctuation">;</span> <span class="token comment">// okay</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<div class="cpp-note cpp-lightgreenbackground">
+  <p class="cpp-note-title cpp-bottomline">Best practice</p>
+  <p>
+    Favor scoped enumerations over unscoped enumerations unless there’s a
+    compelling reason to do otherwise.
+  </p>
+</div>
+<p>
+  Despite the benefits that scoped enumerations offer, unscoped enumerations are
+  still commonly used in C++ because there are situations where we desire the
+  implicit conversion to int (doing lots of static_casting gets annoying) and we
+  don’t need the extra namespacing.
+</p>
+<p class="cpp-section cpp-topline" style="clear: both">
+  <a name="operatorplus"></a>Easing the conversion of scoped enumerators to
+  integers (advanced)
+  <a href="#operatorplus"
+    ><i class="fa fa-link" style="font-size: 0.8em"></i
+  ></a>
+</p>
+<div
+  class="google-auto-placed ap_container"
+  style="width: 100%; height: auto; clear: both; text-align: center"
+>
+  <ins
+    data-ad-format="auto"
+    class="adsbygoogle adsbygoogle-noablate"
+    data-ad-client="ca-pub-0588844875925051"
+    data-adsbygoogle-status="done"
+    style="
+      display: block;
+      margin: auto;
+      background-color: transparent;
+      height: 280px;
+    "
+    ><div
+      id="aswift_13_host"
+      style="
+        border: none;
+        height: 280px;
+        width: 1027px;
+        margin: 0px;
+        padding: 0px;
+        position: relative;
+        visibility: visible;
+        background-color: transparent;
+        display: inline-block;
+      "
+    ></div
+  ></ins>
+</div>
+<div class="code-block code-block-5" style="margin: 8px 0; clear: both"></div>
+
+<p>
+  Scoped enumerations are great, but the lack of implicit conversion to integers
+  can sometimes be a pain point. If we need to convert a scoped enumeration to
+  integers often (e.g. cases where we want to use scoped enumerators as array
+  indices), having to use static_cast every time we want a conversion can
+  clutter our code significantly.
+</p>
+<p>
+  If you find yourself in the situation where it would be useful to make
+  conversion of scoped enumerators to integers easier, a useful hack is to
+  overload the unary <code>operator+</code> to perform this conversion:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;type_traits&gt;</span> <span class="token comment">// for std::underlying_type_t</span></span>
+
+<span class="token keyword keyword-enum">enum</span> <span class="token keyword keyword-class">class</span> <span class="token class-name">Animals</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-40-close">{</span>
+    chicken<span class="token punctuation">,</span> <span class="token comment">// 0</span>
+    dog<span class="token punctuation">,</span> <span class="token comment">// 1</span>
+    cat<span class="token punctuation">,</span> <span class="token comment">// 2</span>
+    elephant<span class="token punctuation">,</span> <span class="token comment">// 3</span>
+    duck<span class="token punctuation">,</span> <span class="token comment">// 4</span>
+    snake<span class="token punctuation">,</span> <span class="token comment">// 5</span>
+
+    maxAnimals<span class="token punctuation">,</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-40-open">}</span><span class="token punctuation">;</span>
+
+<span class="token comment">// Overload the unary + operator to convert an enum to the underlying type</span>
+<span class="token comment">// adapted from https://stackoverflow.com/a/42198760, thanks to Pixelchemist for the idea</span>
+<span class="token comment">// In C++23, you can #include &lt;utility&gt; and return std::to_underlying(a) instead</span>
+<span class="token keyword keyword-template">template</span> <span class="token operator">&lt;</span><span class="token keyword keyword-typename">typename</span> <span class="token class-name">T</span><span class="token operator">&gt;</span>
+<span class="token keyword keyword-constexpr">constexpr</span> <span class="token keyword keyword-auto">auto</span> <span class="token keyword keyword-operator">operator</span><span class="token operator">+</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-37-close">(</span>T a<span class="token punctuation brace-round brace-close brace-level-1" id="pair-37-open">)</span> <span class="token keyword keyword-noexcept">noexcept</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-41-close">{</span>
+    <span class="token keyword keyword-return">return</span> <span class="token generic-function"><span class="token function">static_cast</span><span class="token generic class-name"><span class="token operator">&lt;</span>std<span class="token double-colon punctuation">::</span>underlying_type_t<span class="token operator">&lt;</span>T<span class="token operator">&gt;&gt;</span></span></span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-38-close">(</span>a<span class="token punctuation brace-round brace-close brace-level-2" id="pair-38-open">)</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-41-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-39-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-39-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-42-close">{</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token operator">+</span>Animals<span class="token double-colon punctuation">::</span>elephant <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span> <span class="token comment">// convert Animals::elephant to an integer using unary operator+</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-42-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>This prints:</p>
+<pre>
+3
+</pre>
+<p>
+  This method prevents unintended implicit conversions to an integral type, but
+  provides a convenient way to explicitly request such conversions as needed.
+</p>
+<p class="cpp-section cpp-topline" style="clear: both">
+  <code>using enum</code> statements
+  <span class="cpp-section-pill cpp-section-standard">C++20</span>
+</p>
+<p>
+  Introduced in C++20, a <code>using enum</code> statement imports all of the
+  enumerators from an enum into the current scope. When used with an enum class
+  type, this allows us to access the enum class enumerators without having to
+  prefix each with the name of the enum class.
+</p>
+<div class="code-block code-block-6" style="margin: 8px 0; clear: both"></div>
+
+<p>
+  This can be useful in cases where we would otherwise have many identical,
+  repeated prefixes, such as within a switch statement:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;string_view&gt;</span></span>
+
+<span class="token keyword keyword-enum">enum</span> <span class="token keyword keyword-class">class</span> <span class="token class-name">Color</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-47-close">{</span>
+    black<span class="token punctuation">,</span>
+    red<span class="token punctuation">,</span>
+    blue<span class="token punctuation">,</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-47-open">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword keyword-constexpr">constexpr</span> std<span class="token double-colon punctuation">::</span>string_view <span class="token function">getColor</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-43-close">(</span>Color color<span class="token punctuation brace-round brace-close brace-level-1" id="pair-43-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-49-close">{</span>
+    <span class="token keyword keyword-using">using</span> <span class="token keyword keyword-enum">enum</span> <span class="token class-name">Color</span><span class="token punctuation">;</span> <span class="token comment">// bring all Color enumerators into current scope (C++20)</span>
+    <span class="token comment">// We can now access the enumerators of Color without using a Color:: prefix</span>
+
+    <span class="token keyword keyword-switch">switch</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-44-close">(</span>color<span class="token punctuation brace-round brace-close brace-level-2" id="pair-44-open">)</span>
+    <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-48-close">{</span>
+    <span class="token keyword keyword-case">case</span> black<span class="token operator">:</span> <span class="token keyword keyword-return">return</span> <span class="token string">"black"</span><span class="token punctuation">;</span> <span class="token comment">// note: black instead of Color::black</span>
+    <span class="token keyword keyword-case">case</span> red<span class="token operator">:</span>   <span class="token keyword keyword-return">return</span> <span class="token string">"red"</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-case">case</span> blue<span class="token operator">:</span>  <span class="token keyword keyword-return">return</span> <span class="token string">"blue"</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-default">default</span><span class="token operator">:</span>    <span class="token keyword keyword-return">return</span> <span class="token string">"???"</span><span class="token punctuation">;</span>
+    <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-48-open">}</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-49-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-45-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-45-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-51-close">{</span>
+    Color shirt<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-50-close">{</span> Color<span class="token double-colon punctuation">::</span>blue <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-50-open">}</span><span class="token punctuation">;</span>
+
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Your shirt is "</span> <span class="token operator">&lt;&lt;</span> <span class="token function">getColor</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-46-close">(</span>shirt<span class="token punctuation brace-round brace-close brace-level-2" id="pair-46-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-51-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  In the above example, <code>Color</code> is an enum class, so we normally
+  would access the enumerators using a fully qualified name (e.g.
+  <code>Color::blue</code>). However, within function <code>getColor()</code>,
+  we’ve added the statement <code>using enum Color;</code>, which allows us to
+  access those enumerators without the <code>Color::</code> prefix.
+</p>
+<p>
+  This saves us from having multiple, redundant, obvious prefixes inside the
+  switch statement.
+</p>
+<p class="cpp-section cpp-topline" style="clear: both">Quiz time</p>
+<p class="cpp-quiz-question" style="clear: both">Question #1</p>
+<p>
+  Define an enum class named Animal that contains the following animals: pig,
+  chicken, goat, cat, dog, duck. Write a function named getAnimalName() that
+  takes an Animal parameter and uses a switch statement to return the name for
+  that animal as a std::string_view (or std::string if you’re using C++14).
+  Write another function named printNumberOfLegs() that uses a switch statement
+  to print the number of legs each animal walks on. Make sure both functions
+  have a default case that prints an error message. Call printNumberOfLegs()
+  from main() with a cat and a chicken. Your output should look like this:
+</p>
+<pre>
+A cat has 4 legs.
+A chicken has 2 legs.
+</pre>
+<p>
+  <a
+    class="solution_link_show"
+    href="javascript:void(0)"
+    onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_0'), this, 'Show Solution', 'Hide Solution')"
+    >Show Solution</a
+  >
+</p>
+<div class="code-block code-block-7" style="margin: 8px 0; clear: both"></div>
+
+<div class="wpsolution" id="cpp_solution_id_0" style="display: none">
+  <div class="code-toolbar">
+    <pre
+      class="line-numbers language-cpp"
+      tabindex="0"
+    ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;string_view&gt;</span> <span class="token comment">// C++17</span></span>
+<span class="token comment">//#include &lt;string&gt; // for C++14</span>
+
+<span class="token keyword keyword-enum">enum</span> <span class="token keyword keyword-class">class</span> <span class="token class-name">Animal</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-60-close">{</span>
+    pig<span class="token punctuation">,</span>
+    chicken<span class="token punctuation">,</span>
+    goat<span class="token punctuation">,</span>
+    cat<span class="token punctuation">,</span>
+    dog<span class="token punctuation">,</span>
+    duck<span class="token punctuation">,</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-60-open">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword keyword-constexpr">constexpr</span> std<span class="token double-colon punctuation">::</span>string_view <span class="token function">getAnimalName</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-52-close">(</span>Animal animal<span class="token punctuation brace-round brace-close brace-level-1" id="pair-52-open">)</span> <span class="token comment">// C++17</span>
+<span class="token comment">// const std::string getAnimalName(Animal animal) // C++14</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-62-close">{</span>
+    <span class="token comment">// If C++20 capable, could use `using enum Animal` here to reduce Animal prefix redundancy</span>
+    <span class="token keyword keyword-switch">switch</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-53-close">(</span>animal<span class="token punctuation brace-round brace-close brace-level-2" id="pair-53-open">)</span>
+    <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-61-close">{</span>
+        <span class="token keyword keyword-case">case</span> Animal<span class="token double-colon punctuation">::</span>chicken<span class="token operator">:</span>
+            <span class="token keyword keyword-return">return</span> <span class="token string">"chicken"</span><span class="token punctuation">;</span>
+        <span class="token keyword keyword-case">case</span> Animal<span class="token double-colon punctuation">::</span>duck<span class="token operator">:</span>
+            <span class="token keyword keyword-return">return</span> <span class="token string">"duck"</span><span class="token punctuation">;</span>
+        <span class="token keyword keyword-case">case</span> Animal<span class="token double-colon punctuation">::</span>pig<span class="token operator">:</span>
+            <span class="token keyword keyword-return">return</span> <span class="token string">"pig"</span><span class="token punctuation">;</span>
+        <span class="token keyword keyword-case">case</span> Animal<span class="token double-colon punctuation">::</span>goat<span class="token operator">:</span>
+            <span class="token keyword keyword-return">return</span> <span class="token string">"goat"</span><span class="token punctuation">;</span>
+        <span class="token keyword keyword-case">case</span> Animal<span class="token double-colon punctuation">::</span>cat<span class="token operator">:</span>
+            <span class="token keyword keyword-return">return</span> <span class="token string">"cat"</span><span class="token punctuation">;</span>
+        <span class="token keyword keyword-case">case</span> Animal<span class="token double-colon punctuation">::</span>dog<span class="token operator">:</span>
+            <span class="token keyword keyword-return">return</span> <span class="token string">"dog"</span><span class="token punctuation">;</span>
+
+        <span class="token keyword keyword-default">default</span><span class="token operator">:</span>
+            <span class="token keyword keyword-return">return</span> <span class="token string">"???"</span><span class="token punctuation">;</span>
+    <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-61-open">}</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-62-open">}</span>
+
+<span class="token keyword keyword-void">void</span> <span class="token function">printNumberOfLegs</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-54-close">(</span>Animal animal<span class="token punctuation brace-round brace-close brace-level-1" id="pair-54-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-64-close">{</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"A "</span> <span class="token operator">&lt;&lt;</span> <span class="token function">getAnimalName</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-55-close">(</span>animal<span class="token punctuation brace-round brace-close brace-level-2" id="pair-55-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">" has "</span><span class="token punctuation">;</span>
+
+    <span class="token comment">// If C++20 capable, could use `using enum Animal` here to reduce Animal prefix redundancy</span>
+    <span class="token keyword keyword-switch">switch</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-56-close">(</span>animal<span class="token punctuation brace-round brace-close brace-level-2" id="pair-56-open">)</span>
+    <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-63-close">{</span>
+        <span class="token keyword keyword-case">case</span> Animal<span class="token double-colon punctuation">::</span>chicken<span class="token operator">:</span>
+        <span class="token keyword keyword-case">case</span> Animal<span class="token double-colon punctuation">::</span>duck<span class="token operator">:</span>
+            std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token number">2</span><span class="token punctuation">;</span>
+            <span class="token keyword keyword-break">break</span><span class="token punctuation">;</span>
+
+        <span class="token keyword keyword-case">case</span> Animal<span class="token double-colon punctuation">::</span>pig<span class="token operator">:</span>
+        <span class="token keyword keyword-case">case</span> Animal<span class="token double-colon punctuation">::</span>goat<span class="token operator">:</span>
+        <span class="token keyword keyword-case">case</span> Animal<span class="token double-colon punctuation">::</span>cat<span class="token operator">:</span>
+        <span class="token keyword keyword-case">case</span> Animal<span class="token double-colon punctuation">::</span>dog<span class="token operator">:</span>
+            std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token number">4</span><span class="token punctuation">;</span>
+            <span class="token keyword keyword-break">break</span><span class="token punctuation">;</span>
+
+        <span class="token keyword keyword-default">default</span><span class="token operator">:</span>
+            std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"???"</span><span class="token punctuation">;</span>
+            <span class="token keyword keyword-break">break</span><span class="token punctuation">;</span>
+    <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-63-open">}</span>
+
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">" legs.\n"</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-64-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-57-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-57-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-65-close">{</span>
+    <span class="token function">printNumberOfLegs</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-58-close">(</span>Animal<span class="token double-colon punctuation">::</span>cat<span class="token punctuation brace-round brace-close brace-level-2" id="pair-58-open">)</span><span class="token punctuation">;</span>
+    <span class="token function">printNumberOfLegs</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-59-close">(</span>Animal<span class="token double-colon punctuation">::</span>chicken<span class="token punctuation brace-round brace-close brace-level-2" id="pair-59-open">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-65-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+    <div class="toolbar">
+      <div class="toolbar-item">
+        <button
+          class="copy-to-clipboard-button"
+          type="button"
+          data-copy-state="copy"
+        >
+          <span>Copy</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="prevnext">
+  <div class="prevnext-inline">
+    <a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/introduction-to-structs-members-and-member-selection/"
+    >
+      <div class="nav-button nav-button-next">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-right" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Next lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">13.7</span>Introduction to
+            structs, members, and member selection
+          </div>
+        </div>
+      </div></a
+    >
+    <a class="nav-link" href="/">
+      <div class="nav-button nav-button-index">
+        <div class="nav-button-icon">
+          <i class="fa fa-home" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Back to table of contents</div>
+        </div>
+      </div></a
+    >
+    <a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/introduction-to-overloading-the-i-o-operators/"
+    >
+      <div class="nav-button nav-button-prev">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-left" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Previous lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">13.5</span>Introduction to
+            overloading the I/O operators
+          </div>
+        </div>
+      </div></a
+    >
+  </div>
+</div>
+<div class="code-block code-block-10" style="margin: 8px 0; clear: both"></div>

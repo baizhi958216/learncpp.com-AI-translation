@@ -1,0 +1,521 @@
+<div
+  class="code-block code-block-1"
+  style="margin: 8px 8px 8px 0; float: left"
+></div>
+<p class="cpp-section" data-ezoic-video-excluded="1">Object sizes</p>
+<p>
+  As you learned in the lesson
+  <a
+    href="https://www.learncpp.com/cpp-tutorial/introduction-to-fundamental-data-types/"
+    >4.1 -- Introduction to fundamental data types</a
+  >, memory on modern machines is typically organized into byte-sized units,
+  with each byte of memory having a unique address. Up to this point, it has
+  been useful to think of memory as a bunch of cubbyholes or mailboxes where we
+  can put and retrieve information, and variables as names for accessing those
+  cubbyholes or mailboxes.
+</p>
+<p>
+  However, this analogy is not quite correct in one regard -- most objects
+  actually take up more than 1 byte of memory. A single object may use 1, 2, 4,
+  8, or even more consecutive memory addresses. The amount of memory that an
+  object uses is based on its data type.
+</p>
+<p>
+  Because we typically access memory through variable names (and not directly
+  via memory addresses), the compiler is able to hide the details of how many
+  bytes a given object uses from us. When we access some variable
+  <code>x</code> in our source code, the compiler knows how many bytes of data
+  need to be retrieved (based on the type of variable <code>x</code>), and will
+  output the appropriate machine language code to handle that detail for us.
+</p>
+<p>
+  Even so, there are several reasons it is useful to know how much memory an
+  object uses.
+</p>
+<p>First, the more memory an object uses, the more information it can hold.</p>
+<div class="code-block code-block-2" style="margin: 8px 0; clear: both"></div>
+<p>A single bit can hold 2 possible values, a 0, or a 1:</p>
+<div class="cpp-table-wrapper" data-ezoic-video-excluded="1">
+  <table class="cpp-table" data-ezoic-video-excluded="1">
+    <tbody>
+      <tr>
+        <th>bit 0</th>
+      </tr>
+      <tr>
+        <td>0</td>
+      </tr>
+      <tr>
+        <td>1</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<p>2 bits can hold 4 possible values:</p>
+<div class="cpp-table-wrapper" data-ezoic-video-excluded="1">
+  <table class="cpp-table" data-ezoic-video-excluded="1">
+    <tbody>
+      <tr>
+        <th>bit 0</th>
+        <th>bit 1</th>
+      </tr>
+      <tr>
+        <td>0</td>
+        <td>0</td>
+      </tr>
+      <tr>
+        <td>0</td>
+        <td>1</td>
+      </tr>
+      <tr>
+        <td>1</td>
+        <td>0</td>
+      </tr>
+      <tr>
+        <td>1</td>
+        <td>1</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<p>3 bits can hold 8 possible values:</p>
+<div class="cpp-table-wrapper" data-ezoic-video-excluded="1">
+  <table class="cpp-table" data-ezoic-video-excluded="1">
+    <tbody>
+      <tr>
+        <th>bit 0</th>
+        <th>bit 1</th>
+        <th>bit 2</th>
+      </tr>
+      <tr>
+        <td>0</td>
+        <td>0</td>
+        <td>0</td>
+      </tr>
+      <tr>
+        <td>0</td>
+        <td>0</td>
+        <td>1</td>
+      </tr>
+      <tr>
+        <td>0</td>
+        <td>1</td>
+        <td>0</td>
+      </tr>
+      <tr>
+        <td>0</td>
+        <td>1</td>
+        <td>1</td>
+      </tr>
+      <tr>
+        <td>1</td>
+        <td>0</td>
+        <td>0</td>
+      </tr>
+      <tr>
+        <td>1</td>
+        <td>0</td>
+        <td>1</td>
+      </tr>
+      <tr>
+        <td>1</td>
+        <td>1</td>
+        <td>0</td>
+      </tr>
+      <tr>
+        <td>1</td>
+        <td>1</td>
+        <td>1</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<p>
+  To generalize, an object with <em>n</em> bits (where n is an integer) can hold
+  2<sup>n</sup> (2 to the power of n, also commonly written 2^n) unique values.
+  Therefore, with an 8-bit byte, a byte-sized object can hold 2<sup>8</sup>
+  (256) different values. An object that uses 2 bytes can hold 2^16 (65536)
+  different values!
+</p>
+<p>
+  Thus, the size of the object puts a limit on the amount of unique values it
+  can store -- objects that utilize more bytes can store a larger number of
+  unique values. We will explore this further when we talk more about integers.
+</p>
+<div class="code-block code-block-3" style="margin: 8px 0; clear: both"></div>
+<p>
+  Second, computers have a finite amount of free memory. Every time we define an
+  object, a small portion of that free memory is used for as long as the object
+  is in existence. Because modern computers have a lot of memory, this impact is
+  usually negligible. However, for programs that need a large amount of objects
+  or data (e.g. a game that is rendering millions of polygons), the difference
+  between using 1 byte and 8 byte objects can be significant.
+</p>
+<div class="cpp-note cpp-lightbluebackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Key insight</p>
+  <p>
+    New programmers often focus too much on optimizing their code to use as
+    little memory as possible. In most cases, this makes a negligible
+    difference. Focus on writing maintainable code, and optimize only when and
+    where the benefit will be substantive.
+  </p>
+</div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Fundamental data type sizes
+</p>
+<p>
+  The obvious next question is “how much memory do objects of a given data type
+  use?”. Perhaps surprisingly, the C++ standard does not define the exact size
+  (in bits) of any of the fundamental types.
+</p>
+<p>Instead, the standard says the following:</p>
+<ul>
+  <li>
+    An object must occupy at least 1 byte (so that each object has a distinct
+    memory address).
+  </li>
+  <li>A byte must be at least 8 bits.</li>
+  <li>
+    The integral types <code>char</code>, <code>short</code>, <code>int</code>,
+    <code>long</code>, and <code>long long</code> have a minimum size of 8, 16,
+    16, 32, and 64 bits respectively.
+  </li>
+  <li>
+    <code>char</code> and <code>char8_t</code> are exactly 1 byte (at least 8
+    bits).
+  </li>
+</ul>
+<div class="cpp-note cpp-lightgraybackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Nomenclature</p>
+  <p>
+    When we talk about the size of a type, we really mean the size of an
+    instantiated object of that type.
+  </p>
+</div>
+<p>
+  In this tutorial series, we will present a simplified view, by making some
+  reasonable assumptions that are generally true for modern architectures:
+</p>
+<ul>
+  <li>A byte is 8 bits.</li>
+  <li>
+    Memory is byte addressable (we can access every byte of memory
+    independently).
+  </li>
+  <li>Floating point support is IEEE-754 compliant.</li>
+  <li>We are on a 32-bit or 64-bit architecture.</li>
+</ul>
+<p>Given the above assumptions, we can reasonably state the following:</p>
+<div class="code-block code-block-4" style="margin: 8px 0; clear: both"></div>
+<div class="cpp-table-wrapper" data-ezoic-video-excluded="1">
+  <table class="cpp-table" data-ezoic-video-excluded="1">
+    <tbody>
+      <tr>
+        <th>Category</th>
+        <th>Type</th>
+        <th>Minimum Size</th>
+        <th>Typical Size</th>
+      </tr>
+      <tr>
+        <td>Boolean</td>
+        <td>bool</td>
+        <td>1 byte</td>
+        <td>1 byte</td>
+      </tr>
+      <tr>
+        <td>Character</td>
+        <td>char</td>
+        <td>1 byte (exactly)</td>
+        <td>1 byte</td>
+      </tr>
+      <tr>
+        <td></td>
+        <td>wchar_t</td>
+        <td>1 byte</td>
+        <td>2 or 4 bytes</td>
+      </tr>
+      <tr>
+        <td></td>
+        <td>char8_t</td>
+        <td>1 byte</td>
+        <td>1 byte</td>
+      </tr>
+      <tr>
+        <td></td>
+        <td>char16_t</td>
+        <td>2 bytes</td>
+        <td>2 bytes</td>
+      </tr>
+      <tr>
+        <td></td>
+        <td>char32_t</td>
+        <td>4 bytes</td>
+        <td>4 bytes</td>
+      </tr>
+      <tr>
+        <td>Integral</td>
+        <td>short</td>
+        <td>2 bytes</td>
+        <td>2 bytes</td>
+      </tr>
+      <tr>
+        <td></td>
+        <td>int</td>
+        <td>2 bytes</td>
+        <td>4 bytes</td>
+      </tr>
+      <tr>
+        <td></td>
+        <td>long</td>
+        <td>4 bytes</td>
+        <td>4 or 8 bytes</td>
+      </tr>
+      <tr>
+        <td></td>
+        <td>long long</td>
+        <td>8 bytes</td>
+        <td>8 bytes</td>
+      </tr>
+      <tr>
+        <td>Floating point</td>
+        <td>float</td>
+        <td>4 bytes</td>
+        <td>4 bytes</td>
+      </tr>
+      <tr>
+        <td></td>
+        <td>double</td>
+        <td>8 bytes</td>
+        <td>8 bytes</td>
+      </tr>
+      <tr>
+        <td></td>
+        <td>long double</td>
+        <td>8 bytes</td>
+        <td>8, 12, or 16 bytes</td>
+      </tr>
+      <tr>
+        <td>Pointer</td>
+        <td>std::nullptr_t</td>
+        <td>4 bytes</td>
+        <td>4 or 8 bytes</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<div class="cpp-note cpp-lightbluebackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Tip</p>
+  <p>
+    For maximum portability, you shouldn’t assume that objects are larger than
+    the specified minimum size.
+  </p>
+  <p>
+    Alternatively, if you want to assume that a type has some non-minimum size
+    (e.g. that an int is at least <code>4</code> bytes), you can use
+    <code>static_assert</code> to have the compiler fail a build if it is
+    compiled on an architecture where this assumption is not true. We cover how
+    to do this in lesson
+    <a
+      href="https://www.learncpp.com/cpp-tutorial/assert-and-static_assert/#static_assert"
+      >9.6 -- Assert and static_assert</a
+    >.
+  </p>
+</div>
+<div class="cpp-note cpp-lightgraybackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Related content</p>
+  <p>
+    You can find more information about what the C++ standard says about the
+    minimum size of various types
+    <a href="https://en.cppreference.com/w/cpp/language/types">here</a>.
+  </p>
+</div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  The sizeof operator
+</p>
+<p>
+  In order to determine the size of data types on a particular machine, C++
+  provides an operator named <code>sizeof</code>. The
+  <strong>sizeof operator</strong> is a unary operator that takes either a type
+  or a variable, and returns the size of an object of that type (in bytes). You
+  can compile and run the following program to find out how large some of your
+  data types are:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iomanip&gt;</span> <span class="token comment">// for std::setw (which sets the width of the subsequent output)</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;climits&gt;</span> <span class="token comment">// for CHAR_BIT</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-138-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-138-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-157-close">{</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"A byte is "</span> <span class="token operator">&lt;&lt;</span> CHAR_BIT <span class="token operator">&lt;&lt;</span> <span class="token string">" bits\n\n"</span><span class="token punctuation">;</span>
+
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> std<span class="token double-colon punctuation">::</span>left<span class="token punctuation">;</span> <span class="token comment">// left justify output</span>
+
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> std<span class="token double-colon punctuation">::</span><span class="token function">setw</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-139-close">(</span><span class="token number">16</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-139-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">"bool:"</span> <span class="token operator">&lt;&lt;</span> <span class="token keyword keyword-sizeof">sizeof</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-140-close">(</span><span class="token keyword keyword-bool">bool</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-140-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">" bytes\n"</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> std<span class="token double-colon punctuation">::</span><span class="token function">setw</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-141-close">(</span><span class="token number">16</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-141-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">"char:"</span> <span class="token operator">&lt;&lt;</span> <span class="token keyword keyword-sizeof">sizeof</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-142-close">(</span><span class="token keyword keyword-char">char</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-142-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">" bytes\n"</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> std<span class="token double-colon punctuation">::</span><span class="token function">setw</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-143-close">(</span><span class="token number">16</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-143-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">"short:"</span> <span class="token operator">&lt;&lt;</span> <span class="token keyword keyword-sizeof">sizeof</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-144-close">(</span><span class="token keyword keyword-short">short</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-144-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">" bytes\n"</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> std<span class="token double-colon punctuation">::</span><span class="token function">setw</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-145-close">(</span><span class="token number">16</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-145-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">"int:"</span> <span class="token operator">&lt;&lt;</span> <span class="token keyword keyword-sizeof">sizeof</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-146-close">(</span><span class="token keyword keyword-int">int</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-146-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">" bytes\n"</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> std<span class="token double-colon punctuation">::</span><span class="token function">setw</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-147-close">(</span><span class="token number">16</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-147-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">"long:"</span> <span class="token operator">&lt;&lt;</span> <span class="token keyword keyword-sizeof">sizeof</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-148-close">(</span><span class="token keyword keyword-long">long</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-148-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">" bytes\n"</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> std<span class="token double-colon punctuation">::</span><span class="token function">setw</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-149-close">(</span><span class="token number">16</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-149-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">"long long:"</span> <span class="token operator">&lt;&lt;</span> <span class="token keyword keyword-sizeof">sizeof</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-150-close">(</span><span class="token keyword keyword-long">long</span> <span class="token keyword keyword-long">long</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-150-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">" bytes\n"</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> std<span class="token double-colon punctuation">::</span><span class="token function">setw</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-151-close">(</span><span class="token number">16</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-151-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">"float:"</span> <span class="token operator">&lt;&lt;</span> <span class="token keyword keyword-sizeof">sizeof</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-152-close">(</span><span class="token keyword keyword-float">float</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-152-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">" bytes\n"</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> std<span class="token double-colon punctuation">::</span><span class="token function">setw</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-153-close">(</span><span class="token number">16</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-153-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">"double:"</span> <span class="token operator">&lt;&lt;</span> <span class="token keyword keyword-sizeof">sizeof</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-154-close">(</span><span class="token keyword keyword-double">double</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-154-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">" bytes\n"</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> std<span class="token double-colon punctuation">::</span><span class="token function">setw</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-155-close">(</span><span class="token number">16</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-155-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">"long double:"</span> <span class="token operator">&lt;&lt;</span> <span class="token keyword keyword-sizeof">sizeof</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-156-close">(</span><span class="token keyword keyword-long">long</span> <span class="token keyword keyword-double">double</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-156-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">" bytes\n"</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-157-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>Here is the output from the author’s machine:</p>
+<pre>
+bool:           1 bytes
+char:           1 bytes
+short:          2 bytes
+int:            4 bytes
+long:           4 bytes
+long long:      8 bytes
+float:          4 bytes
+double:         8 bytes
+long double:    8 bytes
+</pre>
+<p>
+  Your results may vary based on compiler, computer architecture, OS,
+  compilation settings (32-bit vs 64-bit), etc…
+</p>
+<p>
+  Trying to use <code>sizeof</code> on an incomplete type (such as
+  <code>void</code>) will result in a compilation error.
+</p>
+<div class="code-block code-block-5" style="margin: 8px 0; clear: both"></div>
+<div class="cpp-note cpp-lightyellowbackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">For gcc users</p>
+  <p>
+    If you have not disabled compiler extensions, gcc allows
+    <code>sizeof(void)</code> to return 1 instead of producing a diagnostic (<a
+      href="https://gcc.gnu.org/onlinedocs/gcc-4.4.2/gcc/Pointer-Arith.html#Pointer-Arith"
+      >Pointer-Arith</a
+    >). We show how to disable compiler extensions in lesson
+    <a
+      href="https://www.learncpp.com/cpp-tutorial/configuring-your-compiler-compiler-extensions/"
+      >0.10 -- Configuring your compiler: Compiler extensions</a
+    >.
+  </p>
+</div>
+<p>You can also use the <code>sizeof</code> operator on a variable name:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-158-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-158-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-161-close">{</span>
+    <span class="token keyword keyword-int">int</span> x<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-160-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-160-open">}</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"x is "</span> <span class="token operator">&lt;&lt;</span> <span class="token keyword keyword-sizeof">sizeof</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-159-close">(</span>x<span class="token punctuation brace-round brace-close brace-level-2" id="pair-159-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">" bytes\n"</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-161-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<pre>
+x is 4 bytes
+</pre>
+<div class="cpp-note cpp-lightgraybackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">For advanced readers</p>
+  <p>
+    <code>sizeof</code> does not include dynamically allocated memory used by an
+    object. We discuss dynamic memory allocation in a future lesson.
+  </p>
+</div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Fundamental data type performance
+</p>
+<p>
+  On modern machines, objects of the fundamental data types are fast, so
+  performance while using or copying these types should generally not be a
+  concern.
+</p>
+<div class="cpp-note cpp-lightgraybackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">As an aside…</p>
+  <p>
+    You might assume that types that use less memory would be faster than types
+    that use more memory. This is not always true. CPUs are often optimized to
+    process data of a certain size (e.g. 32 bits), and types that match that
+    size may be processed quicker. On such a machine, a 32-bit int could be
+    faster than a 16-bit short or an 8-bit char.
+  </p>
+</div>
+<div class="prevnext">
+  <div class="prevnext-inline">
+    <a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/signed-integers/"
+      ><div class="nav-button nav-button-next">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-right" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Next lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">4.4</span>Signed integers
+          </div>
+        </div>
+      </div></a
+    ><a class="nav-link" href="/"
+      ><div class="nav-button nav-button-index">
+        <div class="nav-button-icon">
+          <i class="fa fa-home" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Back to table of contents</div>
+        </div>
+      </div></a
+    ><a class="nav-link" href="https://www.learncpp.com/cpp-tutorial/void/"
+      ><div class="nav-button nav-button-prev">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-left" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Previous lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">4.2</span>Void
+          </div>
+        </div>
+      </div></a
+    >
+  </div>
+</div>
+<div class="code-block code-block-10" style="margin: 8px 0; clear: both"></div>

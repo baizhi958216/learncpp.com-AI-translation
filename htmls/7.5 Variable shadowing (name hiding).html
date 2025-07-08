@@ -1,0 +1,315 @@
+<div
+  class="code-block code-block-1"
+  style="margin: 8px 8px 8px 0; float: left"
+></div>
+<p>
+  Each block defines its own scope region. So what happens when we have a
+  variable inside a nested block that has the same name as a variable in an
+  outer block? When this happens, the nested variable “hides” the outer variable
+  in areas where they are both in scope. This is called
+  <strong>name hiding</strong> or <strong>shadowing</strong>.
+</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Shadowing of local variables
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-0-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-0-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-4-close">{</span> <span class="token comment">// outer block</span>
+    <span class="token keyword keyword-int">int</span> apples <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-1-close">{</span> <span class="token number">5</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-1-open">}</span><span class="token punctuation">;</span> <span class="token comment">// here's the outer block apples</span>
+
+    <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-3-close">{</span> <span class="token comment">// nested block</span>
+        <span class="token comment">// apples refers to outer block apples here</span>
+        std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> apples <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span> <span class="token comment">// print value of outer block apples</span>
+
+        <span class="token keyword keyword-int">int</span> apples<span class="token punctuation brace-curly brace-open brace-level-3" id="pair-2-close">{</span> <span class="token number">0</span> <span class="token punctuation brace-curly brace-close brace-level-3" id="pair-2-open">}</span><span class="token punctuation">;</span> <span class="token comment">// define apples in the scope of the nested block</span>
+
+        <span class="token comment">// apples now refers to the nested block apples</span>
+        <span class="token comment">// the outer block apples is temporarily hidden</span>
+
+        apples <span class="token operator">=</span> <span class="token number">10</span><span class="token punctuation">;</span> <span class="token comment">// this assigns value 10 to nested block apples, not outer block apples</span>
+
+        std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> apples <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span> <span class="token comment">// print value of nested block apples</span>
+    <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-3-open">}</span> <span class="token comment">// nested block apples destroyed</span>
+
+
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> apples <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span> <span class="token comment">// prints value of outer block apples</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-4-open">}</span> <span class="token comment">// outer block apples destroyed</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>If you run this program, it prints:</p>
+<pre>
+5
+10
+5
+</pre>
+<p>
+  In the above program, we first declare a variable named <code>apples</code> in
+  the outer block. This variable is visible within the inner block, which we can
+  see by printing its value (<code>5</code>). Then we declare a different
+  variable (also named <code>apples</code>) in the nested block. From this point
+  to the end of the block, the name <code>apples</code> refers to the nested
+  block <code>apples</code>, not the outer block <code>apples</code>.
+</p>
+<p>
+  Thus, when we assign value <code>10</code> to <code>apples</code>, we’re
+  assigning it to the nested block <code>apples</code>. After printing this
+  value (<code>10</code>), the nested block ends and nested block
+  <code>apples</code> is destroyed. The existence and value of outer block
+  <code>apples</code> is not affected, and we prove this by printing the value
+  of outer block <code>apples</code> (<code>5</code>).
+</p>
+<p>
+  Note that if the nested block <code>apples</code> had not been defined, the
+  name <code>apples</code> in the nested block would still refer to the outer
+  block <code>apples</code>, so the assignment of value <code>10</code> to
+  <code>apples</code> would have applied to the outer block <code>apples</code>:
+</p>
+<div class="code-block code-block-2" style="margin: 8px 0; clear: both"></div>
+
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-5-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-5-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-8-close">{</span> <span class="token comment">// outer block</span>
+    <span class="token keyword keyword-int">int</span> apples<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-6-close">{</span><span class="token number">5</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-6-open">}</span><span class="token punctuation">;</span> <span class="token comment">// here's the outer block apples</span>
+
+    <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-7-close">{</span> <span class="token comment">// nested block</span>
+        <span class="token comment">// apples refers to outer block apples here</span>
+        std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> apples <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span> <span class="token comment">// print value of outer block apples</span>
+
+        <span class="token comment">// no inner block apples defined in this example</span>
+
+        apples <span class="token operator">=</span> <span class="token number">10</span><span class="token punctuation">;</span> <span class="token comment">// this applies to outer block apples</span>
+
+        std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> apples <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span> <span class="token comment">// print value of outer block apples</span>
+    <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-7-open">}</span> <span class="token comment">// outer block apples retains its value even after we leave the nested block</span>
+
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> apples <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span> <span class="token comment">// prints value of outer block apples</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-8-open">}</span> <span class="token comment">// outer block apples destroyed</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>The above program prints:</p>
+<pre>
+5
+10
+10
+</pre>
+<p>
+  When inside the nested block, there’s no way to directly access the shadowed
+  variable from the outer block.
+</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Shadowing of global variables
+</p>
+<p>
+  Similar to how variables in a nested block can shadow variables in an outer
+  block, local variables with the same name as a global variable will shadow the
+  global variable wherever the local variable is in scope:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+<span class="token keyword keyword-int">int</span> value <span class="token punctuation brace-curly brace-open brace-level-1" id="pair-12-close">{</span> <span class="token number">5</span> <span class="token punctuation brace-curly brace-close brace-level-1" id="pair-12-open">}</span><span class="token punctuation">;</span> <span class="token comment">// global variable</span>
+
+<span class="token keyword keyword-void">void</span> <span class="token function">foo</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-9-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-9-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-13-close">{</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"global variable value: "</span> <span class="token operator">&lt;&lt;</span> value <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span> <span class="token comment">// value is not shadowed here, so this refers to the global value</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-13-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-10-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-10-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-15-close">{</span>
+    <span class="token keyword keyword-int">int</span> value <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-14-close">{</span> <span class="token number">7</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-14-open">}</span><span class="token punctuation">;</span> <span class="token comment">// hides the global variable value (wherever local variable value is in scope)</span>
+
+    <span class="token operator">++</span>value<span class="token punctuation">;</span> <span class="token comment">// increments local value, not global value</span>
+
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"local variable value: "</span> <span class="token operator">&lt;&lt;</span> value <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+    <span class="token function">foo</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-11-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-11-open">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-15-open">}</span> <span class="token comment">// local value is destroyed</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>This code prints:</p>
+<pre>
+local variable value: 8
+global variable value: 5
+</pre>
+<p>
+  However, because global variables are part of the global namespace, we can use
+  the scope operator (::) with no prefix to tell the compiler we mean the global
+  variable instead of the local variable.
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+<span class="token keyword keyword-int">int</span> value <span class="token punctuation brace-curly brace-open brace-level-1" id="pair-18-close">{</span> <span class="token number">5</span> <span class="token punctuation brace-curly brace-close brace-level-1" id="pair-18-open">}</span><span class="token punctuation">;</span> <span class="token comment">// global variable</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-16-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-16-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-20-close">{</span>
+    <span class="token keyword keyword-int">int</span> value <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-19-close">{</span> <span class="token number">7</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-19-open">}</span><span class="token punctuation">;</span> <span class="token comment">// hides the global variable value</span>
+    <span class="token operator">++</span>value<span class="token punctuation">;</span> <span class="token comment">// increments local value, not global value</span>
+
+    <span class="token operator">--</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-17-close">(</span><span class="token double-colon punctuation">::</span>value<span class="token punctuation brace-round brace-close brace-level-2" id="pair-17-open">)</span><span class="token punctuation">;</span> <span class="token comment">// decrements global value, not local value (parenthesis added for readability)</span>
+
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"local variable value: "</span> <span class="token operator">&lt;&lt;</span> value <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"global variable value: "</span> <span class="token operator">&lt;&lt;</span> <span class="token double-colon punctuation">::</span>value <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-20-open">}</span> <span class="token comment">// local value is destroyed</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>This code prints:</p>
+<pre>
+local variable value: 8
+global variable value: 4
+</pre>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Avoid variable shadowing
+</p>
+<p>
+  Shadowing of local variables should generally be avoided, as it can lead to
+  inadvertent errors where the wrong variable is used or modified. Some
+  compilers will issue a warning when a variable is shadowed.
+</p>
+<p>
+  For the same reason that we recommend avoiding shadowing local variables, we
+  recommend avoiding shadowing global variables as well. This is trivially
+  avoidable if all of your global names use a “g_” prefix.
+</p>
+<div class="code-block code-block-3" style="margin: 8px 0; clear: both"></div>
+
+<div class="cpp-note cpp-lightgreenbackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Best practice</p>
+  <p>Avoid variable shadowing.</p>
+</div>
+<div class="cpp-note cpp-lightyellowbackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">For gcc users</p>
+  <p>
+    GCC and Clang support the flag <code>-Wshadow</code> that will generate
+    warnings if a variable is shadowed. There are several subvariants of this
+    flag (<code>-Wshadow=global</code>, <code>-Wshadow=local</code>, and
+    <code>-Wshadow=compatible-local</code>. Consult the
+    <a href="https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html"
+      >GCC documentation</a
+    >
+    for an explanation of the differences.
+  </p>
+  <p>Visual Studio has such warnings enabled by default.</p>
+</div>
+<div class="prevnext">
+  <div class="prevnext-inline">
+    <a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/internal-linkage/"
+    >
+      <div class="nav-button nav-button-next">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-right" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Next lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">7.6</span>Internal linkage
+          </div>
+        </div>
+      </div></a
+    >
+    <a class="nav-link" href="/">
+      <div class="nav-button nav-button-index">
+        <div class="nav-button-icon">
+          <i class="fa fa-home" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Back to table of contents</div>
+        </div>
+      </div></a
+    >
+    <a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/introduction-to-global-variables/"
+    >
+      <div class="nav-button nav-button-prev">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-left" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Previous lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">7.4</span>Introduction to
+            global variables
+          </div>
+        </div>
+      </div></a
+    >
+  </div>
+</div>
+<div class="code-block code-block-10" style="margin: 8px 0; clear: both"></div>

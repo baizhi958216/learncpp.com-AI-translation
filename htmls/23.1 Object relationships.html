@@ -1,0 +1,263 @@
+<div
+  class="code-block code-block-1"
+  style="margin: 8px 8px 8px 0; float: left"
+></div>
+<p>
+  Life is full of recurring patterns, relationships, and hierarchies between
+  objects. By exploring and understanding these, we can gain insight into how
+  real-life objects behave, enhancing our understanding of those objects.
+</p>
+<p>
+  For example, let’s say one day you’re walking down the street, and you see a
+  bright yellow object attached to a green shrubby object. You’d probably
+  recognize that the bright yellow thing is a flower, and the green shrubby
+  thing is a plant. Even though you’d never seen this particular type of plant
+  before, you’d know that the green things are leaves, collecting sunlight.
+  You’d know that the flower helps the plant propagate itself. You’d also know
+  that if you killed the plant, the flower would die too.
+</p>
+<p>
+  But how can you know all of this without ever encountering a plant of this
+  type before? You know this because you understand the abstract concept of
+  plants, and recognize that this plant is an instantiation of that abstraction.
+  You know that most plants are composed (in part) of leaves, and some have
+  flowers. You know that the leaves interact with the sunlight (even if you
+  don’t know how, exactly), and that the flower’s existence depends on the
+  plant. Because you know all of these things about plants in general, you can
+  infer a lot about this plant.
+</p>
+<p>
+  Similarly, programming is also full of recurring patterns, relationships and
+  hierarchies. Particularly when it comes to programming objects, the same
+  patterns that govern real-life objects are applicable to the programming
+  objects we create ourselves. By examining these in more detail, we can better
+  understand how to improve code reusability and write classes that are more
+  extensible.
+</p>
+<p>
+  In previous chapters, we’ve already explored some ideas around recurring
+  patterns: we’ve created loops and functions to allow us to do a particular
+  task many times. Additionally, we’ve created our own enums, structs, and
+  classes to allow us to instantiate objects of a given type.
+</p>
+<div class="code-block code-block-2" style="margin: 8px 0; clear: both"></div>
+
+<p>
+  We’ve also explored some primitive forms of hierarchy, such as arrays (which
+  allow us to group elements into a larger structure) and recursion, where a
+  function calls a derivative version of itself.
+</p>
+<p>
+  However, we haven’t yet focused much on the relationship between objects,
+  particularly as it relates to programming.
+</p>
+<p><strong>Relationships between objects</strong></p>
+<p>
+  There are many different kinds of relationships two objects may have in
+  real-life, and we use specific “relation type” words to describe these
+  relationships. For example: a square “is-a” shape. A car “has-a” steering
+  wheel. A computer programmer “uses-a” keyboard. A flower “depends-on” a bee
+  for pollination. A student is a “member-of” a class. And your brain exists as
+  “part-of” you (at least, we can reasonably assume so if you’ve gotten this
+  far).
+</p>
+<p>All of these relation types have useful analogies in C++.</p>
+<p>
+  In this chapter, we’ll explore the nuances of the relation types “part-of”,
+  “has-a”, “uses-a”, “depends-on”, and “member-of”, and show how they can be
+  useful in the context of C++ classes. We’ll also explore a couple of related
+  topics that don’t fit nicely anywhere else.
+</p>
+<div
+  class="google-auto-placed ap_container"
+  style="width: 100%; height: auto; clear: both; text-align: center"
+>
+  <ins
+    data-ad-format="auto"
+    class="adsbygoogle adsbygoogle-noablate"
+    data-ad-client="ca-pub-0588844875925051"
+    data-adsbygoogle-status="done"
+    style="
+      display: block;
+      margin: auto;
+      background-color: transparent;
+      height: 280px;
+    "
+    data-ad-status="unfilled"
+    ><div
+      id="aswift_5_host"
+      style="
+        border: none;
+        height: 280px;
+        width: 1027px;
+        margin: 0px;
+        padding: 0px;
+        position: relative;
+        visibility: visible;
+        background-color: transparent;
+        display: inline-block;
+        overflow: visible;
+      "
+    >
+      <iframe
+        id="aswift_5"
+        name="aswift_5"
+        browsingtopics="true"
+        style="
+          left: 0;
+          position: absolute;
+          top: 0;
+          border: 0;
+          width: 1027px;
+          height: 280px;
+          min-height: auto;
+          max-height: none;
+          min-width: auto;
+          max-width: none;
+        "
+        sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation"
+        width="1027"
+        height="280"
+        frameborder="0"
+        marginwidth="0"
+        marginheight="0"
+        vspace="0"
+        hspace="0"
+        allowtransparency="true"
+        scrolling="no"
+        allow="attribution-reporting; run-ad-auction"
+        src="https://googleads.g.doubleclick.net/pagead/ads?client=ca-pub-0588844875925051&amp;output=html&amp;h=280&amp;adk=1376064276&amp;adf=3300623409&amp;pi=t.aa~a.3048083739~i.24~rp.4&amp;w=1027&amp;abgtt=11&amp;fwrn=4&amp;fwrnh=100&amp;lmt=1750366233&amp;num_ads=1&amp;rafmt=1&amp;armr=3&amp;sem=mc&amp;pwprc=4633386603&amp;ad_type=text_image&amp;format=1027x280&amp;url=https%3A%2F%2Fwww.learncpp.com%2Fcpp-tutorial%2Fobject-relationships%2F&amp;fwr=0&amp;pra=3&amp;rh=200&amp;rw=1026&amp;rpe=1&amp;resp_fmts=3&amp;wgl=1&amp;fa=27&amp;uach=WyJXaW5kb3dzIiwiMTkuMC4wIiwieDg2IiwiIiwiMTM3LjAuNzE1MS4xMjIiLG51bGwsMCxudWxsLCI2NCIsW1siR29vZ2xlIENocm9tZSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJDaHJvbWl1bSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJOb3QvQSlCcmFuZCIsIjI0LjAuMC4wIl1dLDBd&amp;dt=1751963433480&amp;bpp=1&amp;bdt=698&amp;idt=1&amp;shv=r20250702&amp;mjsv=m202507020101&amp;ptt=9&amp;saldr=aa&amp;abxe=1&amp;cookie=ID%3D05f6e82287d810b4%3AT%3D1751962604%3ART%3D1751963214%3AS%3DALNI_MaQYA0TSAU2k8xwY5tqlN0xFCcd6g&amp;gpic=UID%3D00001157d9e27d0a%3AT%3D1751962604%3ART%3D1751963214%3AS%3DALNI_MYgtHzQJAQQXY_151HTGSSfVxE8_A&amp;eo_id_str=ID%3D52c21936d98c6d2b%3AT%3D1751962604%3ART%3D1751963214%3AS%3DAA-AfjZsJ15yjdEPJ8d11hPojsJQ&amp;prev_fmts=0x0%2C336x280%2C336x280%2C160x600%2C160x600&amp;nras=2&amp;correlator=7507244333991&amp;frm=20&amp;pv=1&amp;u_tz=480&amp;u_his=2&amp;u_h=600&amp;u_w=800&amp;u_ah=600&amp;u_aw=800&amp;u_cd=24&amp;u_sd=1&amp;dmc=8&amp;adx=27&amp;ady=961&amp;biw=1080&amp;bih=1024&amp;scr_x=0&amp;scr_y=0&amp;eid=31093234%2C42532524%2C95353386%2C95362656%2C95365226%2C95365235%2C95365108%2C95359266%2C95365119%2C95365797&amp;oid=2&amp;pvsid=3259214324240575&amp;tmod=1708485235&amp;uas=0&amp;nvt=1&amp;fc=1408&amp;brdim=10%2C10%2C10%2C10%2C800%2C0%2C780%2C580%2C1080%2C1024&amp;vis=1&amp;rsz=%7C%7Cs%7C&amp;abl=NS&amp;fu=128&amp;bc=31&amp;bz=0.72&amp;td=1&amp;tdf=2&amp;psd=W251bGwsbnVsbCxudWxsLDNd&amp;nt=1&amp;ifi=6&amp;uci=a!6&amp;fsb=1&amp;dtd=4"
+        data-google-container-id="a!6"
+        tabindex="0"
+        title="Advertisement"
+        aria-label="Advertisement"
+        data-google-query-id="CMWVurDsrI4DFZ2G6QUdNl4XaQ"
+        data-load-complete="true"
+      ></iframe></div
+  ></ins>
+</div>
+<div class="code-block code-block-3" style="margin: 8px 0; clear: both"></div>
+
+<p>
+  Then we’ll devote the following two chapters to exploring “is-a”
+  relationships, via C++’s inheritance model and virtual functions. Yup, it’s a
+  biggie.
+</p>
+<p>Alright, enough context setting. Let’s get to it.</p>
+<div class="prevnext">
+  <div class="prevnext-inline">
+    <a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/composition/"
+    >
+      <div class="nav-button nav-button-next">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-right" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Next lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">23.2</span>Composition
+          </div>
+        </div>
+      </div></a
+    >
+    <a class="nav-link" href="/">
+      <div class="nav-button nav-button-index">
+        <div class="nav-button-icon">
+          <i class="fa fa-home" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Back to table of contents</div>
+        </div>
+      </div></a
+    >
+    <a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/chapter-22-summary-and-quiz/"
+    >
+      <div class="nav-button nav-button-prev">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-left" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Previous lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">22.x</span>Chapter 22 summary
+            and quiz
+          </div>
+        </div>
+      </div></a
+    >
+  </div>
+</div>
+<div
+  class="google-auto-placed"
+  style="width: 100%; height: auto; clear: both; text-align: center"
+>
+  <ins
+    data-ad-format="auto"
+    class="adsbygoogle adsbygoogle-noablate"
+    data-ad-client="ca-pub-0588844875925051"
+    data-adsbygoogle-status="done"
+    style="
+      display: block;
+      margin: 8px auto 14px;
+      background-color: transparent;
+      height: 0px;
+    "
+    data-ad-status="unfilled"
+    ><div
+      id="aswift_6_host"
+      style="
+        border: none;
+        height: 0px;
+        width: 1027px;
+        margin: 0px;
+        padding: 0px;
+        position: relative;
+        visibility: visible;
+        background-color: transparent;
+        display: inline-block;
+        overflow: hidden;
+        opacity: 0;
+      "
+    >
+      <iframe
+        id="aswift_6"
+        name="aswift_6"
+        browsingtopics="true"
+        style="
+          left: 0px;
+          position: absolute;
+          top: 0px;
+          border: 0px;
+          width: 1027px;
+          height: 0px;
+          min-height: auto;
+          max-height: none;
+          min-width: auto;
+          max-width: none;
+        "
+        sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation"
+        width="1027"
+        height="0"
+        frameborder="0"
+        marginwidth="0"
+        marginheight="0"
+        vspace="0"
+        hspace="0"
+        allowtransparency="true"
+        scrolling="no"
+        allow="attribution-reporting; run-ad-auction"
+        src="https://googleads.g.doubleclick.net/pagead/ads?client=ca-pub-0588844875925051&amp;output=html&amp;h=90&amp;adk=2181448428&amp;adf=2052127943&amp;pi=t.aa~a.1825356541~rp.1&amp;w=1027&amp;abgtt=11&amp;fwrn=4&amp;fwrnh=100&amp;lmt=1750366233&amp;rafmt=1&amp;to=qs&amp;pwprc=4633386603&amp;format=1027x90&amp;url=https%3A%2F%2Fwww.learncpp.com%2Fcpp-tutorial%2Fobject-relationships%2F&amp;fwr=0&amp;pra=3&amp;rpe=1&amp;resp_fmts=3&amp;wgl=1&amp;fa=40&amp;uach=WyJXaW5kb3dzIiwiMTkuMC4wIiwieDg2IiwiIiwiMTM3LjAuNzE1MS4xMjIiLG51bGwsMCxudWxsLCI2NCIsW1siR29vZ2xlIENocm9tZSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJDaHJvbWl1bSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJOb3QvQSlCcmFuZCIsIjI0LjAuMC4wIl1dLDBd&amp;dt=1751963433499&amp;bpp=1&amp;bdt=717&amp;idt=-M&amp;shv=r20250702&amp;mjsv=m202507020101&amp;ptt=9&amp;saldr=aa&amp;abxe=1&amp;cookie=ID%3D05f6e82287d810b4%3AT%3D1751962604%3ART%3D1751963214%3AS%3DALNI_MaQYA0TSAU2k8xwY5tqlN0xFCcd6g&amp;gpic=UID%3D00001157d9e27d0a%3AT%3D1751962604%3ART%3D1751963214%3AS%3DALNI_MYgtHzQJAQQXY_151HTGSSfVxE8_A&amp;eo_id_str=ID%3D52c21936d98c6d2b%3AT%3D1751962604%3ART%3D1751963214%3AS%3DAA-AfjZsJ15yjdEPJ8d11hPojsJQ&amp;prev_fmts=0x0%2C336x280%2C336x280%2C160x600%2C160x600%2C1027x280&amp;nras=3&amp;correlator=7507244333991&amp;frm=20&amp;pv=1&amp;u_tz=480&amp;u_his=2&amp;u_h=600&amp;u_w=800&amp;u_ah=600&amp;u_aw=800&amp;u_cd=24&amp;u_sd=1&amp;dmc=8&amp;adx=27&amp;ady=1567&amp;biw=1080&amp;bih=1024&amp;scr_x=0&amp;scr_y=0&amp;eid=31093234%2C42532524%2C95353386%2C95362656%2C95365226%2C95365235%2C95365108%2C95359266%2C95365119%2C95365797&amp;oid=2&amp;pvsid=3259214324240575&amp;tmod=1708485235&amp;uas=0&amp;nvt=1&amp;fc=1920&amp;brdim=10%2C10%2C10%2C10%2C800%2C0%2C780%2C580%2C1080%2C1024&amp;vis=1&amp;rsz=%7C%7Cs%7C&amp;abl=NS&amp;fu=128&amp;bc=31&amp;bz=0.72&amp;td=1&amp;tdf=2&amp;psd=W251bGwsbnVsbCxudWxsLDNd&amp;nt=1&amp;ifi=7&amp;uci=a!7&amp;btvi=2&amp;fsb=1&amp;dtd=4"
+        data-google-container-id="a!7"
+        tabindex="0"
+        title="Advertisement"
+        aria-label="Advertisement"
+        data-load-complete="true"
+        data-google-query-id="COvLu7DsrI4DFTaH6QUd0fcg5A"
+      ></iframe></div
+  ></ins>
+</div>
+<div class="code-block code-block-10" style="margin: 8px 0; clear: both"></div>

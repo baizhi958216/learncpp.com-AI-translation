@@ -1,0 +1,454 @@
+<div
+  class="code-block code-block-1"
+  style="margin: 8px 8px 8px 0; float: left"
+></div>
+<p>
+  The last category of flow control statement we’ll cover in this chapter is the
+  halt. A <strong>halt</strong> is a flow control statement that terminates the
+  program. In C++, halts are implemented as functions (rather than keywords), so
+  our halt statements will be function calls.
+</p>
+<p>
+  Let’s take a brief detour, and recap what happens when a program exits
+  normally. When the <code>main()</code> function returns (either by reaching
+  the end of the function, or via a <code>return statement</code>), a number of
+  different things happen.
+</p>
+<p>
+  First, because we’re leaving the function, all local variables and function
+  parameters are destroyed (as per usual).
+</p>
+<p>
+  Next, a special function called <code>std::exit()</code> is called, with the
+  return value from <code>main()</code> (the <code>status code</code>) passed in
+  as an argument. So what is <code>std::exit()</code>?
+</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  The std::exit() function
+</p>
+<p>
+  <code>std::exit()</code> is a function that causes the program to terminate
+  normally. <strong>Normal termination</strong> means the program has exited in
+  an expected way. Note that the term <code>normal termination</code> does not
+  imply anything about whether the program was successful (that’s what the
+  <code>status code</code> is for). For example, let’s say you were writing a
+  program where you expected the user to type in a filename to process. If the
+  user typed in an invalid filename, your program would probably return a
+  non-zero <code>status code</code> to indicate the failure state, but it would
+  still have a <code>normal termination</code>.
+</p>
+<div class="code-block code-block-2" style="margin: 8px 0; clear: both"></div>
+
+<p>
+  <code>std::exit()</code> performs a number of cleanup functions. First,
+  objects with static storage duration are destroyed. Then some other
+  miscellaneous file cleanup is done if any files were used. Finally, control is
+  returned back to the OS, with the argument passed to
+  <code>std::exit()</code> used as the <code>status code</code>.
+</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Calling std::exit() explicitly
+</p>
+<p>
+  Although <code>std::exit()</code> is called implicitly after function
+  <code>main()</code> returns, <code>std::exit()</code> can also be called
+  explicitly to halt the program before it would normally terminate. When
+  <code>std::exit()</code> is called this way, you will need to include the
+  <code>cstdlib</code> header.
+</p>
+<div class="cpp-note cpp-lightbluebackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Key insight</p>
+  <p>
+    <code>std::exit</code> is called implicitly when
+    <code>main()</code> returns.
+  </p>
+</div>
+<p>Here is an example of using <code>std::exit()</code> explicitly:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;cstdlib&gt;</span> <span class="token comment">// for std::exit()</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-void">void</span> <span class="token function">cleanup</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-0-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-0-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-4-close">{</span>
+    <span class="token comment">// code here to do any kind of cleanup required</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"cleanup!\n"</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-4-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-1-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-1-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-5-close">{</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token number">1</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+    <span class="token function">cleanup</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-2-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-2-open">)</span><span class="token punctuation">;</span>
+
+    std<span class="token double-colon punctuation">::</span><span class="token function">exit</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-3-close">(</span><span class="token number">0</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-3-open">)</span><span class="token punctuation">;</span> <span class="token comment">// terminate and return status code 0 to operating system</span>
+
+    <span class="token comment">// The following statements never execute</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token number">2</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-5-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>This program prints:</p>
+<pre>
+1
+cleanup!
+</pre>
+<p>
+  Note that the statements after the call to <code>std::exit()</code> never
+  execute because the program has already terminated.
+</p>
+<div class="code-block code-block-3" style="margin: 8px 0; clear: both"></div>
+
+<p>
+  Although in the program above we call <code>std::exit()</code> from function
+  <code>main()</code>, <code>std::exit()</code> can be called from any function
+  to terminate the program at that point.
+</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  <code>std::exit()</code> does not clean up local variables
+</p>
+<p>
+  One important note about calling <code>std::exit()</code> explicitly:
+  <code>std::exit()</code> does not clean up any local variables (either in the
+  current function, or in functions up the call stack). This means calling
+  <code>std::exit()</code> can be dangerous if your program relies on any local
+  variables cleaning themselves up.
+</p>
+<div class="cpp-note cpp-lightredbackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Warning</p>
+  <p>
+    The <code>std::exit()</code> function does not clean up local variables in
+    the current function or up the call stack.
+  </p>
+</div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  std::atexit
+</p>
+<p>
+  Because <code>std::exit()</code> terminates the program immediately, you may
+  want to manually do some cleanup before terminating. In this context, cleanup
+  means things like closing database or network connections, deallocating any
+  memory you have allocated, writing information to a log file, etc…
+</p>
+<div class="code-block code-block-4" style="margin: 8px 0; clear: both"></div>
+
+<div class="cpp-note cpp-lightgraybackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">As an aside…</p>
+  <p>
+    When an application exits, modern OSes will generally clean up any memory
+    that the application does not properly clean up itself. This leads to the
+    question, “so why bother doing cleanup on exit?”. There are (at least) two
+    reasons:
+  </p>
+  <ol start="1">
+    <li>
+      Cleaning up allocated memory is a “good habit” that you will need to use
+      to avoid memory leaks while the application is running. Cleaning up in
+      some cases and not others is inconsistent and can lead to errors. Not
+      cleaning up memory properly can also impact the way certain tools like
+      memory profilers behave (they may be unable to distinguish memory that you
+      inadvertently aren’t intentionally cleaning up from memory that you
+      intentionally aren’t cleaning up because you don’t have to).
+    </li>
+    <li>
+      There are other kinds of cleanup that may be necessary for your program to
+      behave predictably. For example, if you write data to a file and then
+      unexpectedly exit, that data may not have been flushed to the file yet,
+      and may be lost when the program exits. Closing the file before shutting
+      down helps ensure that all cached data will be written first. Or you may
+      want to send data about the user’s session, or why the program is shutting
+      down to server before the shutdown actually happens.
+    </li>
+  </ol>
+</div>
+<p>
+  In the above example, we called function <code>cleanup()</code> to handle our
+  cleanup tasks. However, remembering to manually call a cleanup function before
+  calling every call to exit() adds burden to the programmer and is a recipe for
+  errors.
+</p>
+<p>
+  To assist with this, C++ offers the <code>std::atexit()</code> function, which
+  allows you to specify a function that will automatically be called on program
+  termination via <code>std::exit()</code>.
+</p>
+<div class="cpp-note cpp-lightgraybackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Related content</p>
+  <p>
+    We discuss passing functions as arguments in lesson
+    <a href="https://www.learncpp.com/cpp-tutorial/function-pointers/"
+      >20.1 -- Function Pointers</a
+    >.
+  </p>
+</div>
+<p>Here’s an example:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;cstdlib&gt;</span> <span class="token comment">// for std::exit()</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-void">void</span> <span class="token function">cleanup</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-6-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-6-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-10-close">{</span>
+    <span class="token comment">// code here to do any kind of cleanup required</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"cleanup!\n"</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-10-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-7-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-7-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-11-close">{</span>
+    <span class="token comment">// register cleanup() to be called automatically when std::exit() is called</span>
+    std<span class="token double-colon punctuation">::</span><span class="token function">atexit</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-8-close">(</span>cleanup<span class="token punctuation brace-round brace-close brace-level-2" id="pair-8-open">)</span><span class="token punctuation">;</span> <span class="token comment">// note: we use cleanup rather than cleanup() since we're not making a function call to cleanup() right now</span>
+
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token number">1</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+    std<span class="token double-colon punctuation">::</span><span class="token function">exit</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-9-close">(</span><span class="token number">0</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-9-open">)</span><span class="token punctuation">;</span> <span class="token comment">// terminate and return status code 0 to operating system</span>
+
+    <span class="token comment">// The following statements never execute</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token number">2</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-11-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 32px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>This program has the same output as the prior example:</p>
+<pre>
+1
+cleanup!
+</pre>
+<p>
+  Note that when we pass <code>cleanup()</code> function as an argument, we use
+  <code>cleanup</code> (the function’s name), not <code>cleanup()</code> (which
+  would actually call the function).
+</p>
+<p>
+  The benefit of <code>std::atexit()</code> is that we only have to call it once
+  (probably from within function <code>main()</code>). Since
+  <code>std::atexit()</code> will be automatically called on exit, we don’t have
+  to remember to call anything before calling <code>std::exit()</code>.
+</p>
+<div class="code-block code-block-5" style="margin: 8px 0; clear: both"></div>
+
+<p>
+  A few notes here about <code>std::atexit()</code> and the cleanup function:
+  First, because <code>std::exit()</code> is called implicitly when
+  <code>main()</code> terminates, this will invoke any functions registered by
+  <code>std::atexit()</code> if the program exits that way. Second, the function
+  being registered must take no parameters and have no return value. Finally,
+  you can register multiple cleanup functions using
+  <code>std::atexit()</code> if you want, and they will be called in reverse
+  order of registration (the last one registered will be called first).
+</p>
+<div class="cpp-note cpp-lightgraybackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">For advanced readers</p>
+  <p>
+    In multi-threaded programs, calling <code>std::exit()</code> can cause your
+    program to crash (because the thread calling <code>std::exit()</code> will
+    cleanup static objects that may still be accessed by other threads). For
+    this reason, C++ has introduced another pair of functions that work
+    similarly to <code>std::exit()</code> and <code>std::atexit()</code> called
+    <code>std::quick_exit()</code> and <code>std::at_quick_exit()</code>.
+    <code>std::quick_exit()</code> terminates the program normally, but does not
+    clean up static objects, and may or may not do other types of cleanup.
+    <code>std::at_quick_exit()</code> performs the same role as
+    <code>std::atexit()</code> for programs terminated with
+    <code>std::quick_exit()</code>.
+  </p>
+</div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  std::abort and std::terminate
+</p>
+<p>C++ contains two other halt-related functions.</p>
+<p>
+  The <code>std::abort()</code> function causes your program to terminate
+  abnormally. <strong>Abnormal termination</strong> means the program had some
+  kind of unusual runtime error and the program couldn’t continue to run. For
+  example, trying to divide by 0 will result in an abnormal termination.
+  <code>std::abort()</code> does not do any cleanup.
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;cstdlib&gt;</span> <span class="token comment">// for std::abort()</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-12-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-12-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-14-close">{</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token number">1</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span><span class="token function">abort</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-13-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-13-open">)</span><span class="token punctuation">;</span>
+
+    <span class="token comment">// The following statements never execute</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token number">2</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-14-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  We will see cases in future lesson
+  <a href="https://www.learncpp.com/cpp-tutorial/assert-and-static_assert/"
+    >9.6 -- Assert and static_assert</a
+  >
+  where <code>std::abort</code> is called implicitly.
+</p>
+<div class="code-block code-block-6" style="margin: 8px 0; clear: both"></div>
+
+<p>
+  The <code>std::terminate()</code> function is typically used in conjunction
+  with <code>exceptions</code> (we’ll cover exceptions in a later chapter).
+  Although <code>std::terminate</code> can be called explicitly, it is more
+  often called implicitly when an exception isn’t handled (and in a few other
+  exception-related cases). By default, <code>std::terminate()</code> calls
+  <code>std::abort()</code>.
+</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  When should you use a halt?
+</p>
+<p>
+  The short answer is “almost never”. Destroying local objects is an important
+  part of C++ (particularly when we get into classes), and none of the
+  above-mentioned functions clean up local variables. Exceptions are a better
+  and safer mechanism for handling error cases.
+</p>
+<div class="cpp-note cpp-lightgreenbackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Best practice</p>
+  <p>
+    Only use a halt if there is no safe or reasonable way to return normally
+    from the main function. If you haven’t disabled exceptions, prefer using
+    exceptions for handling errors safely.
+  </p>
+</div>
+<div class="cpp-note cpp-lightbluebackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Tip</p>
+  <p>
+    Although explicit use of halts should be minimized, there are many other
+    ways that a program can shut down unexpectedly. For example:
+  </p>
+  <ul>
+    <li>
+      The application could crash due to a bug (in which case the OS will shut
+      it down).
+    </li>
+    <li>The user might kill the application in various ways.</li>
+    <li>The user might turn off (or lose) power to their computer.</li>
+    <li>
+      The sun could go supernova and consume the earth in a giant ball of fire.
+    </li>
+  </ul>
+  <p>
+    A well-designed program should be able to handle being shut down at any
+    point with minimal repercussions.
+  </p>
+  <p>
+    As a common example of this, modern games often autosave game state and user
+    settings periodically, so that if the game is unexpectedly shut down without
+    saving, the user can continue later (using the prior autosave) without much
+    lost progress.
+  </p>
+</div>
+<div class="prevnext">
+  <div class="prevnext-inline">
+    <a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/introduction-to-random-number-generation/"
+    >
+      <div class="nav-button nav-button-next">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-right" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Next lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">8.13</span>Introduction to
+            random number generation
+          </div>
+        </div>
+      </div></a
+    >
+    <a class="nav-link" href="/">
+      <div class="nav-button nav-button-index">
+        <div class="nav-button-icon">
+          <i class="fa fa-home" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Back to table of contents</div>
+        </div>
+      </div></a
+    >
+    <a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/break-and-continue/"
+    >
+      <div class="nav-button nav-button-prev">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-left" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Previous lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">8.11</span>Break and continue
+          </div>
+        </div>
+      </div></a
+    >
+  </div>
+</div>
+<div class="code-block code-block-10" style="margin: 8px 0; clear: both"></div>

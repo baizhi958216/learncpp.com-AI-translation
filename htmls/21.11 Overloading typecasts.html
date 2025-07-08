@@ -1,0 +1,877 @@
+<div
+  class="code-block code-block-1"
+  style="margin: 8px 8px 8px 0; float: left"
+></div>
+<p>
+  In lesson
+  <a
+    href="https://www.learncpp.com/cpp-tutorial/explicit-type-conversion-casting-and-static-cast/"
+    >10.6 -- Explicit type conversion (casting) and static_cast</a
+  >, you learned that C++ allows you to convert one data type to another. The
+  following example shows an int being converted into a double:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-int">int</span> n<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-1-close">{</span> <span class="token number">5</span> <span class="token punctuation brace-curly brace-close brace-level-1" id="pair-1-open">}</span><span class="token punctuation">;</span>
+<span class="token keyword keyword-auto">auto</span> d<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-2-close">{</span> <span class="token generic-function"><span class="token function">static_cast</span><span class="token generic class-name"><span class="token operator">&lt;</span><span class="token keyword keyword-double">double</span><span class="token operator">&gt;</span></span></span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-0-close">(</span>n<span class="token punctuation brace-round brace-close brace-level-2" id="pair-0-open">)</span> <span class="token punctuation brace-curly brace-close brace-level-1" id="pair-2-open">}</span><span class="token punctuation">;</span> <span class="token comment">// int cast to a double</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  C++ already knows how to convert between the built-in data types. However, by
+  default, C++ doesn’t know how to convert any of our program-defined classes.
+</p>
+<p>
+  In lesson
+  <a
+    href="https://www.learncpp.com/cpp-tutorial/converting-constructors-and-the-explicit-keyword/"
+    >14.16 -- Converting constructors and the explicit keyword</a
+  >, we showed how we can use a converting constructor to create a class type
+  object from another type of object. But this only works if the destination
+  type is a class type that can be modified to add such a constructor. What if
+  this is not the case?
+</p>
+<p>Take a look at the following class:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-class">class</span> <span class="token class-name">Cents</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-11-close">{</span>
+<span class="token keyword keyword-private">private</span><span class="token operator">:</span>
+    <span class="token keyword keyword-int">int</span> m_cents<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-6-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-6-open">}</span><span class="token punctuation">;</span>
+<span class="token keyword keyword-public">public</span><span class="token operator">:</span>
+    <span class="token function">Cents</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-3-close">(</span><span class="token keyword keyword-int">int</span> cents<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-3-open">)</span>
+        <span class="token operator">:</span> m_cents<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-7-close">{</span> cents <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-7-open">}</span>
+    <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-8-close">{</span>
+    <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-8-open">}</span>
+
+    <span class="token keyword keyword-int">int</span> <span class="token function">getCents</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-4-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-4-open">)</span> <span class="token keyword keyword-const">const</span> <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-9-close">{</span> <span class="token keyword keyword-return">return</span> m_cents<span class="token punctuation">;</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-9-open">}</span>
+    <span class="token keyword keyword-void">void</span> <span class="token function">setCents</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-5-close">(</span><span class="token keyword keyword-int">int</span> cents<span class="token punctuation brace-round brace-close brace-level-2" id="pair-5-open">)</span> <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-10-close">{</span> m_cents <span class="token operator">=</span> cents<span class="token punctuation">;</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-10-open">}</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-11-open">}</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  This class is pretty simple: it holds some number of cents as an integer, and
+  provides access functions to get and set the number of cents. It also provides
+  a constructor for converting an <code>int</code> into a <code>Cents</code>.
+</p>
+<div class="code-block code-block-2" style="margin: 8px 0; clear: both"></div>
+
+<p>
+  If we can convert an <code>int</code> into a <code>Cents</code> (via a
+  constructor), then we might also want to provide a way to convert a
+  <code>Cents</code> back into an <code>int</code>. In some cases, this might
+  not be desirable, but it does make sense here.
+</p>
+<div class="cpp-note cpp-lightgraybackground">
+  <p class="cpp-note-title cpp-bottomline">Author’s note</p>
+  <p>A poem:</p>
+  <p>
+    Converting our ints into some Cents<br />
+    Will use a constructor that assents<br />
+    Of course Cents to ints also make sense<br />
+    But the compiler errors and prevents.
+  </p>
+  <p>
+    To allow such conversion events<br />
+    We give the compiler our consents<br />
+    And then define how, for all intents<br />
+    We can transform these type of contents.
+  </p>
+  <p>
+    So what’s the syntax that circumvents<br />
+    The compiler’s static type defense?<br />
+    We’ll detail just how quite soon, and hence<br />
+    You’ll no longer be kept in suspense.
+  </p>
+</div>
+<div
+  class="google-auto-placed"
+  style="width: 100%; height: auto; clear: both; text-align: center"
+>
+  <ins
+    data-ad-format="auto"
+    class="adsbygoogle adsbygoogle-noablate"
+    data-ad-client="ca-pub-0588844875925051"
+    data-adsbygoogle-status="done"
+    style="
+      display: block;
+      margin: 10px auto 14px;
+      background-color: transparent;
+      height: 0px;
+    "
+    ><div
+      id="aswift_7_host"
+      style="
+        border: none;
+        height: 0px;
+        width: 1027px;
+        margin: 0px;
+        padding: 0px;
+        position: relative;
+        visibility: visible;
+        background-color: transparent;
+        display: inline-block;
+        overflow: hidden;
+        opacity: 0;
+      "
+    >
+      <iframe
+        id="aswift_7"
+        name="aswift_7"
+        browsingtopics="true"
+        style="
+          left: 0px;
+          position: absolute;
+          top: 0px;
+          border: 0px;
+          width: 1027px;
+          height: 0px;
+          min-height: auto;
+          max-height: none;
+          min-width: auto;
+          max-width: none;
+        "
+        sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation"
+        width="1027"
+        height="0"
+        frameborder="0"
+        marginwidth="0"
+        marginheight="0"
+        vspace="0"
+        hspace="0"
+        allowtransparency="true"
+        scrolling="no"
+        allow="attribution-reporting; run-ad-auction"
+        src="https://googleads.g.doubleclick.net/pagead/ads?client=ca-pub-0588844875925051&amp;output=html&amp;h=280&amp;adk=2207635013&amp;adf=4121223883&amp;pi=t.aa~a.308148276~rp.1&amp;w=1027&amp;abgtt=11&amp;fwrn=4&amp;fwrnh=100&amp;lmt=1750272669&amp;rafmt=1&amp;to=qs&amp;pwprc=4633386603&amp;format=1027x280&amp;url=https%3A%2F%2Fwww.learncpp.com%2Fcpp-tutorial%2Foverloading-typecasts%2F&amp;fwr=0&amp;pra=3&amp;rpe=1&amp;resp_fmts=3&amp;wgl=1&amp;fa=40&amp;uach=WyJXaW5kb3dzIiwiMTkuMC4wIiwieDg2IiwiIiwiMTM3LjAuNzE1MS4xMjIiLG51bGwsMCxudWxsLCI2NCIsW1siR29vZ2xlIENocm9tZSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJDaHJvbWl1bSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJOb3QvQSlCcmFuZCIsIjI0LjAuMC4wIl1dLDBd&amp;dt=1751963347388&amp;bpp=1&amp;bdt=1205&amp;idt=-M&amp;shv=r20250702&amp;mjsv=m202507020101&amp;ptt=9&amp;saldr=aa&amp;abxe=1&amp;cookie=ID%3D05f6e82287d810b4%3AT%3D1751962604%3ART%3D1751963214%3AS%3DALNI_MaQYA0TSAU2k8xwY5tqlN0xFCcd6g&amp;gpic=UID%3D00001157d9e27d0a%3AT%3D1751962604%3ART%3D1751963214%3AS%3DALNI_MYgtHzQJAQQXY_151HTGSSfVxE8_A&amp;eo_id_str=ID%3D52c21936d98c6d2b%3AT%3D1751962604%3ART%3D1751963214%3AS%3DAA-AfjZsJ15yjdEPJ8d11hPojsJQ&amp;prev_fmts=0x0%2C336x280%2C160x600%2C160x600&amp;nras=2&amp;correlator=2688071853862&amp;frm=20&amp;pv=1&amp;u_tz=480&amp;u_his=2&amp;u_h=600&amp;u_w=800&amp;u_ah=600&amp;u_aw=800&amp;u_cd=24&amp;u_sd=1&amp;dmc=8&amp;adx=27&amp;ady=1462&amp;biw=1080&amp;bih=1024&amp;scr_x=0&amp;scr_y=0&amp;eid=42532524%2C95353386%2C95362655%2C95363277%2C95365226%2C95365235%2C95365460%2C95365109%2C95359265%2C95365122%2C95365797&amp;oid=2&amp;pvsid=3055469521795276&amp;tmod=1708485235&amp;uas=0&amp;nvt=1&amp;fc=1920&amp;brdim=10%2C10%2C10%2C10%2C800%2C0%2C780%2C580%2C1080%2C1024&amp;vis=1&amp;rsz=%7C%7Cs%7C&amp;abl=NS&amp;fu=128&amp;bc=31&amp;bz=0.72&amp;td=1&amp;tdf=2&amp;psd=W251bGwsbnVsbCxudWxsLDNd&amp;nt=1&amp;ifi=8&amp;uci=a!8&amp;btvi=1&amp;fsb=1&amp;dtd=13"
+        data-google-container-id="a!8"
+        tabindex="0"
+        title="Advertisement"
+        aria-label="Advertisement"
+        data-load-complete="true"
+        data-google-query-id="CLPMtIfsrI4DFfKAuQUd5tINXg"
+      ></iframe></div
+  ></ins>
+</div>
+<p>
+  One not-great way is to use a conversion function. In this example, we use
+  member function <code>getCents()</code> to “convert” our
+  <code>Cents</code> variable back into an <code>int</code> so we can print it
+  using <code>printInt()</code>:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-void">void</span> <span class="token function">printInt</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-12-close">(</span><span class="token keyword keyword-int">int</span> value<span class="token punctuation brace-round brace-close brace-level-1" id="pair-12-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-16-close">{</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> value<span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-16-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-13-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-13-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-18-close">{</span>
+    Cents cents<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-17-close">{</span> <span class="token number">7</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-17-open">}</span><span class="token punctuation">;</span>
+    <span class="token function">printInt</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-15-close">(</span>cents<span class="token punctuation">.</span><span class="token function">getCents</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-14-close">(</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-14-open">)</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-15-open">)</span><span class="token punctuation">;</span> <span class="token comment">// print 7</span>
+
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-18-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  While this function produces the result we want, it’s not truly a conversion,
+  as the compiler won’t understand that it should use this function for casts or
+  implicit conversion. This also means that if we do a lot of
+  <code>Cents</code> to <code>int</code> conversions, our code will be littered
+  with calls to getCents(), which is messy.
+</p>
+<p>What else can we do?</p>
+<p class="cpp-section cpp-topline" style="clear: both">
+  Overloading a typecast
+</p>
+<p>
+  This is where overloading the typecast operators comes into play. Such a
+  typecast can be used explicitly (via a cast) or implicitly by the compiler to
+  perform conversions as needed.
+</p>
+<div class="code-block code-block-3" style="margin: 8px 0; clear: both"></div>
+
+<p>
+  Let’s show how we overload a typecast to define a conversion from
+  <code>Cents</code> to <code>int</code>:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-class">class</span> <span class="token class-name">Cents</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-29-close">{</span>
+<span class="token keyword keyword-private">private</span><span class="token operator">:</span>
+    <span class="token keyword keyword-int">int</span> m_cents<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-23-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-23-open">}</span><span class="token punctuation">;</span>
+<span class="token keyword keyword-public">public</span><span class="token operator">:</span>
+    <span class="token function">Cents</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-19-close">(</span><span class="token keyword keyword-int">int</span> cents<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-19-open">)</span>
+        <span class="token operator">:</span> m_cents<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-24-close">{</span> cents <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-24-open">}</span>
+    <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-25-close">{</span>
+    <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-25-open">}</span>
+
+    <span class="token comment">// Overloaded int cast</span>
+    <span class="token keyword keyword-operator">operator</span> <span class="token keyword keyword-int">int</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-20-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-20-open">)</span> <span class="token keyword keyword-const">const</span> <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-26-close">{</span> <span class="token keyword keyword-return">return</span> m_cents<span class="token punctuation">;</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-26-open">}</span>
+
+    <span class="token keyword keyword-int">int</span> <span class="token function">getCents</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-21-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-21-open">)</span> <span class="token keyword keyword-const">const</span> <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-27-close">{</span> <span class="token keyword keyword-return">return</span> m_cents<span class="token punctuation">;</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-27-open">}</span>
+    <span class="token keyword keyword-void">void</span> <span class="token function">setCents</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-22-close">(</span><span class="token keyword keyword-int">int</span> cents<span class="token punctuation brace-round brace-close brace-level-2" id="pair-22-open">)</span> <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-28-close">{</span> m_cents <span class="token operator">=</span> cents<span class="token punctuation">;</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-28-open">}</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-29-open">}</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<div
+  class="google-auto-placed"
+  style="width: 100%; height: auto; clear: both; text-align: center"
+>
+  <ins
+    data-ad-format="auto"
+    class="adsbygoogle adsbygoogle-noablate"
+    data-ad-client="ca-pub-0588844875925051"
+    data-adsbygoogle-status="done"
+    style="
+      display: block;
+      margin: 10px auto 9px;
+      background-color: transparent;
+      height: 0px;
+    "
+    ><div
+      id="aswift_8_host"
+      style="
+        border: none;
+        height: 0px;
+        width: 1027px;
+        margin: 0px;
+        padding: 0px;
+        position: relative;
+        visibility: visible;
+        background-color: transparent;
+        display: inline-block;
+        overflow: hidden;
+        opacity: 0;
+      "
+    >
+      <iframe
+        id="aswift_8"
+        name="aswift_8"
+        browsingtopics="true"
+        style="
+          left: 0px;
+          position: absolute;
+          top: 0px;
+          border: 0px;
+          width: 1027px;
+          height: 0px;
+          min-height: auto;
+          max-height: none;
+          min-width: auto;
+          max-width: none;
+        "
+        sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation"
+        width="1027"
+        height="0"
+        frameborder="0"
+        marginwidth="0"
+        marginheight="0"
+        vspace="0"
+        hspace="0"
+        allowtransparency="true"
+        scrolling="no"
+        allow="attribution-reporting; run-ad-auction"
+        src="https://googleads.g.doubleclick.net/pagead/ads?client=ca-pub-0588844875925051&amp;output=html&amp;h=280&amp;adk=2207635013&amp;adf=1032183714&amp;pi=t.aa~a.1108298215~rp.1&amp;w=1027&amp;abgtt=11&amp;fwrn=4&amp;fwrnh=100&amp;lmt=1750272669&amp;rafmt=1&amp;to=qs&amp;pwprc=4633386603&amp;format=1027x280&amp;url=https%3A%2F%2Fwww.learncpp.com%2Fcpp-tutorial%2Foverloading-typecasts%2F&amp;fwr=0&amp;pra=3&amp;rpe=1&amp;resp_fmts=3&amp;wgl=1&amp;fa=40&amp;uach=WyJXaW5kb3dzIiwiMTkuMC4wIiwieDg2IiwiIiwiMTM3LjAuNzE1MS4xMjIiLG51bGwsMCxudWxsLCI2NCIsW1siR29vZ2xlIENocm9tZSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJDaHJvbWl1bSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJOb3QvQSlCcmFuZCIsIjI0LjAuMC4wIl1dLDBd&amp;dt=1751963347388&amp;bpp=1&amp;bdt=1205&amp;idt=1&amp;shv=r20250702&amp;mjsv=m202507020101&amp;ptt=9&amp;saldr=aa&amp;abxe=1&amp;cookie=ID%3D05f6e82287d810b4%3AT%3D1751962604%3ART%3D1751963214%3AS%3DALNI_MaQYA0TSAU2k8xwY5tqlN0xFCcd6g&amp;gpic=UID%3D00001157d9e27d0a%3AT%3D1751962604%3ART%3D1751963214%3AS%3DALNI_MYgtHzQJAQQXY_151HTGSSfVxE8_A&amp;eo_id_str=ID%3D52c21936d98c6d2b%3AT%3D1751962604%3ART%3D1751963214%3AS%3DAA-AfjZsJ15yjdEPJ8d11hPojsJQ&amp;prev_fmts=0x0%2C336x280%2C160x600%2C160x600%2C1027x280&amp;nras=3&amp;correlator=2688071853862&amp;frm=20&amp;pv=1&amp;u_tz=480&amp;u_his=2&amp;u_h=600&amp;u_w=800&amp;u_ah=600&amp;u_aw=800&amp;u_cd=24&amp;u_sd=1&amp;dmc=8&amp;adx=27&amp;ady=2647&amp;biw=1080&amp;bih=1024&amp;scr_x=0&amp;scr_y=0&amp;eid=42532524%2C95353386%2C95362655%2C95363277%2C95365226%2C95365235%2C95365460%2C95365109%2C95359265%2C95365122%2C95365797&amp;oid=2&amp;pvsid=3055469521795276&amp;tmod=1708485235&amp;uas=0&amp;nvt=1&amp;fc=1920&amp;brdim=10%2C10%2C10%2C10%2C800%2C0%2C780%2C580%2C1080%2C1024&amp;vis=1&amp;rsz=%7C%7Cs%7C&amp;abl=NS&amp;fu=128&amp;bc=31&amp;bz=0.72&amp;td=1&amp;tdf=2&amp;psd=W251bGwsbnVsbCxudWxsLDNd&amp;nt=1&amp;ifi=9&amp;uci=a!9&amp;btvi=2&amp;fsb=1&amp;dtd=14"
+        data-google-container-id="a!9"
+        tabindex="0"
+        title="Advertisement"
+        aria-label="Advertisement"
+        data-load-complete="true"
+        data-google-query-id="CPqgtIfsrI4DFVftTAId9S0Z2g"
+      ></iframe></div
+  ></ins>
+</div>
+<p>
+  To do so, we’ve written a new overloaded operator named
+  <code>operator int()</code>. Note that there is a space between the word
+  operator and the type we are casting to.
+</p>
+<p>There are a few things worth noting here:</p>
+<ul>
+  <li>
+    Overloaded typecasts must be non-static members, and should be
+    <code>const</code> so they can be used with const objects.
+  </li>
+  <li>
+    Overloaded typecasts do not have explicit parameters, as there is no way to
+    pass explicit arguments to them. They do still have a hidden
+    <code>*this</code> parameter, pointing to the implicit object (which is the
+    object to be converted).
+  </li>
+  <li>
+    Overloaded typecast do not declare a return type. The name of the conversion
+    (e.g. int) is used as the return type, as it is the only return type
+    allowed. This prevents redundancy in the declaration.
+  </li>
+</ul>
+<p>Now in our example, we can call <code>printInt()</code> like this:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-30-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-30-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-33-close">{</span>
+    Cents cents<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-32-close">{</span> <span class="token number">7</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-32-open">}</span><span class="token punctuation">;</span>
+    <span class="token function">printInt</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-31-close">(</span>cents<span class="token punctuation brace-round brace-close brace-level-2" id="pair-31-open">)</span><span class="token punctuation">;</span> <span class="token comment">// print 7</span>
+
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-33-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  The compiler will first note that function <code>printInt()</code> has an
+  <code>int</code> parameter. Then it will note that variable
+  <code>cents</code> is not an <code>int</code>. Finally, it will look to see if
+  we’ve provided a way to convert a <code>Cents</code> into an <code>int</code>.
+  Since we have, it will call our <code>operator int()</code> function, which
+  returns an <code>int</code>, and the returned <code>int</code> will be passed
+  to <code>printInt()</code>.
+</p>
+<div class="code-block code-block-4" style="margin: 8px 0; clear: both"></div>
+
+<p>
+  Such typecasts can also be invoked explicitly via <code>static_cast</code>:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp">std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token generic-function"><span class="token function">static_cast</span><span class="token generic class-name"><span class="token operator">&lt;</span><span class="token keyword keyword-int">int</span><span class="token operator">&gt;</span></span></span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-34-close">(</span>cents<span class="token punctuation brace-round brace-close brace-level-1" id="pair-34-open">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  You can provide overloaded typecasts for any data type you wish, including
+  your own program-defined data types!
+</p>
+<p>
+  Here’s a new class called <code>Dollars</code> that provides an overloaded
+  <code>Cents</code> conversion:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-class">class</span> <span class="token class-name">Dollars</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-42-close">{</span>
+<span class="token keyword keyword-private">private</span><span class="token operator">:</span>
+    <span class="token keyword keyword-int">int</span> m_dollars<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-37-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-37-open">}</span><span class="token punctuation">;</span>
+<span class="token keyword keyword-public">public</span><span class="token operator">:</span>
+    <span class="token function">Dollars</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-35-close">(</span><span class="token keyword keyword-int">int</span> dollars<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-35-open">)</span>
+        <span class="token operator">:</span> m_dollars<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-38-close">{</span> dollars <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-38-open">}</span>
+    <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-39-close">{</span>
+    <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-39-open">}</span>
+
+     <span class="token comment">// Allow us to convert Dollars into Cents</span>
+     <span class="token keyword keyword-operator">operator</span> <span class="token function">Cents</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-36-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-36-open">)</span> <span class="token keyword keyword-const">const</span> <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-41-close">{</span> <span class="token keyword keyword-return">return</span> Cents<span class="token punctuation brace-curly brace-open brace-level-3" id="pair-40-close">{</span> m_dollars <span class="token operator">*</span> <span class="token number">100</span> <span class="token punctuation brace-curly brace-close brace-level-3" id="pair-40-open">}</span><span class="token punctuation">;</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-41-open">}</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-42-open">}</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  This allows us to convert a <code>Dollars</code> object directly into a
+  <code>Cents</code> object! This allows you to do something like this:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-class">class</span> <span class="token class-name">Cents</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-58-close">{</span>
+<span class="token keyword keyword-private">private</span><span class="token operator">:</span>
+    <span class="token keyword keyword-int">int</span> m_cents<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-52-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-52-open">}</span><span class="token punctuation">;</span>
+<span class="token keyword keyword-public">public</span><span class="token operator">:</span>
+    <span class="token function">Cents</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-43-close">(</span><span class="token keyword keyword-int">int</span> cents<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-43-open">)</span>
+        <span class="token operator">:</span> m_cents<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-53-close">{</span> cents <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-53-open">}</span>
+    <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-54-close">{</span>
+    <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-54-open">}</span>
+
+    <span class="token comment">// Overloaded int cast</span>
+    <span class="token keyword keyword-operator">operator</span> <span class="token keyword keyword-int">int</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-44-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-44-open">)</span> <span class="token keyword keyword-const">const</span> <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-55-close">{</span> <span class="token keyword keyword-return">return</span> m_cents<span class="token punctuation">;</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-55-open">}</span>
+
+    <span class="token keyword keyword-int">int</span> <span class="token function">getCents</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-45-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-45-open">)</span> <span class="token keyword keyword-const">const</span> <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-56-close">{</span> <span class="token keyword keyword-return">return</span> m_cents<span class="token punctuation">;</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-56-open">}</span>
+    <span class="token keyword keyword-void">void</span> <span class="token function">setCents</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-46-close">(</span><span class="token keyword keyword-int">int</span> cents<span class="token punctuation brace-round brace-close brace-level-2" id="pair-46-open">)</span> <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-57-close">{</span> m_cents <span class="token operator">=</span> cents<span class="token punctuation">;</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-57-open">}</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-58-open">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword keyword-class">class</span> <span class="token class-name">Dollars</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-64-close">{</span>
+<span class="token keyword keyword-private">private</span><span class="token operator">:</span>
+    <span class="token keyword keyword-int">int</span> m_dollars<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-59-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-59-open">}</span><span class="token punctuation">;</span>
+<span class="token keyword keyword-public">public</span><span class="token operator">:</span>
+    <span class="token function">Dollars</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-47-close">(</span><span class="token keyword keyword-int">int</span> dollars<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-47-open">)</span>
+        <span class="token operator">:</span> m_dollars<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-60-close">{</span> dollars <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-60-open">}</span>
+    <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-61-close">{</span>
+    <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-61-open">}</span>
+
+    <span class="token comment">// Allow us to convert Dollars into Cents</span>
+    <span class="token keyword keyword-operator">operator</span> <span class="token function">Cents</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-48-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-48-open">)</span> <span class="token keyword keyword-const">const</span> <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-63-close">{</span> <span class="token keyword keyword-return">return</span> Cents <span class="token punctuation brace-curly brace-open brace-level-3" id="pair-62-close">{</span> m_dollars <span class="token operator">*</span> <span class="token number">100</span> <span class="token punctuation brace-curly brace-close brace-level-3" id="pair-62-open">}</span><span class="token punctuation">;</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-63-open">}</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-64-open">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword keyword-void">void</span> <span class="token function">printCents</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-49-close">(</span>Cents cents<span class="token punctuation brace-round brace-close brace-level-1" id="pair-49-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-65-close">{</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> cents<span class="token punctuation">;</span> <span class="token comment">// cents will be implicitly cast to an int here</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-65-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-50-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-50-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-67-close">{</span>
+    Dollars dollars<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-66-close">{</span> <span class="token number">9</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-66-open">}</span><span class="token punctuation">;</span>
+    <span class="token function">printCents</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-51-close">(</span>dollars<span class="token punctuation brace-round brace-close brace-level-2" id="pair-51-open">)</span><span class="token punctuation">;</span> <span class="token comment">// dollars will be implicitly cast to a Cents here</span>
+
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-67-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>Consequently, this program will print the value:</p>
+<div
+  class="google-auto-placed"
+  style="width: 100%; height: auto; clear: both; text-align: center"
+>
+  <ins
+    data-ad-format="auto"
+    class="adsbygoogle adsbygoogle-noablate"
+    data-ad-client="ca-pub-0588844875925051"
+    data-adsbygoogle-status="done"
+    style="
+      display: block;
+      margin: 8px auto 14px;
+      background-color: transparent;
+      height: 280px;
+    "
+    ><div
+      id="aswift_9_host"
+      style="
+        border: none;
+        height: 280px;
+        width: 1027px;
+        margin: 0px;
+        padding: 0px;
+        position: relative;
+        visibility: visible;
+        background-color: transparent;
+        display: inline-block;
+      "
+    ></div
+  ></ins>
+</div>
+<div class="code-block code-block-5" style="margin: 8px 0; clear: both"></div>
+
+<pre>
+900
+</pre>
+<p>which makes sense, since 9 dollars is 900 cents!</p>
+<p>
+  Although this demonstrates that such a thing is possible, in this case, adding
+  a converting constructor to <code>Dollars</code> (with a parameter of type
+  <code>Cents</code>) is actually preferable. We’ll discuss why below.
+</p>
+<p class="cpp-section cpp-topline" style="clear: both">Explicit typecasts</p>
+<p>
+  Just like we can make constructors <code>explicit</code> so that they can’t be
+  used for implicit conversions, we can also make our overloaded typecasts
+  <code>explicit</code> for the same reason. Explicit typecasts can only be
+  invoked by casting (e.g. <code>static_cast</code>) or by a form of direct
+  initialization (either parenthesis or brace). They are not considered when
+  doing copy-initialization.
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-class">class</span> <span class="token class-name">Cents</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-84-close">{</span>
+<span class="token keyword keyword-private">private</span><span class="token operator">:</span>
+    <span class="token keyword keyword-int">int</span> m_cents<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-78-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-78-open">}</span><span class="token punctuation">;</span>
+<span class="token keyword keyword-public">public</span><span class="token operator">:</span>
+    <span class="token function">Cents</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-68-close">(</span><span class="token keyword keyword-int">int</span> cents<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-68-open">)</span>
+        <span class="token operator">:</span> m_cents<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-79-close">{</span> cents <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-79-open">}</span>
+    <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-80-close">{</span>
+    <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-80-open">}</span>
+
+    <span class="token keyword keyword-explicit">explicit</span> <span class="token keyword keyword-operator">operator</span> <span class="token keyword keyword-int">int</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-69-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-69-open">)</span> <span class="token keyword keyword-const">const</span> <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-81-close">{</span> <span class="token keyword keyword-return">return</span> m_cents<span class="token punctuation">;</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-81-open">}</span> <span class="token comment">// now marked as explicit</span>
+
+    <span class="token keyword keyword-int">int</span> <span class="token function">getCents</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-70-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-70-open">)</span> <span class="token keyword keyword-const">const</span> <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-82-close">{</span> <span class="token keyword keyword-return">return</span> m_cents<span class="token punctuation">;</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-82-open">}</span>
+    <span class="token keyword keyword-void">void</span> <span class="token function">setCents</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-71-close">(</span><span class="token keyword keyword-int">int</span> cents<span class="token punctuation brace-round brace-close brace-level-2" id="pair-71-open">)</span> <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-83-close">{</span> m_cents <span class="token operator">=</span> cents<span class="token punctuation">;</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-83-open">}</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-84-open">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword keyword-class">class</span> <span class="token class-name">Dollars</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-90-close">{</span>
+<span class="token keyword keyword-private">private</span><span class="token operator">:</span>
+    <span class="token keyword keyword-int">int</span> m_dollars<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-85-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-85-open">}</span><span class="token punctuation">;</span>
+<span class="token keyword keyword-public">public</span><span class="token operator">:</span>
+    <span class="token function">Dollars</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-72-close">(</span><span class="token keyword keyword-int">int</span> dollars<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-72-open">)</span>
+        <span class="token operator">:</span> m_dollars<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-86-close">{</span> dollars <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-86-open">}</span>
+    <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-87-close">{</span>
+    <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-87-open">}</span>
+
+    <span class="token keyword keyword-operator">operator</span> <span class="token function">Cents</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-73-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-73-open">)</span> <span class="token keyword keyword-const">const</span> <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-89-close">{</span> <span class="token keyword keyword-return">return</span> Cents <span class="token punctuation brace-curly brace-open brace-level-3" id="pair-88-close">{</span> m_dollars <span class="token operator">*</span> <span class="token number">100</span> <span class="token punctuation brace-curly brace-close brace-level-3" id="pair-88-open">}</span><span class="token punctuation">;</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-89-open">}</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-90-open">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword keyword-void">void</span> <span class="token function">printCents</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-74-close">(</span>Cents cents<span class="token punctuation brace-round brace-close brace-level-1" id="pair-74-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-91-close">{</span>
+<span class="token comment">//  std::cout &lt;&lt; cents;                   // no longer works because cents won't implicit convert to an int</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token generic-function"><span class="token function">static_cast</span><span class="token generic class-name"><span class="token operator">&lt;</span><span class="token keyword keyword-int">int</span><span class="token operator">&gt;</span></span></span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-75-close">(</span>cents<span class="token punctuation brace-round brace-close brace-level-2" id="pair-75-open">)</span><span class="token punctuation">;</span> <span class="token comment">// we can use an explicit cast instead</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-91-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-76-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-76-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-93-close">{</span>
+    Dollars dollars<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-92-close">{</span> <span class="token number">9</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-92-open">}</span><span class="token punctuation">;</span>
+    <span class="token function">printCents</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-77-close">(</span>dollars<span class="token punctuation brace-round brace-close brace-level-2" id="pair-77-open">)</span><span class="token punctuation">;</span> <span class="token comment">// implicit conversion from Dollars to Cents okay because its not marked as explicit</span>
+
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-93-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  Typecasts should be generally be marked as explicit. Exceptions can be made in
+  cases where the conversion inexpensively converts to a similar user-defined
+  type. Our <code>Dollars::operator Cents()</code> typecast was left
+  non-explicit because there is no reason not to let a
+  <code>Dollars</code> object be used anywhere a <code>Cents</code> is expected.
+</p>
+<div class="cpp-note cpp-lightgreenbackground">
+  <p class="cpp-note-title cpp-bottomline">Best practice</p>
+  <p>
+    Just like single-parameter converting constructors should be marked as
+    explicit, typecasts should be marked as explicit, except in cases where the
+    type to be converted to is essentially synonymous with the destination type.
+  </p>
+</div>
+<p class="cpp-section cpp-topline" style="clear: both">
+  When to use converting constructors vs overloaded typecasts
+</p>
+<div class="code-block code-block-6" style="margin: 8px 0; clear: both"></div>
+
+<p>
+  Overloaded typecasts and converting constructors perform similar functions:
+</p>
+<ul>
+  <li>
+    A converting constructor is a member function of class type B that defines
+    how B is created from A.
+  </li>
+  <li>
+    An overloaded typecast is a member function of class type A that defines how
+    A is converted to B.
+  </li>
+</ul>
+<p>
+  In both cases, we start with an A, and we end up with a B. The main difference
+  between the two is whether A or B has ownership of how the conversion happens.
+</p>
+<p>
+  Since both ways require defining a member function, they can only be used for
+  class types that can be modified. If A is not a class type that can be
+  modified, then you can’t use an overloaded typecast. If B is not a class type
+  that can be modified, then you can’t use a converting constructor. If neither
+  are class types that can be modified, then you will need to use a non-member
+  conversion function instead.
+</p>
+<div
+  class="google-auto-placed ap_container"
+  style="width: 100%; height: auto; clear: both; text-align: center"
+>
+  <ins
+    data-ad-format="auto"
+    class="adsbygoogle adsbygoogle-noablate"
+    data-ad-client="ca-pub-0588844875925051"
+    data-adsbygoogle-status="done"
+    style="
+      display: block;
+      margin: auto;
+      background-color: transparent;
+      height: 280px;
+    "
+    ><div
+      id="aswift_5_host"
+      style="
+        border: none;
+        height: 280px;
+        width: 1027px;
+        margin: 0px;
+        padding: 0px;
+        position: relative;
+        visibility: visible;
+        background-color: transparent;
+        display: inline-block;
+      "
+    ></div
+  ></ins>
+</div>
+<p>
+  In cases where A and B are both class types that can be modified, we could use
+  either. But since we need only one, which should we prefer?
+</p>
+<p>
+  In general, a converting constructor should be preferred to an overloaded
+  typecast. All other things equal, it is cleaner for a class type to own its
+  own construction, rather than rely on another class to create and initialize
+  it.
+</p>
+<div class="code-block code-block-7" style="margin: 8px 0; clear: both"></div>
+
+<div class="cpp-note cpp-lightgreenbackground">
+  <p class="cpp-note-title cpp-bottomline">Best practice</p>
+  <p>
+    When possible, prefer converting constructors, and avoid overloaded
+    typecasts.
+  </p>
+</div>
+<p>
+  There are a few cases where an overloaded typecast should be used instead:
+</p>
+<ul>
+  <li>
+    When providing a conversion to a fundamental type (since you can’t define
+    constructors for these types). Most conventionally, these are used to
+    provide a conversion to <code>bool</code> for cases where it makes sense to
+    be able to use an object in a conditional statement.
+  </li>
+  <li>When the conversion returns a reference or const reference.</li>
+  <li>
+    When providing a conversion to a type you can’t add members to (e.g. a
+    conversion to <code>std::vector</code>, since you can’t define constructors
+    for these types either).
+  </li>
+  <li>
+    When you do not want the type being constructed to be aware of the type
+    being converted from. This can be helpful for avoiding circular
+    dependencies.
+  </li>
+</ul>
+<p>
+  For an example of that last bullet, <code>std::string</code> has a constructor
+  to create a <code>std::string</code> from a <code>std::string_view</code>.
+  This means <code>&lt;string&gt;</code> must include
+  <code>&lt;string_view&gt;</code>. If <code>std::string_view</code> had a
+  constructor to create a <code>std::string_view</code> from a
+  <code>std::string</code>, then <code>&lt;string_view&gt;</code> would need to
+  include <code>&lt;string&gt;</code>, and this would result in a circular
+  dependency between headers.
+</p>
+<p>
+  Instead, <code>std::string</code> has an overloaded typecast that handles
+  conversion from <code>std::string</code> to
+  <code>std::string_view</code> (which is fine, since it’s already including
+  <code>&lt;string_view&gt;</code>). <code>std::string_view</code> does not know
+  about <code>std::string</code> at all, and thus does not need to include
+  <code>&lt;string&gt;</code>. In this way, the circular dependency is avoided.
+</p>
+<div
+  class="google-auto-placed ap_container"
+  style="width: 100%; height: auto; clear: both; text-align: center"
+>
+  <ins
+    data-ad-format="auto"
+    class="adsbygoogle adsbygoogle-noablate"
+    data-ad-client="ca-pub-0588844875925051"
+    data-adsbygoogle-status="done"
+    style="
+      display: block;
+      margin: auto;
+      background-color: transparent;
+      height: 280px;
+    "
+    ><div
+      id="aswift_6_host"
+      style="
+        border: none;
+        height: 280px;
+        width: 1027px;
+        margin: 0px;
+        padding: 0px;
+        position: relative;
+        visibility: visible;
+        background-color: transparent;
+        display: inline-block;
+      "
+    ></div
+  ></ins>
+</div>
+<p>
+  When a converting constructor and an overloaded typecast are both defined for
+  the same conversion, both are considered during overload resolution. Depending
+  on whether the overloaded typecast is const, the object being converted is
+  const, and what type of cast or initialization is used (copy vs direct),
+  either function might be chosen (which can result a typecast being selected
+  over a converting constructor), or the result can be ambiguous (resulting in a
+  compile error). For this reason, you should avoid defining both an overloaded
+  typecast and a converting constructor that can serve the same conversion.
+</p>
+<div class="cpp-note cpp-lightgreenbackground">
+  <p class="cpp-note-title cpp-bottomline">Best practice</p>
+  <p>When you need to define how convert type A to type B:</p>
+  <ul>
+    <li>
+      If B is a class type you can modify, prefer using a converting constructor
+      to create B from A.
+    </li>
+    <li>
+      Otherwise, if A is a class type you can modify, use an overloaded typecast
+      to convert A to B.
+    </li>
+    <li>Otherwise use a non-member function to convert A to B.</li>
+  </ul>
+</div>
+<div class="prevnext">
+  <div class="prevnext-inline">
+    <a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/overloading-the-assignment-operator/"
+    >
+      <div class="nav-button nav-button-next">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-right" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Next lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">21.12</span>Overloading the
+            assignment operator
+          </div>
+        </div>
+      </div></a
+    >
+    <a class="nav-link" href="/">
+      <div class="nav-button nav-button-index">
+        <div class="nav-button-icon">
+          <i class="fa fa-home" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Back to table of contents</div>
+        </div>
+      </div></a
+    >
+    <a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/overloading-the-parenthesis-operator/"
+    >
+      <div class="nav-button nav-button-prev">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-left" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Previous lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">21.10</span>Overloading the
+            parenthesis operator
+          </div>
+        </div>
+      </div></a
+    >
+  </div>
+</div>
+<div class="code-block code-block-10" style="margin: 8px 0; clear: both"></div>

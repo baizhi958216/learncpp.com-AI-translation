@@ -1,0 +1,1006 @@
+<div
+  class="code-block code-block-1"
+  style="margin: 8px 8px 8px 0; float: left"
+></div>
+<p>
+  In the previous lesson, we explored a strategy for finding issues by running
+  our programs and using guesswork to home in on where the problem is. In this
+  lesson, we’ll explore some basic tactics for actually making those guesses and
+  collecting information to help find issues.
+</p>
+<p class="cpp-section" data-ezoic-video-excluded="1">
+  Debugging tactic #1: Commenting out your code
+</p>
+<p>
+  Let’s start with an easy one. If your program is exhibiting erroneous
+  behavior, one way to reduce the amount of code you have to search through is
+  to comment some code out and see if the issue persists. If the issue remains
+  unchanged, the commented out code probably wasn’t responsible.
+</p>
+<p>Consider the following code:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-298-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-298-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-303-close">{</span>
+    <span class="token function">getNames</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-299-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-299-open">)</span><span class="token punctuation">;</span> <span class="token comment">// ask user to enter a bunch of names</span>
+    <span class="token function">doMaintenance</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-300-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-300-open">)</span><span class="token punctuation">;</span> <span class="token comment">// do some random stuff</span>
+    <span class="token function">sortNames</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-301-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-301-open">)</span><span class="token punctuation">;</span> <span class="token comment">// sort them in alphabetical order</span>
+    <span class="token function">printNames</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-302-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-302-open">)</span><span class="token punctuation">;</span> <span class="token comment">// print the sorted list of names</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-303-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  Let’s say this program is supposed to print the names the user enters in
+  alphabetical order, but its printing them in reverse alphabetical order.
+  Where’s the problem? Is <em>getNames</em> entering the names incorrectly? Is
+  <em>sortNames</em> sorting them backwards? Is <em>printNames</em> printing
+  them backwards? It could be any of those things. But we might suspect
+  doMaintenance() has nothing to do with the problem, so let’s comment it out.
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-304-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-304-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-308-close">{</span>
+    <span class="token function">getNames</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-305-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-305-open">)</span><span class="token punctuation">;</span> <span class="token comment">// ask user to enter a bunch of names</span>
+<span class="token comment">//    doMaintenance(); // do some random stuff</span>
+    <span class="token function">sortNames</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-306-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-306-open">)</span><span class="token punctuation">;</span> <span class="token comment">// sort them in alphabetical order</span>
+    <span class="token function">printNames</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-307-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-307-open">)</span><span class="token punctuation">;</span> <span class="token comment">// print the sorted list of names</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-308-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>There are three likely outcomes:</p>
+<div class="code-block code-block-2" style="margin: 8px 0; clear: both"></div>
+
+<ul>
+  <li>
+    If the problem goes away, then <em>doMaintenance</em> must be causing the
+    problem, and we should focus our attention there.
+  </li>
+  <li>
+    If the problem is unchanged (which is more likely), then we can reasonably
+    assume that <em>doMaintenance</em> wasn’t at fault, and we can exclude the
+    entire function from our search for now. This doesn’t help us understand
+    whether the actual problem is before or after the call to
+    <em>doMaintenance</em>, but it reduces the amount of code we have to
+    subsequently look through.
+  </li>
+  <li>
+    If commenting out <em>doMaintenance</em> causes the problem to morph into
+    some other related problem (e.g. the program stops printing names), then
+    it’s likely that <em>doMaintenance</em> is doing something useful that some
+    other code is dependent on. In this case, we probably can’t tell whether the
+    issue is in <em>doMaintenance</em> or elsewhere, so we can uncomment
+    <em>doMaintenance</em> and try some other approach.
+  </li>
+</ul>
+<div class="cpp-note cpp-lightredbackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Warning</p>
+  <p>
+    Don’t forget which functions you’ve commented out so you can uncomment them
+    later!
+  </p>
+  <p>
+    After making many debugging-related changes, it’s very easy to miss undoing
+    one or two. If that happens, you’ll end up fixing one bug but introducing
+    others!
+  </p>
+  <p>
+    Having a good version control system is extremely useful here, as you can
+    diff your code against the main branch to see all the debugging-related
+    changes you’ve made (and ensure that they are reverted before you commit
+    your change).
+  </p>
+</div>
+<div class="cpp-note cpp-lightbluebackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Tip</p>
+  <p>
+    An alternate approach to repeatedly adding/removing or
+    uncommenting/commenting debug statements is to use a 3rd party library that
+    will let you leave debug statements in your code but compile them out in
+    release mode via a preprocessor macro.
+    <a href="https://github.com/sharkdp/dbg-macro/blob/master/dbg.h">dbg</a> is
+    one such header-only library that exists to help facilitate this (via the
+    <code>DBG_MACRO_DISABLE</code> preprocessor macro).
+  </p>
+  <p>
+    We discuss header-only libraries in lesson
+    <a
+      href="https://www.learncpp.com/cpp-tutorial/inline-functions-and-variables/"
+      >7.9 -- Inline functions and variables</a
+    >.
+  </p>
+</div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Debugging tactic #2: Validating your code flow
+</p>
+<p>
+  Another problem common in more complex programs is that the program is calling
+  a function too many or too few times (including not at all).
+</p>
+<p>
+  In such cases, it can be helpful to place statements at the top of your
+  functions to print the function’s name. That way, when the program runs, you
+  can see which functions are getting called.
+</p>
+<div class="cpp-note cpp-lightbluebackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Tip</p>
+  <p>
+    When printing information for debugging purposes, use
+    <code>std::cerr</code> instead of <code>std::cout</code>. One reason for
+    this is that <code>std::cout</code> may be buffered, which means a bit of
+    time may pass between when you ask <code>std::cout</code> to output text and
+    when it actually does. If you output using <code>std::cout</code> and then
+    your program crashes immediately afterward, <code>std::cout</code> may or
+    may not have actually output yet. This can mislead you about where the issue
+    is. On the other hand, <code>std::cerr</code> is unbuffered, which means
+    anything you send to it will output immediately. This helps ensure all debug
+    output appears as soon as possible (at the cost of some performance, which
+    we usually don’t care about when debugging).
+  </p>
+  <p>
+    Using <code>std::cerr</code> also helps make clear that the information
+    being output is for an error case rather than a normal case.
+  </p>
+  <p>
+    We discuss when to use <code>std::cout</code> vs
+    <code>std::cerr</code> further in lesson
+    <a
+      href="https://www.learncpp.com/cpp-tutorial/detecting-and-handling-errors/"
+      >9.4 -- Detecting and handling errors</a
+    >.
+  </p>
+</div>
+<p>Consider the following simple program that doesn’t work correctly:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">getValue</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-309-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-309-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-311-close">{</span>
+	<span class="token keyword keyword-return">return</span> <span class="token number">4</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-311-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-310-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-310-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-312-close">{</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> getValue <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-312-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  You may need to disable “Treat warnings as errors” for the above to compile.
+</p>
+<div class="code-block code-block-3" style="margin: 8px 0; clear: both"></div>
+
+<p>
+  Although we expect this program to print the value <em>4</em>, it should print
+  the value:
+</p>
+<pre>
+1
+</pre>
+<p>
+  On Visual Studio (and possibly some other compilers), it may print the
+  following instead:
+</p>
+<pre>
+00101424
+</pre>
+<div class="cpp-note cpp-lightgraybackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Related content</p>
+  <p>
+    We discuss why some compilers print <code>1</code> vs an address (and what
+    to do if your compiler prints <code>1</code> but you want it to print an
+    address) in lesson
+    <a href="https://www.learncpp.com/cpp-tutorial/function-pointers/"
+      >20.1 -- Function Pointers</a
+    >.
+  </p>
+</div>
+<p>Let’s add some debugging statements to these functions:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">getValue</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-313-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-313-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-315-close">{</span>
+std<span class="token double-colon punctuation">::</span>cerr <span class="token operator">&lt;&lt;</span> <span class="token string">"getValue() called\n"</span><span class="token punctuation">;</span>
+	<span class="token keyword keyword-return">return</span> <span class="token number">4</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-315-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-314-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-314-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-316-close">{</span>
+std<span class="token double-colon punctuation">::</span>cerr <span class="token operator">&lt;&lt;</span> <span class="token string">"main() called\n"</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> getValue <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-316-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<div class="cpp-note cpp-lightbluebackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Tip</p>
+  <p>
+    When adding temporary debug statements, it can be helpful to not indent
+    them. This makes them easier to find for removal later.
+  </p>
+  <p>
+    If you are using clang-format to format your code, it will try to
+    auto-indent these lines. You can suppress the automatic formatting like
+    this:
+  </p>
+  <div class="code-toolbar">
+    <pre
+      class="line-numbers language-cpp"
+      tabindex="0"
+    ><code class="match-braces language-cpp"><span class="token comment">// clang-format off</span>
+std<span class="token double-colon punctuation">::</span>cerr <span class="token operator">&lt;&lt;</span> <span class="token string">"main() called\n"</span><span class="token punctuation">;</span>
+<span class="token comment">// clang-format on</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+    <div class="toolbar">
+      <div class="toolbar-item">
+        <button
+          class="copy-to-clipboard-button"
+          type="button"
+          data-copy-state="copy"
+        >
+          <span>Copy</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<p>
+  Now when these functions execute, they’ll output their names, indicating that
+  they were called:
+</p>
+<pre>
+main() called
+1
+</pre>
+<p>
+  Now we can see that function <em>getValue</em> was never called. There must be
+  some problem with the code that calls the function. Let’s take a closer look
+  at that line:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp">std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> getValue <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>Oh, look, we forgot the parenthesis on the function call. It should be:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">getValue</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-317-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-317-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-320-close">{</span>
+std<span class="token double-colon punctuation">::</span>cerr <span class="token operator">&lt;&lt;</span> <span class="token string">"getValue() called\n"</span><span class="token punctuation">;</span>
+	<span class="token keyword keyword-return">return</span> <span class="token number">4</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-320-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-318-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-318-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-321-close">{</span>
+std<span class="token double-colon punctuation">::</span>cerr <span class="token operator">&lt;&lt;</span> <span class="token string">"main() called\n"</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token function">getValue</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-319-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-319-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span> <span class="token comment">// added parenthesis here</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-321-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>This will now produce the correct output</p>
+<div class="code-block code-block-4" style="margin: 8px 0; clear: both"></div>
+
+<pre>
+main() called
+getValue() called
+4
+</pre>
+<p>And we can remove the temporary debugging statements.</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Debugging tactic #3: Printing values
+</p>
+<p>
+  With some types of bugs, the program may be calculating or passing the wrong
+  value.
+</p>
+<p>
+  We can also output the value of variables (including parameters) or
+  expressions to ensure that they are correct.
+</p>
+<p>
+  Consider the following program that is supposed to add two numbers but doesn’t
+  work correctly:
+</p>
+<div class="code-block code-block-5" style="margin: 8px 0; clear: both"></div>
+
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">add</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-322-close">(</span><span class="token keyword keyword-int">int</span> x<span class="token punctuation">,</span> <span class="token keyword keyword-int">int</span> y<span class="token punctuation brace-round brace-close brace-level-1" id="pair-322-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-330-close">{</span>
+	<span class="token keyword keyword-return">return</span> x <span class="token operator">+</span> y<span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-330-open">}</span>
+
+<span class="token keyword keyword-void">void</span> <span class="token function">printResult</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-323-close">(</span><span class="token keyword keyword-int">int</span> z<span class="token punctuation brace-round brace-close brace-level-1" id="pair-323-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-331-close">{</span>
+	std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"The answer is: "</span> <span class="token operator">&lt;&lt;</span> z <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-331-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">getUserInput</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-324-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-324-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-333-close">{</span>
+	std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Enter a number: "</span><span class="token punctuation">;</span>
+	<span class="token keyword keyword-int">int</span> x<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-332-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-332-open">}</span><span class="token punctuation">;</span>
+	std<span class="token double-colon punctuation">::</span>cin <span class="token operator">&gt;&gt;</span> x<span class="token punctuation">;</span>
+	<span class="token keyword keyword-return">return</span> x<span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-333-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-325-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-325-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-337-close">{</span>
+	<span class="token keyword keyword-int">int</span> x<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-334-close">{</span> <span class="token function">getUserInput</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-326-close">(</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-326-open">)</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-334-open">}</span><span class="token punctuation">;</span>
+	<span class="token keyword keyword-int">int</span> y<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-335-close">{</span> <span class="token function">getUserInput</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-327-close">(</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-327-open">)</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-335-open">}</span><span class="token punctuation">;</span>
+
+	<span class="token keyword keyword-int">int</span> z<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-336-close">{</span> <span class="token function">add</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-328-close">(</span>x<span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-328-open">)</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-336-open">}</span><span class="token punctuation">;</span>
+	<span class="token function">printResult</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-329-close">(</span>z<span class="token punctuation brace-round brace-close brace-level-2" id="pair-329-open">)</span><span class="token punctuation">;</span>
+
+	<span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-337-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>Here’s some output from this program:</p>
+<pre>
+Enter a number: 4
+Enter a number: 3
+The answer is: 9
+</pre>
+<p>
+  That’s not right. Do you see the error? Even in this short program, it can be
+  hard to spot. Let’s add some code to debug our values:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">add</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-338-close">(</span><span class="token keyword keyword-int">int</span> x<span class="token punctuation">,</span> <span class="token keyword keyword-int">int</span> y<span class="token punctuation brace-round brace-close brace-level-1" id="pair-338-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-346-close">{</span>
+	<span class="token keyword keyword-return">return</span> x <span class="token operator">+</span> y<span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-346-open">}</span>
+
+<span class="token keyword keyword-void">void</span> <span class="token function">printResult</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-339-close">(</span><span class="token keyword keyword-int">int</span> z<span class="token punctuation brace-round brace-close brace-level-1" id="pair-339-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-347-close">{</span>
+	std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"The answer is: "</span> <span class="token operator">&lt;&lt;</span> z <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-347-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">getUserInput</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-340-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-340-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-349-close">{</span>
+	std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Enter a number: "</span><span class="token punctuation">;</span>
+	<span class="token keyword keyword-int">int</span> x<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-348-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-348-open">}</span><span class="token punctuation">;</span>
+	std<span class="token double-colon punctuation">::</span>cin <span class="token operator">&gt;&gt;</span> x<span class="token punctuation">;</span>
+	<span class="token keyword keyword-return">return</span> x<span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-349-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-341-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-341-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-353-close">{</span>
+	<span class="token keyword keyword-int">int</span> x<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-350-close">{</span> <span class="token function">getUserInput</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-342-close">(</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-342-open">)</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-350-open">}</span><span class="token punctuation">;</span>
+std<span class="token double-colon punctuation">::</span>cerr <span class="token operator">&lt;&lt;</span> <span class="token string">"main::x = "</span> <span class="token operator">&lt;&lt;</span> x <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+	<span class="token keyword keyword-int">int</span> y<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-351-close">{</span> <span class="token function">getUserInput</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-343-close">(</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-343-open">)</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-351-open">}</span><span class="token punctuation">;</span>
+std<span class="token double-colon punctuation">::</span>cerr <span class="token operator">&lt;&lt;</span> <span class="token string">"main::y = "</span> <span class="token operator">&lt;&lt;</span> y <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+	<span class="token keyword keyword-int">int</span> z<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-352-close">{</span> <span class="token function">add</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-344-close">(</span>x<span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-344-open">)</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-352-open">}</span><span class="token punctuation">;</span>
+std<span class="token double-colon punctuation">::</span>cerr <span class="token operator">&lt;&lt;</span> <span class="token string">"main::z = "</span> <span class="token operator">&lt;&lt;</span> z <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+	<span class="token function">printResult</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-345-close">(</span>z<span class="token punctuation brace-round brace-close brace-level-2" id="pair-345-open">)</span><span class="token punctuation">;</span>
+
+	<span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-353-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>Here’s the above output:</p>
+<pre>
+Enter a number: 4
+main::x = 4
+Enter a number: 3
+main::y = 3
+main::z = 9
+The answer is: 9
+</pre>
+<p>
+  Variables <em>x</em> and <em>y</em> are getting the right values, but variable
+  <em>z</em> isn’t. The issue must be between those two points, which makes
+  function <em>add</em> a key suspect.
+</p>
+<p>Let’s modify function add:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">add</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-354-close">(</span><span class="token keyword keyword-int">int</span> x<span class="token punctuation">,</span> <span class="token keyword keyword-int">int</span> y<span class="token punctuation brace-round brace-close brace-level-1" id="pair-354-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-362-close">{</span>
+std<span class="token double-colon punctuation">::</span>cerr <span class="token operator">&lt;&lt;</span> <span class="token string">"add() called (x="</span> <span class="token operator">&lt;&lt;</span> x <span class="token operator">&lt;&lt;</span><span class="token string">", y="</span> <span class="token operator">&lt;&lt;</span> y <span class="token operator">&lt;&lt;</span> <span class="token string">")\n"</span><span class="token punctuation">;</span>
+	<span class="token keyword keyword-return">return</span> x <span class="token operator">+</span> y<span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-362-open">}</span>
+
+<span class="token keyword keyword-void">void</span> <span class="token function">printResult</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-355-close">(</span><span class="token keyword keyword-int">int</span> z<span class="token punctuation brace-round brace-close brace-level-1" id="pair-355-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-363-close">{</span>
+	std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"The answer is: "</span> <span class="token operator">&lt;&lt;</span> z <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-363-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">getUserInput</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-356-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-356-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-365-close">{</span>
+	std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Enter a number: "</span><span class="token punctuation">;</span>
+	<span class="token keyword keyword-int">int</span> x<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-364-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-364-open">}</span><span class="token punctuation">;</span>
+	std<span class="token double-colon punctuation">::</span>cin <span class="token operator">&gt;&gt;</span> x<span class="token punctuation">;</span>
+	<span class="token keyword keyword-return">return</span> x<span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-365-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-357-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-357-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-369-close">{</span>
+	<span class="token keyword keyword-int">int</span> x<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-366-close">{</span> <span class="token function">getUserInput</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-358-close">(</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-358-open">)</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-366-open">}</span><span class="token punctuation">;</span>
+std<span class="token double-colon punctuation">::</span>cerr <span class="token operator">&lt;&lt;</span> <span class="token string">"main::x = "</span> <span class="token operator">&lt;&lt;</span> x <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+	<span class="token keyword keyword-int">int</span> y<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-367-close">{</span> <span class="token function">getUserInput</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-359-close">(</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-359-open">)</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-367-open">}</span><span class="token punctuation">;</span>
+std<span class="token double-colon punctuation">::</span>cerr <span class="token operator">&lt;&lt;</span> <span class="token string">"main::y = "</span> <span class="token operator">&lt;&lt;</span> y <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+	<span class="token keyword keyword-int">int</span> z<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-368-close">{</span> <span class="token function">add</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-360-close">(</span>x<span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-360-open">)</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-368-open">}</span><span class="token punctuation">;</span>
+std<span class="token double-colon punctuation">::</span>cerr <span class="token operator">&lt;&lt;</span> <span class="token string">"main::z = "</span> <span class="token operator">&lt;&lt;</span> z <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+	<span class="token function">printResult</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-361-close">(</span>z<span class="token punctuation brace-round brace-close brace-level-2" id="pair-361-open">)</span><span class="token punctuation">;</span>
+
+	<span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-369-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>Now we’ll get the output:</p>
+<div class="code-block code-block-6" style="margin: 8px 0; clear: both"></div>
+
+<pre>
+Enter a number: 4
+main::x = 4
+Enter a number: 3
+main::y = 3
+add() called (x=4, y=5)
+main::z = 9
+The answer is: 9
+</pre>
+<p>
+  Variable <em>y</em> had value 3, but somehow our function <em>add</em> got the
+  value 5 for parameter <em>y</em>. We must have passed the wrong argument. Sure
+  enough:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-int">int</span> z<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-371-close">{</span> <span class="token function">add</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-370-close">(</span>x<span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-370-open">)</span> <span class="token punctuation brace-curly brace-close brace-level-1" id="pair-371-open">}</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  There it is. We passed the literal <em>5</em> instead of the value of variable
+  <em>y</em> as an argument. That’s an easy fix, and then we can remove the
+  debug statements.
+</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  One more example
+</p>
+<p>
+  This program is very similar to the prior one, but also doesn’t work like it
+  should:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">add</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-372-close">(</span><span class="token keyword keyword-int">int</span> x<span class="token punctuation">,</span> <span class="token keyword keyword-int">int</span> y<span class="token punctuation brace-round brace-close brace-level-1" id="pair-372-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-380-close">{</span>
+	<span class="token keyword keyword-return">return</span> x <span class="token operator">+</span> y<span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-380-open">}</span>
+
+<span class="token keyword keyword-void">void</span> <span class="token function">printResult</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-373-close">(</span><span class="token keyword keyword-int">int</span> z<span class="token punctuation brace-round brace-close brace-level-1" id="pair-373-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-381-close">{</span>
+	std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"The answer is: "</span> <span class="token operator">&lt;&lt;</span> z <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-381-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">getUserInput</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-374-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-374-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-383-close">{</span>
+	std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Enter a number: "</span><span class="token punctuation">;</span>
+	<span class="token keyword keyword-int">int</span> x<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-382-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-382-open">}</span><span class="token punctuation">;</span>
+	std<span class="token double-colon punctuation">::</span>cin <span class="token operator">&gt;&gt;</span> x<span class="token punctuation">;</span>
+	<span class="token keyword keyword-return">return</span> <span class="token operator">--</span>x<span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-383-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-375-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-375-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-387-close">{</span>
+	<span class="token keyword keyword-int">int</span> x<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-384-close">{</span> <span class="token function">getUserInput</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-376-close">(</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-376-open">)</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-384-open">}</span><span class="token punctuation">;</span>
+	<span class="token keyword keyword-int">int</span> y<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-385-close">{</span> <span class="token function">getUserInput</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-377-close">(</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-377-open">)</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-385-open">}</span><span class="token punctuation">;</span>
+
+	<span class="token keyword keyword-int">int</span> z <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-386-close">{</span> <span class="token function">add</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-378-close">(</span>x<span class="token punctuation">,</span> y<span class="token punctuation brace-round brace-close brace-level-3" id="pair-378-open">)</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-386-open">}</span><span class="token punctuation">;</span>
+	<span class="token function">printResult</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-379-close">(</span>z<span class="token punctuation brace-round brace-close brace-level-2" id="pair-379-open">)</span><span class="token punctuation">;</span>
+
+	<span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-387-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>If we run this code and see the following:</p>
+<pre>
+Enter a number: 4
+Enter a number: 3
+The answer is: 5
+</pre>
+<p>Hmmm, something is wrong. But where?</p>
+<div class="code-block code-block-7" style="margin: 8px 0; clear: both"></div>
+
+<p>Let’s instrument this code with some debugging:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">add</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-388-close">(</span><span class="token keyword keyword-int">int</span> x<span class="token punctuation">,</span> <span class="token keyword keyword-int">int</span> y<span class="token punctuation brace-round brace-close brace-level-1" id="pair-388-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-396-close">{</span>
+std<span class="token double-colon punctuation">::</span>cerr <span class="token operator">&lt;&lt;</span> <span class="token string">"add() called (x="</span> <span class="token operator">&lt;&lt;</span> x <span class="token operator">&lt;&lt;</span> <span class="token string">", y="</span> <span class="token operator">&lt;&lt;</span> y <span class="token operator">&lt;&lt;</span> <span class="token string">")\n"</span><span class="token punctuation">;</span>
+	<span class="token keyword keyword-return">return</span> x <span class="token operator">+</span> y<span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-396-open">}</span>
+
+<span class="token keyword keyword-void">void</span> <span class="token function">printResult</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-389-close">(</span><span class="token keyword keyword-int">int</span> z<span class="token punctuation brace-round brace-close brace-level-1" id="pair-389-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-397-close">{</span>
+std<span class="token double-colon punctuation">::</span>cerr <span class="token operator">&lt;&lt;</span> <span class="token string">"printResult() called (z="</span> <span class="token operator">&lt;&lt;</span> z <span class="token operator">&lt;&lt;</span> <span class="token string">")\n"</span><span class="token punctuation">;</span>
+	std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"The answer is: "</span> <span class="token operator">&lt;&lt;</span> z <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-397-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">getUserInput</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-390-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-390-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-399-close">{</span>
+std<span class="token double-colon punctuation">::</span>cerr <span class="token operator">&lt;&lt;</span> <span class="token string">"getUserInput() called\n"</span><span class="token punctuation">;</span>
+	std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Enter a number: "</span><span class="token punctuation">;</span>
+	<span class="token keyword keyword-int">int</span> x<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-398-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-398-open">}</span><span class="token punctuation">;</span>
+	std<span class="token double-colon punctuation">::</span>cin <span class="token operator">&gt;&gt;</span> x<span class="token punctuation">;</span>
+	<span class="token keyword keyword-return">return</span> <span class="token operator">--</span>x<span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-399-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-391-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-391-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-403-close">{</span>
+std<span class="token double-colon punctuation">::</span>cerr <span class="token operator">&lt;&lt;</span> <span class="token string">"main() called\n"</span><span class="token punctuation">;</span>
+	<span class="token keyword keyword-int">int</span> x<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-400-close">{</span> <span class="token function">getUserInput</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-392-close">(</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-392-open">)</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-400-open">}</span><span class="token punctuation">;</span>
+std<span class="token double-colon punctuation">::</span>cerr <span class="token operator">&lt;&lt;</span> <span class="token string">"main::x = "</span> <span class="token operator">&lt;&lt;</span> x <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+	<span class="token keyword keyword-int">int</span> y<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-401-close">{</span> <span class="token function">getUserInput</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-393-close">(</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-393-open">)</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-401-open">}</span><span class="token punctuation">;</span>
+std<span class="token double-colon punctuation">::</span>cerr <span class="token operator">&lt;&lt;</span> <span class="token string">"main::y = "</span> <span class="token operator">&lt;&lt;</span> y <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+	<span class="token keyword keyword-int">int</span> z<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-402-close">{</span> <span class="token function">add</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-394-close">(</span>x<span class="token punctuation">,</span> y<span class="token punctuation brace-round brace-close brace-level-3" id="pair-394-open">)</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-402-open">}</span><span class="token punctuation">;</span>
+std<span class="token double-colon punctuation">::</span>cerr <span class="token operator">&lt;&lt;</span> <span class="token string">"main::z = "</span> <span class="token operator">&lt;&lt;</span> z <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+	<span class="token function">printResult</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-395-close">(</span>z<span class="token punctuation brace-round brace-close brace-level-2" id="pair-395-open">)</span><span class="token punctuation">;</span>
+
+	<span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-403-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>Now let’s run the program again with the same inputs:</p>
+<pre>
+main() called
+getUserInput() called
+Enter a number: 4
+main::x = 3
+getUserInput() called
+Enter a number: 3
+main::y = 2
+add() called (x=3, y=2)
+main::z = 5
+printResult() called (z=5)
+The answer is: 5
+</pre>
+<p>
+  Now we can immediately see something going wrong: The user is entering the
+  value <em>4</em>, but main’s <em>x</em> is getting value <em>3</em>. Something
+  must be going wrong between where the user enters input and where that value
+  is assigned to main’s variable <em>x</em>. Let’s make sure that the program is
+  getting the correct value from the user by adding some debug code to function
+  <em>getUserInput</em>:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">add</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-404-close">(</span><span class="token keyword keyword-int">int</span> x<span class="token punctuation">,</span> <span class="token keyword keyword-int">int</span> y<span class="token punctuation brace-round brace-close brace-level-1" id="pair-404-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-412-close">{</span>
+std<span class="token double-colon punctuation">::</span>cerr <span class="token operator">&lt;&lt;</span> <span class="token string">"add() called (x="</span> <span class="token operator">&lt;&lt;</span> x <span class="token operator">&lt;&lt;</span> <span class="token string">", y="</span> <span class="token operator">&lt;&lt;</span> y <span class="token operator">&lt;&lt;</span> <span class="token string">")\n"</span><span class="token punctuation">;</span>
+	<span class="token keyword keyword-return">return</span> x <span class="token operator">+</span> y<span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-412-open">}</span>
+
+<span class="token keyword keyword-void">void</span> <span class="token function">printResult</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-405-close">(</span><span class="token keyword keyword-int">int</span> z<span class="token punctuation brace-round brace-close brace-level-1" id="pair-405-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-413-close">{</span>
+std<span class="token double-colon punctuation">::</span>cerr <span class="token operator">&lt;&lt;</span> <span class="token string">"printResult() called (z="</span> <span class="token operator">&lt;&lt;</span> z <span class="token operator">&lt;&lt;</span> <span class="token string">")\n"</span><span class="token punctuation">;</span>
+	std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"The answer is: "</span> <span class="token operator">&lt;&lt;</span> z <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-413-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">getUserInput</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-406-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-406-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-415-close">{</span>
+std<span class="token double-colon punctuation">::</span>cerr <span class="token operator">&lt;&lt;</span> <span class="token string">"getUserInput() called\n"</span><span class="token punctuation">;</span>
+	std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Enter a number: "</span><span class="token punctuation">;</span>
+	<span class="token keyword keyword-int">int</span> x<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-414-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-414-open">}</span><span class="token punctuation">;</span>
+	std<span class="token double-colon punctuation">::</span>cin <span class="token operator">&gt;&gt;</span> x<span class="token punctuation">;</span>
+std<span class="token double-colon punctuation">::</span>cerr <span class="token operator">&lt;&lt;</span> <span class="token string">"getUserInput::x = "</span> <span class="token operator">&lt;&lt;</span> x <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span> <span class="token comment">// added this additional line of debugging</span>
+	<span class="token keyword keyword-return">return</span> <span class="token operator">--</span>x<span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-415-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-407-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-407-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-419-close">{</span>
+std<span class="token double-colon punctuation">::</span>cerr <span class="token operator">&lt;&lt;</span> <span class="token string">"main() called\n"</span><span class="token punctuation">;</span>
+	<span class="token keyword keyword-int">int</span> x<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-416-close">{</span> <span class="token function">getUserInput</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-408-close">(</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-408-open">)</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-416-open">}</span><span class="token punctuation">;</span>
+std<span class="token double-colon punctuation">::</span>cerr <span class="token operator">&lt;&lt;</span> <span class="token string">"main::x = "</span> <span class="token operator">&lt;&lt;</span> x <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+	<span class="token keyword keyword-int">int</span> y<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-417-close">{</span> <span class="token function">getUserInput</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-409-close">(</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-409-open">)</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-417-open">}</span><span class="token punctuation">;</span>
+std<span class="token double-colon punctuation">::</span>cerr <span class="token operator">&lt;&lt;</span> <span class="token string">"main::y = "</span> <span class="token operator">&lt;&lt;</span> y <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+	<span class="token keyword keyword-int">int</span> z<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-418-close">{</span> <span class="token function">add</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-410-close">(</span>x<span class="token punctuation">,</span> y<span class="token punctuation brace-round brace-close brace-level-3" id="pair-410-open">)</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-418-open">}</span><span class="token punctuation">;</span>
+std<span class="token double-colon punctuation">::</span>cerr <span class="token operator">&lt;&lt;</span> <span class="token string">"main::z = "</span> <span class="token operator">&lt;&lt;</span> z <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+	<span class="token function">printResult</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-411-close">(</span>z<span class="token punctuation brace-round brace-close brace-level-2" id="pair-411-open">)</span><span class="token punctuation">;</span>
+
+	<span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-419-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>And the output:</p>
+<pre>
+main() called
+getUserInput() called
+Enter a number: 4
+getUserInput::x = 4
+main::x = 3
+getUserInput() called
+Enter a number: 3
+getUserInput::x = 3
+main::y = 2
+add() called (x=3, y=2)
+main::z = 5
+printResult() called (z=5)
+The answer is: 5
+</pre>
+<p>
+  With this additional line of debugging, we can see that the user input is
+  received correctly into getUserInput’s variable <em>x</em>. And yet somehow
+  main’s variable <em>x</em> is getting the wrong value. The problem must be
+  between those two points. The only culprit left is the return value from
+  function <em>getUserInput</em>. Let’s look at that line more closely.
+</p>
+<div class="code-block code-block-8" style="margin: 8px 0; clear: both"></div>
+
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-return">return</span> <span class="token operator">--</span>x<span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  Hmmm, that’s odd. What’s that <code>--</code> symbol before x? We haven’t
+  covered that yet in these tutorials, so don’t worry if you don’t know what it
+  means. But even without knowing what it means, through your debugging efforts,
+  you can be reasonably sure that this particular line is at fault -- and thus,
+  it’s likely this <code>--</code> symbol is causing the problem.
+</p>
+<p>
+  Since we really want <em>getUserInput</em> to return just the value of
+  <em>x</em>, let’s remove the <code>--</code> and see what happens:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">add</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-420-close">(</span><span class="token keyword keyword-int">int</span> x<span class="token punctuation">,</span> <span class="token keyword keyword-int">int</span> y<span class="token punctuation brace-round brace-close brace-level-1" id="pair-420-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-428-close">{</span>
+std<span class="token double-colon punctuation">::</span>cerr <span class="token operator">&lt;&lt;</span> <span class="token string">"add() called (x="</span> <span class="token operator">&lt;&lt;</span> x <span class="token operator">&lt;&lt;</span> <span class="token string">", y="</span> <span class="token operator">&lt;&lt;</span> y <span class="token operator">&lt;&lt;</span> <span class="token string">")\n"</span><span class="token punctuation">;</span>
+	<span class="token keyword keyword-return">return</span> x <span class="token operator">+</span> y<span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-428-open">}</span>
+
+<span class="token keyword keyword-void">void</span> <span class="token function">printResult</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-421-close">(</span><span class="token keyword keyword-int">int</span> z<span class="token punctuation brace-round brace-close brace-level-1" id="pair-421-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-429-close">{</span>
+std<span class="token double-colon punctuation">::</span>cerr <span class="token operator">&lt;&lt;</span> <span class="token string">"printResult() called (z="</span> <span class="token operator">&lt;&lt;</span> z <span class="token operator">&lt;&lt;</span> <span class="token string">")\n"</span><span class="token punctuation">;</span>
+	std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"The answer is: "</span> <span class="token operator">&lt;&lt;</span> z <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-429-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">getUserInput</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-422-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-422-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-431-close">{</span>
+std<span class="token double-colon punctuation">::</span>cerr <span class="token operator">&lt;&lt;</span> <span class="token string">"getUserInput() called\n"</span><span class="token punctuation">;</span>
+	std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Enter a number: "</span><span class="token punctuation">;</span>
+	<span class="token keyword keyword-int">int</span> x<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-430-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-430-open">}</span><span class="token punctuation">;</span>
+	std<span class="token double-colon punctuation">::</span>cin <span class="token operator">&gt;&gt;</span> x<span class="token punctuation">;</span>
+std<span class="token double-colon punctuation">::</span>cerr <span class="token operator">&lt;&lt;</span> <span class="token string">"getUserInput::x = "</span> <span class="token operator">&lt;&lt;</span> x <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+	<span class="token keyword keyword-return">return</span> x<span class="token punctuation">;</span> <span class="token comment">// removed -- before x</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-431-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-423-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-423-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-435-close">{</span>
+std<span class="token double-colon punctuation">::</span>cerr <span class="token operator">&lt;&lt;</span> <span class="token string">"main() called\n"</span><span class="token punctuation">;</span>
+	<span class="token keyword keyword-int">int</span> x<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-432-close">{</span> <span class="token function">getUserInput</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-424-close">(</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-424-open">)</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-432-open">}</span><span class="token punctuation">;</span>
+std<span class="token double-colon punctuation">::</span>cerr <span class="token operator">&lt;&lt;</span> <span class="token string">"main::x = "</span> <span class="token operator">&lt;&lt;</span> x <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+	<span class="token keyword keyword-int">int</span> y<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-433-close">{</span> <span class="token function">getUserInput</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-425-close">(</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-425-open">)</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-433-open">}</span><span class="token punctuation">;</span>
+std<span class="token double-colon punctuation">::</span>cerr <span class="token operator">&lt;&lt;</span> <span class="token string">"main::y = "</span> <span class="token operator">&lt;&lt;</span> y <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+	<span class="token keyword keyword-int">int</span> z<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-434-close">{</span> <span class="token function">add</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-426-close">(</span>x<span class="token punctuation">,</span> y<span class="token punctuation brace-round brace-close brace-level-3" id="pair-426-open">)</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-434-open">}</span><span class="token punctuation">;</span>
+std<span class="token double-colon punctuation">::</span>cerr <span class="token operator">&lt;&lt;</span> <span class="token string">"main::z = "</span> <span class="token operator">&lt;&lt;</span> z <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+	<span class="token function">printResult</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-427-close">(</span>z<span class="token punctuation brace-round brace-close brace-level-2" id="pair-427-open">)</span><span class="token punctuation">;</span>
+
+	<span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-435-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>And now the output:</p>
+<pre>
+main() called
+getUserInput() called
+Enter a number: 4
+getUserInput::x = 4
+main::x = 4
+getUserInput() called
+Enter a number: 3
+getUserInput::x = 3
+main::y = 3
+add() called (x=4, y=3)
+main::z = 7
+printResult() called (z=7)
+The answer is: 7
+</pre>
+<p>
+  The program is now working correctly. Even without understanding what
+  <code>--</code> was doing, we were able to identify the specific line of code
+  causing the issue, and then fix the issue.
+</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Why using printing statements to debug isn’t great
+</p>
+<p>
+  While adding debug statements to programs for diagnostic purposes is a common
+  rudimentary technique, and a functional one (especially when a debugger is not
+  available for some reason), it’s not that great for a number of reasons:
+</p>
+<ol>
+  <li>Debug statements clutter your code.</li>
+  <li>Debug statements clutter the output of your program.</li>
+  <li>
+    Debug statements require modification of your code to both add and to
+    remove, which can introduce new bugs.
+  </li>
+  <li>
+    Debug statements must be removed after you’re done with them, which makes
+    them non-reusable.
+  </li>
+</ol>
+<p>We can do better. We’ll explore how in future lessons.</p>
+<div class="prevnext">
+  <div class="prevnext-inline">
+    <a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/more-debugging-tactics/"
+    >
+      <div class="nav-button nav-button-next">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-right" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Next lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">3.5</span>More debugging
+            tactics
+          </div>
+        </div>
+      </div></a
+    >
+    <a class="nav-link" href="/">
+      <div class="nav-button nav-button-index">
+        <div class="nav-button-icon">
+          <i class="fa fa-home" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Back to table of contents</div>
+        </div>
+      </div></a
+    >
+    <a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/a-strategy-for-debugging/"
+    >
+      <div class="nav-button nav-button-prev">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-left" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Previous lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">3.3</span>A strategy for
+            debugging
+          </div>
+        </div>
+      </div></a
+    >
+  </div>
+</div>
+<div class="code-block code-block-10" style="margin: 8px 0; clear: both"></div>

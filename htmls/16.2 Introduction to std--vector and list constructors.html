@@ -1,0 +1,1537 @@
+<div
+  class="code-block code-block-1"
+  style="margin: 8px 8px 8px 0; float: left"
+></div>
+<p>
+  In the previous lesson
+  <a
+    href="https://www.learncpp.com/cpp-tutorial/introduction-to-containers-and-arrays/"
+    >16.1 -- Introduction to containers and arrays</a
+  >, we introduced both containers and arrays. In this lesson, we’ll introduce
+  the array type that we’ll be focused on for the rest of the chapter:
+  <code>std::vector</code>. We’ll also solve one part of the scalability
+  challenge we introduced last lesson.
+</p>
+<p class="cpp-section cpp-topline" style="clear: both">
+  Introduction to <code>std::vector</code>
+</p>
+<p>
+  <code>std::vector</code> is one of the container classes in the C++ standard
+  containers library that implements an array. <code>std::vector</code> is
+  defined in the &lt;vector&gt; header as a class template, with a template type
+  parameter that defines the type of the elements. Thus,
+  <code>std::vector&lt;int&gt;</code> declares a <code>std::vector</code> whose
+  elements are of type <code>int</code>.
+</p>
+<p>Instantiating a <code>std::vector</code> object is straightforward:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;vector&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-0-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-0-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-2-close">{</span>
+	<span class="token comment">// Value initialization (uses default constructor)</span>
+	std<span class="token double-colon punctuation">::</span>vector<span class="token operator">&lt;</span><span class="token keyword keyword-int">int</span><span class="token operator">&gt;</span> empty<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-1-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-1-open">}</span><span class="token punctuation">;</span> <span class="token comment">// vector containing 0 int elements</span>
+
+	<span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-2-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  Variable <code>empty</code> is defined as a <code>std::vector</code> whose
+  elements have type <code>int</code>. Because we’ve used value initialization
+  here, our vector will start empty (that is, with no elements).
+</p>
+<p>
+  A vector with no elements may not seem useful now, but we’ll encounter this
+  again in future lessons (particularly
+  <a href="https://www.learncpp.com/cpp-tutorial/stdvector-and-stack-behavior/"
+    >16.11 -- std::vector and stack behavior</a
+  >).
+</p>
+<div class="code-block code-block-2" style="margin: 8px 0; clear: both"></div>
+
+<p class="cpp-section cpp-topline" style="clear: both">
+  Initializing a <code>std::vector</code> with a list of values
+</p>
+<p>
+  Since the goal of a container is to manage a set of related values, most often
+  we will want to initialize our container with those values. We can do this by
+  using list initialization with the specific initialization values we want. For
+  example:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;vector&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-3-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-3-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-6-close">{</span>
+	<span class="token comment">// List construction (uses list constructor)</span>
+	std<span class="token double-colon punctuation">::</span>vector<span class="token operator">&lt;</span><span class="token keyword keyword-int">int</span><span class="token operator">&gt;</span> primes<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-4-close">{</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">,</span> <span class="token number">7</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-4-open">}</span><span class="token punctuation">;</span>          <span class="token comment">// vector containing 4 int elements with values 2, 3, 5, and 7</span>
+	std<span class="token double-colon punctuation">::</span>vector vowels <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-5-close">{</span> <span class="token string">'a'</span><span class="token punctuation">,</span> <span class="token string">'e'</span><span class="token punctuation">,</span> <span class="token string">'i'</span><span class="token punctuation">,</span> <span class="token string">'o'</span><span class="token punctuation">,</span> <span class="token string">'u'</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-5-open">}</span><span class="token punctuation">;</span> <span class="token comment">// vector containing 5 char elements with values 'a', 'e', 'i', 'o', and 'u'.  Uses CTAD (C++17) to deduce element type char (preferred).</span>
+
+	<span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-6-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 32px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  With <code>primes</code>, we’re explicitly specifying that we want a
+  <code>std::vector</code> whose elements have type <code>int</code>. Because
+  we’ve supplied 4 initialization values, <code>primes</code> will contain 4
+  elements whose values are <code>2</code>, <code>3</code>, <code>5</code>, and
+  <code>7</code>.
+</p>
+<div
+  class="google-auto-placed ap_container"
+  style="width: 100%; height: auto; clear: both; text-align: center"
+>
+  <ins
+    data-ad-format="auto"
+    class="adsbygoogle adsbygoogle-noablate"
+    data-ad-client="ca-pub-0588844875925051"
+    data-adsbygoogle-status="done"
+    style="
+      display: block;
+      margin: auto;
+      background-color: transparent;
+      height: 0px;
+    "
+    data-ad-status="unfilled"
+    ><div
+      id="aswift_5_host"
+      style="
+        border: none;
+        height: 0px;
+        width: 1027px;
+        margin: 0px;
+        padding: 0px;
+        position: relative;
+        visibility: visible;
+        background-color: transparent;
+        display: inline-block;
+        overflow: hidden;
+        opacity: 0;
+      "
+    >
+      <iframe
+        id="aswift_5"
+        name="aswift_5"
+        browsingtopics="true"
+        style="
+          left: 0px;
+          position: absolute;
+          top: 0px;
+          border: 0px;
+          width: 1027px;
+          height: 0px;
+          min-height: auto;
+          max-height: none;
+          min-width: auto;
+          max-width: none;
+        "
+        sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation"
+        width="1027"
+        height="0"
+        frameborder="0"
+        marginwidth="0"
+        marginheight="0"
+        vspace="0"
+        hspace="0"
+        allowtransparency="true"
+        scrolling="no"
+        allow="attribution-reporting; run-ad-auction"
+        src="https://googleads.g.doubleclick.net/pagead/ads?client=ca-pub-0588844875925051&amp;output=html&amp;h=280&amp;adk=4129517923&amp;adf=2561948780&amp;w=1027&amp;abgtt=11&amp;fwrn=4&amp;fwrnh=100&amp;lmt=1751375234&amp;num_ads=1&amp;rafmt=1&amp;armr=3&amp;sem=mc&amp;pwprc=4633386603&amp;ad_type=text_image&amp;format=1027x280&amp;url=https%3A%2F%2Fwww.learncpp.com%2Fcpp-tutorial%2Fintroduction-to-stdvector-and-list-constructors%2F&amp;fwr=0&amp;pra=3&amp;rh=200&amp;rw=1026&amp;rpe=1&amp;resp_fmts=3&amp;wgl=1&amp;fa=27&amp;uach=WyJXaW5kb3dzIiwiMTkuMC4wIiwieDg2IiwiIiwiMTM3LjAuNzE1MS4xMjIiLG51bGwsMCxudWxsLCI2NCIsW1siR29vZ2xlIENocm9tZSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJDaHJvbWl1bSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJOb3QvQSlCcmFuZCIsIjI0LjAuMC4wIl1dLDBd&amp;dt=1751963066040&amp;bpp=1&amp;bdt=958&amp;idt=-M&amp;shv=r20250702&amp;mjsv=m202507020101&amp;ptt=9&amp;saldr=aa&amp;abxe=1&amp;cookie=ID%3D05f6e82287d810b4%3AT%3D1751962604%3ART%3D1751962911%3AS%3DALNI_MaQYA0TSAU2k8xwY5tqlN0xFCcd6g&amp;gpic=UID%3D00001157d9e27d0a%3AT%3D1751962604%3ART%3D1751962911%3AS%3DALNI_MYgtHzQJAQQXY_151HTGSSfVxE8_A&amp;eo_id_str=ID%3D52c21936d98c6d2b%3AT%3D1751962604%3ART%3D1751962911%3AS%3DAA-AfjZsJ15yjdEPJ8d11hPojsJQ&amp;prev_fmts=0x0%2C336x280%2C160x600%2C160x600&amp;nras=2&amp;correlator=3555040680660&amp;frm=20&amp;pv=1&amp;u_tz=480&amp;u_his=2&amp;u_h=600&amp;u_w=800&amp;u_ah=600&amp;u_aw=800&amp;u_cd=24&amp;u_sd=1&amp;dmc=8&amp;adx=27&amp;ady=1329&amp;biw=1080&amp;bih=1024&amp;scr_x=0&amp;scr_y=0&amp;eid=31093232%2C95353387%2C95362656%2C95365226%2C95365235%2C95365108%2C95359265%2C95365115%2C95365797&amp;oid=2&amp;pvsid=8571080891929747&amp;tmod=1708485235&amp;uas=0&amp;nvt=1&amp;fc=1408&amp;brdim=10%2C10%2C10%2C10%2C800%2C0%2C780%2C580%2C1080%2C1024&amp;vis=1&amp;rsz=%7C%7Cs%7C&amp;abl=NS&amp;fu=128&amp;bc=31&amp;bz=0.72&amp;td=1&amp;tdf=2&amp;psd=W251bGwsbnVsbCxudWxsLDNd&amp;nt=1&amp;ifi=6&amp;uci=a!6&amp;btvi=1&amp;fsb=1&amp;dtd=24"
+        data-google-container-id="a!6"
+        tabindex="0"
+        title="Advertisement"
+        aria-label="Advertisement"
+        data-load-complete="true"
+        data-google-query-id="CP_hoIHrrI4DFR3hTAIdmgMYXQ"
+      ></iframe></div
+  ></ins>
+</div>
+<p>
+  With <code>vowels</code>, we haven’t explicitly specified an element type.
+  Instead, we’re using C++17’s CTAD (class template argument deduction) to have
+  the compiler deduce the element type from the initializers. Because we’ve
+  supplied 5 initialization values, <code>vowels</code> will contain 5 elements
+  whose values are <code>'a'</code>, <code>'e'</code>, <code>'i'</code>,
+  <code>'o'</code>, and <code>'u'</code>.
+</p>
+<p class="cpp-section cpp-topline" style="clear: both">
+  List constructors and initializer lists
+</p>
+<div class="code-block code-block-3" style="margin: 8px 0; clear: both"></div>
+
+<p>Let’s talk about how the above works in a little more detail.</p>
+<p>
+  In lesson
+  <a
+    href="https://www.learncpp.com/cpp-tutorial/struct-aggregate-initialization/"
+    >13.8 -- Struct aggregate initialization</a
+  >, we defined an initializer list as a braced list of comma-separated values
+  (e.g. <code>{ 1, 2, 3 }</code>).
+</p>
+<p>
+  Containers typically have a special constructor called a
+  <strong>list constructor</strong> that allows us to construct an instance of
+  the container using an initializer list. The list constructor does three
+  things:
+</p>
+<ul>
+  <li>
+    Ensures the container has enough storage to hold all the initialization
+    values (if needed).
+  </li>
+  <li>
+    Sets the length of the container to the number of elements in the
+    initializer list (if needed).
+  </li>
+  <li>
+    Initializes the elements to the values in the initializer list (in
+    sequential order).
+  </li>
+</ul>
+<p>
+  Thus, when we provide a container with an initializer list of values, the list
+  constructor is called, and the container is constructed using that list of
+  values!
+</p>
+<div class="cpp-note cpp-lightgreenbackground">
+  <p class="cpp-note-title cpp-bottomline">Best practice</p>
+  <p>
+    Use list initialization with an initializer list of values to construct a
+    container with those element values.
+  </p>
+</div>
+<div class="cpp-note cpp-lightgraybackground">
+  <p class="cpp-note-title cpp-bottomline">Related content</p>
+  <p>
+    We discuss adding list constructors to your own program-defined classes in
+    lesson
+    <a href="https://www.learncpp.com/cpp-tutorial/stdinitializer_list/"
+      >23.7 -- std::initializer_list</a
+    >.
+  </p>
+</div>
+<p class="cpp-section cpp-topline" style="clear: both">
+  Accessing array elements using the subscript operator (operator[])
+</p>
+<div
+  class="google-auto-placed ap_container"
+  style="width: 100%; height: auto; clear: both; text-align: center"
+>
+  <ins
+    data-ad-format="auto"
+    class="adsbygoogle adsbygoogle-noablate"
+    data-ad-client="ca-pub-0588844875925051"
+    data-adsbygoogle-status="done"
+    style="
+      display: block;
+      margin: auto;
+      background-color: transparent;
+      height: 0px;
+    "
+    data-ad-status="unfilled"
+    ><div
+      id="aswift_6_host"
+      style="
+        border: none;
+        height: 0px;
+        width: 1027px;
+        margin: 0px;
+        padding: 0px;
+        position: relative;
+        visibility: visible;
+        background-color: transparent;
+        display: inline-block;
+        overflow: hidden;
+        opacity: 0;
+      "
+    >
+      <iframe
+        id="aswift_6"
+        name="aswift_6"
+        browsingtopics="true"
+        style="
+          left: 0px;
+          position: absolute;
+          top: 0px;
+          border: 0px;
+          width: 1027px;
+          height: 0px;
+          min-height: auto;
+          max-height: none;
+          min-width: auto;
+          max-width: none;
+        "
+        sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation"
+        width="1027"
+        height="0"
+        frameborder="0"
+        marginwidth="0"
+        marginheight="0"
+        vspace="0"
+        hspace="0"
+        allowtransparency="true"
+        scrolling="no"
+        allow="attribution-reporting; run-ad-auction"
+        src="https://googleads.g.doubleclick.net/pagead/ads?client=ca-pub-0588844875925051&amp;output=html&amp;h=280&amp;adk=4129517923&amp;adf=2644259733&amp;w=1027&amp;abgtt=11&amp;fwrn=4&amp;fwrnh=100&amp;lmt=1751375234&amp;num_ads=1&amp;rafmt=1&amp;armr=3&amp;sem=mc&amp;pwprc=4633386603&amp;ad_type=text_image&amp;format=1027x280&amp;url=https%3A%2F%2Fwww.learncpp.com%2Fcpp-tutorial%2Fintroduction-to-stdvector-and-list-constructors%2F&amp;fwr=0&amp;pra=3&amp;rh=200&amp;rw=1026&amp;rpe=1&amp;resp_fmts=3&amp;wgl=1&amp;fa=27&amp;uach=WyJXaW5kb3dzIiwiMTkuMC4wIiwieDg2IiwiIiwiMTM3LjAuNzE1MS4xMjIiLG51bGwsMCxudWxsLCI2NCIsW1siR29vZ2xlIENocm9tZSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJDaHJvbWl1bSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJOb3QvQSlCcmFuZCIsIjI0LjAuMC4wIl1dLDBd&amp;dt=1751963066040&amp;bpp=1&amp;bdt=958&amp;idt=-M&amp;shv=r20250702&amp;mjsv=m202507020101&amp;ptt=9&amp;saldr=aa&amp;abxe=1&amp;cookie=ID%3D05f6e82287d810b4%3AT%3D1751962604%3ART%3D1751962911%3AS%3DALNI_MaQYA0TSAU2k8xwY5tqlN0xFCcd6g&amp;gpic=UID%3D00001157d9e27d0a%3AT%3D1751962604%3ART%3D1751962911%3AS%3DALNI_MYgtHzQJAQQXY_151HTGSSfVxE8_A&amp;eo_id_str=ID%3D52c21936d98c6d2b%3AT%3D1751962604%3ART%3D1751962911%3AS%3DAA-AfjZsJ15yjdEPJ8d11hPojsJQ&amp;prev_fmts=0x0%2C336x280%2C160x600%2C160x600%2C1027x280&amp;nras=3&amp;correlator=3555040680660&amp;frm=20&amp;pv=1&amp;u_tz=480&amp;u_his=2&amp;u_h=600&amp;u_w=800&amp;u_ah=600&amp;u_aw=800&amp;u_cd=24&amp;u_sd=1&amp;dmc=8&amp;adx=27&amp;ady=2212&amp;biw=1080&amp;bih=1024&amp;scr_x=0&amp;scr_y=0&amp;eid=31093232%2C95353387%2C95362656%2C95365226%2C95365235%2C95365108%2C95359265%2C95365115%2C95365797&amp;oid=2&amp;pvsid=8571080891929747&amp;tmod=1708485235&amp;uas=0&amp;nvt=1&amp;fc=1408&amp;brdim=10%2C10%2C10%2C10%2C800%2C0%2C780%2C580%2C1080%2C1024&amp;vis=1&amp;rsz=%7C%7Cs%7C&amp;abl=NS&amp;fu=128&amp;bc=31&amp;bz=0.72&amp;td=1&amp;tdf=2&amp;psd=W251bGwsbnVsbCxudWxsLDNd&amp;nt=1&amp;ifi=7&amp;uci=a!7&amp;btvi=2&amp;fsb=1&amp;dtd=25"
+        data-google-container-id="a!7"
+        tabindex="0"
+        title="Advertisement"
+        aria-label="Advertisement"
+        data-google-query-id="CIPjoIHrrI4DFUfrTAId0iMdJA"
+        data-load-complete="true"
+      ></iframe></div
+  ></ins>
+</div>
+<div class="code-block code-block-4" style="margin: 8px 0; clear: both"></div>
+
+<p>So now that we’ve created an array of elements… how do we access them?</p>
+<p>
+  Let’s use an analogy for a moment. Consider a set of identical mailboxes, side
+  by side. To make it easier to identify the mailboxes, each mailbox has a
+  number painted on the front. The first mailbox has number 0, the second has
+  number 1, etc… So if you were told to put something in mailbox number 0, you’d
+  know that meant the first mailbox.
+</p>
+<p>
+  In C++, the most common way to access array elements is by using the name of
+  the array along with the subscript operator (<code>operator[]</code>). To
+  select a specific element, inside the square brackets of the subscript
+  operator, we provide an integral value that identifies which element we want
+  to select. This integral value is called a <strong>subscript</strong> (or
+  informally, an <strong>index</strong>). Much like our mailboxes, the first
+  element is accessed using index 0, the second is accessed using index 1, etc…
+</p>
+<p>
+  For example, <code>primes[0]</code> will return the element with index
+  <code>0</code> (the first element) from the <code>prime</code> array. The
+  subscript operator returns a reference to the actual element, not a copy. Once
+  we’ve accessed an array element, we can use it just like a normal object (e.g.
+  assign a value to it, output it, etc…)
+</p>
+<p>
+  Because the indexing starts with 0 rather than 1, we say arrays in C++ are
+  <strong>zero-based</strong>. This can be confusing because we’re used to
+  counting objects starting from 1.
+</p>
+<div class="code-block code-block-5" style="margin: 8px 0; clear: both"></div>
+
+<div class="cpp-note cpp-lightbluebackground" style="height: auto !important">
+  <p class="cpp-note-title cpp-bottomline">Key insight</p>
+  <div
+    class="google-auto-placed ap_container"
+    style="width: 100%; height: auto; clear: both; text-align: center"
+  >
+    <ins
+      data-ad-format="auto"
+      class="adsbygoogle adsbygoogle-noablate"
+      data-ad-client="ca-pub-0588844875925051"
+      data-adsbygoogle-status="done"
+      style="
+        display: block;
+        margin: auto;
+        background-color: transparent;
+        height: 0px;
+      "
+      data-ad-status="unfilled"
+      ><div
+        id="aswift_7_host"
+        style="
+          border: none;
+          height: 0px;
+          width: 995px;
+          margin: 0px;
+          padding: 0px;
+          position: relative;
+          visibility: visible;
+          background-color: transparent;
+          display: inline-block;
+          overflow: hidden;
+          opacity: 0;
+        "
+      >
+        <iframe
+          id="aswift_7"
+          name="aswift_7"
+          browsingtopics="true"
+          style="
+            left: 0px;
+            position: absolute;
+            top: 0px;
+            border: 0px;
+            width: 995px;
+            height: 0px;
+            min-height: auto;
+            max-height: none;
+            min-width: auto;
+            max-width: none;
+          "
+          sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation"
+          width="995"
+          height="0"
+          frameborder="0"
+          marginwidth="0"
+          marginheight="0"
+          vspace="0"
+          hspace="0"
+          allowtransparency="true"
+          scrolling="no"
+          allow="attribution-reporting; run-ad-auction"
+          src="https://googleads.g.doubleclick.net/pagead/ads?client=ca-pub-0588844875925051&amp;output=html&amp;h=280&amp;adk=2504981349&amp;adf=4091517098&amp;w=995&amp;abgtt=11&amp;fwrn=4&amp;fwrnh=100&amp;lmt=1751375234&amp;num_ads=1&amp;rafmt=1&amp;armr=3&amp;sem=mc&amp;pwprc=4633386603&amp;ad_type=text_image&amp;format=995x280&amp;url=https%3A%2F%2Fwww.learncpp.com%2Fcpp-tutorial%2Fintroduction-to-stdvector-and-list-constructors%2F&amp;fwr=0&amp;pra=3&amp;rh=200&amp;rw=994&amp;rpe=1&amp;resp_fmts=3&amp;wgl=1&amp;fa=27&amp;uach=WyJXaW5kb3dzIiwiMTkuMC4wIiwieDg2IiwiIiwiMTM3LjAuNzE1MS4xMjIiLG51bGwsMCxudWxsLCI2NCIsW1siR29vZ2xlIENocm9tZSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJDaHJvbWl1bSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJOb3QvQSlCcmFuZCIsIjI0LjAuMC4wIl1dLDBd&amp;dt=1751963066040&amp;bpp=1&amp;bdt=958&amp;idt=-M&amp;shv=r20250702&amp;mjsv=m202507020101&amp;ptt=9&amp;saldr=aa&amp;abxe=1&amp;cookie=ID%3D05f6e82287d810b4%3AT%3D1751962604%3ART%3D1751962911%3AS%3DALNI_MaQYA0TSAU2k8xwY5tqlN0xFCcd6g&amp;gpic=UID%3D00001157d9e27d0a%3AT%3D1751962604%3ART%3D1751962911%3AS%3DALNI_MYgtHzQJAQQXY_151HTGSSfVxE8_A&amp;eo_id_str=ID%3D52c21936d98c6d2b%3AT%3D1751962604%3ART%3D1751962911%3AS%3DAA-AfjZsJ15yjdEPJ8d11hPojsJQ&amp;prev_fmts=0x0%2C336x280%2C160x600%2C160x600%2C1027x280%2C1027x280&amp;nras=4&amp;correlator=3555040680660&amp;frm=20&amp;pv=1&amp;u_tz=480&amp;u_his=2&amp;u_h=600&amp;u_w=800&amp;u_ah=600&amp;u_aw=800&amp;u_cd=24&amp;u_sd=1&amp;dmc=8&amp;adx=43&amp;ady=2833&amp;biw=1080&amp;bih=1024&amp;scr_x=0&amp;scr_y=0&amp;eid=31093232%2C95353387%2C95362656%2C95365226%2C95365235%2C95365108%2C95359265%2C95365115%2C95365797&amp;oid=2&amp;pvsid=8571080891929747&amp;tmod=1708485235&amp;uas=0&amp;nvt=1&amp;fc=1408&amp;brdim=10%2C10%2C10%2C10%2C800%2C0%2C780%2C580%2C1080%2C1024&amp;vis=1&amp;rsz=%7C%7Cs%7C&amp;abl=NS&amp;fu=128&amp;bc=31&amp;bz=0.72&amp;td=1&amp;tdf=2&amp;psd=W251bGwsbnVsbCxudWxsLDNd&amp;nt=1&amp;ifi=8&amp;uci=a!8&amp;btvi=3&amp;fsb=1&amp;dtd=26"
+          data-google-container-id="a!8"
+          tabindex="0"
+          title="Advertisement"
+          aria-label="Advertisement"
+          data-load-complete="true"
+          data-google-query-id="CKbooIHrrI4DFZDoTAIdU6oAxA"
+        ></iframe></div
+    ></ins>
+  </div>
+  <p>
+    Indexes are actually a distance (offset) from the first element of the
+    array.
+  </p>
+  <p>
+    If you start at the first element of the array and travel 0 elements, you’re
+    still on the first element. Thus index 0 is the first element.
+  </p>
+  <p>
+    If you start at the first element of the array and travel 1 element, you’re
+    now on the second element. Thus index 1 is the second element.
+  </p>
+  <p>
+    We discuss how indexes are relative distances (not absolute positions) in
+    lesson
+    <a
+      href="https://www.learncpp.com/cpp-tutorial/pointer-arithmetic-and-subscripting/"
+      >17.9 -- Pointer arithmetic and subscripting</a
+    >
+  </p>
+</div>
+<p>
+  This also can cause some linguistic ambiguity, because when we talk about
+  array element 1, it may not be clear whether we’re talking about the first
+  array element (with index 0) or the second array element (with index 1).
+  Generally, we’ll talk about array elements in terms of position rather than
+  index (so the “first element” is the one with index 0).
+</p>
+<p>Here’s an example:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;vector&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-7-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-7-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-16-close">{</span>
+    std<span class="token double-colon punctuation">::</span>vector primes <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-15-close">{</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">,</span> <span class="token number">7</span><span class="token punctuation">,</span> <span class="token number">11</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-15-open">}</span><span class="token punctuation">;</span> <span class="token comment">// hold the first 5 prime numbers (as int)</span>
+
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"The first prime number is: "</span> <span class="token operator">&lt;&lt;</span> primes<span class="token punctuation brace-square brace-open brace-level-2" id="pair-8-close">[</span><span class="token number">0</span><span class="token punctuation brace-square brace-close brace-level-2" id="pair-8-open">]</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"The second prime number is: "</span> <span class="token operator">&lt;&lt;</span> primes<span class="token punctuation brace-square brace-open brace-level-2" id="pair-9-close">[</span><span class="token number">1</span><span class="token punctuation brace-square brace-close brace-level-2" id="pair-9-open">]</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"The sum of the first 5 primes is: "</span> <span class="token operator">&lt;&lt;</span> primes<span class="token punctuation brace-square brace-open brace-level-2" id="pair-10-close">[</span><span class="token number">0</span><span class="token punctuation brace-square brace-close brace-level-2" id="pair-10-open">]</span> <span class="token operator">+</span> primes<span class="token punctuation brace-square brace-open brace-level-2" id="pair-11-close">[</span><span class="token number">1</span><span class="token punctuation brace-square brace-close brace-level-2" id="pair-11-open">]</span> <span class="token operator">+</span> primes<span class="token punctuation brace-square brace-open brace-level-2" id="pair-12-close">[</span><span class="token number">2</span><span class="token punctuation brace-square brace-close brace-level-2" id="pair-12-open">]</span> <span class="token operator">+</span> primes<span class="token punctuation brace-square brace-open brace-level-2" id="pair-13-close">[</span><span class="token number">3</span><span class="token punctuation brace-square brace-close brace-level-2" id="pair-13-open">]</span> <span class="token operator">+</span> primes<span class="token punctuation brace-square brace-open brace-level-2" id="pair-14-close">[</span><span class="token number">4</span><span class="token punctuation brace-square brace-close brace-level-2" id="pair-14-open">]</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-16-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>This prints:</p>
+<div
+  class="google-auto-placed ap_container"
+  style="width: 100%; height: auto; clear: both; text-align: center"
+>
+  <ins
+    data-ad-format="auto"
+    class="adsbygoogle adsbygoogle-noablate"
+    data-ad-client="ca-pub-0588844875925051"
+    data-adsbygoogle-status="done"
+    style="
+      display: block;
+      margin: auto;
+      background-color: transparent;
+      height: 0px;
+    "
+    data-ad-status="unfilled"
+    ><div
+      id="aswift_8_host"
+      style="
+        border: none;
+        height: 0px;
+        width: 1027px;
+        margin: 0px;
+        padding: 0px;
+        position: relative;
+        visibility: visible;
+        background-color: transparent;
+        display: inline-block;
+        overflow: hidden;
+        opacity: 0;
+      "
+    >
+      <iframe
+        id="aswift_8"
+        name="aswift_8"
+        browsingtopics="true"
+        style="
+          left: 0px;
+          position: absolute;
+          top: 0px;
+          border: 0px;
+          width: 1027px;
+          height: 0px;
+          min-height: auto;
+          max-height: none;
+          min-width: auto;
+          max-width: none;
+        "
+        sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation"
+        width="1027"
+        height="0"
+        frameborder="0"
+        marginwidth="0"
+        marginheight="0"
+        vspace="0"
+        hspace="0"
+        allowtransparency="true"
+        scrolling="no"
+        allow="attribution-reporting; run-ad-auction"
+        src="https://googleads.g.doubleclick.net/pagead/ads?client=ca-pub-0588844875925051&amp;output=html&amp;h=280&amp;adk=4129517923&amp;adf=4294577071&amp;w=1027&amp;abgtt=11&amp;fwrn=4&amp;fwrnh=100&amp;lmt=1751375234&amp;num_ads=1&amp;rafmt=1&amp;armr=3&amp;sem=mc&amp;pwprc=4633386603&amp;ad_type=text_image&amp;format=1027x280&amp;url=https%3A%2F%2Fwww.learncpp.com%2Fcpp-tutorial%2Fintroduction-to-stdvector-and-list-constructors%2F&amp;fwr=0&amp;pra=3&amp;rh=200&amp;rw=1026&amp;rpe=1&amp;resp_fmts=3&amp;wgl=1&amp;fa=27&amp;uach=WyJXaW5kb3dzIiwiMTkuMC4wIiwieDg2IiwiIiwiMTM3LjAuNzE1MS4xMjIiLG51bGwsMCxudWxsLCI2NCIsW1siR29vZ2xlIENocm9tZSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJDaHJvbWl1bSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJOb3QvQSlCcmFuZCIsIjI0LjAuMC4wIl1dLDBd&amp;dt=1751963066040&amp;bpp=1&amp;bdt=958&amp;idt=1&amp;shv=r20250702&amp;mjsv=m202507020101&amp;ptt=9&amp;saldr=aa&amp;abxe=1&amp;cookie=ID%3D05f6e82287d810b4%3AT%3D1751962604%3ART%3D1751962911%3AS%3DALNI_MaQYA0TSAU2k8xwY5tqlN0xFCcd6g&amp;gpic=UID%3D00001157d9e27d0a%3AT%3D1751962604%3ART%3D1751962911%3AS%3DALNI_MYgtHzQJAQQXY_151HTGSSfVxE8_A&amp;eo_id_str=ID%3D52c21936d98c6d2b%3AT%3D1751962604%3ART%3D1751962911%3AS%3DAA-AfjZsJ15yjdEPJ8d11hPojsJQ&amp;prev_fmts=0x0%2C336x280%2C160x600%2C160x600%2C1027x280%2C1027x280%2C995x280&amp;nras=5&amp;correlator=3555040680660&amp;frm=20&amp;pv=1&amp;u_tz=480&amp;u_his=2&amp;u_h=600&amp;u_w=800&amp;u_ah=600&amp;u_aw=800&amp;u_cd=24&amp;u_sd=1&amp;dmc=8&amp;adx=27&amp;ady=3667&amp;biw=1080&amp;bih=1024&amp;scr_x=0&amp;scr_y=0&amp;eid=31093232%2C95353387%2C95362656%2C95365226%2C95365235%2C95365108%2C95359265%2C95365115%2C95365797&amp;oid=2&amp;pvsid=8571080891929747&amp;tmod=1708485235&amp;uas=0&amp;nvt=1&amp;fc=1408&amp;brdim=10%2C10%2C10%2C10%2C800%2C0%2C780%2C580%2C1080%2C1024&amp;vis=1&amp;rsz=%7C%7Cs%7C&amp;abl=NS&amp;fu=128&amp;bc=31&amp;bz=0.72&amp;td=1&amp;tdf=2&amp;psd=W251bGwsbnVsbCxudWxsLDNd&amp;nt=1&amp;ifi=9&amp;uci=a!9&amp;btvi=4&amp;fsb=1&amp;dtd=27"
+        data-google-container-id="a!9"
+        tabindex="0"
+        title="Advertisement"
+        aria-label="Advertisement"
+        data-load-complete="true"
+        data-google-query-id="CLaBoYHrrI4DFTD4TAIdLhEwIA"
+      ></iframe></div
+  ></ins>
+</div>
+<pre>
+The first prime number is: 2
+The second prime number is: 3
+The sum of the first 5 primes is: 28
+</pre>
+<p>
+  By using arrays, we no longer have to define 5 differently-named variables to
+  hold our 5 prime values. Instead, we can define a single array
+  (<code>primes</code>) with 5 elements, and just change the value of the index
+  to access different elements!
+</p>
+<p>
+  We’ll talk more about <code>operator[]</code> and some other methods for
+  accessing array elements in the next lesson
+  <a
+    href="https://www.learncpp.com/cpp-tutorial/stdvector-and-the-unsigned-length-and-subscript-problem/"
+    >16.3 -- std::vector and the unsigned length and subscript problem</a
+  >.
+</p>
+<p class="cpp-section cpp-topline" style="clear: both">
+  Subscript out of bounds
+</p>
+<p>
+  When indexing an array, the index provided must select a valid element of the
+  array. That is, for an array of length N, the subscript must be a value
+  between 0 and N-1 (inclusive).
+</p>
+<p>
+  <code>operator[]</code> does not do any kind of
+  <strong>bounds checking</strong>, meaning it does not check to see whether the
+  index is within the bounds of 0 to N-1 (inclusive). Passing an invalid index
+  to <code>operator[]</code> will return in undefined behavior.
+</p>
+<div
+  class="google-auto-placed ap_container"
+  style="width: 100%; height: auto; clear: both; text-align: center"
+>
+  <ins
+    data-ad-format="auto"
+    class="adsbygoogle adsbygoogle-noablate"
+    data-ad-client="ca-pub-0588844875925051"
+    data-adsbygoogle-status="done"
+    style="
+      display: block;
+      margin: auto;
+      background-color: transparent;
+      height: 0px;
+    "
+    ><div
+      id="aswift_9_host"
+      style="
+        border: none;
+        height: 0px;
+        width: 1027px;
+        margin: 0px;
+        padding: 0px;
+        position: relative;
+        visibility: visible;
+        background-color: transparent;
+        display: inline-block;
+        overflow: hidden;
+        opacity: 0;
+      "
+    >
+      <iframe
+        id="aswift_9"
+        name="aswift_9"
+        browsingtopics="true"
+        style="
+          left: 0px;
+          position: absolute;
+          top: 0px;
+          border: 0px;
+          width: 1027px;
+          height: 0px;
+          min-height: auto;
+          max-height: none;
+          min-width: auto;
+          max-width: none;
+        "
+        sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation"
+        width="1027"
+        height="0"
+        frameborder="0"
+        marginwidth="0"
+        marginheight="0"
+        vspace="0"
+        hspace="0"
+        allowtransparency="true"
+        scrolling="no"
+        allow="attribution-reporting; run-ad-auction"
+        src="https://googleads.g.doubleclick.net/pagead/ads?client=ca-pub-0588844875925051&amp;output=html&amp;h=280&amp;adk=4129517923&amp;adf=2074358248&amp;w=1027&amp;abgtt=11&amp;fwrn=4&amp;fwrnh=100&amp;lmt=1751375234&amp;num_ads=1&amp;rafmt=1&amp;armr=3&amp;sem=mc&amp;pwprc=4633386603&amp;ad_type=text_image&amp;format=1027x280&amp;url=https%3A%2F%2Fwww.learncpp.com%2Fcpp-tutorial%2Fintroduction-to-stdvector-and-list-constructors%2F&amp;fwr=0&amp;pra=3&amp;rh=200&amp;rw=1026&amp;rpe=1&amp;resp_fmts=3&amp;wgl=1&amp;fa=27&amp;uach=WyJXaW5kb3dzIiwiMTkuMC4wIiwieDg2IiwiIiwiMTM3LjAuNzE1MS4xMjIiLG51bGwsMCxudWxsLCI2NCIsW1siR29vZ2xlIENocm9tZSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJDaHJvbWl1bSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJOb3QvQSlCcmFuZCIsIjI0LjAuMC4wIl1dLDBd&amp;dt=1751963066043&amp;bpp=1&amp;bdt=962&amp;idt=1&amp;shv=r20250702&amp;mjsv=m202507020101&amp;ptt=9&amp;saldr=aa&amp;abxe=1&amp;cookie=ID%3D05f6e82287d810b4%3AT%3D1751962604%3ART%3D1751962911%3AS%3DALNI_MaQYA0TSAU2k8xwY5tqlN0xFCcd6g&amp;gpic=UID%3D00001157d9e27d0a%3AT%3D1751962604%3ART%3D1751962911%3AS%3DALNI_MYgtHzQJAQQXY_151HTGSSfVxE8_A&amp;eo_id_str=ID%3D52c21936d98c6d2b%3AT%3D1751962604%3ART%3D1751962911%3AS%3DAA-AfjZsJ15yjdEPJ8d11hPojsJQ&amp;prev_fmts=0x0%2C336x280%2C160x600%2C160x600%2C1027x280%2C1027x280%2C995x280%2C1027x280&amp;nras=6&amp;correlator=3555040680660&amp;frm=20&amp;pv=1&amp;u_tz=480&amp;u_his=2&amp;u_h=600&amp;u_w=800&amp;u_ah=600&amp;u_aw=800&amp;u_cd=24&amp;u_sd=1&amp;dmc=8&amp;adx=27&amp;ady=4046&amp;biw=1080&amp;bih=1024&amp;scr_x=0&amp;scr_y=0&amp;eid=31093232%2C95353387%2C95362656%2C95365226%2C95365235%2C95365108%2C95359265%2C95365115%2C95365797&amp;oid=2&amp;pvsid=8571080891929747&amp;tmod=1708485235&amp;uas=0&amp;nvt=1&amp;fc=1408&amp;brdim=10%2C10%2C10%2C10%2C800%2C0%2C780%2C580%2C1080%2C1024&amp;vis=1&amp;rsz=%7C%7Cs%7C&amp;abl=NS&amp;fu=128&amp;bc=31&amp;bz=0.72&amp;td=1&amp;tdf=2&amp;psd=W251bGwsbnVsbCxudWxsLDNd&amp;nt=1&amp;ifi=10&amp;uci=a!a&amp;btvi=5&amp;fsb=1&amp;dtd=169"
+        data-google-container-id="a!a"
+        tabindex="0"
+        title="Advertisement"
+        aria-label="Advertisement"
+        data-google-query-id="COPrqYHrrI4DFdn1TAIdojYAjA"
+        data-load-complete="true"
+      ></iframe></div
+  ></ins>
+</div>
+<div class="code-block code-block-6" style="margin: 8px 0; clear: both"></div>
+
+<p>
+  It is fairly easy to remember not to use negative subscripts. It is less easy
+  to remember that there is no element with index N! The last element of the
+  array has index N-1, so using index N will cause the compiler to try to access
+  an element that is one-past the end of the array.
+</p>
+<div class="cpp-note cpp-lightbluebackground">
+  <p class="cpp-note-title cpp-bottomline">Tip</p>
+  <p>
+    In an array with N elements, the first element has index 0, the second has
+    index 1, and the last element has index N-1. There is no element with index
+    N!
+  </p>
+  <p>
+    Using N as a subscript will cause undefined behavior (as this is actually
+    attempting to access the N+1th element, which isn’t part of the array).
+  </p>
+</div>
+<div class="cpp-note cpp-lightbluebackground">
+  <p class="cpp-note-title cpp-bottomline">Tip</p>
+  <p>
+    Some compilers (like Visual Studio) provide a runtime assert that the index
+    is valid. In such cases, if an invalid index is provided in debug mode, the
+    program will assert out. In release mode, the assert is compiled out so
+    there is no performance penalty.
+  </p>
+</div>
+<p class="cpp-section cpp-topline" style="clear: both">
+  Arrays are contiguous in memory
+</p>
+<div
+  class="google-auto-placed ap_container"
+  style="width: 100%; height: auto; clear: both; text-align: center"
+>
+  <ins
+    data-ad-format="auto"
+    class="adsbygoogle adsbygoogle-noablate"
+    data-ad-client="ca-pub-0588844875925051"
+    data-adsbygoogle-status="done"
+    style="
+      display: block;
+      margin: auto;
+      background-color: transparent;
+      height: 0px;
+    "
+    ><div
+      id="aswift_10_host"
+      style="
+        border: none;
+        height: 0px;
+        width: 1027px;
+        margin: 0px;
+        padding: 0px;
+        position: relative;
+        visibility: visible;
+        background-color: transparent;
+        display: inline-block;
+        overflow: hidden;
+        opacity: 0;
+      "
+    >
+      <iframe
+        id="aswift_10"
+        name="aswift_10"
+        browsingtopics="true"
+        style="
+          left: 0px;
+          position: absolute;
+          top: 0px;
+          border: 0px;
+          width: 1027px;
+          height: 0px;
+          min-height: auto;
+          max-height: none;
+          min-width: auto;
+          max-width: none;
+        "
+        sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation"
+        width="1027"
+        height="0"
+        frameborder="0"
+        marginwidth="0"
+        marginheight="0"
+        vspace="0"
+        hspace="0"
+        allowtransparency="true"
+        scrolling="no"
+        allow="attribution-reporting; run-ad-auction"
+        src="https://googleads.g.doubleclick.net/pagead/ads?client=ca-pub-0588844875925051&amp;output=html&amp;h=280&amp;adk=4129517923&amp;adf=643172659&amp;w=1027&amp;abgtt=11&amp;fwrn=4&amp;fwrnh=100&amp;lmt=1751375234&amp;num_ads=1&amp;rafmt=1&amp;armr=3&amp;sem=mc&amp;pwprc=4633386603&amp;ad_type=text_image&amp;format=1027x280&amp;url=https%3A%2F%2Fwww.learncpp.com%2Fcpp-tutorial%2Fintroduction-to-stdvector-and-list-constructors%2F&amp;fwr=0&amp;pra=3&amp;rh=200&amp;rw=1026&amp;rpe=1&amp;resp_fmts=3&amp;wgl=1&amp;fa=27&amp;uach=WyJXaW5kb3dzIiwiMTkuMC4wIiwieDg2IiwiIiwiMTM3LjAuNzE1MS4xMjIiLG51bGwsMCxudWxsLCI2NCIsW1siR29vZ2xlIENocm9tZSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJDaHJvbWl1bSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJOb3QvQSlCcmFuZCIsIjI0LjAuMC4wIl1dLDBd&amp;dt=1751963066047&amp;bpp=1&amp;bdt=965&amp;idt=0&amp;shv=r20250702&amp;mjsv=m202507020101&amp;ptt=9&amp;saldr=aa&amp;abxe=1&amp;cookie=ID%3D05f6e82287d810b4%3AT%3D1751962604%3ART%3D1751962911%3AS%3DALNI_MaQYA0TSAU2k8xwY5tqlN0xFCcd6g&amp;gpic=UID%3D00001157d9e27d0a%3AT%3D1751962604%3ART%3D1751962911%3AS%3DALNI_MYgtHzQJAQQXY_151HTGSSfVxE8_A&amp;eo_id_str=ID%3D52c21936d98c6d2b%3AT%3D1751962604%3ART%3D1751962911%3AS%3DAA-AfjZsJ15yjdEPJ8d11hPojsJQ&amp;prev_fmts=0x0%2C336x280%2C160x600%2C160x600%2C1027x280%2C1027x280%2C995x280%2C1027x280%2C1027x280&amp;nras=7&amp;correlator=3555040680660&amp;frm=20&amp;pv=1&amp;u_tz=480&amp;u_his=2&amp;u_h=600&amp;u_w=800&amp;u_ah=600&amp;u_aw=800&amp;u_cd=24&amp;u_sd=1&amp;dmc=8&amp;adx=27&amp;ady=3845&amp;biw=1080&amp;bih=1024&amp;scr_x=0&amp;scr_y=0&amp;eid=31093232%2C95353387%2C95362656%2C95365226%2C95365235%2C95365108%2C95359265%2C95365115%2C95365797&amp;oid=2&amp;pvsid=8571080891929747&amp;tmod=1708485235&amp;uas=0&amp;nvt=1&amp;fc=1408&amp;brdim=10%2C10%2C10%2C10%2C800%2C0%2C780%2C580%2C1080%2C1024&amp;vis=1&amp;rsz=%7C%7Cs%7C&amp;abl=NS&amp;fu=128&amp;bc=31&amp;bz=0.72&amp;td=1&amp;tdf=2&amp;psd=W251bGwsbnVsbCxudWxsLDNd&amp;nt=1&amp;ifi=11&amp;uci=a!b&amp;btvi=6&amp;fsb=1&amp;dtd=198"
+        data-google-container-id="a!b"
+        tabindex="0"
+        title="Advertisement"
+        aria-label="Advertisement"
+        data-load-complete="true"
+        data-google-query-id="COvlq4HrrI4DFTnxTAIdYoc03g"
+      ></iframe></div
+  ></ins>
+</div>
+<p>
+  One of the defining characteristics of arrays is that the elements are always
+  allocated contiguously in memory, meaning the elements are all adjacent in
+  memory (with no gaps between them).
+</p>
+<p>As an illustration of this:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;vector&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-17-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-17-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-26-close">{</span>
+    std<span class="token double-colon punctuation">::</span>vector primes <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-25-close">{</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">,</span> <span class="token number">7</span><span class="token punctuation">,</span> <span class="token number">11</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-25-open">}</span><span class="token punctuation">;</span> <span class="token comment">// hold the first 5 prime numbers (as int)</span>
+
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"An int is "</span> <span class="token operator">&lt;&lt;</span> <span class="token keyword keyword-sizeof">sizeof</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-18-close">(</span><span class="token keyword keyword-int">int</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-18-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">" bytes\n"</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token operator">&amp;</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-19-close">(</span>primes<span class="token punctuation brace-square brace-open brace-level-3" id="pair-22-close">[</span><span class="token number">0</span><span class="token punctuation brace-square brace-close brace-level-3" id="pair-22-open">]</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-19-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token operator">&amp;</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-20-close">(</span>primes<span class="token punctuation brace-square brace-open brace-level-3" id="pair-23-close">[</span><span class="token number">1</span><span class="token punctuation brace-square brace-close brace-level-3" id="pair-23-open">]</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-20-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token operator">&amp;</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-21-close">(</span>primes<span class="token punctuation brace-square brace-open brace-level-3" id="pair-24-close">[</span><span class="token number">2</span><span class="token punctuation brace-square brace-close brace-level-3" id="pair-24-open">]</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-21-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-26-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  On the author’s machine, one run of the above program produced the following
+  result:
+</p>
+<div
+  class="google-auto-placed ap_container"
+  style="width: 100%; height: auto; clear: both; text-align: center"
+>
+  <ins
+    data-ad-format="auto"
+    class="adsbygoogle adsbygoogle-noablate"
+    data-ad-client="ca-pub-0588844875925051"
+    data-adsbygoogle-status="done"
+    style="
+      display: block;
+      margin: auto;
+      background-color: transparent;
+      height: 0px;
+    "
+    ><div
+      id="aswift_11_host"
+      style="
+        border: none;
+        height: 0px;
+        width: 1027px;
+        margin: 0px;
+        padding: 0px;
+        position: relative;
+        visibility: visible;
+        background-color: transparent;
+        display: inline-block;
+        overflow: hidden;
+        opacity: 0;
+      "
+    >
+      <iframe
+        id="aswift_11"
+        name="aswift_11"
+        browsingtopics="true"
+        style="
+          left: 0px;
+          position: absolute;
+          top: 0px;
+          border: 0px;
+          width: 1027px;
+          height: 0px;
+          min-height: auto;
+          max-height: none;
+          min-width: auto;
+          max-width: none;
+        "
+        sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation"
+        width="1027"
+        height="0"
+        frameborder="0"
+        marginwidth="0"
+        marginheight="0"
+        vspace="0"
+        hspace="0"
+        allowtransparency="true"
+        scrolling="no"
+        allow="attribution-reporting; run-ad-auction"
+        src="https://googleads.g.doubleclick.net/pagead/ads?client=ca-pub-0588844875925051&amp;output=html&amp;h=280&amp;adk=4129517923&amp;adf=1606998464&amp;w=1027&amp;abgtt=11&amp;fwrn=4&amp;fwrnh=100&amp;lmt=1751375234&amp;num_ads=1&amp;rafmt=1&amp;armr=3&amp;sem=mc&amp;pwprc=4633386603&amp;ad_type=text_image&amp;format=1027x280&amp;url=https%3A%2F%2Fwww.learncpp.com%2Fcpp-tutorial%2Fintroduction-to-stdvector-and-list-constructors%2F&amp;fwr=0&amp;pra=3&amp;rh=200&amp;rw=1026&amp;rpe=1&amp;resp_fmts=3&amp;wgl=1&amp;fa=27&amp;uach=WyJXaW5kb3dzIiwiMTkuMC4wIiwieDg2IiwiIiwiMTM3LjAuNzE1MS4xMjIiLG51bGwsMCxudWxsLCI2NCIsW1siR29vZ2xlIENocm9tZSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJDaHJvbWl1bSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJOb3QvQSlCcmFuZCIsIjI0LjAuMC4wIl1dLDBd&amp;dt=1751963066050&amp;bpp=1&amp;bdt=969&amp;idt=0&amp;shv=r20250702&amp;mjsv=m202507020101&amp;ptt=9&amp;saldr=aa&amp;abxe=1&amp;cookie=ID%3D05f6e82287d810b4%3AT%3D1751962604%3ART%3D1751962911%3AS%3DALNI_MaQYA0TSAU2k8xwY5tqlN0xFCcd6g&amp;gpic=UID%3D00001157d9e27d0a%3AT%3D1751962604%3ART%3D1751962911%3AS%3DALNI_MYgtHzQJAQQXY_151HTGSSfVxE8_A&amp;eo_id_str=ID%3D52c21936d98c6d2b%3AT%3D1751962604%3ART%3D1751962911%3AS%3DAA-AfjZsJ15yjdEPJ8d11hPojsJQ&amp;prev_fmts=0x0%2C336x280%2C160x600%2C160x600%2C1027x280%2C1027x280%2C995x280%2C1027x280%2C1027x280%2C1027x280&amp;nras=8&amp;correlator=3555040680660&amp;frm=20&amp;pv=1&amp;u_tz=480&amp;u_his=2&amp;u_h=600&amp;u_w=800&amp;u_ah=600&amp;u_aw=800&amp;u_cd=24&amp;u_sd=1&amp;dmc=8&amp;adx=27&amp;ady=3960&amp;biw=1080&amp;bih=1024&amp;scr_x=0&amp;scr_y=0&amp;eid=31093232%2C95353387%2C95362656%2C95365226%2C95365235%2C95365108%2C95359265%2C95365115%2C95365797&amp;oid=2&amp;pvsid=8571080891929747&amp;tmod=1708485235&amp;uas=0&amp;nvt=1&amp;fc=1408&amp;brdim=10%2C10%2C10%2C10%2C800%2C0%2C780%2C580%2C1080%2C1024&amp;vis=1&amp;rsz=%7C%7Cs%7C&amp;abl=NS&amp;fu=128&amp;bc=31&amp;bz=0.72&amp;td=1&amp;tdf=2&amp;psd=W251bGwsbnVsbCxudWxsLDNd&amp;nt=1&amp;ifi=12&amp;uci=a!c&amp;btvi=7&amp;fsb=1&amp;dtd=406"
+        data-google-container-id="a!c"
+        tabindex="0"
+        title="Advertisement"
+        aria-label="Advertisement"
+        data-load-complete="true"
+        data-google-query-id="CNGGuYHrrI4DFcP3TAIdOfsKDw"
+      ></iframe></div
+  ></ins>
+</div>
+<div class="code-block code-block-7" style="margin: 8px 0; clear: both"></div>
+
+<pre>
+An int is 4 bytes
+00DBF720
+00DBF724
+00DBF728
+</pre>
+<p>
+  You’ll note that the memory addresses for these int elements are 4 bytes
+  apart, the same as the size of an <code>int</code> on the author’s machine.
+</p>
+<p>
+  This means arrays do not have any per-element overhead. It also allows the
+  compiler to quickly calculate the address of any element in the array.
+</p>
+<div class="cpp-note cpp-lightgraybackground">
+  <p class="cpp-note-title cpp-bottomline">Related content</p>
+  <p>
+    We’ll talk about the math behind subscripting in lesson
+    <a
+      href="https://www.learncpp.com/cpp-tutorial/pointer-arithmetic-and-subscripting/"
+      >17.9 -- Pointer arithmetic and subscripting</a
+    >.
+  </p>
+</div>
+<p>
+  Arrays are one of the few container types that allow for
+  <strong>random access</strong>, meaning any element in the container can be
+  accessed directly (as opposed to sequential access, where elements must be
+  accessed in a particular order). Random access to array elements is typically
+  efficient, and makes arrays very easy to use. This is a primary reason why
+  arrays are often preferred over other containers.
+</p>
+<div
+  class="google-auto-placed ap_container"
+  style="width: 100%; height: auto; clear: both; text-align: center"
+>
+  <ins
+    data-ad-format="auto"
+    class="adsbygoogle adsbygoogle-noablate"
+    data-ad-client="ca-pub-0588844875925051"
+    data-adsbygoogle-status="done"
+    style="
+      display: block;
+      margin: auto;
+      background-color: transparent;
+      height: 280px;
+    "
+    ><div
+      id="aswift_12_host"
+      style="
+        border: none;
+        height: 280px;
+        width: 1027px;
+        margin: 0px;
+        padding: 0px;
+        position: relative;
+        visibility: visible;
+        background-color: transparent;
+        display: inline-block;
+      "
+    ></div
+  ></ins>
+</div>
+<p class="cpp-section cpp-topline" style="clear: both">
+  Constructing a <code>std::vector</code> of a specific length
+</p>
+<p>
+  Consider the case where we want the user to input 10 values that we’ll store
+  in a <code>std::vector</code>. In this case, we need a
+  <code>std::vector</code> of length 10 before we have any values to put in the
+  <code>std::vector</code>. How do we address this?
+</p>
+<div class="code-block code-block-8" style="margin: 8px 0; clear: both"></div>
+
+<p>
+  We could create a <code>std::vector</code> and initialize it with an
+  initializer list with 10 placeholder values:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp">std<span class="token double-colon punctuation">::</span>vector<span class="token operator">&lt;</span><span class="token keyword keyword-int">int</span><span class="token operator">&gt;</span> data <span class="token punctuation brace-curly brace-open brace-level-1" id="pair-27-close">{</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span> <span class="token punctuation brace-curly brace-close brace-level-1" id="pair-27-open">}</span><span class="token punctuation">;</span> <span class="token comment">// vector containing 10 int values</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  But that’s bad for a lot of reasons. It requires a lot of typing. It’s not
+  easy to see how many initializers there are. And it’s not easy to update if we
+  decide we want a different number of values later.
+</p>
+<p>
+  Fortunately, <code>std::vector</code> has an explicit constructor (<code
+    >explicit std::vector&lt;T&gt;(std::size_t)</code
+  >) that takes a single <code>std::size_t</code> value defining the length of
+  the <code>std::vector</code> to construct:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp">std<span class="token double-colon punctuation">::</span>vector<span class="token operator">&lt;</span><span class="token keyword keyword-int">int</span><span class="token operator">&gt;</span> <span class="token function">data</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-28-close">(</span> <span class="token number">10</span> <span class="token punctuation brace-round brace-close brace-level-1" id="pair-28-open">)</span><span class="token punctuation">;</span> <span class="token comment">// vector containing 10 int elements, value-initialized to 0</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  Each of the created elements are value-initialized, which for
+  <code>int</code> does zero-initialization (and for class types calls the
+  default constructor).
+</p>
+<div
+  class="google-auto-placed ap_container"
+  style="width: 100%; height: auto; clear: both; text-align: center"
+>
+  <ins
+    data-ad-format="auto"
+    class="adsbygoogle adsbygoogle-noablate"
+    data-ad-client="ca-pub-0588844875925051"
+    data-adsbygoogle-status="done"
+    style="
+      display: block;
+      margin: auto;
+      background-color: transparent;
+      height: 280px;
+    "
+    ><div
+      id="aswift_13_host"
+      style="
+        border: none;
+        height: 280px;
+        width: 1027px;
+        margin: 0px;
+        padding: 0px;
+        position: relative;
+        visibility: visible;
+        background-color: transparent;
+        display: inline-block;
+      "
+    ></div
+  ></ins>
+</div>
+<p>
+  However, there is one non-obvious thing about using this constructor: it must
+  be called using direct initialization.
+</p>
+<p class="cpp-section cpp-topline" style="clear: both">
+  Non-empty initializer lists prefer list constructors
+</p>
+<p>
+  To understand why the previous constructor must be called using direct
+  initialization, consider this definition:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp">std<span class="token double-colon punctuation">::</span>vector<span class="token operator">&lt;</span><span class="token keyword keyword-int">int</span><span class="token operator">&gt;</span> data<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-29-close">{</span> <span class="token number">10</span> <span class="token punctuation brace-curly brace-close brace-level-1" id="pair-29-open">}</span><span class="token punctuation">;</span> <span class="token comment">// what does this do?</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>There are two different constructors that match this initialization:</p>
+<ul>
+  <li>
+    <code>{ 10 }</code> can be interpreted as an initializer list, and matched
+    with the list constructor to construct a vector of length 1 with value 10.
+  </li>
+  <li>
+    <code>{ 10 }</code> can be interpreted as a single braced initialization
+    value, and matched with the
+    <code>std::vector&lt;T&gt;(std::size_t)</code> constructor to construct a
+    vector of length 10 with elements value-initialized to 0.
+  </li>
+</ul>
+<p>
+  Normally when a class type definition matches more than one constructor, the
+  match is considered ambiguous and a compilation error results. However, C++
+  has a special rule for this case: When an initializer list is non-empty, a
+  matching list constructor will be selected over other matching constructors.
+  Without this rule, a list constructor would result in an ambiguous match with
+  any constructor that took arguments of a single type.
+</p>
+<p>
+  Since <code>{ 10 }</code> can be interpreted as an initializer list and
+  <code>std::vector</code> has a list constructor, the list constructor takes
+  precedence in this case.
+</p>
+<div class="cpp-note cpp-lightbluebackground">
+  <p class="cpp-note-title cpp-bottomline">Key insight</p>
+  <p>When constructing a class type object using a initializer list:</p>
+  <ul>
+    <li>
+      If the initializer list is empty, the default constructor is preferred
+      over the list constructor.
+    </li>
+    <li>
+      If the initializer list is non-empty, a matching list constructor is
+      preferred over other matching constructors.
+    </li>
+  </ul>
+</div>
+<p>
+  To help clarify what happens in various initialization cases further, let’s
+  look at similar cases using copy, direct, and list initialization:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token comment">// Copy init</span>
+std<span class="token double-colon punctuation">::</span>vector<span class="token operator">&lt;</span><span class="token keyword keyword-int">int</span><span class="token operator">&gt;</span> v1 <span class="token operator">=</span> <span class="token number">10</span><span class="token punctuation">;</span>     <span class="token comment">// 10 not an initializer list, copy init won't match explicit constructor: compilation error</span>
+
+<span class="token comment">// Direct init</span>
+std<span class="token double-colon punctuation">::</span>vector<span class="token operator">&lt;</span><span class="token keyword keyword-int">int</span><span class="token operator">&gt;</span> <span class="token function">v2</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-30-close">(</span><span class="token number">10</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-30-open">)</span><span class="token punctuation">;</span>      <span class="token comment">// 10 not an initializer list, matches explicit single-argument constructor</span>
+
+<span class="token comment">// List init</span>
+std<span class="token double-colon punctuation">::</span>vector<span class="token operator">&lt;</span><span class="token keyword keyword-int">int</span><span class="token operator">&gt;</span> v3<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-32-close">{</span> <span class="token number">10</span> <span class="token punctuation brace-curly brace-close brace-level-1" id="pair-32-open">}</span><span class="token punctuation">;</span>    <span class="token comment">// { 10 } interpreted as initializer list, matches list constructor</span>
+
+<span class="token comment">// Copy list init</span>
+std<span class="token double-colon punctuation">::</span>vector<span class="token operator">&lt;</span><span class="token keyword keyword-int">int</span><span class="token operator">&gt;</span> v4 <span class="token operator">=</span> <span class="token punctuation brace-curly brace-open brace-level-1" id="pair-33-close">{</span> <span class="token number">10</span> <span class="token punctuation brace-curly brace-close brace-level-1" id="pair-33-open">}</span><span class="token punctuation">;</span> <span class="token comment">// { 10 } interpreted as initializer list, matches list constructor</span>
+std<span class="token double-colon punctuation">::</span>vector<span class="token operator">&lt;</span><span class="token keyword keyword-int">int</span><span class="token operator">&gt;</span> <span class="token function">v5</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-31-close">(</span><span class="token punctuation brace-curly brace-open brace-level-2" id="pair-34-close">{</span> <span class="token number">10</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-34-open">}</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-31-open">)</span><span class="token punctuation">;</span>  <span class="token comment">// { 10 } interpreted as initializer list, matches list constructor</span>
+
+        <span class="token comment">// Default init</span>
+        std<span class="token double-colon punctuation">::</span>vector<span class="token operator">&lt;</span><span class="token keyword keyword-int">int</span><span class="token operator">&gt;</span> v6 <span class="token punctuation brace-curly brace-open brace-level-1" id="pair-35-close">{</span><span class="token punctuation brace-curly brace-close brace-level-1" id="pair-35-open">}</span><span class="token punctuation">;</span>       <span class="token comment">// {} is empty initializer list, matches default constructor</span>
+        std<span class="token double-colon punctuation">::</span>vector<span class="token operator">&lt;</span><span class="token keyword keyword-int">int</span><span class="token operator">&gt;</span> v7 <span class="token operator">=</span> <span class="token punctuation brace-curly brace-open brace-level-1" id="pair-36-close">{</span><span class="token punctuation brace-curly brace-close brace-level-1" id="pair-36-open">}</span><span class="token punctuation">;</span>     <span class="token comment">// {} is empty initializer list, matches default constructor</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  In case <code>v1</code>, the initialization value of <code>10</code> is not an
+  initializer list, so the list constructor isn’t a match. The single-argument
+  constructor <code>explicit std::vector&lt;T&gt;(std::size_t)</code> won’t
+  match either because copy initialization won’t match explicit constructors.
+  Since no constructors match, this is a compilation error.
+</p>
+<p>
+  In case <code>v2</code>, the initialization value of <code>10</code> is not an
+  initializer list, so the list constructor isn’t a match. The single-argument
+  constructor <code>explicit std::vector&lt;T&gt;(std::size_t)</code> is a
+  match, so the single-argument constructor is selected.
+</p>
+<p>
+  In case <code>v3</code> (list initialization), <code>{ 10 }</code> can be
+  matched with the list constructor or
+  <code>explicit std::vector&lt;T&gt;(std::size_t)</code>. The list constructor
+  takes precedence over other matching constructors and is selected.
+</p>
+<p>
+  In case <code>v4</code> (copy list initialization), <code>{ 10 }</code> can be
+  matched with the list constructor (which is a non-explicit constructor, so can
+  be used with copy initialization). The list constructor is selected.
+</p>
+<p>
+  Case <code>v5</code> surprisingly is an alternate syntax for copy list
+  initialization (not direct initialization), and is the same as
+  <code>v4</code>.
+</p>
+<p>
+  This is one of the warts of C++ initialization: <code>{ 10 }</code> will match
+  a list constructor if one exists, or a single-argument constructor if a list
+  constructor doesn’t exist. This means which behavior you get depends on
+  whether a list constructor exists! You can generally assume containers have
+  list constructors.
+</p>
+<div class="cpp-note cpp-lightredbackground">
+  <p class="cpp-note-title cpp-bottomline">Warning</p>
+  <p>
+    If a class does not have a list constructor but then one is added later,
+    this will change which constructor is called for all objects initialized
+    using a non-empty initializer list.
+  </p>
+</div>
+<p>
+  <code>v6</code> and <code>v7</code> are both initialized using empty
+  initializer lists. In this case, the default constructor takes precedence.
+</p>
+<p>
+  To summarize, list initializers are generally designed to allow us to
+  initialize a container with a list of element values, and should be used for
+  that purpose. That is what we want the majority of the time anyway. Therefore,
+  <code>{ 10 }</code> is appropriate if <code>10</code> is meant to be an
+  element value. If <code>10</code> is meant to be an argument to a non-list
+  constructor of a container, use direct initialization.
+</p>
+<div class="cpp-note cpp-lightgreenbackground">
+  <p class="cpp-note-title cpp-bottomline">Best practice</p>
+  <p>
+    When constructing a container (or any type that has a list constructor) with
+    initializers that are not element values, use direct initialization.
+  </p>
+</div>
+<div class="cpp-note cpp-lightbluebackground">
+  <p class="cpp-note-title cpp-bottomline">Tip</p>
+  <p>
+    When a <code>std::vector</code> is a member of a class type, it is not
+    obvious how to provide a default initializer that sets the length of a
+    <code>std::vector</code> to some initial value:
+  </p>
+  <div class="code-toolbar">
+    <pre
+      class="line-numbers language-cpp"
+      tabindex="0"
+    ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;vector&gt;</span></span>
+
+<span class="token keyword keyword-struct">struct</span> <span class="token class-name">Foo</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-38-close">{</span>
+    std<span class="token double-colon punctuation">::</span>vector<span class="token operator">&lt;</span><span class="token keyword keyword-int">int</span><span class="token operator">&gt;</span> <span class="token function">v1</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-37-close">(</span><span class="token number">8</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-37-open">)</span><span class="token punctuation">;</span> <span class="token comment">// compile error: direct initialization not allowed for member default initializers</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-38-open">}</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+    <div class="toolbar">
+      <div class="toolbar-item">
+        <button
+          class="copy-to-clipboard-button"
+          type="button"
+          data-copy-state="copy"
+        >
+          <span>Copy</span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <p>
+    This doesn’t work because direct (parenthesis) initialization is disallowed
+    for member default initializers.
+  </p>
+  <p>When providing a default initializer for a member of a class type:</p>
+  <ul>
+    <li>
+      We must use either copy initialization or list initialization (direct or
+      copy).
+    </li>
+    <li>
+      CTAD is not allowed (so we must explicitly specify the element type).
+    </li>
+  </ul>
+  <p>The answer is as follows:</p>
+  <div class="code-toolbar">
+    <pre
+      class="line-numbers language-cpp"
+      tabindex="0"
+    ><code class="match-braces language-cpp"><span class="token keyword keyword-struct">struct</span> <span class="token class-name">Foo</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-41-close">{</span>
+    std<span class="token double-colon punctuation">::</span>vector<span class="token operator">&lt;</span><span class="token keyword keyword-int">int</span><span class="token operator">&gt;</span> v<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-40-close">{</span> std<span class="token double-colon punctuation">::</span><span class="token generic-function"><span class="token function">vector</span><span class="token generic class-name"><span class="token operator">&lt;</span><span class="token keyword keyword-int">int</span><span class="token operator">&gt;</span></span></span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-39-close">(</span><span class="token number">8</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-39-open">)</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-40-open">}</span><span class="token punctuation">;</span> <span class="token comment">// ok</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-41-open">}</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+    <div class="toolbar">
+      <div class="toolbar-item">
+        <button
+          class="copy-to-clipboard-button"
+          type="button"
+          data-copy-state="copy"
+        >
+          <span>Copy</span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <p>
+    This creates a <code>std::vector</code> with a capacity of 8, and then uses
+    that as the initializer for <code>v</code>.
+  </p>
+</div>
+<p class="cpp-section cpp-topline" style="clear: both">
+  Const and constexpr <code>std::vector</code>
+</p>
+<p>Objects of type <code>std::vector</code> can be made <code>const</code>:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;vector&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-42-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-42-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-44-close">{</span>
+    <span class="token keyword keyword-const">const</span> std<span class="token double-colon punctuation">::</span>vector<span class="token operator">&lt;</span><span class="token keyword keyword-int">int</span><span class="token operator">&gt;</span> prime <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-43-close">{</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">,</span> <span class="token number">7</span><span class="token punctuation">,</span> <span class="token number">11</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-43-open">}</span><span class="token punctuation">;</span> <span class="token comment">// prime and its elements cannot be modified</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-44-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  A <code>const std::vector</code> must be initialized, and then cannot be
+  modified. The elements of such a vector are treated as if they were const.
+</p>
+<p>
+  The element type of a <code>std::vector</code> must not be defined as const
+  (e.g. <code>std::vector&lt;const int&gt;</code> is disallowed).
+</p>
+<div class="cpp-note cpp-lightbluebackground">
+  <p class="cpp-note-title cpp-bottomline">Key insight</p>
+  <p>
+    Per
+    <a
+      href="https://stackoverflow.com/questions/6954906/does-c11-allow-vectorconst-t#comment8294604_6955332"
+      >Howard Hinnant’s comment here</a
+    >, the standard library containers were not designed to have const elements.
+  </p>
+  <p>
+    A containers const-ness comes from const-ing the container itself, not the
+    elements.
+  </p>
+</div>
+<p>
+  One of the biggest downsides of <code>std::vector</code> is that it cannot be
+  made <code>constexpr</code>. If you need a <code>constexpr</code> array, use
+  <code>std::array</code>.
+</p>
+<div class="cpp-note cpp-lightgraybackground">
+  <p class="cpp-note-title cpp-bottomline">Related content</p>
+  <p>
+    We cover <code>std::array</code> in lesson
+    <a href="https://www.learncpp.com/cpp-tutorial/introduction-to-stdarray/"
+      >17.1 -- Introduction to std::array</a
+    >.
+  </p>
+</div>
+<p class="cpp-section cpp-topline" style="clear: both">
+  Why is it called a vector?
+</p>
+<p>
+  When people use the term “vector” in conversation, they typically mean a
+  geometric vector, which is an object with a magnitude and direction. So how
+  did <code>std::vector</code> get its name when it’s not a geometric vector?
+</p>
+<p>
+  In the book “From Mathematics to Generic Programming”, Alexander Stepanov
+  wrote, “The name vector in STL was taken from the earlier programming
+  languages Scheme and Common Lisp. Unfortunately, this was inconsistent with
+  the much older meaning of the term in mathematics… this data structure should
+  have been called array. Sadly, if you make a mistake and violate these
+  principles, the result might stay around for a long time.”
+</p>
+<p>
+  So, basically, <code>std::vector</code> is misnamed, but it’s too late to
+  change it now.
+</p>
+<p class="cpp-section cpp-topline" style="clear: both">Quiz time</p>
+<p class="cpp-quiz-question" style="clear: both">Question #1</p>
+<p>
+  Define a <code>std::vector</code> using CTAD and initialize it with the first
+  5 positive square numbers (1, 4, 9, 16, and 25).
+</p>
+<p>
+  <a
+    class="solution_link_show"
+    href="javascript:void(0)"
+    onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_0'), this, 'Show Solution', 'Hide Solution')"
+    >Show Solution</a
+  >
+</p>
+<div class="wpsolution" id="cpp_solution_id_0" style="display: none">
+  <div class="code-toolbar">
+    <pre
+      class="line-numbers language-cpp"
+      tabindex="0"
+    ><code class="match-braces language-cpp">std<span class="token double-colon punctuation">::</span>vector squares<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-45-close">{</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">,</span> <span class="token number">9</span><span class="token punctuation">,</span> <span class="token number">16</span><span class="token punctuation">,</span> <span class="token number">25</span> <span class="token punctuation brace-curly brace-close brace-level-1" id="pair-45-open">}</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 0px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+    <div class="toolbar">
+      <div class="toolbar-item">
+        <button
+          class="copy-to-clipboard-button"
+          type="button"
+          data-copy-state="copy"
+        >
+          <span>Copy</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<p class="cpp-quiz-question cpp-topline" style="clear: both">Question #2</p>
+<p>What’s the behavioral difference between these two definitions?</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp">std<span class="token double-colon punctuation">::</span>vector<span class="token operator">&lt;</span><span class="token keyword keyword-int">int</span><span class="token operator">&gt;</span> v1 <span class="token punctuation brace-curly brace-open brace-level-1" id="pair-47-close">{</span> <span class="token number">5</span> <span class="token punctuation brace-curly brace-close brace-level-1" id="pair-47-open">}</span><span class="token punctuation">;</span>
+std<span class="token double-colon punctuation">::</span>vector<span class="token operator">&lt;</span><span class="token keyword keyword-int">int</span><span class="token operator">&gt;</span> <span class="token function">v2</span> <span class="token punctuation brace-round brace-open brace-level-1" id="pair-46-close">(</span> <span class="token number">5</span> <span class="token punctuation brace-round brace-close brace-level-1" id="pair-46-open">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  <a
+    class="solution_link_show"
+    href="javascript:void(0)"
+    onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_1'), this, 'Show Solution', 'Hide Solution')"
+    >Show Solution</a
+  >
+</p>
+<div class="wpsolution" id="cpp_solution_id_1" style="display: none">
+  <p>
+    <code>v1</code> invokes the list constructor to define a 1 element vector
+    containing value <code>5</code>.<br />
+    <code>v2</code> invokes a non-list constructor that defines a 5 element
+    vector whose elements are value-initialized.
+  </p>
+</div>
+<p class="cpp-quiz-question cpp-topline" style="clear: both">Question #3</p>
+<p>
+  Define a <code>std::vector</code> (using an explicit template type argument)
+  to hold the high temperature (to the nearest tenth of a degree) for each day
+  of a year (assume 365 days in a year).
+</p>
+<p>
+  <a
+    class="solution_link_show"
+    href="javascript:void(0)"
+    onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_2'), this, 'Show Solution', 'Hide Solution')"
+    >Show Solution</a
+  >
+</p>
+<div class="wpsolution" id="cpp_solution_id_2" style="display: none">
+  <div class="code-toolbar">
+    <pre
+      class="line-numbers language-cpp"
+      tabindex="0"
+    ><code class="match-braces language-cpp">std<span class="token double-colon punctuation">::</span>vector<span class="token operator">&lt;</span><span class="token keyword keyword-double">double</span><span class="token operator">&gt;</span> <span class="token function">temperature</span> <span class="token punctuation brace-round brace-open brace-level-1" id="pair-48-close">(</span><span class="token number">365</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-48-open">)</span><span class="token punctuation">;</span> <span class="token comment">// create a vector to hold 365 double values</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 0px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+    <div class="toolbar">
+      <div class="toolbar-item">
+        <button
+          class="copy-to-clipboard-button"
+          type="button"
+          data-copy-state="copy"
+        >
+          <span>Copy</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<p class="cpp-quiz-question cpp-topline" style="clear: both">Question #4</p>
+<p>
+  Using a <code>std::vector</code>, write a program that asks the user to enter
+  3 integral values. Print the sum and product of those values.
+</p>
+<p>The output should match the following:</p>
+<pre>
+Enter 3 integers: 3 4 5
+The sum is: 12
+The product is: 60
+</pre>
+<p>
+  <a
+    class="solution_link_show"
+    href="javascript:void(0)"
+    onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_3'), this, 'Show Solution', 'Hide Solution')"
+    >Show Solution</a
+  >
+</p>
+<div class="wpsolution" id="cpp_solution_id_3" style="display: none">
+  <div class="code-toolbar">
+    <pre
+      class="line-numbers language-cpp"
+      tabindex="0"
+    ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;vector&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-49-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-49-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-60-close">{</span>
+	std<span class="token double-colon punctuation">::</span>vector<span class="token operator">&lt;</span><span class="token keyword keyword-int">int</span><span class="token operator">&gt;</span> <span class="token function">arr</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-50-close">(</span><span class="token number">3</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-50-open">)</span><span class="token punctuation">;</span> <span class="token comment">// create a vector of length 3</span>
+
+	std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Enter 3 integers: "</span><span class="token punctuation">;</span>
+	std<span class="token double-colon punctuation">::</span>cin <span class="token operator">&gt;&gt;</span> arr<span class="token punctuation brace-square brace-open brace-level-2" id="pair-51-close">[</span><span class="token number">0</span><span class="token punctuation brace-square brace-close brace-level-2" id="pair-51-open">]</span> <span class="token operator">&gt;&gt;</span> arr<span class="token punctuation brace-square brace-open brace-level-2" id="pair-52-close">[</span><span class="token number">1</span><span class="token punctuation brace-square brace-close brace-level-2" id="pair-52-open">]</span> <span class="token operator">&gt;&gt;</span> arr<span class="token punctuation brace-square brace-open brace-level-2" id="pair-53-close">[</span><span class="token number">2</span><span class="token punctuation brace-square brace-close brace-level-2" id="pair-53-open">]</span><span class="token punctuation">;</span>
+
+	std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"The sum is: "</span> <span class="token operator">&lt;&lt;</span> arr<span class="token punctuation brace-square brace-open brace-level-2" id="pair-54-close">[</span><span class="token number">0</span><span class="token punctuation brace-square brace-close brace-level-2" id="pair-54-open">]</span> <span class="token operator">+</span> arr<span class="token punctuation brace-square brace-open brace-level-2" id="pair-55-close">[</span><span class="token number">1</span><span class="token punctuation brace-square brace-close brace-level-2" id="pair-55-open">]</span> <span class="token operator">+</span> arr<span class="token punctuation brace-square brace-open brace-level-2" id="pair-56-close">[</span><span class="token number">2</span><span class="token punctuation brace-square brace-close brace-level-2" id="pair-56-open">]</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+	std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"The product is: "</span> <span class="token operator">&lt;&lt;</span> arr<span class="token punctuation brace-square brace-open brace-level-2" id="pair-57-close">[</span><span class="token number">0</span><span class="token punctuation brace-square brace-close brace-level-2" id="pair-57-open">]</span> <span class="token operator">*</span> arr<span class="token punctuation brace-square brace-open brace-level-2" id="pair-58-close">[</span><span class="token number">1</span><span class="token punctuation brace-square brace-close brace-level-2" id="pair-58-open">]</span> <span class="token operator">*</span> arr<span class="token punctuation brace-square brace-open brace-level-2" id="pair-59-close">[</span><span class="token number">2</span><span class="token punctuation brace-square brace-close brace-level-2" id="pair-59-open">]</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+	<span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-60-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+    <div class="toolbar">
+      <div class="toolbar-item">
+        <button
+          class="copy-to-clipboard-button"
+          type="button"
+          data-copy-state="copy"
+        >
+          <span>Copy</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="prevnext">
+  <div class="prevnext-inline">
+    <a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/stdvector-and-the-unsigned-length-and-subscript-problem/"
+    >
+      <div class="nav-button nav-button-next">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-right" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Next lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">16.3</span>std::vector and
+            the unsigned length and subscript problem
+          </div>
+        </div>
+      </div></a
+    >
+    <a class="nav-link" href="/">
+      <div class="nav-button nav-button-index">
+        <div class="nav-button-icon">
+          <i class="fa fa-home" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Back to table of contents</div>
+        </div>
+      </div></a
+    >
+    <a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/introduction-to-containers-and-arrays/"
+    >
+      <div class="nav-button nav-button-prev">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-left" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Previous lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">16.1</span>Introduction to
+            containers and arrays
+          </div>
+        </div>
+      </div></a
+    >
+  </div>
+</div>
+<div class="code-block code-block-10" style="margin: 8px 0; clear: both"></div>

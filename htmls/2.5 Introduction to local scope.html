@@ -1,0 +1,1010 @@
+<div
+  class="code-block code-block-1"
+  style="margin: 8px 8px 8px 0; float: left"
+></div>
+<p class="cpp-section" data-ezoic-video-excluded="1">Local variables</p>
+<p>
+  Variables defined inside the body of a function are called
+  <strong>local variables</strong> (as opposed to <em>global variables</em>,
+  which we’ll discuss in a future chapter):
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-int">int</span> <span class="token function">add</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-152-close">(</span><span class="token keyword keyword-int">int</span> x<span class="token punctuation">,</span> <span class="token keyword keyword-int">int</span> y<span class="token punctuation brace-round brace-close brace-level-1" id="pair-152-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-154-close">{</span>
+    <span class="token keyword keyword-int">int</span> z<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-153-close">{</span> x <span class="token operator">+</span> y <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-153-open">}</span><span class="token punctuation">;</span> <span class="token comment">// z is a local variable</span>
+
+    <span class="token keyword keyword-return">return</span> z<span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-154-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  Function parameters are also generally considered to be local variables, and
+  we will include them as such:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-int">int</span> <span class="token function">add</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-155-close">(</span><span class="token keyword keyword-int">int</span> x<span class="token punctuation">,</span> <span class="token keyword keyword-int">int</span> y<span class="token punctuation brace-round brace-close brace-level-1" id="pair-155-open">)</span> <span class="token comment">// function parameters x and y are local variables</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-157-close">{</span>
+    <span class="token keyword keyword-int">int</span> z<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-156-close">{</span> x <span class="token operator">+</span> y <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-156-open">}</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> z<span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-157-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  In this lesson, we’ll take a look at some properties of local variables in
+  more detail.
+</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Local variable lifetime
+</p>
+<p>
+  In lesson
+  <a
+    href="https://www.learncpp.com/cpp-tutorial/introduction-to-objects-and-variables/"
+    >1.3 -- Introduction to objects and variables</a
+  >, we discussed how a variable definition such as <code>int x;</code> causes
+  the variable to be instantiated when this statement is executed. Function
+  parameters are created and initialized when the function is entered, and
+  variables within the function body are created and initialized at the point of
+  definition.
+</p>
+<p>For example:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-int">int</span> <span class="token function">add</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-158-close">(</span><span class="token keyword keyword-int">int</span> x<span class="token punctuation">,</span> <span class="token keyword keyword-int">int</span> y<span class="token punctuation brace-round brace-close brace-level-1" id="pair-158-open">)</span> <span class="token comment">// x and y created and initialized here</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-160-close">{</span>
+    <span class="token keyword keyword-int">int</span> z<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-159-close">{</span> x <span class="token operator">+</span> y <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-159-open">}</span><span class="token punctuation">;</span>   <span class="token comment">// z created and initialized here</span>
+
+    <span class="token keyword keyword-return">return</span> z<span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-160-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  The natural follow-up question is, “so when is an instantiated variable
+  destroyed?”. Local variables are destroyed in the opposite order of creation
+  at the end of the set of curly braces in which it is defined (or for a
+  function parameter, at the end of the function).
+</p>
+<div class="code-block code-block-2" style="margin: 8px 0; clear: both"></div>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-int">int</span> <span class="token function">add</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-161-close">(</span><span class="token keyword keyword-int">int</span> x<span class="token punctuation">,</span> <span class="token keyword keyword-int">int</span> y<span class="token punctuation brace-round brace-close brace-level-1" id="pair-161-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-163-close">{</span>
+    <span class="token keyword keyword-int">int</span> z<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-162-close">{</span> x <span class="token operator">+</span> y <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-162-open">}</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> z<span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-163-open">}</span> <span class="token comment">// z, y, and x destroyed here</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  Much like a person’s lifetime is defined to be the time between their birth
+  and death, an object’s <strong>lifetime</strong> is defined to be the time
+  between its creation and destruction. Note that variable creation and
+  destruction happen when the program is running (called runtime), not at
+  compile time. Therefore, lifetime is a runtime property.
+</p>
+<div class="cpp-note cpp-lightgraybackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">For advanced readers</p>
+  <p>
+    The above rules around creation, initialization, and destruction are
+    guarantees. That is, objects must be created and initialized no later than
+    the point of definition, and destroyed no earlier than the end of the set of
+    the curly braces in which they are defined (or, for function parameters, at
+    the end of the function).
+  </p>
+  <p>
+    In actuality, the C++ specification gives compilers a lot of flexibility to
+    determine when local variables are created and destroyed. Objects may be
+    created earlier, or destroyed later for optimization purposes. Most often,
+    local variables are created when the function is entered, and destroyed in
+    the opposite order of creation when the function is exited. We’ll discuss
+    this in more detail in a future lesson, when we talk about the call stack.
+  </p>
+</div>
+<p>
+  Here’s a slightly more complex program demonstrating the lifetime of a
+  variable named <code>x</code>:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-void">void</span> <span class="token function">doSomething</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-164-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-164-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-167-close">{</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Hello!\n"</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-167-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-165-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-165-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-169-close">{</span>
+    <span class="token keyword keyword-int">int</span> x<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-168-close">{</span> <span class="token number">0</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-168-open">}</span><span class="token punctuation">;</span>    <span class="token comment">// x's lifetime begins here</span>
+
+    <span class="token function">doSomething</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-166-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-166-open">)</span><span class="token punctuation">;</span> <span class="token comment">// x is still alive during this function call</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-169-open">}</span> <span class="token comment">// x's lifetime ends here</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  In the above program, the lifetime of <code>x</code> runs from the point of
+  definition to the end of function <code>main</code>. This includes the time
+  spent during the execution of function <code>doSomething</code>.
+</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  What happens when an object is destroyed?
+</p>
+<p>In most cases, nothing. The destroyed object simply becomes invalid.</p>
+<div class="code-block code-block-3" style="margin: 8px 0; clear: both"></div>
+<div class="cpp-note cpp-lightgraybackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">For advanced readers</p>
+  <p>
+    If the object is a class type object, prior to destruction, a special
+    function called a destructor is invoked. In many cases, the destructor does
+    nothing, in which case no cost is incurred. We introduce destructors in
+    lesson
+    <a href="https://www.learncpp.com/cpp-tutorial/introduction-to-destructors/"
+      >15.4 -- Introduction to destructors</a
+    >.
+  </p>
+</div>
+<p>
+  Any use of an object after it has been destroyed will result in undefined
+  behavior.
+</p>
+<p>
+  At some point after destruction, the memory used by the object will be
+  <strong>deallocated</strong> (freed up for reuse).
+</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Local scope (block scope)
+</p>
+<p>
+  An identifier’s <strong>scope</strong> determines where the identifier can be
+  seen and used within the source code. When an identifier can be seen and used,
+  we say it is <strong>in scope</strong>. When an identifier can not be seen, we
+  can not use it, and we say it is <strong>out of scope</strong>. Scope is a
+  compile-time property, and trying to use an identifier when it is not in scope
+  will result in a compile error.
+</p>
+<p>
+  The identifier of a local variable has local scope. An identifier with
+  <strong>local scope</strong> (technically called <strong>block scope</strong>)
+  is usable from the point of definition to the end of the innermost pair of
+  curly braces containing the identifier (or for function parameters, at the end
+  of the function). This ensures local variables cannot be used before the point
+  of definition (even if the compiler opts to create them before then) or after
+  they are destroyed. Local variables defined in one function are also not in
+  scope in other functions that are called.
+</p>
+<p>
+  Here’s a program demonstrating the scope of a variable named <code>x</code>:
+</p>
+<div class="code-block code-block-4" style="margin: 8px 0; clear: both"></div>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token comment">// x is not in scope anywhere in this function</span>
+<span class="token keyword keyword-void">void</span> <span class="token function">doSomething</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-170-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-170-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-173-close">{</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Hello!\n"</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-173-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-171-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-171-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-175-close">{</span>
+    <span class="token comment">// x can not be used here because it's not in scope yet</span>
+
+    <span class="token keyword keyword-int">int</span> x<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-174-close">{</span> <span class="token number">0</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-174-open">}</span><span class="token punctuation">;</span> <span class="token comment">// x enters scope here and can now be used within this function</span>
+
+    <span class="token function">doSomething</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-172-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-172-open">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-175-open">}</span> <span class="token comment">// x goes out of scope here and can no longer be used</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  In the above program, variable <code>x</code> enters scope at the point of
+  definition. <code>x</code> goes out of scope at the end of the innermost pair
+  of curly braces containing the identifier, which is the closing curly brace of
+  function <code>main()</code>. Note that variable <code>x</code> is not in
+  scope anywhere inside of function <code>doSomething</code>. The fact that
+  function <code>main</code> calls function <code>doSomething</code> is
+  irrelevant in this context.
+</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  “Out of scope” vs “going out of scope”
+</p>
+<p>
+  The terms “out of scope” and “going out of scope” can be confusing to new
+  programmers.
+</p>
+<p>
+  An identifier is out of scope anywhere it cannot be accessed within the code.
+  In the example above, the identifier <code>x</code> is in scope from its point
+  of definition to the end of the <code>main</code> function. The identifier
+  <code>x</code> is out of scope outside of that code region.
+</p>
+<p>
+  The term “going out of scope” is typically applied to objects rather than
+  identifiers. We say an object goes out of scope at the end of the scope (the
+  end curly brace) in which the object was instantiated. In the example above,
+  the object named <code>x</code> goes out of scope at the end of the function
+  <code>main</code>.
+</p>
+<div class="code-block code-block-5" style="margin: 8px 0; clear: both"></div>
+<p>
+  A local variable’s lifetime ends at the point where it goes out of scope, so
+  local variables are destroyed at this point.
+</p>
+<p>
+  Note that not all types of variables are destroyed when they go out of scope.
+  We’ll see examples of these in future lessons.
+</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Another example
+</p>
+<p>
+  Here’s a slightly more complex example. Remember, lifetime is a runtime
+  property, and scope is a compile-time property, so although we are talking
+  about both in the same program, they are enforced at different points.
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">add</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-176-close">(</span><span class="token keyword keyword-int">int</span> x<span class="token punctuation">,</span> <span class="token keyword keyword-int">int</span> y<span class="token punctuation brace-round brace-close brace-level-1" id="pair-176-open">)</span> <span class="token comment">// x and y are created and enter scope here</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-179-close">{</span>
+    <span class="token comment">// x and y are usable only within add()</span>
+    <span class="token keyword keyword-return">return</span> x <span class="token operator">+</span> y<span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-179-open">}</span> <span class="token comment">// y and x go out of scope and are destroyed here</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-177-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-177-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-182-close">{</span>
+    <span class="token keyword keyword-int">int</span> a<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-180-close">{</span> <span class="token number">5</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-180-open">}</span><span class="token punctuation">;</span> <span class="token comment">// a is created, initialized, and enters scope here</span>
+    <span class="token keyword keyword-int">int</span> b<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-181-close">{</span> <span class="token number">6</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-181-open">}</span><span class="token punctuation">;</span> <span class="token comment">// b is created, initialized, and enters scope here</span>
+
+    <span class="token comment">// a and b are usable only within main()</span>
+
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token function">add</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-178-close">(</span>a<span class="token punctuation">,</span> b<span class="token punctuation brace-round brace-close brace-level-2" id="pair-178-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span> <span class="token comment">// calls add(5, 6), where x=5 and y=6</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-182-open">}</span> <span class="token comment">// b and a go out of scope and are destroyed here</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  Parameters <code>x</code> and <code>y</code> are created when the
+  <code>add</code> function is called, can only be seen/used within function
+  <code>add</code>, and are destroyed at the end of <code>add</code>. Variables
+  <code>a</code> and <code>b</code> are created within function
+  <code>main</code>, can only be seen/used within function <code>main</code>,
+  and are destroyed at the end of <code>main</code>.
+</p>
+<p>
+  To enhance your understanding of how all this fits together, let’s trace
+  through this program in a little more detail. The following happens, in order:
+</p>
+<div class="code-block code-block-6" style="margin: 8px 0; clear: both"></div>
+<ul>
+  <li>Execution starts at the top of <code>main</code>.</li>
+  <li>
+    <code>main</code> variable <code>a</code> is created and given value
+    <code>5</code>.
+  </li>
+  <li>
+    <code>main</code> variable <code>b</code> is created and given value
+    <code>6</code>.
+  </li>
+  <li>
+    Function <code>add</code> is called with argument values <code>5</code> and
+    <code>6</code>.
+  </li>
+  <li>
+    <code>add</code> parameters <code>x</code> and <code>y</code> are created
+    and initialized with values <code>5</code> and <code>6</code> respectively.
+  </li>
+  <li>
+    The expression <code>x + y</code> is evaluated to produce the value
+    <code>11</code>.
+  </li>
+  <li>
+    <code>add</code> copies the value <code>11</code> back to caller
+    <code>main</code>.
+  </li>
+  <li>
+    <code>add</code> parameters <code>y</code> and <code>x</code> are destroyed.
+  </li>
+  <li><code>main</code> prints <code>11</code> to the console.</li>
+  <li><code>main</code> returns <code>0</code> to the operating system.</li>
+  <li>
+    <code>main</code> variables <code>b</code> and <code>a</code> are destroyed.
+  </li>
+</ul>
+<p>And we’re done.</p>
+<p>
+  Note that if function <code>add</code> were to be called twice, parameters
+  <code>x</code> and <code>y</code> would be created and destroyed twice -- once
+  for each call. In a program with lots of functions and function calls,
+  variables are created and destroyed often.
+</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Functional separation
+</p>
+<p>
+  In the above example, it’s easy to see that variables <code>a</code> and
+  <code>b</code> are different variables from <code>x</code> and <code>y</code>.
+</p>
+<p>Now consider the following similar program:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">add</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-183-close">(</span><span class="token keyword keyword-int">int</span> x<span class="token punctuation">,</span> <span class="token keyword keyword-int">int</span> y<span class="token punctuation brace-round brace-close brace-level-1" id="pair-183-open">)</span> <span class="token comment">// add's x and y are created and enter scope here</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-186-close">{</span>
+    <span class="token comment">// add's x and y are visible/usable within this function only</span>
+    <span class="token keyword keyword-return">return</span> x <span class="token operator">+</span> y<span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-186-open">}</span> <span class="token comment">// add's y and x go out of scope and are destroyed here</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-184-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-184-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-189-close">{</span>
+    <span class="token keyword keyword-int">int</span> x<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-187-close">{</span> <span class="token number">5</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-187-open">}</span><span class="token punctuation">;</span> <span class="token comment">// main's x is created, initialized, and enters scope here</span>
+    <span class="token keyword keyword-int">int</span> y<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-188-close">{</span> <span class="token number">6</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-188-open">}</span><span class="token punctuation">;</span> <span class="token comment">// main's y is created, initialized, and enters scope here</span>
+
+    <span class="token comment">// main's x and y are usable within this function only</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token function">add</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-185-close">(</span>x<span class="token punctuation">,</span> y<span class="token punctuation brace-round brace-close brace-level-2" id="pair-185-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span> <span class="token comment">// calls function add() with x=5 and y=6</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-189-open">}</span> <span class="token comment">// main's y and x go out of scope and are destroyed here</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  In this example, all we’ve done is change the names of variables
+  <code>a</code> and <code>b</code> inside of function <code>main</code> to
+  <code>x</code> and <code>y</code>. This program compiles and runs identically,
+  even though functions <code>main</code> and <code>add</code> both have
+  variables named <code>x</code> and <code>y</code>. Why does this work?
+</p>
+<p>
+  First, we need to recognize that even though functions <code>main</code> and
+  <code>add</code> both have variables named <code>x</code> and <code>y</code>,
+  these variables are distinct. The <code>x</code> and <code>y</code> in
+  function <code>main</code> have nothing to do with the <code>x</code> and
+  <code>y</code> in function <code>add</code> -- they just happen to share the
+  same names.
+</p>
+<div class="code-block code-block-7" style="margin: 8px 0; clear: both"></div>
+<p>
+  Second, when inside of function <code>main</code>, the names
+  <code>x</code> and <code>y</code> refer to main’s locally scoped variables
+  <code>x</code> and <code>y</code>. Those variables can only be seen (and used)
+  inside of <code>main</code>. Similarly, when inside function <code>add</code>,
+  the names <code>x</code> and <code>y</code> refer to function parameters
+  <code>x</code> and <code>y</code>, which can only be seen (and used) inside of
+  <code>add</code>.
+</p>
+<p>
+  In short, neither <code>add</code> nor <code>main</code> know that the other
+  function has variables with the same names. Because the scopes don’t overlap,
+  it’s always clear to the compiler which <code>x</code> and <code>y</code> are
+  being referred to at any time.
+</p>
+<div class="cpp-note cpp-lightbluebackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Key insight</p>
+  <p>
+    Names used for function parameters or variables declared in a function body
+    are only visible within the function that declares them. This means local
+    variables within a function can be named without regard for the names of
+    variables in other functions. This helps keep functions independent.
+  </p>
+</div>
+<p>
+  We’ll talk more about local scope, and other kinds of scope, in a future
+  chapter.
+</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Where to define local variables
+</p>
+<p>
+  In modern C++, the best practice is that local variables inside the function
+  body should be defined as close to their first use as reasonable:
+</p>
+<div class="code-block code-block-8" style="margin: 8px 0; clear: both"></div>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-190-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-190-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-194-close">{</span>
+	std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Enter an integer: "</span><span class="token punctuation">;</span>
+	<span class="token keyword keyword-int">int</span> x<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-191-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-191-open">}</span><span class="token punctuation">;</span>       <span class="token comment">// x defined here</span>
+	std<span class="token double-colon punctuation">::</span>cin <span class="token operator">&gt;&gt;</span> x<span class="token punctuation">;</span> <span class="token comment">// and used here</span>
+
+	std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Enter another integer: "</span><span class="token punctuation">;</span>
+	<span class="token keyword keyword-int">int</span> y<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-192-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-192-open">}</span><span class="token punctuation">;</span>       <span class="token comment">// y defined here</span>
+	std<span class="token double-colon punctuation">::</span>cin <span class="token operator">&gt;&gt;</span> y<span class="token punctuation">;</span> <span class="token comment">// and used here</span>
+
+	<span class="token keyword keyword-int">int</span> sum<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-193-close">{</span> x <span class="token operator">+</span> y <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-193-open">}</span><span class="token punctuation">;</span> <span class="token comment">// sum can be initialized with intended value</span>
+	std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"The sum is: "</span> <span class="token operator">&lt;&lt;</span> sum <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+	<span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-194-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  In the above example, each variable is defined just before it is first used.
+  There’s no need to be strict about this -- if you prefer to swap lines 5 and
+  6, that’s fine.
+</p>
+<div class="cpp-note cpp-lightgreenbackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Best practice</p>
+  <p>Define your local variables as close to their first use as reasonable.</p>
+</div>
+<div class="cpp-note cpp-lightgraybackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">As an aside…</p>
+  <p>
+    Due to the limitations of older, more primitive compilers, the C language
+    used to require all local variables be defined at the top of the function.
+    The equivalent C++ program using that style would look like this:
+  </p>
+  <div class="code-toolbar">
+    <pre
+      class="line-numbers language-cpp"
+      tabindex="0"
+    ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-195-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-195-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-199-close">{</span>
+	<span class="token keyword keyword-int">int</span> x<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-196-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-196-open">}</span><span class="token punctuation">,</span> y<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-197-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-197-open">}</span><span class="token punctuation">,</span> sum<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-198-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-198-open">}</span><span class="token punctuation">;</span> <span class="token comment">// how are these used?</span>
+
+	std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Enter an integer: "</span><span class="token punctuation">;</span>
+	std<span class="token double-colon punctuation">::</span>cin <span class="token operator">&gt;&gt;</span> x<span class="token punctuation">;</span>
+
+	std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Enter another integer: "</span><span class="token punctuation">;</span>
+	std<span class="token double-colon punctuation">::</span>cin <span class="token operator">&gt;&gt;</span> y<span class="token punctuation">;</span>
+
+	sum <span class="token operator">=</span> x <span class="token operator">+</span> y<span class="token punctuation">;</span>
+	std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"The sum is: "</span> <span class="token operator">&lt;&lt;</span> sum <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+	<span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-199-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+    <div class="toolbar">
+      <div class="toolbar-item">
+        <button
+          class="copy-to-clipboard-button"
+          type="button"
+          data-copy-state="copy"
+        >
+          <span>Copy</span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <p>This style is suboptimal for several reasons:</p>
+  <ul>
+    <li>
+      The intended use of these variables isn’t apparent at the point of
+      definition. You have to scan through the entire function to determine
+      where and how each variable is used.
+    </li>
+    <li>
+      The intended initialization value may not be available at the top of the
+      function (e.g. we can’t initialize <code>sum</code> to its intended value
+      because we don’t know the value of <code>x</code> and <code>y</code> yet).
+    </li>
+    <li>
+      There may be many lines between a variable’s initializer and its first
+      use. If we don’t remember what value it was initialized with, we will have
+      to scroll back to the top of the function, which is distracting.
+    </li>
+  </ul>
+  <p>This restriction was lifted in the C99 language standard.</p>
+</div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  When to use function parameters vs Local variables
+</p>
+<p>
+  Because function parameters and local variable can both be used within the
+  body of a function, new programmers sometimes struggle to understand when each
+  should be used. A function parameter should be used when the caller will pass
+  in the initialization value as an argument. A local variable should be used
+  otherwise.
+</p>
+<p>
+  Using a function parameter when you should use a local variable leads to code
+  looking like this:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">getValueFromUser</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-200-close">(</span><span class="token keyword keyword-int">int</span> val<span class="token punctuation brace-round brace-close brace-level-1" id="pair-200-open">)</span> <span class="token comment">// val is a function parameter</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-203-close">{</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Enter a value: "</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>cin <span class="token operator">&gt;&gt;</span> val<span class="token punctuation">;</span>
+    <span class="token keyword keyword-return">return</span> val<span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-203-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-201-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-201-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-206-close">{</span>
+    <span class="token keyword keyword-int">int</span> x <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-204-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-204-open">}</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-int">int</span> num <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-205-close">{</span> <span class="token function">getValueFromUser</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-202-close">(</span>x<span class="token punctuation brace-round brace-close brace-level-3" id="pair-202-open">)</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-205-open">}</span><span class="token punctuation">;</span> <span class="token comment">// main must pass x as an argument</span>
+
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"You entered "</span> <span class="token operator">&lt;&lt;</span> num <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-206-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  In the above example, <code>getValueFromUser()</code> has defined
+  <code>val</code> as a function parameter. Because of this,
+  <code>main()</code> must define <code>x</code> so that it has something to
+  pass as an argument. However, the actual value of <code>x</code> is never
+  used, and the value that <code>val</code> is initialized with is never used.
+  Making the caller define and pass a variable that is never used adds needless
+  complexity.
+</p>
+<p>The correct way to write this would be as follows:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">getValueFromUser</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-207-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-207-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-211-close">{</span>
+    <span class="token keyword keyword-int">int</span> val <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-210-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-210-open">}</span><span class="token punctuation">;</span> <span class="token comment">// val is a local variable</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Enter a value: "</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>cin <span class="token operator">&gt;&gt;</span> val<span class="token punctuation">;</span>
+    <span class="token keyword keyword-return">return</span> val<span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-211-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-208-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-208-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-213-close">{</span>
+    <span class="token keyword keyword-int">int</span> num <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-212-close">{</span> <span class="token function">getValueFromUser</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-209-close">(</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-209-open">)</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-212-open">}</span><span class="token punctuation">;</span> <span class="token comment">// main does not need to pass anything</span>
+
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"You entered "</span> <span class="token operator">&lt;&lt;</span> num <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-213-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  In this example, <code>val</code> is now a local variable.
+  <code>main()</code> is now simpler because it does not need to define or pass
+  a variable to call <code>getValueFromUser()</code>.
+</p>
+<div class="cpp-note cpp-lightgreenbackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Best practice</p>
+  <p>When a variable is needed within a function:</p>
+  <ul>
+    <li>
+      Use a function parameter when the caller will pass in the initialization
+      value for the variable as an argument.
+    </li>
+    <li>Use a local variable otherwise.</li>
+  </ul>
+</div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  <a name="temporaries"></a>Introduction to temporary objects
+  <a href="#temporaries"><i class="fa fa-link" style="font-size: 0.8em"></i></a>
+</p>
+<p>
+  A <strong>temporary object</strong> (also sometimes called an
+  <strong>anonymous object</strong>) is an unnamed object that is used to hold a
+  value that is only needed for a short period of time. Temporary objects are
+  generated by the compiler when they are needed.
+</p>
+<p>
+  There are many different ways that temporary values can be created, but here’s
+  a common one:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">getValueFromUser</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-214-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-214-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-218-close">{</span>
+ 	std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Enter an integer: "</span><span class="token punctuation">;</span>
+	<span class="token keyword keyword-int">int</span> input<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-217-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-217-open">}</span><span class="token punctuation">;</span>
+	std<span class="token double-colon punctuation">::</span>cin <span class="token operator">&gt;&gt;</span> input<span class="token punctuation">;</span>
+
+	<span class="token keyword keyword-return">return</span> input<span class="token punctuation">;</span> <span class="token comment">// return the value of input back to the caller</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-218-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-215-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-215-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-219-close">{</span>
+	std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token function">getValueFromUser</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-216-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-216-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span> <span class="token comment">// where does the returned value get stored?</span>
+
+	<span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-219-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  In the above program, the function <code>getValueFromUser()</code> returns the
+  value stored in local variable <code>input</code> back to the caller. Because
+  <code>input</code> will be destroyed at the end of the function, the caller
+  receives a copy of the value so that it has a value it can use even after
+  <code>input</code> is destroyed.
+</p>
+<p>
+  But where is the value that is copied back to the caller stored? We haven’t
+  defined any variables in <code>main()</code>. The answer is that the return
+  value is stored in a temporary object. This temporary object is then passed to
+  <code>std::cout</code> to be printed.
+</p>
+<div class="cpp-note cpp-lightbluebackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Key insight</p>
+  <p>
+    Return by value returns a temporary object (that holds a copy of the return
+    value) to the caller.
+  </p>
+</div>
+<p>
+  Temporary objects have no scope at all (this makes sense, since scope is a
+  property of an identifier, and temporary objects have no identifier).
+</p>
+<p>
+  Temporary objects are destroyed at the end of the full expression in which
+  they are created. This means temporary objects are always destroyed before the
+  next statement executes.
+</p>
+<p>
+  In our example above, the temporary object created to hold the return value of
+  <code>getValueFromUser()</code> is destroyed after
+  <code>std::cout &lt;&lt; getValueFromUser() &lt;&lt; '\n'</code> executes.
+</p>
+<p>
+  In the case where a temporary object is used to initialize a variable, the
+  initialization happens before the destruction of the temporary.
+</p>
+<p>
+  In modern C++ (especially since C++17), the compiler has many tricks to avoid
+  generating temporaries where previously it would have needed to. For example,
+  when we use a return value to initialize a variable, this would normally
+  result in the creation of a temporary holding the return value, and then using
+  the temporary to initialize the variable. However, in modern C++, the compiler
+  will often skip creating the temporary and just initialize the variable
+  directly with the return value.
+</p>
+<p>
+  Similarly, in the above example, since the return value of
+  <code>getValueFromUser()</code> is immediately output, the compiler can skip
+  creation and destruction of the temporary in <code>main()</code>, and use the
+  return value of <code>getValueFromUser()</code> to directly initialize the
+  parameter of <code>operator&lt;&lt;</code>.
+</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Quiz time
+</p>
+<div class="quiz" style="clear: both">
+  <p class="quiz-header">Question #1</p>
+  <p>What does the following program print?</p>
+  <div class="code-toolbar">
+    <pre
+      class="line-numbers language-cpp"
+      tabindex="0"
+    ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-void">void</span> <span class="token function">doIt</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-220-close">(</span><span class="token keyword keyword-int">int</span> x<span class="token punctuation brace-round brace-close brace-level-1" id="pair-220-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-224-close">{</span>
+    <span class="token keyword keyword-int">int</span> y<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-223-close">{</span> <span class="token number">4</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-223-open">}</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"doIt: x = "</span> <span class="token operator">&lt;&lt;</span> x <span class="token operator">&lt;&lt;</span> <span class="token string">" y = "</span> <span class="token operator">&lt;&lt;</span> y <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+    x <span class="token operator">=</span> <span class="token number">3</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"doIt: x = "</span> <span class="token operator">&lt;&lt;</span> x <span class="token operator">&lt;&lt;</span> <span class="token string">" y = "</span> <span class="token operator">&lt;&lt;</span> y <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-224-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-221-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-221-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-227-close">{</span>
+    <span class="token keyword keyword-int">int</span> x<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-225-close">{</span> <span class="token number">1</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-225-open">}</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-int">int</span> y<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-226-close">{</span> <span class="token number">2</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-226-open">}</span><span class="token punctuation">;</span>
+
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"main: x = "</span> <span class="token operator">&lt;&lt;</span> x <span class="token operator">&lt;&lt;</span> <span class="token string">" y = "</span> <span class="token operator">&lt;&lt;</span> y <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+    <span class="token function">doIt</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-222-close">(</span>x<span class="token punctuation brace-round brace-close brace-level-2" id="pair-222-open">)</span><span class="token punctuation">;</span>
+
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"main: x = "</span> <span class="token operator">&lt;&lt;</span> x <span class="token operator">&lt;&lt;</span> <span class="token string">" y = "</span> <span class="token operator">&lt;&lt;</span> y <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-227-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+    <div class="toolbar">
+      <div class="toolbar-item">
+        <button
+          class="copy-to-clipboard-button"
+          type="button"
+          data-copy-state="copy"
+        >
+          <span>Copy</span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <p>
+    <a
+      class="solution_link_show"
+      href="javascript:void(0)"
+      onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_0'),this,'Show Solution','Hide Solution')"
+      >Show Solution</a
+    >
+  </p>
+  <div class="wpsolution" id="cpp_solution_id_0" style="display: none">
+    <pre>
+main: x = 1 y = 2
+doIt: x = 1 y = 4
+doIt: x = 3 y = 4
+main: x = 1 y = 2
+</pre
+    >
+    <p>Here’s what happens in this program:</p>
+    <ul>
+      <li>execution starts at the top of <code>main</code></li>
+      <li>
+        <code>main</code>‘s variable <code>x</code> is created and initialized
+        with value <code>1</code>
+      </li>
+      <li>
+        <code>main</code>‘s variable <code>y</code> is created and initialized
+        with value <code>2</code>
+      </li>
+      <li><code>std::cout</code> prints <code>main: x = 1 y = 2</code></li>
+      <li><code>doIt</code> is called with argument <code>1</code></li>
+      <li>
+        <code>doIt</code>‘s parameter <code>x</code> is created and initialized
+        with value <code>1</code>
+      </li>
+      <li>
+        <code>doIt</code>’s variable <code>y</code> is created and initialized
+        with value <code>4</code>
+      </li>
+      <li><code>doIt</code> prints <code>doIt: x = 1 y = 4</code></li>
+      <li>
+        <code>doIt</code>‘s variable <code>x</code> is assigned the new value
+        <code>3</code>
+      </li>
+      <li><code>std::cout</code> prints <code>doIt: x = 3 y = 4</code></li>
+      <li>
+        <code>doIt</code>‘s <code>y</code> and <code>x</code> are destroyed
+      </li>
+      <li><code>std::cout</code> prints <code>main: x = 1 y = 2</code></li>
+      <li><code>main</code> returns <code>0</code> to the operating system</li>
+      <li>
+        <code>main</code>‘s <code>y</code> and <code>x</code> are destroyed
+      </li>
+    </ul>
+    <p>
+      Note that even though <code>doIt</code>‘s variables <code>x</code> and
+      <code>y</code> had their values initialized or assigned to something
+      different than <code>main</code>‘s, <code>main</code>‘s <code>x</code> and
+      <code>y</code> were unaffected because they are different variables.
+    </p>
+  </div>
+  <p></p>
+</div>
+<div class="prevnext">
+  <div class="prevnext-inline">
+    <a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/why-functions-are-useful-and-how-to-use-them-effectively/"
+      ><div class="nav-button nav-button-next">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-right" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Next lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">2.6</span>Why functions are
+            useful, and how to use them effectively
+          </div>
+        </div>
+      </div></a
+    ><a class="nav-link" href="/"
+      ><div class="nav-button nav-button-index">
+        <div class="nav-button-icon">
+          <i class="fa fa-home" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Back to table of contents</div>
+        </div>
+      </div></a
+    ><a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/introduction-to-function-parameters-and-arguments/"
+      ><div class="nav-button nav-button-prev">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-left" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Previous lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">2.4</span>Introduction to
+            function parameters and arguments
+          </div>
+        </div>
+      </div></a
+    >
+  </div>
+</div>
+<div class="code-block code-block-10" style="margin: 8px 0; clear: both"></div>

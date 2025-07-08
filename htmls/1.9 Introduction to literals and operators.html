@@ -1,0 +1,533 @@
+<div
+  class="code-block code-block-1"
+  style="margin: 8px 8px 8px 0; float: left"
+></div>
+<p class="cpp-section" data-ezoic-video-excluded="1">Literals</p>
+<p>Consider the following two statements:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp">std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Hello world!"</span><span class="token punctuation">;</span>
+<span class="token keyword keyword-int">int</span> x <span class="token punctuation brace-curly brace-open brace-level-1" id="pair-16-close">{</span> <span class="token number">5</span> <span class="token punctuation brace-curly brace-close brace-level-1" id="pair-16-open">}</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  What are ‘”Hello world!”‘ and ‘5’? They are literals. A
+  <strong>literal</strong> (also known as a <strong>literal constant</strong>)
+  is a fixed value that has been inserted directly into the source code.
+</p>
+<p>
+  Literals and variables both have a value (and a type). Unlike a variable
+  (whose value can be set and changed through initialization and assignment
+  respectively), the value of a literal is fixed and cannot be changed. The
+  literal <code>5</code> always has value <code>5</code>. This is why literals
+  are called constants.
+</p>
+<p>
+  To further highlight the difference between literals and variables, let’s
+  examine this short program:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-17-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-17-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-19-close">{</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token number">5</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span> <span class="token comment">// print the value of a literal</span>
+
+    <span class="token keyword keyword-int">int</span> x <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-18-close">{</span> <span class="token number">5</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-18-open">}</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> x <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span> <span class="token comment">// print the value of a variable</span>
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-19-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  On line 5, we’re printing the value <code>5</code> to the console. When the
+  compiler compiles this, it will generate code that causes
+  <code>std::cout</code> to print the value <code>5</code>. This value
+  <code>5</code> is compiled into the executable and can be used directly.
+</p>
+<div class="code-block code-block-2" style="margin: 8px 0; clear: both"></div>
+<p>
+  On line 7, we’re creating a variable named <code>x</code>, and initializing it
+  with value <code>5</code>. The compiler will generate code that copies the
+  literal value <code>5</code> into whatever memory location is given to
+  <code>x</code>. On line 8, when we print <code>x</code>, the compiler will
+  generate code that causes <code>std::cout</code> to print the value at the
+  memory location of <code>x</code> (which has value <code>5</code>).
+</p>
+<p>
+  Thus, both output statements do the same thing (print the value 5). But in the
+  case of the literal, the value <code>5</code> can be printed directly. In the
+  case of the variable, the value <code>5</code> must be fetched from the memory
+  the variable represents.
+</p>
+<p>
+  This also explains why a literal is constant while a variable can be changed.
+  A literal’s value is placed directly in the executable, and the executable
+  itself can’t be changed after it is created. A variable’s value is placed in
+  memory, and the value of memory can be changed while the executable is
+  running.
+</p>
+<div class="cpp-note cpp-lightbluebackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Key insight</p>
+  <p>
+    Literals are values that are inserted directly into the source code. These
+    values usually appear directly in the executable code (unless they are
+    optimized out).
+  </p>
+  <p>
+    Objects and variables represent memory locations that hold values. These
+    values can be fetched on demand.
+  </p>
+</div>
+<div class="cpp-note cpp-lightgraybackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Related content</p>
+  <p>
+    We talk more about literals in lesson
+    <a href="https://www.learncpp.com/cpp-tutorial/literals/">5.2 -- Literals</a
+    >.
+  </p>
+</div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Operators
+</p>
+<p>
+  In mathematics, an <strong>operation</strong> is a process involving zero or
+  more input values (called <strong>operands</strong>) that produces a new value
+  (called an <em>output value</em>). The specific operation to be performed is
+  denoted by a symbol called an <strong>operator</strong>.
+</p>
+<p>
+  For example, as children we all learn that <em>2 + 3</em> equals <em>5</em>.
+  In this case, the literals <em>2</em> and <em>3</em> are the operands, and the
+  symbol <em>+</em> is the operator that tells us to apply mathematical addition
+  on the operands to produce the new value <em>5</em>.
+</p>
+<div class="code-block code-block-3" style="margin: 8px 0; clear: both"></div>
+<p>In C++, operations work as you’d expect. For example:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-20-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-20-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-21-close">{</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token number">1</span> <span class="token operator">+</span> <span class="token number">2</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-21-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  In this program, the literals <code>1</code> and <code>2</code> are operands
+  to the plus (<code>+</code>) operator, which produces the output value
+  <code>3</code>. This output value is then printed to the console. In C++, the
+  output value of an operation is often called a <strong>return value</strong>.
+</p>
+<p>
+  You are likely already quite familiar with standard arithmetic operators from
+  common usage in mathematics, including addition (<code>+</code>), subtraction
+  (<code>-</code>), multiplication (<code>*</code>), and division
+  (<code>/</code>). In C++, assignment (<code>=</code>) is an operator as well,
+  as are insertion (<code>&lt;&lt;</code>), extraction (<code>&gt;&gt;</code>),
+  and equality (<code>==</code>). While most operators have symbols for names
+  (e.g. <code>+</code>, or <code>==</code>), there are also a number of
+  operators that are keywords (e.g. <code>new</code>, <code>delete</code>, and
+  <code>throw</code>).
+</p>
+<div class="cpp-note cpp-lightgraybackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Author’s note</p>
+  <p>
+    For reasons that will become clear when we discuss operators in more detail,
+    for operators that are symbols, it is common to append the operator’s symbol
+    to the word <em>operator</em>.
+  </p>
+  <p>
+    For example, the plus operator would be written <code>operator+</code>, and
+    the extraction operator would be written <code>operator&gt;&gt;</code>.
+  </p>
+</div>
+<p>
+  The number of operands that an operator takes as input is called the
+  operator’s <strong>arity</strong>. Few people know what this word means, so
+  don’t drop it in a conversation and expect anybody to have any idea what
+  you’re talking about. Operators in C++ come in four different arities:
+</p>
+<p>
+  <strong>Unary</strong> operators act on one operand. An example of a unary
+  operator is the <code>-</code> operator. For example, given <code>-5</code>,
+  <code>operator-</code> takes literal operand <code>5</code> and flips its sign
+  to produce new output value <code>-5</code>.
+</p>
+<div class="code-block code-block-4" style="margin: 8px 0; clear: both"></div>
+<p>
+  <strong>Binary</strong> operators act on two operands (often called
+  <em>left</em> and <em>right</em>, as the left operand appears on the left side
+  of the operator, and the right operand appears on the right side of the
+  operator). An example of a binary operator is the <code>+</code> operator. For
+  example, given <code>3 + 4</code>, <code>operator+</code> takes the left
+  operand <code>3</code> and the right operand <code>4</code> and applies
+  mathematical addition to produce new output value <code>7</code>. The
+  insertion (<code>&lt;&lt;</code>) and extraction (<code>&gt;&gt;</code>)
+  operators are binary operators, taking <code>std::cout</code> or
+  <code>std::cin</code> on the left side, and the value to output or variable to
+  input to on the right side.
+</p>
+<p>
+  <strong>Ternary</strong> operators act on three operands. There is only one of
+  these in C++ (the conditional operator), which we’ll cover later.
+</p>
+<p>
+  <strong>Nullary</strong> operators act on zero operands. There is also only
+  one of these in C++ (the throw operator), which we’ll also cover later.
+</p>
+<p>
+  Note that some operators have more than one meaning depending on how they are
+  used. For example, <code>operator-</code> has two contexts. It can be used in
+  unary form to invert a number’s sign (e.g. to convert <code>5</code> to
+  <code>-5</code>, or vice versa), or it can be used in binary form to do
+  subtraction (e.g. <code>4 - 3</code>).
+</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Chaining operators
+</p>
+<p>
+  Operators can be chained together such that the output of one operator can be
+  used as the input for another operator. For example, given the following:
+  <code>2 * 3 + 4</code>, the multiplication operator goes first, and converts
+  left operand <code>2</code> and right operand <code>3</code> into return value
+  <code>6</code> (which becomes the left operand for the plus operator). Next,
+  the plus operator executes, and converts left operand <code>6</code> and right
+  operand <code>4</code> into new value <code>10</code>.
+</p>
+<div class="code-block code-block-5" style="margin: 8px 0; clear: both"></div>
+<p>
+  We’ll talk more about the order in which operators execute when we do a deep
+  dive into the topic of operators. For now, it’s enough to know that the
+  arithmetic operators execute in the same order as they do in standard
+  mathematics: Parenthesis first, then Exponents, then Multiplication &amp;
+  Division, then Addition &amp; Subtraction. This ordering is sometimes
+  abbreviated <em>PEMDAS</em>, or expanded to the mnemonic “Please Excuse My
+  Dear Aunt Sally”.
+</p>
+<div class="cpp-note cpp-lightgraybackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Author’s note</p>
+  <p>
+    In some countries, PEMDAS is taught as PEDMAS, BEDMAS, BODMAS, or BIDMAS
+    instead.
+  </p>
+</div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Return values and side effects
+</p>
+<p>
+  Most operators in C++ just use their operands to calculate a return value. For
+  example, <code>-5</code> produces return value <code>-5</code> and
+  <code>2 + 3</code> produces return value <code>5</code>. There are a few
+  operators that do not produce return values (such as <code>delete</code> and
+  <code>throw</code>). We’ll cover what these do later.
+</p>
+<p>
+  Some operators have additional behaviors. An operator (or function) that has
+  some observable effect beyond producing a return value is said to have a
+  <strong>side effect</strong>. For example, <code>x = 5</code> has the side
+  effect of assigning value <code>5</code> to variable <code>x</code>. The
+  changed value of <code>x</code> is observable (e.g. by printing the value of
+  <code>x</code>) even after the operator has finished executing.
+  <code>std::cout &lt;&lt; 5</code> has the side effect of printing
+  <code>5</code> to the console. We can observe the fact that <code>5</code> has
+  been printed to the console even after <code>std::cout &lt;&lt; 5</code> has
+  finished executing.
+</p>
+<div class="cpp-note cpp-lightgraybackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Nomenclature</p>
+  <p>
+    In common language, the term “side effect” is typically used to mean a
+    secondary (often negative or unexpected) result of some other thing
+    happening (such as taking medicine). For example, a common side effect of
+    taking oral antibiotics is diarrhea. As such, we often think of side effects
+    as things we want to avoid, or things that are incidental to the primary
+    goal.
+  </p>
+  <p>
+    In C++, the term “side effect” has a different meaning: it is an observable
+    effect of an operator or function beyond producing a return value.
+  </p>
+  <p>
+    Since assignment has the observable effect of changing the value of an
+    object, this is considered a side effect. We use certain operators (e.g. the
+    assignment operator) primarily for their side effects (rather than the
+    return value those operators produce). In such cases, the side effect is
+    both beneficial and predictable (and it is the return value that is often
+    incidental).
+  </p>
+</div>
+<div class="cpp-note cpp-lightgraybackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">For advanced readers</p>
+  <p>
+    For the operators that we call primarily for their return values (e.g.
+    <code>operator+</code> or <code>operator*</code>), it’s usually obvious what
+    their return values will be (e.g. the sum or product of the operands).
+  </p>
+  <p>
+    For the operators we call primarily for their side effects (e.g.
+    <code>operator=</code> or <code>operator&lt;&lt;</code>), it’s not always
+    obvious what return values they produce (if any). For example, what return
+    value would you expect <code>x = 5</code> to have?
+  </p>
+  <p>
+    Both <code>operator=</code> and <code>operator&lt;&lt;</code> (when used to
+    output values to the console) return their left operand. Thus,
+    <code>x = 5</code> returns <code>x</code>, and
+    <code>std::cout &lt;&lt; 5</code> returns <code>std::cout</code>. This is
+    done so that these operators can be chained.
+  </p>
+  <p>
+    For example, <code>x = y = 5</code> evaluates as <code>x = (y = 5)</code>.
+    First <code>y = 5</code> assigns <code>5</code> to <code>y</code>. This
+    operation then returns <code>y</code>, which can then be assigned to
+    <code>x</code>.
+  </p>
+  <p>
+    <code>std::cout &lt;&lt; "Hello " &lt;&lt; "world!"</code> evaluates as
+    <code>(std::cout &lt;&lt; "Hello ") &lt;&lt; "world!"</code>. This first
+    prints <code>"Hello "</code> to the console. This operation returns
+    <code>std::cout</code>, which can then be used to print
+    <code>"world!"</code> to the console as well.
+  </p>
+  <p>
+    We talk more about the order in which operators evaluate in lesson
+    <a
+      href="https://www.learncpp.com/cpp-tutorial/operator-precedence-and-associativity/"
+      >6.1 -- Operator precedence and associativity</a
+    >.
+  </p>
+</div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Quiz time
+</p>
+<p></p>
+<p class="cpp-quiz-question" style="clear: both">Question #1</p>
+<br />For each of the following, indicate what output they produce:
+<p></p>
+<div class="code-block code-block-6" style="margin: 8px 0; clear: both"></div>
+<p>a)</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp">std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token number">3</span> <span class="token operator">+</span> <span class="token number">4</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  <a
+    class="solution_link_show"
+    href="javascript:void(0)"
+    onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_0'),this,'Show Solution','Hide Solution')"
+    >Show Solution</a
+  >
+</p>
+<div class="wpsolution" id="cpp_solution_id_0" style="display: none">7</div>
+<p>b)</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp">std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token number">3</span> <span class="token operator">+</span> <span class="token number">4</span> <span class="token operator">-</span> <span class="token number">5</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  <a
+    class="solution_link_show"
+    href="javascript:void(0)"
+    onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_1'),this,'Show Solution','Hide Solution')"
+    >Show Solution</a
+  >
+</p>
+<div class="wpsolution" id="cpp_solution_id_1" style="display: none">2</div>
+<p>c)</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp">std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token number">2</span> <span class="token operator">+</span> <span class="token number">3</span> <span class="token operator">*</span> <span class="token number">4</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  <a
+    class="solution_link_show"
+    href="javascript:void(0)"
+    onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_2'),this,'Show Solution','Hide Solution')"
+    >Show Solution</a
+  >
+</p>
+<div class="wpsolution" id="cpp_solution_id_2" style="display: none">
+  <ol start="14">
+    <li>
+      Multiplication goes before addition, so 3 * 4 goes first, producing the
+      result 12. 2 + 12 is 14.
+    </li>
+  </ol>
+</div>
+<p>d) Extra credit:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-int">int</span> x <span class="token punctuation brace-curly brace-open brace-level-1" id="pair-23-close">{</span> <span class="token number">2</span> <span class="token punctuation brace-curly brace-close brace-level-1" id="pair-23-open">}</span><span class="token punctuation">;</span>
+std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token punctuation brace-round brace-open brace-level-1" id="pair-22-close">(</span>x <span class="token operator">=</span> <span class="token number">5</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-22-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  <a
+    class="solution_link_show"
+    href="javascript:void(0)"
+    onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_3'),this,'Show Solution','Hide Solution')"
+    >Show Solution</a
+  >
+</p>
+<div class="wpsolution" id="cpp_solution_id_3" style="display: none">
+  <ol start="5">
+    <li>
+      <code>x = 5</code> assigns the value <code>5</code> to <code>x</code>, and
+      then returns <code>x</code>. The value of <code>x</code> (now
+      <code>5</code>) is then printed to the console.
+    </li>
+  </ol>
+</div>
+<div class="prevnext">
+  <div class="prevnext-inline">
+    <a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/introduction-to-expressions/"
+      ><div class="nav-button nav-button-next">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-right" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Next lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">1.10</span>Introduction to
+            expressions
+          </div>
+        </div>
+      </div></a
+    ><a class="nav-link" href="/"
+      ><div class="nav-button nav-button-index">
+        <div class="nav-button-icon">
+          <i class="fa fa-home" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Back to table of contents</div>
+        </div>
+      </div></a
+    ><a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/whitespace-and-basic-formatting/"
+      ><div class="nav-button nav-button-prev">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-left" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Previous lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">1.8</span>Whitespace and
+            basic formatting
+          </div>
+        </div>
+      </div></a
+    >
+  </div>
+</div>
+<div class="code-block code-block-10" style="margin: 8px 0; clear: both"></div>

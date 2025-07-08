@@ -1,0 +1,1076 @@
+<div
+  class="code-block code-block-1"
+  style="margin: 8px 8px 8px 0; float: left"
+></div>
+<p>
+  In lesson
+  <a
+    href="https://www.learncpp.com/cpp-tutorial/array-indexing-and-length-using-enumerators/"
+    >16.9 -- Array indexing and length using enumerators</a
+  >, we discussed arrays and enumerations.
+</p>
+<p>
+  Now that we have <code>constexpr std::array</code> in our toolkit, we’re going
+  to continue that discussion and show a few additional tricks.
+</p>
+<p class="cpp-section cpp-topline" style="clear: both">
+  Using static assert to ensure the proper number of array initializers
+</p>
+<p>
+  When initializing a <code>constexpr std::array</code> using CTAD, the compiler
+  will deduce how long the array should be from the number of initializers. If
+  less initializers are provided than there should be, the array will be shorter
+  than expected, and indexing it can lead to undefined behavior.
+</p>
+<p>For example:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;array&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-enum">enum</span> <span class="token class-name">StudentNames</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-2-close">{</span>
+    kenny<span class="token punctuation">,</span> <span class="token comment">// 0</span>
+    kyle<span class="token punctuation">,</span> <span class="token comment">// 1</span>
+    stan<span class="token punctuation">,</span> <span class="token comment">// 2</span>
+    butters<span class="token punctuation">,</span> <span class="token comment">// 3</span>
+    cartman<span class="token punctuation">,</span> <span class="token comment">// 4</span>
+    max_students <span class="token comment">// 5</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-2-open">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-0-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-0-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-4-close">{</span>
+    <span class="token keyword keyword-constexpr">constexpr</span> std<span class="token double-colon punctuation">::</span>array testScores <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-3-close">{</span> <span class="token number">78</span><span class="token punctuation">,</span> <span class="token number">94</span><span class="token punctuation">,</span> <span class="token number">66</span><span class="token punctuation">,</span> <span class="token number">77</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-3-open">}</span><span class="token punctuation">;</span> <span class="token comment">// oops, only 4 values</span>
+
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Cartman got a score of "</span> <span class="token operator">&lt;&lt;</span> testScores<span class="token punctuation brace-square brace-open brace-level-2" id="pair-1-close">[</span>StudentNames<span class="token double-colon punctuation">::</span>cartman<span class="token punctuation brace-square brace-close brace-level-2" id="pair-1-open">]</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span> <span class="token comment">// undefined behavior due to invalid index</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-4-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 32px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  Whenever the number of initializers in a <code>constexpr std::array</code> can
+  be reasonably sanity checked, you can do so using a static assert:
+</p>
+<div
+  class="google-auto-placed"
+  style="width: 100%; height: auto; clear: both; text-align: center"
+>
+  <ins
+    data-ad-format="auto"
+    class="adsbygoogle adsbygoogle-noablate"
+    data-ad-client="ca-pub-0588844875925051"
+    data-adsbygoogle-status="done"
+    style="
+      display: block;
+      margin: 8px auto 14px;
+      background-color: transparent;
+      height: 0px;
+    "
+    data-ad-status="unfilled"
+    ><div
+      id="aswift_10_host"
+      style="
+        border: none;
+        height: 0px;
+        width: 1027px;
+        margin: 0px;
+        padding: 0px;
+        position: relative;
+        visibility: visible;
+        background-color: transparent;
+        display: inline-block;
+        overflow: hidden;
+        opacity: 0;
+      "
+    >
+      <iframe
+        id="aswift_10"
+        name="aswift_10"
+        browsingtopics="true"
+        style="
+          left: 0px;
+          position: absolute;
+          top: 0px;
+          border: 0px;
+          width: 1027px;
+          height: 0px;
+          min-height: auto;
+          max-height: none;
+          min-width: auto;
+          max-width: none;
+        "
+        sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation"
+        width="1027"
+        height="0"
+        frameborder="0"
+        marginwidth="0"
+        marginheight="0"
+        vspace="0"
+        hspace="0"
+        allowtransparency="true"
+        scrolling="no"
+        allow="attribution-reporting; run-ad-auction"
+        src="https://googleads.g.doubleclick.net/pagead/ads?client=ca-pub-0588844875925051&amp;output=html&amp;h=280&amp;adk=1954280309&amp;adf=55904918&amp;pi=t.aa~a.1825366864~rp.1&amp;w=1027&amp;abgtt=11&amp;fwrn=4&amp;fwrnh=100&amp;lmt=1750488334&amp;rafmt=1&amp;to=qs&amp;pwprc=4633386603&amp;format=1027x280&amp;url=https%3A%2F%2Fwww.learncpp.com%2Fcpp-tutorial%2Fstdarray-and-enumerations%2F&amp;fwr=0&amp;pra=3&amp;rpe=1&amp;resp_fmts=3&amp;wgl=1&amp;fa=40&amp;uach=WyJXaW5kb3dzIiwiMTkuMC4wIiwieDg2IiwiIiwiMTM3LjAuNzE1MS4xMjIiLG51bGwsMCxudWxsLCI2NCIsW1siR29vZ2xlIENocm9tZSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJDaHJvbWl1bSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJOb3QvQSlCcmFuZCIsIjI0LjAuMC4wIl1dLDBd&amp;dt=1751963151847&amp;bpp=1&amp;bdt=919&amp;idt=0&amp;shv=r20250702&amp;mjsv=m202507020101&amp;ptt=9&amp;saldr=aa&amp;abxe=1&amp;cookie=ID%3D05f6e82287d810b4%3AT%3D1751962604%3ART%3D1751962911%3AS%3DALNI_MaQYA0TSAU2k8xwY5tqlN0xFCcd6g&amp;gpic=UID%3D00001157d9e27d0a%3AT%3D1751962604%3ART%3D1751962911%3AS%3DALNI_MYgtHzQJAQQXY_151HTGSSfVxE8_A&amp;eo_id_str=ID%3D52c21936d98c6d2b%3AT%3D1751962604%3ART%3D1751962911%3AS%3DAA-AfjZsJ15yjdEPJ8d11hPojsJQ&amp;prev_fmts=0x0%2C336x280%2C160x600%2C160x600%2C1027x280%2C1027x280&amp;nras=4&amp;correlator=3487877809184&amp;frm=20&amp;pv=1&amp;u_tz=480&amp;u_his=2&amp;u_h=600&amp;u_w=800&amp;u_ah=600&amp;u_aw=800&amp;u_cd=24&amp;u_sd=1&amp;dmc=8&amp;adx=27&amp;ady=1072&amp;biw=1080&amp;bih=1024&amp;scr_x=0&amp;scr_y=0&amp;eid=95353387%2C95362656%2C95365226%2C95365234%2C95359265%2C95365115%2C95365797&amp;oid=2&amp;pvsid=7452417461664902&amp;tmod=1708485235&amp;uas=0&amp;nvt=1&amp;fc=1920&amp;brdim=10%2C10%2C10%2C10%2C800%2C0%2C780%2C580%2C1080%2C1024&amp;vis=1&amp;rsz=%7C%7Cs%7C&amp;abl=NS&amp;fu=128&amp;bc=31&amp;bz=0.72&amp;td=1&amp;tdf=2&amp;psd=W251bGwsbnVsbCxudWxsLDNd&amp;nt=1&amp;ifi=11&amp;uci=a!b&amp;btvi=3&amp;fsb=1&amp;dtd=16"
+        data-google-container-id="a!b"
+        tabindex="0"
+        title="Advertisement"
+        aria-label="Advertisement"
+        data-load-complete="true"
+        data-google-query-id="CMXElarrrI4DFRVZwgUd-RM7sA"
+      ></iframe></div
+  ></ins>
+</div>
+<div class="code-block code-block-2" style="margin: 8px 0; clear: both"></div>
+
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;array&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-enum">enum</span> <span class="token class-name">StudentNames</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-9-close">{</span>
+    kenny<span class="token punctuation">,</span> <span class="token comment">// 0</span>
+    kyle<span class="token punctuation">,</span> <span class="token comment">// 1</span>
+    stan<span class="token punctuation">,</span> <span class="token comment">// 2</span>
+    butters<span class="token punctuation">,</span> <span class="token comment">// 3</span>
+    cartman<span class="token punctuation">,</span> <span class="token comment">// 4</span>
+    max_students <span class="token comment">// 5</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-9-open">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-5-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-5-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-11-close">{</span>
+    <span class="token keyword keyword-constexpr">constexpr</span> std<span class="token double-colon punctuation">::</span>array testScores <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-10-close">{</span> <span class="token number">78</span><span class="token punctuation">,</span> <span class="token number">94</span><span class="token punctuation">,</span> <span class="token number">66</span><span class="token punctuation">,</span> <span class="token number">77</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-10-open">}</span><span class="token punctuation">;</span>
+
+    <span class="token comment">// Ensure the number of test scores is the same as the number of students</span>
+    <span class="token keyword keyword-static_assert">static_assert</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-7-close">(</span>std<span class="token double-colon punctuation">::</span><span class="token function">size</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-6-close">(</span>testScores<span class="token punctuation brace-round brace-close brace-level-3" id="pair-6-open">)</span> <span class="token operator">==</span> max_students<span class="token punctuation brace-round brace-close brace-level-2" id="pair-7-open">)</span><span class="token punctuation">;</span> <span class="token comment">// compile error: static_assert condition failed</span>
+
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Cartman got a score of "</span> <span class="token operator">&lt;&lt;</span> testScores<span class="token punctuation brace-square brace-open brace-level-2" id="pair-8-close">[</span>StudentNames<span class="token double-colon punctuation">::</span>cartman<span class="token punctuation brace-square brace-close brace-level-2" id="pair-8-open">]</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-11-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  That way, if you add a new enumerator later but forget to add a corresponding
+  initializer to <code>testScores</code>, the program will fail to compile.
+</p>
+<div
+  class="google-auto-placed ap_container"
+  style="width: 100%; height: auto; clear: both; text-align: center"
+>
+  <ins
+    data-ad-format="auto"
+    class="adsbygoogle adsbygoogle-noablate"
+    data-ad-client="ca-pub-0588844875925051"
+    data-adsbygoogle-status="done"
+    style="
+      display: block;
+      margin: auto;
+      background-color: transparent;
+      height: 0px;
+    "
+    data-ad-status="unfilled"
+    ><div
+      id="aswift_5_host"
+      style="
+        border: none;
+        height: 0px;
+        width: 1027px;
+        margin: 0px;
+        padding: 0px;
+        position: relative;
+        visibility: visible;
+        background-color: transparent;
+        display: inline-block;
+        overflow: hidden;
+        opacity: 0;
+      "
+    >
+      <iframe
+        id="aswift_5"
+        name="aswift_5"
+        browsingtopics="true"
+        style="
+          left: 0px;
+          position: absolute;
+          top: 0px;
+          border: 0px;
+          width: 1027px;
+          height: 0px;
+          min-height: auto;
+          max-height: none;
+          min-width: auto;
+          max-width: none;
+        "
+        sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation"
+        width="1027"
+        height="0"
+        frameborder="0"
+        marginwidth="0"
+        marginheight="0"
+        vspace="0"
+        hspace="0"
+        allowtransparency="true"
+        scrolling="no"
+        allow="attribution-reporting; run-ad-auction"
+        src="https://googleads.g.doubleclick.net/pagead/ads?client=ca-pub-0588844875925051&amp;output=html&amp;h=280&amp;adk=2947198520&amp;adf=3371738573&amp;w=1027&amp;abgtt=11&amp;fwrn=4&amp;fwrnh=100&amp;lmt=1750488334&amp;num_ads=1&amp;rafmt=1&amp;armr=3&amp;sem=mc&amp;pwprc=4633386603&amp;ad_type=text_image&amp;format=1027x280&amp;url=https%3A%2F%2Fwww.learncpp.com%2Fcpp-tutorial%2Fstdarray-and-enumerations%2F&amp;fwr=0&amp;pra=3&amp;rh=200&amp;rw=1026&amp;rpe=1&amp;resp_fmts=3&amp;wgl=1&amp;fa=27&amp;uach=WyJXaW5kb3dzIiwiMTkuMC4wIiwieDg2IiwiIiwiMTM3LjAuNzE1MS4xMjIiLG51bGwsMCxudWxsLCI2NCIsW1siR29vZ2xlIENocm9tZSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJDaHJvbWl1bSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJOb3QvQSlCcmFuZCIsIjI0LjAuMC4wIl1dLDBd&amp;dt=1751963151770&amp;bpp=1&amp;bdt=841&amp;idt=-M&amp;shv=r20250702&amp;mjsv=m202507020101&amp;ptt=9&amp;saldr=aa&amp;abxe=1&amp;cookie=ID%3D05f6e82287d810b4%3AT%3D1751962604%3ART%3D1751962911%3AS%3DALNI_MaQYA0TSAU2k8xwY5tqlN0xFCcd6g&amp;gpic=UID%3D00001157d9e27d0a%3AT%3D1751962604%3ART%3D1751962911%3AS%3DALNI_MYgtHzQJAQQXY_151HTGSSfVxE8_A&amp;eo_id_str=ID%3D52c21936d98c6d2b%3AT%3D1751962604%3ART%3D1751962911%3AS%3DAA-AfjZsJ15yjdEPJ8d11hPojsJQ&amp;prev_fmts=0x0%2C336x280%2C160x600%2C160x600&amp;nras=2&amp;correlator=3487877809184&amp;frm=20&amp;pv=1&amp;u_tz=480&amp;u_his=2&amp;u_h=600&amp;u_w=800&amp;u_ah=600&amp;u_aw=800&amp;u_cd=24&amp;u_sd=1&amp;dmc=8&amp;adx=27&amp;ady=1537&amp;biw=1080&amp;bih=1024&amp;scr_x=0&amp;scr_y=0&amp;eid=95353387%2C95362656%2C95365226%2C95365234%2C95359265%2C95365115%2C95365797&amp;oid=2&amp;pvsid=7452417461664902&amp;tmod=1708485235&amp;uas=0&amp;nvt=1&amp;fc=1408&amp;brdim=10%2C10%2C10%2C10%2C800%2C0%2C780%2C580%2C1080%2C1024&amp;vis=1&amp;rsz=%7C%7Cs%7C&amp;abl=NS&amp;fu=128&amp;bc=31&amp;bz=0.72&amp;td=1&amp;tdf=2&amp;psd=W251bGwsbnVsbCxudWxsLDNd&amp;nt=1&amp;ifi=6&amp;uci=a!6&amp;btvi=1&amp;fsb=1&amp;dtd=13"
+        data-google-container-id="a!6"
+        tabindex="0"
+        title="Advertisement"
+        aria-label="Advertisement"
+        data-load-complete="true"
+        data-google-query-id="COTJkKrrrI4DFW5OwgUdUWknsA"
+      ></iframe></div
+  ></ins>
+</div>
+<p>
+  You can also use a static assert to ensure two different
+  <code>constexpr std::array</code> have the same length.
+</p>
+<p class="cpp-section cpp-topline" style="clear: both">
+  Using constexpr arrays for better enumeration input and output
+</p>
+<p>
+  In lesson
+  <a
+    href="https://www.learncpp.com/cpp-tutorial/introduction-to-overloading-the-i-o-operators/"
+    >13.5 -- Introduction to overloading the I/O operators</a
+  >, we covered a few ways to input and output the names of enumerators. To
+  assist in this task, we had helper functions that converted an enumerator to a
+  string and vice-versa. These functions each had their own (duplicate) set of
+  string literals, and we had to specifically code logic to check each:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-constexpr">constexpr</span> std<span class="token double-colon punctuation">::</span>string_view <span class="token function">getPetName</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-12-close">(</span>Pet pet<span class="token punctuation brace-round brace-close brace-level-1" id="pair-12-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-20-close">{</span>
+    <span class="token keyword keyword-switch">switch</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-13-close">(</span>pet<span class="token punctuation brace-round brace-close brace-level-2" id="pair-13-open">)</span>
+    <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-19-close">{</span>
+    <span class="token keyword keyword-case">case</span> cat<span class="token operator">:</span>   <span class="token keyword keyword-return">return</span> <span class="token string">"cat"</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-case">case</span> dog<span class="token operator">:</span>   <span class="token keyword keyword-return">return</span> <span class="token string">"dog"</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-case">case</span> pig<span class="token operator">:</span>   <span class="token keyword keyword-return">return</span> <span class="token string">"pig"</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-case">case</span> whale<span class="token operator">:</span> <span class="token keyword keyword-return">return</span> <span class="token string">"whale"</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-default">default</span><span class="token operator">:</span>    <span class="token keyword keyword-return">return</span> <span class="token string">"???"</span><span class="token punctuation">;</span>
+    <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-19-open">}</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-20-open">}</span>
+
+<span class="token keyword keyword-constexpr">constexpr</span> std<span class="token double-colon punctuation">::</span>optional<span class="token operator">&lt;</span>Pet<span class="token operator">&gt;</span> <span class="token function">getPetFromString</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-14-close">(</span>std<span class="token double-colon punctuation">::</span>string_view sv<span class="token punctuation brace-round brace-close brace-level-1" id="pair-14-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-22-close">{</span>
+    <span class="token keyword keyword-if">if</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-15-close">(</span>sv <span class="token operator">==</span> <span class="token string">"cat"</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-15-open">)</span>   <span class="token keyword keyword-return">return</span> cat<span class="token punctuation">;</span>
+    <span class="token keyword keyword-if">if</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-16-close">(</span>sv <span class="token operator">==</span> <span class="token string">"dog"</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-16-open">)</span>   <span class="token keyword keyword-return">return</span> dog<span class="token punctuation">;</span>
+    <span class="token keyword keyword-if">if</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-17-close">(</span>sv <span class="token operator">==</span> <span class="token string">"pig"</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-17-open">)</span>   <span class="token keyword keyword-return">return</span> pig<span class="token punctuation">;</span>
+    <span class="token keyword keyword-if">if</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-18-close">(</span>sv <span class="token operator">==</span> <span class="token string">"whale"</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-18-open">)</span> <span class="token keyword keyword-return">return</span> whale<span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-21-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-21-open">}</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-22-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  This means that if we were to add a new enumerator, we’d have to remember to
+  update these functions.
+</p>
+<div
+  class="google-auto-placed ap_container"
+  style="width: 100%; height: auto; clear: both; text-align: center"
+>
+  <ins
+    data-ad-format="auto"
+    class="adsbygoogle adsbygoogle-noablate"
+    data-ad-client="ca-pub-0588844875925051"
+    data-adsbygoogle-status="done"
+    style="
+      display: block;
+      margin: auto;
+      background-color: transparent;
+      height: 0px;
+    "
+    data-ad-status="unfilled"
+    ><div
+      id="aswift_6_host"
+      style="
+        border: none;
+        height: 0px;
+        width: 1027px;
+        margin: 0px;
+        padding: 0px;
+        position: relative;
+        visibility: visible;
+        background-color: transparent;
+        display: inline-block;
+        overflow: hidden;
+        opacity: 0;
+      "
+    >
+      <iframe
+        id="aswift_6"
+        name="aswift_6"
+        browsingtopics="true"
+        style="
+          left: 0px;
+          position: absolute;
+          top: 0px;
+          border: 0px;
+          width: 1027px;
+          height: 0px;
+          min-height: auto;
+          max-height: none;
+          min-width: auto;
+          max-width: none;
+        "
+        sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation"
+        width="1027"
+        height="0"
+        frameborder="0"
+        marginwidth="0"
+        marginheight="0"
+        vspace="0"
+        hspace="0"
+        allowtransparency="true"
+        scrolling="no"
+        allow="attribution-reporting; run-ad-auction"
+        src="https://googleads.g.doubleclick.net/pagead/ads?client=ca-pub-0588844875925051&amp;output=html&amp;h=280&amp;adk=2947198520&amp;adf=3751479629&amp;w=1027&amp;abgtt=11&amp;fwrn=4&amp;fwrnh=100&amp;lmt=1750488334&amp;num_ads=1&amp;rafmt=1&amp;armr=3&amp;sem=mc&amp;pwprc=4633386603&amp;ad_type=text_image&amp;format=1027x280&amp;url=https%3A%2F%2Fwww.learncpp.com%2Fcpp-tutorial%2Fstdarray-and-enumerations%2F&amp;fwr=0&amp;pra=3&amp;rh=200&amp;rw=1026&amp;rpe=1&amp;resp_fmts=3&amp;wgl=1&amp;fa=27&amp;uach=WyJXaW5kb3dzIiwiMTkuMC4wIiwieDg2IiwiIiwiMTM3LjAuNzE1MS4xMjIiLG51bGwsMCxudWxsLCI2NCIsW1siR29vZ2xlIENocm9tZSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJDaHJvbWl1bSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJOb3QvQSlCcmFuZCIsIjI0LjAuMC4wIl1dLDBd&amp;dt=1751963151770&amp;bpp=1&amp;bdt=841&amp;idt=0&amp;shv=r20250702&amp;mjsv=m202507020101&amp;ptt=9&amp;saldr=aa&amp;abxe=1&amp;cookie=ID%3D05f6e82287d810b4%3AT%3D1751962604%3ART%3D1751962911%3AS%3DALNI_MaQYA0TSAU2k8xwY5tqlN0xFCcd6g&amp;gpic=UID%3D00001157d9e27d0a%3AT%3D1751962604%3ART%3D1751962911%3AS%3DALNI_MYgtHzQJAQQXY_151HTGSSfVxE8_A&amp;eo_id_str=ID%3D52c21936d98c6d2b%3AT%3D1751962604%3ART%3D1751962911%3AS%3DAA-AfjZsJ15yjdEPJ8d11hPojsJQ&amp;prev_fmts=0x0%2C336x280%2C160x600%2C160x600%2C1027x280&amp;nras=3&amp;correlator=3487877809184&amp;frm=20&amp;pv=1&amp;u_tz=480&amp;u_his=2&amp;u_h=600&amp;u_w=800&amp;u_ah=600&amp;u_aw=800&amp;u_cd=24&amp;u_sd=1&amp;dmc=8&amp;adx=27&amp;ady=2393&amp;biw=1080&amp;bih=1024&amp;scr_x=0&amp;scr_y=0&amp;eid=95353387%2C95362656%2C95365226%2C95365234%2C95359265%2C95365115%2C95365797&amp;oid=2&amp;pvsid=7452417461664902&amp;tmod=1708485235&amp;uas=0&amp;nvt=1&amp;fc=1408&amp;brdim=10%2C10%2C10%2C10%2C800%2C0%2C780%2C580%2C1080%2C1024&amp;vis=1&amp;rsz=%7C%7Cs%7C&amp;abl=NS&amp;fu=128&amp;bc=31&amp;bz=0.72&amp;td=1&amp;tdf=2&amp;psd=W251bGwsbnVsbCxudWxsLDNd&amp;nt=1&amp;ifi=7&amp;uci=a!7&amp;btvi=2&amp;fsb=1&amp;dtd=14"
+        data-google-container-id="a!7"
+        tabindex="0"
+        title="Advertisement"
+        aria-label="Advertisement"
+        data-load-complete="true"
+        data-google-query-id="CPjJkKrrrI4DFb9FwgUdb4MUEw"
+      ></iframe></div
+  ></ins>
+</div>
+<div class="code-block code-block-3" style="margin: 8px 0; clear: both"></div>
+
+<p>
+  Let’s improve these functions a bit. In cases where the value of our
+  enumerators start at 0 and proceed sequentially (which is true for most
+  enumerations), we can use an array to hold the name of each enumerator.
+</p>
+<p>This allows us to do two things:</p>
+<ol start="1">
+  <li>
+    Index the array using the enumerator’s value to get the name of that
+    enumerator.
+  </li>
+  <li>
+    Use a loop to iterate through all of the names, and be able to correlate a
+    name back to the enumerator based on index.
+  </li>
+</ol>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;array&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;string&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;string_view&gt;</span></span>
+
+<span class="token keyword keyword-namespace">namespace</span> Color
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-42-close">{</span>
+    <span class="token keyword keyword-enum">enum</span> <span class="token class-name">Type</span>
+    <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-40-close">{</span>
+        black<span class="token punctuation">,</span>
+        red<span class="token punctuation">,</span>
+        blue<span class="token punctuation">,</span>
+        max_colors
+    <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-40-open">}</span><span class="token punctuation">;</span>
+
+    <span class="token comment">// use sv suffix so std::array will infer type as std::string_view</span>
+    <span class="token keyword keyword-using">using</span> <span class="token keyword keyword-namespace">namespace</span> std<span class="token double-colon punctuation">::</span>string_view_literals<span class="token punctuation">;</span> <span class="token comment">// for sv suffix</span>
+    <span class="token keyword keyword-constexpr">constexpr</span> std<span class="token double-colon punctuation">::</span>array colorName <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-41-close">{</span> <span class="token string">"black"</span>sv<span class="token punctuation">,</span> <span class="token string">"red"</span>sv<span class="token punctuation">,</span> <span class="token string">"blue"</span>sv <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-41-open">}</span><span class="token punctuation">;</span>
+
+    <span class="token comment">// Make sure we've defined strings for all our colors</span>
+    <span class="token keyword keyword-static_assert">static_assert</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-24-close">(</span>std<span class="token double-colon punctuation">::</span><span class="token function">size</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-23-close">(</span>colorName<span class="token punctuation brace-round brace-close brace-level-3" id="pair-23-open">)</span> <span class="token operator">==</span> max_colors<span class="token punctuation brace-round brace-close brace-level-2" id="pair-24-open">)</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-42-open">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword keyword-constexpr">constexpr</span> std<span class="token double-colon punctuation">::</span>string_view <span class="token function">getColorName</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-25-close">(</span>Color<span class="token double-colon punctuation">::</span>Type color<span class="token punctuation brace-round brace-close brace-level-1" id="pair-25-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-43-close">{</span>
+    <span class="token comment">// We can index the array using the enumerator to get the name of the enumerator</span>
+    <span class="token keyword keyword-return">return</span> Color<span class="token double-colon punctuation">::</span>colorName<span class="token punctuation brace-square brace-open brace-level-2" id="pair-38-close">[</span><span class="token generic-function"><span class="token function">static_cast</span><span class="token generic class-name"><span class="token operator">&lt;</span>std<span class="token double-colon punctuation">::</span>size_t<span class="token operator">&gt;</span></span></span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-26-close">(</span>color<span class="token punctuation brace-round brace-close brace-level-3" id="pair-26-open">)</span><span class="token punctuation brace-square brace-close brace-level-2" id="pair-38-open">]</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-43-open">}</span>
+
+<span class="token comment">// Teach operator&lt;&lt; how to print a Color</span>
+<span class="token comment">// std::ostream is the type of std::cout</span>
+<span class="token comment">// The return type and parameter type are references (to prevent copies from being made)!</span>
+std<span class="token double-colon punctuation">::</span>ostream<span class="token operator">&amp;</span> <span class="token keyword keyword-operator">operator</span><span class="token operator">&lt;&lt;</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-27-close">(</span>std<span class="token double-colon punctuation">::</span>ostream<span class="token operator">&amp;</span> out<span class="token punctuation">,</span> Color<span class="token double-colon punctuation">::</span>Type color<span class="token punctuation brace-round brace-close brace-level-1" id="pair-27-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-44-close">{</span>
+    <span class="token keyword keyword-return">return</span> out <span class="token operator">&lt;&lt;</span> <span class="token function">getColorName</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-28-close">(</span>color<span class="token punctuation brace-round brace-close brace-level-2" id="pair-28-open">)</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-44-open">}</span>
+
+<span class="token comment">// Teach operator&gt;&gt; how to input a Color by name</span>
+<span class="token comment">// We pass color by non-const reference so we can have the function modify its value</span>
+std<span class="token double-colon punctuation">::</span>istream<span class="token operator">&amp;</span> <span class="token keyword keyword-operator">operator</span><span class="token operator">&gt;&gt;</span> <span class="token punctuation brace-round brace-open brace-level-1" id="pair-29-close">(</span>std<span class="token double-colon punctuation">::</span>istream<span class="token operator">&amp;</span> in<span class="token punctuation">,</span> Color<span class="token double-colon punctuation">::</span>Type<span class="token operator">&amp;</span> color<span class="token punctuation brace-round brace-close brace-level-1" id="pair-29-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-48-close">{</span>
+    std<span class="token double-colon punctuation">::</span>string input <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-45-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-45-open">}</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span><span class="token function">getline</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-30-close">(</span>in <span class="token operator">&gt;&gt;</span> std<span class="token double-colon punctuation">::</span>ws<span class="token punctuation">,</span> input<span class="token punctuation brace-round brace-close brace-level-2" id="pair-30-open">)</span><span class="token punctuation">;</span>
+
+    <span class="token comment">// Iterate through the list of names to see if we can find a matching name</span>
+    <span class="token keyword keyword-for">for</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-32-close">(</span>std<span class="token double-colon punctuation">::</span>size_t index<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span> index <span class="token operator">&lt;</span> Color<span class="token double-colon punctuation">::</span>colorName<span class="token punctuation">.</span><span class="token function">size</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-31-close">(</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-31-open">)</span><span class="token punctuation">;</span> <span class="token operator">++</span>index<span class="token punctuation brace-round brace-close brace-level-2" id="pair-32-open">)</span>
+    <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-47-close">{</span>
+        <span class="token keyword keyword-if">if</span> <span class="token punctuation brace-round brace-open brace-level-3" id="pair-33-close">(</span>input <span class="token operator">==</span> Color<span class="token double-colon punctuation">::</span>colorName<span class="token punctuation brace-square brace-open brace-level-4" id="pair-39-close">[</span>index<span class="token punctuation brace-square brace-close brace-level-4" id="pair-39-open">]</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-33-open">)</span>
+        <span class="token punctuation brace-curly brace-open brace-level-3" id="pair-46-close">{</span>
+            <span class="token comment">// If we found a matching name, we can get the enumerator value based on its index</span>
+            color <span class="token operator">=</span> <span class="token generic-function"><span class="token function">static_cast</span><span class="token generic class-name"><span class="token operator">&lt;</span>Color<span class="token double-colon punctuation">::</span>Type<span class="token operator">&gt;</span></span></span><span class="token punctuation brace-round brace-open brace-level-4" id="pair-34-close">(</span>index<span class="token punctuation brace-round brace-close brace-level-4" id="pair-34-open">)</span><span class="token punctuation">;</span>
+            <span class="token keyword keyword-return">return</span> in<span class="token punctuation">;</span>
+        <span class="token punctuation brace-curly brace-close brace-level-3" id="pair-46-open">}</span>
+    <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-47-open">}</span>
+
+    <span class="token comment">// We didn't find a match, so input must have been invalid</span>
+    <span class="token comment">// so we will set input stream to fail state</span>
+    in<span class="token punctuation">.</span><span class="token function">setstate</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-35-close">(</span>std<span class="token double-colon punctuation">::</span>ios_base<span class="token double-colon punctuation">::</span>failbit<span class="token punctuation brace-round brace-close brace-level-2" id="pair-35-open">)</span><span class="token punctuation">;</span>
+
+    <span class="token comment">// On an extraction failure, operator&gt;&gt; zero-initializes fundamental types</span>
+    <span class="token comment">// Uncomment the following line to make this operator do the same thing</span>
+    <span class="token comment">// color = {};</span>
+    <span class="token keyword keyword-return">return</span> in<span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-48-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-36-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-36-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-50-close">{</span>
+    <span class="token keyword keyword-auto">auto</span> shirt<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-49-close">{</span> Color<span class="token double-colon punctuation">::</span>blue <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-49-open">}</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Your shirt is "</span> <span class="token operator">&lt;&lt;</span> shirt <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Enter a new color: "</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>cin <span class="token operator">&gt;&gt;</span> shirt<span class="token punctuation">;</span>
+    <span class="token keyword keyword-if">if</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-37-close">(</span><span class="token operator">!</span>std<span class="token double-colon punctuation">::</span>cin<span class="token punctuation brace-round brace-close brace-level-2" id="pair-37-open">)</span>
+        std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Invalid\n"</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-else">else</span>
+        std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Your shirt is now "</span> <span class="token operator">&lt;&lt;</span> shirt <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-50-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>This prints:</p>
+<div
+  class="google-auto-placed ap_container"
+  style="width: 100%; height: auto; clear: both; text-align: center"
+>
+  <ins
+    data-ad-format="auto"
+    class="adsbygoogle adsbygoogle-noablate"
+    data-ad-client="ca-pub-0588844875925051"
+    data-adsbygoogle-status="done"
+    style="
+      display: block;
+      margin: auto;
+      background-color: transparent;
+      height: 0px;
+    "
+    ><div
+      id="aswift_7_host"
+      style="
+        border: none;
+        height: 0px;
+        width: 1027px;
+        margin: 0px;
+        padding: 0px;
+        position: relative;
+        visibility: visible;
+        background-color: transparent;
+        display: inline-block;
+        overflow: hidden;
+        opacity: 0;
+      "
+    >
+      <iframe
+        id="aswift_7"
+        name="aswift_7"
+        browsingtopics="true"
+        style="
+          left: 0px;
+          position: absolute;
+          top: 0px;
+          border: 0px;
+          width: 1027px;
+          height: 0px;
+          min-height: auto;
+          max-height: none;
+          min-width: auto;
+          max-width: none;
+        "
+        sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation"
+        width="1027"
+        height="0"
+        frameborder="0"
+        marginwidth="0"
+        marginheight="0"
+        vspace="0"
+        hspace="0"
+        allowtransparency="true"
+        scrolling="no"
+        allow="attribution-reporting; run-ad-auction"
+        src="https://googleads.g.doubleclick.net/pagead/ads?client=ca-pub-0588844875925051&amp;output=html&amp;h=280&amp;adk=2947198520&amp;adf=2961607430&amp;w=1027&amp;abgtt=11&amp;fwrn=4&amp;fwrnh=100&amp;lmt=1750488334&amp;num_ads=1&amp;rafmt=1&amp;armr=3&amp;sem=mc&amp;pwprc=4633386603&amp;ad_type=text_image&amp;format=1027x280&amp;url=https%3A%2F%2Fwww.learncpp.com%2Fcpp-tutorial%2Fstdarray-and-enumerations%2F&amp;fwr=0&amp;pra=3&amp;rh=200&amp;rw=1026&amp;rpe=1&amp;resp_fmts=3&amp;wgl=1&amp;fa=27&amp;uach=WyJXaW5kb3dzIiwiMTkuMC4wIiwieDg2IiwiIiwiMTM3LjAuNzE1MS4xMjIiLG51bGwsMCxudWxsLCI2NCIsW1siR29vZ2xlIENocm9tZSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJDaHJvbWl1bSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJOb3QvQSlCcmFuZCIsIjI0LjAuMC4wIl1dLDBd&amp;dt=1751963151772&amp;bpp=1&amp;bdt=843&amp;idt=0&amp;shv=r20250702&amp;mjsv=m202507020101&amp;ptt=9&amp;saldr=aa&amp;abxe=1&amp;cookie=ID%3D05f6e82287d810b4%3AT%3D1751962604%3ART%3D1751962911%3AS%3DALNI_MaQYA0TSAU2k8xwY5tqlN0xFCcd6g&amp;gpic=UID%3D00001157d9e27d0a%3AT%3D1751962604%3ART%3D1751962911%3AS%3DALNI_MYgtHzQJAQQXY_151HTGSSfVxE8_A&amp;eo_id_str=ID%3D52c21936d98c6d2b%3AT%3D1751962604%3ART%3D1751962911%3AS%3DAA-AfjZsJ15yjdEPJ8d11hPojsJQ&amp;prev_fmts=0x0%2C336x280%2C160x600%2C160x600%2C1027x280%2C1027x280%2C1027x280&amp;nras=5&amp;correlator=3487877809184&amp;frm=20&amp;pv=1&amp;u_tz=480&amp;u_his=2&amp;u_h=600&amp;u_w=800&amp;u_ah=600&amp;u_aw=800&amp;u_cd=24&amp;u_sd=1&amp;dmc=8&amp;adx=27&amp;ady=3626&amp;biw=1080&amp;bih=1024&amp;scr_x=0&amp;scr_y=0&amp;eid=95353387%2C95362656%2C95365226%2C95365234%2C95359265%2C95365115%2C95365797&amp;oid=2&amp;pvsid=7452417461664902&amp;tmod=1708485235&amp;uas=0&amp;nvt=1&amp;fc=1408&amp;brdim=10%2C10%2C10%2C10%2C800%2C0%2C780%2C580%2C1080%2C1024&amp;vis=1&amp;rsz=%7C%7Cs%7C&amp;abl=NS&amp;fu=128&amp;bc=31&amp;bz=0.72&amp;td=1&amp;tdf=2&amp;psd=W251bGwsbnVsbCxudWxsLDNd&amp;nt=1&amp;ifi=8&amp;uci=a!8&amp;btvi=4&amp;fsb=1&amp;dtd=297"
+        data-google-container-id="a!8"
+        tabindex="0"
+        title="Advertisement"
+        aria-label="Advertisement"
+        data-load-complete="true"
+        data-google-query-id="CNGEoqrrrI4DFTRFwgUd7cUpaw"
+      ></iframe></div
+  ></ins>
+</div>
+<pre>
+Your shirt is blue
+Enter a new color: red
+Your shirt is now red
+</pre>
+<p class="cpp-section cpp-topline" style="clear: both">
+  <a name="rangedEnumeration"></a>Range-based for-loops and enumerations
+  <a href="#rangedEnumeration"
+    ><i class="fa fa-link" style="font-size: 0.8em"></i
+  ></a>
+</p>
+<p>
+  Occasionally we run across situations where it would be useful to iterate
+  through the enumerators of an enumeration. While we can do this using a
+  for-loop with an integer index, this is likely to require a lot of static
+  casting of the integer index to our enumeration type.
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;array&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;string_view&gt;</span></span>
+
+<span class="token keyword keyword-namespace">namespace</span> Color
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-62-close">{</span>
+    <span class="token keyword keyword-enum">enum</span> <span class="token class-name">Type</span>
+    <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-60-close">{</span>
+        black<span class="token punctuation">,</span>
+        red<span class="token punctuation">,</span>
+        blue<span class="token punctuation">,</span>
+        max_colors
+    <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-60-open">}</span><span class="token punctuation">;</span>
+
+    <span class="token comment">// use sv suffix so std::array will infer type as std::string_view</span>
+    <span class="token keyword keyword-using">using</span> <span class="token keyword keyword-namespace">namespace</span> std<span class="token double-colon punctuation">::</span>string_view_literals<span class="token punctuation">;</span> <span class="token comment">// for sv suffix</span>
+    <span class="token keyword keyword-constexpr">constexpr</span> std<span class="token double-colon punctuation">::</span>array colorName <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-61-close">{</span> <span class="token string">"black"</span>sv<span class="token punctuation">,</span> <span class="token string">"red"</span>sv<span class="token punctuation">,</span> <span class="token string">"blue"</span>sv <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-61-open">}</span><span class="token punctuation">;</span>
+
+    <span class="token comment">// Make sure we've defined strings for all our colors</span>
+    <span class="token keyword keyword-static_assert">static_assert</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-52-close">(</span>std<span class="token double-colon punctuation">::</span><span class="token function">size</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-51-close">(</span>colorName<span class="token punctuation brace-round brace-close brace-level-3" id="pair-51-open">)</span> <span class="token operator">==</span> max_colors<span class="token punctuation brace-round brace-close brace-level-2" id="pair-52-open">)</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-62-open">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword keyword-constexpr">constexpr</span> std<span class="token double-colon punctuation">::</span>string_view <span class="token function">getColorName</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-53-close">(</span>Color<span class="token double-colon punctuation">::</span>Type color<span class="token punctuation brace-round brace-close brace-level-1" id="pair-53-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-63-close">{</span>
+    <span class="token keyword keyword-return">return</span> Color<span class="token double-colon punctuation">::</span>colorName<span class="token punctuation brace-square brace-open brace-level-2" id="pair-59-close">[</span>color<span class="token punctuation brace-square brace-close brace-level-2" id="pair-59-open">]</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-63-open">}</span>
+
+<span class="token comment">// Teach operator&lt;&lt; how to print a Color</span>
+<span class="token comment">// std::ostream is the type of std::cout</span>
+<span class="token comment">// The return type and parameter type are references (to prevent copies from being made)!</span>
+std<span class="token double-colon punctuation">::</span>ostream<span class="token operator">&amp;</span> <span class="token keyword keyword-operator">operator</span><span class="token operator">&lt;&lt;</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-54-close">(</span>std<span class="token double-colon punctuation">::</span>ostream<span class="token operator">&amp;</span> out<span class="token punctuation">,</span> Color<span class="token double-colon punctuation">::</span>Type color<span class="token punctuation brace-round brace-close brace-level-1" id="pair-54-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-64-close">{</span>
+    <span class="token keyword keyword-return">return</span> out <span class="token operator">&lt;&lt;</span> <span class="token function">getColorName</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-55-close">(</span>color<span class="token punctuation brace-round brace-close brace-level-2" id="pair-55-open">)</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-64-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-56-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-56-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-65-close">{</span>
+    <span class="token comment">// Use a for loop to iterate through all our colors</span>
+    <span class="token keyword keyword-for">for</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-57-close">(</span><span class="token keyword keyword-int">int</span> i<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> Color<span class="token double-colon punctuation">::</span>max_colors<span class="token punctuation">;</span> <span class="token operator">++</span>i <span class="token punctuation brace-round brace-close brace-level-2" id="pair-57-open">)</span>
+        std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token generic-function"><span class="token function">static_cast</span><span class="token generic class-name"><span class="token operator">&lt;</span>Color<span class="token double-colon punctuation">::</span>Type<span class="token operator">&gt;</span></span></span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-58-close">(</span>i<span class="token punctuation brace-round brace-close brace-level-2" id="pair-58-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-65-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  Unfortunately, range-based for-loops won’t allow you to iterate over the
+  enumerators of an enumeration:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;array&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;string_view&gt;</span></span>
+
+<span class="token keyword keyword-namespace">namespace</span> Color
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-76-close">{</span>
+    <span class="token keyword keyword-enum">enum</span> <span class="token class-name">Type</span>
+    <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-74-close">{</span>
+        black<span class="token punctuation">,</span>
+        red<span class="token punctuation">,</span>
+        blue<span class="token punctuation">,</span>
+        max_colors
+    <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-74-open">}</span><span class="token punctuation">;</span>
+
+    <span class="token comment">// use sv suffix so std::array will infer type as std::string_view</span>
+    <span class="token keyword keyword-using">using</span> <span class="token keyword keyword-namespace">namespace</span> std<span class="token double-colon punctuation">::</span>string_view_literals<span class="token punctuation">;</span> <span class="token comment">// for sv suffix</span>
+    <span class="token keyword keyword-constexpr">constexpr</span> std<span class="token double-colon punctuation">::</span>array colorName <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-75-close">{</span> <span class="token string">"black"</span>sv<span class="token punctuation">,</span> <span class="token string">"red"</span>sv<span class="token punctuation">,</span> <span class="token string">"blue"</span>sv <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-75-open">}</span><span class="token punctuation">;</span>
+
+    <span class="token comment">// Make sure we've defined strings for all our colors</span>
+    <span class="token keyword keyword-static_assert">static_assert</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-67-close">(</span>std<span class="token double-colon punctuation">::</span><span class="token function">size</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-66-close">(</span>colorName<span class="token punctuation brace-round brace-close brace-level-3" id="pair-66-open">)</span> <span class="token operator">==</span> max_colors<span class="token punctuation brace-round brace-close brace-level-2" id="pair-67-open">)</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-76-open">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword keyword-constexpr">constexpr</span> std<span class="token double-colon punctuation">::</span>string_view <span class="token function">getColorName</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-68-close">(</span>Color<span class="token double-colon punctuation">::</span>Type color<span class="token punctuation brace-round brace-close brace-level-1" id="pair-68-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-77-close">{</span>
+    <span class="token keyword keyword-return">return</span> Color<span class="token double-colon punctuation">::</span>colorName<span class="token punctuation brace-square brace-open brace-level-2" id="pair-73-close">[</span>color<span class="token punctuation brace-square brace-close brace-level-2" id="pair-73-open">]</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-77-open">}</span>
+
+<span class="token comment">// Teach operator&lt;&lt; how to print a Color</span>
+<span class="token comment">// std::ostream is the type of std::cout</span>
+<span class="token comment">// The return type and parameter type are references (to prevent copies from being made)!</span>
+std<span class="token double-colon punctuation">::</span>ostream<span class="token operator">&amp;</span> <span class="token keyword keyword-operator">operator</span><span class="token operator">&lt;&lt;</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-69-close">(</span>std<span class="token double-colon punctuation">::</span>ostream<span class="token operator">&amp;</span> out<span class="token punctuation">,</span> Color<span class="token double-colon punctuation">::</span>Type color<span class="token punctuation brace-round brace-close brace-level-1" id="pair-69-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-78-close">{</span>
+    <span class="token keyword keyword-return">return</span> out <span class="token operator">&lt;&lt;</span> <span class="token function">getColorName</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-70-close">(</span>color<span class="token punctuation brace-round brace-close brace-level-2" id="pair-70-open">)</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-78-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-71-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-71-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-79-close">{</span>
+    <span class="token keyword keyword-for">for</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-72-close">(</span><span class="token keyword keyword-auto">auto</span> c<span class="token operator">:</span> Color<span class="token double-colon punctuation">::</span>Type<span class="token punctuation brace-round brace-close brace-level-2" id="pair-72-open">)</span> <span class="token comment">// compile error: can't traverse enumeration</span>
+        std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> c <span class="token operator">&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-79-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  There are many creative solutions for this. Since we can use a range-based
+  for-loop on an array, one of the most straightforward solutions is to create a
+  <code>constexpr std::array</code> containing each of our enumerators, and then
+  iterate over that. This method only works if the enumerators have unique
+  values.
+</p>
+<div
+  class="google-auto-placed"
+  style="width: 100%; height: auto; clear: both; text-align: center"
+>
+  <ins
+    data-ad-format="auto"
+    class="adsbygoogle adsbygoogle-noablate"
+    data-ad-client="ca-pub-0588844875925051"
+    data-adsbygoogle-status="done"
+    style="
+      display: block;
+      margin: 8px auto 14px;
+      background-color: transparent;
+      height: 280px;
+    "
+    ><div
+      id="aswift_11_host"
+      style="
+        border: none;
+        height: 280px;
+        width: 1027px;
+        margin: 0px;
+        padding: 0px;
+        position: relative;
+        visibility: visible;
+        background-color: transparent;
+        display: inline-block;
+      "
+    ></div
+  ></ins>
+</div>
+<div class="code-block code-block-4" style="margin: 8px 0; clear: both"></div>
+
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;array&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;string_view&gt;</span></span>
+
+<span class="token keyword keyword-namespace">namespace</span> Color
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-93-close">{</span>
+    <span class="token keyword keyword-enum">enum</span> <span class="token class-name">Type</span>
+    <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-90-close">{</span>
+        black<span class="token punctuation">,</span>     <span class="token comment">// 0</span>
+        red<span class="token punctuation">,</span>       <span class="token comment">// 1</span>
+        blue<span class="token punctuation">,</span>      <span class="token comment">// 2</span>
+        max_colors <span class="token comment">// 3</span>
+    <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-90-open">}</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-using">using</span> <span class="token keyword keyword-namespace">namespace</span> std<span class="token double-colon punctuation">::</span>string_view_literals<span class="token punctuation">;</span> <span class="token comment">// for sv suffix</span>
+    <span class="token keyword keyword-constexpr">constexpr</span> std<span class="token double-colon punctuation">::</span>array colorName <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-91-close">{</span> <span class="token string">"black"</span>sv<span class="token punctuation">,</span> <span class="token string">"red"</span>sv<span class="token punctuation">,</span> <span class="token string">"blue"</span>sv <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-91-open">}</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-static_assert">static_assert</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-81-close">(</span>std<span class="token double-colon punctuation">::</span><span class="token function">size</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-80-close">(</span>colorName<span class="token punctuation brace-round brace-close brace-level-3" id="pair-80-open">)</span> <span class="token operator">==</span> max_colors<span class="token punctuation brace-round brace-close brace-level-2" id="pair-81-open">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-constexpr">constexpr</span> std<span class="token double-colon punctuation">::</span>array types <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-92-close">{</span> black<span class="token punctuation">,</span> red<span class="token punctuation">,</span> blue <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-92-open">}</span><span class="token punctuation">;</span> <span class="token comment">// A std::array containing all our enumerators</span>
+    <span class="token keyword keyword-static_assert">static_assert</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-83-close">(</span>std<span class="token double-colon punctuation">::</span><span class="token function">size</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-82-close">(</span>types<span class="token punctuation brace-round brace-close brace-level-3" id="pair-82-open">)</span> <span class="token operator">==</span> max_colors<span class="token punctuation brace-round brace-close brace-level-2" id="pair-83-open">)</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-93-open">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword keyword-constexpr">constexpr</span> std<span class="token double-colon punctuation">::</span>string_view <span class="token function">getColorName</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-84-close">(</span>Color<span class="token double-colon punctuation">::</span>Type color<span class="token punctuation brace-round brace-close brace-level-1" id="pair-84-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-94-close">{</span>
+    <span class="token keyword keyword-return">return</span> Color<span class="token double-colon punctuation">::</span>colorName<span class="token punctuation brace-square brace-open brace-level-2" id="pair-89-close">[</span>color<span class="token punctuation brace-square brace-close brace-level-2" id="pair-89-open">]</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-94-open">}</span>
+
+<span class="token comment">// Teach operator&lt;&lt; how to print a Color</span>
+<span class="token comment">// std::ostream is the type of std::cout</span>
+<span class="token comment">// The return type and parameter type are references (to prevent copies from being made)!</span>
+std<span class="token double-colon punctuation">::</span>ostream<span class="token operator">&amp;</span> <span class="token keyword keyword-operator">operator</span><span class="token operator">&lt;&lt;</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-85-close">(</span>std<span class="token double-colon punctuation">::</span>ostream<span class="token operator">&amp;</span> out<span class="token punctuation">,</span> Color<span class="token double-colon punctuation">::</span>Type color<span class="token punctuation brace-round brace-close brace-level-1" id="pair-85-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-95-close">{</span>
+    <span class="token keyword keyword-return">return</span> out <span class="token operator">&lt;&lt;</span> <span class="token function">getColorName</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-86-close">(</span>color<span class="token punctuation brace-round brace-close brace-level-2" id="pair-86-open">)</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-95-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-87-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-87-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-96-close">{</span>
+    <span class="token keyword keyword-for">for</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-88-close">(</span><span class="token keyword keyword-auto">auto</span> c<span class="token operator">:</span> Color<span class="token double-colon punctuation">::</span>types<span class="token punctuation brace-round brace-close brace-level-2" id="pair-88-open">)</span> <span class="token comment">// ok: we can do a range-based for on a std::array</span>
+        std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> c <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-96-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  In the above example, since the element type of <code>Color::types</code> is
+  <code>Color::Type</code>, variable <code>c</code> will be deduced as a
+  <code>Color::Type</code>, which is exactly what we want!
+</p>
+<div
+  class="google-auto-placed ap_container"
+  style="width: 100%; height: auto; clear: both; text-align: center"
+>
+  <ins
+    data-ad-format="auto"
+    class="adsbygoogle adsbygoogle-noablate"
+    data-ad-client="ca-pub-0588844875925051"
+    data-adsbygoogle-status="done"
+    style="
+      display: block;
+      margin: auto;
+      background-color: transparent;
+      height: 280px;
+    "
+    ><div
+      id="aswift_8_host"
+      style="
+        border: none;
+        height: 280px;
+        width: 1027px;
+        margin: 0px;
+        padding: 0px;
+        position: relative;
+        visibility: visible;
+        background-color: transparent;
+        display: inline-block;
+      "
+    ></div
+  ></ins>
+</div>
+<p>This prints:</p>
+<pre>
+black
+red
+blue
+</pre>
+<p class="cpp-section cpp-topline" style="clear: both">Quiz time</p>
+<p>
+  Define a namespace named <code>Animal</code>. Inside it, define an enum
+  containing the following animals: chicken, dog, cat, elephant, duck, and
+  snake. Also create a struct named <code>Data</code> to store each animal’s
+  name, number of legs, and the sound it makes. Create a
+  <code>std::array</code> of Data and fill out a Data element for each animal.
+</p>
+<p>
+  Ask the user to enter the name of an animal. If the name does not match the
+  name of one of our animals, tell them so. Otherwise, print the data for that
+  animal. Then print the data for all of the other animals that didn’t match
+  their input.
+</p>
+<p>For example:</p>
+<div
+  class="google-auto-placed ap_container"
+  style="width: 100%; height: auto; clear: both; text-align: center"
+>
+  <ins
+    data-ad-format="auto"
+    class="adsbygoogle adsbygoogle-noablate"
+    data-ad-client="ca-pub-0588844875925051"
+    data-adsbygoogle-status="done"
+    style="
+      display: block;
+      margin: auto;
+      background-color: transparent;
+      height: 280px;
+    "
+    ><div
+      id="aswift_9_host"
+      style="
+        border: none;
+        height: 280px;
+        width: 1027px;
+        margin: 0px;
+        padding: 0px;
+        position: relative;
+        visibility: visible;
+        background-color: transparent;
+        display: inline-block;
+      "
+    ></div
+  ></ins>
+</div>
+<pre>
+Enter an animal: dog
+A dog has 4 legs and says woof.
+
+Here is the data for the rest of the animals:
+A chicken has 2 legs and says cluck.
+A cat has 4 legs and says meow.
+A elephant has 4 legs and says pawoo.
+A duck has 2 legs and says quack.
+A snake has 0 legs and says hissss.
+</pre>
+<pre>
+Enter an animal: frog
+That animal couldn't be found.
+
+Here is the data for the rest of the animals:
+A chicken has 2 legs and says cluck.
+A dog has 4 legs and says woof.
+A cat has 4 legs and says meow.
+A elephant has 4 legs and says pawoo.
+A duck has 2 legs and says quack.
+A snake has 0 legs and says hissss.
+</pre>
+<p class="cpp-quiz-question" style="clear: both">Question #1</p>
+<p>
+  <a
+    class="solution_link_show"
+    href="javascript:void(0)"
+    onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_0'), this, 'Show Solution', 'Hide Solution')"
+    >Show Solution</a
+  >
+</p>
+<div class="wpsolution" id="cpp_solution_id_0" style="display: none">
+  <div class="code-toolbar">
+    <pre
+      class="line-numbers language-cpp"
+      tabindex="0"
+    ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;array&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;string&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;string_view&gt;</span></span>
+
+<span class="token keyword keyword-namespace">namespace</span> Animal
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-131-close">{</span>
+    <span class="token keyword keyword-enum">enum</span> <span class="token class-name">Type</span>
+    <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-118-close">{</span>
+        chicken<span class="token punctuation">,</span>
+        dog<span class="token punctuation">,</span>
+        cat<span class="token punctuation">,</span>
+        elephant<span class="token punctuation">,</span>
+        duck<span class="token punctuation">,</span>
+        snake<span class="token punctuation">,</span>
+        max_animals
+    <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-118-open">}</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-struct">struct</span> <span class="token class-name">Data</span>
+    <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-122-close">{</span>
+        std<span class="token double-colon punctuation">::</span>string_view name<span class="token punctuation brace-curly brace-open brace-level-3" id="pair-119-close">{</span><span class="token punctuation brace-curly brace-close brace-level-3" id="pair-119-open">}</span><span class="token punctuation">;</span>
+        <span class="token keyword keyword-int">int</span> legs<span class="token punctuation brace-curly brace-open brace-level-3" id="pair-120-close">{</span><span class="token punctuation brace-curly brace-close brace-level-3" id="pair-120-open">}</span><span class="token punctuation">;</span>
+        std<span class="token double-colon punctuation">::</span>string_view sound<span class="token punctuation brace-curly brace-open brace-level-3" id="pair-121-close">{</span><span class="token punctuation brace-curly brace-close brace-level-3" id="pair-121-open">}</span><span class="token punctuation">;</span>
+    <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-122-open">}</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-constexpr">constexpr</span> std<span class="token double-colon punctuation">::</span>array types <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-123-close">{</span> chicken<span class="token punctuation">,</span> dog<span class="token punctuation">,</span> cat<span class="token punctuation">,</span> elephant<span class="token punctuation">,</span> duck<span class="token punctuation">,</span> snake <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-123-open">}</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-constexpr">constexpr</span> std<span class="token double-colon punctuation">::</span>array data <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-130-close">{</span>
+        Data<span class="token punctuation brace-curly brace-open brace-level-3" id="pair-124-close">{</span> <span class="token string">"chicken"</span><span class="token punctuation">,</span>    <span class="token number">2</span><span class="token punctuation">,</span> <span class="token string">"cluck"</span> <span class="token punctuation brace-curly brace-close brace-level-3" id="pair-124-open">}</span><span class="token punctuation">,</span>
+        Data<span class="token punctuation brace-curly brace-open brace-level-3" id="pair-125-close">{</span> <span class="token string">"dog"</span><span class="token punctuation">,</span>        <span class="token number">4</span><span class="token punctuation">,</span> <span class="token string">"woof"</span> <span class="token punctuation brace-curly brace-close brace-level-3" id="pair-125-open">}</span><span class="token punctuation">,</span>
+        Data<span class="token punctuation brace-curly brace-open brace-level-3" id="pair-126-close">{</span> <span class="token string">"cat"</span><span class="token punctuation">,</span>        <span class="token number">4</span><span class="token punctuation">,</span> <span class="token string">"meow"</span> <span class="token punctuation brace-curly brace-close brace-level-3" id="pair-126-open">}</span><span class="token punctuation">,</span>
+        Data<span class="token punctuation brace-curly brace-open brace-level-3" id="pair-127-close">{</span> <span class="token string">"elephant"</span><span class="token punctuation">,</span>   <span class="token number">4</span><span class="token punctuation">,</span> <span class="token string">"pawoo"</span> <span class="token punctuation brace-curly brace-close brace-level-3" id="pair-127-open">}</span><span class="token punctuation">,</span>
+        Data<span class="token punctuation brace-curly brace-open brace-level-3" id="pair-128-close">{</span> <span class="token string">"duck"</span><span class="token punctuation">,</span>       <span class="token number">2</span><span class="token punctuation">,</span> <span class="token string">"quack"</span> <span class="token punctuation brace-curly brace-close brace-level-3" id="pair-128-open">}</span><span class="token punctuation">,</span>
+        Data<span class="token punctuation brace-curly brace-open brace-level-3" id="pair-129-close">{</span> <span class="token string">"snake"</span><span class="token punctuation">,</span>      <span class="token number">0</span><span class="token punctuation">,</span> <span class="token string">"hissss"</span> <span class="token punctuation brace-curly brace-close brace-level-3" id="pair-129-open">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-130-open">}</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-static_assert">static_assert</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-98-close">(</span>std<span class="token double-colon punctuation">::</span><span class="token function">size</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-97-close">(</span>types<span class="token punctuation brace-round brace-close brace-level-3" id="pair-97-open">)</span> <span class="token operator">==</span> max_animals<span class="token punctuation brace-round brace-close brace-level-2" id="pair-98-open">)</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-static_assert">static_assert</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-100-close">(</span>std<span class="token double-colon punctuation">::</span><span class="token function">size</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-99-close">(</span>data<span class="token punctuation brace-round brace-close brace-level-3" id="pair-99-open">)</span> <span class="token operator">==</span> max_animals<span class="token punctuation brace-round brace-close brace-level-2" id="pair-100-open">)</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-131-open">}</span>
+
+<span class="token comment">// Teach operator&gt;&gt; how to input an Animal by name</span>
+<span class="token comment">// We pass animal by non-const reference so we can have the function modify its value</span>
+std<span class="token double-colon punctuation">::</span>istream<span class="token operator">&amp;</span> <span class="token keyword keyword-operator">operator</span><span class="token operator">&gt;&gt;</span> <span class="token punctuation brace-round brace-open brace-level-1" id="pair-101-close">(</span>std<span class="token double-colon punctuation">::</span>istream<span class="token operator">&amp;</span> in<span class="token punctuation">,</span> Animal<span class="token double-colon punctuation">::</span>Type<span class="token operator">&amp;</span> animal<span class="token punctuation brace-round brace-close brace-level-1" id="pair-101-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-135-close">{</span>
+    std<span class="token double-colon punctuation">::</span>string input <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-132-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-132-open">}</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span><span class="token function">getline</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-102-close">(</span>in <span class="token operator">&gt;&gt;</span> std<span class="token double-colon punctuation">::</span>ws<span class="token punctuation">,</span> input<span class="token punctuation brace-round brace-close brace-level-2" id="pair-102-open">)</span><span class="token punctuation">;</span>
+
+    <span class="token comment">// See if we can find a match</span>
+    <span class="token keyword keyword-for">for</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-104-close">(</span>std<span class="token double-colon punctuation">::</span>size_t index<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span> index <span class="token operator">&lt;</span> Animal<span class="token double-colon punctuation">::</span>data<span class="token punctuation">.</span><span class="token function">size</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-103-close">(</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-103-open">)</span><span class="token punctuation">;</span> <span class="token operator">++</span>index<span class="token punctuation brace-round brace-close brace-level-2" id="pair-104-open">)</span>
+    <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-134-close">{</span>
+        <span class="token keyword keyword-if">if</span> <span class="token punctuation brace-round brace-open brace-level-3" id="pair-105-close">(</span>input <span class="token operator">==</span> Animal<span class="token double-colon punctuation">::</span>data<span class="token punctuation brace-square brace-open brace-level-4" id="pair-116-close">[</span>index<span class="token punctuation brace-square brace-close brace-level-4" id="pair-116-open">]</span><span class="token punctuation">.</span>name<span class="token punctuation brace-round brace-close brace-level-3" id="pair-105-open">)</span>
+        <span class="token punctuation brace-curly brace-open brace-level-3" id="pair-133-close">{</span>
+            animal <span class="token operator">=</span> <span class="token generic-function"><span class="token function">static_cast</span><span class="token generic class-name"><span class="token operator">&lt;</span>Animal<span class="token double-colon punctuation">::</span>Type<span class="token operator">&gt;</span></span></span><span class="token punctuation brace-round brace-open brace-level-4" id="pair-106-close">(</span>index<span class="token punctuation brace-round brace-close brace-level-4" id="pair-106-open">)</span><span class="token punctuation">;</span>
+            <span class="token keyword keyword-return">return</span> in<span class="token punctuation">;</span>
+        <span class="token punctuation brace-curly brace-close brace-level-3" id="pair-133-open">}</span>
+    <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-134-open">}</span>
+
+    <span class="token comment">// We didn't find a match, so input must have been invalid</span>
+    <span class="token comment">// so we will set input stream to fail state</span>
+    in<span class="token punctuation">.</span><span class="token function">setstate</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-107-close">(</span>std<span class="token double-colon punctuation">::</span>ios_base<span class="token double-colon punctuation">::</span>failbit<span class="token punctuation brace-round brace-close brace-level-2" id="pair-107-open">)</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-return">return</span> in<span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-135-open">}</span>
+
+<span class="token keyword keyword-void">void</span> <span class="token function">printAnimalData</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-108-close">(</span>Animal<span class="token double-colon punctuation">::</span>Type type<span class="token punctuation brace-round brace-close brace-level-1" id="pair-108-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-137-close">{</span>
+    <span class="token keyword keyword-const">const</span> Animal<span class="token double-colon punctuation">::</span>Data<span class="token operator">&amp;</span> animal <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-136-close">{</span> Animal<span class="token double-colon punctuation">::</span>data<span class="token punctuation brace-square brace-open brace-level-3" id="pair-117-close">[</span>type<span class="token punctuation brace-square brace-close brace-level-3" id="pair-117-open">]</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-136-open">}</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"A "</span> <span class="token operator">&lt;&lt;</span> animal<span class="token punctuation">.</span>name <span class="token operator">&lt;&lt;</span> <span class="token string">" has "</span> <span class="token operator">&lt;&lt;</span> animal<span class="token punctuation">.</span>legs <span class="token operator">&lt;&lt;</span> <span class="token string">" legs and says "</span> <span class="token operator">&lt;&lt;</span> animal<span class="token punctuation">.</span>sound <span class="token operator">&lt;&lt;</span> <span class="token string">".\n"</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-137-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-109-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-109-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-141-close">{</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Enter an animal: "</span><span class="token punctuation">;</span>
+    Animal<span class="token double-colon punctuation">::</span>Type type<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-138-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-138-open">}</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>cin <span class="token operator">&gt;&gt;</span> type<span class="token punctuation">;</span>
+
+    <span class="token comment">// If users input didn't match</span>
+    <span class="token keyword keyword-if">if</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-110-close">(</span><span class="token operator">!</span>std<span class="token double-colon punctuation">::</span>cin<span class="token punctuation brace-round brace-close brace-level-2" id="pair-110-open">)</span>
+    <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-139-close">{</span>
+        std<span class="token double-colon punctuation">::</span>cin<span class="token punctuation">.</span><span class="token function">clear</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-111-close">(</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-111-open">)</span><span class="token punctuation">;</span>
+        std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"That animal couldn't be found.\n"</span><span class="token punctuation">;</span>
+        type <span class="token operator">=</span> Animal<span class="token double-colon punctuation">::</span>max_animals<span class="token punctuation">;</span> <span class="token comment">// set to invalid option so we don't match below</span>
+    <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-139-open">}</span>
+    <span class="token keyword keyword-else">else</span>
+        <span class="token function">printAnimalData</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-112-close">(</span>type<span class="token punctuation brace-round brace-close brace-level-2" id="pair-112-open">)</span><span class="token punctuation">;</span>
+
+
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"\nHere is the data for the rest of the animals:\n"</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-for">for</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-113-close">(</span><span class="token keyword keyword-auto">auto</span> a <span class="token operator">:</span> Animal<span class="token double-colon punctuation">::</span>types<span class="token punctuation brace-round brace-close brace-level-2" id="pair-113-open">)</span>
+    <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-140-close">{</span>
+        <span class="token keyword keyword-if">if</span> <span class="token punctuation brace-round brace-open brace-level-3" id="pair-114-close">(</span>a <span class="token operator">!=</span> type<span class="token punctuation brace-round brace-close brace-level-3" id="pair-114-open">)</span>
+            <span class="token function">printAnimalData</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-115-close">(</span>a<span class="token punctuation brace-round brace-close brace-level-3" id="pair-115-open">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-140-open">}</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-141-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+    <div class="toolbar">
+      <div class="toolbar-item">
+        <button
+          class="copy-to-clipboard-button"
+          type="button"
+          data-copy-state="copy"
+        >
+          <span>Copy</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="prevnext">
+  <div class="prevnext-inline">
+    <a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/introduction-to-c-style-arrays/"
+    >
+      <div class="nav-button nav-button-next">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-right" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Next lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">17.7</span>Introduction to
+            C-style arrays
+          </div>
+        </div>
+      </div></a
+    >
+    <a class="nav-link" href="/">
+      <div class="nav-button nav-button-index">
+        <div class="nav-button-icon">
+          <i class="fa fa-home" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Back to table of contents</div>
+        </div>
+      </div></a
+    >
+    <a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/arrays-of-references-via-stdreference_wrapper/"
+    >
+      <div class="nav-button nav-button-prev">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-left" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Previous lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">17.5</span>Arrays of
+            references via std::reference_wrapper
+          </div>
+        </div>
+      </div></a
+    >
+  </div>
+</div>
+<div class="code-block code-block-10" style="margin: 8px 0; clear: both"></div>

@@ -1,0 +1,769 @@
+<div
+  class="code-block code-block-1"
+  style="margin: 8px 8px 8px 0; float: left"
+></div>
+<p>
+  In the previous lesson (<a
+    href="https://www.learncpp.com/cpp-tutorial/floating-point-and-integral-promotion/"
+    >10.2 -- Floating-point and integral promotion</a
+  >), we covered numeric promotions, which are conversions of specific narrower
+  numeric types to wider numeric types (typically <code>int</code> or
+  <code>double</code>) that can be processed efficiently.
+</p>
+<p>
+  C++ supports another category of numeric type conversions, called
+  <strong>numeric conversions</strong>. These numeric conversions cover
+  additional type conversions between fundamental types.
+</p>
+<div class="cpp-note cpp-lightbluebackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Key insight</p>
+  <p>
+    Any type conversion covered by the numeric promotion rules (<a
+      href="https://www.learncpp.com/cpp-tutorial/floating-point-and-integral-promotion/"
+      >10.2 -- Floating-point and integral promotion</a
+    >) is called a numeric promotion, not a numeric conversion.
+  </p>
+</div>
+<p>There are five basic types of numeric conversions.</p>
+<ol start="1">
+  <li>
+    Converting an integral type to any other integral type (excluding integral
+    promotions):
+  </li>
+</ol>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-short">short</span> s <span class="token operator">=</span> <span class="token number">3</span><span class="token punctuation">;</span> <span class="token comment">// convert int to short</span>
+<span class="token keyword keyword-long">long</span> l <span class="token operator">=</span> <span class="token number">3</span><span class="token punctuation">;</span> <span class="token comment">// convert int to long</span>
+<span class="token keyword keyword-char">char</span> ch <span class="token operator">=</span> s<span class="token punctuation">;</span> <span class="token comment">// convert short to char</span>
+<span class="token keyword keyword-unsigned">unsigned</span> <span class="token keyword keyword-int">int</span> u <span class="token operator">=</span> <span class="token number">3</span><span class="token punctuation">;</span> <span class="token comment">// convert int to unsigned int</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<ol start="2">
+  <li>
+    Converting a floating point type to any other floating point type (excluding
+    floating point promotions):
+  </li>
+</ol>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-float">float</span> f <span class="token operator">=</span> <span class="token number">3.0</span><span class="token punctuation">;</span> <span class="token comment">// convert double to float</span>
+<span class="token keyword keyword-long">long</span> <span class="token keyword keyword-double">double</span> ld <span class="token operator">=</span> <span class="token number">3.0</span><span class="token punctuation">;</span> <span class="token comment">// convert double to long double</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<ol start="3">
+  <li>Converting a floating point type to any integral type:</li>
+</ol>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-int">int</span> i <span class="token operator">=</span> <span class="token number">3.5</span><span class="token punctuation">;</span> <span class="token comment">// convert double to int</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<ol start="4">
+  <li>Converting an integral type to any floating point type:</li>
+</ol>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-double">double</span> d <span class="token operator">=</span> <span class="token number">3</span><span class="token punctuation">;</span> <span class="token comment">// convert int to double</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<ol start="5">
+  <li>Converting an integral type or a floating point type to a bool:</li>
+</ol>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-bool">bool</span> b1 <span class="token operator">=</span> <span class="token number">3</span><span class="token punctuation">;</span> <span class="token comment">// convert int to bool</span>
+<span class="token keyword keyword-bool">bool</span> b2 <span class="token operator">=</span> <span class="token number">3.0</span><span class="token punctuation">;</span> <span class="token comment">// convert double to bool</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<div class="cpp-note cpp-lightgraybackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">As an aside…</p>
+  <p>
+    Because brace initialization strictly disallows some types of numeric
+    conversions (more on this next lesson), we use copy initialization in this
+    lesson (which does not have any such limitations) in order to keep the
+    examples simple.
+  </p>
+</div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Safe and unsafe conversions
+</p>
+<p>
+  Unlike numeric promotions (which are always value-preserving and thus “safe”),
+  many numeric conversions are unsafe. An <strong>unsafe conversion</strong> is
+  one where at least one value of the source type cannot be converted into an
+  equal value of the destination type.
+</p>
+<p>Numeric conversions fall into three general safety categories:</p>
+<div class="code-block code-block-2" style="margin: 8px 0; clear: both"></div>
+<ol start="1">
+  <li>
+    <em>Value-preserving conversions</em> are safe numeric conversions where the
+    destination type can exactly represent all possible values in the source
+    type.
+  </li>
+</ol>
+<p>
+  For example, <code>int</code> to <code>long</code> and <code>short</code> to
+  <code>double</code> are safe conversions, as the source value can always be
+  converted to an equal value of the destination type.
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-82-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-82-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-85-close">{</span>
+    <span class="token keyword keyword-int">int</span> n <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-83-close">{</span> <span class="token number">5</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-83-open">}</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-long">long</span> l <span class="token operator">=</span> n<span class="token punctuation">;</span> <span class="token comment">// okay, produces long value 5</span>
+
+    <span class="token keyword keyword-short">short</span> s <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-84-close">{</span> <span class="token number">5</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-84-open">}</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-double">double</span> d <span class="token operator">=</span> s<span class="token punctuation">;</span> <span class="token comment">// okay, produces double value 5.0</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-85-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  Compilers will typically not issue warnings for implicit value-preserving
+  conversions.
+</p>
+<p>
+  A value converted using a value-preserving conversion can always be converted
+  back to the source type, resulting in a value that is equivalent to the
+  original value:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-86-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-86-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-91-close">{</span>
+    <span class="token keyword keyword-int">int</span> n <span class="token operator">=</span> <span class="token generic-function"><span class="token function">static_cast</span><span class="token generic class-name"><span class="token operator">&lt;</span><span class="token keyword keyword-int">int</span><span class="token operator">&gt;</span></span></span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-88-close">(</span><span class="token generic-function"><span class="token function">static_cast</span><span class="token generic class-name"><span class="token operator">&lt;</span><span class="token keyword keyword-long">long</span><span class="token operator">&gt;</span></span></span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-87-close">(</span><span class="token number">3</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-87-open">)</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-88-open">)</span><span class="token punctuation">;</span> <span class="token comment">// convert int 3 to long and back</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> n <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>                         <span class="token comment">// prints 3</span>
+
+    <span class="token keyword keyword-char">char</span> c <span class="token operator">=</span> <span class="token generic-function"><span class="token function">static_cast</span><span class="token generic class-name"><span class="token operator">&lt;</span><span class="token keyword keyword-char">char</span><span class="token operator">&gt;</span></span></span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-90-close">(</span><span class="token generic-function"><span class="token function">static_cast</span><span class="token generic class-name"><span class="token operator">&lt;</span><span class="token keyword keyword-double">double</span><span class="token operator">&gt;</span></span></span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-89-close">(</span><span class="token string">'c'</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-89-open">)</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-90-open">)</span><span class="token punctuation">;</span> <span class="token comment">// convert 'c' to double and back</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> c <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>                               <span class="token comment">// prints 'c'</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-91-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<ol start="2">
+  <li>
+    <em>Reinterpretive conversions</em> are unsafe numeric conversions where the
+    converted value may be different than the source value, but no data is lost.
+    Signed/unsigned conversions fall into this category.
+  </li>
+</ol>
+<p>
+  For example, when converting a <code>signed int</code> to an
+  <code>unsigned int</code>:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-92-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-92-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-97-close">{</span>
+    <span class="token keyword keyword-int">int</span> n1 <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-93-close">{</span> <span class="token number">5</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-93-open">}</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-unsigned">unsigned</span> <span class="token keyword keyword-int">int</span> u1 <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-94-close">{</span> n1 <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-94-open">}</span><span class="token punctuation">;</span> <span class="token comment">// okay: will be converted to unsigned int 5 (value preserved)</span>
+
+    <span class="token keyword keyword-int">int</span> n2 <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-95-close">{</span> <span class="token operator">-</span><span class="token number">5</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-95-open">}</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-unsigned">unsigned</span> <span class="token keyword keyword-int">int</span> u2 <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-96-close">{</span> n2 <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-96-open">}</span><span class="token punctuation">;</span> <span class="token comment">// bad: will result in large integer outside range of signed int</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-97-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  In the case of <code>u1</code>, the signed int value <code>5</code> is
+  converted to unsigned int value <code>5</code>. Thus, the value is preserved
+  in this case.
+</p>
+<div class="code-block code-block-3" style="margin: 8px 0; clear: both"></div>
+<p>
+  In the case of <code>u2</code>, the signed int value <code>-5</code> is
+  converted to an unsigned int. Since an unsigned int can’t represent negative
+  numbers, the result will be modulo wrapped to a large integral value that is
+  outside the range of a signed int. The value is not preserved in this case.
+</p>
+<p>
+  Such value changes are typically undesirable, and will often cause the program
+  to exhibit unexpected or implementation-defined behavior.
+</p>
+<div class="cpp-note cpp-lightgraybackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Related content</p>
+  <p>
+    We discuss how out-of-range values are converted between signed and unsigned
+    types in lesson
+    <a
+      href="https://www.learncpp.com/cpp-tutorial/introduction-to-type-conversion-and-static_cast/"
+      >4.12 -- Introduction to type conversion and static_cast</a
+    >.
+  </p>
+</div>
+<div class="cpp-note cpp-lightredbackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Warning</p>
+  <p>
+    Even though reinterpretive conversions are unsafe, most compilers leave
+    implicit signed/unsigned conversion warnings disabled by default.
+  </p>
+  <p>
+    This is because in some areas of modern C++ (such as when working with
+    standard library arrays), signed/unsigned conversions can be hard to avoid.
+    And practically speaking, the majority of such conversions do not actually
+    result in a value change. Therefore, enabling such warnings can lead to many
+    spurious warnings for signed/unsigned conversions that are actually okay
+    (drowning out legitimate warnings).
+  </p>
+  <p>
+    If you choose to leave such warnings disabled, be extra careful of
+    inadvertent conversions between these types (particularly when passing an
+    argument to a function taking a parameter of the opposite sign).
+  </p>
+</div>
+<p>
+  Values converted using a reinterpretive conversion can be converted back to
+  the source type, resulting in a value equivalent to the original value (even
+  if the initial conversion produced a value out of range of the source type).
+  As such, reinterpretive conversions do not lose data during the conversion
+  process.
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-98-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-98-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-101-close">{</span>
+    <span class="token keyword keyword-int">int</span> u <span class="token operator">=</span> <span class="token generic-function"><span class="token function">static_cast</span><span class="token generic class-name"><span class="token operator">&lt;</span><span class="token keyword keyword-int">int</span><span class="token operator">&gt;</span></span></span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-100-close">(</span><span class="token generic-function"><span class="token function">static_cast</span><span class="token generic class-name"><span class="token operator">&lt;</span><span class="token keyword keyword-unsigned">unsigned</span> <span class="token keyword keyword-int">int</span><span class="token operator">&gt;</span></span></span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-99-close">(</span><span class="token operator">-</span><span class="token number">5</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-99-open">)</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-100-open">)</span><span class="token punctuation">;</span> <span class="token comment">// convert '-5' to unsigned and back</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> u <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span> <span class="token comment">// prints -5</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-101-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<div class="cpp-note cpp-lightgraybackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">For advanced readers</p>
+  <p>
+    Prior to C++20, converting an unsigned value that is out-of-range of the
+    signed value is technically implementation-defined behavior (due to the
+    allowance that signed integers could use a different binary representation
+    than unsigned integers). In practice, this was a non-issue on modern system.
+  </p>
+  <p>
+    C++20 now requires that signed integers use 2s complement. As a result, the
+    conversion rules were changed so that the above is now well-defined as a
+    reinterpretive conversion (an out-of-range conversion will produce modulo
+    wrapping).
+  </p>
+  <p>
+    Note that while such conversions are well defined, signed arithmetic
+    overflow (which occurs when an arithmetic operation produces a value outside
+    the range that can be stored) is still undefined behavior.
+  </p>
+</div>
+<ol start="3">
+  <li>
+    <em>Lossy conversions</em> are unsafe numeric conversions where data may be
+    lost during the conversion.
+  </li>
+</ol>
+<p>
+  For example, <code>double</code> to <code>int</code> is a conversion that may
+  result in data loss:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-int">int</span> i <span class="token operator">=</span> <span class="token number">3.0</span><span class="token punctuation">;</span> <span class="token comment">// okay: will be converted to int value 3 (value preserved)</span>
+<span class="token keyword keyword-int">int</span> j <span class="token operator">=</span> <span class="token number">3.5</span><span class="token punctuation">;</span> <span class="token comment">// data lost: will be converted to int value 3 (fractional value 0.5 lost)</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  Conversion from <code>double</code> to <code>float</code> can also result in
+  data loss:
+</p>
+<div class="code-block code-block-4" style="margin: 8px 0; clear: both"></div>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-float">float</span> f <span class="token operator">=</span> <span class="token number">1.2</span><span class="token punctuation">;</span>        <span class="token comment">// okay: will be converted to float value 1.2 (value preserved)</span>
+<span class="token keyword keyword-float">float</span> g <span class="token operator">=</span> <span class="token number">1.23456789</span><span class="token punctuation">;</span> <span class="token comment">// data lost: will be converted to float 1.23457 (precision lost)</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  Converting a value that has lost data back to the source type will result in a
+  value that is different than the original value:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-102-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-102-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-109-close">{</span>
+    <span class="token keyword keyword-double">double</span> d <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-107-close">{</span> <span class="token generic-function"><span class="token function">static_cast</span><span class="token generic class-name"><span class="token operator">&lt;</span><span class="token keyword keyword-double">double</span><span class="token operator">&gt;</span></span></span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-104-close">(</span><span class="token generic-function"><span class="token function">static_cast</span><span class="token generic class-name"><span class="token operator">&lt;</span><span class="token keyword keyword-int">int</span><span class="token operator">&gt;</span></span></span><span class="token punctuation brace-round brace-open brace-level-4" id="pair-103-close">(</span><span class="token number">3.5</span><span class="token punctuation brace-round brace-close brace-level-4" id="pair-103-open">)</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-104-open">)</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-107-open">}</span><span class="token punctuation">;</span> <span class="token comment">// convert double 3.5 to int and back</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> d <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span> <span class="token comment">// prints 3</span>
+
+    <span class="token keyword keyword-double">double</span> d2 <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-108-close">{</span> <span class="token generic-function"><span class="token function">static_cast</span><span class="token generic class-name"><span class="token operator">&lt;</span><span class="token keyword keyword-double">double</span><span class="token operator">&gt;</span></span></span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-106-close">(</span><span class="token generic-function"><span class="token function">static_cast</span><span class="token generic class-name"><span class="token operator">&lt;</span><span class="token keyword keyword-float">float</span><span class="token operator">&gt;</span></span></span><span class="token punctuation brace-round brace-open brace-level-4" id="pair-105-close">(</span><span class="token number">1.23456789</span><span class="token punctuation brace-round brace-close brace-level-4" id="pair-105-open">)</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-106-open">)</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-108-open">}</span><span class="token punctuation">;</span> <span class="token comment">// convert double 1.23456789 to float and back</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> d2 <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span> <span class="token comment">// prints 1.23457</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-109-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  For example, if <code>double</code> value <code>3.5</code> is converted to
+  <code>int</code> value <code>3</code>, the fractional component
+  <code>0.5</code> is lost. When <code>3</code> is converted back to a
+  <code>double,</code> the result is <code>3.0</code>, not <code>3.5</code>.
+</p>
+<p>
+  Compilers will generally issue a warning (or in some cases, an error) when an
+  implicit lossy conversion would be performed at runtime.
+</p>
+<div class="cpp-note cpp-lightredbackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Warning</p>
+  <p>
+    Some conversions may fall into different categories depending on the
+    platform.
+  </p>
+  <p>
+    For example, <code>int</code> to <code>double</code> is typically a safe
+    conversion, because <code>int</code> is usually 4 bytes and
+    <code>double</code> is usually 8 bytes, and on such systems, all possible
+    <code>int</code> values can be represented as a <code>double</code>.
+    However, there are architectures where both <code>int</code> and
+    <code>double</code> are 8 bytes. On such architectures, <code>int</code> to
+    <code>double</code> is a lossy conversion!
+  </p>
+  <p>
+    We can demonstrate this by casting a long long value (which must be at least
+    64 bits) to double and back:
+  </p>
+  <div class="code-toolbar">
+    <pre
+      class="line-numbers language-cpp"
+      tabindex="0"
+    ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-110-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-110-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-113-close">{</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token generic-function"><span class="token function">static_cast</span><span class="token generic class-name"><span class="token operator">&lt;</span><span class="token keyword keyword-long">long</span> <span class="token keyword keyword-long">long</span><span class="token operator">&gt;</span></span></span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-112-close">(</span><span class="token generic-function"><span class="token function">static_cast</span><span class="token generic class-name"><span class="token operator">&lt;</span><span class="token keyword keyword-double">double</span><span class="token operator">&gt;</span></span></span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-111-close">(</span><span class="token number">10000000000000001LL</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-111-open">)</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-112-open">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-113-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+    <div class="toolbar">
+      <div class="toolbar-item">
+        <button
+          class="copy-to-clipboard-button"
+          type="button"
+          data-copy-state="copy"
+        >
+          <span>Copy</span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <p>This prints:</p>
+  <pre>
+10000000000000000
+</pre
+  >
+  <p>Note that our last digit has been lost!</p>
+</div>
+<p>
+  Unsafe conversions should be avoided as much as possible. However, this is not
+  always possible. When unsafe conversions are used, it is most often when:
+</p>
+<ul>
+  <li>
+    We can constrain the values to be converted to just those that can be
+    converted to equal values. For example, an <code>int</code> can be safely
+    converted to an <code>unsigned int</code> when we can guarantee that the
+    <code>int</code> is non-negative.
+  </li>
+  <li>
+    We don’t mind that some data is lost because it is not relevant. For
+    example, converting an <code>int</code> to a <code>bool</code> results in
+    the loss of data, but we’re typically okay with this because we’re just
+    checking if the <code>int</code> has value <code>0</code> or not.
+  </li>
+</ul>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  More on numeric conversions
+</p>
+<p>
+  The specific rules for numeric conversions are complicated and numerous, so
+  here are the most important things to remember.
+</p>
+<div class="code-block code-block-5" style="margin: 8px 0; clear: both"></div>
+<ul>
+  <li>
+    In <em>all</em> cases, converting a value into a type whose range doesn’t
+    support that value will lead to results that are probably unexpected. For
+    example:
+  </li>
+</ul>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-114-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-114-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-117-close">{</span>
+    <span class="token keyword keyword-int">int</span> i<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-116-close">{</span> <span class="token number">30000</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-116-open">}</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-char">char</span> c <span class="token operator">=</span> i<span class="token punctuation">;</span> <span class="token comment">// chars have range -128 to 127</span>
+
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token generic-function"><span class="token function">static_cast</span><span class="token generic class-name"><span class="token operator">&lt;</span><span class="token keyword keyword-int">int</span><span class="token operator">&gt;</span></span></span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-115-close">(</span>c<span class="token punctuation brace-round brace-close brace-level-2" id="pair-115-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-117-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  In this example, we’ve assigned a large integer to a variable with type
+  <code>char</code> (that has range -128 to 127). This causes the char to
+  overflow, and produces an unexpected result:
+</p>
+<pre>
+48
+</pre>
+<ul>
+  <li>
+    Remember that overflow is well-defined for unsigned values and produces
+    undefined behavior for signed values.
+  </li>
+  <li>
+    Converting from a larger integral or floating point type to a smaller type
+    from the same family will generally work so long as the value fits in the
+    range of the smaller type. For example:
+  </li>
+</ul>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-int">int</span> i<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-118-close">{</span> <span class="token number">2</span> <span class="token punctuation brace-curly brace-close brace-level-1" id="pair-118-open">}</span><span class="token punctuation">;</span>
+<span class="token keyword keyword-short">short</span> s <span class="token operator">=</span> i<span class="token punctuation">;</span> <span class="token comment">// convert from int to short</span>
+std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> s <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+<span class="token keyword keyword-double">double</span> d<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-119-close">{</span> <span class="token number">0.1234</span> <span class="token punctuation brace-curly brace-close brace-level-1" id="pair-119-open">}</span><span class="token punctuation">;</span>
+<span class="token keyword keyword-float">float</span> f <span class="token operator">=</span> d<span class="token punctuation">;</span>
+std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> f <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>This produces the expected result:</p>
+<pre>
+2
+0.1234
+</pre>
+<ul>
+  <li>
+    In the case of floating point values, some rounding may occur due to a loss
+    of precision in the smaller type. For example:
+  </li>
+</ul>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-float">float</span> f <span class="token operator">=</span> <span class="token number">0.123456789</span><span class="token punctuation">;</span> <span class="token comment">// double value 0.123456789 has 9 significant digits, but float can only support about 7</span>
+std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> std<span class="token double-colon punctuation">::</span><span class="token function">setprecision</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-120-close">(</span><span class="token number">9</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-120-open">)</span> <span class="token operator">&lt;&lt;</span> f <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span> <span class="token comment">// std::setprecision defined in iomanip header</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  In this case, we see a loss of precision because the <code>float</code> can’t
+  hold as much precision as a <code>double</code>:
+</p>
+<pre>
+0.123456791
+</pre>
+<ul>
+  <li>
+    Converting from an integer to a floating point number generally works as
+    long as the value fits within the range of the floating point type. For
+    example:
+  </li>
+</ul>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-int">int</span> i<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-121-close">{</span> <span class="token number">10</span> <span class="token punctuation brace-curly brace-close brace-level-1" id="pair-121-open">}</span><span class="token punctuation">;</span>
+<span class="token keyword keyword-float">float</span> f <span class="token operator">=</span> i<span class="token punctuation">;</span>
+std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> f <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>This produces the expected result:</p>
+<pre>
+10
+</pre>
+<ul>
+  <li>
+    Converting from a floating point to an integer works as long as the value
+    fits within the range of the integer, but any fractional values are lost.
+    For example:
+  </li>
+</ul>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-int">int</span> i <span class="token operator">=</span> <span class="token number">3.5</span><span class="token punctuation">;</span>
+std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> i <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  In this example, the fractional value (.5) is lost, leaving the following
+  result:
+</p>
+<div class="code-block code-block-6" style="margin: 8px 0; clear: both"></div>
+<pre>
+3
+</pre>
+<p>
+  While the numeric conversion rules might seem scary, in reality the compiler
+  will generally warn you if you try to do something dangerous (excluding some
+  signed/unsigned conversions).
+</p>
+<div class="prevnext">
+  <div class="prevnext-inline">
+    <a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/narrowing-conversions-list-initialization-and-constexpr-initializers/"
+      ><div class="nav-button nav-button-next">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-right" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Next lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">10.4</span>Narrowing
+            conversions, list initialization, and constexpr initializers
+          </div>
+        </div>
+      </div></a
+    ><a class="nav-link" href="/"
+      ><div class="nav-button nav-button-index">
+        <div class="nav-button-icon">
+          <i class="fa fa-home" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Back to table of contents</div>
+        </div>
+      </div></a
+    ><a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/floating-point-and-integral-promotion/"
+      ><div class="nav-button nav-button-prev">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-left" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Previous lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">10.2</span>Floating-point and
+            integral promotion
+          </div>
+        </div>
+      </div></a
+    >
+  </div>
+</div>
+<div class="code-block code-block-10" style="margin: 8px 0; clear: both"></div>

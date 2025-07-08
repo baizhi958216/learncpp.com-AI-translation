@@ -1,0 +1,316 @@
+<div
+  class="code-block code-block-1"
+  style="margin: 8px 8px 8px 0; float: left"
+></div>
+<p>
+  Before we can write and execute our first C++ program, we need to understand
+  in more detail how C++ programs get developed. Here is a graphic outlining a
+  simplistic approach:
+</p>
+<div class="cpp-image-wrapper">
+  <img
+    src="https://www.learncpp.com/images/CppTutorial/Chapter0/Development-min.png"
+    alt="The software development process"
+  />
+</div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Step 1: Define the problem that you would like to solve
+</p>
+<p>
+  This is the “what” step, where you figure out what problem you are intending
+  to solve. Coming up with the initial idea for what you would like to program
+  can be the easiest step, or the hardest. But conceptually, it is the simplest.
+  All you need is an idea that can be well defined, and you’re ready for the
+  next step.
+</p>
+<p>Here are a few examples:</p>
+<ul>
+  <li>
+    “I want to write a program that will allow me to enter many numbers, then
+    calculates the average.”
+  </li>
+  <li>
+    “I want to write a program that generates a 2d maze and lets the user
+    navigate through it. The user wins if they reach the end.”
+  </li>
+  <li>
+    “I want to write a program that reads in a file of stock prices and predicts
+    whether the stock will go up or down.”
+  </li>
+</ul>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Step 2: Determine how you are going to solve the problem
+</p>
+<div class="code-block code-block-2" style="margin: 8px 0; clear: both"></div>
+<p>
+  This is the “how” step, where you determine how you are going to solve the
+  problem you came up with in step 1. It is also the step that is most neglected
+  in software development. The crux of the issue is that there are many ways to
+  solve a problem -- however, some of these solutions are good and some of them
+  are bad. Too often, a programmer will get an idea, sit down, and immediately
+  start coding a solution. This often generates a solution that falls into the
+  bad category.
+</p>
+<p>Typically, good solutions have the following characteristics:</p>
+<ul>
+  <li>They are straightforward (not overly complicated or confusing).</li>
+  <li>
+    They are well documented (especially around any assumptions being made or
+    limitations).
+  </li>
+  <li>
+    They are built modularly, so parts can be reused or changed later without
+    impacting other parts of the program.
+  </li>
+  <li>
+    They can recover gracefully or give useful error messages when something
+    unexpected happens.
+  </li>
+</ul>
+<p>
+  When you sit down and start coding right away, you’re typically thinking “I
+  want to do &lt;something&gt;”, so you implement the solution that gets you
+  there the fastest. This can lead to programs that are fragile, hard to change
+  or extend later, or have lots of bugs. A <strong>bug</strong> is any kind of
+  programming error that prevents the program from operating correctly.
+</p>
+<div class="cpp-note cpp-lightgraybackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">As an aside…</p>
+  <p>
+    The term <em>bug</em> was first used by Thomas Edison back in the 1870s!
+    However, the term was popularized in the 1940s when engineers found an
+    actual moth stuck in the hardware of an early computer, causing a short
+    circuit. Both the log book in which the error was reported and the moth are
+    now part of the Smithsonian Museum of American History. It can be viewed
+    <a href="https://americanhistory.si.edu/collections/nmah_334663">here</a>.
+  </p>
+</div>
+<p>
+  Various studies have shown that on complex software systems, only 10-40% of a
+  programmer’s time is actually spent writing the initial program. The other
+  60-90% is spent on maintenance, which can consist of
+  <strong>debugging</strong> (removing bugs), updates to cope with changes in
+  the environment (e.g. to run on a new OS version), enhancements (minor changes
+  to improve usability or capability), or internal improvements (to increase
+  reliability or maintainability)<a
+    href="https://web.archive.org/web/20120313070806/http://users.jyu.fi/~koskinen/smcosts.htm"
+    ><sup>1</sup></a
+  >.
+</p>
+<p>
+  Consequently, it’s worth your time to spend a little extra time up front
+  (before you start coding) thinking about the best way to tackle a problem,
+  what assumptions you are making, and how you might plan for the future, in
+  order to save yourself a lot of time and trouble down the road.
+</p>
+<div class="code-block code-block-3" style="margin: 8px 0; clear: both"></div>
+<p>
+  We’ll talk more about how to effectively design solutions to problems in a
+  future lesson.
+</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Step 3: Write the program
+</p>
+<p>
+  In order to write the program, we need two things: First, we need knowledge of
+  a programming language -- that’s what these tutorials are for! Second, we need
+  a text editor to write and save our C++ programs. The set of C++ instructions
+  that we input into the text editor is called the program’s
+  <strong>source code</strong> (often shortened to just <strong>code</strong>).
+  It’s possible to write a program using any text editor you want, even
+  something as simple as Windows’ notepad or Unix’s vi or pico.
+</p>
+<p>A program typed into a basic text editor would look something like this:</p>
+<pre>
+#include &lt;iostream&gt;
+
+int main()
+{
+    std::cout &lt;&lt; "Here is some text.";
+    return 0;
+}
+</pre>
+<p>
+  However, we strongly urge you to use an editor that is designed for
+  programming (called a <strong>code editor</strong>). Don’t worry if you don’t
+  have one yet. We’ll cover how to install a code editor shortly.
+</p>
+<div class="code-block code-block-4" style="margin: 8px 0; clear: both"></div>
+<p>
+  A typical editor designed for coding has a few features that make programming
+  much easier, including:
+</p>
+<ol start="1">
+  <li>
+    Line numbering. Line numbering is useful when the compiler gives us an
+    error, as a typical compiler error will state:
+    <em>some error code/message, line 64</em>. Without an editor that shows line
+    numbers, finding line 64 can be a real hassle.
+  </li>
+  <li>
+    Syntax highlighting and coloring. Syntax highlighting and coloring changes
+    the color of various parts of your program to make it easier to identify the
+    different components of your program.
+  </li>
+  <li>
+    An unambiguous, fixed-width font (often called a “monospace font”).
+    Non-programming fonts often make it hard to distinguish between the number 0
+    and the letter O, or between the number 1, the letter l (lower case L), and
+    the letter I (upper case i). A good programming font will ensure these
+    symbols are visually differentiated in order to ensure one isn’t
+    accidentally used in place of the other. All code editors should have this
+    enabled by default, but a standard text editor might not. Using a
+    fixed-width font (where all symbols have the same width) makes it easier to
+    properly format and align your code.
+  </li>
+</ol>
+<p>
+  Here’s an example of a C++ program with line numbering, syntax highlighting,
+  and a fixed-width font:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-4-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-4-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-5-close">{</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Here is some text."</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-5-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  Note how much easier this is to understand than the non-highlighted version.
+  The source code we show in this tutorial will have both line numbering and
+  syntax highlighting to make that code easier to follow.
+</p>
+<div class="cpp-note cpp-lightbluebackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Tip</p>
+  <p>
+    <a href="https://www.codingfont.com/">Coding Font</a> and
+    <a href="https://www.programmingfonts.org">Programming Fonts</a> both have
+    neat tools that allow you to compare different coding fonts to see which
+    ones you like best.
+  </p>
+</div>
+<div class="cpp-note cpp-lightgraybackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">For advanced readers</p>
+  <p>
+    Because source code is written using ASCII characters, programming languages
+    use a certain amount of ASCII art to represent mathematical concepts. For
+    example, <code>≠</code> is not part of the ASCII character set, so
+    programming languages typically use <code>!=</code> to represent
+    mathematical inequality instead.
+  </p>
+  <p>
+    Some programming fonts, such as
+    <a href="https://github.com/tonsky/FiraCode">Fira Code</a>, use ligatures to
+    combine such “art” back into a single character. For example, instead of
+    displaying <code>!=</code>, Fira Code will display <code>≠</code> (using the
+    same width as the two-character version). Some people find this easier to
+    read, others prefer sticking with a more literal interpretation of the
+    underlying characters.
+  </p>
+</div>
+<p>
+  Many simple C++ programs only have one source code file, but complex C++
+  programs can have hundreds or even thousands of source code files.
+</p>
+<p>
+  Each source code file in your program will need to be saved to disk, which
+  means each source code file needs a filename. C++ does not have any
+  requirements for naming files. However, the de-facto standard is to name the
+  first/primary source file created for a program <code>main.cpp</code>. The
+  filename (<code>main</code>) makes it easy to determine which is the primary
+  source code file, and the <code>.cpp</code> extension indicates that the file
+  is a C++ source code file.
+</p>
+<div class="code-block code-block-5" style="margin: 8px 0; clear: both"></div>
+<p>
+  You may occasionally see the first/primary source code file named after the
+  name of the program instead (e.g. <code>calculator.cpp</code>,
+  <code>poker.cpp</code>). You may also occasionally see other extensions used
+  (e.g. <code>.cc</code> or <code>.cxx</code>).
+</p>
+<div class="cpp-note cpp-lightgreenbackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Best practice</p>
+  <p>
+    Name the first/primary source code file in each program
+    <code>main.cpp</code>. This makes it easy to determine which source code
+    file is the primary one.
+  </p>
+</div>
+<p>
+  Once you’ve written your program, the next steps are to convert the source
+  code into something that can be run, and then see whether it works! We’ll
+  discuss those steps (4-7) in the next lesson.
+</p>
+<div class="prevnext">
+  <div class="prevnext-inline">
+    <a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/introduction-to-the-compiler-linker-and-libraries/"
+      ><div class="nav-button nav-button-next">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-right" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Next lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">0.5</span>Introduction to the
+            compiler, linker, and libraries
+          </div>
+        </div>
+      </div></a
+    ><a class="nav-link" href="/"
+      ><div class="nav-button nav-button-index">
+        <div class="nav-button-icon">
+          <i class="fa fa-home" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Back to table of contents</div>
+        </div>
+      </div></a
+    ><a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/introduction-to-cplusplus/"
+      ><div class="nav-button nav-button-prev">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-left" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Previous lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">0.3</span>Introduction to
+            C/C++
+          </div>
+        </div>
+      </div></a
+    >
+  </div>
+</div>
+<div class="code-block code-block-10" style="margin: 8px 0; clear: both"></div>

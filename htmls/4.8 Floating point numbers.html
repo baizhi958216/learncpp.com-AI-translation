@@ -1,0 +1,841 @@
+<div
+  class="code-block code-block-1"
+  style="margin: 8px 8px 8px 0; float: left"
+></div>
+<p>
+  Integers are great for counting whole numbers, but sometimes we need to store
+  <em>very</em> large (positive or negative) numbers, or numbers with a
+  fractional component. A <strong>floating point</strong> type variable is a
+  variable that can hold a number with a fractional component, such as 4320.0,
+  -3.33, or 0.01226. The <em>floating</em> part of the name
+  <em>floating point</em> refers to the fact that the decimal point can “float”
+  -- that is, it can support a variable number of digits before and after the
+  decimal point. Floating point data types are always signed (can hold positive
+  and negative values).
+</p>
+<div class="cpp-note cpp-lightbluebackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Tip</p>
+  <p>
+    When writing floating point numbers in your code, the decimal separator must
+    be a decimal point. If you’re from a country that uses a decimal comma,
+    you’ll need to get used to using a decimal point instead.
+  </p>
+</div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  C++ floating point types
+</p>
+<p>
+  C++ has three fundamental floating point data types: a single-precision
+  <code>float</code>, a double-precision <code>double</code>, and an
+  extended-precision <code>long double</code>. As with integers, C++ does not
+  define the actual size of these types.
+</p>
+<div class="cpp-table-wrapper" data-ezoic-video-excluded="1">
+  <p></p>
+  <p></p>
+  <table class="cpp-table" data-ezoic-video-excluded="1">
+    <tbody>
+      <tr>
+        <th>Category</th>
+        <th>C++ Type</th>
+        <th>Typical Size</th>
+      </tr>
+      <tr>
+        <td>floating point</td>
+        <td>
+          float
+          <p></p>
+        </td>
+        <td>4 bytes</td>
+      </tr>
+      <tr>
+        <td></td>
+        <td>double</td>
+        <td>8 bytes</td>
+      </tr>
+      <tr>
+        <td></td>
+        <td>long double</td>
+        <td>8, 12, or 16 bytes</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<p>
+  On modern architectures, floating-point types are conventionally implemented
+  using one of the floating-point formats defined in the IEEE 754 standard (see
+  <a href="https://en.wikipedia.org/wiki/IEEE_754"
+    >https://en.wikipedia.org/wiki/IEEE_754</a
+  >). As a result, <code>float</code> is almost always 4 bytes, and
+  <code>double</code> is almost always 8 bytes.
+</p>
+<p>
+  On the other hand, <code>long double</code> is a strange type. On different
+  platforms, its size can vary between 8 and 16 bytes, and it may or may not use
+  an IEEE 754 compliant format. We recommend avoiding <code>long double</code>.
+</p>
+<div class="cpp-note cpp-lightbluebackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Tip</p>
+  <p>
+    This tutorial series assumes your compiler is using an IEEE 754 compatible
+    format for <code>float</code> and <code>double</code>.
+  </p>
+  <p>
+    You can see if your floating point types are IEEE 754 compatible with the
+    following code:
+  </p>
+  <div class="code-toolbar">
+    <pre
+      class="line-numbers language-cpp"
+      tabindex="0"
+    ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;limits&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-70-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-70-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-71-close">{</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> std<span class="token double-colon punctuation">::</span>boolalpha<span class="token punctuation">;</span> <span class="token comment">// print bool as true or false rather than 1 or 0</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"float: "</span> <span class="token operator">&lt;&lt;</span> std<span class="token double-colon punctuation">::</span>numeric_limits<span class="token operator">&lt;</span><span class="token keyword keyword-float">float</span><span class="token operator">&gt;</span><span class="token double-colon punctuation">::</span>is_iec559 <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"double: "</span> <span class="token operator">&lt;&lt;</span> std<span class="token double-colon punctuation">::</span>numeric_limits<span class="token operator">&lt;</span><span class="token keyword keyword-double">double</span><span class="token operator">&gt;</span><span class="token double-colon punctuation">::</span>is_iec559 <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"long double: "</span> <span class="token operator">&lt;&lt;</span> std<span class="token double-colon punctuation">::</span>numeric_limits<span class="token operator">&lt;</span><span class="token keyword keyword-long">long</span> <span class="token keyword keyword-double">double</span><span class="token operator">&gt;</span><span class="token double-colon punctuation">::</span>is_iec559 <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-71-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+    <div class="toolbar">
+      <div class="toolbar-item">
+        <button
+          class="copy-to-clipboard-button"
+          type="button"
+          data-copy-state="copy"
+        >
+          <span>Copy</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="cpp-note cpp-lightgraybackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">For advanced readers</p>
+  <p>
+    <code>float</code> is almost always implemented using the 4-byte IEEE 754
+    single-precision format.<br /><code>double</code> is almost always
+    implemented using the 8-byte IEEE 754 double-precision format.
+  </p>
+  <p>
+    However, the format used to implement <code>long double</code> varies by
+    platform. Common choices include:
+  </p>
+  <ul>
+    <li>
+      8-byte IEEE 754 double-precision format (same as <code>double</code>).
+    </li>
+    <li>
+      80-bit (often padded to 12 or 16 bytes) x87 extended-precision format
+      (compatible with IEEE 754).
+    </li>
+    <li>16-byte IEEE 754 quadruple-precision format.</li>
+    <li>16-byte double-double format (not compatible with IEEE 754).</li>
+  </ul>
+</div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Floating point variables and literals
+</p>
+<div class="code-block code-block-2" style="margin: 8px 0; clear: both"></div>
+<p>Here are some definitions of floating point variables:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-float">float</span> f<span class="token punctuation">;</span>
+<span class="token keyword keyword-double">double</span> d<span class="token punctuation">;</span>
+<span class="token keyword keyword-long">long</span> <span class="token keyword keyword-double">double</span> ld<span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  When using floating point literals, always include at least one decimal place
+  (even if the decimal is 0). This helps the compiler understand that the number
+  is a floating point number and not an integer.
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-int">int</span> a <span class="token punctuation brace-curly brace-open brace-level-1" id="pair-72-close">{</span> <span class="token number">5</span> <span class="token punctuation brace-curly brace-close brace-level-1" id="pair-72-open">}</span><span class="token punctuation">;</span>      <span class="token comment">// 5 means integer</span>
+<span class="token keyword keyword-double">double</span> b <span class="token punctuation brace-curly brace-open brace-level-1" id="pair-73-close">{</span> <span class="token number">5.0</span> <span class="token punctuation brace-curly brace-close brace-level-1" id="pair-73-open">}</span><span class="token punctuation">;</span> <span class="token comment">// 5.0 is a floating point literal (no suffix means double type by default)</span>
+<span class="token keyword keyword-float">float</span> c <span class="token punctuation brace-curly brace-open brace-level-1" id="pair-74-close">{</span> <span class="token number">5.0f</span> <span class="token punctuation brace-curly brace-close brace-level-1" id="pair-74-open">}</span><span class="token punctuation">;</span> <span class="token comment">// 5.0 is a floating point literal, f suffix means float type</span>
+
+<span class="token keyword keyword-int">int</span> d <span class="token punctuation brace-curly brace-open brace-level-1" id="pair-75-close">{</span> <span class="token number">0</span> <span class="token punctuation brace-curly brace-close brace-level-1" id="pair-75-open">}</span><span class="token punctuation">;</span>      <span class="token comment">// 0 is an integer</span>
+<span class="token keyword keyword-double">double</span> e <span class="token punctuation brace-curly brace-open brace-level-1" id="pair-76-close">{</span> <span class="token number">0.0</span> <span class="token punctuation brace-curly brace-close brace-level-1" id="pair-76-open">}</span><span class="token punctuation">;</span> <span class="token comment">// 0.0 is a double</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  Note that by default, floating point literals default to type double. An
+  <code>f</code> suffix is used to denote a literal of type float.
+</p>
+<div class="cpp-note cpp-lightgreenbackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Best practice</p>
+  <p>
+    Always make sure the type of your literals match the type of the variables
+    they’re being assigned to or used to initialize. Otherwise an unnecessary
+    conversion will result, possibly with a loss of precision.
+  </p>
+</div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Printing floating point numbers
+</p>
+<p>Now consider this simple program:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-77-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-77-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-78-close">{</span>
+	std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token number">5.0</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+	std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token number">6.7f</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+	std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token number">9876543.21</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+	<span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-78-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>The results of this seemingly simple program may surprise you:</p>
+<div class="code-block code-block-3" style="margin: 8px 0; clear: both"></div>
+<pre>
+5
+6.7
+9.87654e+06
+</pre>
+<p>
+  In the first case, <code>std::cout</code> printed <code>5</code>, even though
+  we typed in <code>5.0</code>. By default, <code>std::cout</code> will not
+  print the fractional part of a number if the fractional part is 0.
+</p>
+<p>In the second case, the number prints as we expect.</p>
+<p>
+  In the third case, it printed the number in scientific notation (if you need a
+  refresher on scientific notation, see lesson
+  <a
+    href="https://www.learncpp.com/cpp-tutorial/introduction-to-scientific-notation/"
+    >4.7 -- Introduction to scientific notation</a
+  >).
+</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Floating point range
+</p>
+<div class="cpp-table-wrapper" data-ezoic-video-excluded="1">
+  <p></p>
+  <p></p>
+  <table class="cpp-table" data-ezoic-video-excluded="1">
+    <tbody>
+      <tr>
+        <th>Format</th>
+        <th>Range</th>
+        <th>Precision</th>
+      </tr>
+      <tr>
+        <td>IEEE 754 single-precision (4 bytes)</td>
+        <td>±1.18 x 10<sup>-38</sup> to ±3.4 x 10<sup>38</sup> and 0.0</td>
+        <td>6-9 significant digits, typically 7</td>
+      </tr>
+      <tr>
+        <td>IEEE 754 double-precision (8 bytes)</td>
+        <td>±2.23 x 10<sup>-308</sup> to ±1.80 x 10<sup>308</sup> and 0.0</td>
+        <td>15-18 significant digits, typically 16</td>
+      </tr>
+      <tr>
+        <td>x87 extended-precision (80 bits)</td>
+        <td>±3.36 x 10<sup>-4932</sup> to ±1.18 x 10<sup>4932</sup> and 0.0</td>
+        <td>18-21 significant digits</td>
+      </tr>
+      <tr>
+        <td>IEEE 754 quadruple-precision (16 bytes)</td>
+        <td>±3.36 x 10<sup>-4932</sup> to ±1.18 x 10<sup>4932</sup> and 0.0</td>
+        <td>33-36 significant digits</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<div class="cpp-note cpp-lightgraybackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">For advanced readers</p>
+  <p>
+    The 80-bit x87 extended-precision floating point type is a bit of a
+    historical anomaly. On modern processors, objects of this type are typically
+    padded to 12 or 16 bytes (which is a more natural size for processors to
+    handle). This means those objects have 80-bits of floating point data, and
+    the remaining memory is filler.
+  </p>
+  <p>
+    It may seem a little odd that the 80-bit floating point type has the same
+    range as the 16-byte floating point type. This is because they have the same
+    number of bits dedicated to the exponent -- however, the 16-byte number can
+    store more significant digits.
+  </p>
+</div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Floating point precision
+</p>
+<p>
+  Consider the fraction 1/3. The decimal representation of this number is
+  0.33333333333333… with 3’s going out to infinity. If you were writing this
+  number on a piece of paper, your arm would get tired at some point, and you’d
+  eventually stop writing. And the number you were left with would be close to
+  0.3333333333…. (with 3’s going out to infinity) but not exactly.
+</p>
+<p>
+  On a computer, an infinite precision number would require infinite memory to
+  store, and we typically only have 4 or 8 bytes per value. This limited memory
+  means floating point numbers can only store a certain number of significant
+  digits -- any additional significant digits are either lost or represented
+  imprecisely. The number that is actually stored may be close to the desired
+  number, but not exact. We’ll show an example of this in the next section.
+</p>
+<div class="code-block code-block-4" style="margin: 8px 0; clear: both"></div>
+<p>
+  The <strong>precision</strong> of a floating point type defines how many
+  significant digits it can represent without information loss.
+</p>
+<p>
+  The number of digits of precision a floating point type has depends on both
+  the size (floats have less precision than doubles) and the particular value
+  being stored (some values can be represented more precisely than others).
+</p>
+<p>
+  For example, a float has 6 to 9 digits of precision. This means that a float
+  can exactly represent any number with up to 6 significant digits. A number
+  with 7 to 9 significant digits may or may not be represented exactly depending
+  on the specific value. And a number with more than 9 digits of precision will
+  definitely not be represented exactly.
+</p>
+<p>
+  Double values have between 15 and 18 digits of precision, with most double
+  values having at least 16 significant digits. Long double has a minimum
+  precision of 15, 18, or 33 significant digits depending on how many bytes it
+  occupies.
+</p>
+<div class="cpp-note cpp-lightbluebackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Key insight</p>
+  <p>
+    A floating point type can only precisely represent a certain number of
+    significant digits. Using a value with more significant digits than the
+    minimum may result in the value being stored inexactly.
+  </p>
+</div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Outputting floating point values
+</p>
+<p>
+  When outputting floating point numbers, <code>std::cout</code> has a default
+  precision of 6 -- that is, it assumes all floating point variables are only
+  significant to 6 digits (the minimum precision of a float), and hence it will
+  truncate anything after that.
+</p>
+<div class="code-block code-block-5" style="margin: 8px 0; clear: both"></div>
+<p>
+  The following program shows <code>std::cout</code> truncating to 6 digits:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-79-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-79-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-80-close">{</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token number">9.87654321f</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token number">987.654321f</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token number">987654.321f</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token number">9876543.21f</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token number">0.0000987654321f</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-80-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>This program outputs:</p>
+<pre>
+9.87654
+987.654
+987654
+9.87654e+006
+9.87654e-005
+</pre>
+<p>Note that each of these only have 6 significant digits.</p>
+<p>
+  Also note that std::cout will switch to outputting numbers in scientific
+  notation in some cases. Depending on the compiler, the exponent will typically
+  be padded to a minimum number of digits. Fear not, 9.87654e+006 is the same as
+  9.87654e6, just with some padding 0’s. The minimum number of exponent digits
+  displayed is compiler-specific (Visual Studio uses 3, some others use 2 as per
+  the C99 standard).
+</p>
+<p>
+  We can override the default precision that std::cout shows by using an
+  <code>output manipulator</code> function named
+  <code>std::setprecision()</code>. <strong>Output manipulators</strong> alter
+  how data is output, and are defined in the <em>iomanip</em> header.
+</p>
+<div class="code-block code-block-6" style="margin: 8px 0; clear: both"></div>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iomanip&gt;</span> <span class="token comment">// for output manipulator std::setprecision()</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-81-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-81-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-83-close">{</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> std<span class="token double-colon punctuation">::</span><span class="token function">setprecision</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-82-close">(</span><span class="token number">17</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-82-open">)</span><span class="token punctuation">;</span> <span class="token comment">// show 17 digits of precision</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token number">3.33333333333333333333333333333333333333f</span> <span class="token operator">&lt;&lt;</span><span class="token string">'\n'</span><span class="token punctuation">;</span> <span class="token comment">// f suffix means float</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token number">3.33333333333333333333333333333333333333</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span> <span class="token comment">// no suffix means double</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-83-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>Outputs:</p>
+<pre>
+3.3333332538604736
+3.3333333333333335
+</pre>
+<p>
+  Because we set the precision to 17 digits using
+  <code>std::setprecision()</code>, each of the above numbers is printed with 17
+  digits. But, as you can see, the numbers certainly aren’t precise to 17
+  digits! And because floats are less precise than doubles, the float has more
+  error.
+</p>
+<div class="cpp-note cpp-lightbluebackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Tip</p>
+  <p>
+    Output manipulators (and input manipulators) are sticky -- meaning if you
+    set them, they will remain set.
+  </p>
+  <p>
+    The one exception is <code>std::setw</code>. Some IO operations reset
+    <code>std::setw</code>, so <code>std::setw</code> should be used every time
+    it is needed.
+  </p>
+</div>
+<p>
+  Precision issues don’t just impact fractional numbers, they impact any number
+  with too many significant digits. Let’s consider a big number:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iomanip&gt;</span> <span class="token comment">// for std::setprecision()</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-84-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-84-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-87-close">{</span>
+    <span class="token keyword keyword-float">float</span> f <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-86-close">{</span> <span class="token number">123456789.0f</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-86-open">}</span><span class="token punctuation">;</span> <span class="token comment">// f has 10 significant digits</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> std<span class="token double-colon punctuation">::</span><span class="token function">setprecision</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-85-close">(</span><span class="token number">9</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-85-open">)</span><span class="token punctuation">;</span> <span class="token comment">// to show 9 digits in f</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> f <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-87-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>Output:</p>
+<pre>
+123456792
+</pre>
+<p>
+  123456792 is greater than 123456789. The value 123456789.0 has 10 significant
+  digits, but float values typically have 7 digits of precision (and the result
+  of 123456792 is precise only to 7 significant digits). We lost some precision!
+  When precision is lost because a number can’t be stored precisely, this is
+  called a <strong>rounding error</strong>.
+</p>
+<p>
+  Consequently, one has to be careful when using floating point numbers that
+  require more precision than the variables can hold.
+</p>
+<div class="code-block code-block-7" style="margin: 8px 0; clear: both"></div>
+<div class="cpp-note cpp-lightgreenbackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Best practice</p>
+  <p>
+    Favor double over float unless space is at a premium, as the lack of
+    precision in a float will often lead to inaccuracies.
+  </p>
+</div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Rounding errors make floating point comparisons tricky
+</p>
+<p>
+  Floating point numbers are tricky to work with due to non-obvious differences
+  between binary (how data is stored) and decimal (how we think) numbers.
+  Consider the fraction 1/10. In decimal, this is easily represented as 0.1, and
+  we are used to thinking of 0.1 as an easily representable number with 1
+  significant digit. However, in binary, decimal value 0.1 is represented by the
+  infinite sequence: 0.00011001100110011… Because of this, when we assign 0.1 to
+  a floating point number, we’ll run into precision problems.
+</p>
+<p>You can see the effects of this in the following program:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iomanip&gt;</span> <span class="token comment">// for std::setprecision()</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-88-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-88-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-91-close">{</span>
+    <span class="token keyword keyword-double">double</span> d<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-90-close">{</span><span class="token number">0.1</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-90-open">}</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> d <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span> <span class="token comment">// use default cout precision of 6</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> std<span class="token double-colon punctuation">::</span><span class="token function">setprecision</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-89-close">(</span><span class="token number">17</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-89-open">)</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> d <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-91-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>This outputs:</p>
+<pre>
+0.1
+0.10000000000000001
+</pre>
+<p>On the top line, <code>std::cout</code> prints 0.1, as we expect.</p>
+<p>
+  On the bottom line, where we have <code>std::cout</code> show us 17 digits of
+  precision, we see that <code>d</code> is actually <em>not quite</em> 0.1! This
+  is because the double had to truncate the approximation due to its limited
+  memory. The result is a number that is precise to 16 significant digits (which
+  type double guarantees), but the number is not <em>exactly</em> 0.1. Rounding
+  errors may make a number either slightly smaller or slightly larger, depending
+  on where the truncation happens.
+</p>
+<div class="code-block code-block-8" style="margin: 8px 0; clear: both"></div>
+<p>Rounding errors can have unexpected consequences:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iomanip&gt;</span> <span class="token comment">// for std::setprecision()</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-92-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-92-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-96-close">{</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> std<span class="token double-colon punctuation">::</span><span class="token function">setprecision</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-93-close">(</span><span class="token number">17</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-93-open">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-double">double</span> d1<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-94-close">{</span> <span class="token number">1.0</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-94-open">}</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> d1 <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-double">double</span> d2<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-95-close">{</span> <span class="token number">0.1</span> <span class="token operator">+</span> <span class="token number">0.1</span> <span class="token operator">+</span> <span class="token number">0.1</span> <span class="token operator">+</span> <span class="token number">0.1</span> <span class="token operator">+</span> <span class="token number">0.1</span> <span class="token operator">+</span> <span class="token number">0.1</span> <span class="token operator">+</span> <span class="token number">0.1</span> <span class="token operator">+</span> <span class="token number">0.1</span> <span class="token operator">+</span> <span class="token number">0.1</span> <span class="token operator">+</span> <span class="token number">0.1</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-95-open">}</span><span class="token punctuation">;</span> <span class="token comment">// should equal 1.0</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> d2 <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-96-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<pre>
+1
+0.99999999999999989
+</pre>
+<p>
+  Although we might expect that <code>d1</code> and <code>d2</code> should be
+  equal, we see that they are not. If we were to compare <code>d1</code> and
+  <code>d2</code> in a program, the program would probably not perform as
+  expected. Because floating point numbers tend to be inexact, comparing
+  floating point numbers is generally problematic -- we discuss the subject more
+  (and solutions) in lesson
+  <a
+    href="https://www.learncpp.com/cpp-tutorial/relational-operators-and-floating-point-comparisons/"
+    >6.7 -- Relational operators and floating point comparisons</a
+  >.
+</p>
+<p>
+  One last note on rounding errors: mathematical operations (such as addition
+  and multiplication) tend to make rounding errors grow. So even though 0.1 has
+  a rounding error in the 17th significant digit, when we add 0.1 ten times, the
+  rounding error has crept into the 16th significant digit. Continued operations
+  would cause this error to become increasingly significant.
+</p>
+<div class="cpp-note cpp-lightbluebackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Key insight</p>
+  <p>
+    Rounding errors occur when a number can’t be stored precisely. This can
+    happen even with simple numbers, like 0.1. Therefore, rounding errors can,
+    and do, happen all the time. Rounding errors aren’t the exception -- they’re
+    the norm. Never assume your floating point numbers are exact.
+  </p>
+  <p>
+    A corollary of this rule is: be wary of using floating point numbers for
+    financial or currency data.
+  </p>
+</div>
+<div class="cpp-note cpp-lightgraybackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Related content</p>
+  <p>
+    For more insight into how floating point numbers are stored in binary, check
+    out the
+    <a href="https://float.exposed/0x3dcccccd">float.exposed</a> tool.<br />To
+    learn more about floating point numbers and rounding errors,
+    <a href="https://floating-point-gui.de/">floating-point-gui.de</a> and
+    <a
+      href="https://fabiensanglard.net/floating_point_visually_explained/index.html"
+      >fabiensanglard.net</a
+    >
+    have approachable guides on the topic.
+  </p>
+</div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  NaN and Inf
+</p>
+<p>IEEE 754 compatible formats additionally support some special values:</p>
+<ul>
+  <li>
+    <strong>Inf</strong>, which represents infinity. Inf is signed, and can be
+    positive (+Inf) or negative (-Inf).
+  </li>
+  <li>
+    <strong>NaN</strong>, which stands for “Not a Number”. There are several
+    different kinds of NaN (which we won’t discuss here).
+  </li>
+  <li>
+    Signed zero, meaning there are separate representations for “positive zero”
+    (+0.0) and “negative zero” (-0.0).
+  </li>
+</ul>
+<p>
+  Formats that are not compatible with IEEE 754 may not support some (or any) of
+  these values. In such cases, code that uses or generates these special values
+  will produce implementation-defined behavior.
+</p>
+<p>Here’s a program showing all three:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-97-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-97-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-104-close">{</span>
+    <span class="token keyword keyword-double">double</span> zero <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-98-close">{</span> <span class="token number">0.0</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-98-open">}</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-double">double</span> posinf <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-99-close">{</span> <span class="token number">5.0</span> <span class="token operator">/</span> zero <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-99-open">}</span><span class="token punctuation">;</span> <span class="token comment">// positive infinity</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> posinf <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-double">double</span> neginf <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-100-close">{</span> <span class="token operator">-</span><span class="token number">5.0</span> <span class="token operator">/</span> zero <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-100-open">}</span><span class="token punctuation">;</span> <span class="token comment">// negative infinity</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> neginf <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-double">double</span> z1 <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-101-close">{</span> <span class="token number">0.0</span> <span class="token operator">/</span> posinf <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-101-open">}</span><span class="token punctuation">;</span> <span class="token comment">// positive zero</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> z1 <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-double">double</span> z2 <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-102-close">{</span> <span class="token operator">-</span><span class="token number">0.0</span> <span class="token operator">/</span> posinf <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-102-open">}</span><span class="token punctuation">;</span> <span class="token comment">// negative zero</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> z2 <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-double">double</span> nan <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-103-close">{</span> zero <span class="token operator">/</span> zero <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-103-open">}</span><span class="token punctuation">;</span> <span class="token comment">// not a number (mathematically invalid)</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> nan <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-104-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>And the results using Clang:</p>
+<pre>
+inf
+-inf
+0
+-0
+nan
+</pre>
+<p>
+  Note that the results of printing <code>Inf</code> and <code>NaN</code> are
+  platform specific, so your results may vary (e.g. Visual Studio prints the
+  last result as <code>-nan(ind)</code>).
+</p>
+<div class="cpp-note cpp-lightgreenbackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Best practice</p>
+  <p>Avoid division by <code>0.0</code>, even if your compiler supports it.</p>
+</div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Conclusion
+</p>
+<p>
+  To summarize, the two things you should remember about floating point numbers:
+</p>
+<ol start="1">
+  <li>
+    Floating point numbers are useful for storing very large or very small
+    numbers, including those with fractional components.
+  </li>
+  <li>
+    Floating point numbers often have small rounding errors, even when the
+    number has fewer significant digits than the precision. Many times these go
+    unnoticed because they are so small, and because the numbers are truncated
+    for output. However, comparisons of floating point numbers may not give the
+    expected results. Performing mathematical operations on these values will
+    cause the rounding errors to grow larger.
+  </li>
+</ol>
+<div class="prevnext">
+  <div class="prevnext-inline">
+    <a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/boolean-values/"
+      ><div class="nav-button nav-button-next">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-right" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Next lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">4.9</span>Boolean values
+          </div>
+        </div>
+      </div></a
+    ><a class="nav-link" href="/"
+      ><div class="nav-button nav-button-index">
+        <div class="nav-button-icon">
+          <i class="fa fa-home" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Back to table of contents</div>
+        </div>
+      </div></a
+    ><a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/introduction-to-scientific-notation/"
+      ><div class="nav-button nav-button-prev">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-left" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Previous lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">4.7</span>Introduction to
+            scientific notation
+          </div>
+        </div>
+      </div></a
+    >
+  </div>
+</div>
+<div class="code-block code-block-10" style="margin: 8px 0; clear: both"></div>

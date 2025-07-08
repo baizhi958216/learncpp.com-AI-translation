@@ -1,0 +1,718 @@
+<div
+  class="code-block code-block-1"
+  style="margin: 8px 8px 8px 0; float: left"
+></div>
+<p>
+  A smart pointer class is a composition class that is designed to manage
+  dynamically allocated memory, and ensure that memory gets deleted when the
+  smart pointer object goes out of scope.
+</p>
+<p>
+  Copy semantics allow our classes to be copied. This is done primarily via the
+  copy constructor and copy assignment operator.
+</p>
+<p>
+  Move semantics mean a class will transfer ownership of the object rather than
+  making a copy. This is done primarily via the move constructor and move
+  assignment operator.
+</p>
+<p>std::auto_ptr is deprecated and should be avoided.</p>
+<p>
+  An r-value reference is a reference that is designed to be initialized with an
+  r-value. An r-value reference is created using a double ampersand. It’s fine
+  to write functions that take r-value reference parameters, but you should
+  almost never return an r-value reference.
+</p>
+<div class="code-block code-block-2" style="margin: 8px 0; clear: both"></div>
+
+<p>
+  If we construct an object or do an assignment where the argument is an
+  l-value, the only thing we can reasonably do is copy the l-value. We can’t
+  assume it’s safe to alter the l-value, because it may be used again later in
+  the program. If we have an expression “a = b”, we wouldn’t reasonably expect b
+  to be changed in any way.
+</p>
+<p>
+  However, if we construct an object or do an assignment where the argument is
+  an r-value, then we know that r-value is just a temporary object of some kind.
+  Instead of copying it (which can be expensive), we can simply transfer its
+  resources (which is cheap) to the object we’re constructing or assigning. This
+  is safe to do because the temporary will be destroyed at the end of the
+  expression anyway, so we know it will never be used again!
+</p>
+<p>
+  You can use the delete keyword to disable copy semantics for classes you
+  create by deleting the copy constructor and copy assignment operator.
+</p>
+<p>
+  std::move allows you to treat an l-value as r-value. This is useful when we
+  want to invoke move semantics instead of copy semantics on an l-value.
+</p>
+<p>
+  std::unique_ptr is the smart pointer class that you should probably be using.
+  It manages a single non-shareable resource. std::make_unique() (in C++14)
+  should be preferred to create new std::unique_ptr. std::unique_ptr disables
+  copy semantics.
+</p>
+<div class="code-block code-block-3" style="margin: 8px 0; clear: both"></div>
+
+<p>
+  std::shared_ptr is the smart pointer class used when you need multiple objects
+  accessing the same resource. The resource will not be destroyed until the last
+  std::shared_ptr managing it is destroyed. std::make_shared() should be
+  preferred to create new std::shared_ptr. With std::shared_ptr, copy semantics
+  should be used to create additional std::shared_ptr pointing to the same
+  object.
+</p>
+<div
+  class="google-auto-placed ap_container"
+  style="width: 100%; height: auto; clear: both; text-align: center"
+>
+  <ins
+    data-ad-format="auto"
+    class="adsbygoogle adsbygoogle-noablate"
+    data-ad-client="ca-pub-0588844875925051"
+    data-adsbygoogle-status="done"
+    style="
+      display: block;
+      margin: auto;
+      background-color: transparent;
+      height: 280px;
+    "
+    data-ad-status="unfilled"
+    ><div
+      id="aswift_5_host"
+      style="
+        border: none;
+        height: 280px;
+        width: 1027px;
+        margin: 0px;
+        padding: 0px;
+        position: relative;
+        visibility: visible;
+        background-color: transparent;
+        display: inline-block;
+        overflow: visible;
+      "
+    >
+      <iframe
+        id="aswift_5"
+        name="aswift_5"
+        browsingtopics="true"
+        style="
+          left: 0;
+          position: absolute;
+          top: 0;
+          border: 0;
+          width: 1027px;
+          height: 280px;
+          min-height: auto;
+          max-height: none;
+          min-width: auto;
+          max-width: none;
+        "
+        sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation"
+        width="1027"
+        height="280"
+        frameborder="0"
+        marginwidth="0"
+        marginheight="0"
+        vspace="0"
+        hspace="0"
+        allowtransparency="true"
+        scrolling="no"
+        allow="attribution-reporting; run-ad-auction"
+        src="https://googleads.g.doubleclick.net/pagead/ads?client=ca-pub-0588844875925051&amp;output=html&amp;h=280&amp;adk=2350694474&amp;adf=2190301350&amp;w=1027&amp;abgtt=11&amp;fwrn=4&amp;fwrnh=100&amp;lmt=1749546134&amp;num_ads=1&amp;rafmt=1&amp;armr=3&amp;sem=mc&amp;pwprc=4633386603&amp;ad_type=text_image&amp;format=1027x280&amp;url=https%3A%2F%2Fwww.learncpp.com%2Fcpp-tutorial%2Fchapter-22-summary-and-quiz%2F&amp;fwr=0&amp;pra=3&amp;rh=200&amp;rw=1026&amp;rpe=1&amp;resp_fmts=3&amp;wgl=1&amp;fa=27&amp;uach=WyJXaW5kb3dzIiwiMTkuMC4wIiwieDg2IiwiIiwiMTM3LjAuNzE1MS4xMjIiLG51bGwsMCxudWxsLCI2NCIsW1siR29vZ2xlIENocm9tZSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJDaHJvbWl1bSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJOb3QvQSlCcmFuZCIsIjI0LjAuMC4wIl1dLDBd&amp;dt=1751963427535&amp;bpp=1&amp;bdt=558&amp;idt=-M&amp;shv=r20250702&amp;mjsv=m202507020101&amp;ptt=9&amp;saldr=aa&amp;abxe=1&amp;cookie=ID%3D05f6e82287d810b4%3AT%3D1751962604%3ART%3D1751963214%3AS%3DALNI_MaQYA0TSAU2k8xwY5tqlN0xFCcd6g&amp;gpic=UID%3D00001157d9e27d0a%3AT%3D1751962604%3ART%3D1751963214%3AS%3DALNI_MYgtHzQJAQQXY_151HTGSSfVxE8_A&amp;eo_id_str=ID%3D52c21936d98c6d2b%3AT%3D1751962604%3ART%3D1751963214%3AS%3DAA-AfjZsJ15yjdEPJ8d11hPojsJQ&amp;prev_fmts=0x0%2C336x280%2C336x280%2C160x600%2C160x600&amp;nras=2&amp;correlator=6153452786474&amp;frm=20&amp;pv=1&amp;u_tz=480&amp;u_his=2&amp;u_h=600&amp;u_w=800&amp;u_ah=600&amp;u_aw=800&amp;u_cd=24&amp;u_sd=1&amp;dmc=8&amp;adx=27&amp;ady=836&amp;biw=1080&amp;bih=1024&amp;scr_x=0&amp;scr_y=0&amp;eid=31093232%2C95331832%2C95353387%2C95362656%2C95365226%2C95365234%2C95344791%2C95359265%2C95365117%2C95365798&amp;oid=2&amp;pvsid=2741738715506692&amp;tmod=1708485235&amp;uas=0&amp;nvt=1&amp;fc=1408&amp;brdim=10%2C10%2C10%2C10%2C800%2C0%2C780%2C580%2C1080%2C1024&amp;vis=1&amp;rsz=%7C%7Cs%7C&amp;abl=NS&amp;fu=128&amp;bc=31&amp;bz=0.72&amp;td=1&amp;tdf=2&amp;psd=W251bGwsbnVsbCxudWxsLDNd&amp;nt=1&amp;ifi=6&amp;uci=a!6&amp;fsb=1&amp;dtd=10"
+        data-google-container-id="a!6"
+        tabindex="0"
+        title="Advertisement"
+        aria-label="Advertisement"
+        data-load-complete="true"
+        data-google-query-id="CJPez63srI4DFX-H6QUdG8ItyA"
+      ></iframe></div
+  ></ins>
+</div>
+<p>
+  std::weak_ptr is the smart pointer class used when you need one or more
+  objects with the ability to view and access a resource managed by a
+  std::shared_ptr, but unlike std::shared_ptr, std::weak_ptr is not considered
+  when determining whether the resource should be destroyed.
+</p>
+<p><strong>Quiz time</strong></p>
+<ol start="1">
+  <li>Explain when you should use the following types of pointers.</li>
+</ol>
+<p>1a) std::unique_ptr</p>
+<div
+  class="google-auto-placed ap_container"
+  style="width: 100%; height: auto; clear: both; text-align: center"
+>
+  <ins
+    data-ad-format="auto"
+    class="adsbygoogle adsbygoogle-noablate"
+    data-ad-client="ca-pub-0588844875925051"
+    data-adsbygoogle-status="done"
+    style="
+      display: block;
+      margin: auto;
+      background-color: transparent;
+      height: 0px;
+    "
+    data-ad-status="unfilled"
+    ><div
+      id="aswift_6_host"
+      style="
+        border: none;
+        height: 0px;
+        width: 1027px;
+        margin: 0px;
+        padding: 0px;
+        position: relative;
+        visibility: visible;
+        background-color: transparent;
+        display: inline-block;
+        overflow: hidden;
+        opacity: 0;
+      "
+    >
+      <iframe
+        id="aswift_6"
+        name="aswift_6"
+        browsingtopics="true"
+        style="
+          left: 0px;
+          position: absolute;
+          top: 0px;
+          border: 0px;
+          width: 1027px;
+          height: 0px;
+          min-height: auto;
+          max-height: none;
+          min-width: auto;
+          max-width: none;
+        "
+        sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation"
+        width="1027"
+        height="0"
+        frameborder="0"
+        marginwidth="0"
+        marginheight="0"
+        vspace="0"
+        hspace="0"
+        allowtransparency="true"
+        scrolling="no"
+        allow="attribution-reporting; run-ad-auction"
+        src="https://googleads.g.doubleclick.net/pagead/ads?client=ca-pub-0588844875925051&amp;output=html&amp;h=280&amp;adk=2350694474&amp;adf=879951424&amp;w=1027&amp;abgtt=11&amp;fwrn=4&amp;fwrnh=100&amp;lmt=1749546134&amp;num_ads=1&amp;rafmt=1&amp;armr=3&amp;sem=mc&amp;pwprc=4633386603&amp;ad_type=text_image&amp;format=1027x280&amp;url=https%3A%2F%2Fwww.learncpp.com%2Fcpp-tutorial%2Fchapter-22-summary-and-quiz%2F&amp;fwr=0&amp;pra=3&amp;rh=200&amp;rw=1026&amp;rpe=1&amp;resp_fmts=3&amp;wgl=1&amp;fa=27&amp;uach=WyJXaW5kb3dzIiwiMTkuMC4wIiwieDg2IiwiIiwiMTM3LjAuNzE1MS4xMjIiLG51bGwsMCxudWxsLCI2NCIsW1siR29vZ2xlIENocm9tZSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJDaHJvbWl1bSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJOb3QvQSlCcmFuZCIsIjI0LjAuMC4wIl1dLDBd&amp;dt=1751963427535&amp;bpp=1&amp;bdt=559&amp;idt=-M&amp;shv=r20250702&amp;mjsv=m202507020101&amp;ptt=9&amp;saldr=aa&amp;abxe=1&amp;cookie=ID%3D05f6e82287d810b4%3AT%3D1751962604%3ART%3D1751963214%3AS%3DALNI_MaQYA0TSAU2k8xwY5tqlN0xFCcd6g&amp;gpic=UID%3D00001157d9e27d0a%3AT%3D1751962604%3ART%3D1751963214%3AS%3DALNI_MYgtHzQJAQQXY_151HTGSSfVxE8_A&amp;eo_id_str=ID%3D52c21936d98c6d2b%3AT%3D1751962604%3ART%3D1751963214%3AS%3DAA-AfjZsJ15yjdEPJ8d11hPojsJQ&amp;prev_fmts=0x0%2C336x280%2C336x280%2C160x600%2C160x600%2C1027x280&amp;nras=3&amp;correlator=6153452786474&amp;frm=20&amp;pv=1&amp;u_tz=480&amp;u_his=2&amp;u_h=600&amp;u_w=800&amp;u_ah=600&amp;u_aw=800&amp;u_cd=24&amp;u_sd=1&amp;dmc=8&amp;adx=27&amp;ady=1275&amp;biw=1080&amp;bih=1024&amp;scr_x=0&amp;scr_y=0&amp;eid=31093232%2C95331832%2C95353387%2C95362656%2C95365226%2C95365234%2C95344791%2C95359265%2C95365117%2C95365798&amp;oid=2&amp;pvsid=2741738715506692&amp;tmod=1708485235&amp;uas=0&amp;nvt=1&amp;fc=1408&amp;brdim=10%2C10%2C10%2C10%2C800%2C0%2C780%2C580%2C1080%2C1024&amp;vis=1&amp;rsz=%7C%7Cs%7C&amp;abl=NS&amp;fu=128&amp;bc=31&amp;bz=0.72&amp;td=1&amp;tdf=2&amp;psd=W251bGwsbnVsbCxudWxsLDNd&amp;nt=1&amp;ifi=7&amp;uci=a!7&amp;btvi=2&amp;fsb=1&amp;dtd=11"
+        data-google-container-id="a!7"
+        tabindex="0"
+        title="Advertisement"
+        aria-label="Advertisement"
+        data-google-query-id="CKjZz63srI4DFSyH6QUddb0wHQ"
+        data-load-complete="true"
+      ></iframe></div
+  ></ins>
+</div>
+<p>
+  <a
+    class="solution_link_show"
+    href="javascript:void(0)"
+    onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_0'), this, 'Show Solution', 'Hide Solution')"
+    >Show Solution</a
+  >
+</p>
+<div class="wpsolution" id="cpp_solution_id_0" style="display: none">
+  <p>
+    std::unique_ptr should be used when you want a smart pointer to manage a
+    dynamic object that is not going to be shared.
+  </p>
+</div>
+<p>1b) std::shared_ptr</p>
+<p>
+  <a
+    class="solution_link_show"
+    href="javascript:void(0)"
+    onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_1'), this, 'Show Solution', 'Hide Solution')"
+    >Show Solution</a
+  >
+</p>
+<div class="wpsolution" id="cpp_solution_id_1" style="display: none">
+  <p>
+    std::shared_ptr should be used when you want a smart pointer to manage a
+    dynamic object that may be shared. The object won’t be deallocated until all
+    std::shared_ptr holding the object are destroyed.
+  </p>
+</div>
+<p>1c) std::weak_ptr</p>
+<p>
+  <a
+    class="solution_link_show"
+    href="javascript:void(0)"
+    onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_2'), this, 'Show Solution', 'Hide Solution')"
+    >Show Solution</a
+  >
+</p>
+<div class="wpsolution" id="cpp_solution_id_2" style="display: none">
+  <p>
+    std::weak_ptr should be used when you want access to an object that is being
+    managed by a std::shared_ptr, but don’t want the lifetime of the
+    std::shared_ptr to be tied to the lifetime of the std::weak_ptr.
+  </p>
+</div>
+<p>1d) std::auto_ptr</p>
+<div
+  class="google-auto-placed ap_container"
+  style="width: 100%; height: auto; clear: both; text-align: center"
+>
+  <ins
+    data-ad-format="auto"
+    class="adsbygoogle adsbygoogle-noablate"
+    data-ad-client="ca-pub-0588844875925051"
+    data-adsbygoogle-status="done"
+    style="
+      display: block;
+      margin: auto;
+      background-color: transparent;
+      height: 0px;
+    "
+    data-ad-status="unfilled"
+    ><div
+      id="aswift_7_host"
+      style="
+        border: none;
+        height: 0px;
+        width: 1027px;
+        margin: 0px;
+        padding: 0px;
+        position: relative;
+        visibility: visible;
+        background-color: transparent;
+        display: inline-block;
+        overflow: hidden;
+        opacity: 0;
+      "
+    >
+      <iframe
+        id="aswift_7"
+        name="aswift_7"
+        browsingtopics="true"
+        style="
+          left: 0px;
+          position: absolute;
+          top: 0px;
+          border: 0px;
+          width: 1027px;
+          height: 0px;
+          min-height: auto;
+          max-height: none;
+          min-width: auto;
+          max-width: none;
+        "
+        sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation"
+        width="1027"
+        height="0"
+        frameborder="0"
+        marginwidth="0"
+        marginheight="0"
+        vspace="0"
+        hspace="0"
+        allowtransparency="true"
+        scrolling="no"
+        allow="attribution-reporting; run-ad-auction"
+        src="https://googleads.g.doubleclick.net/pagead/ads?client=ca-pub-0588844875925051&amp;output=html&amp;h=280&amp;adk=2350694474&amp;adf=3257763939&amp;w=1027&amp;abgtt=11&amp;fwrn=4&amp;fwrnh=100&amp;lmt=1749546134&amp;num_ads=1&amp;rafmt=1&amp;armr=3&amp;sem=mc&amp;pwprc=4633386603&amp;ad_type=text_image&amp;format=1027x280&amp;url=https%3A%2F%2Fwww.learncpp.com%2Fcpp-tutorial%2Fchapter-22-summary-and-quiz%2F&amp;fwr=0&amp;pra=3&amp;rh=200&amp;rw=1026&amp;rpe=1&amp;resp_fmts=3&amp;wgl=1&amp;fa=27&amp;uach=WyJXaW5kb3dzIiwiMTkuMC4wIiwieDg2IiwiIiwiMTM3LjAuNzE1MS4xMjIiLG51bGwsMCxudWxsLCI2NCIsW1siR29vZ2xlIENocm9tZSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJDaHJvbWl1bSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJOb3QvQSlCcmFuZCIsIjI0LjAuMC4wIl1dLDBd&amp;dt=1751963427535&amp;bpp=1&amp;bdt=559&amp;idt=-M&amp;shv=r20250702&amp;mjsv=m202507020101&amp;ptt=9&amp;saldr=aa&amp;abxe=1&amp;cookie=ID%3D05f6e82287d810b4%3AT%3D1751962604%3ART%3D1751963214%3AS%3DALNI_MaQYA0TSAU2k8xwY5tqlN0xFCcd6g&amp;gpic=UID%3D00001157d9e27d0a%3AT%3D1751962604%3ART%3D1751963214%3AS%3DALNI_MYgtHzQJAQQXY_151HTGSSfVxE8_A&amp;eo_id_str=ID%3D52c21936d98c6d2b%3AT%3D1751962604%3ART%3D1751963214%3AS%3DAA-AfjZsJ15yjdEPJ8d11hPojsJQ&amp;prev_fmts=0x0%2C336x280%2C336x280%2C160x600%2C160x600%2C1027x280%2C1027x280&amp;nras=4&amp;correlator=6153452786474&amp;frm=20&amp;pv=1&amp;u_tz=480&amp;u_his=2&amp;u_h=600&amp;u_w=800&amp;u_ah=600&amp;u_aw=800&amp;u_cd=24&amp;u_sd=1&amp;dmc=8&amp;adx=27&amp;ady=1762&amp;biw=1080&amp;bih=1024&amp;scr_x=0&amp;scr_y=0&amp;eid=31093232%2C95331832%2C95353387%2C95362656%2C95365226%2C95365234%2C95344791%2C95359265%2C95365117%2C95365798&amp;oid=2&amp;pvsid=2741738715506692&amp;tmod=1708485235&amp;uas=0&amp;nvt=1&amp;fc=1408&amp;brdim=10%2C10%2C10%2C10%2C800%2C0%2C780%2C580%2C1080%2C1024&amp;vis=1&amp;rsz=%7C%7Cs%7C&amp;abl=NS&amp;fu=128&amp;bc=31&amp;bz=0.72&amp;td=1&amp;tdf=2&amp;psd=W251bGwsbnVsbCxudWxsLDNd&amp;nt=1&amp;ifi=8&amp;uci=a!8&amp;btvi=3&amp;fsb=1&amp;dtd=12"
+        data-google-container-id="a!8"
+        tabindex="0"
+        title="Advertisement"
+        aria-label="Advertisement"
+        data-load-complete="true"
+        data-google-query-id="CIr4z63srI4DFV-J6QUdMe8iqQ"
+      ></iframe></div
+  ></ins>
+</div>
+<p>
+  <a
+    class="solution_link_show"
+    href="javascript:void(0)"
+    onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_3'), this, 'Show Solution', 'Hide Solution')"
+    >Show Solution</a
+  >
+</p>
+<div class="wpsolution" id="cpp_solution_id_3" style="display: none">
+  <p>
+    std::auto_ptr has been deprecated and was removed in C++17. It should not be
+    used.
+  </p>
+</div>
+<ol start="2">
+  <li>Explain why move semantics is focused around r-values.</li>
+</ol>
+<p>
+  <a
+    class="solution_link_show"
+    href="javascript:void(0)"
+    onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_4'), this, 'Show Solution', 'Hide Solution')"
+    >Show Solution</a
+  >
+</p>
+<div class="wpsolution" id="cpp_solution_id_4" style="display: none">
+  <p>
+    Because r-values are temporary, we know they are going to get destroyed
+    after they are used. When passing or returning an r-value by value, it’s
+    wasteful to make a copy and then destroy the original. Instead, we can
+    simply move (steal) the r-value’s resources, which is generally more
+    efficient.
+  </p>
+</div>
+<ol start="3">
+  <li>
+    What’s wrong with the following code? Update the program to be best
+    practices compliant.
+  </li>
+</ol>
+<p>3a)</p>
+<div
+  class="google-auto-placed ap_container"
+  style="width: 100%; height: auto; clear: both; text-align: center"
+>
+  <ins
+    data-ad-format="auto"
+    class="adsbygoogle adsbygoogle-noablate"
+    data-ad-client="ca-pub-0588844875925051"
+    data-adsbygoogle-status="done"
+    style="
+      display: block;
+      margin: auto;
+      background-color: transparent;
+      height: 0px;
+    "
+    data-ad-status="unfilled"
+    ><div
+      id="aswift_8_host"
+      style="
+        border: none;
+        height: 0px;
+        width: 1027px;
+        margin: 0px;
+        padding: 0px;
+        position: relative;
+        visibility: visible;
+        background-color: transparent;
+        display: inline-block;
+        overflow: hidden;
+        opacity: 0;
+      "
+    >
+      <iframe
+        id="aswift_8"
+        name="aswift_8"
+        browsingtopics="true"
+        style="
+          left: 0px;
+          position: absolute;
+          top: 0px;
+          border: 0px;
+          width: 1027px;
+          height: 0px;
+          min-height: auto;
+          max-height: none;
+          min-width: auto;
+          max-width: none;
+        "
+        sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation"
+        width="1027"
+        height="0"
+        frameborder="0"
+        marginwidth="0"
+        marginheight="0"
+        vspace="0"
+        hspace="0"
+        allowtransparency="true"
+        scrolling="no"
+        allow="attribution-reporting; run-ad-auction"
+        src="https://googleads.g.doubleclick.net/pagead/ads?client=ca-pub-0588844875925051&amp;output=html&amp;h=280&amp;adk=2350694474&amp;adf=4107572196&amp;w=1027&amp;abgtt=11&amp;fwrn=4&amp;fwrnh=100&amp;lmt=1749546134&amp;num_ads=1&amp;rafmt=1&amp;armr=3&amp;sem=mc&amp;pwprc=4633386603&amp;ad_type=text_image&amp;format=1027x280&amp;url=https%3A%2F%2Fwww.learncpp.com%2Fcpp-tutorial%2Fchapter-22-summary-and-quiz%2F&amp;fwr=0&amp;pra=3&amp;rh=200&amp;rw=1026&amp;rpe=1&amp;resp_fmts=3&amp;wgl=1&amp;fa=27&amp;uach=WyJXaW5kb3dzIiwiMTkuMC4wIiwieDg2IiwiIiwiMTM3LjAuNzE1MS4xMjIiLG51bGwsMCxudWxsLCI2NCIsW1siR29vZ2xlIENocm9tZSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJDaHJvbWl1bSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJOb3QvQSlCcmFuZCIsIjI0LjAuMC4wIl1dLDBd&amp;dt=1751963427535&amp;bpp=1&amp;bdt=559&amp;idt=-M&amp;shv=r20250702&amp;mjsv=m202507020101&amp;ptt=9&amp;saldr=aa&amp;abxe=1&amp;cookie=ID%3D05f6e82287d810b4%3AT%3D1751962604%3ART%3D1751963214%3AS%3DALNI_MaQYA0TSAU2k8xwY5tqlN0xFCcd6g&amp;gpic=UID%3D00001157d9e27d0a%3AT%3D1751962604%3ART%3D1751963214%3AS%3DALNI_MYgtHzQJAQQXY_151HTGSSfVxE8_A&amp;eo_id_str=ID%3D52c21936d98c6d2b%3AT%3D1751962604%3ART%3D1751963214%3AS%3DAA-AfjZsJ15yjdEPJ8d11hPojsJQ&amp;prev_fmts=0x0%2C336x280%2C336x280%2C160x600%2C160x600%2C1027x280%2C1027x280%2C1027x280&amp;nras=5&amp;correlator=6153452786474&amp;frm=20&amp;pv=1&amp;u_tz=480&amp;u_his=2&amp;u_h=600&amp;u_w=800&amp;u_ah=600&amp;u_aw=800&amp;u_cd=24&amp;u_sd=1&amp;dmc=8&amp;adx=27&amp;ady=2215&amp;biw=1080&amp;bih=1024&amp;scr_x=0&amp;scr_y=0&amp;eid=31093232%2C95331832%2C95353387%2C95362656%2C95365226%2C95365234%2C95344791%2C95359265%2C95365117%2C95365798&amp;oid=2&amp;pvsid=2741738715506692&amp;tmod=1708485235&amp;uas=0&amp;nvt=1&amp;fc=1408&amp;brdim=10%2C10%2C10%2C10%2C800%2C0%2C780%2C580%2C1080%2C1024&amp;vis=1&amp;rsz=%7C%7Cs%7C&amp;abl=NS&amp;fu=128&amp;bc=31&amp;bz=0.72&amp;td=1&amp;tdf=2&amp;psd=W251bGwsbnVsbCxudWxsLDNd&amp;nt=1&amp;ifi=9&amp;uci=a!9&amp;btvi=4&amp;fsb=1&amp;dtd=12"
+        data-google-container-id="a!9"
+        tabindex="0"
+        title="Advertisement"
+        aria-label="Advertisement"
+        data-load-complete="true"
+        data-google-query-id="CJOB0K3srI4DFdet6QUdOkEgPw"
+      ></iframe></div
+  ></ins>
+</div>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;memory&gt;</span> <span class="token comment">// for std::shared_ptr</span></span>
+
+<span class="token keyword keyword-class">class</span> <span class="token class-name">Resource</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-5-close">{</span>
+<span class="token keyword keyword-public">public</span><span class="token operator">:</span>
+	<span class="token function">Resource</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-0-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-0-open">)</span> <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-3-close">{</span> std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Resource acquired\n"</span><span class="token punctuation">;</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-3-open">}</span>
+	<span class="token operator">~</span><span class="token function">Resource</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-1-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-1-open">)</span> <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-4-close">{</span> std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Resource destroyed\n"</span><span class="token punctuation">;</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-4-open">}</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-5-open">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-2-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-2-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-10-close">{</span>
+	<span class="token keyword keyword-auto">auto</span><span class="token operator">*</span> res<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-7-close">{</span> <span class="token keyword keyword-new">new</span> Resource<span class="token punctuation brace-curly brace-open brace-level-3" id="pair-6-close">{</span><span class="token punctuation brace-curly brace-close brace-level-3" id="pair-6-open">}</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-7-open">}</span><span class="token punctuation">;</span>
+	std<span class="token double-colon punctuation">::</span>shared_ptr<span class="token operator">&lt;</span>Resource<span class="token operator">&gt;</span> ptr1<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-8-close">{</span> res <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-8-open">}</span><span class="token punctuation">;</span>
+	std<span class="token double-colon punctuation">::</span>shared_ptr<span class="token operator">&lt;</span>Resource<span class="token operator">&gt;</span> ptr2<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-9-close">{</span> res <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-9-open">}</span><span class="token punctuation">;</span>
+
+	<span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-10-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<div
+  class="google-auto-placed ap_container"
+  style="width: 100%; height: auto; clear: both; text-align: center"
+>
+  <ins
+    data-ad-format="auto"
+    class="adsbygoogle adsbygoogle-noablate"
+    data-ad-client="ca-pub-0588844875925051"
+    data-adsbygoogle-status="done"
+    style="
+      display: block;
+      margin: auto;
+      background-color: transparent;
+      height: 0px;
+    "
+    data-ad-status="unfilled"
+    ><div
+      id="aswift_9_host"
+      style="
+        border: none;
+        height: 0px;
+        width: 1027px;
+        margin: 0px;
+        padding: 0px;
+        position: relative;
+        visibility: visible;
+        background-color: transparent;
+        display: inline-block;
+        overflow: hidden;
+        opacity: 0;
+      "
+    >
+      <iframe
+        id="aswift_9"
+        name="aswift_9"
+        browsingtopics="true"
+        style="
+          left: 0px;
+          position: absolute;
+          top: 0px;
+          border: 0px;
+          width: 1027px;
+          height: 0px;
+          min-height: auto;
+          max-height: none;
+          min-width: auto;
+          max-width: none;
+        "
+        sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation"
+        width="1027"
+        height="0"
+        frameborder="0"
+        marginwidth="0"
+        marginheight="0"
+        vspace="0"
+        hspace="0"
+        allowtransparency="true"
+        scrolling="no"
+        allow="attribution-reporting; run-ad-auction"
+        src="https://googleads.g.doubleclick.net/pagead/ads?client=ca-pub-0588844875925051&amp;output=html&amp;h=280&amp;adk=2350694474&amp;adf=551032194&amp;w=1027&amp;abgtt=11&amp;fwrn=4&amp;fwrnh=100&amp;lmt=1749546134&amp;num_ads=1&amp;rafmt=1&amp;armr=3&amp;sem=mc&amp;pwprc=4633386603&amp;ad_type=text_image&amp;format=1027x280&amp;url=https%3A%2F%2Fwww.learncpp.com%2Fcpp-tutorial%2Fchapter-22-summary-and-quiz%2F&amp;fwr=0&amp;pra=3&amp;rh=200&amp;rw=1026&amp;rpe=1&amp;resp_fmts=3&amp;wgl=1&amp;fa=27&amp;uach=WyJXaW5kb3dzIiwiMTkuMC4wIiwieDg2IiwiIiwiMTM3LjAuNzE1MS4xMjIiLG51bGwsMCxudWxsLCI2NCIsW1siR29vZ2xlIENocm9tZSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJDaHJvbWl1bSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJOb3QvQSlCcmFuZCIsIjI0LjAuMC4wIl1dLDBd&amp;dt=1751963427535&amp;bpp=1&amp;bdt=559&amp;idt=0&amp;shv=r20250702&amp;mjsv=m202507020101&amp;ptt=9&amp;saldr=aa&amp;abxe=1&amp;cookie=ID%3D05f6e82287d810b4%3AT%3D1751962604%3ART%3D1751963214%3AS%3DALNI_MaQYA0TSAU2k8xwY5tqlN0xFCcd6g&amp;gpic=UID%3D00001157d9e27d0a%3AT%3D1751962604%3ART%3D1751963214%3AS%3DALNI_MYgtHzQJAQQXY_151HTGSSfVxE8_A&amp;eo_id_str=ID%3D52c21936d98c6d2b%3AT%3D1751962604%3ART%3D1751963214%3AS%3DAA-AfjZsJ15yjdEPJ8d11hPojsJQ&amp;prev_fmts=0x0%2C336x280%2C336x280%2C160x600%2C160x600%2C1027x280%2C1027x280%2C1027x280%2C1027x280&amp;nras=6&amp;correlator=6153452786474&amp;frm=20&amp;pv=1&amp;u_tz=480&amp;u_his=2&amp;u_h=600&amp;u_w=800&amp;u_ah=600&amp;u_aw=800&amp;u_cd=24&amp;u_sd=1&amp;dmc=8&amp;adx=27&amp;ady=2835&amp;biw=1080&amp;bih=1024&amp;scr_x=0&amp;scr_y=0&amp;eid=31093232%2C95331832%2C95353387%2C95362656%2C95365226%2C95365234%2C95344791%2C95359265%2C95365117%2C95365798&amp;oid=2&amp;pvsid=2741738715506692&amp;tmod=1708485235&amp;uas=0&amp;nvt=1&amp;fc=1408&amp;brdim=10%2C10%2C10%2C10%2C800%2C0%2C780%2C580%2C1080%2C1024&amp;vis=1&amp;rsz=%7C%7Cs%7C&amp;abl=NS&amp;fu=128&amp;bc=31&amp;bz=0.72&amp;td=1&amp;tdf=2&amp;psd=W251bGwsbnVsbCxudWxsLDNd&amp;nt=1&amp;ifi=10&amp;uci=a!a&amp;btvi=5&amp;fsb=1&amp;dtd=13"
+        data-google-container-id="a!a"
+        tabindex="0"
+        title="Advertisement"
+        aria-label="Advertisement"
+        data-load-complete="true"
+        data-google-query-id="CPeQ0K3srI4DFdqG6QUdpmQ4Tw"
+      ></iframe></div
+  ></ins>
+</div>
+<p>
+  <a
+    class="solution_link_show"
+    href="javascript:void(0)"
+    onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_5'), this, 'Show Solution', 'Hide Solution')"
+    >Show Solution</a
+  >
+</p>
+<div class="wpsolution" id="cpp_solution_id_5" style="display: none">
+  <p>
+    <code>ptr2</code> was created from <code>res</code> instead of from
+    <code>ptr1</code>. This means that you now have two
+    <code>std::shared_ptr</code> each independently trying to manage the
+    <code>Resource</code> (they are not aware of each other). When one goes out
+    of scope, the other will be left with a dangling pointer.
+  </p>
+  <p>
+    <code>ptr2</code> should instead be initialized with
+    <code>ptr1</code> instead of from <code>res</code>. This will allow both
+    <code>ptr1</code> and <code>ptr2</code> to share ownership of
+    <code>res</code>. <code>std::make_shared()</code> should be used instead of
+    manual dynamic allocation.
+  </p>
+  <div class="code-toolbar">
+    <pre
+      class="line-numbers language-cpp"
+      tabindex="0"
+    ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;memory&gt;</span> <span class="token comment">// for std::shared_ptr</span></span>
+
+<span class="token keyword keyword-class">class</span> <span class="token class-name">Resource</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-17-close">{</span>
+<span class="token keyword keyword-public">public</span><span class="token operator">:</span>
+	<span class="token function">Resource</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-11-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-11-open">)</span> <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-15-close">{</span> std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Resource acquired\n"</span><span class="token punctuation">;</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-15-open">}</span>
+	<span class="token operator">~</span><span class="token function">Resource</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-12-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-12-open">)</span> <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-16-close">{</span> std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Resource destroyed\n"</span><span class="token punctuation">;</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-16-open">}</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-17-open">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-13-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-13-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-20-close">{</span>
+	<span class="token keyword keyword-auto">auto</span> ptr1<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-18-close">{</span> std<span class="token double-colon punctuation">::</span><span class="token generic-function"><span class="token function">make_shared</span><span class="token generic class-name"><span class="token operator">&lt;</span>Resource<span class="token operator">&gt;</span></span></span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-14-close">(</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-14-open">)</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-18-open">}</span><span class="token punctuation">;</span>
+	<span class="token keyword keyword-auto">auto</span> ptr2<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-19-close">{</span> ptr1 <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-19-open">}</span><span class="token punctuation">;</span>
+
+	<span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-20-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+    <div class="toolbar">
+      <div class="toolbar-item">
+        <button
+          class="copy-to-clipboard-button"
+          type="button"
+          data-copy-state="copy"
+        >
+          <span>Copy</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="prevnext">
+  <div class="prevnext-inline">
+    <a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/object-relationships/"
+    >
+      <div class="nav-button nav-button-next">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-right" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Next lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">23.1</span>Object
+            relationships
+          </div>
+        </div>
+      </div></a
+    >
+    <a class="nav-link" href="/">
+      <div class="nav-button nav-button-index">
+        <div class="nav-button-icon">
+          <i class="fa fa-home" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Back to table of contents</div>
+        </div>
+      </div></a
+    >
+    <a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/circular-dependency-issues-with-stdshared_ptr-and-stdweak_ptr/"
+    >
+      <div class="nav-button nav-button-prev">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-left" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Previous lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">22.7</span>Circular
+            dependency issues with std::shared_ptr, and std::weak_ptr
+          </div>
+        </div>
+      </div></a
+    >
+  </div>
+</div>
+<div
+  class="google-auto-placed"
+  style="width: 100%; height: auto; clear: both; text-align: center"
+>
+  <ins
+    data-ad-format="auto"
+    class="adsbygoogle adsbygoogle-noablate"
+    data-ad-client="ca-pub-0588844875925051"
+    data-adsbygoogle-status="done"
+    style="
+      display: block;
+      margin: 8px auto 14px;
+      background-color: transparent;
+      height: 0px;
+    "
+    data-ad-status="unfilled"
+    ><div
+      id="aswift_10_host"
+      style="
+        border: none;
+        height: 0px;
+        width: 1027px;
+        margin: 0px;
+        padding: 0px;
+        position: relative;
+        visibility: visible;
+        background-color: transparent;
+        display: inline-block;
+        overflow: hidden;
+        opacity: 0;
+      "
+    >
+      <iframe
+        id="aswift_10"
+        name="aswift_10"
+        browsingtopics="true"
+        style="
+          left: 0px;
+          position: absolute;
+          top: 0px;
+          border: 0px;
+          width: 1027px;
+          height: 0px;
+          min-height: auto;
+          max-height: none;
+          min-width: auto;
+          max-width: none;
+        "
+        sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation"
+        width="1027"
+        height="0"
+        frameborder="0"
+        marginwidth="0"
+        marginheight="0"
+        vspace="0"
+        hspace="0"
+        allowtransparency="true"
+        scrolling="no"
+        allow="attribution-reporting; run-ad-auction"
+        src="https://googleads.g.doubleclick.net/pagead/ads?client=ca-pub-0588844875925051&amp;output=html&amp;h=280&amp;adk=3788282579&amp;adf=2387326468&amp;pi=t.aa~a.1825356541~rp.1&amp;w=1027&amp;abgtt=11&amp;fwrn=4&amp;fwrnh=100&amp;lmt=1749546134&amp;rafmt=1&amp;to=qs&amp;pwprc=4633386603&amp;format=1027x280&amp;url=https%3A%2F%2Fwww.learncpp.com%2Fcpp-tutorial%2Fchapter-22-summary-and-quiz%2F&amp;fwr=0&amp;pra=3&amp;rpe=1&amp;resp_fmts=3&amp;wgl=1&amp;fa=40&amp;uach=WyJXaW5kb3dzIiwiMTkuMC4wIiwieDg2IiwiIiwiMTM3LjAuNzE1MS4xMjIiLG51bGwsMCxudWxsLCI2NCIsW1siR29vZ2xlIENocm9tZSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJDaHJvbWl1bSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJOb3QvQSlCcmFuZCIsIjI0LjAuMC4wIl1dLDBd&amp;dt=1751963427575&amp;bpp=1&amp;bdt=598&amp;idt=1&amp;shv=r20250702&amp;mjsv=m202507020101&amp;ptt=9&amp;saldr=aa&amp;abxe=1&amp;cookie=ID%3D05f6e82287d810b4%3AT%3D1751962604%3ART%3D1751963214%3AS%3DALNI_MaQYA0TSAU2k8xwY5tqlN0xFCcd6g&amp;gpic=UID%3D00001157d9e27d0a%3AT%3D1751962604%3ART%3D1751963214%3AS%3DALNI_MYgtHzQJAQQXY_151HTGSSfVxE8_A&amp;eo_id_str=ID%3D52c21936d98c6d2b%3AT%3D1751962604%3ART%3D1751963214%3AS%3DAA-AfjZsJ15yjdEPJ8d11hPojsJQ&amp;prev_fmts=0x0%2C336x280%2C336x280%2C160x600%2C160x600%2C1027x280%2C1027x280%2C1027x280%2C1027x280%2C1027x280&amp;nras=7&amp;correlator=6153452786474&amp;frm=20&amp;pv=1&amp;u_tz=480&amp;u_his=2&amp;u_h=600&amp;u_w=800&amp;u_ah=600&amp;u_aw=800&amp;u_cd=24&amp;u_sd=1&amp;dmc=8&amp;adx=27&amp;ady=3399&amp;biw=1080&amp;bih=1024&amp;scr_x=0&amp;scr_y=0&amp;eid=31093232%2C95331832%2C95353387%2C95362656%2C95365226%2C95365234%2C95344791%2C95359265%2C95365117%2C95365798&amp;oid=2&amp;pvsid=2741738715506692&amp;tmod=1708485235&amp;uas=0&amp;nvt=1&amp;fc=1920&amp;brdim=10%2C10%2C10%2C10%2C800%2C0%2C780%2C580%2C1080%2C1024&amp;vis=1&amp;rsz=%7C%7Cs%7C&amp;abl=NS&amp;cms=2&amp;fu=128&amp;bc=31&amp;bz=0.72&amp;td=1&amp;tdf=2&amp;psd=W251bGwsbnVsbCxudWxsLDNd&amp;nt=1&amp;ifi=11&amp;uci=a!b&amp;btvi=6&amp;fsb=1&amp;dtd=11"
+        data-google-container-id="a!b"
+        tabindex="0"
+        title="Advertisement"
+        aria-label="Advertisement"
+        data-load-complete="true"
+        data-google-query-id="CKaV0q3srI4DFXeL6QUdm1gnSA"
+      ></iframe></div
+  ></ins>
+</div>
+<div class="code-block code-block-10" style="margin: 8px 0; clear: both"></div>

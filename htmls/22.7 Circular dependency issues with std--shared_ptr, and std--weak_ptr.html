@@ -1,0 +1,1222 @@
+<div
+  class="code-block code-block-1"
+  style="margin: 8px 8px 8px 0; float: left"
+></div>
+<p>
+  In the previous lesson, we saw how std::shared_ptr allowed us to have multiple
+  smart pointers co-owning the same resource. However, in certain cases, this
+  can become problematic. Consider the following case, where the shared pointers
+  in two separate objects each point at the other object:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;memory&gt;</span> <span class="token comment">// for std::shared_ptr</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;string&gt;</span></span>
+
+<span class="token keyword keyword-class">class</span> <span class="token class-name">Person</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-12-close">{</span>
+	std<span class="token double-colon punctuation">::</span>string m_name<span class="token punctuation">;</span>
+	std<span class="token double-colon punctuation">::</span>shared_ptr<span class="token operator">&lt;</span>Person<span class="token operator">&gt;</span> m_partner<span class="token punctuation">;</span> <span class="token comment">// initially created empty</span>
+
+<span class="token keyword keyword-public">public</span><span class="token operator">:</span>
+
+	<span class="token function">Person</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-0-close">(</span><span class="token keyword keyword-const">const</span> std<span class="token double-colon punctuation">::</span>string <span class="token operator">&amp;</span>name<span class="token punctuation brace-round brace-close brace-level-2" id="pair-0-open">)</span><span class="token operator">:</span> <span class="token function">m_name</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-1-close">(</span>name<span class="token punctuation brace-round brace-close brace-level-2" id="pair-1-open">)</span>
+	<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-9-close">{</span>
+		std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> m_name <span class="token operator">&lt;&lt;</span> <span class="token string">" created\n"</span><span class="token punctuation">;</span>
+	<span class="token punctuation brace-curly brace-close brace-level-2" id="pair-9-open">}</span>
+	<span class="token operator">~</span><span class="token function">Person</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-2-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-2-open">)</span>
+	<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-10-close">{</span>
+		std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> m_name <span class="token operator">&lt;&lt;</span> <span class="token string">" destroyed\n"</span><span class="token punctuation">;</span>
+	<span class="token punctuation brace-curly brace-close brace-level-2" id="pair-10-open">}</span>
+
+	<span class="token keyword keyword-friend">friend</span> <span class="token keyword keyword-bool">bool</span> <span class="token function">partnerUp</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-3-close">(</span>std<span class="token double-colon punctuation">::</span>shared_ptr<span class="token operator">&lt;</span>Person<span class="token operator">&gt;</span> <span class="token operator">&amp;</span>p1<span class="token punctuation">,</span> std<span class="token double-colon punctuation">::</span>shared_ptr<span class="token operator">&lt;</span>Person<span class="token operator">&gt;</span> <span class="token operator">&amp;</span>p2<span class="token punctuation brace-round brace-close brace-level-2" id="pair-3-open">)</span>
+	<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-11-close">{</span>
+		<span class="token keyword keyword-if">if</span> <span class="token punctuation brace-round brace-open brace-level-3" id="pair-4-close">(</span><span class="token operator">!</span>p1 <span class="token operator">||</span> <span class="token operator">!</span>p2<span class="token punctuation brace-round brace-close brace-level-3" id="pair-4-open">)</span>
+			<span class="token keyword keyword-return">return</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+
+		p1<span class="token operator">-&gt;</span>m_partner <span class="token operator">=</span> p2<span class="token punctuation">;</span>
+		p2<span class="token operator">-&gt;</span>m_partner <span class="token operator">=</span> p1<span class="token punctuation">;</span>
+
+		std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> p1<span class="token operator">-&gt;</span>m_name <span class="token operator">&lt;&lt;</span> <span class="token string">" is now partnered with "</span> <span class="token operator">&lt;&lt;</span> p2<span class="token operator">-&gt;</span>m_name <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+		<span class="token keyword keyword-return">return</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+	<span class="token punctuation brace-curly brace-close brace-level-2" id="pair-11-open">}</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-12-open">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-5-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-5-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-15-close">{</span>
+	<span class="token keyword keyword-auto">auto</span> lucy <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-13-close">{</span> std<span class="token double-colon punctuation">::</span><span class="token generic-function"><span class="token function">make_shared</span><span class="token generic class-name"><span class="token operator">&lt;</span>Person<span class="token operator">&gt;</span></span></span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-6-close">(</span><span class="token string">"Lucy"</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-6-open">)</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-13-open">}</span><span class="token punctuation">;</span> <span class="token comment">// create a Person named "Lucy"</span>
+	<span class="token keyword keyword-auto">auto</span> ricky <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-14-close">{</span> std<span class="token double-colon punctuation">::</span><span class="token generic-function"><span class="token function">make_shared</span><span class="token generic class-name"><span class="token operator">&lt;</span>Person<span class="token operator">&gt;</span></span></span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-7-close">(</span><span class="token string">"Ricky"</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-7-open">)</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-14-open">}</span><span class="token punctuation">;</span> <span class="token comment">// create a Person named "Ricky"</span>
+
+	<span class="token function">partnerUp</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-8-close">(</span>lucy<span class="token punctuation">,</span> ricky<span class="token punctuation brace-round brace-close brace-level-2" id="pair-8-open">)</span><span class="token punctuation">;</span> <span class="token comment">// Make "Lucy" point to "Ricky" and vice-versa</span>
+
+	<span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-15-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<div
+  class="google-auto-placed ap_container"
+  style="width: 100%; height: auto; clear: both; text-align: center"
+>
+  <ins
+    data-ad-format="auto"
+    class="adsbygoogle adsbygoogle-noablate"
+    data-ad-client="ca-pub-0588844875925051"
+    data-adsbygoogle-status="done"
+    style="
+      display: block;
+      margin: auto;
+      background-color: transparent;
+      height: 0px;
+    "
+    data-ad-status="unfilled"
+    ><div
+      id="aswift_2_host"
+      style="
+        border: none;
+        height: 0px;
+        width: 1027px;
+        margin: 0px;
+        padding: 0px;
+        position: relative;
+        visibility: visible;
+        background-color: transparent;
+        display: inline-block;
+        overflow: hidden;
+        opacity: 0;
+      "
+    >
+      <iframe
+        id="aswift_2"
+        name="aswift_2"
+        browsingtopics="true"
+        style="
+          left: 0px;
+          position: absolute;
+          top: 0px;
+          border: 0px;
+          width: 1027px;
+          height: 0px;
+          min-height: auto;
+          max-height: none;
+          min-width: auto;
+          max-width: none;
+        "
+        sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation"
+        width="1027"
+        height="0"
+        frameborder="0"
+        marginwidth="0"
+        marginheight="0"
+        vspace="0"
+        hspace="0"
+        allowtransparency="true"
+        scrolling="no"
+        allow="attribution-reporting; run-ad-auction"
+        src="https://googleads.g.doubleclick.net/pagead/ads?client=ca-pub-0588844875925051&amp;output=html&amp;h=280&amp;adk=1023518515&amp;adf=2496127281&amp;w=1027&amp;abgtt=11&amp;fwrn=4&amp;fwrnh=100&amp;lmt=1747510731&amp;num_ads=1&amp;rafmt=1&amp;armr=3&amp;sem=mc&amp;pwprc=4633386603&amp;ad_type=text_image&amp;format=1027x280&amp;url=https%3A%2F%2Fwww.learncpp.com%2Fcpp-tutorial%2Fcircular-dependency-issues-with-stdshared_ptr-and-stdweak_ptr%2F&amp;fwr=0&amp;pra=3&amp;rh=200&amp;rw=1026&amp;rpe=1&amp;resp_fmts=3&amp;wgl=1&amp;fa=27&amp;uach=WyJXaW5kb3dzIiwiMTkuMC4wIiwieDg2IiwiIiwiMTM3LjAuNzE1MS4xMjIiLG51bGwsMCxudWxsLCI2NCIsW1siR29vZ2xlIENocm9tZSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJDaHJvbWl1bSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJOb3QvQSlCcmFuZCIsIjI0LjAuMC4wIl1dLDBd&amp;dt=1751963422097&amp;bpp=1&amp;bdt=543&amp;idt=-M&amp;shv=r20250702&amp;mjsv=m202507020101&amp;ptt=9&amp;saldr=aa&amp;abxe=1&amp;cookie=ID%3D05f6e82287d810b4%3AT%3D1751962604%3ART%3D1751963214%3AS%3DALNI_MaQYA0TSAU2k8xwY5tqlN0xFCcd6g&amp;gpic=UID%3D00001157d9e27d0a%3AT%3D1751962604%3ART%3D1751963214%3AS%3DALNI_MYgtHzQJAQQXY_151HTGSSfVxE8_A&amp;eo_id_str=ID%3D52c21936d98c6d2b%3AT%3D1751962604%3ART%3D1751963214%3AS%3DAA-AfjZsJ15yjdEPJ8d11hPojsJQ&amp;prev_fmts=0x0%2C336x280&amp;nras=2&amp;correlator=502858582663&amp;frm=20&amp;pv=1&amp;u_tz=480&amp;u_his=2&amp;u_h=600&amp;u_w=800&amp;u_ah=600&amp;u_aw=800&amp;u_cd=24&amp;u_sd=1&amp;dmc=8&amp;adx=27&amp;ady=1235&amp;biw=1080&amp;bih=1024&amp;scr_x=0&amp;scr_y=0&amp;eid=95353387%2C95362655%2C95363800%2C95365225%2C95365235%2C95344787%2C95359266%2C95365115%2C95365798&amp;oid=2&amp;pvsid=8592830228874506&amp;tmod=1708485235&amp;uas=0&amp;nvt=1&amp;fc=1408&amp;brdim=10%2C10%2C10%2C10%2C800%2C0%2C780%2C580%2C1080%2C1024&amp;vis=1&amp;rsz=%7C%7Cs%7C&amp;abl=NS&amp;fu=128&amp;bc=31&amp;bz=0.72&amp;td=1&amp;tdf=2&amp;psd=W251bGwsbnVsbCxudWxsLDNd&amp;nt=1&amp;ifi=3&amp;uci=a!3&amp;btvi=1&amp;fsb=1&amp;dtd=17"
+        data-google-container-id="a!3"
+        tabindex="0"
+        title="Advertisement"
+        aria-label="Advertisement"
+        data-google-query-id="CKW4hKvsrI4DFcyL6QUdHNgkUA"
+        data-load-complete="true"
+      ></iframe></div
+  ></ins>
+</div>
+<p>
+  In the above example, we dynamically allocate two Persons, “Lucy” and “Ricky”
+  using make_shared() (to ensure lucy and ricky are destroyed at the end of
+  main()). Then we partner them up. This sets the std::shared_ptr inside “Lucy”
+  to point at “Ricky”, and the std::shared_ptr inside “Ricky” to point at
+  “Lucy”. Shared pointers are meant to be shared, so it’s fine that both the
+  lucy shared pointer and Rick’s m_partner shared pointer both point at “Lucy”
+  (and vice-versa).
+</p>
+<p>However, this program doesn’t execute as expected:</p>
+<pre>
+Lucy created
+Ricky created
+Lucy is now partnered with Ricky
+</pre>
+<p>And that’s it. No deallocations took place. Uh oh. What happened?</p>
+<p>
+  After partnerUp() is called, there are two shared pointers pointing to “Ricky”
+  (ricky, and Lucy’s m_partner) and two shared pointers pointing to “Lucy”
+  (lucy, and Ricky’s m_partner).
+</p>
+<div class="code-block code-block-2" style="margin: 8px 0; clear: both"></div>
+
+<p>
+  At the end of main(), the ricky shared pointer goes out of scope first. When
+  that happens, ricky checks if there are any other shared pointers that co-own
+  the Person “Ricky”. There are (Lucy’s m_partner). Because of this, it doesn’t
+  deallocate “Ricky” (if it did, then Lucy’s m_partner would end up as a
+  dangling pointer). At this point, we now have one shared pointer to “Ricky”
+  (Lucy’s m_partner) and two shared pointers to “Lucy” (lucy, and Ricky’s
+  m_partner).
+</p>
+<div
+  class="google-auto-placed ap_container"
+  style="width: 100%; height: auto; clear: both; text-align: center"
+>
+  <ins
+    data-ad-format="auto"
+    class="adsbygoogle adsbygoogle-noablate"
+    data-ad-client="ca-pub-0588844875925051"
+    data-adsbygoogle-status="done"
+    style="
+      display: block;
+      margin: auto;
+      background-color: transparent;
+      height: 0px;
+    "
+    data-ad-status="unfilled"
+    ><div
+      id="aswift_3_host"
+      style="
+        border: none;
+        height: 0px;
+        width: 1027px;
+        margin: 0px;
+        padding: 0px;
+        position: relative;
+        visibility: visible;
+        background-color: transparent;
+        display: inline-block;
+        overflow: hidden;
+        opacity: 0;
+      "
+    >
+      <iframe
+        id="aswift_3"
+        name="aswift_3"
+        browsingtopics="true"
+        style="
+          left: 0px;
+          position: absolute;
+          top: 0px;
+          border: 0px;
+          width: 1027px;
+          height: 0px;
+          min-height: auto;
+          max-height: none;
+          min-width: auto;
+          max-width: none;
+        "
+        sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation"
+        width="1027"
+        height="0"
+        frameborder="0"
+        marginwidth="0"
+        marginheight="0"
+        vspace="0"
+        hspace="0"
+        allowtransparency="true"
+        scrolling="no"
+        allow="attribution-reporting; run-ad-auction"
+        src="https://googleads.g.doubleclick.net/pagead/ads?client=ca-pub-0588844875925051&amp;output=html&amp;h=280&amp;adk=1023518515&amp;adf=1155051153&amp;w=1027&amp;abgtt=11&amp;fwrn=4&amp;fwrnh=100&amp;lmt=1747510731&amp;num_ads=1&amp;rafmt=1&amp;armr=3&amp;sem=mc&amp;pwprc=4633386603&amp;ad_type=text_image&amp;format=1027x280&amp;url=https%3A%2F%2Fwww.learncpp.com%2Fcpp-tutorial%2Fcircular-dependency-issues-with-stdshared_ptr-and-stdweak_ptr%2F&amp;fwr=0&amp;pra=3&amp;rh=200&amp;rw=1026&amp;rpe=1&amp;resp_fmts=3&amp;wgl=1&amp;fa=27&amp;uach=WyJXaW5kb3dzIiwiMTkuMC4wIiwieDg2IiwiIiwiMTM3LjAuNzE1MS4xMjIiLG51bGwsMCxudWxsLCI2NCIsW1siR29vZ2xlIENocm9tZSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJDaHJvbWl1bSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJOb3QvQSlCcmFuZCIsIjI0LjAuMC4wIl1dLDBd&amp;dt=1751963422097&amp;bpp=1&amp;bdt=543&amp;idt=-M&amp;shv=r20250702&amp;mjsv=m202507020101&amp;ptt=9&amp;saldr=aa&amp;abxe=1&amp;cookie=ID%3D05f6e82287d810b4%3AT%3D1751962604%3ART%3D1751963214%3AS%3DALNI_MaQYA0TSAU2k8xwY5tqlN0xFCcd6g&amp;gpic=UID%3D00001157d9e27d0a%3AT%3D1751962604%3ART%3D1751963214%3AS%3DALNI_MYgtHzQJAQQXY_151HTGSSfVxE8_A&amp;eo_id_str=ID%3D52c21936d98c6d2b%3AT%3D1751962604%3ART%3D1751963214%3AS%3DAA-AfjZsJ15yjdEPJ8d11hPojsJQ&amp;prev_fmts=0x0%2C336x280%2C1027x280&amp;nras=3&amp;correlator=502858582663&amp;frm=20&amp;pv=1&amp;u_tz=480&amp;u_his=2&amp;u_h=600&amp;u_w=800&amp;u_ah=600&amp;u_aw=800&amp;u_cd=24&amp;u_sd=1&amp;dmc=8&amp;adx=27&amp;ady=1899&amp;biw=1080&amp;bih=1024&amp;scr_x=0&amp;scr_y=0&amp;eid=95353387%2C95362655%2C95363800%2C95365225%2C95365235%2C95344787%2C95359266%2C95365115%2C95365798&amp;oid=2&amp;pvsid=8592830228874506&amp;tmod=1708485235&amp;uas=0&amp;nvt=1&amp;fc=1408&amp;brdim=10%2C10%2C10%2C10%2C800%2C0%2C780%2C580%2C1080%2C1024&amp;vis=1&amp;rsz=%7C%7Cs%7C&amp;abl=NS&amp;fu=128&amp;bc=31&amp;bz=0.72&amp;td=1&amp;tdf=2&amp;psd=W251bGwsbnVsbCxudWxsLDNd&amp;nt=1&amp;ifi=4&amp;uci=a!4&amp;btvi=2&amp;fsb=1&amp;dtd=18"
+        data-google-container-id="a!4"
+        tabindex="0"
+        title="Advertisement"
+        aria-label="Advertisement"
+        data-load-complete="true"
+        data-google-query-id="CLbQhKvsrI4DFeCH6QUdv_015w"
+      ></iframe></div
+  ></ins>
+</div>
+<p>
+  Next the lucy shared pointer goes out of scope, and the same thing happens.
+  The shared pointer lucy checks if there are any other shared pointers
+  co-owning the Person “Lucy”. There are (Ricky’s m_partner), so “Lucy” isn’t
+  deallocated. At this point, there is one shared pointer to “Lucy” (Ricky’s
+  m_partner) and one shared pointer to “Ricky” (Lucy’s m_partner).
+</p>
+<p>
+  Then the program ends -- and neither Person “Lucy” or “Ricky” have been
+  deallocated! Essentially, “Lucy” ends up keeping “Ricky” from being destroyed,
+  and “Ricky” ends up keeping “Lucy” from being destroyed.
+</p>
+<p>
+  It turns out that this can happen any time shared pointers form a circular
+  reference.
+</p>
+<p class="cpp-section cpp-topline" style="clear: both">Circular references</p>
+<p>
+  A <strong>Circular reference</strong> (also called a
+  <strong>cyclical reference</strong> or a <strong>cycle</strong>) is a series
+  of references where each object references the next, and the last object
+  references back to the first, causing a referential loop. The references do
+  not need to be actual C++ references -- they can be pointers, unique IDs, or
+  any other means of identifying specific objects.
+</p>
+<div class="code-block code-block-3" style="margin: 8px 0; clear: both"></div>
+
+<p>In the context of shared pointers, the references will be pointers.</p>
+<p>
+  This is exactly what we see in the case above: “Lucy” points at “Ricky”, and
+  “Ricky” points at “Lucy”. With three pointers, you’d get the same thing when A
+  points at B, B points at C, and C points at A. The practical effect of having
+  shared pointers form a cycle is that each object ends up keeping the next
+  object alive -- with the last object keeping the first object alive. Thus, no
+  objects in the series can be deallocated because they all think some other
+  object still needs it!
+</p>
+<div
+  class="google-auto-placed ap_container"
+  style="width: 100%; height: auto; clear: both; text-align: center"
+>
+  <ins
+    data-ad-format="auto"
+    class="adsbygoogle adsbygoogle-noablate"
+    data-ad-client="ca-pub-0588844875925051"
+    data-adsbygoogle-status="done"
+    style="
+      display: block;
+      margin: auto;
+      background-color: transparent;
+      height: 0px;
+    "
+    data-ad-status="unfilled"
+    ><div
+      id="aswift_4_host"
+      style="
+        border: none;
+        height: 0px;
+        width: 1027px;
+        margin: 0px;
+        padding: 0px;
+        position: relative;
+        visibility: visible;
+        background-color: transparent;
+        display: inline-block;
+        overflow: hidden;
+        opacity: 0;
+      "
+    >
+      <iframe
+        id="aswift_4"
+        name="aswift_4"
+        browsingtopics="true"
+        style="
+          left: 0px;
+          position: absolute;
+          top: 0px;
+          border: 0px;
+          width: 1027px;
+          height: 0px;
+          min-height: auto;
+          max-height: none;
+          min-width: auto;
+          max-width: none;
+        "
+        sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation"
+        width="1027"
+        height="0"
+        frameborder="0"
+        marginwidth="0"
+        marginheight="0"
+        vspace="0"
+        hspace="0"
+        allowtransparency="true"
+        scrolling="no"
+        allow="attribution-reporting; run-ad-auction"
+        src="https://googleads.g.doubleclick.net/pagead/ads?client=ca-pub-0588844875925051&amp;output=html&amp;h=280&amp;adk=1023518515&amp;adf=3898756142&amp;w=1027&amp;abgtt=11&amp;fwrn=4&amp;fwrnh=100&amp;lmt=1747510731&amp;num_ads=1&amp;rafmt=1&amp;armr=3&amp;sem=mc&amp;pwprc=4633386603&amp;ad_type=text_image&amp;format=1027x280&amp;url=https%3A%2F%2Fwww.learncpp.com%2Fcpp-tutorial%2Fcircular-dependency-issues-with-stdshared_ptr-and-stdweak_ptr%2F&amp;fwr=0&amp;pra=3&amp;rh=200&amp;rw=1026&amp;rpe=1&amp;resp_fmts=3&amp;wgl=1&amp;fa=27&amp;uach=WyJXaW5kb3dzIiwiMTkuMC4wIiwieDg2IiwiIiwiMTM3LjAuNzE1MS4xMjIiLG51bGwsMCxudWxsLCI2NCIsW1siR29vZ2xlIENocm9tZSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJDaHJvbWl1bSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJOb3QvQSlCcmFuZCIsIjI0LjAuMC4wIl1dLDBd&amp;dt=1751963422097&amp;bpp=1&amp;bdt=542&amp;idt=-M&amp;shv=r20250702&amp;mjsv=m202507020101&amp;ptt=9&amp;saldr=aa&amp;abxe=1&amp;cookie=ID%3D05f6e82287d810b4%3AT%3D1751962604%3ART%3D1751963214%3AS%3DALNI_MaQYA0TSAU2k8xwY5tqlN0xFCcd6g&amp;gpic=UID%3D00001157d9e27d0a%3AT%3D1751962604%3ART%3D1751963214%3AS%3DALNI_MYgtHzQJAQQXY_151HTGSSfVxE8_A&amp;eo_id_str=ID%3D52c21936d98c6d2b%3AT%3D1751962604%3ART%3D1751963214%3AS%3DAA-AfjZsJ15yjdEPJ8d11hPojsJQ&amp;prev_fmts=0x0%2C336x280%2C1027x280%2C1027x280&amp;nras=4&amp;correlator=502858582663&amp;frm=20&amp;pv=1&amp;u_tz=480&amp;u_his=2&amp;u_h=600&amp;u_w=800&amp;u_ah=600&amp;u_aw=800&amp;u_cd=24&amp;u_sd=1&amp;dmc=8&amp;adx=27&amp;ady=2582&amp;biw=1080&amp;bih=1024&amp;scr_x=0&amp;scr_y=0&amp;eid=95353387%2C95362655%2C95363800%2C95365225%2C95365235%2C95344787%2C95359266%2C95365115%2C95365798&amp;oid=2&amp;pvsid=8592830228874506&amp;tmod=1708485235&amp;uas=0&amp;nvt=1&amp;fc=1408&amp;brdim=10%2C10%2C10%2C10%2C800%2C0%2C780%2C580%2C1080%2C1024&amp;vis=1&amp;rsz=%7C%7Cs%7C&amp;abl=NS&amp;fu=128&amp;bc=31&amp;bz=0.72&amp;td=1&amp;tdf=2&amp;psd=W251bGwsbnVsbCxudWxsLDNd&amp;nt=1&amp;ifi=5&amp;uci=a!5&amp;btvi=3&amp;fsb=1&amp;dtd=19"
+        data-google-container-id="a!5"
+        tabindex="0"
+        title="Advertisement"
+        aria-label="Advertisement"
+        data-load-complete="true"
+        data-google-query-id="CMTNhKvsrI4DFZeZ6QUdd3I65A"
+      ></iframe></div
+  ></ins>
+</div>
+<p class="cpp-section cpp-topline" style="clear: both">A reductive case</p>
+<p>
+  It turns out, this cyclical reference issue can even happen with a single
+  std::shared_ptr -- a std::shared_ptr referencing the object that contains it
+  is still a cycle (just a reductive one). Although it’s fairly unlikely that
+  this would ever happen in practice, we’ll show you for additional
+  comprehension:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;memory&gt;</span> <span class="token comment">// for std::shared_ptr</span></span>
+
+<span class="token keyword keyword-class">class</span> <span class="token class-name">Resource</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-23-close">{</span>
+<span class="token keyword keyword-public">public</span><span class="token operator">:</span>
+	std<span class="token double-colon punctuation">::</span>shared_ptr<span class="token operator">&lt;</span>Resource<span class="token operator">&gt;</span> m_ptr <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-20-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-20-open">}</span><span class="token punctuation">;</span> <span class="token comment">// initially created empty</span>
+
+	<span class="token function">Resource</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-16-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-16-open">)</span> <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-21-close">{</span> std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Resource acquired\n"</span><span class="token punctuation">;</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-21-open">}</span>
+	<span class="token operator">~</span><span class="token function">Resource</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-17-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-17-open">)</span> <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-22-close">{</span> std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Resource destroyed\n"</span><span class="token punctuation">;</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-22-open">}</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-23-open">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-18-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-18-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-25-close">{</span>
+	<span class="token keyword keyword-auto">auto</span> ptr1 <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-24-close">{</span> std<span class="token double-colon punctuation">::</span><span class="token generic-function"><span class="token function">make_shared</span><span class="token generic class-name"><span class="token operator">&lt;</span>Resource<span class="token operator">&gt;</span></span></span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-19-close">(</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-19-open">)</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-24-open">}</span><span class="token punctuation">;</span>
+
+	ptr1<span class="token operator">-&gt;</span>m_ptr <span class="token operator">=</span> ptr1<span class="token punctuation">;</span> <span class="token comment">// m_ptr is now sharing the Resource that contains it</span>
+
+	<span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-25-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<div
+  class="google-auto-placed ap_container"
+  style="width: 100%; height: auto; clear: both; text-align: center"
+>
+  <ins
+    data-ad-format="auto"
+    class="adsbygoogle adsbygoogle-noablate"
+    data-ad-client="ca-pub-0588844875925051"
+    data-adsbygoogle-status="done"
+    style="
+      display: block;
+      margin: auto;
+      background-color: transparent;
+      height: 0px;
+    "
+    data-ad-status="unfilled"
+    ><div
+      id="aswift_5_host"
+      style="
+        border: none;
+        height: 0px;
+        width: 1027px;
+        margin: 0px;
+        padding: 0px;
+        position: relative;
+        visibility: visible;
+        background-color: transparent;
+        display: inline-block;
+        overflow: hidden;
+        opacity: 0;
+      "
+    >
+      <iframe
+        id="aswift_5"
+        name="aswift_5"
+        browsingtopics="true"
+        style="
+          left: 0px;
+          position: absolute;
+          top: 0px;
+          border: 0px;
+          width: 1027px;
+          height: 0px;
+          min-height: auto;
+          max-height: none;
+          min-width: auto;
+          max-width: none;
+        "
+        sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation"
+        width="1027"
+        height="0"
+        frameborder="0"
+        marginwidth="0"
+        marginheight="0"
+        vspace="0"
+        hspace="0"
+        allowtransparency="true"
+        scrolling="no"
+        allow="attribution-reporting; run-ad-auction"
+        src="https://googleads.g.doubleclick.net/pagead/ads?client=ca-pub-0588844875925051&amp;output=html&amp;h=280&amp;adk=1023518515&amp;adf=293980854&amp;w=1027&amp;abgtt=11&amp;fwrn=4&amp;fwrnh=100&amp;lmt=1747510731&amp;num_ads=1&amp;rafmt=1&amp;armr=3&amp;sem=mc&amp;pwprc=4633386603&amp;ad_type=text_image&amp;format=1027x280&amp;url=https%3A%2F%2Fwww.learncpp.com%2Fcpp-tutorial%2Fcircular-dependency-issues-with-stdshared_ptr-and-stdweak_ptr%2F&amp;fwr=0&amp;pra=3&amp;rh=200&amp;rw=1026&amp;rpe=1&amp;resp_fmts=3&amp;wgl=1&amp;fa=27&amp;uach=WyJXaW5kb3dzIiwiMTkuMC4wIiwieDg2IiwiIiwiMTM3LjAuNzE1MS4xMjIiLG51bGwsMCxudWxsLCI2NCIsW1siR29vZ2xlIENocm9tZSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJDaHJvbWl1bSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJOb3QvQSlCcmFuZCIsIjI0LjAuMC4wIl1dLDBd&amp;dt=1751963422097&amp;bpp=1&amp;bdt=542&amp;idt=-M&amp;shv=r20250702&amp;mjsv=m202507020101&amp;ptt=9&amp;saldr=aa&amp;abxe=1&amp;cookie=ID%3D05f6e82287d810b4%3AT%3D1751962604%3ART%3D1751963214%3AS%3DALNI_MaQYA0TSAU2k8xwY5tqlN0xFCcd6g&amp;gpic=UID%3D00001157d9e27d0a%3AT%3D1751962604%3ART%3D1751963214%3AS%3DALNI_MYgtHzQJAQQXY_151HTGSSfVxE8_A&amp;eo_id_str=ID%3D52c21936d98c6d2b%3AT%3D1751962604%3ART%3D1751963214%3AS%3DAA-AfjZsJ15yjdEPJ8d11hPojsJQ&amp;prev_fmts=0x0%2C336x280%2C1027x280%2C1027x280%2C1027x280&amp;nras=5&amp;correlator=502858582663&amp;frm=20&amp;pv=1&amp;u_tz=480&amp;u_his=2&amp;u_h=600&amp;u_w=800&amp;u_ah=600&amp;u_aw=800&amp;u_cd=24&amp;u_sd=1&amp;dmc=8&amp;adx=27&amp;ady=3331&amp;biw=1080&amp;bih=1024&amp;scr_x=0&amp;scr_y=0&amp;eid=95353387%2C95362655%2C95363800%2C95365225%2C95365235%2C95344787%2C95359266%2C95365115%2C95365798&amp;oid=2&amp;pvsid=8592830228874506&amp;tmod=1708485235&amp;uas=0&amp;nvt=1&amp;fc=1408&amp;brdim=10%2C10%2C10%2C10%2C800%2C0%2C780%2C580%2C1080%2C1024&amp;vis=1&amp;rsz=%7C%7Cs%7C&amp;abl=NS&amp;fu=128&amp;bc=31&amp;bz=0.72&amp;td=1&amp;tdf=2&amp;psd=W251bGwsbnVsbCxudWxsLDNd&amp;nt=1&amp;ifi=6&amp;uci=a!6&amp;btvi=4&amp;fsb=1&amp;dtd=20"
+        data-google-container-id="a!6"
+        tabindex="0"
+        title="Advertisement"
+        aria-label="Advertisement"
+        data-load-complete="true"
+        data-google-query-id="CJzghKvsrI4DFQaI6QUdxyEyJA"
+      ></iframe></div
+  ></ins>
+</div>
+<p>
+  In the above example, when ptr1 goes out of scope, the Resource is not
+  deallocated because the Resource’s m_ptr is sharing the Resource. At that
+  point, the only way for the Resource to be released would be to set m_ptr to
+  something else (so nothing is sharing the Resource any longer). But we can’t
+  access m_ptr because ptr1 is out of scope, so we no longer have a way to do
+  this. The Resource has become a memory leak.
+</p>
+<p>Thus, the program prints:</p>
+<pre>
+Resource acquired
+</pre>
+<p>and that’s it.</p>
+<p class="cpp-section cpp-topline" style="clear: both">
+  So what is std::weak_ptr for anyway?
+</p>
+<div class="code-block code-block-4" style="margin: 8px 0; clear: both"></div>
+
+<p>
+  std::weak_ptr was designed to solve the “cyclical ownership” problem described
+  above. A std::weak_ptr is an observer -- it can observe and access the same
+  object as a std::shared_ptr (or other std::weak_ptrs) but it is not considered
+  an owner. Remember, when a std::shared pointer goes out of scope, it only
+  considers whether other std::shared_ptr are co-owning the object.
+  std::weak_ptr does not count!
+</p>
+<div
+  class="google-auto-placed ap_container"
+  style="width: 100%; height: auto; clear: both; text-align: center"
+>
+  <ins
+    data-ad-format="auto"
+    class="adsbygoogle adsbygoogle-noablate"
+    data-ad-client="ca-pub-0588844875925051"
+    data-adsbygoogle-status="done"
+    style="
+      display: block;
+      margin: auto;
+      background-color: transparent;
+      height: 0px;
+    "
+    data-ad-status="unfilled"
+    ><div
+      id="aswift_6_host"
+      style="
+        border: none;
+        height: 0px;
+        width: 1027px;
+        margin: 0px;
+        padding: 0px;
+        position: relative;
+        visibility: visible;
+        background-color: transparent;
+        display: inline-block;
+        overflow: hidden;
+        opacity: 0;
+      "
+    >
+      <iframe
+        id="aswift_6"
+        name="aswift_6"
+        browsingtopics="true"
+        style="
+          left: 0px;
+          position: absolute;
+          top: 0px;
+          border: 0px;
+          width: 1027px;
+          height: 0px;
+          min-height: auto;
+          max-height: none;
+          min-width: auto;
+          max-width: none;
+        "
+        sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation"
+        width="1027"
+        height="0"
+        frameborder="0"
+        marginwidth="0"
+        marginheight="0"
+        vspace="0"
+        hspace="0"
+        allowtransparency="true"
+        scrolling="no"
+        allow="attribution-reporting; run-ad-auction"
+        src="https://googleads.g.doubleclick.net/pagead/ads?client=ca-pub-0588844875925051&amp;output=html&amp;h=280&amp;adk=1023518515&amp;adf=2620248171&amp;w=1027&amp;abgtt=11&amp;fwrn=4&amp;fwrnh=100&amp;lmt=1747510731&amp;num_ads=1&amp;rafmt=1&amp;armr=3&amp;sem=mc&amp;pwprc=4633386603&amp;ad_type=text_image&amp;format=1027x280&amp;url=https%3A%2F%2Fwww.learncpp.com%2Fcpp-tutorial%2Fcircular-dependency-issues-with-stdshared_ptr-and-stdweak_ptr%2F&amp;fwr=0&amp;pra=3&amp;rh=200&amp;rw=1026&amp;rpe=1&amp;resp_fmts=3&amp;wgl=1&amp;fa=27&amp;uach=WyJXaW5kb3dzIiwiMTkuMC4wIiwieDg2IiwiIiwiMTM3LjAuNzE1MS4xMjIiLG51bGwsMCxudWxsLCI2NCIsW1siR29vZ2xlIENocm9tZSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJDaHJvbWl1bSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJOb3QvQSlCcmFuZCIsIjI0LjAuMC4wIl1dLDBd&amp;dt=1751963422097&amp;bpp=1&amp;bdt=543&amp;idt=1&amp;shv=r20250702&amp;mjsv=m202507020101&amp;ptt=9&amp;saldr=aa&amp;abxe=1&amp;cookie=ID%3D05f6e82287d810b4%3AT%3D1751962604%3ART%3D1751963214%3AS%3DALNI_MaQYA0TSAU2k8xwY5tqlN0xFCcd6g&amp;gpic=UID%3D00001157d9e27d0a%3AT%3D1751962604%3ART%3D1751963214%3AS%3DALNI_MYgtHzQJAQQXY_151HTGSSfVxE8_A&amp;eo_id_str=ID%3D52c21936d98c6d2b%3AT%3D1751962604%3ART%3D1751963214%3AS%3DAA-AfjZsJ15yjdEPJ8d11hPojsJQ&amp;prev_fmts=0x0%2C336x280%2C1027x280%2C1027x280%2C1027x280%2C1027x280&amp;nras=6&amp;correlator=502858582663&amp;frm=20&amp;pv=1&amp;u_tz=480&amp;u_his=2&amp;u_h=600&amp;u_w=800&amp;u_ah=600&amp;u_aw=800&amp;u_cd=24&amp;u_sd=1&amp;dmc=8&amp;adx=27&amp;ady=3944&amp;biw=1080&amp;bih=1024&amp;scr_x=0&amp;scr_y=0&amp;eid=95353387%2C95362655%2C95363800%2C95365225%2C95365235%2C95344787%2C95359266%2C95365115%2C95365798&amp;oid=2&amp;pvsid=8592830228874506&amp;tmod=1708485235&amp;uas=0&amp;nvt=1&amp;fc=1408&amp;brdim=10%2C10%2C10%2C10%2C800%2C0%2C780%2C580%2C1080%2C1024&amp;vis=1&amp;rsz=%7C%7Cs%7C&amp;abl=NS&amp;fu=128&amp;bc=31&amp;bz=0.72&amp;td=1&amp;tdf=2&amp;psd=W251bGwsbnVsbCxudWxsLDNd&amp;nt=1&amp;ifi=7&amp;uci=a!7&amp;btvi=5&amp;fsb=1&amp;dtd=21"
+        data-google-container-id="a!7"
+        tabindex="0"
+        title="Advertisement"
+        aria-label="Advertisement"
+        data-load-complete="true"
+        data-google-query-id="CO_YhavsrI4DFZiI6QUdYX4YTA"
+      ></iframe></div
+  ></ins>
+</div>
+<p>Let’s solve our Person-al issue using a std::weak_ptr:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;memory&gt;</span> <span class="token comment">// for std::shared_ptr and std::weak_ptr</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;string&gt;</span></span>
+
+<span class="token keyword keyword-class">class</span> <span class="token class-name">Person</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-38-close">{</span>
+	std<span class="token double-colon punctuation">::</span>string m_name<span class="token punctuation">;</span>
+	std<span class="token double-colon punctuation">::</span>weak_ptr<span class="token operator">&lt;</span>Person<span class="token operator">&gt;</span> m_partner<span class="token punctuation">;</span> <span class="token comment">// note: This is now a std::weak_ptr</span>
+
+<span class="token keyword keyword-public">public</span><span class="token operator">:</span>
+
+	<span class="token function">Person</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-26-close">(</span><span class="token keyword keyword-const">const</span> std<span class="token double-colon punctuation">::</span>string <span class="token operator">&amp;</span>name<span class="token punctuation brace-round brace-close brace-level-2" id="pair-26-open">)</span><span class="token operator">:</span> <span class="token function">m_name</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-27-close">(</span>name<span class="token punctuation brace-round brace-close brace-level-2" id="pair-27-open">)</span>
+	<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-35-close">{</span>
+		std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> m_name <span class="token operator">&lt;&lt;</span> <span class="token string">" created\n"</span><span class="token punctuation">;</span>
+	<span class="token punctuation brace-curly brace-close brace-level-2" id="pair-35-open">}</span>
+	<span class="token operator">~</span><span class="token function">Person</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-28-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-28-open">)</span>
+	<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-36-close">{</span>
+		std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> m_name <span class="token operator">&lt;&lt;</span> <span class="token string">" destroyed\n"</span><span class="token punctuation">;</span>
+	<span class="token punctuation brace-curly brace-close brace-level-2" id="pair-36-open">}</span>
+
+	<span class="token keyword keyword-friend">friend</span> <span class="token keyword keyword-bool">bool</span> <span class="token function">partnerUp</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-29-close">(</span>std<span class="token double-colon punctuation">::</span>shared_ptr<span class="token operator">&lt;</span>Person<span class="token operator">&gt;</span> <span class="token operator">&amp;</span>p1<span class="token punctuation">,</span> std<span class="token double-colon punctuation">::</span>shared_ptr<span class="token operator">&lt;</span>Person<span class="token operator">&gt;</span> <span class="token operator">&amp;</span>p2<span class="token punctuation brace-round brace-close brace-level-2" id="pair-29-open">)</span>
+	<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-37-close">{</span>
+		<span class="token keyword keyword-if">if</span> <span class="token punctuation brace-round brace-open brace-level-3" id="pair-30-close">(</span><span class="token operator">!</span>p1 <span class="token operator">||</span> <span class="token operator">!</span>p2<span class="token punctuation brace-round brace-close brace-level-3" id="pair-30-open">)</span>
+			<span class="token keyword keyword-return">return</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+
+		p1<span class="token operator">-&gt;</span>m_partner <span class="token operator">=</span> p2<span class="token punctuation">;</span>
+		p2<span class="token operator">-&gt;</span>m_partner <span class="token operator">=</span> p1<span class="token punctuation">;</span>
+
+		std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> p1<span class="token operator">-&gt;</span>m_name <span class="token operator">&lt;&lt;</span> <span class="token string">" is now partnered with "</span> <span class="token operator">&lt;&lt;</span> p2<span class="token operator">-&gt;</span>m_name <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+		<span class="token keyword keyword-return">return</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+	<span class="token punctuation brace-curly brace-close brace-level-2" id="pair-37-open">}</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-38-open">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-31-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-31-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-41-close">{</span>
+	<span class="token keyword keyword-auto">auto</span> lucy <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-39-close">{</span> std<span class="token double-colon punctuation">::</span><span class="token generic-function"><span class="token function">make_shared</span><span class="token generic class-name"><span class="token operator">&lt;</span>Person<span class="token operator">&gt;</span></span></span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-32-close">(</span><span class="token string">"Lucy"</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-32-open">)</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-39-open">}</span><span class="token punctuation">;</span>
+	<span class="token keyword keyword-auto">auto</span> ricky <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-40-close">{</span> std<span class="token double-colon punctuation">::</span><span class="token generic-function"><span class="token function">make_shared</span><span class="token generic class-name"><span class="token operator">&lt;</span>Person<span class="token operator">&gt;</span></span></span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-33-close">(</span><span class="token string">"Ricky"</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-33-open">)</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-40-open">}</span><span class="token punctuation">;</span>
+
+	<span class="token function">partnerUp</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-34-close">(</span>lucy<span class="token punctuation">,</span> ricky<span class="token punctuation brace-round brace-close brace-level-2" id="pair-34-open">)</span><span class="token punctuation">;</span>
+
+	<span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-41-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<div
+  class="google-auto-placed ap_container"
+  style="width: 100%; height: auto; clear: both; text-align: center"
+>
+  <ins
+    data-ad-format="auto"
+    class="adsbygoogle adsbygoogle-noablate"
+    data-ad-client="ca-pub-0588844875925051"
+    data-adsbygoogle-status="done"
+    style="
+      display: block;
+      margin: auto;
+      background-color: transparent;
+      height: 0px;
+    "
+    data-ad-status="unfilled"
+    ><div
+      id="aswift_7_host"
+      style="
+        border: none;
+        height: 0px;
+        width: 1027px;
+        margin: 0px;
+        padding: 0px;
+        position: relative;
+        visibility: visible;
+        background-color: transparent;
+        display: inline-block;
+        overflow: hidden;
+        opacity: 0;
+      "
+    >
+      <iframe
+        id="aswift_7"
+        name="aswift_7"
+        browsingtopics="true"
+        style="
+          left: 0px;
+          position: absolute;
+          top: 0px;
+          border: 0px;
+          width: 1027px;
+          height: 0px;
+          min-height: auto;
+          max-height: none;
+          min-width: auto;
+          max-width: none;
+        "
+        sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation"
+        width="1027"
+        height="0"
+        frameborder="0"
+        marginwidth="0"
+        marginheight="0"
+        vspace="0"
+        hspace="0"
+        allowtransparency="true"
+        scrolling="no"
+        allow="attribution-reporting; run-ad-auction"
+        src="https://googleads.g.doubleclick.net/pagead/ads?client=ca-pub-0588844875925051&amp;output=html&amp;h=280&amp;adk=1023518515&amp;adf=626929907&amp;w=1027&amp;abgtt=11&amp;fwrn=4&amp;fwrnh=100&amp;lmt=1747510731&amp;num_ads=1&amp;rafmt=1&amp;armr=3&amp;sem=mc&amp;pwprc=4633386603&amp;ad_type=text_image&amp;format=1027x280&amp;url=https%3A%2F%2Fwww.learncpp.com%2Fcpp-tutorial%2Fcircular-dependency-issues-with-stdshared_ptr-and-stdweak_ptr%2F&amp;fwr=0&amp;pra=3&amp;rh=200&amp;rw=1026&amp;rpe=1&amp;resp_fmts=3&amp;wgl=1&amp;fa=27&amp;uach=WyJXaW5kb3dzIiwiMTkuMC4wIiwieDg2IiwiIiwiMTM3LjAuNzE1MS4xMjIiLG51bGwsMCxudWxsLCI2NCIsW1siR29vZ2xlIENocm9tZSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJDaHJvbWl1bSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJOb3QvQSlCcmFuZCIsIjI0LjAuMC4wIl1dLDBd&amp;dt=1751963422099&amp;bpp=1&amp;bdt=545&amp;idt=0&amp;shv=r20250702&amp;mjsv=m202507020101&amp;ptt=9&amp;saldr=aa&amp;abxe=1&amp;cookie=ID%3D05f6e82287d810b4%3AT%3D1751962604%3ART%3D1751963214%3AS%3DALNI_MaQYA0TSAU2k8xwY5tqlN0xFCcd6g&amp;gpic=UID%3D00001157d9e27d0a%3AT%3D1751962604%3ART%3D1751963214%3AS%3DALNI_MYgtHzQJAQQXY_151HTGSSfVxE8_A&amp;eo_id_str=ID%3D52c21936d98c6d2b%3AT%3D1751962604%3ART%3D1751963214%3AS%3DAA-AfjZsJ15yjdEPJ8d11hPojsJQ&amp;prev_fmts=0x0%2C336x280%2C1027x280%2C1027x280%2C1027x280%2C1027x280%2C1027x280%2C160x600%2C160x600&amp;nras=7&amp;correlator=502858582663&amp;frm=20&amp;pv=1&amp;u_tz=480&amp;u_his=2&amp;u_h=600&amp;u_w=800&amp;u_ah=600&amp;u_aw=800&amp;u_cd=24&amp;u_sd=1&amp;dmc=8&amp;adx=27&amp;ady=3873&amp;biw=1080&amp;bih=1024&amp;scr_x=0&amp;scr_y=0&amp;eid=95353387%2C95362655%2C95363800%2C95365225%2C95365235%2C95344787%2C95359266%2C95365115%2C95365798&amp;oid=2&amp;pvsid=8592830228874506&amp;tmod=1708485235&amp;uas=0&amp;nvt=1&amp;fc=1408&amp;brdim=10%2C10%2C10%2C10%2C800%2C0%2C780%2C580%2C1080%2C1024&amp;vis=1&amp;rsz=%7C%7Cs%7C&amp;abl=NS&amp;fu=128&amp;bc=31&amp;bz=0.72&amp;td=1&amp;tdf=2&amp;psd=W251bGwsbnVsbCxudWxsLDNd&amp;nt=1&amp;ifi=8&amp;uci=a!8&amp;btvi=6&amp;fsb=1&amp;dtd=287"
+        data-google-container-id="a!8"
+        tabindex="0"
+        title="Advertisement"
+        aria-label="Advertisement"
+        data-load-complete="true"
+        data-google-query-id="CKnzlKvsrI4DFXmI6QUdKM8qhQ"
+      ></iframe></div
+  ></ins>
+</div>
+<p>This code behaves properly:</p>
+<pre>
+Lucy created
+Ricky created
+Lucy is now partnered with Ricky
+Ricky destroyed
+Lucy destroyed
+</pre>
+<p>
+  Functionally, it works almost identically to the problematic example. However,
+  now when ricky goes out of scope, it sees that there are no other
+  std::shared_ptr pointing at “Ricky” (the std::weak_ptr from “Lucy” doesn’t
+  count). Therefore, it will deallocate “Ricky”. The same occurs for lucy.
+</p>
+<p class="cpp-section cpp-topline" style="clear: both">Using std::weak_ptr</p>
+<p>
+  One downside of std::weak_ptr is that std::weak_ptr are not directly usable
+  (they have no operator-&gt;). To use a std::weak_ptr, you must first convert
+  it into a std::shared_ptr. Then you can use the std::shared_ptr. To convert a
+  std::weak_ptr into a std::shared_ptr, you can use the lock() member function.
+  Here’s the above example, updated to show this off:
+</p>
+<div
+  class="google-auto-placed ap_container"
+  style="width: 100%; height: auto; clear: both; text-align: center"
+>
+  <ins
+    data-ad-format="auto"
+    class="adsbygoogle adsbygoogle-noablate"
+    data-ad-client="ca-pub-0588844875925051"
+    data-adsbygoogle-status="done"
+    style="
+      display: block;
+      margin: auto;
+      background-color: transparent;
+      height: 0px;
+    "
+    data-ad-status="unfilled"
+    ><div
+      id="aswift_8_host"
+      style="
+        border: none;
+        height: 0px;
+        width: 1027px;
+        margin: 0px;
+        padding: 0px;
+        position: relative;
+        visibility: visible;
+        background-color: transparent;
+        display: inline-block;
+        overflow: hidden;
+        opacity: 0;
+      "
+    >
+      <iframe
+        id="aswift_8"
+        name="aswift_8"
+        browsingtopics="true"
+        style="
+          left: 0px;
+          position: absolute;
+          top: 0px;
+          border: 0px;
+          width: 1027px;
+          height: 0px;
+          min-height: auto;
+          max-height: none;
+          min-width: auto;
+          max-width: none;
+        "
+        sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation"
+        width="1027"
+        height="0"
+        frameborder="0"
+        marginwidth="0"
+        marginheight="0"
+        vspace="0"
+        hspace="0"
+        allowtransparency="true"
+        scrolling="no"
+        allow="attribution-reporting; run-ad-auction"
+        src="https://googleads.g.doubleclick.net/pagead/ads?client=ca-pub-0588844875925051&amp;output=html&amp;h=280&amp;adk=1023518515&amp;adf=2287616818&amp;w=1027&amp;abgtt=11&amp;fwrn=4&amp;fwrnh=100&amp;lmt=1747510731&amp;num_ads=1&amp;rafmt=1&amp;armr=3&amp;sem=mc&amp;pwprc=4633386603&amp;ad_type=text_image&amp;format=1027x280&amp;url=https%3A%2F%2Fwww.learncpp.com%2Fcpp-tutorial%2Fcircular-dependency-issues-with-stdshared_ptr-and-stdweak_ptr%2F&amp;fwr=0&amp;pra=3&amp;rh=200&amp;rw=1026&amp;rpe=1&amp;resp_fmts=3&amp;wgl=1&amp;fa=27&amp;uach=WyJXaW5kb3dzIiwiMTkuMC4wIiwieDg2IiwiIiwiMTM3LjAuNzE1MS4xMjIiLG51bGwsMCxudWxsLCI2NCIsW1siR29vZ2xlIENocm9tZSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJDaHJvbWl1bSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJOb3QvQSlCcmFuZCIsIjI0LjAuMC4wIl1dLDBd&amp;dt=1751963422100&amp;bpp=1&amp;bdt=545&amp;idt=1&amp;shv=r20250702&amp;mjsv=m202507020101&amp;ptt=9&amp;saldr=aa&amp;abxe=1&amp;cookie=ID%3D05f6e82287d810b4%3AT%3D1751962604%3ART%3D1751963214%3AS%3DALNI_MaQYA0TSAU2k8xwY5tqlN0xFCcd6g&amp;gpic=UID%3D00001157d9e27d0a%3AT%3D1751962604%3ART%3D1751963214%3AS%3DALNI_MYgtHzQJAQQXY_151HTGSSfVxE8_A&amp;eo_id_str=ID%3D52c21936d98c6d2b%3AT%3D1751962604%3ART%3D1751963214%3AS%3DAA-AfjZsJ15yjdEPJ8d11hPojsJQ&amp;prev_fmts=0x0%2C336x280%2C1027x280%2C1027x280%2C1027x280%2C1027x280%2C1027x280%2C160x600%2C160x600%2C1027x280&amp;nras=8&amp;correlator=502858582663&amp;frm=20&amp;pv=1&amp;u_tz=480&amp;u_his=2&amp;u_h=600&amp;u_w=800&amp;u_ah=600&amp;u_aw=800&amp;u_cd=24&amp;u_sd=1&amp;dmc=8&amp;adx=27&amp;ady=3955&amp;biw=1080&amp;bih=1024&amp;scr_x=0&amp;scr_y=0&amp;eid=95353387%2C95362655%2C95363800%2C95365225%2C95365235%2C95344787%2C95359266%2C95365115%2C95365798&amp;oid=2&amp;pvsid=8592830228874506&amp;tmod=1708485235&amp;uas=0&amp;nvt=1&amp;fc=1408&amp;brdim=10%2C10%2C10%2C10%2C800%2C0%2C780%2C580%2C1080%2C1024&amp;vis=1&amp;rsz=%7C%7Cs%7C&amp;abl=NS&amp;fu=128&amp;bc=31&amp;bz=0.72&amp;td=1&amp;tdf=2&amp;psd=W251bGwsbnVsbCxudWxsLDNd&amp;nt=1&amp;ifi=9&amp;uci=a!9&amp;btvi=7&amp;fsb=1&amp;dtd=550"
+        data-google-container-id="a!9"
+        tabindex="0"
+        title="Advertisement"
+        aria-label="Advertisement"
+        data-load-complete="true"
+        data-google-query-id="CIGYpavsrI4DFTq06QUd7SUZfA"
+      ></iframe></div
+  ></ins>
+</div>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;memory&gt;</span> <span class="token comment">// for std::shared_ptr and std::weak_ptr</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;string&gt;</span></span>
+
+<span class="token keyword keyword-class">class</span> <span class="token class-name">Person</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-62-close">{</span>
+	std<span class="token double-colon punctuation">::</span>string m_name<span class="token punctuation">;</span>
+	std<span class="token double-colon punctuation">::</span>weak_ptr<span class="token operator">&lt;</span>Person<span class="token operator">&gt;</span> m_partner<span class="token punctuation">;</span> <span class="token comment">// note: This is now a std::weak_ptr</span>
+
+<span class="token keyword keyword-public">public</span><span class="token operator">:</span>
+
+	<span class="token function">Person</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-42-close">(</span><span class="token keyword keyword-const">const</span> std<span class="token double-colon punctuation">::</span>string <span class="token operator">&amp;</span>name<span class="token punctuation brace-round brace-close brace-level-2" id="pair-42-open">)</span> <span class="token operator">:</span> <span class="token function">m_name</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-43-close">(</span>name<span class="token punctuation brace-round brace-close brace-level-2" id="pair-43-open">)</span>
+	<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-57-close">{</span>
+		std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> m_name <span class="token operator">&lt;&lt;</span> <span class="token string">" created\n"</span><span class="token punctuation">;</span>
+	<span class="token punctuation brace-curly brace-close brace-level-2" id="pair-57-open">}</span>
+	<span class="token operator">~</span><span class="token function">Person</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-44-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-44-open">)</span>
+	<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-58-close">{</span>
+		std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> m_name <span class="token operator">&lt;&lt;</span> <span class="token string">" destroyed\n"</span><span class="token punctuation">;</span>
+	<span class="token punctuation brace-curly brace-close brace-level-2" id="pair-58-open">}</span>
+
+	<span class="token keyword keyword-friend">friend</span> <span class="token keyword keyword-bool">bool</span> <span class="token function">partnerUp</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-45-close">(</span>std<span class="token double-colon punctuation">::</span>shared_ptr<span class="token operator">&lt;</span>Person<span class="token operator">&gt;</span> <span class="token operator">&amp;</span>p1<span class="token punctuation">,</span> std<span class="token double-colon punctuation">::</span>shared_ptr<span class="token operator">&lt;</span>Person<span class="token operator">&gt;</span> <span class="token operator">&amp;</span>p2<span class="token punctuation brace-round brace-close brace-level-2" id="pair-45-open">)</span>
+	<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-59-close">{</span>
+		<span class="token keyword keyword-if">if</span> <span class="token punctuation brace-round brace-open brace-level-3" id="pair-46-close">(</span><span class="token operator">!</span>p1 <span class="token operator">||</span> <span class="token operator">!</span>p2<span class="token punctuation brace-round brace-close brace-level-3" id="pair-46-open">)</span>
+			<span class="token keyword keyword-return">return</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+
+		p1<span class="token operator">-&gt;</span>m_partner <span class="token operator">=</span> p2<span class="token punctuation">;</span>
+		p2<span class="token operator">-&gt;</span>m_partner <span class="token operator">=</span> p1<span class="token punctuation">;</span>
+
+		std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> p1<span class="token operator">-&gt;</span>m_name <span class="token operator">&lt;&lt;</span> <span class="token string">" is now partnered with "</span> <span class="token operator">&lt;&lt;</span> p2<span class="token operator">-&gt;</span>m_name <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+		<span class="token keyword keyword-return">return</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+	<span class="token punctuation brace-curly brace-close brace-level-2" id="pair-59-open">}</span>
+
+	std<span class="token double-colon punctuation">::</span>shared_ptr<span class="token operator">&lt;</span>Person<span class="token operator">&gt;</span> <span class="token function">getPartner</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-47-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-47-open">)</span> <span class="token keyword keyword-const">const</span> <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-60-close">{</span> <span class="token keyword keyword-return">return</span> m_partner<span class="token punctuation">.</span><span class="token function">lock</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-48-close">(</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-48-open">)</span><span class="token punctuation">;</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-60-open">}</span> <span class="token comment">// use lock() to convert weak_ptr to shared_ptr</span>
+	<span class="token keyword keyword-const">const</span> std<span class="token double-colon punctuation">::</span>string<span class="token operator">&amp;</span> <span class="token function">getName</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-49-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-49-open">)</span> <span class="token keyword keyword-const">const</span> <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-61-close">{</span> <span class="token keyword keyword-return">return</span> m_name<span class="token punctuation">;</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-61-open">}</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-62-open">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-50-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-50-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-65-close">{</span>
+	<span class="token keyword keyword-auto">auto</span> lucy <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-63-close">{</span> std<span class="token double-colon punctuation">::</span><span class="token generic-function"><span class="token function">make_shared</span><span class="token generic class-name"><span class="token operator">&lt;</span>Person<span class="token operator">&gt;</span></span></span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-51-close">(</span><span class="token string">"Lucy"</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-51-open">)</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-63-open">}</span><span class="token punctuation">;</span>
+	<span class="token keyword keyword-auto">auto</span> ricky <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-64-close">{</span> std<span class="token double-colon punctuation">::</span><span class="token generic-function"><span class="token function">make_shared</span><span class="token generic class-name"><span class="token operator">&lt;</span>Person<span class="token operator">&gt;</span></span></span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-52-close">(</span><span class="token string">"Ricky"</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-52-open">)</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-64-open">}</span><span class="token punctuation">;</span>
+
+	<span class="token function">partnerUp</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-53-close">(</span>lucy<span class="token punctuation">,</span> ricky<span class="token punctuation brace-round brace-close brace-level-2" id="pair-53-open">)</span><span class="token punctuation">;</span>
+
+	<span class="token keyword keyword-auto">auto</span> partner <span class="token operator">=</span> ricky<span class="token operator">-&gt;</span><span class="token function">getPartner</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-54-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-54-open">)</span><span class="token punctuation">;</span> <span class="token comment">// get shared_ptr to Ricky's partner</span>
+	std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> ricky<span class="token operator">-&gt;</span><span class="token function">getName</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-55-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-55-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">"'s partner is: "</span> <span class="token operator">&lt;&lt;</span> partner<span class="token operator">-&gt;</span><span class="token function">getName</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-56-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-56-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+	<span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-65-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<div
+  class="google-auto-placed ap_container"
+  style="width: 100%; height: auto; clear: both; text-align: center"
+>
+  <ins
+    data-ad-format="auto"
+    class="adsbygoogle adsbygoogle-noablate"
+    data-ad-client="ca-pub-0588844875925051"
+    data-adsbygoogle-status="done"
+    style="
+      display: block;
+      margin: auto;
+      background-color: transparent;
+      height: 280px;
+    "
+    ><div
+      id="aswift_9_host"
+      style="
+        border: none;
+        height: 280px;
+        width: 1027px;
+        margin: 0px;
+        padding: 0px;
+        position: relative;
+        visibility: visible;
+        background-color: transparent;
+        display: inline-block;
+      "
+    ></div
+  ></ins>
+</div>
+<p>This prints:</p>
+<pre>
+Lucy created
+Ricky created
+Lucy is now partnered with Ricky
+Ricky's partner is: Lucy
+Ricky destroyed
+Lucy destroyed
+</pre>
+<p>
+  We don’t have to worry about circular dependencies with std::shared_ptr
+  variable “partner” since it’s just a local variable inside the function. It
+  will eventually go out of scope at the end of the function and the reference
+  count will be decremented by 1.
+</p>
+<div class="code-block code-block-5" style="margin: 8px 0; clear: both"></div>
+
+<p class="cpp-section cpp-topline" style="clear: both">
+  Avoiding dangling pointers with std::weak_ptr
+</p>
+<div
+  class="google-auto-placed ap_container"
+  style="width: 100%; height: auto; clear: both; text-align: center"
+>
+  <ins
+    data-ad-format="auto"
+    class="adsbygoogle adsbygoogle-noablate"
+    data-ad-client="ca-pub-0588844875925051"
+    data-adsbygoogle-status="done"
+    style="
+      display: block;
+      margin: auto;
+      background-color: transparent;
+      height: 280px;
+    "
+    ><div
+      id="aswift_10_host"
+      style="
+        border: none;
+        height: 280px;
+        width: 1027px;
+        margin: 0px;
+        padding: 0px;
+        position: relative;
+        visibility: visible;
+        background-color: transparent;
+        display: inline-block;
+      "
+    ></div
+  ></ins>
+</div>
+<p>
+  Consider the case where a normal “dumb” pointer is holding the address of some
+  object, and then that object is destroyed. Such a pointer is dangling, and
+  dereferencing the pointer will lead to undefined behavior. And unfortunately,
+  there is no way for us to determine whether a pointer holding a non-null
+  address is dangling or not. This is a large part of the reason dumb pointers
+  are dangerous.
+</p>
+<p>
+  Because std::weak_ptr won’t keep an owned resource alive, it’s similarly
+  possible for a std::weak_ptr to be left pointing to a resource that has been
+  deallocated by a std::shared_ptr. However, std::weak_ptr has a neat trick up
+  its sleeve -- because it has access to the reference count for an object, it
+  can determine if it is pointing to a valid object or not! If the reference
+  count is non-zero, the resource is still valid. If the reference count is
+  zero, then the resource has been destroyed.
+</p>
+<p>
+  The easiest way to test whether a std::weak_ptr is valid is to use the
+  <code>expired()</code> member function, which returns <code>true</code> if the
+  std::weak_ptr is pointing to an invalid object, and
+  <code>false</code> otherwise.
+</p>
+<p>Here’s a simple example showing this difference in behavior:</p>
+<div class="code-block code-block-6" style="margin: 8px 0; clear: both"></div>
+
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token comment">// h/t to reader Waldo for an early version of this example</span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;memory&gt;</span></span>
+
+<span class="token keyword keyword-class">class</span> <span class="token class-name">Resource</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-83-close">{</span>
+<span class="token keyword keyword-public">public</span><span class="token operator">:</span>
+	<span class="token function">Resource</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-66-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-66-open">)</span> <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-81-close">{</span> std<span class="token double-colon punctuation">::</span>cerr <span class="token operator">&lt;&lt;</span> <span class="token string">"Resource acquired\n"</span><span class="token punctuation">;</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-81-open">}</span>
+	<span class="token operator">~</span><span class="token function">Resource</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-67-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-67-open">)</span> <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-82-close">{</span> std<span class="token double-colon punctuation">::</span>cerr <span class="token operator">&lt;&lt;</span> <span class="token string">"Resource destroyed\n"</span><span class="token punctuation">;</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-82-open">}</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-83-open">}</span><span class="token punctuation">;</span>
+
+<span class="token comment">// Returns a std::weak_ptr to an invalid object</span>
+std<span class="token double-colon punctuation">::</span>weak_ptr<span class="token operator">&lt;</span>Resource<span class="token operator">&gt;</span> <span class="token function">getWeakPtr</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-68-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-68-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-86-close">{</span>
+	<span class="token keyword keyword-auto">auto</span> ptr<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-84-close">{</span> std<span class="token double-colon punctuation">::</span><span class="token generic-function"><span class="token function">make_shared</span><span class="token generic class-name"><span class="token operator">&lt;</span>Resource<span class="token operator">&gt;</span></span></span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-69-close">(</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-69-open">)</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-84-open">}</span><span class="token punctuation">;</span>
+	<span class="token keyword keyword-return">return</span> std<span class="token double-colon punctuation">::</span>weak_ptr<span class="token operator">&lt;</span>Resource<span class="token operator">&gt;</span><span class="token punctuation brace-curly brace-open brace-level-2" id="pair-85-close">{</span> ptr <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-85-open">}</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-86-open">}</span> <span class="token comment">// ptr goes out of scope, Resource destroyed</span>
+
+<span class="token comment">// Returns a dumb pointer to an invalid object</span>
+Resource<span class="token operator">*</span> <span class="token function">getDumbPtr</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-70-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-70-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-88-close">{</span>
+	<span class="token keyword keyword-auto">auto</span> ptr<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-87-close">{</span> std<span class="token double-colon punctuation">::</span><span class="token generic-function"><span class="token function">make_unique</span><span class="token generic class-name"><span class="token operator">&lt;</span>Resource<span class="token operator">&gt;</span></span></span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-71-close">(</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-71-open">)</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-87-open">}</span><span class="token punctuation">;</span>
+	<span class="token keyword keyword-return">return</span> ptr<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-72-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-72-open">)</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-88-open">}</span> <span class="token comment">// ptr goes out of scope, Resource destroyed</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-73-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-73-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-91-close">{</span>
+	<span class="token keyword keyword-auto">auto</span> dumb<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-89-close">{</span> <span class="token function">getDumbPtr</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-74-close">(</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-74-open">)</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-89-open">}</span><span class="token punctuation">;</span>
+	std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Our dumb ptr is: "</span> <span class="token operator">&lt;&lt;</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-76-close">(</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-75-close">(</span>dumb <span class="token operator">==</span> <span class="token keyword keyword-nullptr">nullptr</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-75-open">)</span> <span class="token operator">?</span> <span class="token string">"nullptr\n"</span> <span class="token operator">:</span> <span class="token string">"non-null\n"</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-76-open">)</span><span class="token punctuation">;</span>
+
+	<span class="token keyword keyword-auto">auto</span> weak<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-90-close">{</span> <span class="token function">getWeakPtr</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-77-close">(</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-77-open">)</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-90-open">}</span><span class="token punctuation">;</span>
+	std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Our weak ptr is: "</span> <span class="token operator">&lt;&lt;</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-80-close">(</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-79-close">(</span>weak<span class="token punctuation">.</span><span class="token function">expired</span><span class="token punctuation brace-round brace-open brace-level-4" id="pair-78-close">(</span><span class="token punctuation brace-round brace-close brace-level-4" id="pair-78-open">)</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-79-open">)</span> <span class="token operator">?</span> <span class="token string">"expired\n"</span> <span class="token operator">:</span> <span class="token string">"valid\n"</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-80-open">)</span><span class="token punctuation">;</span>
+
+	<span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-91-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<div
+  class="google-auto-placed ap_container"
+  style="width: 100%; height: auto; clear: both; text-align: center"
+>
+  <ins
+    data-ad-format="auto"
+    class="adsbygoogle adsbygoogle-noablate"
+    data-ad-client="ca-pub-0588844875925051"
+    data-adsbygoogle-status="done"
+    style="
+      display: block;
+      margin: auto;
+      background-color: transparent;
+      height: 280px;
+    "
+    ><div
+      id="aswift_11_host"
+      style="
+        border: none;
+        height: 280px;
+        width: 1027px;
+        margin: 0px;
+        padding: 0px;
+        position: relative;
+        visibility: visible;
+        background-color: transparent;
+        display: inline-block;
+      "
+    ></div
+  ></ins>
+</div>
+<p>This prints:</p>
+<pre>
+Resource acquired
+Resource destroyed
+Our dumb ptr is: non-null
+Resource acquired
+Resource destroyed
+Our weak ptr is: expired
+</pre>
+<p>
+  Both <code>getDumbPtr()</code> and <code>getWeakPtr()</code> use a smart
+  pointer to allocate a Resource -- this smart pointer ensures that the
+  allocated Resource will be destroyed at the end of the function. When
+  <code>getDumbPtr()</code> returns a Resource*, it returns a dangling pointer
+  (because std::unique_ptr destroyed the Resource at the end of the function).
+  When <code>getWeakPtr()</code> returns a std::weak_ptr, that std::weak_ptr is
+  similarly pointing to an invalid object (because std::shared_ptr destroyed the
+  Resource at the end of the function).
+</p>
+<p>
+  Inside main(), we first test whether the returned dumb pointer is
+  <code>nullptr</code>. Because the dumb pointer is still holding the address of
+  the deallocated resource, this test fails. There is no way for
+  <code>main()</code> to tell whether this pointer is dangling or not. In this
+  case, because it is a dangling pointer, if we were to dereference this
+  pointer, undefined behavior would result.
+</p>
+<p>
+  Next, we test whether <code>weak.expired()</code> is <code>true</code>.
+  Because the reference count for the object being pointed to by
+  <code>weak</code> is <code>0</code> (because the object being pointed to was
+  already destroyed), this resolves to <code>true</code>. The code in
+  <code>main()</code> can thus tell that <code>weak</code> is pointing to an
+  invalid object, and we can conditionalize our code as appropriate!
+</p>
+<p>
+  Note that if a std::weak_ptr is expired, then we shouldn’t call
+  <code>lock()</code> on it, because the object being pointed to has already
+  been destroyed, so there is no object to share. If you do call
+  <code>lock()</code> on an expired std::weak_ptr, it will return a
+  std::shared_ptr to <code>nullptr</code>.
+</p>
+<p class="cpp-section cpp-topline" style="clear: both">Conclusion</p>
+<p>
+  std::shared_ptr can be used when you need multiple smart pointers that can
+  co-own a resource. The resource will be deallocated when the last
+  std::shared_ptr goes out of scope. std::weak_ptr can be used when you want a
+  smart pointer that can see and use a shared resource, but does not participate
+  in the ownership of that resource.
+</p>
+<div class="code-block code-block-7" style="margin: 8px 0; clear: both"></div>
+
+<p></p>
+<p class="cpp-section cpp-topline" style="clear: both">Quiz time</p>
+<p class="cpp-quiz-question" style="clear: both">Question #1</p>
+<p></p>
+<ol start="1">
+  <li>
+    Fix the program presented in the section “A reductive case” so that the
+    Resource is properly deallocated. Do not alter the code in
+    <code>main()</code>.
+  </li>
+</ol>
+<p>Here is the program again for ease of reference:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;memory&gt;</span> <span class="token comment">// for std::shared_ptr</span></span>
+
+<span class="token keyword keyword-class">class</span> <span class="token class-name">Resource</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-99-close">{</span>
+<span class="token keyword keyword-public">public</span><span class="token operator">:</span>
+	std<span class="token double-colon punctuation">::</span>shared_ptr<span class="token operator">&lt;</span>Resource<span class="token operator">&gt;</span> m_ptr <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-96-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-96-open">}</span><span class="token punctuation">;</span> <span class="token comment">// initially created empty</span>
+
+	<span class="token function">Resource</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-92-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-92-open">)</span> <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-97-close">{</span> std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Resource acquired\n"</span><span class="token punctuation">;</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-97-open">}</span>
+	<span class="token operator">~</span><span class="token function">Resource</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-93-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-93-open">)</span> <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-98-close">{</span> std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Resource destroyed\n"</span><span class="token punctuation">;</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-98-open">}</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-99-open">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-94-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-94-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-101-close">{</span>
+	<span class="token keyword keyword-auto">auto</span> ptr1 <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-100-close">{</span> std<span class="token double-colon punctuation">::</span><span class="token generic-function"><span class="token function">make_shared</span><span class="token generic class-name"><span class="token operator">&lt;</span>Resource<span class="token operator">&gt;</span></span></span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-95-close">(</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-95-open">)</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-100-open">}</span><span class="token punctuation">;</span>
+
+	ptr1<span class="token operator">-&gt;</span>m_ptr <span class="token operator">=</span> ptr1<span class="token punctuation">;</span> <span class="token comment">// m_ptr is now sharing the Resource that contains it</span>
+
+	<span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-101-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  <a
+    class="solution_link_show"
+    href="javascript:void(0)"
+    onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_0'), this, 'Show Solution', 'Hide Solution')"
+    >Show Solution</a
+  >
+</p>
+<div class="wpsolution" id="cpp_solution_id_0" style="display: none">
+  <div class="code-toolbar">
+    <pre
+      class="line-numbers language-cpp"
+      tabindex="0"
+    ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;memory&gt;</span> <span class="token comment">// for std::shared_ptr and std::weak_ptr</span></span>
+
+<span class="token keyword keyword-class">class</span> <span class="token class-name">Resource</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-109-close">{</span>
+<span class="token keyword keyword-public">public</span><span class="token operator">:</span>
+	std<span class="token double-colon punctuation">::</span>weak_ptr<span class="token operator">&lt;</span>Resource<span class="token operator">&gt;</span> m_ptr <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-106-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-106-open">}</span><span class="token punctuation">;</span> <span class="token comment">// use std::weak_ptr so m_ptr doesn't keep the Resource alive</span>
+
+	<span class="token function">Resource</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-102-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-102-open">)</span> <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-107-close">{</span> std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Resource acquired\n"</span><span class="token punctuation">;</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-107-open">}</span>
+	<span class="token operator">~</span><span class="token function">Resource</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-103-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-103-open">)</span> <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-108-close">{</span> std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Resource destroyed\n"</span><span class="token punctuation">;</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-108-open">}</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-109-open">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-104-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-104-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-111-close">{</span>
+	<span class="token keyword keyword-auto">auto</span> ptr1 <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-110-close">{</span> std<span class="token double-colon punctuation">::</span><span class="token generic-function"><span class="token function">make_shared</span><span class="token generic class-name"><span class="token operator">&lt;</span>Resource<span class="token operator">&gt;</span></span></span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-105-close">(</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-105-open">)</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-110-open">}</span><span class="token punctuation">;</span>
+
+	ptr1<span class="token operator">-&gt;</span>m_ptr <span class="token operator">=</span> ptr1<span class="token punctuation">;</span> <span class="token comment">// m_ptr is now sharing the Resource that contains it</span>
+
+	<span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-111-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+    <div class="toolbar">
+      <div class="toolbar-item">
+        <button
+          class="copy-to-clipboard-button"
+          type="button"
+          data-copy-state="copy"
+        >
+          <span>Copy</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="prevnext">
+  <div class="prevnext-inline">
+    <a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/chapter-22-summary-and-quiz/"
+    >
+      <div class="nav-button nav-button-next">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-right" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Next lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">22.x</span>Chapter 22 summary
+            and quiz
+          </div>
+        </div>
+      </div></a
+    >
+    <a class="nav-link" href="/">
+      <div class="nav-button nav-button-index">
+        <div class="nav-button-icon">
+          <i class="fa fa-home" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Back to table of contents</div>
+        </div>
+      </div></a
+    >
+    <a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/stdshared_ptr/"
+    >
+      <div class="nav-button nav-button-prev">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-left" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Previous lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">22.6</span>std::shared_ptr
+          </div>
+        </div>
+      </div></a
+    >
+  </div>
+</div>
+<div class="code-block code-block-10" style="margin: 8px 0; clear: both"></div>

@@ -1,0 +1,446 @@
+<div
+  class="code-block code-block-1"
+  style="margin: 8px 8px 8px 0; float: left"
+></div>
+<p>
+  In lesson
+  <a href="https://www.learncpp.com/cpp-tutorial/local-variables/"
+    >7.3 -- Local variables</a
+  >, we said, “An identifier’s linkage determines whether other declarations of
+  that name refer to the same object or not”, and we discussed how local
+  variables have <code>no linkage</code>.
+</p>
+<p>
+  Global variables and function identifiers can have either
+  <code>internal linkage</code> or <code>external linkage</code>. We’ll cover
+  the internal linkage case in this lesson, and the external linkage case in
+  lesson
+  <a
+    href="https://www.learncpp.com/cpp-tutorial/external-linkage-and-variable-forward-declarations/"
+    >7.7 -- External linkage and variable forward declarations</a
+  >.
+</p>
+<p>
+  An identifier with <strong>internal linkage</strong> can be seen and used
+  within a single translation unit, but it is not accessible from other
+  translation units. This means that if two source files have identically named
+  identifiers with internal linkage, those identifiers will be treated as
+  independent (and do not result in an ODR violation for having duplicate
+  definitions).
+</p>
+<div class="cpp-note cpp-lightbluebackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Key insight</p>
+  <p>
+    Identifiers with internal linkage may not be visible to the linker at all.
+    Alternatively, they may be visible to the linker, but marked for use in a
+    specific translation unit only.
+  </p>
+</div>
+<div class="cpp-note cpp-lightgraybackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Related content</p>
+  <p>
+    We cover translation units in lesson
+    <a
+      href="https://www.learncpp.com/cpp-tutorial/introduction-to-the-preprocessor/"
+      >2.10 -- Introduction to the preprocessor</a
+    >.
+  </p>
+</div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Global variables with internal linkage
+</p>
+<p>
+  Global variables with internal linkage are sometimes called
+  <strong>internal variables</strong>.
+</p>
+<div class="code-block code-block-2" style="margin: 8px 0; clear: both"></div>
+
+<p>
+  To make a non-constant global variable internal, we use the
+  <code>static</code> keyword.
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-static">static</span> <span class="token keyword keyword-int">int</span> g_x<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-57-close">{</span><span class="token punctuation brace-curly brace-close brace-level-1" id="pair-57-open">}</span><span class="token punctuation">;</span> <span class="token comment">// non-constant globals have external linkage by default, but can be given internal linkage via the static keyword</span>
+
+<span class="token keyword keyword-const">const</span> <span class="token keyword keyword-int">int</span> g_y<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-58-close">{</span> <span class="token number">1</span> <span class="token punctuation brace-curly brace-close brace-level-1" id="pair-58-open">}</span><span class="token punctuation">;</span> <span class="token comment">// const globals have internal linkage by default</span>
+<span class="token keyword keyword-constexpr">constexpr</span> <span class="token keyword keyword-int">int</span> g_z<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-59-close">{</span> <span class="token number">2</span> <span class="token punctuation brace-curly brace-close brace-level-1" id="pair-59-open">}</span><span class="token punctuation">;</span> <span class="token comment">// constexpr globals have internal linkage by default</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-56-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-56-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-60-close">{</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> g_x <span class="token operator">&lt;&lt;</span> <span class="token string">' '</span> <span class="token operator">&lt;&lt;</span> g_y <span class="token operator">&lt;&lt;</span> <span class="token string">' '</span> <span class="token operator">&lt;&lt;</span> g_z <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-60-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 32px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  Const and constexpr global variables have internal linkage by default (and
+  thus don’t need the <code>static</code> keyword -- if it is used, it will be
+  ignored).
+</p>
+<p>Here’s an example of multiple files using internal variables:</p>
+<p>a.cpp:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token punctuation brace-square brace-open brace-level-1" id="pair-62-close">[</span><span class="token punctuation brace-square brace-open brace-level-2" id="pair-61-close">[</span>maybe_unused<span class="token punctuation brace-square brace-close brace-level-2" id="pair-61-open">]</span><span class="token punctuation brace-square brace-close brace-level-1" id="pair-62-open">]</span> <span class="token keyword keyword-constexpr">constexpr</span> <span class="token keyword keyword-int">int</span> g_x <span class="token punctuation brace-curly brace-open brace-level-1" id="pair-63-close">{</span> <span class="token number">2</span> <span class="token punctuation brace-curly brace-close brace-level-1" id="pair-63-open">}</span><span class="token punctuation">;</span> <span class="token comment">// this internal g_x is only accessible within a.cpp</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>main.cpp:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-static">static</span> <span class="token keyword keyword-int">int</span> g_x <span class="token punctuation brace-curly brace-open brace-level-1" id="pair-65-close">{</span> <span class="token number">3</span> <span class="token punctuation brace-curly brace-close brace-level-1" id="pair-65-open">}</span><span class="token punctuation">;</span> <span class="token comment">// this separate internal g_x is only accessible within main.cpp</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-64-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-64-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-66-close">{</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> g_x <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span> <span class="token comment">// uses main.cpp's g_x, prints 3</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-66-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>This program prints:</p>
+<pre>
+3
+</pre>
+<p>
+  Because <code>g_x</code> is internal to each file, <code>main.cpp</code> has
+  no idea that <code>a.cpp</code> also has a variable named
+  <code>g_x</code> (and vice versa).
+</p>
+<div class="cpp-note cpp-lightgraybackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">For advanced readers</p>
+  <p>
+    The use of the <code>static</code> keyword above is an example of a
+    <strong>storage class specifier</strong>, which sets both the name’s linkage
+    and its storage duration. The most commonly used
+    <code>storage class specifiers</code> are <code>static</code>,
+    <code>extern</code>, and <code>mutable</code>. The term
+    <code>storage class specifier</code> is mostly used in technical
+    documentations.
+  </p>
+</div>
+<div class="cpp-note cpp-lightgraybackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">For advanced readers</p>
+  <p>
+    The C++11 standard (appendix C) provides the rationale for why const
+    variables have internal linkage by default: “Because const objects can be
+    used as compile-time values in C++, this feature urges programmers to
+    provide explicit initializer values for each const. This feature allows the
+    user to put const objects in header files that are included in many
+    compilation units.”
+  </p>
+  <p>The designers of C++ intended two things:</p>
+  <ul>
+    <li>
+      Const objects should be usable in constant expressions. In order to be
+      usable in a constant expression, the compiler must have seen a definition
+      (not a declaration) so it be evaluated at compile-time.
+    </li>
+    <li>Const objects should be able to be propagated via header files.</li>
+  </ul>
+  <p>
+    Objects with external linkage can only be defined in a single translation
+    unit without violating the ODR -- other translation units must access those
+    objects via a forward declaration. If const objects had external linkage by
+    default, they would only be usable in constant expressions in the single
+    translation unit containing the definition, and they could not be
+    effectively propagated via header files, as #including the header into more
+    than one source file would result in an ODR violation.
+  </p>
+  <p>
+    Objects with internal linkage can have a definition in each translation unit
+    where they are needed without violating the ODR. This allows const objects
+    to be placed in a header file and #included into as many translation units
+    as desired without violating the ODR. And since each translation unit has a
+    definition rather than a declaration, this ensures that those constants can
+    be used in constant expressions within the translation unit.
+  </p>
+  <p>
+    Inline variables (which can have external linkage without causing ODR
+    violations) weren’t introduced until C++17.
+  </p>
+</div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Functions with internal linkage
+</p>
+<p>
+  As noted above, function identifiers also have linkage. Functions default to
+  external linkage (which we’ll cover in the next lesson), but can be set to
+  internal linkage via the <code>static</code> keyword:
+</p>
+<div class="code-block code-block-3" style="margin: 8px 0; clear: both"></div>
+
+<p>add.cpp:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token comment">// This function is declared as static, and can now be used only within this file</span>
+<span class="token comment">// Attempts to access it from another file via a function forward declaration will fail</span>
+<span class="token punctuation brace-square brace-open brace-level-1" id="pair-69-close">[</span><span class="token punctuation brace-square brace-open brace-level-2" id="pair-68-close">[</span>maybe_unused<span class="token punctuation brace-square brace-close brace-level-2" id="pair-68-open">]</span><span class="token punctuation brace-square brace-close brace-level-1" id="pair-69-open">]</span> <span class="token keyword keyword-static">static</span> <span class="token keyword keyword-int">int</span> <span class="token function">add</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-67-close">(</span><span class="token keyword keyword-int">int</span> x<span class="token punctuation">,</span> <span class="token keyword keyword-int">int</span> y<span class="token punctuation brace-round brace-close brace-level-1" id="pair-67-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-70-close">{</span>
+    <span class="token keyword keyword-return">return</span> x <span class="token operator">+</span> y<span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-70-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>main.cpp:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">add</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-71-close">(</span><span class="token keyword keyword-int">int</span> x<span class="token punctuation">,</span> <span class="token keyword keyword-int">int</span> y<span class="token punctuation brace-round brace-close brace-level-1" id="pair-71-open">)</span><span class="token punctuation">;</span> <span class="token comment">// forward declaration for function add</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-72-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-72-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-74-close">{</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token function">add</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-73-close">(</span><span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-73-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-74-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  This program won’t link, because function <code>add</code> is not accessible
+  outside of <code>add.cpp</code>.
+</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  The one-definition rule and internal linkage
+</p>
+<p>
+  In lesson
+  <a href="https://www.learncpp.com/cpp-tutorial/forward-declarations/"
+    >2.7 -- Forward declarations and definitions</a
+  >, we noted that the one-definition rule says that an object or function can’t
+  have more than one definition, either within a file or a program.
+</p>
+<p>
+  However, it’s worth noting that internal objects (and functions) that are
+  defined in different files are considered to be independent entities (even if
+  their names and types are identical), so there is no violation of the
+  one-definition rule. Each internal object only has one definition.
+</p>
+<div class="code-block code-block-4" style="margin: 8px 0; clear: both"></div>
+
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  <code>static</code> vs unnamed namespaces
+</p>
+<p>
+  In modern C++, use of the <code>static</code> keyword for giving identifiers
+  internal linkage is falling out of favor. Unnamed namespaces can give internal
+  linkage to a wider range of identifiers (e.g. type identifiers), and they are
+  better suited for giving many identifiers internal linkage.
+</p>
+<p>
+  We cover unnamed namespaces in lesson
+  <a href="https://www.learncpp.com/cpp-tutorial/unnamed-and-inline-namespaces/"
+    >7.14 -- Unnamed and inline namespaces</a
+  >.
+</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Why bother giving identifiers internal linkage?
+</p>
+<p>There are typically two reasons to give identifiers internal linkage:</p>
+<ul>
+  <li>
+    There is an identifier we want to make sure isn’t accessible to other files.
+    This could be a global variable we don’t want messed with, or a helper
+    function we don’t want to be called.
+  </li>
+  <li>
+    To be pedantic about avoiding naming collisions. Because identifiers with
+    internal linkage aren’t exposed to the linker, they can only collide with
+    names in the same translation unit, not across the entire program.
+  </li>
+</ul>
+<p>
+  Many modern development guides recommend giving every variable and function
+  that isn’t meant to be used from another file internal linkage. If you have
+  the discipline, this is a good recommendation.
+</p>
+<div class="code-block code-block-5" style="margin: 8px 0; clear: both"></div>
+
+<p>
+  For now, we’ll recommend a lighter-touch approach as a minimum: give internal
+  linkage to any identifier that you have an explicit reason to disallow access
+  from other files.
+</p>
+<div class="cpp-note cpp-lightgreenbackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Best practice</p>
+  <p>
+    Give identifiers internal linkage when you have an explicit reason to
+    disallow access from other files.
+  </p>
+  <p>
+    Consider giving all identifiers you don’t want accessible to other files
+    internal linkage (use an unnamed namespace for this).
+  </p>
+</div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Quick Summary
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token comment">// Internal global variables definitions:</span>
+<span class="token keyword keyword-static">static</span> <span class="token keyword keyword-int">int</span> g_x<span class="token punctuation">;</span>          <span class="token comment">// defines non-initialized internal global variable (zero initialized by default)</span>
+<span class="token keyword keyword-static">static</span> <span class="token keyword keyword-int">int</span> g_x<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-76-close">{</span> <span class="token number">1</span> <span class="token punctuation brace-curly brace-close brace-level-1" id="pair-76-open">}</span><span class="token punctuation">;</span>     <span class="token comment">// defines initialized internal global variable</span>
+
+<span class="token keyword keyword-const">const</span> <span class="token keyword keyword-int">int</span> g_y <span class="token punctuation brace-curly brace-open brace-level-1" id="pair-77-close">{</span> <span class="token number">2</span> <span class="token punctuation brace-curly brace-close brace-level-1" id="pair-77-open">}</span><span class="token punctuation">;</span>     <span class="token comment">// defines initialized internal global const variable</span>
+<span class="token keyword keyword-constexpr">constexpr</span> <span class="token keyword keyword-int">int</span> g_y <span class="token punctuation brace-curly brace-open brace-level-1" id="pair-78-close">{</span> <span class="token number">3</span> <span class="token punctuation brace-curly brace-close brace-level-1" id="pair-78-open">}</span><span class="token punctuation">;</span> <span class="token comment">// defines initialized internal global constexpr variable</span>
+
+<span class="token comment">// Internal function definitions:</span>
+<span class="token keyword keyword-static">static</span> <span class="token keyword keyword-int">int</span> <span class="token function">foo</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-75-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-75-open">)</span> <span class="token punctuation brace-curly brace-open brace-level-1" id="pair-79-close">{</span><span class="token punctuation brace-curly brace-close brace-level-1" id="pair-79-open">}</span><span class="token punctuation">;</span>     <span class="token comment">// defines internal function</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  We provide a comprehensive summary in lesson
+  <a
+    href="https://www.learncpp.com/cpp-tutorial/scope-duration-and-linkage-summary/"
+    >7.12 -- Scope, duration, and linkage summary</a
+  >.
+</p>
+<div class="prevnext">
+  <div class="prevnext-inline">
+    <a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/external-linkage-and-variable-forward-declarations/"
+    >
+      <div class="nav-button nav-button-next">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-right" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Next lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">7.7</span>External linkage
+            and variable forward declarations
+          </div>
+        </div>
+      </div></a
+    >
+    <a class="nav-link" href="/">
+      <div class="nav-button nav-button-index">
+        <div class="nav-button-icon">
+          <i class="fa fa-home" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Back to table of contents</div>
+        </div>
+      </div></a
+    >
+    <a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/variable-shadowing-name-hiding/"
+    >
+      <div class="nav-button nav-button-prev">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-left" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Previous lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">7.5</span>Variable shadowing
+            (name hiding)
+          </div>
+        </div>
+      </div></a
+    >
+  </div>
+</div>
+<div class="code-block code-block-10" style="margin: 8px 0; clear: both"></div>

@@ -1,0 +1,576 @@
+<div
+  class="code-block code-block-1"
+  style="margin: 8px 8px 8px 0; float: left"
+></div>
+<p class="cpp-section" data-ezoic-video-excluded="1">Chapter introduction</p>
+<p>Welcome to the first primary chapter of these C++ tutorials!</p>
+<p>
+  In this chapter, we’ll take a first look at a number of topics that are
+  essential to every C++ program. Because there are quite a few topics to cover,
+  we’ll cover most at a fairly shallow level (just enough to get by). The goal
+  of this chapter is to help you understand how basic C++ programs are
+  constructed. By the end of the chapter, you will be able to write your own
+  simple programs.
+</p>
+<p>
+  In future chapters, we’ll revisit the majority of these topics and explore
+  them in more detail. We’ll also introduce new concepts that build on top of
+  these.
+</p>
+<p>
+  In order to keep the lesson lengths manageable, topics may be split over
+  several subsequent lessons. If you feel like some important concept isn’t
+  covered in a lesson, or you have a question that isn’t answered in the current
+  lesson, it’s possible that it’s covered in the next lesson.
+</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Statements
+</p>
+<p>
+  A computer program is a sequence of instructions that tell the computer what
+  to do. A <strong>statement</strong> is a type of instruction that causes the
+  program to <em>perform some action</em>.
+</p>
+<div class="code-block code-block-2" style="margin: 8px 0; clear: both"></div>
+<p>
+  Statements are by far the most common type of instruction in a C++ program.
+  This is because they are the smallest independent unit of computation in the
+  C++ language. In that regard, they act much like sentences do in natural
+  language. When we want to convey an idea to another person, we typically write
+  or speak in sentences (not in random words or syllables). In C++, when we want
+  to have our program do something, we typically write statements.
+</p>
+<p>
+  Most (but not all) statements in C++ end in a semicolon. If you see a line
+  that ends in a semicolon, it’s probably a statement.
+</p>
+<p>
+  In a high-level language such as C++, a single statement may compile into many
+  machine language instructions.
+</p>
+<div class="cpp-note cpp-lightgraybackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">For advanced readers</p>
+  <p>There are many different kinds of statements in C++:</p>
+  <ul>
+    <li>Declaration statements</li>
+    <li>Jump statements</li>
+    <li>Expression statements</li>
+    <li>Compound statements</li>
+    <li>Selection statements (conditionals)</li>
+    <li>Iteration statements (loops)</li>
+    <li>Try blocks</li>
+  </ul>
+  <p>
+    By the time you’re through with this tutorial series, you’ll understand what
+    all of these are!
+  </p>
+</div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Functions and the <code>main</code> function
+</p>
+<p>
+  In C++, statements are typically grouped into units called functions. A
+  <strong>function</strong> is a collection of statements that get executed
+  sequentially (in order, from top to bottom). As you learn to write your own
+  programs, you’ll be able to create your own functions and mix and match
+  statements in any way you please (we’ll show how in a future lesson).
+</p>
+<div class="code-block code-block-3" style="margin: 8px 0; clear: both"></div>
+<div class="cpp-note cpp-lightpurplebackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Rule</p>
+  <p>
+    Every C++ program must have a special function named
+    <strong>main</strong> (all lower case letters).
+  </p>
+</div>
+<p>
+  When the program is run, the statements inside of <code>main</code> are
+  executed in sequential order.
+</p>
+<p>
+  Programs typically terminate (finish running) after the last statement inside
+  function <code>main</code> has been executed (though programs may abort early
+  in some circumstances, or do some cleanup afterwards).
+</p>
+<p>
+  Functions are typically written to do a specific job or perform some useful
+  action. For example, a function named <code>max</code> might contain
+  statements that figures out which of two numbers is larger. A function named
+  <code>calculateGrade</code> might calculate a student’s grade from a set of
+  test scores. A function named <code>printEmployee</code> might print an
+  employee’s information to the console. We will talk a lot more about functions
+  soon, as they are the most commonly used organizing tool in a program.
+</p>
+<div class="cpp-note cpp-lightgraybackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Nomenclature</p>
+  <p>
+    When discussing functions, it’s fairly common shorthand to append a pair of
+    parenthesis to the end of the function’s name. For example, if you see the
+    term <code>main()</code> or <code>doSomething()</code>, this is shorthand
+    for functions named <code>main</code> or
+    <code>doSomething</code> respectively. This helps differentiate functions
+    from other things with names (such as variables) without having to write the
+    word “function” each time.
+  </p>
+</div>
+<p>
+  In programming, the name of a function (or object, type, template, etc…) is
+  called its <strong>identifier</strong>.
+</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Characters and text
+</p>
+<p>
+  The earliest computers were designed primarily for mathematical calculations
+  and data processing. As hardware improved, networking became accessible, and
+  consumer software evolved, computers also became valuable tools for written
+  communication.
+</p>
+<div class="code-block code-block-4" style="margin: 8px 0; clear: both"></div>
+<p>
+  In written language, the most basic unit of communication is the character. To
+  simplify slightly, a <strong>character</strong> is a written symbol or mark,
+  such as a letter, digit, punctuation mark, or mathematical symbol. When we tap
+  an alphabetic or numeric key on our keyboard, a character is produced as a
+  result, which can then be displayed on the screen. The following are all
+  characters: <code>a</code>, <code>2</code>, <code>$</code>, and
+  <code>=</code>.
+</p>
+<p>
+  In many cases, such as when writing words or sentences, we want to make use of
+  more than one character. A sequence of characters is called
+  <strong>text</strong> (also called a <strong>string</strong> in programming
+  contexts).
+</p>
+<div class="cpp-note cpp-lightgraybackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Nomenclature</p>
+  <p>
+    Conventionally, the term “text” is also used to mean
+    <strong>plain text</strong>, which is text that contains only characters
+    that appear on a standard keyboard, with no special formatting or styling.
+    For example, plain text cannot represent bold words, as that requires
+    styling.
+  </p>
+  <p>Our C++ programs are written as plain text.</p>
+</div>
+<div class="cpp-note cpp-lightgraybackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">For advanced readers</p>
+  <p>
+    Computers have an additional type of character, called a “control
+    character”. These are characters that have special meaning to the computer
+    system, but either aren’t intended to be displayed, or display as something
+    other than a single visible symbol. Examples of well-known control
+    characters include “escape” (which doesn’t display anything), “tab” (which
+    displays as some number of spaces), and “backspace” (which erases the
+    previous character).
+  </p>
+</div>
+<div class="cpp-note cpp-lightgraybackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Related content</p>
+  <p>
+    We discuss the outputting of characters and text in lesson
+    <a
+      href="https://www.learncpp.com/cpp-tutorial/introduction-to-iostream-cout-cin-and-endl/"
+      >1.5 -- Introduction to iostream: cout, cin, and endl</a
+    >.<br />We discuss characters (including control characters) in more detail
+    in lesson
+    <a href="https://www.learncpp.com/cpp-tutorial/chars/">4.11 -- Chars</a>.
+  </p>
+</div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Dissecting Hello world!
+</p>
+<p>
+  Now that you have a brief understanding of what statements and functions are,
+  let’s return to our “Hello world” program and take a high-level look at what
+  each line does in more detail.
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-8-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-8-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-9-close">{</span>
+   std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Hello world!"</span><span class="token punctuation">;</span>
+   <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-9-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  Line 1 is a special type of line called a preprocessor directive. This
+  <code>#include</code> preprocessor directive indicates that we would like to
+  use the contents of the <code>iostream</code> library, which is the part of
+  the C++ standard library that allows us to read and write text from/to the
+  console. We need this line in order to use <code>std::cout</code> on line 5.
+  Excluding this line would result in a compile error on line 5, as the compiler
+  wouldn’t otherwise know what <code>std::cout</code> is.
+</p>
+<p>
+  Line 2 is blank, and is ignored by the compiler. This line exists only to help
+  make the program more readable to humans (by separating the
+  <code>#include</code> preprocessor directive and the subsequent parts of the
+  program).
+</p>
+<div class="code-block code-block-5" style="margin: 8px 0; clear: both"></div>
+<p>
+  Line 3 tells the compiler that we’re going to write (define) a function whose
+  name (identifier) is <code>main</code>. As you learned above, every C++
+  program must have a <code>main</code> function or it will fail to link. This
+  function will produce a value whose type is <code>int</code> (an integer).
+</p>
+<p>
+  Lines 4 and 7 tell the compiler which lines are part of the
+  <em>main</em> function. Everything between the opening curly brace on line 4
+  and the closing curly brace on line 7 is considered part of the
+  <code>main</code> function. This is called the function body.
+</p>
+<p>
+  Line 5 is the first statement within function <code>main</code>, and is the
+  first statement that will execute when we run our program.
+  <code>std::cout</code> (which stands for “character output”) and the
+  <code>&lt;&lt;</code> operator allow us to display information on the console.
+  In this case, we’re displaying the text <code>Hello world!</code>. This
+  statement creates the visible output of the program.
+</p>
+<p>
+  Line 6 is a return statement. When an executable program finishes running, the
+  program sends a value back to the operating system in order to indicate
+  whether it ran successfully or not. This particular return statement returns
+  the integer value <code>0</code> to the operating system, which means
+  “everything went okay!”. This is the last statement in the program that
+  executes.
+</p>
+<p>
+  All of the programs we write will follow this general template, or a variation
+  on it.
+</p>
+<div class="code-block code-block-6" style="margin: 8px 0; clear: both"></div>
+<div class="cpp-note cpp-lightgraybackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Author’s note</p>
+  <p>
+    If parts (or all) of the above explanation are confusing, that’s to be
+    expected at this point. This was just to provide a quick overview.
+    Subsequent lessons will dig into all of the above topics, with plenty of
+    additional explanation and examples.
+  </p>
+</div>
+<p>
+  You can compile and run this program yourself, and you will see that it
+  outputs the following to the console:
+</p>
+<pre>
+Hello world!
+</pre>
+<p>
+  If you run into issues compiling or executing this program, check out lesson
+  <a href="https://www.learncpp.com/cpp-tutorial/a-few-common-cpp-problems/"
+    >0.8 -- A few common C++ problems</a
+  >.
+</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Syntax and syntax errors
+</p>
+<p>
+  In the English language, sentences are constructed according to specific
+  grammatical rules that you probably learned in English class in school. For
+  example, in writing, normal sentences end in a period. The set of rules that
+  describe how specific words (and punctuation) can be arranged to form valid
+  sentences in a language is called <strong>syntax</strong>. For example, “My
+  house painted is blue” is a syntax error, because the ordering of the words is
+  unconventional. “All your base are belong to us!” is another notable one.
+</p>
+<p>
+  The C++ programming language also has a syntax, which describes how the
+  elements of your program must be written and arranged in order for the program
+  to be considered valid. When you compile your program, the compiler is
+  responsible for making sure your program follows these syntactical rules. If
+  your program does something that deviates from the syntax of the language, the
+  compiler will halt compilation and issue a <em>_syntax error</em>.
+</p>
+<p>
+  Unlike the English language, which allows for a lot of ambiguity, the syntax
+  rules of C++ are strictly defined and upheld. Syntax errors are common.
+  Fortunately, such errors are typically straightforward to find and fix, as the
+  compiler will generally point you right at them. Compilation of a program will
+  only complete once all syntax errors are resolved.
+</p>
+<div class="code-block code-block-7" style="margin: 8px 0; clear: both"></div>
+<p>
+  Since the syntax for most statements requires those statements to end in a
+  semicolon, let’s see what happens if we omit the semicolon on line 5 of the
+  “Hello world” program, like this:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-10-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-10-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-11-close">{</span>
+   std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Hello world!"</span>
+   <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-11-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>Feel free to compile this ill-formed program yourself.</p>
+<p>When compiled using Clang, the following error message is generated:</p>
+<pre>
+prog.cc:5:31: error: expected ';' after expression
+</pre>
+<p>
+  Clang is telling us that on line 5 at the 31st character, the syntax rules
+  require a semicolon, but we did not provide one. Therefore, compilation was
+  halted with an error.
+</p>
+<p>
+  When compiled with Visual Studio instead, the compiler produces this
+  compilation error:
+</p>
+<div class="code-block code-block-8" style="margin: 8px 0; clear: both"></div>
+<pre>
+c:\vcprojects\hello.cpp(6): error C2143: syntax error : missing ';' before 'return'
+</pre>
+<p>
+  Note that Visual Studio says the error was encountered on line 6 (instead of
+  on line 5). So who is right? Both are, in a way.
+</p>
+<p>
+  Clang knows we conventionally put semicolons at the end of statements, so it
+  is reporting that the error is on line 5 based on the assumption that we will
+  do so. Visual Studio is opting to report the line it was compiling when it
+  determined that the error occurred (on line 6, when it encountered
+  <code>return</code> instead of the expected semicolon).
+</p>
+<div class="cpp-note cpp-lightbluebackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Key insight</p>
+  <p>
+    Compilers will sometimes report that an error has occurred on the line after
+    the one where we’d conventionally fix the issue. If you can’t find the error
+    on the line indicated, check the prior line.
+  </p>
+</div>
+<p>
+  To see other different error messages, experiment with deleting characters or
+  even whole lines from the “Hello world” program. Also try restoring the
+  missing semicolon at the end of line 5, and then deleting lines 1, 3, or 4 to
+  see what happens.
+</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Quiz time
+</p>
+<p>
+  The following quiz is meant to reinforce your understanding of the material
+  presented above.
+</p>
+<p class="cpp-quiz-question" style="clear: both">Question #1</p>
+<p>What is a statement?</p>
+<p>
+  <a
+    class="solution_link_show"
+    href="javascript:void(0)"
+    onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_0'),this,'Show Solution','Hide Solution')"
+    >Show Solution</a
+  >
+</p>
+<div class="wpsolution" id="cpp_solution_id_0" style="display: none">
+  <p>
+    A statement is an instruction in a computer program that tells the computer
+    to perform an action.
+  </p>
+</div>
+<p class="cpp-quiz-question cpp-topline" style="clear: both">Question #2</p>
+<p>What is a function?</p>
+<p>
+  <a
+    class="solution_link_show"
+    href="javascript:void(0)"
+    onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_1'),this,'Show Solution','Hide Solution')"
+    >Show Solution</a
+  >
+</p>
+<div class="wpsolution" id="cpp_solution_id_1" style="display: none">
+  <p>A function is a collection of statements that executes sequentially.</p>
+</div>
+<p class="cpp-quiz-question cpp-topline" style="clear: both">Question #3</p>
+<p>What is the name of the function that all programs must have?</p>
+<p>
+  <a
+    class="solution_link_show"
+    href="javascript:void(0)"
+    onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_2'),this,'Show Solution','Hide Solution')"
+    >Show Solution</a
+  >
+</p>
+<div class="wpsolution" id="cpp_solution_id_2" style="display: none">
+  <p>main</p>
+</div>
+<p class="cpp-quiz-question cpp-topline" style="clear: both">Question #4</p>
+<p>What happens when the program is run?</p>
+<p>
+  <a
+    class="solution_link_show"
+    href="javascript:void(0)"
+    onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_3'),this,'Show Solution','Hide Solution')"
+    >Show Solution</a
+  >
+</p>
+<div class="wpsolution" id="cpp_solution_id_3" style="display: none">
+  <p>
+    The statements inside <code>main()</code> are executed in sequential order.
+  </p>
+</div>
+<p class="cpp-quiz-question cpp-topline" style="clear: both">Question #5</p>
+<p>What symbol are statements in C++ often ended with?</p>
+<p>
+  <a
+    class="solution_link_show"
+    href="javascript:void(0)"
+    onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_4'),this,'Show Solution','Hide Solution')"
+    >Show Solution</a
+  >
+</p>
+<div class="wpsolution" id="cpp_solution_id_4" style="display: none">
+  <p>A semicolon (<code>;</code>)</p>
+</div>
+<p class="cpp-quiz-question cpp-topline" style="clear: both">Question #6</p>
+<p>What is a syntax error?</p>
+<p>
+  <a
+    class="solution_link_show"
+    href="javascript:void(0)"
+    onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_5'),this,'Show Solution','Hide Solution')"
+    >Show Solution</a
+  >
+</p>
+<div class="wpsolution" id="cpp_solution_id_5" style="display: none">
+  <p>
+    A syntax error occurs when your program violates the grammar rules of the
+    C++ language.
+  </p>
+</div>
+<p class="cpp-quiz-question cpp-topline" style="clear: both">Question #7</p>
+<p>What is the C++ Standard Library?</p>
+<p>
+  <a
+    class="hint_link_show"
+    href="javascript:void(0)"
+    onclick="cppHintToggle(document.getElementById('cpp_hint_id_0'),this,'Show Hint','')"
+    >Show Hint</a
+  >
+</p>
+<div
+  class="wphint"
+  id="cpp_hint_id_0"
+  style="display: none; margin-bottom: 1em"
+>
+  Hint: Review lesson
+  <a
+    href="https://www.learncpp.com/cpp-tutorial/introduction-to-the-compiler-linker-and-libraries/"
+    >0.5 -- Introduction to the compiler, linker, and libraries</a
+  >
+</div>
+<p>
+  <a
+    class="solution_link_show"
+    href="javascript:void(0)"
+    onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_6'),this,'Show Solution','Hide Solution')"
+    >Show Solution</a
+  >
+</p>
+<div class="wpsolution" id="cpp_solution_id_6" style="display: none">
+  <p>
+    A library file is a collection of precompiled code that has been “packaged
+    up” for reuse in other programs. The C++ Standard Library is a library that
+    ships with C++. It contains additional functionality to use in your
+    programs.
+  </p>
+</div>
+<div class="prevnext">
+  <div class="prevnext-inline">
+    <a class="nav-link" href="https://www.learncpp.com/cpp-tutorial/comments/"
+      ><div class="nav-button nav-button-next">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-right" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Next lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">1.2</span>Comments
+          </div>
+        </div>
+      </div></a
+    ><a class="nav-link" href="/"
+      ><div class="nav-button nav-button-index">
+        <div class="nav-button-icon">
+          <i class="fa fa-home" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Back to table of contents</div>
+        </div>
+      </div></a
+    ><a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/what-language-standard-is-my-compiler-using/"
+      ><div class="nav-button nav-button-prev">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-left" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Previous lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">0.13</span>What language
+            standard is my compiler using?
+          </div>
+        </div>
+      </div></a
+    >
+  </div>
+</div>
+<div class="code-block code-block-10" style="margin: 8px 0; clear: both"></div>

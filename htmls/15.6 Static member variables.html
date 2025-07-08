@@ -1,0 +1,959 @@
+<div
+  class="code-block code-block-1"
+  style="margin: 8px 8px 8px 0; float: left"
+></div>
+<p>
+  In the lesson
+  <a
+    href="https://www.learncpp.com/cpp-tutorial/introduction-to-global-variables/"
+    >7.4 -- Introduction to global variables</a
+  >, we introduced global variables, and in lesson
+  <a href="https://www.learncpp.com/cpp-tutorial/static-local-variables/"
+    >7.11 -- Static local variables</a
+  >, we introduced static local variables. Both of these types of variables have
+  static duration, meaning they are created at the start of the program, and
+  destroyed at the end of the program. Such variables keep their values even if
+  they go out of scope.
+</p>
+<p>For example:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">generateID</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-0-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-0-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-6-close">{</span>
+    <span class="token keyword keyword-static">static</span> <span class="token keyword keyword-int">int</span> s_id<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-5-close">{</span> <span class="token number">0</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-5-open">}</span><span class="token punctuation">;</span> <span class="token comment">// static local variable</span>
+    <span class="token keyword keyword-return">return</span> <span class="token operator">++</span>s_id<span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-6-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-1-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-1-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-7-close">{</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token function">generateID</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-2-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-2-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token function">generateID</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-3-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-3-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token function">generateID</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-4-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-4-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-7-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>This program prints:</p>
+<pre>
+1
+2
+3
+</pre>
+<p>
+  Note that static local variable <code>s_id</code> has kept its value across
+  multiple function calls.
+</p>
+<p>
+  Class types bring two more uses for the <code>static</code> keyword: static
+  member variables, and static member functions. Fortunately, these uses are
+  fairly straightforward. We’ll talk about static member variables in this
+  lesson, and static member functions in the next.
+</p>
+<div
+  class="google-auto-placed ap_container"
+  style="width: 100%; height: auto; clear: both; text-align: center"
+>
+  <ins
+    data-ad-format="auto"
+    class="adsbygoogle adsbygoogle-noablate"
+    data-ad-client="ca-pub-0588844875925051"
+    data-adsbygoogle-status="done"
+    style="
+      display: block;
+      margin: auto;
+      background-color: transparent;
+      height: 0px;
+    "
+    data-ad-status="unfilled"
+    ><div
+      id="aswift_5_host"
+      style="
+        border: none;
+        height: 0px;
+        width: 1027px;
+        margin: 0px;
+        padding: 0px;
+        position: relative;
+        visibility: visible;
+        background-color: transparent;
+        display: inline-block;
+        overflow: hidden;
+        opacity: 0;
+      "
+    >
+      <iframe
+        id="aswift_5"
+        name="aswift_5"
+        browsingtopics="true"
+        style="
+          left: 0px;
+          position: absolute;
+          top: 0px;
+          border: 0px;
+          width: 1027px;
+          height: 0px;
+          min-height: auto;
+          max-height: none;
+          min-width: auto;
+          max-width: none;
+        "
+        sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation"
+        width="1027"
+        height="0"
+        frameborder="0"
+        marginwidth="0"
+        marginheight="0"
+        vspace="0"
+        hspace="0"
+        allowtransparency="true"
+        scrolling="no"
+        allow="attribution-reporting; run-ad-auction"
+        src="https://googleads.g.doubleclick.net/pagead/ads?client=ca-pub-0588844875925051&amp;output=html&amp;h=280&amp;adk=3537020268&amp;adf=93458056&amp;w=1027&amp;abgtt=11&amp;fwrn=4&amp;fwrnh=100&amp;lmt=1748920191&amp;num_ads=1&amp;rafmt=1&amp;armr=3&amp;sem=mc&amp;pwprc=4633386603&amp;ad_type=text_image&amp;format=1027x280&amp;url=https%3A%2F%2Fwww.learncpp.com%2Fcpp-tutorial%2Fstatic-member-variables%2F&amp;fwr=0&amp;pra=3&amp;rh=200&amp;rw=1026&amp;rpe=1&amp;resp_fmts=3&amp;wgl=1&amp;fa=27&amp;uach=WyJXaW5kb3dzIiwiMTkuMC4wIiwieDg2IiwiIiwiMTM3LjAuNzE1MS4xMjIiLG51bGwsMCxudWxsLCI2NCIsW1siR29vZ2xlIENocm9tZSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJDaHJvbWl1bSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJOb3QvQSlCcmFuZCIsIjI0LjAuMC4wIl1dLDBd&amp;dt=1751963030177&amp;bpp=1&amp;bdt=755&amp;idt=-M&amp;shv=r20250702&amp;mjsv=m202507020101&amp;ptt=9&amp;saldr=aa&amp;abxe=1&amp;cookie=ID%3D05f6e82287d810b4%3AT%3D1751962604%3ART%3D1751962911%3AS%3DALNI_MaQYA0TSAU2k8xwY5tqlN0xFCcd6g&amp;gpic=UID%3D00001157d9e27d0a%3AT%3D1751962604%3ART%3D1751962911%3AS%3DALNI_MYgtHzQJAQQXY_151HTGSSfVxE8_A&amp;eo_id_str=ID%3D52c21936d98c6d2b%3AT%3D1751962604%3ART%3D1751962911%3AS%3DAA-AfjZsJ15yjdEPJ8d11hPojsJQ&amp;prev_fmts=0x0%2C336x280%2C160x600%2C160x600&amp;nras=2&amp;correlator=3531972116535&amp;frm=20&amp;pv=1&amp;u_tz=480&amp;u_his=2&amp;u_h=600&amp;u_w=800&amp;u_ah=600&amp;u_aw=800&amp;u_cd=24&amp;u_sd=1&amp;dmc=8&amp;adx=27&amp;ady=1035&amp;biw=1080&amp;bih=1024&amp;scr_x=0&amp;scr_y=0&amp;eid=31093234%2C95333411%2C95353387%2C95362656%2C95365226%2C95365235%2C95365461%2C95344791%2C95359266%2C95365117%2C95365798&amp;oid=2&amp;pvsid=7140491282321173&amp;tmod=1708485235&amp;uas=0&amp;nvt=1&amp;fc=1408&amp;brdim=10%2C10%2C10%2C10%2C800%2C0%2C780%2C580%2C1080%2C1024&amp;vis=1&amp;rsz=%7C%7Cs%7C&amp;abl=NS&amp;fu=128&amp;bc=31&amp;bz=0.72&amp;td=1&amp;tdf=2&amp;psd=W251bGwsbnVsbCxudWxsLDNd&amp;nt=1&amp;ifi=6&amp;uci=a!6&amp;btvi=1&amp;fsb=1&amp;dtd=20"
+        data-google-container-id="a!6"
+        tabindex="0"
+        title="Advertisement"
+        aria-label="Advertisement"
+        data-load-complete="true"
+        data-google-query-id="CLa8k_DqrI4DFWbwTAIdCNkzKw"
+      ></iframe></div
+  ></ins>
+</div>
+<p class="cpp-section cpp-topline" style="clear: both">
+  Static member variables
+</p>
+<p>
+  Before we go into the static keyword as applied to member variables, first
+  consider the following class:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-struct">struct</span> <span class="token class-name">Something</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-10-close">{</span>
+    <span class="token keyword keyword-int">int</span> value<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-9-close">{</span> <span class="token number">1</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-9-open">}</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-10-open">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-8-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-8-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-13-close">{</span>
+    Something first<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-11-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-11-open">}</span><span class="token punctuation">;</span>
+    Something second<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-12-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-12-open">}</span><span class="token punctuation">;</span>
+
+    first<span class="token punctuation">.</span>value <span class="token operator">=</span> <span class="token number">2</span><span class="token punctuation">;</span>
+
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> first<span class="token punctuation">.</span>value <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> second<span class="token punctuation">.</span>value <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-13-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  When we instantiate a class object, each object gets its own copy of all
+  normal member variables. In this case, because we have declared two
+  <code>Something</code> class objects, we end up with two copies of
+  <code>value</code>: <code>first.value</code>, and <code>second.value</code>.
+  <code>first.value</code> is distinct from <code>second.value</code>.
+  Consequently, the program above prints:
+</p>
+<div
+  class="google-auto-placed ap_container"
+  style="width: 100%; height: auto; clear: both; text-align: center"
+>
+  <ins
+    data-ad-format="auto"
+    class="adsbygoogle adsbygoogle-noablate"
+    data-ad-client="ca-pub-0588844875925051"
+    data-adsbygoogle-status="done"
+    style="
+      display: block;
+      margin: auto;
+      background-color: transparent;
+      height: 0px;
+    "
+    data-ad-status="unfilled"
+    ><div
+      id="aswift_6_host"
+      style="
+        border: none;
+        height: 0px;
+        width: 1027px;
+        margin: 0px;
+        padding: 0px;
+        position: relative;
+        visibility: visible;
+        background-color: transparent;
+        display: inline-block;
+        overflow: hidden;
+        opacity: 0;
+      "
+    >
+      <iframe
+        id="aswift_6"
+        name="aswift_6"
+        browsingtopics="true"
+        style="
+          left: 0px;
+          position: absolute;
+          top: 0px;
+          border: 0px;
+          width: 1027px;
+          height: 0px;
+          min-height: auto;
+          max-height: none;
+          min-width: auto;
+          max-width: none;
+        "
+        sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation"
+        width="1027"
+        height="0"
+        frameborder="0"
+        marginwidth="0"
+        marginheight="0"
+        vspace="0"
+        hspace="0"
+        allowtransparency="true"
+        scrolling="no"
+        allow="attribution-reporting; run-ad-auction"
+        src="https://googleads.g.doubleclick.net/pagead/ads?client=ca-pub-0588844875925051&amp;output=html&amp;h=280&amp;adk=3537020268&amp;adf=359673719&amp;w=1027&amp;abgtt=11&amp;fwrn=4&amp;fwrnh=100&amp;lmt=1748920191&amp;num_ads=1&amp;rafmt=1&amp;armr=3&amp;sem=mc&amp;pwprc=4633386603&amp;ad_type=text_image&amp;format=1027x280&amp;url=https%3A%2F%2Fwww.learncpp.com%2Fcpp-tutorial%2Fstatic-member-variables%2F&amp;fwr=0&amp;pra=3&amp;rh=200&amp;rw=1026&amp;rpe=1&amp;resp_fmts=3&amp;wgl=1&amp;fa=27&amp;uach=WyJXaW5kb3dzIiwiMTkuMC4wIiwieDg2IiwiIiwiMTM3LjAuNzE1MS4xMjIiLG51bGwsMCxudWxsLCI2NCIsW1siR29vZ2xlIENocm9tZSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJDaHJvbWl1bSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJOb3QvQSlCcmFuZCIsIjI0LjAuMC4wIl1dLDBd&amp;dt=1751963030177&amp;bpp=1&amp;bdt=755&amp;idt=1&amp;shv=r20250702&amp;mjsv=m202507020101&amp;ptt=9&amp;saldr=aa&amp;abxe=1&amp;cookie=ID%3D05f6e82287d810b4%3AT%3D1751962604%3ART%3D1751962911%3AS%3DALNI_MaQYA0TSAU2k8xwY5tqlN0xFCcd6g&amp;gpic=UID%3D00001157d9e27d0a%3AT%3D1751962604%3ART%3D1751962911%3AS%3DALNI_MYgtHzQJAQQXY_151HTGSSfVxE8_A&amp;eo_id_str=ID%3D52c21936d98c6d2b%3AT%3D1751962604%3ART%3D1751962911%3AS%3DAA-AfjZsJ15yjdEPJ8d11hPojsJQ&amp;prev_fmts=0x0%2C336x280%2C160x600%2C160x600%2C1027x280&amp;nras=3&amp;correlator=3531972116535&amp;frm=20&amp;pv=1&amp;u_tz=480&amp;u_his=2&amp;u_h=600&amp;u_w=800&amp;u_ah=600&amp;u_aw=800&amp;u_cd=24&amp;u_sd=1&amp;dmc=8&amp;adx=27&amp;ady=1825&amp;biw=1080&amp;bih=1024&amp;scr_x=0&amp;scr_y=0&amp;eid=31093234%2C95333411%2C95353387%2C95362656%2C95365226%2C95365235%2C95365461%2C95344791%2C95359266%2C95365117%2C95365798&amp;oid=2&amp;pvsid=7140491282321173&amp;tmod=1708485235&amp;uas=0&amp;nvt=1&amp;fc=1408&amp;brdim=10%2C10%2C10%2C10%2C800%2C0%2C780%2C580%2C1080%2C1024&amp;vis=1&amp;rsz=%7C%7Cs%7C&amp;abl=NS&amp;fu=128&amp;bc=31&amp;bz=0.72&amp;td=1&amp;tdf=2&amp;psd=W251bGwsbnVsbCxudWxsLDNd&amp;nt=1&amp;ifi=7&amp;uci=a!7&amp;btvi=2&amp;fsb=1&amp;dtd=21"
+        data-google-container-id="a!7"
+        tabindex="0"
+        title="Advertisement"
+        aria-label="Advertisement"
+        data-load-complete="true"
+        data-google-query-id="CIfSk_DqrI4DFWM0ewcdFbQi8w"
+      ></iframe></div
+  ></ins>
+</div>
+<div class="code-block code-block-2" style="margin: 8px 0; clear: both"></div>
+
+<pre>
+2
+1
+</pre>
+<p>
+  Member variables of a class can be made static by using the
+  <code>static</code> keyword. Unlike normal member variables,
+  <strong>static member variables</strong> are shared by all objects of the
+  class. Consider the following program, similar to the above:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-struct">struct</span> <span class="token class-name">Something</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-15-close">{</span>
+    <span class="token keyword keyword-static">static</span> <span class="token keyword keyword-int">int</span> s_value<span class="token punctuation">;</span> <span class="token comment">// declare s_value as static (initializer moved below)</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-15-open">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword keyword-int">int</span> Something<span class="token double-colon punctuation">::</span>s_value<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-16-close">{</span> <span class="token number">1</span> <span class="token punctuation brace-curly brace-close brace-level-1" id="pair-16-open">}</span><span class="token punctuation">;</span> <span class="token comment">// define and initialize s_value to 1 (we'll discuss this section below)</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-14-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-14-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-19-close">{</span>
+    Something first<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-17-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-17-open">}</span><span class="token punctuation">;</span>
+    Something second<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-18-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-18-open">}</span><span class="token punctuation">;</span>
+
+    first<span class="token punctuation">.</span>s_value <span class="token operator">=</span> <span class="token number">2</span><span class="token punctuation">;</span>
+
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> first<span class="token punctuation">.</span>s_value <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> second<span class="token punctuation">.</span>s_value <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-19-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>This program produces the following output:</p>
+<div
+  class="google-auto-placed ap_container"
+  style="width: 100%; height: auto; clear: both; text-align: center"
+>
+  <ins
+    data-ad-format="auto"
+    class="adsbygoogle adsbygoogle-noablate"
+    data-ad-client="ca-pub-0588844875925051"
+    data-adsbygoogle-status="done"
+    style="
+      display: block;
+      margin: auto;
+      background-color: transparent;
+      height: 280px;
+    "
+    ><div
+      id="aswift_7_host"
+      style="
+        border: none;
+        height: 280px;
+        width: 1027px;
+        margin: 0px;
+        padding: 0px;
+        position: relative;
+        visibility: visible;
+        background-color: transparent;
+        display: inline-block;
+      "
+    ></div
+  ></ins>
+</div>
+<pre>
+2
+2
+</pre>
+<p>
+  Because <code>s_value</code> is a static member variable,
+  <code>s_value</code> is shared between all objects of the class. Consequently,
+  <code>first.s_value</code> is the same variable as
+  <code>second.s_value</code>. The above program shows that the value we set
+  using <code>first</code> can be accessed using <code>second</code>!
+</p>
+<p class="cpp-section cpp-topline" style="clear: both">
+  Static members are not associated with class objects
+</p>
+<p>
+  Although you can access static members through objects of the class (as shown
+  with <code>first.s_value</code> and <code>second.s_value</code> in the example
+  above), static members exist even if no objects of the class have been
+  instantiated! This makes sense: they are created at the start of the program
+  and destroyed at the end of the program, so their lifetime is not bound to a
+  class object like a normal member.
+</p>
+<div class="code-block code-block-3" style="margin: 8px 0; clear: both"></div>
+
+<p>
+  Essentially, static members are global variables that live inside the scope
+  region of the class. There is very little difference between a static member
+  of a class and a normal variable inside a namespace.
+</p>
+<div class="cpp-note cpp-lightbluebackground">
+  <p class="cpp-note-title cpp-bottomline">Key insight</p>
+  <div
+    class="google-auto-placed ap_container"
+    style="width: 100%; height: auto; clear: both; text-align: center"
+  >
+    <ins
+      data-ad-format="auto"
+      class="adsbygoogle adsbygoogle-noablate"
+      data-ad-client="ca-pub-0588844875925051"
+      data-adsbygoogle-status="done"
+      style="
+        display: block;
+        margin: auto;
+        background-color: transparent;
+        height: 280px;
+      "
+      ><div
+        id="aswift_8_host"
+        style="
+          border: none;
+          height: 280px;
+          width: 995px;
+          margin: 0px;
+          padding: 0px;
+          position: relative;
+          visibility: visible;
+          background-color: transparent;
+          display: inline-block;
+        "
+      ></div
+    ></ins>
+  </div>
+  <p>
+    Static members are global variables that live inside the scope region of the
+    class.
+  </p>
+</div>
+<p>
+  Because static member <code>s_value</code> exists independently of any class
+  objects, it can be accessed directly using the class name and the scope
+  resolution operator (in this case, <code>Something::s_value</code>):
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-class">class</span> <span class="token class-name">Something</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-21-close">{</span>
+<span class="token keyword keyword-public">public</span><span class="token operator">:</span>
+    <span class="token keyword keyword-static">static</span> <span class="token keyword keyword-int">int</span> s_value<span class="token punctuation">;</span> <span class="token comment">// declare s_value as static</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-21-open">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword keyword-int">int</span> Something<span class="token double-colon punctuation">::</span>s_value<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-22-close">{</span> <span class="token number">1</span> <span class="token punctuation brace-curly brace-close brace-level-1" id="pair-22-open">}</span><span class="token punctuation">;</span> <span class="token comment">// define and initialize s_value to 1 (we'll discuss this section below)</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-20-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-20-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-23-close">{</span>
+    <span class="token comment">// note: we're not instantiating any objects of type Something</span>
+
+    Something<span class="token double-colon punctuation">::</span>s_value <span class="token operator">=</span> <span class="token number">2</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> Something<span class="token double-colon punctuation">::</span>s_value <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-23-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  In the above snippet, <code>s_value</code> is referenced by class name
+  <code>Something</code> rather than through an object. Note that we have not
+  even instantiated an object of type <code>Something</code>, but we are still
+  able to access and use <code>Something::s_value</code>. This is the preferred
+  method for accessing static members.
+</p>
+<div class="cpp-note cpp-lightgreenbackground">
+  <p class="cpp-note-title cpp-bottomline">Best practice</p>
+  <p>
+    Access static members using the class name and the scope resolution operator
+    (::).
+  </p>
+</div>
+<p class="cpp-section cpp-topline" style="clear: both">
+  Defining and initializing static member variables
+</p>
+<div
+  class="google-auto-placed ap_container"
+  style="width: 100%; height: auto; clear: both; text-align: center"
+>
+  <ins
+    data-ad-format="auto"
+    class="adsbygoogle adsbygoogle-noablate"
+    data-ad-client="ca-pub-0588844875925051"
+    data-adsbygoogle-status="done"
+    style="
+      display: block;
+      margin: auto;
+      background-color: transparent;
+      height: 280px;
+    "
+    ><div
+      id="aswift_9_host"
+      style="
+        border: none;
+        height: 280px;
+        width: 1027px;
+        margin: 0px;
+        padding: 0px;
+        position: relative;
+        visibility: visible;
+        background-color: transparent;
+        display: inline-block;
+      "
+    ></div
+  ></ins>
+</div>
+<p>
+  When we declare a static member variable inside a class type, we’re telling
+  the compiler about the existence of a static member variable, but not actually
+  defining it (much like a forward declaration). Because static member variables
+  are essentially global variables, you must explicitly define (and optionally
+  initialize) the static member outside of the class, in the global scope.
+</p>
+<div class="code-block code-block-4" style="margin: 8px 0; clear: both"></div>
+
+<p>In the example above, we do so via this line:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-int">int</span> Something<span class="token double-colon punctuation">::</span>s_value<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-24-close">{</span> <span class="token number">1</span> <span class="token punctuation brace-curly brace-close brace-level-1" id="pair-24-open">}</span><span class="token punctuation">;</span> <span class="token comment">// define and initialize s_value to 1</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  This line serves two purposes: it instantiates the static member variable
+  (just like a global variable), and initializes it. In this case, we’re
+  providing the initialization value <code>1</code>. If no initializer is
+  provided, static member variables are zero-initialized by default.
+</p>
+<p>
+  Note that this static member definition is not subject to access controls: you
+  can define and initialize the value even if it’s declared as private (or
+  protected) in the class (as definitions are not considered to be a form of
+  access).
+</p>
+<p>
+  For non-template classes, if the class is defined in a header (.h) file, the
+  static member definition is usually placed in the associated code file for the
+  class (e.g. <code>Something.cpp</code>). Alternatively, the member can also be
+  defined as <code>inline</code> and placed below the class definition in the
+  header (this is useful for header-only libraries). If the class is defined in
+  a source (.cpp) file, the static member definition is usually placed directly
+  underneath the class. Do not put the static member definition in a header file
+  (much like a global variable, if that header file gets included more than
+  once, you’ll end up with multiple definitions, which will cause a linker
+  error).
+</p>
+<div
+  class="google-auto-placed ap_container"
+  style="width: 100%; height: auto; clear: both; text-align: center"
+>
+  <ins
+    data-ad-format="auto"
+    class="adsbygoogle adsbygoogle-noablate"
+    data-ad-client="ca-pub-0588844875925051"
+    data-adsbygoogle-status="done"
+    style="
+      display: block;
+      margin: auto;
+      background-color: transparent;
+      height: 280px;
+    "
+    ><div
+      id="aswift_10_host"
+      style="
+        border: none;
+        height: 280px;
+        width: 1027px;
+        margin: 0px;
+        padding: 0px;
+        position: relative;
+        visibility: visible;
+        background-color: transparent;
+        display: inline-block;
+      "
+    ></div
+  ></ins>
+</div>
+<p>
+  For template classes, the (templated) static member definition is typically
+  placed directly underneath the template class definition in the header file
+  (this doesn’t violate the ODR because such definitions are implicitly inline).
+</p>
+<div class="code-block code-block-5" style="margin: 8px 0; clear: both"></div>
+
+<p class="cpp-section cpp-topline" style="clear: both">
+  Initialization of static member variables inside the class definition
+</p>
+<p>
+  There are a few shortcuts to the above. First, when the static member is a
+  constant integral type (which includes <code>char</code> and
+  <code>bool</code>) or a const enum, the static member can be initialized
+  inside the class definition:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-class">class</span> <span class="token class-name">Whatever</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-26-close">{</span>
+<span class="token keyword keyword-public">public</span><span class="token operator">:</span>
+    <span class="token keyword keyword-static">static</span> <span class="token keyword keyword-const">const</span> <span class="token keyword keyword-int">int</span> s_value<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-25-close">{</span> <span class="token number">4</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-25-open">}</span><span class="token punctuation">;</span> <span class="token comment">// a static const int can be defined and initialized directly</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-26-open">}</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  In the above example, because the static member variable is a const int, no
+  explicit definition line is needed. This shortcut is allowed because these
+  specific const types are compile-time constants.
+</p>
+<div
+  class="google-auto-placed ap_container"
+  style="width: 100%; height: auto; clear: both; text-align: center"
+>
+  <ins
+    data-ad-format="auto"
+    class="adsbygoogle adsbygoogle-noablate"
+    data-ad-client="ca-pub-0588844875925051"
+    data-adsbygoogle-status="done"
+    style="
+      display: block;
+      margin: auto;
+      background-color: transparent;
+      height: 280px;
+    "
+    ><div
+      id="aswift_11_host"
+      style="
+        border: none;
+        height: 280px;
+        width: 1027px;
+        margin: 0px;
+        padding: 0px;
+        position: relative;
+        visibility: visible;
+        background-color: transparent;
+        display: inline-block;
+      "
+    ></div
+  ></ins>
+</div>
+<p>
+  In lesson
+  <a
+    href="https://www.learncpp.com/cpp-tutorial/sharing-global-constants-across-multiple-files-using-inline-variables/"
+    >7.10 -- Sharing global constants across multiple files (using inline
+    variables)</a
+  >, we introduced inline variables, which are variables that are allowed to
+  have multiple definitions. C++17 allows static members to be inline variables:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-class">class</span> <span class="token class-name">Whatever</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-28-close">{</span>
+<span class="token keyword keyword-public">public</span><span class="token operator">:</span>
+    <span class="token keyword keyword-static">static</span> <span class="token keyword keyword-inline">inline</span> <span class="token keyword keyword-int">int</span> s_value<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-27-close">{</span> <span class="token number">4</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-27-open">}</span><span class="token punctuation">;</span> <span class="token comment">// a static inline variable can be defined and initialized directly</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-28-open">}</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  Such variables can be initialized inside the class definition regardless of
+  whether they are constant or not. This is the preferred method of defining and
+  initializing static members.
+</p>
+<div class="code-block code-block-6" style="margin: 8px 0; clear: both"></div>
+
+<p>
+  Because <code>constexpr</code> members are implicitly inline (as of C++17),
+  static <code>constexpr</code> members can also be initialized inside the class
+  definition without explicit use of the <code>inline</code> keyword:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;string_view&gt;</span></span>
+
+<span class="token keyword keyword-class">class</span> <span class="token class-name">Whatever</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-31-close">{</span>
+<span class="token keyword keyword-public">public</span><span class="token operator">:</span>
+    <span class="token keyword keyword-static">static</span> <span class="token keyword keyword-constexpr">constexpr</span> <span class="token keyword keyword-double">double</span> s_value<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-29-close">{</span> <span class="token number">2.2</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-29-open">}</span><span class="token punctuation">;</span> <span class="token comment">// ok</span>
+    <span class="token keyword keyword-static">static</span> <span class="token keyword keyword-constexpr">constexpr</span> std<span class="token double-colon punctuation">::</span>string_view s_view<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-30-close">{</span> <span class="token string">"Hello"</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-30-open">}</span><span class="token punctuation">;</span> <span class="token comment">// this even works for classes that support constexpr initialization</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-31-open">}</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<div class="cpp-note cpp-lightgreenbackground">
+  <p class="cpp-note-title cpp-bottomline">Best practice</p>
+  <div
+    class="google-auto-placed ap_container"
+    style="width: 100%; height: auto; clear: both; text-align: center"
+  >
+    <ins
+      data-ad-format="auto"
+      class="adsbygoogle adsbygoogle-noablate"
+      data-ad-client="ca-pub-0588844875925051"
+      data-adsbygoogle-status="done"
+      style="
+        display: block;
+        margin: auto;
+        background-color: transparent;
+        height: 280px;
+      "
+      ><div
+        id="aswift_12_host"
+        style="
+          border: none;
+          height: 280px;
+          width: 995px;
+          margin: 0px;
+          padding: 0px;
+          position: relative;
+          visibility: visible;
+          background-color: transparent;
+          display: inline-block;
+        "
+      ></div
+    ></ins>
+  </div>
+  <p>
+    Make your static members <code>inline</code> or <code>constexpr</code> so
+    they can be initialized inside the class definition.
+  </p>
+</div>
+<p class="cpp-section cpp-topline" style="clear: both">
+  An example of static member variables
+</p>
+<p>
+  Why use static variables inside classes? One use is to assign a unique ID to
+  every instance of the class. Here’s an example:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-class">class</span> <span class="token class-name">Something</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-43-close">{</span>
+<span class="token keyword keyword-private">private</span><span class="token operator">:</span>
+    <span class="token keyword keyword-static">static</span> <span class="token keyword keyword-inline">inline</span> <span class="token keyword keyword-int">int</span> s_idGenerator <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-38-close">{</span> <span class="token number">1</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-38-open">}</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-int">int</span> m_id <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-39-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-39-open">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword keyword-public">public</span><span class="token operator">:</span>
+    <span class="token comment">// grab the next value from the id generator</span>
+    <span class="token function">Something</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-32-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-32-open">)</span> <span class="token operator">:</span> m_id <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-40-close">{</span> s_idGenerator<span class="token operator">++</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-40-open">}</span>
+    <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-41-close">{</span>
+    <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-41-open">}</span>
+
+    <span class="token keyword keyword-int">int</span> <span class="token function">getID</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-33-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-33-open">)</span> <span class="token keyword keyword-const">const</span> <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-42-close">{</span> <span class="token keyword keyword-return">return</span> m_id<span class="token punctuation">;</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-42-open">}</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-43-open">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-34-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-34-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-47-close">{</span>
+    Something first<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-44-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-44-open">}</span><span class="token punctuation">;</span>
+    Something second<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-45-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-45-open">}</span><span class="token punctuation">;</span>
+    Something third<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-46-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-46-open">}</span><span class="token punctuation">;</span>
+
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> first<span class="token punctuation">.</span><span class="token function">getID</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-35-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-35-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> second<span class="token punctuation">.</span><span class="token function">getID</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-36-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-36-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> third<span class="token punctuation">.</span><span class="token function">getID</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-37-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-37-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-47-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>This program prints:</p>
+<div
+  class="google-auto-placed ap_container"
+  style="width: 100%; height: auto; clear: both; text-align: center"
+>
+  <ins
+    data-ad-format="auto"
+    class="adsbygoogle adsbygoogle-noablate"
+    data-ad-client="ca-pub-0588844875925051"
+    data-adsbygoogle-status="done"
+    style="
+      display: block;
+      margin: auto;
+      background-color: transparent;
+      height: 280px;
+    "
+    ><div
+      id="aswift_13_host"
+      style="
+        border: none;
+        height: 280px;
+        width: 1027px;
+        margin: 0px;
+        padding: 0px;
+        position: relative;
+        visibility: visible;
+        background-color: transparent;
+        display: inline-block;
+      "
+    ></div
+  ></ins>
+</div>
+<pre>
+1
+2
+3
+</pre>
+<p>
+  Because <code>s_idGenerator</code> is shared by all
+  <code>Something</code> objects, when a new <code>Something</code> object is
+  created, the constructor initializes <code>m_id</code> with the current value
+  of <code>s_idGenerator</code> and then increments the value for the next
+  object. This guarantees that each instantiated <code>Something</code> object
+  receives a unique id (incremented in the order of creation).
+</p>
+<div class="code-block code-block-7" style="margin: 8px 0; clear: both"></div>
+
+<p>
+  Giving each object a unique ID can help when debugging, as it can be used to
+  differentiate objects that otherwise have identical data. This is particularly
+  true when working with arrays of data.
+</p>
+<p>
+  Static member variables are also useful when the class needs to utilize a
+  lookup table (e.g. an array used to store a set of pre-calculated values). By
+  making the lookup table static, only one copy exists for all objects, rather
+  than making a copy for each object instantiated. This can save substantial
+  amounts of memory.
+</p>
+<p class="cpp-section cpp-topline" style="clear: both">
+  Only static members may use type deduction (<code>auto</code> and CTAD)
+</p>
+<p>
+  A static member may use <code>auto</code> to deduce its type from the
+  initializer, or Class Template Argument Deduction (CTAD) to deduce template
+  type arguments from the initializer.
+</p>
+<p>Non-static members may not use <code>auto</code> or CTAD.</p>
+<div class="code-block code-block-8" style="margin: 8px 0; clear: both"></div>
+
+<p>
+  The reasons for this distinction being made are quite complicated, but boil
+  down to there being certain cases that can occur with non-static members that
+  lead to ambiguity or non-intuitive results. This does not occur for static
+  members. Thus non-static members are restricted from using these features,
+  whereas static members are not.
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;utility&gt;</span> <span class="token comment">// for std::pair&lt;T, U&gt;</span></span>
+
+<span class="token keyword keyword-class">class</span> <span class="token class-name">Foo</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-55-close">{</span>
+<span class="token keyword keyword-private">private</span><span class="token operator">:</span>
+    <span class="token keyword keyword-auto">auto</span> m_x <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-50-close">{</span> <span class="token number">5</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-50-open">}</span><span class="token punctuation">;</span>           <span class="token comment">// auto not allowed for non-static members</span>
+    std<span class="token double-colon punctuation">::</span>pair m_v <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-51-close">{</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2.3</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-51-open">}</span><span class="token punctuation">;</span> <span class="token comment">// CTAD not allowed for non-static members</span>
+
+    <span class="token keyword keyword-static">static</span> <span class="token keyword keyword-inline">inline</span> <span class="token keyword keyword-auto">auto</span> s_x <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-52-close">{</span> <span class="token number">5</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-52-open">}</span><span class="token punctuation">;</span>           <span class="token comment">// auto allowed for static members</span>
+    <span class="token keyword keyword-static">static</span> <span class="token keyword keyword-inline">inline</span> std<span class="token double-colon punctuation">::</span>pair s_v <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-53-close">{</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2.3</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-53-open">}</span><span class="token punctuation">;</span> <span class="token comment">// CTAD allowed for static members</span>
+
+<span class="token keyword keyword-public">public</span><span class="token operator">:</span>
+    <span class="token function">Foo</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-48-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-48-open">)</span> <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-54-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-54-open">}</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-55-open">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-49-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-49-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-57-close">{</span>
+    Foo foo<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-56-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-56-open">}</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-57-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<div class="prevnext">
+  <div class="prevnext-inline">
+    <a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/static-member-functions/"
+    >
+      <div class="nav-button nav-button-next">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-right" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Next lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">15.7</span>Static member
+            functions
+          </div>
+        </div>
+      </div></a
+    >
+    <a class="nav-link" href="/">
+      <div class="nav-button nav-button-index">
+        <div class="nav-button-icon">
+          <i class="fa fa-home" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Back to table of contents</div>
+        </div>
+      </div></a
+    >
+    <a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/class-templates-with-member-functions/"
+    >
+      <div class="nav-button nav-button-prev">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-left" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Previous lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">15.5</span>Class templates
+            with member functions
+          </div>
+        </div>
+      </div></a
+    >
+  </div>
+</div>
+<div class="code-block code-block-10" style="margin: 8px 0; clear: both"></div>

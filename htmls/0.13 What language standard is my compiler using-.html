@@ -1,0 +1,194 @@
+<div
+  class="code-block code-block-1"
+  style="margin: 8px 8px 8px 0; float: left"
+></div>
+<p>
+  The following program is designed to print the name of the language standard
+  your compiler is currently using. You can copy/paste, compile, and run this
+  program to validate that your compiler is using the language standard you
+  expect.
+</p>
+<p style="clear: both"></p>
+<p>PrintStandard.cpp:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token comment">// This program prints the C++ language standard your compiler is currently using</span>
+<span class="token comment">// Freely redistributable, courtesy of learncpp.com (https://www.learncpp.com/cpp-tutorial/what-language-standard-is-my-compiler-using/)</span>
+
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-const">const</span> <span class="token keyword keyword-int">int</span> numStandards <span class="token operator">=</span> <span class="token number">7</span><span class="token punctuation">;</span>
+<span class="token comment">// The C++26 stdCode is a placeholder since the exact code won't be determined until the standard is finalized</span>
+<span class="token keyword keyword-const">const</span> <span class="token keyword keyword-long">long</span> stdCode<span class="token punctuation brace-square brace-open brace-level-1" id="pair-60-close">[</span>numStandards<span class="token punctuation brace-square brace-close brace-level-1" id="pair-60-open">]</span> <span class="token operator">=</span> <span class="token punctuation brace-curly brace-open brace-level-1" id="pair-66-close">{</span> <span class="token number">199711L</span><span class="token punctuation">,</span> <span class="token number">201103L</span><span class="token punctuation">,</span> <span class="token number">201402L</span><span class="token punctuation">,</span> <span class="token number">201703L</span><span class="token punctuation">,</span> <span class="token number">202002L</span><span class="token punctuation">,</span> <span class="token number">202302L</span><span class="token punctuation">,</span> <span class="token number">202612L</span><span class="token punctuation brace-curly brace-close brace-level-1" id="pair-66-open">}</span><span class="token punctuation">;</span>
+<span class="token keyword keyword-const">const</span> <span class="token keyword keyword-char">char</span><span class="token operator">*</span> stdName<span class="token punctuation brace-square brace-open brace-level-1" id="pair-61-close">[</span>numStandards<span class="token punctuation brace-square brace-close brace-level-1" id="pair-61-open">]</span> <span class="token operator">=</span> <span class="token punctuation brace-curly brace-open brace-level-1" id="pair-67-close">{</span> <span class="token string">"Pre-C++11"</span><span class="token punctuation">,</span> <span class="token string">"C++11"</span><span class="token punctuation">,</span> <span class="token string">"C++14"</span><span class="token punctuation">,</span> <span class="token string">"C++17"</span><span class="token punctuation">,</span> <span class="token string">"C++20"</span><span class="token punctuation">,</span> <span class="token string">"C++23"</span><span class="token punctuation">,</span> <span class="token string">"C++26"</span> <span class="token punctuation brace-curly brace-close brace-level-1" id="pair-67-open">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword keyword-long">long</span> <span class="token function">getCPPStandard</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-51-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-51-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-68-close">{</span>
+    <span class="token comment">// Visual Studio is non-conforming in support for __cplusplus (unless you set a specific compiler flag, which you probably haven't)</span>
+    <span class="token comment">// In Visual Studio 2015 or newer we can use _MSVC_LANG instead</span>
+    <span class="token comment">// See https://devblogs.microsoft.com/cppblog/msvc-now-correctly-reports-__cplusplus/</span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">if</span> <span class="token expression"><span class="token function">defined</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-52-close">(</span>_MSVC_LANG<span class="token punctuation brace-round brace-close brace-level-2" id="pair-52-open">)</span></span></span>
+    <span class="token keyword keyword-return">return</span> _MSVC_LANG<span class="token punctuation">;</span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">elif</span> <span class="token expression"><span class="token function">defined</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-53-close">(</span>_MSC_VER<span class="token punctuation brace-round brace-close brace-level-2" id="pair-53-open">)</span></span></span>
+    <span class="token comment">// If we're using an older version of Visual Studio, bail out</span>
+    <span class="token keyword keyword-return">return</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">;</span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">else</span></span>
+    <span class="token comment">// __cplusplus is the intended way to query the language standard code (as defined by the language standards)</span>
+    <span class="token keyword keyword-return">return</span> __cplusplus<span class="token punctuation">;</span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">endif</span></span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-68-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-54-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-54-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-73-close">{</span>
+    <span class="token keyword keyword-long">long</span> standard <span class="token operator">=</span> <span class="token function">getCPPStandard</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-55-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-55-open">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-if">if</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-56-close">(</span>standard <span class="token operator">==</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-56-open">)</span>
+    <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-69-close">{</span>
+        std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Error: Unable to determine your language standard.  Sorry.\n"</span><span class="token punctuation">;</span>
+        <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+    <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-69-open">}</span>
+
+    <span class="token keyword keyword-for">for</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-57-close">(</span><span class="token keyword keyword-int">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> numStandards<span class="token punctuation">;</span> <span class="token operator">++</span>i<span class="token punctuation brace-round brace-close brace-level-2" id="pair-57-open">)</span>
+    <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-72-close">{</span>
+        <span class="token comment">// If the reported version is one of the finalized standard codes</span>
+        <span class="token comment">// then we know exactly what version the compiler is running</span>
+        <span class="token keyword keyword-if">if</span> <span class="token punctuation brace-round brace-open brace-level-3" id="pair-58-close">(</span>standard <span class="token operator">==</span> stdCode<span class="token punctuation brace-square brace-open brace-level-4" id="pair-62-close">[</span>i<span class="token punctuation brace-square brace-close brace-level-4" id="pair-62-open">]</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-58-open">)</span>
+        <span class="token punctuation brace-curly brace-open brace-level-3" id="pair-70-close">{</span>
+            std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Your compiler is using "</span> <span class="token operator">&lt;&lt;</span> stdName<span class="token punctuation brace-square brace-open brace-level-4" id="pair-63-close">[</span>i<span class="token punctuation brace-square brace-close brace-level-4" id="pair-63-open">]</span>
+                <span class="token operator">&lt;&lt;</span> <span class="token string">" (language standard code "</span> <span class="token operator">&lt;&lt;</span> standard <span class="token operator">&lt;&lt;</span> <span class="token string">"L)\n"</span><span class="token punctuation">;</span>
+            <span class="token keyword keyword-break">break</span><span class="token punctuation">;</span>
+        <span class="token punctuation brace-curly brace-close brace-level-3" id="pair-70-open">}</span>
+
+        <span class="token comment">// If the reported version is between two finalized standard codes,</span>
+        <span class="token comment">// this must be a preview / experimental support for the next upcoming version.</span>
+        <span class="token keyword keyword-if">if</span> <span class="token punctuation brace-round brace-open brace-level-3" id="pair-59-close">(</span>standard <span class="token operator">&lt;</span> stdCode<span class="token punctuation brace-square brace-open brace-level-4" id="pair-64-close">[</span>i<span class="token punctuation brace-square brace-close brace-level-4" id="pair-64-open">]</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-59-open">)</span>
+        <span class="token punctuation brace-curly brace-open brace-level-3" id="pair-71-close">{</span>
+            std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Your compiler is using a preview/pre-release of "</span> <span class="token operator">&lt;&lt;</span> stdName<span class="token punctuation brace-square brace-open brace-level-4" id="pair-65-close">[</span>i<span class="token punctuation brace-square brace-close brace-level-4" id="pair-65-open">]</span>
+                <span class="token operator">&lt;&lt;</span> <span class="token string">" (language standard code "</span> <span class="token operator">&lt;&lt;</span> standard <span class="token operator">&lt;&lt;</span> <span class="token string">"L)\n"</span><span class="token punctuation">;</span>
+            <span class="token keyword keyword-break">break</span><span class="token punctuation">;</span>
+        <span class="token punctuation brace-curly brace-close brace-level-3" id="pair-71-open">}</span>
+    <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-72-open">}</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-73-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 32px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 32px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Build or runtime issues
+</p>
+<p>
+  If you get an error while trying to build this, you may have your project set
+  up incorrectly. See
+  <a href="https://www.learncpp.com/cpp-tutorial/a-few-common-cpp-problems/"
+    >0.8 -- A few common C++ problems</a
+  >
+  for advice on some common issues. If that does not help, review the lessons
+  starting from
+  <a
+    href="https://www.learncpp.com/cpp-tutorial/installing-an-integrated-development-environment-ide/"
+    >0.6 -- Installing an Integrated Development Environment (IDE)</a
+  >.
+</p>
+<p>
+  If the program prints “Error: Unable to determine your language standard”,
+  your compiler may be non-conforming. If you are using a popular compiler and
+  this is the case, please leave a comment below with relevant information (e.g.
+  the name and version of your compiler).
+</p>
+<p>
+  If this program prints a different language standard than you were expecting:
+</p>
+<ul>
+  <li>
+    Check your IDE settings to ensure your compiler is configured to use the
+    language standard you expect. See
+    <a
+      href="https://www.learncpp.com/cpp-tutorial/configuring-your-compiler-choosing-a-language-standard/"
+      >0.12 -- Configuring your compiler: Choosing a language standard</a
+    >
+    for more information on how to do this for some of the major compilers. Make
+    sure there are no typos or formatting errors. Some compilers require setting
+    the language standard for each project rather than globally, so if you’ve
+    just created a new project, this may be the case.
+  </li>
+</ul>
+<p></p>
+<ul>
+  <li>
+    Your IDE or compiler may not even be reading the configuration file you’re
+    editing (we see occasionally reader feedback on this with VS Code). If this
+    seems like the case, please consult documentation for your IDE or compiler.
+  </li>
+</ul>
+<div class="cpp-note cpp-lightbluebackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">
+    Q: If my compiler is using a preview/pre-release version, should I go back
+    one version?
+  </p>
+  <p>
+    If you are just learning the language, it’s not necessary. Just be aware
+    that some features from the upcoming version of the language may be missing,
+    incomplete, buggy, or may change slightly.
+  </p>
+</div>
+<div class="prevnext">
+  <div class="prevnext-inline">
+    <a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/statements-and-the-structure-of-a-program/"
+      ><div class="nav-button nav-button-next">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-right" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Next lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">1.1</span>Statements and the
+            structure of a program
+          </div>
+        </div>
+      </div></a
+    ><a class="nav-link" href="/"
+      ><div class="nav-button nav-button-index">
+        <div class="nav-button-icon">
+          <i class="fa fa-home" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Back to table of contents</div>
+        </div>
+      </div></a
+    ><a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/configuring-your-compiler-choosing-a-language-standard/"
+      ><div class="nav-button nav-button-prev">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-left" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Previous lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">0.12</span>Configuring your
+            compiler: Choosing a language standard
+          </div>
+        </div>
+      </div></a
+    >
+  </div>
+</div>
+<div class="code-block code-block-10" style="margin: 8px 0; clear: both"></div>

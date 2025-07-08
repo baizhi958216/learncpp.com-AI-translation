@@ -1,0 +1,687 @@
+<div
+  class="code-block code-block-1"
+  style="margin: 8px 8px 8px 0; float: left"
+></div>
+<p class="cpp-section" data-ezoic-video-excluded="1">Break</p>
+<p>
+  Although you have already seen the <code>break</code> statement in the context
+  of <code>switch</code> statements (<a
+    href="https://www.learncpp.com/cpp-tutorial/switch-statement-basics/"
+    >8.5 -- Switch statement basics</a
+  >), it deserves a fuller treatment since it can be used with other types of
+  control flow statements as well. The <strong>break statement</strong> causes a
+  while loop, do-while loop, for loop, or switch statement to end, with
+  execution continuing with the next statement after the loop or switch being
+  broken out of.
+</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Breaking a switch
+</p>
+<p>
+  In the context of a <code>switch</code> statement, a <code>break</code> is
+  typically used at the end of each case to signify the case is finished (which
+  prevents fallthrough into subsequent cases):
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-void">void</span> <span class="token function">printMath</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-227-close">(</span><span class="token keyword keyword-int">int</span> x<span class="token punctuation">,</span> <span class="token keyword keyword-int">int</span> y<span class="token punctuation">,</span> <span class="token keyword keyword-char">char</span> ch<span class="token punctuation brace-round brace-close brace-level-1" id="pair-227-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-232-close">{</span>
+    <span class="token keyword keyword-switch">switch</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-228-close">(</span>ch<span class="token punctuation brace-round brace-close brace-level-2" id="pair-228-open">)</span>
+    <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-231-close">{</span>
+    <span class="token keyword keyword-case">case</span> <span class="token string">'+'</span><span class="token operator">:</span>
+        std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> x <span class="token operator">&lt;&lt;</span> <span class="token string">" + "</span> <span class="token operator">&lt;&lt;</span> y <span class="token operator">&lt;&lt;</span> <span class="token string">" = "</span> <span class="token operator">&lt;&lt;</span> x <span class="token operator">+</span> y <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+        <span class="token keyword keyword-break">break</span><span class="token punctuation">;</span> <span class="token comment">// don't fall-through to next case</span>
+    <span class="token keyword keyword-case">case</span> <span class="token string">'-'</span><span class="token operator">:</span>
+        std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> x <span class="token operator">&lt;&lt;</span> <span class="token string">" - "</span> <span class="token operator">&lt;&lt;</span> y <span class="token operator">&lt;&lt;</span> <span class="token string">" = "</span> <span class="token operator">&lt;&lt;</span> x <span class="token operator">-</span> y <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+        <span class="token keyword keyword-break">break</span><span class="token punctuation">;</span> <span class="token comment">// don't fall-through to next case</span>
+    <span class="token keyword keyword-case">case</span> <span class="token string">'*'</span><span class="token operator">:</span>
+        std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> x <span class="token operator">&lt;&lt;</span> <span class="token string">" * "</span> <span class="token operator">&lt;&lt;</span> y <span class="token operator">&lt;&lt;</span> <span class="token string">" = "</span> <span class="token operator">&lt;&lt;</span> x <span class="token operator">*</span> y <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+        <span class="token keyword keyword-break">break</span><span class="token punctuation">;</span> <span class="token comment">// don't fall-through to next case</span>
+    <span class="token keyword keyword-case">case</span> <span class="token string">'/'</span><span class="token operator">:</span>
+        std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> x <span class="token operator">&lt;&lt;</span> <span class="token string">" / "</span> <span class="token operator">&lt;&lt;</span> y <span class="token operator">&lt;&lt;</span> <span class="token string">" = "</span> <span class="token operator">&lt;&lt;</span> x <span class="token operator">/</span> y <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+        <span class="token keyword keyword-break">break</span><span class="token punctuation">;</span>
+    <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-231-open">}</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-232-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-229-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-229-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-233-close">{</span>
+    <span class="token function">printMath</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-230-close">(</span><span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token string">'+'</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-230-open">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-233-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  See lesson
+  <a
+    href="https://www.learncpp.com/cpp-tutorial/switch-fallthrough-and-scoping/"
+    >8.6 -- Switch fallthrough and scoping</a
+  >
+  for more information about fallthrough, along with some additional examples.
+</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Breaking a loop
+</p>
+<p>
+  In the context of a loop, a <code>break</code> statement can be used to end
+  the loop early. Execution continues with the next statement after the end of
+  the loop.
+</p>
+<p>For example:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-234-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-234-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-241-close">{</span>
+    <span class="token keyword keyword-int">int</span> sum<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-237-close">{</span> <span class="token number">0</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-237-open">}</span><span class="token punctuation">;</span>
+
+    <span class="token comment">// Allow the user to enter up to 10 numbers</span>
+    <span class="token keyword keyword-for">for</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-235-close">(</span><span class="token keyword keyword-int">int</span> count<span class="token punctuation brace-curly brace-open brace-level-3" id="pair-238-close">{</span> <span class="token number">0</span> <span class="token punctuation brace-curly brace-close brace-level-3" id="pair-238-open">}</span><span class="token punctuation">;</span> count <span class="token operator">&lt;</span> <span class="token number">10</span><span class="token punctuation">;</span> <span class="token operator">++</span>count<span class="token punctuation brace-round brace-close brace-level-2" id="pair-235-open">)</span>
+    <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-240-close">{</span>
+        std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Enter a number to add, or 0 to exit: "</span><span class="token punctuation">;</span>
+        <span class="token keyword keyword-int">int</span> num<span class="token punctuation brace-curly brace-open brace-level-3" id="pair-239-close">{</span><span class="token punctuation brace-curly brace-close brace-level-3" id="pair-239-open">}</span><span class="token punctuation">;</span>
+        std<span class="token double-colon punctuation">::</span>cin <span class="token operator">&gt;&gt;</span> num<span class="token punctuation">;</span>
+
+        <span class="token comment">// exit loop if user enters 0</span>
+        <span class="token keyword keyword-if">if</span> <span class="token punctuation brace-round brace-open brace-level-3" id="pair-236-close">(</span>num <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-236-open">)</span>
+            <span class="token keyword keyword-break">break</span><span class="token punctuation">;</span> <span class="token comment">// exit the loop now</span>
+
+        <span class="token comment">// otherwise add number to our sum</span>
+        sum <span class="token operator">+=</span> num<span class="token punctuation">;</span>
+    <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-240-open">}</span>
+
+    <span class="token comment">// execution will continue here after the break</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"The sum of all the numbers you entered is: "</span> <span class="token operator">&lt;&lt;</span> sum <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-241-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  This program allows the user to type up to 10 numbers, and displays the sum of
+  all the numbers entered at the end. If the user enters 0, the break causes the
+  loop to terminate early (before 10 numbers have been entered).
+</p>
+<div class="code-block code-block-2" style="margin: 8px 0; clear: both"></div>
+
+<p>Here’s a sample execution of the above program:</p>
+<pre>
+Enter a number to add, or 0 to exit: 5
+Enter a number to add, or 0 to exit: 2
+Enter a number to add, or 0 to exit: 1
+Enter a number to add, or 0 to exit: 0
+The sum of all the numbers you entered is: 8
+</pre>
+<p>
+  A <code>break</code> is also a common way to get out of an intentional
+  infinite loop:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-242-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-242-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-247-close">{</span>
+    <span class="token keyword keyword-while">while</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-243-close">(</span><span class="token boolean">true</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-243-open">)</span> <span class="token comment">// infinite loop</span>
+    <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-246-close">{</span>
+        std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Enter 0 to exit or any other integer to continue: "</span><span class="token punctuation">;</span>
+        <span class="token keyword keyword-int">int</span> num<span class="token punctuation brace-curly brace-open brace-level-3" id="pair-245-close">{</span><span class="token punctuation brace-curly brace-close brace-level-3" id="pair-245-open">}</span><span class="token punctuation">;</span>
+        std<span class="token double-colon punctuation">::</span>cin <span class="token operator">&gt;&gt;</span> num<span class="token punctuation">;</span>
+
+        <span class="token comment">// exit loop if user enters 0</span>
+        <span class="token keyword keyword-if">if</span> <span class="token punctuation brace-round brace-open brace-level-3" id="pair-244-close">(</span>num <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-244-open">)</span>
+            <span class="token keyword keyword-break">break</span><span class="token punctuation">;</span>
+    <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-246-open">}</span>
+
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"We're out!\n"</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-247-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>A sample run of the above program:</p>
+<pre>
+Enter 0 to exit or any other integer to continue: 5
+Enter 0 to exit or any other integer to continue: 3
+Enter 0 to exit or any other integer to continue: 0
+We're out!
+</pre>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Break vs return
+</p>
+<p>
+  New programmers sometimes have trouble understanding the difference between
+  <code>break</code> and <code>return</code>. A <code>break</code> statement
+  terminates the switch or loop, and execution continues at the first statement
+  beyond the switch or loop. A <code>return</code> statement terminates the
+  entire function that the loop is within, and execution continues at point
+  where the function was called.
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">breakOrReturn</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-248-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-248-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-256-close">{</span>
+    <span class="token keyword keyword-while">while</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-249-close">(</span><span class="token boolean">true</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-249-open">)</span> <span class="token comment">// infinite loop</span>
+    <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-255-close">{</span>
+        std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Enter 'b' to break or 'r' to return: "</span><span class="token punctuation">;</span>
+        <span class="token keyword keyword-char">char</span> ch<span class="token punctuation brace-curly brace-open brace-level-3" id="pair-254-close">{</span><span class="token punctuation brace-curly brace-close brace-level-3" id="pair-254-open">}</span><span class="token punctuation">;</span>
+        std<span class="token double-colon punctuation">::</span>cin <span class="token operator">&gt;&gt;</span> ch<span class="token punctuation">;</span>
+
+        <span class="token keyword keyword-if">if</span> <span class="token punctuation brace-round brace-open brace-level-3" id="pair-250-close">(</span>ch <span class="token operator">==</span> <span class="token string">'b'</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-250-open">)</span>
+            <span class="token keyword keyword-break">break</span><span class="token punctuation">;</span> <span class="token comment">// execution will continue at the first statement beyond the loop</span>
+
+        <span class="token keyword keyword-if">if</span> <span class="token punctuation brace-round brace-open brace-level-3" id="pair-251-close">(</span>ch <span class="token operator">==</span> <span class="token string">'r'</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-251-open">)</span>
+            <span class="token keyword keyword-return">return</span> <span class="token number">1</span><span class="token punctuation">;</span> <span class="token comment">// return will cause the function to immediately return to the caller (in this case, main())</span>
+    <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-255-open">}</span>
+
+    <span class="token comment">// breaking the loop causes execution to resume here</span>
+
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"We broke out of the loop\n"</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-256-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-252-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-252-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-258-close">{</span>
+    <span class="token keyword keyword-int">int</span> returnValue<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-257-close">{</span> <span class="token function">breakOrReturn</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-253-close">(</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-253-open">)</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-257-open">}</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Function breakOrReturn returned "</span> <span class="token operator">&lt;&lt;</span> returnValue <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-258-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>Here are two runs of this program:</p>
+<div class="code-block code-block-3" style="margin: 8px 0; clear: both"></div>
+
+<pre>
+Enter 'b' to break or 'r' to return: r
+Function breakOrReturn returned 1
+</pre>
+<pre>
+Enter 'b' to break or 'r' to return: b
+We broke out of the loop
+Function breakOrReturn returned 0
+</pre>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Continue
+</p>
+<p>
+  The <strong>continue statement</strong> provides a convenient way to end the
+  current iteration of a loop without terminating the entire loop.
+</p>
+<p>Here’s an example of using continue:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-259-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-259-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-265-close">{</span>
+    <span class="token keyword keyword-for">for</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-260-close">(</span><span class="token keyword keyword-int">int</span> count<span class="token punctuation brace-curly brace-open brace-level-3" id="pair-263-close">{</span> <span class="token number">0</span> <span class="token punctuation brace-curly brace-close brace-level-3" id="pair-263-open">}</span><span class="token punctuation">;</span> count <span class="token operator">&lt;</span> <span class="token number">10</span><span class="token punctuation">;</span> <span class="token operator">++</span>count<span class="token punctuation brace-round brace-close brace-level-2" id="pair-260-open">)</span>
+    <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-264-close">{</span>
+        <span class="token comment">// if the number is divisible by 4, skip this iteration</span>
+        <span class="token keyword keyword-if">if</span> <span class="token punctuation brace-round brace-open brace-level-3" id="pair-262-close">(</span><span class="token punctuation brace-round brace-open brace-level-4" id="pair-261-close">(</span>count <span class="token operator">%</span> <span class="token number">4</span><span class="token punctuation brace-round brace-close brace-level-4" id="pair-261-open">)</span> <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-262-open">)</span>
+            <span class="token keyword keyword-continue">continue</span><span class="token punctuation">;</span> <span class="token comment">// go to next iteration</span>
+
+        <span class="token comment">// If the number is not divisible by 4, keep going</span>
+        std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> count <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+        <span class="token comment">// The continue statement jumps to here</span>
+    <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-264-open">}</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-265-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  This program prints all of the numbers from 0 to 9 that aren’t divisible by 4:
+</p>
+<pre>
+1
+2
+3
+5
+6
+7
+9
+</pre>
+<p>
+  A <code>continue</code> statement works by causing the current point of
+  execution to jump to the bottom of the current loop.
+</p>
+<p>
+  In the case of a for-loop, the end-statement of the for-loop (in the above
+  example, <code>++count</code>) still executes after a continue (since this
+  happens after the end of the loop body).
+</p>
+<div class="code-block code-block-4" style="margin: 8px 0; clear: both"></div>
+
+<p>
+  Be careful when using a <code>continue</code> statement with while or do-while
+  loops. These loops typically change the value of variables used in the
+  condition inside the loop body. If use of a <code>continue</code> statement
+  causes these lines to be skipped, then the loop can become infinite!
+</p>
+<p>Consider the following program:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-266-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-266-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-271-close">{</span>
+    <span class="token keyword keyword-int">int</span> count<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-269-close">{</span> <span class="token number">0</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-269-open">}</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-while">while</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-267-close">(</span>count <span class="token operator">&lt;</span> <span class="token number">10</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-267-open">)</span>
+    <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-270-close">{</span>
+        <span class="token keyword keyword-if">if</span> <span class="token punctuation brace-round brace-open brace-level-3" id="pair-268-close">(</span>count <span class="token operator">==</span> <span class="token number">5</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-268-open">)</span>
+            <span class="token keyword keyword-continue">continue</span><span class="token punctuation">;</span> <span class="token comment">// jump to end of loop body</span>
+
+        std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> count <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+        <span class="token operator">++</span>count<span class="token punctuation">;</span> <span class="token comment">// this statement is never executed after count reaches 5</span>
+
+        <span class="token comment">// The continue statement jumps to here</span>
+    <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-270-open">}</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-271-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  This program is intended to print every number between 0 and 9 except 5. But
+  it actually prints:
+</p>
+<pre>
+0
+1
+2
+3
+4
+</pre>
+<p>
+  and then goes into an infinite loop. When <code>count</code> is
+  <code>5</code>, the <code>if</code> statement evaluates to <code>true</code>,
+  and the <code>continue</code> causes the execution to jump to the bottom of
+  the loop. The <code>count</code> variable is never incremented. Consequently,
+  on the next pass, <code>count</code> is still <code>5</code>, the
+  <code>if</code> statement is still <code>true</code>, and the program
+  continues to loop forever.
+</p>
+<p>
+  Of course, you already know that if you have an obvious counter variable, you
+  should be using a <code>for</code> loop, not a <code>while</code> or
+  <code>do while</code> loop.
+</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  The debate over use of break and continue
+</p>
+<div class="code-block code-block-5" style="margin: 8px 0; clear: both"></div>
+
+<p>
+  Many textbooks caution readers not to use <code>break</code> and
+  <code>continue</code> in loops, both because it causes the execution flow to
+  jump around, and because it can make the flow of logic harder to follow. For
+  example, a <code>break</code> in the middle of a complicated piece of logic
+  could either be missed, or it may not be obvious under what conditions it
+  should be triggered.
+</p>
+<p>
+  However, used judiciously, <code>break</code> and <code>continue</code> can
+  help make loops more readable by keeping the number of nested blocks down and
+  reducing the need for complicated looping logic.
+</p>
+<p>For example, consider the following program:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-272-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-272-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-280-close">{</span>
+    <span class="token keyword keyword-int">int</span> count<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-275-close">{</span> <span class="token number">0</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-275-open">}</span><span class="token punctuation">;</span> <span class="token comment">// count how many times the loop iterates</span>
+    <span class="token keyword keyword-bool">bool</span> keepLooping <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-276-close">{</span> <span class="token boolean">true</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-276-open">}</span><span class="token punctuation">;</span> <span class="token comment">// controls whether the loop ends or not</span>
+    <span class="token keyword keyword-while">while</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-273-close">(</span>keepLooping<span class="token punctuation brace-round brace-close brace-level-2" id="pair-273-open">)</span>
+    <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-279-close">{</span>
+        std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Enter 'e' to exit this loop or any other character to continue: "</span><span class="token punctuation">;</span>
+        <span class="token keyword keyword-char">char</span> ch<span class="token punctuation brace-curly brace-open brace-level-3" id="pair-277-close">{</span><span class="token punctuation brace-curly brace-close brace-level-3" id="pair-277-open">}</span><span class="token punctuation">;</span>
+        std<span class="token double-colon punctuation">::</span>cin <span class="token operator">&gt;&gt;</span> ch<span class="token punctuation">;</span>
+
+        <span class="token keyword keyword-if">if</span> <span class="token punctuation brace-round brace-open brace-level-3" id="pair-274-close">(</span>ch <span class="token operator">==</span> <span class="token string">'e'</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-274-open">)</span>
+            keepLooping <span class="token operator">=</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+        <span class="token keyword keyword-else">else</span>
+        <span class="token punctuation brace-curly brace-open brace-level-3" id="pair-278-close">{</span>
+            <span class="token operator">++</span>count<span class="token punctuation">;</span>
+            std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"We've iterated "</span> <span class="token operator">&lt;&lt;</span> count <span class="token operator">&lt;&lt;</span> <span class="token string">" times\n"</span><span class="token punctuation">;</span>
+        <span class="token punctuation brace-curly brace-close brace-level-3" id="pair-278-open">}</span>
+    <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-279-open">}</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-280-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  This program uses a Boolean variable to control whether the loop continues or
+  not, as well as a nested block that only runs if the user doesn’t exit.
+</p>
+<p>
+  Here’s a version that’s easier to understand, using a
+  <code>break</code> statement:
+</p>
+<div class="code-block code-block-6" style="margin: 8px 0; clear: both"></div>
+
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-281-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-281-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-287-close">{</span>
+    <span class="token keyword keyword-int">int</span> count<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-284-close">{</span> <span class="token number">0</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-284-open">}</span><span class="token punctuation">;</span> <span class="token comment">// count how many times the loop iterates</span>
+    <span class="token keyword keyword-while">while</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-282-close">(</span><span class="token boolean">true</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-282-open">)</span> <span class="token comment">// loop until user terminates</span>
+    <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-286-close">{</span>
+        std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Enter 'e' to exit this loop or any other character to continue: "</span><span class="token punctuation">;</span>
+        <span class="token keyword keyword-char">char</span> ch<span class="token punctuation brace-curly brace-open brace-level-3" id="pair-285-close">{</span><span class="token punctuation brace-curly brace-close brace-level-3" id="pair-285-open">}</span><span class="token punctuation">;</span>
+        std<span class="token double-colon punctuation">::</span>cin <span class="token operator">&gt;&gt;</span> ch<span class="token punctuation">;</span>
+
+        <span class="token keyword keyword-if">if</span> <span class="token punctuation brace-round brace-open brace-level-3" id="pair-283-close">(</span>ch <span class="token operator">==</span> <span class="token string">'e'</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-283-open">)</span>
+            <span class="token keyword keyword-break">break</span><span class="token punctuation">;</span>
+
+        <span class="token operator">++</span>count<span class="token punctuation">;</span>
+        std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"We've iterated "</span> <span class="token operator">&lt;&lt;</span> count <span class="token operator">&lt;&lt;</span> <span class="token string">" times\n"</span><span class="token punctuation">;</span>
+    <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-286-open">}</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-287-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  In this version, by using a single <code>break</code> statement, we’ve avoided
+  the use of a Boolean variable (and having to understand both what its intended
+  use is, and where its value is changed), an <code>else</code> statement, and a
+  nested block.
+</p>
+<p>
+  The <code>continue</code> statement is most effectively used at the top of a
+  for-loop to skip loop iterations when some condition is met. This can allow us
+  to avoid a nested block.
+</p>
+<p>For example, instead of this:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-288-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-288-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-295-close">{</span>
+    <span class="token keyword keyword-for">for</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-289-close">(</span><span class="token keyword keyword-int">int</span> count<span class="token punctuation brace-curly brace-open brace-level-3" id="pair-292-close">{</span> <span class="token number">0</span> <span class="token punctuation brace-curly brace-close brace-level-3" id="pair-292-open">}</span><span class="token punctuation">;</span> count <span class="token operator">&lt;</span> <span class="token number">10</span><span class="token punctuation">;</span> <span class="token operator">++</span>count<span class="token punctuation brace-round brace-close brace-level-2" id="pair-289-open">)</span>
+    <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-294-close">{</span>
+        <span class="token comment">// if the number is not divisible by 4...</span>
+        <span class="token keyword keyword-if">if</span> <span class="token punctuation brace-round brace-open brace-level-3" id="pair-291-close">(</span><span class="token punctuation brace-round brace-open brace-level-4" id="pair-290-close">(</span>count <span class="token operator">%</span> <span class="token number">4</span><span class="token punctuation brace-round brace-close brace-level-4" id="pair-290-open">)</span> <span class="token operator">!=</span> <span class="token number">0</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-291-open">)</span> <span class="token comment">// nested block</span>
+        <span class="token punctuation brace-curly brace-open brace-level-3" id="pair-293-close">{</span>
+                <span class="token comment">// Print the number</span>
+                std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> count <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+        <span class="token punctuation brace-curly brace-close brace-level-3" id="pair-293-open">}</span>
+    <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-294-open">}</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-295-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>We can write this:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-296-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-296-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-302-close">{</span>
+    <span class="token keyword keyword-for">for</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-297-close">(</span><span class="token keyword keyword-int">int</span> count<span class="token punctuation brace-curly brace-open brace-level-3" id="pair-300-close">{</span> <span class="token number">0</span> <span class="token punctuation brace-curly brace-close brace-level-3" id="pair-300-open">}</span><span class="token punctuation">;</span> count <span class="token operator">&lt;</span> <span class="token number">10</span><span class="token punctuation">;</span> <span class="token operator">++</span>count<span class="token punctuation brace-round brace-close brace-level-2" id="pair-297-open">)</span>
+    <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-301-close">{</span>
+        <span class="token comment">// if the number is divisible by 4, skip this iteration</span>
+        <span class="token keyword keyword-if">if</span> <span class="token punctuation brace-round brace-open brace-level-3" id="pair-299-close">(</span><span class="token punctuation brace-round brace-open brace-level-4" id="pair-298-close">(</span>count <span class="token operator">%</span> <span class="token number">4</span><span class="token punctuation brace-round brace-close brace-level-4" id="pair-298-open">)</span> <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-299-open">)</span>
+            <span class="token keyword keyword-continue">continue</span><span class="token punctuation">;</span>
+
+        <span class="token comment">// no nested block needed</span>
+
+        std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> count <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+    <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-301-open">}</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-302-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  Minimizing the number of variables used and keeping the number of nested
+  blocks down both improve code comprehensibility more than a
+  <code>break</code> or <code>continue</code> harms it. For that reason, we
+  believe judicious use of <code>break</code> or <code>continue</code> is
+  acceptable.
+</p>
+<div class="cpp-note cpp-lightgreenbackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Best practice</p>
+  <p>Use break and continue when they simplify your loop logic.</p>
+</div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  The debate over use of early returns
+</p>
+<div class="code-block code-block-7" style="margin: 8px 0; clear: both"></div>
+
+<p>
+  There’s a similar argument to be made for return statements. A return
+  statement that is not the last statement in a function is called an
+  <strong>early return</strong>. Many programmers believe early returns should
+  be avoided. A function that only has one return statement at the bottom of the
+  function has a simplicity to it -- you can assume the function will take its
+  arguments, do whatever logic it has implemented, and return a result without
+  deviation. Having extra returns complicates the logic.
+</p>
+<p>
+  The counter-argument is that using early returns allows your function to exit
+  as soon as it is done, which reduces having to read through unnecessary logic
+  and minimizes the need for conditional nested blocks, which makes your code
+  more readable.
+</p>
+<p>
+  Some developers take a middle ground, and only use early returns at the top of
+  a function to do parameter validation (catch bad arguments passed in), and
+  then a single return thereafter.
+</p>
+<p>
+  Our stance is that early returns are more helpful than harmful, but we
+  recognize that there is a bit of art to the practice.
+</p>
+<div class="cpp-note cpp-lightgreenbackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Best practice</p>
+  <p>Use early returns when they simplify your function’s logic.</p>
+</div>
+<div class="prevnext">
+  <div class="prevnext-inline">
+    <a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/halts-exiting-your-program-early/"
+    >
+      <div class="nav-button nav-button-next">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-right" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Next lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">8.12</span>Halts (exiting
+            your program early)
+          </div>
+        </div>
+      </div></a
+    >
+    <a class="nav-link" href="/">
+      <div class="nav-button nav-button-index">
+        <div class="nav-button-icon">
+          <i class="fa fa-home" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Back to table of contents</div>
+        </div>
+      </div></a
+    >
+    <a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/for-statements/"
+    >
+      <div class="nav-button nav-button-prev">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-left" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Previous lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">8.10</span>For statements
+          </div>
+        </div>
+      </div></a
+    >
+  </div>
+</div>
+<div class="code-block code-block-10" style="margin: 8px 0; clear: both"></div>

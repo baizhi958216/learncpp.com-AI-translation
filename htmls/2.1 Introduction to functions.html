@@ -1,0 +1,548 @@
+<div
+  class="code-block code-block-1"
+  style="margin: 8px 8px 8px 0; float: left"
+></div>
+<p>
+  In the last chapter, we defined a function as a collection of statements that
+  execute sequentially. While that is certainly true, that definition doesn’t
+  provide much insight into why functions are useful. Let’s update our
+  definition: A <strong>function</strong> is a reusable sequence of statements
+  designed to do a particular job.
+</p>
+<p>
+  You already know that every executable program must have a function named
+  <code>main()</code> (which is where the program starts execution when it is
+  run). However, as programs start to get longer and longer, putting all the
+  code inside the <code>main()</code> function becomes increasingly hard to
+  manage. Functions provide a way for us to split our programs into small,
+  modular chunks that are easier to organize, test, and use. Most programs use
+  many functions. The C++ standard library comes with plenty of already-written
+  functions for you to use -- however, it’s just as common to write your own.
+  Functions that you write yourself are called
+  <strong>user-defined functions</strong>.
+</p>
+<p>
+  Consider a case that might occur in real life: you’re reading a book, when you
+  remember you need to make a phone call. You put a bookmark in your book, make
+  the phone call, and when you are done with the phone call, you return to the
+  place you bookmarked and continue your book precisely where you left off.
+</p>
+<p>
+  C++ programs can work the same way (and borrow some of the same nomenclature).
+  A program will be executing statements sequentially inside one function when
+  it encounters a function call. A <strong>function call</strong> tells the CPU
+  to interrupt the current function and execute another function. The CPU
+  essentially “puts a bookmark” at the current point of execution, executes the
+  function named in the function call, and then <strong>returns</strong> to the
+  point it bookmarked and resumes execution.
+</p>
+<div class="cpp-note cpp-lightgraybackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Nomenclature</p>
+  <p>
+    The function initiating the function call is the <strong>caller</strong>,
+    and the function being <strong>called</strong> (executed) is the
+    <strong>callee</strong>. A function call is also sometimes called an
+    <strong>invocation</strong>, with the caller <strong>invoking</strong> the
+    callee.
+  </p>
+</div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  An example of a user-defined function
+</p>
+<div class="code-block code-block-2" style="margin: 8px 0; clear: both"></div>
+<p>
+  First, let’s start with the most basic syntax to define a user-defined
+  function. For the next few lessons, all user-defined functions will take the
+  following form:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp">returnType <span class="token function">functionName</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-82-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-82-open">)</span> <span class="token comment">// This is the function header (tells the compiler about the existence of the function)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-83-close">{</span>
+    <span class="token comment">// This is the function body (tells the compiler what the function does)</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-83-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  The first line is informally called the <strong>function header</strong>, and
+  it tells the compiler about the existence of a function, the function’s name,
+  and some other information that we’ll cover in future lessons (like the return
+  type).
+</p>
+<ul>
+  <li>
+    In this lesson, we’ll use a <em>returnType</em> of <code>int</code> (for
+    function <code>main()</code>) or <code>void</code> (otherwise). For now,
+    don’t worry about these, as we’ll talk more about return types and return
+    values in the next lesson (<a
+      href="https://www.learncpp.com/cpp-tutorial/function-return-values-value-returning-functions/"
+      >2.2 -- Function return values (value-returning functions)</a
+    >).
+  </li>
+  <li>
+    Just like variables have names, so do user-defined functions. The
+    <em>functionName</em> is the name (identifier) of your user-defined
+    function.
+  </li>
+  <li>
+    The parentheses after the identifier tell the compiler that we’re defining a
+    function.
+  </li>
+</ul>
+<p>
+  The curly braces and statements in-between are called the
+  <strong>function body</strong>. This is where the statements that determine
+  what your function does will go.
+</p>
+<p>
+  To call a function, we use the function’s name followed by a set of
+  parentheses (e.g. <code>functionName()</code> calls the function whose name is
+  <code>functionName</code>). Conventionally, the parenthesis are placed
+  adjacent to the function name (with no whitespace between them).
+</p>
+<p>
+  For now, a function must be defined before it can be called. We’ll discuss
+  ways to work around this in lesson
+  <a href="https://www.learncpp.com/cpp-tutorial/forward-declarations/"
+    >2.7 -- Forward declarations and definitions</a
+  >.
+</p>
+<div class="code-block code-block-3" style="margin: 8px 0; clear: both"></div>
+<p>
+  Here is a sample program that illustrates a user-defined function being
+  defined and called:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span> <span class="token comment">// for std::cout</span></span>
+
+<span class="token comment">// Definition of user-defined function doPrint()</span>
+<span class="token comment">// doPrint() is the called function in this example</span>
+<span class="token keyword keyword-void">void</span> <span class="token function">doPrint</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-84-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-84-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-87-close">{</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"In doPrint()\n"</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-87-open">}</span>
+
+<span class="token comment">// Definition of user-defined function main()</span>
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-85-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-85-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-88-close">{</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Starting main()\n"</span><span class="token punctuation">;</span>
+    <span class="token function">doPrint</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-86-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-86-open">)</span><span class="token punctuation">;</span>                        <span class="token comment">// Interrupt main() by making a function call to doPrint().  main() is the caller.</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Ending main()\n"</span><span class="token punctuation">;</span>   <span class="token comment">// This statement is executed after doPrint() ends</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-88-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>This program produces the following output:</p>
+<pre>
+Starting main()
+In doPrint()
+Ending main()
+</pre>
+<p>
+  This program begins execution at the top of function <code>main()</code>, and
+  the first line to be executed prints <code>Starting main()</code>.
+</p>
+<p>
+  The second line in <code>main()</code> is a function call to the function
+  <code>doPrint()</code>. We know it’s a function call due to the trailing
+  parentheses.
+</p>
+<div class="cpp-note cpp-lightredbackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Warning</p>
+  <p>
+    When calling a function, don’t forget the parentheses <code>()</code> after
+    the function’s name. If you forget the parentheses, your program may not
+    compile (and if it does, the function will not be called).
+  </p>
+</div>
+<p>
+  Because a function call was made, execution of statements in
+  <code>main()</code> is suspended, and execution jumps to the top of called
+  function <code>doPrint()</code>. The first (and only) line in
+  <code>doPrint()</code> prints <code>In doPrint()</code>. When
+  <code>doPrint()</code> terminates, execution returns back to the caller
+  (<code>main()</code>) and continues from the point just beyond the function
+  call. Consequently, the next statement executed in <code>main()</code> prints
+  <code>Ending main()</code>.
+</p>
+<div class="code-block code-block-4" style="margin: 8px 0; clear: both"></div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Calling functions more than once
+</p>
+<p>
+  One useful thing about functions is that they can be called more than once.
+  Here’s a program that demonstrates this:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span> <span class="token comment">// for std::cout</span></span>
+
+<span class="token keyword keyword-void">void</span> <span class="token function">doPrint</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-89-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-89-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-93-close">{</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"In doPrint()\n"</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-93-open">}</span>
+
+<span class="token comment">// Definition of function main()</span>
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-90-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-90-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-94-close">{</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Starting main()\n"</span><span class="token punctuation">;</span>
+    <span class="token function">doPrint</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-91-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-91-open">)</span><span class="token punctuation">;</span> <span class="token comment">// doPrint() called for the first time</span>
+    <span class="token function">doPrint</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-92-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-92-open">)</span><span class="token punctuation">;</span> <span class="token comment">// doPrint() called for the second time</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Ending main()\n"</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-94-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>This program produces the following output:</p>
+<pre>
+Starting main()
+In doPrint()
+In doPrint()
+Ending main()
+</pre>
+<p>
+  Since <code>doPrint()</code> gets called twice by <code>main()</code>,
+  <code>doPrint()</code> executes twice, and <code>In doPrint()</code> gets
+  printed twice (once for each call).
+</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Functions can call functions that call other functions
+</p>
+<div class="code-block code-block-5" style="margin: 8px 0; clear: both"></div>
+<p>
+  You’ve already seen that function <code>main()</code> can call other functions
+  (such as function <code>doPrint()</code> in the example above). The functions
+  called by <code>main()</code> can also call other functions (and those
+  functions can call functions too, etc…). In the following program, function
+  <code>main()</code> calls function <code>doA()</code>, which calls function
+  <code>doB()</code>:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span> <span class="token comment">// for std::cout</span></span>
+
+<span class="token keyword keyword-void">void</span> <span class="token function">doB</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-95-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-95-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-100-close">{</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"In doB()\n"</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-100-open">}</span>
+
+
+<span class="token keyword keyword-void">void</span> <span class="token function">doA</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-96-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-96-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-101-close">{</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Starting doA()\n"</span><span class="token punctuation">;</span>
+
+    <span class="token function">doB</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-97-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-97-open">)</span><span class="token punctuation">;</span>
+
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Ending doA()\n"</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-101-open">}</span>
+
+<span class="token comment">// Definition of function main()</span>
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-98-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-98-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-102-close">{</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Starting main()\n"</span><span class="token punctuation">;</span>
+
+    <span class="token function">doA</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-99-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-99-open">)</span><span class="token punctuation">;</span>
+
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Ending main()\n"</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-102-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>This program produces the following output:</p>
+<pre>
+Starting main()
+Starting doA()
+In doB()
+Ending doA()
+Ending main()
+</pre>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Nested functions are not supported
+</p>
+<p>
+  A function whose definition is placed inside another function is a
+  <strong>nested function</strong>. Unlike some other programming languages, in
+  C++, functions cannot be nested. The following program is not legal:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-103-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-103-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-107-close">{</span>
+    <span class="token keyword keyword-void">void</span> <span class="token function">foo</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-104-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-104-open">)</span> <span class="token comment">// Illegal: this function is nested inside function main()</span>
+    <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-106-close">{</span>
+        std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"foo!\n"</span><span class="token punctuation">;</span>
+    <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-106-open">}</span>
+
+    <span class="token function">foo</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-105-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-105-open">)</span><span class="token punctuation">;</span> <span class="token comment">// function call to foo()</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-107-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>The proper way to write the above program is:</p>
+<div class="code-block code-block-6" style="margin: 8px 0; clear: both"></div>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-void">void</span> <span class="token function">foo</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-108-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-108-open">)</span> <span class="token comment">// no longer inside of main()</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-111-close">{</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"foo!\n"</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-111-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-109-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-109-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-112-close">{</span>
+    <span class="token function">foo</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-110-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-110-open">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-112-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<div class="cpp-note cpp-lightgraybackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Nomenclature</p>
+  <p>
+    “foo” is a meaningless word that is often used as a placeholder name for a
+    function or variable when the name is unimportant to the demonstration of
+    some concept. Such words are called
+    <a href="https://en.wikipedia.org/wiki/Metasyntactic_variable"
+      >metasyntactic variables</a
+    >
+    (though in common language they’re often called “placeholder names” since
+    nobody can remember the term “metasyntactic variable”). Other common
+    metasyntactic variables in C++ include “bar”, “baz”, and 3-letter words that
+    end in “oo”, such as “goo”, “moo”, and “boo”).
+  </p>
+  <p>
+    For those interested in etymology (how words evolve),
+    <a href="https://datatracker.ietf.org/doc/html/rfc3092">RFC 3092</a> is an
+    interesting read.
+  </p>
+</div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Quiz time
+</p>
+<p class="cpp-quiz-question" style="clear: both">Question #1</p>
+<p>
+  In a function definition, what are the curly braces and statements in-between
+  called?
+</p>
+<p>
+  <a
+    class="solution_link_show"
+    href="javascript:void(0)"
+    onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_0'),this,'Show Solution','Hide Solution')"
+    >Show Solution</a
+  >
+</p>
+<div class="wpsolution" id="cpp_solution_id_0" style="display: none">
+  The function body
+</div>
+<p class="cpp-quiz-question cpp-topline" style="clear: both">Question #2</p>
+<p>
+  What does the following program print? Do not compile this program, just trace
+  the code yourself.
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span> <span class="token comment">// for std::cout</span></span>
+
+<span class="token keyword keyword-void">void</span> <span class="token function">doB</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-113-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-113-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-119-close">{</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"In doB()\n"</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-119-open">}</span>
+
+<span class="token keyword keyword-void">void</span> <span class="token function">doA</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-114-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-114-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-120-close">{</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"In doA()\n"</span><span class="token punctuation">;</span>
+
+    <span class="token function">doB</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-115-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-115-open">)</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-120-open">}</span>
+
+<span class="token comment">// Definition of function main()</span>
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-116-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-116-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-121-close">{</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Starting main()\n"</span><span class="token punctuation">;</span>
+
+    <span class="token function">doA</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-117-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-117-open">)</span><span class="token punctuation">;</span>
+    <span class="token function">doB</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-118-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-118-open">)</span><span class="token punctuation">;</span>
+
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Ending main()\n"</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-121-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  <a
+    class="solution_link_show"
+    href="javascript:void(0)"
+    onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_1'),this,'Show Solution','Hide Solution')"
+    >Show Solution</a
+  >
+</p>
+<div class="code-block code-block-7" style="margin: 8px 0; clear: both"></div>
+<div class="wpsolution" id="cpp_solution_id_1" style="display: none">
+  <pre>
+Starting main()
+In doA()
+In doB()
+In doB()
+Ending main()
+</pre
+  >
+</div>
+<div class="prevnext">
+  <div class="prevnext-inline">
+    <a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/function-return-values-value-returning-functions/"
+      ><div class="nav-button nav-button-next">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-right" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Next lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">2.2</span>Function return
+            values (value-returning functions)
+          </div>
+        </div>
+      </div></a
+    ><a class="nav-link" href="/"
+      ><div class="nav-button nav-button-index">
+        <div class="nav-button-icon">
+          <i class="fa fa-home" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Back to table of contents</div>
+        </div>
+      </div></a
+    ><a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/chapter-1-summary-and-quiz/"
+      ><div class="nav-button nav-button-prev">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-left" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Previous lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">1.x</span>Chapter 1 summary
+            and quiz
+          </div>
+        </div>
+      </div></a
+    >
+  </div>
+</div>
+<div class="code-block code-block-10" style="margin: 8px 0; clear: both"></div>

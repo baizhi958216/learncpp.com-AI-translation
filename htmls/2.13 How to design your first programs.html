@@ -1,0 +1,688 @@
+<div
+  class="code-block code-block-1"
+  style="margin: 8px 8px 8px 0; float: left"
+></div>
+<p>
+  Now that you’ve learned some basics about programs, let’s look more closely at
+  <em>how</em> to design a program.
+</p>
+<p>
+  When you sit down to write a program, generally you have some kind of idea,
+  which you’d like to write a program for. New programmers often have trouble
+  figuring out how to convert that idea into actual code. But it turns out, you
+  have many of the problem solving skills you need already, acquired from
+  everyday life.
+</p>
+<p>
+  The most important thing to remember (and hardest thing to do) is to design
+  your program <i>before you start coding</i>. In many regards, programming is
+  like architecture. What would happen if you tried to build a house without
+  following an architectural plan? Odds are, unless you were very talented,
+  you’d end up with a house that had a lot of problems: walls that weren’t
+  straight, a leaky roof, etc… Similarly, if you try to program before you have
+  a good game-plan moving forward, you’ll likely find that your code has a lot
+  of problems, and you’ll have to spend a lot of time fixing problems that could
+  have been avoided altogether with a little thinking ahead.
+</p>
+<p>
+  A little up-front planning will save you both time and frustration in the long
+  run.
+</p>
+<p>
+  In this lesson, we’ll lay out a generalized approach for converting ideas into
+  simple functional programs.
+</p>
+<div class="code-block code-block-2" style="margin: 8px 0; clear: both"></div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Design step 1: Define your goal
+</p>
+<p>
+  In order to write a successful program, you first need to define what your
+  goal is. Ideally, you should be able to state this in a sentence or two. It is
+  often useful to express this as a user-facing outcome. For example:
+</p>
+<ul>
+  <li>
+    Allow the user to organize a list of names and associated phone numbers.
+  </li>
+  <li>
+    Generate randomized dungeons that will produce interesting looking caverns.
+  </li>
+  <li>
+    Generate a list of stock recommendations for stocks that have high
+    dividends.
+  </li>
+  <li>
+    Model how long it takes for a ball dropped off a tower to hit the ground.
+  </li>
+</ul>
+<p>
+  Although this step seems obvious, it’s also highly important. The worst thing
+  you can do is write a program that doesn’t actually do what you (or your boss)
+  wanted!
+</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Design step 2: Define requirements
+</p>
+<p>
+  While defining your problem helps you determine <em>what</em> outcome you
+  want, it’s still vague. The next step is to think about requirements.
+</p>
+<div class="code-block code-block-3" style="margin: 8px 0; clear: both"></div>
+<p>
+  Requirements is a fancy word for both the constraints that your solution needs
+  to abide by (e.g. budget, timeline, space, memory, etc…), as well as the
+  capabilities that the program must exhibit in order to meet the users’ needs.
+  Note that your requirements should similarly be focused on the “what”, not the
+  “how”.
+</p>
+<p>For example:</p>
+<ul>
+  <li>Phone numbers should be saved, so they can be recalled later.</li>
+  <li>
+    The randomized dungeon should always contain a way to get from the entrance
+    to an exit.
+  </li>
+  <li>The stock recommendations should leverage historical pricing data.</li>
+  <li>The user should be able to enter the height of the tower.</li>
+  <li>We need a testable version within 7 days.</li>
+  <li>
+    The program should produce results within 10 seconds of the user submitting
+    their request.
+  </li>
+  <li>The program should crash in less than 0.1% of user sessions.</li>
+</ul>
+<p>
+  A single problem may yield many requirements, and the solution isn’t “done”
+  until it satisfies all of them.
+</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Design step 3: Define your tools, targets, and backup plan
+</p>
+<p>
+  When you are an experienced programmer, there are many other steps that
+  typically would take place at this point, including:
+</p>
+<ul>
+  <li>Defining what target architecture and/or OS your program will run on.</li>
+  <li>Determining what set of tools you will be using.</li>
+  <li>
+    Determining whether you will write your program alone or as part of a team.
+  </li>
+  <li>Defining your testing/feedback/release strategy.</li>
+  <li>Determining how you will back up your code.</li>
+</ul>
+<p>
+  However, as a new programmer, the answers to these questions are typically
+  simple: You are writing a program for your own use, alone, on your own system,
+  using an IDE you downloaded, and your code is probably not used by anybody but
+  you. This makes things easy.
+</p>
+<div class="code-block code-block-4" style="margin: 8px 0; clear: both"></div>
+<p>
+  That said, if you are going to work on anything of non-trivial complexity, you
+  should have a plan to backup your code. It’s not enough to zip or copy your
+  source directory to another location on the same storage device -- if your
+  storage device dies or becomes corrupted, you’ll lose everything. Copying or
+  zipping to removable storage (e.g. a flash drive) is better, though you still
+  risk losing everything in the event of theft, fire, or a significant natural
+  disaster.
+</p>
+<p>
+  The best backup strategy involves getting a copy of your code onto a machine
+  that exists in a different physical location. There are lots of easy ways to
+  do this: Zip it up and email it to yourself, upload it to a cloud storage
+  service (e.g. Dropbox), use a file transfer protocol (e.g. SFTP) to upload it
+  to a server you control, or use a version control system residing on another
+  machine or in the cloud (e.g. github). Version control systems have the added
+  advantage of not only being able to restore your files, but also to roll them
+  back to a previous version.
+</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Design step 4: Break hard problems down into easy problems
+</p>
+<p>
+  In real life, we often need to perform tasks that are very complex. Trying to
+  figure out how to do these tasks can be very challenging. In such cases, we
+  often make use of the <strong>top down</strong> method of problem solving.
+  That is, instead of solving a single complex task, we break that task into
+  multiple subtasks, each of which is individually easier to solve. If those
+  subtasks are still too difficult to solve, they can be broken down further. By
+  continuously splitting complex tasks into simpler ones, you can eventually get
+  to a point where each individual task is manageable, if not trivial.
+</p>
+<p>
+  Let’s take a look at an example of this. Let’s say we want to clean our house.
+  Our task hierarchy currently looks like this:
+</p>
+<div class="code-block code-block-5" style="margin: 8px 0; clear: both"></div>
+<ul>
+  <li>Clean the house</li>
+</ul>
+<p>
+  Cleaning the entire house is a pretty big task to do in one sitting, so let’s
+  break it into subtasks:
+</p>
+<ul>
+  <li>
+    Clean the house
+    <ul>
+      <li>Vacuum the carpets</li>
+      <li>Clean the bathrooms</li>
+      <li>Clean the kitchen</li>
+    </ul>
+  </li>
+</ul>
+<p>
+  That’s more manageable, as we now have subtasks that we can focus on
+  individually. However, we can break some of these down even further:
+</p>
+<ul>
+  <li>
+    Clean the house
+    <ul>
+      <li>Vacuum the carpets</li>
+      <li>
+        Clean the bathrooms
+        <ul>
+          <li>Scrub the toilet (yuck!)</li>
+          <li>Wash the sink</li>
+        </ul>
+      </li>
+      <li>
+        Clean the kitchen
+        <ul>
+          <li>Clear the countertops</li>
+          <li>Clean the countertops</li>
+          <li>Scrub the sink</li>
+          <li>Take out the trash</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+<p>
+  Now we have a hierarchy of tasks, none of them particularly hard. By
+  completing each of these relatively manageable sub-items, we can complete the
+  more difficult overall task of cleaning the house.
+</p>
+<p>
+  The other way to create a hierarchy of tasks is to do so from the
+  <strong>bottom up</strong>. In this method, we’ll start from a list of easy
+  tasks, and construct the hierarchy by grouping them.
+</p>
+<p>
+  As an example, many people have to go to work or school on weekdays, so let’s
+  say we want to solve the problem of “go to work”. If you were asked what tasks
+  you did in the morning to get from bed to work, you might come up with the
+  following list:
+</p>
+<div class="code-block code-block-6" style="margin: 8px 0; clear: both"></div>
+<ul>
+  <li>Pick out clothes</li>
+  <li>Get dressed</li>
+  <li>Eat breakfast</li>
+  <li>Travel to work</li>
+  <li>Brush your teeth</li>
+  <li>Get out of bed</li>
+  <li>Prepare breakfast</li>
+  <li>Get on your bicycle</li>
+  <li>Take a shower</li>
+</ul>
+<p>
+  Using the bottom up method, we can organize these into a hierarchy of items by
+  looking for ways to group items with similarities together:
+</p>
+<ul>
+  <li>
+    Get from bed to work
+    <ul>
+      <li>
+        Bedroom things
+        <ul>
+          <li>Turn off alarm</li>
+          <li>Get out of bed</li>
+          <li>Pick out clothes</li>
+        </ul>
+      </li>
+      <li>
+        Bathroom things
+        <ul>
+          <li>Take a shower</li>
+          <li>Get dressed</li>
+          <li>Brush your teeth</li>
+        </ul>
+      </li>
+      <li>
+        Breakfast things
+        <ul>
+          <li>Make coffee or tea</li>
+          <li>Eat cereal</li>
+        </ul>
+      </li>
+      <li>
+        Transportation things
+        <ul>
+          <li>Get on your bicycle</li>
+          <li>Travel to work</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+<p>
+  As it turns out, these task hierarchies are extremely useful in programming,
+  because once you have a task hierarchy, you have essentially defined the
+  structure of your overall program. The top level task (in this case, “Clean
+  the house” or “Go to work”) becomes main() (because it is the main problem you
+  are trying to solve). The subitems become functions in the program.
+</p>
+<p>
+  If it turns out that one of the items (functions) is too difficult to
+  implement, simply split that item into multiple sub-items/sub-functions.
+  Eventually you should reach a point where each function in your program is
+  trivial to implement.
+</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Design step 5: Figure out the sequence of events
+</p>
+<p>
+  Now that your program has a structure, it’s time to determine how to link all
+  the tasks together. The first step is to determine the sequence of events that
+  will be performed. For example, when you get up in the morning, what order do
+  you do the above tasks? It might look like this:
+</p>
+<div class="code-block code-block-7" style="margin: 8px 0; clear: both"></div>
+<ul>
+  <li>Bedroom things</li>
+  <li>Bathroom things</li>
+  <li>Breakfast things</li>
+  <li>Transportation things</li>
+</ul>
+<p>If we were writing a calculator, we might do things in this order:</p>
+<ul>
+  <li>Get first number from user</li>
+  <li>Get mathematical operation from user</li>
+  <li>Get second number from user</li>
+  <li>Calculate result</li>
+  <li>Print result</li>
+</ul>
+<p>At this point, we’re ready for implementation.</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Implementation step 1: Outlining your main function
+</p>
+<p>
+  Now we’re ready to start implementation. The above sequences can be used to
+  outline your main program. Don’t worry about inputs and outputs for the time
+  being.
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-22-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-22-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-23-close">{</span>
+<span class="token comment">//    doBedroomThings();</span>
+<span class="token comment">//    doBathroomThings();</span>
+<span class="token comment">//    doBreakfastThings();</span>
+<span class="token comment">//    doTransportationThings();</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-23-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>Or in the case of the calculator:</p>
+<div class="code-block code-block-8" style="margin: 8px 0; clear: both"></div>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-24-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-24-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-25-close">{</span>
+    <span class="token comment">// Get first number from user</span>
+<span class="token comment">//    getUserInput();</span>
+
+    <span class="token comment">// Get mathematical operation from user</span>
+<span class="token comment">//    getMathematicalOperation();</span>
+
+    <span class="token comment">// Get second number from user</span>
+<span class="token comment">//    getUserInput();</span>
+
+    <span class="token comment">// Calculate result</span>
+<span class="token comment">//    calculateResult();</span>
+
+    <span class="token comment">// Print result</span>
+<span class="token comment">//    printResult();</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-25-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  Note that if you’re going to use this “outline” method for constructing your
+  programs, your functions won’t compile because the definitions don’t exist
+  yet. Commenting out the function calls until you’re ready to implement the
+  function definitions is one way to address this (and the way we’ll show here).
+  Alternatively, you can <em>stub out</em> your functions (create placeholder
+  functions with empty bodies) so your program will compile.
+</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Implementation step 2: Implement each function
+</p>
+<p>In this step, for each function, you’ll do three things:</p>
+<ol>
+  <li>Define the function prototype (inputs and outputs)</li>
+  <li>Write the function</li>
+  <li>Test the function</li>
+</ol>
+<p>
+  If your functions are granular enough, each function should be fairly simple
+  and straightforward. If a given function still seems overly-complex to
+  implement, perhaps it needs to be broken down into subfunctions that can be
+  more easily implemented (or it’s possible you did something in the wrong
+  order, and need to revisit your sequencing of events).
+</p>
+<p>Let’s do the first function from the calculator example:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token comment">// Full implementation of the getUserInput function</span>
+<span class="token keyword keyword-int">int</span> <span class="token function">getUserInput</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-26-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-26-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-30-close">{</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Enter an integer: "</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-int">int</span> input<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-29-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-29-open">}</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>cin <span class="token operator">&gt;&gt;</span> input<span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> input<span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-30-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-27-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-27-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-32-close">{</span>
+    <span class="token comment">// Get first number from user</span>
+    <span class="token keyword keyword-int">int</span> value<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-31-close">{</span> <span class="token function">getUserInput</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-28-close">(</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-28-open">)</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-31-open">}</span><span class="token punctuation">;</span> <span class="token comment">// Note we've included code here to test the return value!</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> value <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span> <span class="token comment">// debug code to ensure getUserInput() is working, we'll remove this later</span>
+
+    <span class="token comment">// Get mathematical operation from user</span>
+<span class="token comment">//    getMathematicalOperation();</span>
+
+    <span class="token comment">// Get second number from user</span>
+<span class="token comment">//    getUserInput();</span>
+
+    <span class="token comment">// Calculate result</span>
+<span class="token comment">//    calculateResult();</span>
+
+    <span class="token comment">// Print result</span>
+<span class="token comment">//    printResult();</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-32-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  First, we’ve determined that the <em>getUserInput</em> function takes no
+  arguments, and will return an int value back to the caller. That gets
+  reflected in the function prototype having a return value of int and no
+  parameters. Next, we’ve written the body of the function, which is a
+  straightforward 4 statements. Finally, we’ve implemented some temporary code
+  in function <em>main</em> to test that function
+  <em>getUserInput</em> (including its return value) is working correctly.
+</p>
+<p>
+  We can run this program many times with different input values and make sure
+  that the program is behaving as we expect at this point. If we find something
+  that doesn’t work, we know the problem is in the code we’ve just written.
+</p>
+<p>
+  Once we’re convinced the program is working as intended up to this point, we
+  can remove the temporary testing code, and proceed to implementation of the
+  next function (function <em>getMathematicalOperation</em>). We won’t finish
+  the program in this lesson, as we need to cover some additional topics first.
+</p>
+<p>
+  Remember: Don’t implement your entire program in one go. Work on it in steps,
+  testing each step along the way before proceeding.
+</p>
+<div class="cpp-note cpp-lightgraybackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Related content</p>
+  <p>
+    We cover testing in more detail in lesson
+    <a
+      href="https://www.learncpp.com/cpp-tutorial/introduction-to-testing-your-code/"
+      >9.1 -- Introduction to testing your code</a
+    >.
+  </p>
+</div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Implementation step 3: Final testing
+</p>
+<p>
+  Once your program is “finished”, the last step is to test the whole program
+  and ensure it works as intended. If it doesn’t work, fix it.
+</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Words of advice when writing programs
+</p>
+<p>
+  <strong>Keep your programs simple to start</strong>. Often new programmers
+  have a grand vision for all the things they want their program to do. “I want
+  to write a role-playing game with graphics and sound and random monsters and
+  dungeons, with a town you can visit to sell the items that you find in the
+  dungeon”. If you try to write something too complex to start, you will become
+  overwhelmed and discouraged at your lack of progress. Instead, make your first
+  goal as simple as possible, something that is definitely within your reach.
+  For example, “I want to be able to display a 2-dimensional field on the
+  screen”.
+</p>
+<p>
+  <strong>Add features over time</strong>. Once you have your simple program
+  working and working well, then you can add features to it. For example, once
+  you can display your field, add a character who can walk around. Once you can
+  walk around, add walls that can impede your progress. Once you have walls,
+  build a simple town out of them. Once you have a town, add merchants. By
+  adding each feature incrementally your program will get progressively more
+  complex without overwhelming you in the process.
+</p>
+<p>
+  <strong>Focus on one area at a time</strong>. Don’t try to code everything at
+  once, and don’t divide your attention across multiple tasks. Focus on one task
+  at a time. It is much better to have one working task and five that haven’t
+  been started yet than six partially-working tasks. If you split your
+  attention, you are more likely to make mistakes and forget important details.
+</p>
+<p>
+  <strong>Test each piece of code as you go</strong>. New programmers will often
+  write the entire program in one pass. Then when they compile it for the first
+  time, the compiler reports hundreds of errors. This can not only be
+  intimidating, if your code doesn’t work, it may be hard to figure out why.
+  Instead, write a piece of code, and then compile and test it immediately. If
+  it doesn’t work, you’ll know exactly where the problem is, and it will be easy
+  to fix. Once you are sure that the code works, move to the next piece and
+  repeat. It may take longer to finish writing your code, but when you are done
+  the whole thing should work, and you won’t have to spend twice as long trying
+  to figure out why it doesn’t.
+</p>
+<p>
+  <strong>Don’t invest in perfecting early code</strong>. The first draft of a
+  feature (or program) is rarely good. Furthermore, programs tend to evolve over
+  time, as you add capabilities and find better ways to structure things. If you
+  invest too early in polishing your code (adding lots of documentation, full
+  compliance with best practices, making optimizations), you risk losing all of
+  that investment when a code change is necessary. Instead, get your features
+  minimally working and then move on. As you gain confidence in your solutions,
+  apply successive layers of polish. Don’t aim for perfect -- non-trivial
+  programs are never perfect, and there’s always something more that could be
+  done to improve them. Get to “good enough” and move on.
+</p>
+<p>
+  <strong>Optimize for maintainability, not performance</strong>. There is a
+  famous quote (by Donald Knuth) that says “premature optimization is the root
+  of all evil”. New programmers often spend far too much time thinking about how
+  to micro-optimize their code (e.g. trying to figure out which of 2 statements
+  is faster). This rarely matters. Most performance benefits come from good
+  program structure, using the right tools and capabilities for the problem at
+  hand, and following best practices. Additional time should be used to improve
+  the maintainability of your code. Find redundancy and remove it. Split up long
+  functions into shorter ones. Replace awkward or hard to use code with
+  something better. The end result will be code that is easier to improve and
+  optimize later (after you’ve determined where optimization is actually needed)
+  and fewer bugs. We offer some additional suggestions in lesson
+  <a
+    href="https://www.learncpp.com/cpp-tutorial/finding-issues-before-they-become-problems/"
+    >3.10 -- Finding issues before they become problems</a
+  >.
+</p>
+<blockquote data-ezoic-video-excluded="1">
+  <p>
+    A complex system that works is invariably found to have evolved from a
+    simple system that worked
+  </p>
+  <footer>
+    —John Gall,
+    <cite>Systemantics: How Systems Really Work and How They Fail p. 71</cite>
+  </footer>
+</blockquote>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Conclusion
+</p>
+<p>
+  Many new programmers shortcut the design process (because it seems like a lot
+  of work and/or it’s not as much fun as writing the code). However, for any
+  non-trivial project, following these steps will save you a lot of time in the
+  long run. A little planning up front saves a lot of debugging at the end.
+</p>
+<div class="cpp-note cpp-lightbluebackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Key insight</p>
+  <p>
+    Spending a little time up front thinking about how to structure your program
+    will lead to better code and less time spent finding and fixing errors.
+  </p>
+  <blockquote data-ezoic-video-excluded="1">
+    <p>
+      I would say this is arguably the most important thing in programming and
+      some of us, like me at first, took it for granted.
+    </p>
+    <footer>—Reader Emeka Daniel, <cite>comment on learncpp.com</cite></footer>
+  </blockquote>
+</div>
+<p>
+  As you become more comfortable with these concepts and tips, they will start
+  coming more naturally to you. Eventually you will get to the point where you
+  can write entire functions (and short programs) with minimal pre-planning.
+</p>
+<div class="prevnext">
+  <div class="prevnext-inline">
+    <a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/chapter-2-summary-and-quiz/"
+      ><div class="nav-button nav-button-next">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-right" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Next lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">2.x</span>Chapter 2 summary
+            and quiz
+          </div>
+        </div>
+      </div></a
+    ><a class="nav-link" href="/"
+      ><div class="nav-button nav-button-index">
+        <div class="nav-button-icon">
+          <i class="fa fa-home" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Back to table of contents</div>
+        </div>
+      </div></a
+    ><a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/header-guards/"
+      ><div class="nav-button nav-button-prev">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-left" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Previous lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">2.12</span>Header guards
+          </div>
+        </div>
+      </div></a
+    >
+  </div>
+</div>
+<div class="code-block code-block-10" style="margin: 8px 0; clear: both"></div>

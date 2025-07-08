@@ -1,0 +1,665 @@
+<div
+  class="code-block code-block-1"
+  style="margin: 8px 8px 8px 0; float: left"
+></div>
+<p class="cpp-section" data-ezoic-video-excluded="1">
+  Adding files to your project
+</p>
+<p>
+  As programs get larger, it is common to split them into multiple files for
+  organizational or reusability purposes. One advantage of working with an IDE
+  is that they make working with multiple files much easier. You already know
+  how to create and compile single-file projects. Adding new files to existing
+  projects is very easy.
+</p>
+<div class="cpp-note cpp-lightgreenbackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Best practice</p>
+  <p>
+    When you add new code files to your project, give them a .cpp extension.
+  </p>
+</div>
+<div class="cpp-note cpp-lightyellowbackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">For Visual Studio users</p>
+  <p>
+    In Visual Studio, right click on the <em>Source Files</em> folder (or the
+    project name) in the Solution Explorer window, and choose
+    <em>Add &gt; New Item…</em>.
+  </p>
+  <div class="cpp-image-wrapper">
+    <img
+      src="https://www.learncpp.com/images/CppTutorial/Chapter2/VS-AddNewItem1.png"
+      alt=""
+    />
+  </div>
+  <p>
+    Make sure you have <em>C++ File (.cpp)</em> selected. Give the new file a
+    name, and it will be added to your project.
+  </p>
+  <p>
+    Note: Your Visual Studio may opt to show you a compact view instead of the
+    full view shown above. You can either use the compact view, or click “Show
+    all Templates” to get to the full view.
+  </p>
+  <div class="cpp-image-wrapper">
+    <img
+      src="https://www.learncpp.com/images/CppTutorial/Chapter2/VS-AddNewItem2.png"
+      alt=""
+    />
+  </div>
+  <p>
+    Note: If you create a new file from the <em>File menu</em> instead of from
+    your project in the Solution Explorer, the new file won’t be added to your
+    project automatically. You’ll have to add it to the project manually. To do
+    so, right click on <em>Source Files</em> in the <em>Solution Explorer</em>,
+    choose <em>Add &gt; Existing Item</em>, and then select your file.
+  </p>
+  <p>
+    Now when you compile your program, you should see the compiler list the name
+    of your file as it compiles it.
+  </p>
+</div>
+<div class="cpp-note cpp-lightyellowbackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">For Code::Blocks users</p>
+  <p>
+    In Code::Blocks, go to the <em>File menu</em> and choose
+    <em>New &gt; File…</em>.
+  </p>
+  <div class="cpp-image-wrapper">
+    <img
+      src="https://www.learncpp.com/images/CppTutorial/Chapter2/CB-AddNewItem1.png"
+      alt=""
+    />
+  </div>
+  <p>
+    In the <em>New from template</em> dialog, select <em>C/C++ source</em> and
+    click <em>Go</em>.
+  </p>
+  <div class="cpp-image-wrapper">
+    <img
+      src="https://www.learncpp.com/images/CppTutorial/Chapter2/CB-AddNewItem2.png"
+      alt=""
+    />
+  </div>
+  <p>
+    You may or may not see a
+    <em>welcome to the C/C++ source file wizard</em> dialog at this point. If
+    you do, click <em>Next</em>.
+  </p>
+  <div class="cpp-image-wrapper">
+    <img
+      src="https://www.learncpp.com/images/CppTutorial/Chapter2/CB-AddNewItem3.png"
+      alt=""
+    />
+  </div>
+  <p>On the next page of the wizard, select “C++” and click <em>Next</em>.</p>
+  <div class="cpp-image-wrapper">
+    <img
+      src="https://www.learncpp.com/images/CppTutorial/Chapter2/CB-AddNewItem4.png"
+      alt=""
+    />
+  </div>
+  <p>
+    Now give the new file a name (don’t forget the .cpp extension), and click
+    the <em>All</em> button to ensure all build targets are selected. Finally,
+    select <em>finish</em>.
+  </p>
+  <div class="cpp-image-wrapper">
+    <img
+      src="https://www.learncpp.com/images/CppTutorial/Chapter2/CB-AddNewItem5.png"
+      alt=""
+    />
+  </div>
+  <p>
+    Now when you compile your program, you should see the compiler list the name
+    of your file as it compiles it.
+  </p>
+</div>
+<div class="cpp-note cpp-lightyellowbackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">For gcc users</p>
+  <p>
+    From the command line, you can create the additional file yourself, using
+    your favorite editor, and give it a name. When you compile your program,
+    you’ll need to include all of the relevant code files on the compile line.
+    For example: <em>g++ main.cpp add.cpp -o main</em>, where
+    <em>main.cpp</em> and <em>add.cpp</em> are the names of your code files, and
+    <em>main</em> is the name of the output file.
+  </p>
+</div>
+<div class="cpp-note cpp-lightyellowbackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">For VS Code users</p>
+  <p>
+    To create a new file, choose <em>View &gt; Explorer</em> from the top nav to
+    open the Explorer pane, and then click the <em>New File</em> icon to the
+    right of the project name. Alternately, choose
+    <em>File &gt; New File</em> from the top nav. Then give your new file a name
+    (don’t forget the .cpp extension). If the file appears inside the
+    <em>.vscode</em> folder, drag it up one level to the project folder.
+  </p>
+  <p>
+    Next open the <em>tasks.json</em> file, and find the line
+    <code>"${file}",</code>.
+  </p>
+  <p>You have two options here:</p>
+  <ul>
+    <li>
+      If you wish to be explicit about what files get compiled, replace
+      <code>"${file}",</code> with the name of each file you wish to compile,
+      one per line, like this:
+    </li>
+  </ul>
+  <p><code>"main.cpp",</code><br /><code>"add.cpp",</code></p>
+  <ul>
+    <li>
+      Reader “geo” reports that you can have VS Code automatically compile all
+      .cpp files in the directory by replacing <code>"${file}",</code> with
+      <code>"${fileDirname}\\**.cpp"</code> (on Windows).
+    </li>
+    <li>
+      Reader “Orb” reports that <code>"${fileDirname}/**.cpp"</code> works on
+      Unix.
+    </li>
+  </ul>
+</div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  A multi-file example
+</p>
+<p>
+  In lesson
+  <a href="https://www.learncpp.com/cpp-tutorial/forward-declarations/"
+    >2.7 -- Forward declarations and definitions</a
+  >, we took a look at a single-file program that wouldn’t compile:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-78-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-78-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-81-close">{</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"The sum of 3 and 4 is: "</span> <span class="token operator">&lt;&lt;</span> <span class="token function">add</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-79-close">(</span><span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-79-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-81-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">add</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-80-close">(</span><span class="token keyword keyword-int">int</span> x<span class="token punctuation">,</span> <span class="token keyword keyword-int">int</span> y<span class="token punctuation brace-round brace-close brace-level-1" id="pair-80-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-82-close">{</span>
+    <span class="token keyword keyword-return">return</span> x <span class="token operator">+</span> y<span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-82-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  When the compiler reaches the function call to <em>add</em> on line 5 of
+  <em>main</em>, it doesn’t know what <em>add</em> is, because we haven’t
+  defined <em>add</em> until line 9! Our solution to this was to either reorder
+  the functions (placing <em>add</em> first) or use a forward declaration for
+  <em>add</em>.
+</p>
+<div class="code-block code-block-2" style="margin: 8px 0; clear: both"></div>
+<p>Now let’s take a look at a similar multi-file program:</p>
+<p>add.cpp:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-int">int</span> <span class="token function">add</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-83-close">(</span><span class="token keyword keyword-int">int</span> x<span class="token punctuation">,</span> <span class="token keyword keyword-int">int</span> y<span class="token punctuation brace-round brace-close brace-level-1" id="pair-83-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-84-close">{</span>
+    <span class="token keyword keyword-return">return</span> x <span class="token operator">+</span> y<span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-84-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>main.cpp:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-85-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-85-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-87-close">{</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"The sum of 3 and 4 is: "</span> <span class="token operator">&lt;&lt;</span> <span class="token function">add</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-86-close">(</span><span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-86-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span> <span class="token comment">// compile error</span>
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-87-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  Your compiler may compile either <em>add.cpp</em> or <em>main.cpp</em> first.
+  Either way, <em>main.cpp</em> will fail to compile, giving the same compiler
+  error as the previous example:
+</p>
+<pre>
+main.cpp(5) : error C3861: 'add': identifier not found
+</pre>
+<p>
+  The reason is exactly the same as well: when the compiler reaches line 5 of
+  <em>main.cpp</em>, it doesn’t know what identifier <em>add</em> is.
+</p>
+<p>
+  Remember, the compiler compiles each file individually. It does not know about
+  the contents of other code files, or remember anything it has seen from
+  previously compiled code files. So even though the compiler may have seen the
+  definition of function <em>add</em> previously (if it compiled
+  <em>add.cpp</em> first), it doesn’t remember.
+</p>
+<div class="code-block code-block-3" style="margin: 8px 0; clear: both"></div>
+<p>
+  This limited visibility and short memory is intentional, for a few reasons:
+</p>
+<ol start="1">
+  <li>It allows the source files of a project to be compiled in any order.</li>
+  <li>
+    When we change a source file, only that source file needs to be recompiled.
+  </li>
+  <li>
+    It reduces the possibility of naming conflicts between identifiers in
+    different files.
+  </li>
+</ol>
+<p>
+  We’ll explore what happens when names do conflict in the next lesson (<a
+    href="https://www.learncpp.com/cpp-tutorial/naming-collisions-and-an-introduction-to-namespaces/"
+    >2.9 -- Naming collisions and an introduction to namespaces</a
+  >).
+</p>
+<p>
+  Our options for a solution here are the same as before: place the definition
+  of function <em>add</em> before function <em>main</em>, or satisfy the
+  compiler with a forward declaration. In this case, because function
+  <em>add</em> is in another file, the reordering option isn’t possible.
+</p>
+<p>The solution here is to use a forward declaration:</p>
+<p>main.cpp (with forward declaration):</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">add</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-88-close">(</span><span class="token keyword keyword-int">int</span> x<span class="token punctuation">,</span> <span class="token keyword keyword-int">int</span> y<span class="token punctuation brace-round brace-close brace-level-1" id="pair-88-open">)</span><span class="token punctuation">;</span> <span class="token comment">// needed so main.cpp knows that add() is a function defined elsewhere</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-89-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-89-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-91-close">{</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"The sum of 3 and 4 is: "</span> <span class="token operator">&lt;&lt;</span> <span class="token function">add</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-90-close">(</span><span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-90-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-91-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>add.cpp (stays the same):</p>
+<div class="code-block code-block-4" style="margin: 8px 0; clear: both"></div>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-int">int</span> <span class="token function">add</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-92-close">(</span><span class="token keyword keyword-int">int</span> x<span class="token punctuation">,</span> <span class="token keyword keyword-int">int</span> y<span class="token punctuation brace-round brace-close brace-level-1" id="pair-92-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-93-close">{</span>
+    <span class="token keyword keyword-return">return</span> x <span class="token operator">+</span> y<span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-93-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  Now, when the compiler is compiling <em>main.cpp</em>, it will know what
+  identifier <em>add</em> is and be satisfied. The linker will connect the
+  function call to <em>add</em> in <em>main.cpp</em> to the definition of
+  function <em>add</em> in <em>add.cpp</em>.
+</p>
+<p>
+  Using this method, we can give files access to functions that live in another
+  file.
+</p>
+<p>
+  Try compiling <em>add.cpp</em> and the <em>main.cpp</em> with the forward
+  declaration for yourself. If you get a linker error, make sure you’ve added
+  <em>add.cpp</em> to your project or compilation line properly.
+</p>
+<div class="cpp-note cpp-lightbluebackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Tip</p>
+  <p>
+    Because the compiler compiles each code file individually (and then forgets
+    what it has seen), each code file that uses <code>std::cout</code> or
+    <code>std::cin</code> needs to <code>#include &lt;iostream&gt;</code>.
+  </p>
+  <p>
+    In the above example, if <code>add.cpp</code> had used
+    <code>std::cout</code> or <code>std::cin</code>, it would have needed to
+    <code>#include &lt;iostream&gt;</code>.
+  </p>
+</div>
+<div class="cpp-note cpp-lightbluebackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Key insight</p>
+  <p>
+    When an identifier is used in an expression, the identifier must be
+    connected to its definition.
+  </p>
+  <ul>
+    <li>
+      If the compiler has seen neither a forward declaration nor a definition
+      for the identifier in the file being compiled, it will error at the point
+      where the identifier is used.
+    </li>
+    <li>
+      Otherwise, if a definition exists in the same file, the compiler will
+      connect the use of the identifier to its definition.
+    </li>
+    <li>
+      Otherwise, if a definition exists in a different file (and is visible to
+      the linker), the linker will connect the use of the identifier to its
+      definition.
+    </li>
+    <li>
+      Otherwise, the linker will issue an error indicating that it couldn’t find
+      a definition for the identifier.
+    </li>
+  </ul>
+</div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Something went wrong!
+</p>
+<p>
+  There are plenty of things that can go wrong the first time you try to work
+  with multiple files. If you tried the above example and ran into an error,
+  check the following:
+</p>
+<div class="code-block code-block-5" style="margin: 8px 0; clear: both"></div>
+<ol start="1">
+  <li>
+    If you get a compiler error about <em>add</em> not being defined in
+    <em>main</em>, you probably forgot the forward declaration for function
+    <em>add</em> in <em>main.cpp</em>.
+  </li>
+  <li>If you get a linker error about <em>add</em> not being defined, e.g.</li>
+</ol>
+<pre>
+unresolved external symbol "int __cdecl add(int,int)" (?add@@YAHHH@Z) referenced in function _main</pre
+>
+<p>
+  2a. …the most likely reason is that <em>add.cpp</em> is not added to your
+  project correctly. When you compile, you should see the compiler list both
+  <em>main.cpp</em> and <em>add.cpp</em>. If you only see <em>main.cpp</em>,
+  then <em>add.cpp</em> definitely isn’t getting compiled. If you’re using
+  Visual Studio or Code::Blocks, you should see <em>add.cpp</em> listed in the
+  Solution Explorer/project pane on the left or right side of the IDE. If you
+  don’t, right click on your project, and add the file, then try compiling
+  again. If you’re compiling on the command line, don’t forget to include both
+  <em>main.cpp</em> and <em>add.cpp</em> in your compile command.
+</p>
+<p>2b. …it’s possible that you added <em>add.cpp</em> to the wrong project.</p>
+<p>
+  2c. …it’s possible that the file is set to not compile or link. Check the file
+  properties and ensure the file is configured to be compiled/linked. In
+  Code::Blocks, compile and link are separate checkboxes that should be checked.
+  In Visual Studio, there’s an “exclude from build” option that should be set to
+  “no” or left blank. Make sure you check each build configuration (e.g. debug
+  and release) separately.
+</p>
+<ol start="3">
+  <li>
+    Do <em>not</em> <em>#include “add.cpp”</em> from <em>main.cpp</em>. While
+    doing so compiles in this case, #including .cpp files increases the risk of
+    naming conflicts and other unanticipated consequences (especially as
+    programs get larger and more complex). We discuss #include further in lesson
+    <a
+      href="https://www.learncpp.com/cpp-tutorial/introduction-to-the-preprocessor/"
+      >2.10 -- Introduction to the preprocessor</a
+    >.
+  </li>
+</ol>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Summary
+</p>
+<p>
+  C++ is designed so that each source file can be compiled independently, with
+  no knowledge of what is in other files. Therefore, the order in which files
+  are actually compiled should not be relevant.
+</p>
+<div class="code-block code-block-6" style="margin: 8px 0; clear: both"></div>
+<p>
+  We will begin working with multiple files a lot once we get into
+  object-oriented programming, so now’s as good a time as any to make sure you
+  understand how to add and compile multiple file projects.
+</p>
+<p>
+  Reminder: Whenever you create a new code (.cpp) file, you will need to add it
+  to your project so that it gets compiled.
+</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Quiz time
+</p>
+<div class="quiz" style="clear: both">
+  <p class="quiz-header">Question #1</p>
+  <p>
+    Split the following program into two files (main.cpp, and input.cpp).
+    main.cpp should have the main function, and input.cpp should have the
+    getInteger function.
+  </p>
+  <p>
+    <a
+      class="hint_link_show"
+      href="javascript:void(0)"
+      onclick="cppHintToggle(document.getElementById('cpp_hint_id_0'),this,'Show Hint','')"
+      >Show Hint</a
+    >
+  </p>
+  <div
+    class="wphint"
+    id="cpp_hint_id_0"
+    style="display: none; margin-bottom: 1em"
+  >
+    Hint: Don’t forget that you’ll need a forward declaration in main.cpp for
+    function getInteger().
+  </div>
+  <div class="code-toolbar">
+    <pre
+      class="line-numbers language-cpp"
+      tabindex="0"
+    ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">getInteger</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-94-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-94-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-99-close">{</span>
+	std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Enter an integer: "</span><span class="token punctuation">;</span>
+	<span class="token keyword keyword-int">int</span> x<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-98-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-98-open">}</span><span class="token punctuation">;</span>
+	std<span class="token double-colon punctuation">::</span>cin <span class="token operator">&gt;&gt;</span> x<span class="token punctuation">;</span>
+	<span class="token keyword keyword-return">return</span> x<span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-99-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-95-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-95-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-102-close">{</span>
+	<span class="token keyword keyword-int">int</span> x<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-100-close">{</span> <span class="token function">getInteger</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-96-close">(</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-96-open">)</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-100-open">}</span><span class="token punctuation">;</span>
+	<span class="token keyword keyword-int">int</span> y<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-101-close">{</span> <span class="token function">getInteger</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-97-close">(</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-97-open">)</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-101-open">}</span><span class="token punctuation">;</span>
+
+	std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> x <span class="token operator">&lt;&lt;</span> <span class="token string">" + "</span> <span class="token operator">&lt;&lt;</span> y <span class="token operator">&lt;&lt;</span> <span class="token string">" is "</span> <span class="token operator">&lt;&lt;</span> x <span class="token operator">+</span> y <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+	<span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-102-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+    <div class="toolbar">
+      <div class="toolbar-item">
+        <button
+          class="copy-to-clipboard-button"
+          type="button"
+          data-copy-state="copy"
+        >
+          <span>Copy</span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <p>
+    <a
+      class="solution_link_show"
+      href="javascript:void(0)"
+      onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_0'),this,'Show Solution','Hide Solution')"
+      >Show Solution</a
+    >
+  </p>
+  <div class="wpsolution" id="cpp_solution_id_0" style="display: none">
+    <p>input.cpp:</p>
+    <div class="code-toolbar">
+      <pre
+        class="line-numbers language-cpp"
+        tabindex="0"
+      ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span> <span class="token comment">// we need iostream since we use it in this file</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">getInteger</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-103-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-103-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-105-close">{</span>
+	std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Enter an integer: "</span><span class="token punctuation">;</span>
+	<span class="token keyword keyword-int">int</span> x<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-104-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-104-open">}</span><span class="token punctuation">;</span>
+	std<span class="token double-colon punctuation">::</span>cin <span class="token operator">&gt;&gt;</span> x<span class="token punctuation">;</span>
+	<span class="token keyword keyword-return">return</span> x<span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-105-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+      <div class="toolbar">
+        <div class="toolbar-item">
+          <button
+            class="copy-to-clipboard-button"
+            type="button"
+            data-copy-state="copy"
+          >
+            <span>Copy</span>
+          </button>
+        </div>
+      </div>
+    </div>
+    <p>main.cpp:</p>
+    <div class="code-toolbar">
+      <pre
+        class="line-numbers language-cpp"
+        tabindex="0"
+      ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span> <span class="token comment">// we need iostream here too since we use it in this file as well</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">getInteger</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-106-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-106-open">)</span><span class="token punctuation">;</span> <span class="token comment">// forward declaration for function getInteger</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-107-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-107-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-112-close">{</span>
+	<span class="token keyword keyword-int">int</span> x<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-110-close">{</span> <span class="token function">getInteger</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-108-close">(</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-108-open">)</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-110-open">}</span><span class="token punctuation">;</span>
+	<span class="token keyword keyword-int">int</span> y<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-111-close">{</span> <span class="token function">getInteger</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-109-close">(</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-109-open">)</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-111-open">}</span><span class="token punctuation">;</span>
+
+	std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> x <span class="token operator">&lt;&lt;</span> <span class="token string">" + "</span> <span class="token operator">&lt;&lt;</span> y <span class="token operator">&lt;&lt;</span> <span class="token string">" is "</span> <span class="token operator">&lt;&lt;</span> x <span class="token operator">+</span> y <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+	<span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-112-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+      <div class="toolbar">
+        <div class="toolbar-item">
+          <button
+            class="copy-to-clipboard-button"
+            type="button"
+            data-copy-state="copy"
+          >
+            <span>Copy</span>
+          </button>
+        </div>
+      </div>
+    </div>
+    <p>
+      If you get an error from the linker regarding an undefined reference to
+      <code>getInteger()</code>, then you probably forgot to compile
+      <em>input.cpp</em>.
+    </p>
+  </div>
+  <p></p>
+</div>
+<div class="prevnext">
+  <div class="prevnext-inline">
+    <a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/naming-collisions-and-an-introduction-to-namespaces/"
+      ><div class="nav-button nav-button-next">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-right" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Next lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">2.9</span>Naming collisions
+            and an introduction to namespaces
+          </div>
+        </div>
+      </div></a
+    ><a class="nav-link" href="/"
+      ><div class="nav-button nav-button-index">
+        <div class="nav-button-icon">
+          <i class="fa fa-home" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Back to table of contents</div>
+        </div>
+      </div></a
+    ><a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/forward-declarations/"
+      ><div class="nav-button nav-button-prev">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-left" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Previous lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">2.7</span>Forward
+            declarations and definitions
+          </div>
+        </div>
+      </div></a
+    >
+  </div>
+</div>
+<div class="code-block code-block-10" style="margin: 8px 0; clear: both"></div>

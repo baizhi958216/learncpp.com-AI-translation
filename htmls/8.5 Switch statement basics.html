@@ -1,0 +1,767 @@
+<div
+  class="code-block code-block-1"
+  style="margin: 8px 8px 8px 0; float: left"
+></div>
+<p>
+  Although it is possible to chain many if-else-statements together, this is
+  both difficult to read and inefficient. Consider the following program:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-void">void</span> <span class="token function">printDigitName</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-125-close">(</span><span class="token keyword keyword-int">int</span> x<span class="token punctuation brace-round brace-close brace-level-1" id="pair-125-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-131-close">{</span>
+    <span class="token keyword keyword-if">if</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-126-close">(</span>x <span class="token operator">==</span> <span class="token number">1</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-126-open">)</span>
+        std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"One"</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-else">else</span> <span class="token keyword keyword-if">if</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-127-close">(</span>x <span class="token operator">==</span> <span class="token number">2</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-127-open">)</span>
+        std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Two"</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-else">else</span> <span class="token keyword keyword-if">if</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-128-close">(</span>x <span class="token operator">==</span> <span class="token number">3</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-128-open">)</span>
+        std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Three"</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-else">else</span>
+        std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Unknown"</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-131-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-129-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-129-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-132-close">{</span>
+    <span class="token function">printDigitName</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-130-close">(</span><span class="token number">2</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-130-open">)</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-132-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  Variable <code>x</code> in <code>printDigitName()</code> will be evaluated up
+  to three times depending on the value passed in (which is inefficient), and
+  the reader has to be sure that it is <code>x</code> being evaluated each time
+  (not some other variable).
+</p>
+<p>
+  Because testing a variable or expression for equality against a set of
+  different values is common, C++ provides an alternative conditional statement
+  called a switch-statement that is specialized for this purpose. Here is the
+  same program as above using a switch:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-void">void</span> <span class="token function">printDigitName</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-133-close">(</span><span class="token keyword keyword-int">int</span> x<span class="token punctuation brace-round brace-close brace-level-1" id="pair-133-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-138-close">{</span>
+    <span class="token keyword keyword-switch">switch</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-134-close">(</span>x<span class="token punctuation brace-round brace-close brace-level-2" id="pair-134-open">)</span>
+    <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-137-close">{</span>
+    <span class="token keyword keyword-case">case</span> <span class="token number">1</span><span class="token operator">:</span>
+        std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"One"</span><span class="token punctuation">;</span>
+        <span class="token keyword keyword-return">return</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-case">case</span> <span class="token number">2</span><span class="token operator">:</span>
+        std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Two"</span><span class="token punctuation">;</span>
+        <span class="token keyword keyword-return">return</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-case">case</span> <span class="token number">3</span><span class="token operator">:</span>
+        std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Three"</span><span class="token punctuation">;</span>
+        <span class="token keyword keyword-return">return</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-default">default</span><span class="token operator">:</span>
+        std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Unknown"</span><span class="token punctuation">;</span>
+        <span class="token keyword keyword-return">return</span><span class="token punctuation">;</span>
+    <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-137-open">}</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-138-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-135-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-135-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-139-close">{</span>
+    <span class="token function">printDigitName</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-136-close">(</span><span class="token number">2</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-136-open">)</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-139-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  The idea behind a <strong>switch statement</strong> is simple: an expression
+  (sometimes called the condition) is evaluated to produce a value.
+</p>
+<p>Then one of the following occurs:</p>
+<div class="code-block code-block-2" style="margin: 8px 0; clear: both"></div>
+<ul>
+  <li>
+    If the expression’s value is equal to the value after any of the
+    case-labels, the statements after the matching case-label are executed.
+  </li>
+  <li>
+    If no matching value can be found and a default label exists, the statements
+    after the default label are executed.
+  </li>
+  <li>
+    If no matching value can be found and there is no default label, the switch
+    is skipped.
+  </li>
+</ul>
+<p>Let’s examine each of these concepts in more detail.</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Starting a switch
+</p>
+<p>
+  We start a switch-statement by using the <code>switch</code> keyword, followed
+  by parentheses with the conditional expression that we would like to evaluate
+  inside. Often the expression is just a single variable, but it can be any
+  valid expression.
+</p>
+<p>
+  The condition in a switch must evaluate to an integral type (see lesson
+  <a
+    href="https://www.learncpp.com/cpp-tutorial/introduction-to-fundamental-data-types/"
+    >4.1 -- Introduction to fundamental data types</a
+  >
+  if you need a reminder which fundamental types are considered integral types)
+  or an enumerated type (covered in future lessons
+  <a href="https://www.learncpp.com/cpp-tutorial/unscoped-enumerations/"
+    >13.2 -- Unscoped enumerations</a
+  >
+  and
+  <a
+    href="https://www.learncpp.com/cpp-tutorial/scoped-enumerations-enum-classes/"
+    >13.6 -- Scoped enumerations (enum classes)</a
+  >), or be convertible to one. Expressions that evaluate to floating point
+  types, strings, and most other non-integral types may not be used here.
+</p>
+<div class="cpp-note cpp-lightgraybackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">For advanced readers</p>
+  <p>
+    Why does the switch type only allow for integral (or enumerated) types? The
+    answer is because switch statements are designed to be highly optimized.
+    Historically, the most common way for compilers to implement switch
+    statements is via
+    <a href="https://en.wikipedia.org/wiki/Branch_table">Jump tables</a> -- and
+    jump tables only work with integral values.
+  </p>
+  <p>
+    For those of you already familiar with arrays, a jump table works much like
+    an array, an integral value is used as the array index to “jump” directly to
+    a result. This can be much more efficient than doing a bunch of sequential
+    comparisons.
+  </p>
+  <p>
+    Of course, compilers don’t have to implement switches using jump tables, and
+    sometimes they don’t. There is technically no reason that C++ couldn’t relax
+    the restriction so that other types could be used as well, they just haven’t
+    done so yet (as of C++23).
+  </p>
+</div>
+<p>
+  Following the conditional expression, we declare a block. Inside the block, we
+  use labels to define all of the values we want to test for equality. There are
+  two kinds of labels used with switch statements, which we’ll discuss
+  subsequently.
+</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Case labels
+</p>
+<p>
+  The first kind of label is the <strong>case label</strong>, which is declared
+  using the <code>case</code> keyword and followed by a constant expression. The
+  constant expression must either match the type of the condition or must be
+  convertible to that type.
+</p>
+<div class="code-block code-block-3" style="margin: 8px 0; clear: both"></div>
+<p>
+  If the value of the conditional expression equals the expression after a
+  <code>case label</code>, execution begins at the first statement after that
+  <code>case label</code> and then continues sequentially.
+</p>
+<p>Here’s an example of the condition matching a <code>case label</code>:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-void">void</span> <span class="token function">printDigitName</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-140-close">(</span><span class="token keyword keyword-int">int</span> x<span class="token punctuation brace-round brace-close brace-level-1" id="pair-140-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-145-close">{</span>
+    <span class="token keyword keyword-switch">switch</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-141-close">(</span>x<span class="token punctuation brace-round brace-close brace-level-2" id="pair-141-open">)</span> <span class="token comment">// x is evaluated to produce value 2</span>
+    <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-144-close">{</span>
+    <span class="token keyword keyword-case">case</span> <span class="token number">1</span><span class="token operator">:</span>
+        std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"One"</span><span class="token punctuation">;</span>
+        <span class="token keyword keyword-return">return</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-case">case</span> <span class="token number">2</span><span class="token operator">:</span> <span class="token comment">// which matches the case statement here</span>
+        std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Two"</span><span class="token punctuation">;</span> <span class="token comment">// so execution starts here</span>
+        <span class="token keyword keyword-return">return</span><span class="token punctuation">;</span> <span class="token comment">// and then we return to the caller</span>
+    <span class="token keyword keyword-case">case</span> <span class="token number">3</span><span class="token operator">:</span>
+        std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Three"</span><span class="token punctuation">;</span>
+        <span class="token keyword keyword-return">return</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-default">default</span><span class="token operator">:</span>
+        std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Unknown"</span><span class="token punctuation">;</span>
+        <span class="token keyword keyword-return">return</span><span class="token punctuation">;</span>
+    <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-144-open">}</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-145-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-142-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-142-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-146-close">{</span>
+    <span class="token function">printDigitName</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-143-close">(</span><span class="token number">2</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-143-open">)</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-146-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>This code prints:</p>
+<pre>
+Two
+</pre>
+<p>
+  In the above program, <code>x</code> is evaluated to produce value
+  <code>2</code>. Because there is a case label with value <code>2</code>,
+  execution jumps to the statement underneath that matching case label. The
+  program prints <code>Two</code>, and then the <code>return statement</code> is
+  executed, which returns back to the caller.
+</p>
+<p>
+  There is no practical limit to the number of case labels you can have, but all
+  case labels in a switch must be unique. That is, you can not do this:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-switch">switch</span> <span class="token punctuation brace-round brace-open brace-level-1" id="pair-147-close">(</span>x<span class="token punctuation brace-round brace-close brace-level-1" id="pair-147-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-148-close">{</span>
+<span class="token keyword keyword-case">case</span> <span class="token number">54</span><span class="token operator">:</span>
+<span class="token keyword keyword-case">case</span> <span class="token number">54</span><span class="token operator">:</span>  <span class="token comment">// error: already used value 54!</span>
+<span class="token keyword keyword-case">case</span> <span class="token string">'6'</span><span class="token operator">:</span> <span class="token comment">// error: '6' converts to integer value 54, which is already used</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-148-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  If the conditional expression does not match any of the case labels, no cases
+  are executed. We’ll show an example of this shortly.
+</p>
+<div class="code-block code-block-4" style="margin: 8px 0; clear: both"></div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  The default label
+</p>
+<p>
+  The second kind of label is the <strong>default label</strong> (often called
+  the <strong>default case</strong>), which is declared using the
+  <code>default</code> keyword. If the conditional expression does not match any
+  case label and a default label exists, execution begins at the first statement
+  after the default label.
+</p>
+<p>Here’s an example of the condition matching the default label:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-void">void</span> <span class="token function">printDigitName</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-149-close">(</span><span class="token keyword keyword-int">int</span> x<span class="token punctuation brace-round brace-close brace-level-1" id="pair-149-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-154-close">{</span>
+    <span class="token keyword keyword-switch">switch</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-150-close">(</span>x<span class="token punctuation brace-round brace-close brace-level-2" id="pair-150-open">)</span> <span class="token comment">// x is evaluated to produce value 5</span>
+    <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-153-close">{</span>
+    <span class="token keyword keyword-case">case</span> <span class="token number">1</span><span class="token operator">:</span>
+        std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"One"</span><span class="token punctuation">;</span>
+        <span class="token keyword keyword-return">return</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-case">case</span> <span class="token number">2</span><span class="token operator">:</span>
+        std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Two"</span><span class="token punctuation">;</span>
+        <span class="token keyword keyword-return">return</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-case">case</span> <span class="token number">3</span><span class="token operator">:</span>
+        std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Three"</span><span class="token punctuation">;</span>
+        <span class="token keyword keyword-return">return</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-default">default</span><span class="token operator">:</span> <span class="token comment">// which does not match to any case labels</span>
+        std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Unknown"</span><span class="token punctuation">;</span> <span class="token comment">// so execution starts here</span>
+        <span class="token keyword keyword-return">return</span><span class="token punctuation">;</span> <span class="token comment">// and then we return to the caller</span>
+    <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-153-open">}</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-154-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-151-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-151-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-155-close">{</span>
+    <span class="token function">printDigitName</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-152-close">(</span><span class="token number">5</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-152-open">)</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-155-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>This code prints:</p>
+<pre>
+Unknown
+</pre>
+<p>
+  The default label is optional, and there can only be one default label per
+  switch statement. By convention, the default case is placed last in the switch
+  block.
+</p>
+<div class="cpp-note cpp-lightgreenbackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Best practice</p>
+  <p>Place the default case last in the switch block.</p>
+</div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  No matching case label and no default case
+</p>
+<p>
+  If the value of the conditional expression does not match any of the case
+  labels, and no default case has been provided, then no cases inside the switch
+  are executed. Execution continues after the end of the switch block.
+</p>
+<div class="code-block code-block-5" style="margin: 8px 0; clear: both"></div>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-void">void</span> <span class="token function">printDigitName</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-156-close">(</span><span class="token keyword keyword-int">int</span> x<span class="token punctuation brace-round brace-close brace-level-1" id="pair-156-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-161-close">{</span>
+    <span class="token keyword keyword-switch">switch</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-157-close">(</span>x<span class="token punctuation brace-round brace-close brace-level-2" id="pair-157-open">)</span> <span class="token comment">// x is evaluated to produce value 5</span>
+    <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-160-close">{</span>
+    <span class="token keyword keyword-case">case</span> <span class="token number">1</span><span class="token operator">:</span>
+        std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"One"</span><span class="token punctuation">;</span>
+        <span class="token keyword keyword-return">return</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-case">case</span> <span class="token number">2</span><span class="token operator">:</span>
+        std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Two"</span><span class="token punctuation">;</span>
+        <span class="token keyword keyword-return">return</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-case">case</span> <span class="token number">3</span><span class="token operator">:</span>
+        std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Three"</span><span class="token punctuation">;</span>
+        <span class="token keyword keyword-return">return</span><span class="token punctuation">;</span>
+    <span class="token comment">// no matching case exists and there is no default case</span>
+    <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-160-open">}</span>
+
+    <span class="token comment">// so execution continues here</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Hello"</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-161-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-158-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-158-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-162-close">{</span>
+    <span class="token function">printDigitName</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-159-close">(</span><span class="token number">5</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-159-open">)</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-162-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  In the above example, <code>x</code> evalutes to <code>5</code>, but there is
+  no case label matching <code>5</code>, nor is there a default case. As a
+  result, no cases execute. Execution continues after the switch block, printing
+  <code>Hello</code>.
+</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Taking a break
+</p>
+<p>
+  In the above examples, we used return-statements to stop execution of the
+  statements after our labels. However, this also exits the entire function.
+</p>
+<p>
+  A <strong>break statement</strong> (declared using the
+  <code>break</code> keyword) tells the compiler that we are done executing
+  statements within the switch, and that execution should continue with the
+  statement after the end of the switch block. This allows us to exit a
+  switch-statement without exiting the entire function.
+</p>
+<p>
+  Here’s a slightly modified example rewritten using <code>break</code> instead
+  of <code>return</code>:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-void">void</span> <span class="token function">printDigitName</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-163-close">(</span><span class="token keyword keyword-int">int</span> x<span class="token punctuation brace-round brace-close brace-level-1" id="pair-163-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-168-close">{</span>
+    <span class="token keyword keyword-switch">switch</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-164-close">(</span>x<span class="token punctuation brace-round brace-close brace-level-2" id="pair-164-open">)</span> <span class="token comment">// x evaluates to 3</span>
+    <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-167-close">{</span>
+    <span class="token keyword keyword-case">case</span> <span class="token number">1</span><span class="token operator">:</span>
+        std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"One"</span><span class="token punctuation">;</span>
+        <span class="token keyword keyword-break">break</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-case">case</span> <span class="token number">2</span><span class="token operator">:</span>
+        std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Two"</span><span class="token punctuation">;</span>
+        <span class="token keyword keyword-break">break</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-case">case</span> <span class="token number">3</span><span class="token operator">:</span>
+        std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Three"</span><span class="token punctuation">;</span> <span class="token comment">// execution starts here</span>
+        <span class="token keyword keyword-break">break</span><span class="token punctuation">;</span> <span class="token comment">// jump to the end of the switch block</span>
+    <span class="token keyword keyword-default">default</span><span class="token operator">:</span>
+        std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Unknown"</span><span class="token punctuation">;</span>
+        <span class="token keyword keyword-break">break</span><span class="token punctuation">;</span>
+    <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-167-open">}</span>
+
+    <span class="token comment">// execution continues here</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">" Ah-Ah-Ah!"</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-168-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-165-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-165-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-169-close">{</span>
+    <span class="token function">printDigitName</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-166-close">(</span><span class="token number">3</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-166-open">)</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-169-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>The above example prints:</p>
+<pre>
+Three Ah-Ah-Ah!
+</pre>
+<div class="cpp-note cpp-lightgreenbackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Best practice</p>
+  <p>
+    Each set of statements underneath a label should end in a break-statement or
+    a return-statement. This includes the statements underneath the last label
+    in the switch.
+  </p>
+</div>
+<p>
+  So what happens if you don’t end a set of statements under a label with a
+  <code>break</code> or <code>return</code>? We’ll explore that topic, and
+  others, in the next lesson.
+</p>
+<div class="code-block code-block-6" style="margin: 8px 0; clear: both"></div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Labels are conventionally not indented
+</p>
+<p>
+  In lesson
+  <a
+    href="https://www.learncpp.com/cpp-tutorial/naming-collisions-and-an-introduction-to-namespaces/"
+    >2.9 -- Naming collisions and an introduction to namespaces</a
+  >, we noted that code is typically indented one level to help identify that
+  it’s part of a nested scope region. Since the curly braces of the switch
+  defines a new scope region, we’d normally indent everything inside the curly
+  braces one level.
+</p>
+<p>
+  A label, on the other hand, does not define a nested scope. Therefore, the
+  code following a label is conventionally not indented.
+</p>
+<p>
+  However, if we indent both the labels and the subsequent statements to the
+  same level, we end up with something like this:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token comment">// Unreadable version</span>
+<span class="token keyword keyword-void">void</span> <span class="token function">printDigitName</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-170-close">(</span><span class="token keyword keyword-int">int</span> x<span class="token punctuation brace-round brace-close brace-level-1" id="pair-170-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-173-close">{</span>
+    <span class="token keyword keyword-switch">switch</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-171-close">(</span>x<span class="token punctuation brace-round brace-close brace-level-2" id="pair-171-open">)</span>
+    <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-172-close">{</span>
+        <span class="token keyword keyword-case">case</span> <span class="token number">1</span><span class="token operator">:</span>
+        std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"One"</span><span class="token punctuation">;</span>
+        <span class="token keyword keyword-return">return</span><span class="token punctuation">;</span>
+        <span class="token keyword keyword-case">case</span> <span class="token number">2</span><span class="token operator">:</span>
+        std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Two"</span><span class="token punctuation">;</span>
+        <span class="token keyword keyword-return">return</span><span class="token punctuation">;</span>
+        <span class="token keyword keyword-case">case</span> <span class="token number">3</span><span class="token operator">:</span>
+        std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Three"</span><span class="token punctuation">;</span>
+        <span class="token keyword keyword-return">return</span><span class="token punctuation">;</span>
+        <span class="token keyword keyword-default">default</span><span class="token operator">:</span>
+        std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Unknown"</span><span class="token punctuation">;</span>
+        <span class="token keyword keyword-return">return</span><span class="token punctuation">;</span>
+    <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-172-open">}</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-173-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>This makes it really hard to determine where each case starts and ends.</p>
+<div class="code-block code-block-7" style="margin: 8px 0; clear: both"></div>
+<p>
+  We have two choices here. First, we can indent the statements following the
+  labels anyway:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token comment">// Acceptable but not preferred version</span>
+<span class="token keyword keyword-void">void</span> <span class="token function">printDigitName</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-174-close">(</span><span class="token keyword keyword-int">int</span> x<span class="token punctuation brace-round brace-close brace-level-1" id="pair-174-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-177-close">{</span>
+    <span class="token keyword keyword-switch">switch</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-175-close">(</span>x<span class="token punctuation brace-round brace-close brace-level-2" id="pair-175-open">)</span>
+    <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-176-close">{</span>
+        <span class="token keyword keyword-case">case</span> <span class="token number">1</span><span class="token operator">:</span> <span class="token comment">// indented from switch block</span>
+            std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"One"</span><span class="token punctuation">;</span> <span class="token comment">// indented from label (misleading)</span>
+            <span class="token keyword keyword-return">return</span><span class="token punctuation">;</span>
+        <span class="token keyword keyword-case">case</span> <span class="token number">2</span><span class="token operator">:</span>
+            std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Two"</span><span class="token punctuation">;</span>
+            <span class="token keyword keyword-return">return</span><span class="token punctuation">;</span>
+        <span class="token keyword keyword-case">case</span> <span class="token number">3</span><span class="token operator">:</span>
+            std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Three"</span><span class="token punctuation">;</span>
+            <span class="token keyword keyword-return">return</span><span class="token punctuation">;</span>
+        <span class="token keyword keyword-default">default</span><span class="token operator">:</span>
+            std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Unknown"</span><span class="token punctuation">;</span>
+            <span class="token keyword keyword-return">return</span><span class="token punctuation">;</span>
+    <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-176-open">}</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-177-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  While this is certainly more readable than the prior version, it implies that
+  the statements beneath each label are in a nested scope, which is not the case
+  (we’ll see examples of this in the next lesson, where a variable we define in
+  one case can be used in another case). This formatting is considered
+  acceptable (as it is readable), but it is not preferred.
+</p>
+<p>Conventionally, labels are simply not indented:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token comment">// Preferred version</span>
+<span class="token keyword keyword-void">void</span> <span class="token function">printDigitName</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-178-close">(</span><span class="token keyword keyword-int">int</span> x<span class="token punctuation brace-round brace-close brace-level-1" id="pair-178-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-181-close">{</span>
+    <span class="token keyword keyword-switch">switch</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-179-close">(</span>x<span class="token punctuation brace-round brace-close brace-level-2" id="pair-179-open">)</span>
+    <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-180-close">{</span>
+    <span class="token keyword keyword-case">case</span> <span class="token number">1</span><span class="token operator">:</span> <span class="token comment">// not indented from switch statement</span>
+        std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"One"</span><span class="token punctuation">;</span>
+        <span class="token keyword keyword-return">return</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-case">case</span> <span class="token number">2</span><span class="token operator">:</span>
+        std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Two"</span><span class="token punctuation">;</span>
+        <span class="token keyword keyword-return">return</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-case">case</span> <span class="token number">3</span><span class="token operator">:</span>
+        std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Three"</span><span class="token punctuation">;</span>
+        <span class="token keyword keyword-return">return</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-default">default</span><span class="token operator">:</span>
+        std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Unknown"</span><span class="token punctuation">;</span>
+        <span class="token keyword keyword-return">return</span><span class="token punctuation">;</span>
+    <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-180-open">}</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-181-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  This makes it easy to identify each label. And because the statements are only
+  indented one level from the switch block, it correctly implies that the
+  statements are all part of the scope of the switch block.
+</p>
+<p>
+  In future lessons, we’ll encounter other types of labels -- these are also
+  conventionally not indented for the same reason.
+</p>
+<div class="code-block code-block-8" style="margin: 8px 0; clear: both"></div>
+<div class="cpp-note cpp-lightgreenbackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Best practice</p>
+  <p>
+    Prefer not to indent labels. This allows them to stand out from the
+    surrounding code without implying that they are defining a nested scope
+    region.
+  </p>
+</div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Switch vs if-else
+</p>
+<p>
+  Switch statements are best used when there is a single expression (with a
+  non-boolean integral type or an enumerated type) we want to evaluate for
+  equality against a small number of values. If the number of case labels gets
+  too large, the switch can be hard to read.
+</p>
+<p>
+  Compared to the equivalent if-else statements, a switch-statement can be more
+  readable, makes it clearer that it is the same expression being tested for
+  equality in each case, and has the advantage of only evaluating the expression
+  once (making it more efficient).
+</p>
+<p>
+  However, if-else is significantly more flexible. Some cases where if or
+  if-else is typically better:
+</p>
+<ul>
+  <li>
+    Testing an expression for comparisons other than equality (e.g.
+    <code>x &gt; 5</code>)
+  </li>
+  <li>
+    Testing multiple conditions (e.g. <code>x == 5 &amp;&amp; y == 6</code>)
+  </li>
+  <li>
+    Determining whether a value is within a range (e.g.
+    <code>x &gt;= 5 &amp;&amp; x &lt;= 10</code>)
+  </li>
+  <li>
+    The expression has a type that switch doesn’t support (e.g.
+    <code>d == 4.0</code>).
+  </li>
+  <li>The expression evaluates to a <code>bool</code>.</li>
+</ul>
+<div class="cpp-note cpp-lightgreenbackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Best practice</p>
+  <p>
+    Prefer a switch-statement over if-else statements when testing a single
+    expression (with a non-boolean integral type or an enumerated type) for
+    equality against a small set of values.
+  </p>
+</div>
+<div class="prevnext">
+  <div class="prevnext-inline">
+    <a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/switch-fallthrough-and-scoping/"
+      ><div class="nav-button nav-button-next">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-right" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Next lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">8.6</span>Switch fallthrough
+            and scoping
+          </div>
+        </div>
+      </div></a
+    ><a class="nav-link" href="/"
+      ><div class="nav-button nav-button-index">
+        <div class="nav-button-icon">
+          <i class="fa fa-home" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Back to table of contents</div>
+        </div>
+      </div></a
+    ><a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/constexpr-if-statements/"
+      ><div class="nav-button nav-button-prev">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-left" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Previous lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">8.4</span>Constexpr if
+            statements
+          </div>
+        </div>
+      </div></a
+    >
+  </div>
+</div>
+<div class="code-block code-block-10" style="margin: 8px 0; clear: both"></div>

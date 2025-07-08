@@ -1,0 +1,1103 @@
+<div
+  class="code-block code-block-1"
+  style="margin: 8px 8px 8px 0; float: left"
+></div>
+<p>You’ve probably seen this program in a lot of textbooks and tutorials:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-using">using</span> <span class="token keyword keyword-namespace">namespace</span> std<span class="token punctuation">;</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-159-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-159-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-160-close">{</span>
+    cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Hello world!\n"</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-160-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  If you see this, run. Your textbook or tutorial are probably out of date. In
+  this lesson, we’ll explore why.
+</p>
+<div class="cpp-note cpp-lightbluebackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Tip</p>
+  <p>
+    Some IDEs will also auto-populate new C++ projects with a similar program
+    (so you can compile something immediately, rather than starting from a blank
+    file).
+  </p>
+</div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  A short history lesson
+</p>
+<p>
+  Back before C++ had support for namespaces, all of the names that are now in
+  the <code>std</code> namespace were in the global namespace. This caused
+  naming collisions between program identifiers and standard library
+  identifiers. Programs that worked under one version of C++ might have a naming
+  conflict with a newer version of C++.
+</p>
+<p>
+  In 1995, namespaces were standardized, and all of the functionality from the
+  standard library was moved out of the global namespace and into namespace
+  <code>std</code>. This change broke older code that was still using names
+  without <code>std::</code>.
+</p>
+<p>
+  As anyone who has worked on a large codebase knows, any change to a codebase
+  (no matter how trivial) risks breaking the program. Updating every name that
+  was now moved into the <code>std</code> namespace to use the
+  <code>std::</code> prefix was a massive risk. A solution was requested.
+</p>
+<div class="code-block code-block-2" style="margin: 8px 0; clear: both"></div>
+
+<p>
+  Fast forward to today -- if you’re using the standard library a lot, typing
+  <code>std::</code> before everything you use from the standard library can
+  become repetitive, and in some cases, can make your code harder to read.
+</p>
+<p>
+  C++ provides some solutions to both of these problems, in the form of
+  using-statements.
+</p>
+<p>But first, let’s define two terms.</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Qualified and unqualified names
+</p>
+<p>A name can be either qualified or unqualified.</p>
+<p>
+  A <strong>qualified name</strong> is a name that includes an associated scope.
+  Most often, names are qualified with a namespace using the scope resolution
+  operator (::). For example:
+</p>
+<div class="code-block code-block-3" style="margin: 8px 0; clear: both"></div>
+
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp">std<span class="token double-colon punctuation">::</span>cout <span class="token comment">// identifier cout is qualified by namespace std</span>
+<span class="token double-colon punctuation">::</span>foo <span class="token comment">// identifier foo is qualified by the global namespace</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<div class="cpp-note cpp-lightgraybackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">For advanced readers</p>
+  <p>
+    A name can also be qualified by a class name using the scope resolution
+    operator (::), or by a class object using the member selection operators (.
+    or -&gt;). For example:
+  </p>
+  <div class="code-toolbar">
+    <pre
+      class="line-numbers language-cpp"
+      tabindex="0"
+    ><code class="match-braces language-cpp"><span class="token keyword keyword-class">class</span> <span class="token class-name">C</span><span class="token punctuation">;</span> <span class="token comment">// some class</span>
+
+C<span class="token operator">:</span><span class="token base-clause"><span class="token operator">:</span><span class="token class-name">s_member</span></span><span class="token punctuation">;</span> <span class="token comment">// s_member is qualified by class C</span>
+obj<span class="token punctuation">.</span>x<span class="token punctuation">;</span> <span class="token comment">// x is qualified by class object obj</span>
+ptr<span class="token operator">-&gt;</span>y<span class="token punctuation">;</span> <span class="token comment">// y is qualified by pointer to class object ptr</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+    <div class="toolbar">
+      <div class="toolbar-item">
+        <button
+          class="copy-to-clipboard-button"
+          type="button"
+          data-copy-state="copy"
+        >
+          <span>Copy</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<p>
+  An <strong>unqualified name</strong> is a name that does not include a scoping
+  qualifier. For example, <code>cout</code> and <code>x</code> are unqualified
+  names, as they do not include an associated scope.
+</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Using-declarations
+</p>
+<p>
+  One way to reduce the repetition of typing <code>std::</code> over and over is
+  to utilize a using-declaration statement. A
+  <strong>using declaration</strong> allows us to use an unqualified name (with
+  no scope) as an alias for a qualified name.
+</p>
+<p>
+  Here’s our basic Hello world program, using a using-declaration on line 5:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-161-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-161-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-162-close">{</span>
+   <span class="token keyword keyword-using">using</span> std<span class="token double-colon punctuation">::</span>cout<span class="token punctuation">;</span> <span class="token comment">// this using declaration tells the compiler that cout should resolve to std::cout</span>
+   cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Hello world!\n"</span><span class="token punctuation">;</span> <span class="token comment">// so no std:: prefix is needed here!</span>
+
+   <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-162-open">}</span> <span class="token comment">// the using declaration expires at the end of the current scope</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  The using-declaration <code>using std::cout;</code> tells the compiler that
+  we’re going to be using the object <code>cout</code> from the
+  <code>std</code> namespace. So whenever it sees <code>cout</code>, it will
+  assume that we mean <code>std::cout</code>. If there’s a naming conflict
+  between <code>std::cout</code> and some other use of <code>cout</code> that is
+  visible from within <code>main()</code>, <code>std::cout</code> will be
+  preferred. Therefore on line 6, we can type <code>cout</code> instead of
+  <code>std::cout</code>.
+</p>
+<p>
+  This doesn’t save much effort in this trivial example, but if you are using
+  <code>cout</code> many times inside of a function, a using-declaration can
+  make your code more readable. Note that you will need a separate
+  using-declaration for each name (e.g. one for <code>std::cout</code>, one for
+  <code>std::cin</code>, etc…).
+</p>
+<div class="code-block code-block-4" style="margin: 8px 0; clear: both"></div>
+
+<p>
+  The using-declaration is active from the point of declaration to the end of
+  the scope in which it is declared.
+</p>
+<p>
+  Although using-declarations are less explicit than using the
+  <code>std::</code> prefix, they are generally considered safe and acceptable
+  to use in source (.cpp) files, with one exception that we’ll discuss below.
+</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Using-directives
+</p>
+<p>
+  Another way to simplify things is to use a using-directive. A
+  <strong>using directive</strong> allows <em>all</em> identifiers in a given
+  namespace to be referenced without qualification from the scope of the
+  using-directive.
+</p>
+<div class="cpp-note cpp-lightgraybackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">For advanced readers</p>
+  <p>
+    For technical reasons, using-directives do not actually introduce new
+    meanings for names into the current scope -- instead they introduce new
+    meanings for names into an outer scope (more details about which outer scope
+    is picked can be found
+    <a href="https://quuxplusone.github.io/blog/2020/12/21/using-directive/"
+      >here</a
+    >).
+  </p>
+</div>
+<p>Here’s our Hello world program again, with a using-directive on line 5:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-163-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-163-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-164-close">{</span>
+   <span class="token keyword keyword-using">using</span> <span class="token keyword keyword-namespace">namespace</span> std<span class="token punctuation">;</span> <span class="token comment">// all names from std namespace now accessible without qualification</span>
+   cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Hello world!\n"</span><span class="token punctuation">;</span> <span class="token comment">// so no std:: prefix is needed here</span>
+
+   <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-164-open">}</span> <span class="token comment">// the using-directive ends at the end of the current scope</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  The using-directive <code>using namespace std;</code> tells the compiler that
+  all of the names in the <code>std</code> namespace should be accessible
+  without qualification in the current scope (in this case, of function
+  <code>main()</code>). When we then use unqualified identifier
+  <code>cout</code>, it will resolve to <code>std::cout</code>.
+</p>
+<div class="code-block code-block-5" style="margin: 8px 0; clear: both"></div>
+
+<p>
+  Using-directives are the solution that was provided for old pre-namespace
+  codebases that used unqualified names for standard library functionality.
+  Rather than having to manually update every unqualified name to a qualified
+  name (which was risky), a single using-directive (<code
+    >using namespace std;</code
+  >) could be placed at the top of each file, and all of the names that had been
+  moved to the <code>std</code> namespace could still be used unqualified.
+</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  <a name="avoidUsingNamespace"></a>Problems with using-directives (a.k.a. why
+  you should avoid “using namespace std;”)
+  <a href="#avoidUsingNamespace"
+    ><i class="fa fa-link" style="font-size: 0.8em"></i
+  ></a>
+</p>
+<p>
+  In modern C++, using-directives generally offer little benefit (saving some
+  typing) compared to the risk. This is due to two factors:
+</p>
+<ol start="1">
+  <li>
+    Using-directives allow unqualified access to <em>all</em> of the names from
+    a namespace (potentially including lots of names you’ll never use).
+  </li>
+  <li>
+    Using-directives do not prefer names from the namespace identified by the
+    using-directive over other names.
+  </li>
+</ol>
+<p>
+  The end result is that the possibility for naming collisions to occur
+  increases significantly (especially if you import the
+  <code>std</code> namespace).
+</p>
+<p>
+  First, let’s take a look at an illustrative example where using-directives
+  cause a naming collision:
+</p>
+<div class="code-block code-block-6" style="margin: 8px 0; clear: both"></div>
+
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-namespace">namespace</span> A
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-167-close">{</span>
+	<span class="token keyword keyword-int">int</span> x <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-166-close">{</span> <span class="token number">10</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-166-open">}</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-167-open">}</span>
+
+<span class="token keyword keyword-namespace">namespace</span> B
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-169-close">{</span>
+	<span class="token keyword keyword-int">int</span> x<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-168-close">{</span> <span class="token number">20</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-168-open">}</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-169-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-165-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-165-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-170-close">{</span>
+	<span class="token keyword keyword-using">using</span> <span class="token keyword keyword-namespace">namespace</span> A<span class="token punctuation">;</span>
+	<span class="token keyword keyword-using">using</span> <span class="token keyword keyword-namespace">namespace</span> B<span class="token punctuation">;</span>
+
+	std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> x <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+	<span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-170-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  In the above example, the compiler is unable to determine whether the
+  <code>x</code> in <code>main</code> refers to <code>A::x</code> or
+  <code>B::x</code>. In this case, it will fail to compile with an “ambiguous
+  symbol” error. We could resolve this by removing one of the using-directives,
+  employing a using-declaration instead, or qualifying <code>x</code> (as
+  <code>A::x</code> or <code>B::x</code>).
+</p>
+<p>Here’s another more subtle example:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span> <span class="token comment">// imports the declaration of std::cout</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">cout</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-171-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-171-open">)</span> <span class="token comment">// declares our own "cout" function</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-173-close">{</span>
+    <span class="token keyword keyword-return">return</span> <span class="token number">5</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-173-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-172-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-172-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-174-close">{</span>
+    <span class="token keyword keyword-using">using</span> <span class="token keyword keyword-namespace">namespace</span> std<span class="token punctuation">;</span> <span class="token comment">// makes std::cout accessible as "cout"</span>
+    cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Hello, world!\n"</span><span class="token punctuation">;</span> <span class="token comment">// uh oh!  Which cout do we want here?  The one in the std namespace or the one we defined above?</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-174-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 32px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  In this example, the compiler is unable to determine whether our unqualified
+  use of <code>cout</code> means <code>std::cout</code> or the
+  <code>cout</code> function we’ve defined, and again will fail to compile with
+  an “ambiguous symbol” error. Although this example is trivial, if we had
+  explicitly prefixed <code>std::cout</code> like this:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp">std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Hello, world!\n"</span><span class="token punctuation">;</span> <span class="token comment">// tell the compiler we mean std::cout</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>or used a using-declaration instead of a using-directive:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-using">using</span> std<span class="token double-colon punctuation">::</span>cout<span class="token punctuation">;</span> <span class="token comment">// tell the compiler that cout means std::cout</span>
+cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Hello, world!\n"</span><span class="token punctuation">;</span> <span class="token comment">// so this means std::cout</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  then our program wouldn’t have any issues in the first place. And while you’re
+  probably not likely to write a function named “cout”, there are hundreds of
+  other names in the <code>std</code> namespace just waiting to collide with
+  your names.
+</p>
+<p>
+  Even if a using-directive does not cause naming collisions today, it makes
+  your code more vulnerable to future collisions. For example, if your code
+  includes a using-directive for some library that is then updated, all of the
+  new names introduced in the updated library are now candidates for naming
+  collisions with your existing code.
+</p>
+<div class="code-block code-block-7" style="margin: 8px 0; clear: both"></div>
+
+<p>For example, the following program compiles and runs fine:</p>
+<p>FooLib.h (part of some third-party library):</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">ifndef</span> <span class="token expression">FOOLIB</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">FOOLIB</span></span>
+
+<span class="token keyword keyword-namespace">namespace</span> Foo
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-176-close">{</span>
+    <span class="token keyword keyword-int">int</span> a <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-175-close">{</span> <span class="token number">20</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-175-open">}</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-176-open">}</span>
+
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">endif</span></span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>main.cpp:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;FooLib.h&gt;</span> <span class="token comment">// a third-party library we installed outside our project directory, thus angled brackets used</span></span>
+
+<span class="token keyword keyword-void">void</span> <span class="token function">print</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-177-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-177-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-180-close">{</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Hello\n"</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-180-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-178-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-178-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-181-close">{</span>
+    <span class="token keyword keyword-using">using</span> <span class="token keyword keyword-namespace">namespace</span> Foo<span class="token punctuation">;</span> <span class="token comment">// Because we're lazy and want to access Foo:: qualified names without typing the Foo:: prefix</span>
+
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> a <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span> <span class="token comment">// uses Foo::a</span>
+    <span class="token function">print</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-179-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-179-open">)</span><span class="token punctuation">;</span> <span class="token comment">// calls ::print()</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-181-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  Now let’s say you update FooLib to a new version, and FooLib.h changes to
+  this:
+</p>
+<p>FooLib.h (updated):</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">ifndef</span> <span class="token expression">FOOLIB</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">FOOLIB</span></span>
+
+<span class="token keyword keyword-namespace">namespace</span> Foo
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-185-close">{</span>
+    <span class="token keyword keyword-int">int</span> a <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-183-close">{</span> <span class="token number">20</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-183-open">}</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-void">void</span> <span class="token function">print</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-182-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-182-open">)</span> <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-184-close">{</span> std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Timmah!"</span><span class="token punctuation">;</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-184-open">}</span> <span class="token comment">// This function added</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-185-open">}</span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">endif</span></span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  Your main.cpp hasn’t changed, but it will no longer compile! This is because
+  our using-directive causes <code>Foo::print()</code> to be accessible as just
+  <code>print()</code>, and it is now ambiguous whether the call to
+  <code>print()</code> means <code>::print()</code> or
+  <code>Foo::print()</code>.
+</p>
+<div class="code-block code-block-8" style="margin: 8px 0; clear: both"></div>
+
+<p>
+  There is a more insidious version of this problem that can occur as well. The
+  updated library may introduce a function that not only has the same name, but
+  is actually a better match for some function call. In such a case, the
+  compiler may decide to prefer the new function instead, and the behavior of
+  your program will change unexpectedly and silently.
+</p>
+<p>Consider the following program:</p>
+<p>Foolib.h (part of some third-party library):</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">ifndef</span> <span class="token expression">FOOLIB_H</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">FOOLIB_H</span></span>
+
+<span class="token keyword keyword-namespace">namespace</span> Foo
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-187-close">{</span>
+    <span class="token keyword keyword-int">int</span> a <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-186-close">{</span> <span class="token number">20</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-186-open">}</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-187-open">}</span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">endif</span></span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>main.cpp:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;Foolib.h&gt;</span> <span class="token comment">// a third-party library we installed outside our project directory, thus angled brackets used</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">get</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-188-close">(</span><span class="token keyword keyword-long">long</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-188-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-191-close">{</span>
+    <span class="token keyword keyword-return">return</span> <span class="token number">1</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-191-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-189-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-189-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-192-close">{</span>
+    <span class="token keyword keyword-using">using</span> <span class="token keyword keyword-namespace">namespace</span> Foo<span class="token punctuation">;</span> <span class="token comment">// Because we're lazy and want to access Foo:: qualified names without typing the Foo:: prefix</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> a <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span> <span class="token comment">// uses Foo::a</span>
+
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token function">get</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-190-close">(</span><span class="token number">0</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-190-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span> <span class="token comment">// calls ::get(long)</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-192-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>This program runs and prints <code>1</code>.</p>
+<p>
+  Now, let’s say we update the Foolib library, which includes an updated
+  Foolib.h that looks like this:
+</p>
+<p>Foolib.h (updated):</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">ifndef</span> <span class="token expression">FOOLIB_H</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">FOOLIB_H</span></span>
+
+<span class="token keyword keyword-namespace">namespace</span> Foo
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-196-close">{</span>
+    <span class="token keyword keyword-int">int</span> a <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-194-close">{</span> <span class="token number">20</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-194-open">}</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-int">int</span> <span class="token function">get</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-193-close">(</span><span class="token keyword keyword-int">int</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-193-open">)</span> <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-195-close">{</span> <span class="token keyword keyword-return">return</span> <span class="token number">2</span><span class="token punctuation">;</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-195-open">}</span> <span class="token comment">// new function added</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-196-open">}</span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">endif</span></span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  Once again, our <code>main.cpp</code> file hasn’t changed at all, but this
+  program now compiles, runs, and prints <code>2</code>!
+</p>
+<p>
+  When the compiler encounters a function call, it has to determine what
+  function definition it should match the function call with. In selecting a
+  function from a set of potentially matching functions, it will prefer a
+  function that requires no argument conversions over a function that requires
+  argument conversions. Because the literal <code>0</code> is an integer, C++
+  will prefer to match <code>print(0)</code> with the newly introduced
+  <code>print(int)</code> (no conversions) over <code>print(long)</code> (which
+  requires a conversion from <code>int</code> to <code>long</code>). That causes
+  an unexpected change to our program behavior.
+</p>
+<p>
+  In this case, the change in behavior is fairly obvious. But in a more complex
+  program, where the returned value isn’t just printed, this issue could be very
+  difficult to discover.
+</p>
+<p>
+  This would not have happened if we’d used a using-declaration or explicit
+  scope qualifier.
+</p>
+<p>
+  Finally, the lack of explicit scope prefixes make it harder for a reader to
+  tell what functions are part of a library and what’s part of your program. For
+  example, if we use a using-directive:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-using">using</span> <span class="token keyword keyword-namespace">namespace</span> NS<span class="token punctuation">;</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-197-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-197-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-199-close">{</span>
+    <span class="token function">foo</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-198-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-198-open">)</span><span class="token punctuation">;</span> <span class="token comment">// is this foo a user-defined function, or part of the NS library?</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-199-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  It’s unclear whether the call to <code>foo()</code> is actually a call to
+  <code>NS::foo()</code> or to a <code>foo()</code> that is a user-defined
+  function. Modern IDEs should be able to disambiguate this for you when you
+  hover over a name, but having to hover over each name just to see where it
+  comes from is tedious.
+</p>
+<p>Without the using-directive, it’s much clearer:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-200-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-200-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-203-close">{</span>
+    <span class="token class-name">NS</span><span class="token double-colon punctuation">::</span><span class="token function">foo</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-201-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-201-open">)</span><span class="token punctuation">;</span> <span class="token comment">// clearly part of the NS library</span>
+    <span class="token function">foo</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-202-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-202-open">)</span><span class="token punctuation">;</span> <span class="token comment">// likely a user-defined function</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-203-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  In this version, the call to <code>NS::foo()</code> is clearly a library call.
+  The call to plain <code>foo()</code> is probably a call to a user-defined
+  function (some libraries, including certain standard library headers, do put
+  names into the global namespace, so it’s not a guarantee).
+</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  The scope of using-statements
+</p>
+<p>
+  If a using-declaration or using-directive is used within a block, the names
+  are applicable to just that block (it follows normal block scoping rules).
+  This is a good thing, as it reduces the chances for naming collisions to occur
+  to just within that block.
+</p>
+<p>
+  If a using-declaration or using-directive is used in a namespace (including
+  the global namespace), the names are applicable to the entire rest of the file
+  (they have file scope).
+</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Do not use using-statements in header files, or before an #include directive
+</p>
+<p>
+  A good rule of thumb is that using-statements should not be placed anywhere
+  where they might have an impact on code in a different file. Nor should they
+  be placed anywhere where another file’s code might be able to impact them.
+</p>
+<p>
+  More specifically, this means using-statements should not be used in header
+  files, nor before an #include directive.
+</p>
+<p>
+  For example, if you placed a using-statement in the global namespace of a
+  header file, then every other file that #included that header would also get
+  that using-statement. That’s clearly bad. This also applies to namespaces
+  inside header files, for the same reason.
+</p>
+<p>
+  But what about using-statements within functions defined inside header files?
+  Surely that can’t be bad since the scope of the using-statement is contained
+  to the function, right? Even that’s a no. And it’s a no for the same reason
+  that we shouldn’t use using-statements before an #include directive.
+</p>
+<p>
+  It turns out that the behavior of using-statements is dependent on what
+  identifiers have already been introduced. This makes them order-dependent, as
+  their function may change if the identifiers that have been introduced before
+  them change.
+</p>
+<p>We will illustrate this with an example:</p>
+<p>FooInt.h:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-namespace">namespace</span> Foo
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-206-close">{</span>
+    <span class="token keyword keyword-void">void</span> <span class="token function">print</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-204-close">(</span><span class="token keyword keyword-int">int</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-204-open">)</span>
+    <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-205-close">{</span>
+        std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"print(int)\n"</span> <span class="token operator">&lt;&lt;</span> std<span class="token double-colon punctuation">::</span>endl<span class="token punctuation">;</span>
+    <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-205-open">}</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-206-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>FooDouble.h:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-namespace">namespace</span> Foo
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-209-close">{</span>
+    <span class="token keyword keyword-void">void</span> <span class="token function">print</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-207-close">(</span><span class="token keyword keyword-double">double</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-207-open">)</span>
+    <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-208-close">{</span>
+        std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"print(double)\n"</span> <span class="token operator">&lt;&lt;</span> std<span class="token double-colon punctuation">::</span>endl<span class="token punctuation">;</span>
+    <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-208-open">}</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-209-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>main.cpp (okay):</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">"FooDouble.h"</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">"FooInt.h"</span></span>
+
+<span class="token keyword keyword-using">using</span> Foo<span class="token double-colon punctuation">::</span>print<span class="token punctuation">;</span> <span class="token comment">// print means Foo::print</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-210-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-210-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-212-close">{</span>
+    <span class="token function">print</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-211-close">(</span><span class="token number">5</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-211-open">)</span><span class="token punctuation">;</span>  <span class="token comment">// Calls Foo::print(int)</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-212-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  When run, this program calls <code>Foo::print(int)</code>, which prints
+  <code>print(int)</code>.
+</p>
+<p>Now let’s change main.cpp slightly.</p>
+<p>main.cpp (bad):</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">"FooDouble.h"</span></span>
+
+<span class="token keyword keyword-using">using</span> Foo<span class="token double-colon punctuation">::</span>print<span class="token punctuation">;</span> <span class="token comment">// we moved the using-statement here, before the #include directive</span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">"FooInt.h"</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-213-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-213-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-215-close">{</span>
+    <span class="token function">print</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-214-close">(</span><span class="token number">5</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-214-open">)</span><span class="token punctuation">;</span>  <span class="token comment">// Calls Foo::print(double)</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-215-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  All we’ve done is move <code>using Foo::print;</code> before
+  <code>#include "FooInt.h"</code>. And our program now prints
+  <code>print(double)</code>! Regardless of why this happens, you’ll likely
+  agree that this is the kind of behavior we want to avoid!
+</p>
+<p>
+  So then to loop back around, the reason we shouldn’t use using-statements in
+  functions that are defined in header files is the same reason -- we can’t
+  control which other headers might be #included before our header, and it’s
+  possible those headers might do something that alters the way our
+  using-statement behaves!
+</p>
+<p>
+  The only place it is truly safe to use using-statements is in our source
+  (.cpp) files, after all the #includes.
+</p>
+<div class="cpp-note cpp-lightgraybackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">For advanced readers</p>
+  <p>
+    This example uses a concept we haven’t covered yet called “function
+    overloading” (we cover this in lesson
+    <a
+      href="https://www.learncpp.com/cpp-tutorial/introduction-to-function-overloading/"
+      >11.1 -- Introduction to function overloading</a
+    >). All you need to know for this example is that two functions in the same
+    scope can have the same name so long as the parameters of each are distinct.
+    Since <code>int</code> and <code>double</code> are distinct types, there is
+    no issue having both <code>Foo::print(int)</code> and
+    <code>Foo::print(double)</code> living side-by-side.
+  </p>
+  <p>
+    In the working version, when the compiler encounters
+    <code>using Foo::print</code>, it has already seen both
+    <code>Foo::print(int)</code> and <code>Foo::print(double)</code>, so it
+    makes both available to be called as just <code>print()</code>. Since
+    <code>Foo::print(int)</code> is a better match than
+    <code>Foo::print(double)</code>, it calls <code>Foo::print(int)</code>.
+  </p>
+  <p>
+    In the bad version, when the compiler encounters
+    <code>using Foo::print</code>, it has only seen a declaration for
+    <code>Foo::print(double)</code>, so it only makes
+    <code>Foo::print(double)</code> available to be called unqualified. So when
+    we call <code>print(5)</code> only <code>Foo::print(double)</code> is even
+    eligible to be matched. Thus <code>Foo::print(double)</code> is the one that
+    gets called!
+  </p>
+</div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Cancelling or replacing a using-statement
+</p>
+<p>
+  Once a using-statement has been declared, there’s no way to cancel or replace
+  it with a different using-statement within the scope in which it was declared.
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-216-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-216-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-217-close">{</span>
+    <span class="token keyword keyword-using">using</span> <span class="token keyword keyword-namespace">namespace</span> Foo<span class="token punctuation">;</span>
+
+    <span class="token comment">// there's no way to cancel the "using namespace Foo" here!</span>
+    <span class="token comment">// there's also no way to replace "using namespace Foo" with a different using statement</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-217-open">}</span> <span class="token comment">// using namespace Foo ends here</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  The best you can do is intentionally limit the scope of the using-statement
+  from the outset using the block scoping rules.
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-218-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-218-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-221-close">{</span>
+    <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-219-close">{</span>
+        <span class="token keyword keyword-using">using</span> <span class="token keyword keyword-namespace">namespace</span> Foo<span class="token punctuation">;</span>
+        <span class="token comment">// calls to Foo:: stuff here</span>
+    <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-219-open">}</span> <span class="token comment">// using namespace Foo expires</span>
+
+    <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-220-close">{</span>
+        <span class="token keyword keyword-using">using</span> <span class="token keyword keyword-namespace">namespace</span> Goo<span class="token punctuation">;</span>
+        <span class="token comment">// calls to Goo:: stuff here</span>
+    <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-220-open">}</span> <span class="token comment">// using namespace Goo expires</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-221-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  Of course, all of this headache can be avoided by explicitly using the scope
+  resolution operator (::) in the first place.
+</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Best practices for using-statements
+</p>
+<div class="cpp-note cpp-lightgreenbackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Best practice</p>
+  <p>Prefer explicit namespace qualifiers over using-statements.</p>
+  <p>
+    Avoid using-directives altogether (except
+    <code>using namespace std::literals</code> to access the <code>s</code> and
+    <code>sv</code> literal suffixes). Using-declarations are okay in .cpp
+    files, after the #include directives. Do not use using-statements in header
+    files (especially in the global namespace of header files).
+  </p>
+</div>
+<div class="cpp-note cpp-lightgraybackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Related content</p>
+  <p>
+    The <code>using</code> keyword is also used to define type aliases, which
+    are unrelated to using-statements. We cover type aliases in lesson
+    <a href="https://www.learncpp.com/cpp-tutorial/typedefs-and-type-aliases/"
+      >10.7 -- Typedefs and type aliases</a
+    >.
+  </p>
+</div>
+<div class="prevnext">
+  <div class="prevnext-inline">
+    <a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/unnamed-and-inline-namespaces/"
+    >
+      <div class="nav-button nav-button-next">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-right" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Next lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">7.14</span>Unnamed and inline
+            namespaces
+          </div>
+        </div>
+      </div></a
+    >
+    <a class="nav-link" href="/">
+      <div class="nav-button nav-button-index">
+        <div class="nav-button-icon">
+          <i class="fa fa-home" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Back to table of contents</div>
+        </div>
+      </div></a
+    >
+    <a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/scope-duration-and-linkage-summary/"
+    >
+      <div class="nav-button nav-button-prev">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-left" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Previous lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">7.12</span>Scope, duration,
+            and linkage summary
+          </div>
+        </div>
+      </div></a
+    >
+  </div>
+</div>
+<div class="code-block code-block-10" style="margin: 8px 0; clear: both"></div>

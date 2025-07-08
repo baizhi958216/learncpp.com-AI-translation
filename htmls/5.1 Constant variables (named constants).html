@@ -1,0 +1,689 @@
+<div
+  class="code-block code-block-1"
+  style="margin: 8px 8px 8px 0; float: left"
+></div>
+<p class="cpp-section" data-ezoic-video-excluded="1">
+  Introduction to constants
+</p>
+<p>
+  In programming, a <strong>constant</strong> is a value that may not be changed
+  during the program’s execution.
+</p>
+<p>C++ supports two different kinds of constants:</p>
+<ul>
+  <li>
+    <strong>Named constants</strong> are constant values that are associated
+    with an identifier. These are also sometimes called
+    <strong>symbolic constants</strong>.
+  </li>
+  <li>
+    <strong>Literal constants</strong> are constant values that are not
+    associated with an identifier.
+  </li>
+</ul>
+<p>
+  We’ll start our coverage of constants by looking at named constants. We will
+  then cover literal constants (in upcoming lesson
+  <a href="https://www.learncpp.com/cpp-tutorial/literals/">5.2 -- Literals</a
+  >).
+</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Types of named constants
+</p>
+<p>There are three ways to define a named constant in C++:</p>
+<ul>
+  <li>Constant variables (covered in this lesson).</li>
+  <li>
+    Object-like macros with substitution text (introduced in lesson
+    <a
+      href="https://www.learncpp.com/cpp-tutorial/introduction-to-the-preprocessor/"
+      >2.10 -- Introduction to the preprocessor</a
+    >, with additional coverage in this lesson).
+  </li>
+  <li>
+    Enumerated constants (covered in lesson
+    <a href="https://www.learncpp.com/cpp-tutorial/unscoped-enumerations/"
+      >13.2 -- Unscoped enumerations</a
+    >).
+  </li>
+</ul>
+<p>
+  Constant variables are the most common type of named constant, so we’ll start
+  there.
+</p>
+<div class="code-block code-block-2" style="margin: 8px 0; clear: both"></div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Constant variables
+</p>
+<p>
+  So far, all of the variables we’ve seen have been non-constant -- that is,
+  their values can be changed at any time (typically by assigning a new value).
+  For example:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-62-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-62-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-64-close">{</span>
+    <span class="token keyword keyword-int">int</span> x <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-63-close">{</span> <span class="token number">4</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-63-open">}</span><span class="token punctuation">;</span> <span class="token comment">// x is a non-constant variable</span>
+    x <span class="token operator">=</span> <span class="token number">5</span><span class="token punctuation">;</span> <span class="token comment">// change value of x to 5 using assignment operator</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-64-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  However, there are many cases where it is useful to define variables with
+  values that can not be changed. For example, consider the gravity of Earth
+  (near the surface): 9.8 meters/second<sup>2</sup>. This isn’t likely to change
+  any time soon (and if it does, you’ve likely got bigger problems than learning
+  C++). Defining this value as a constant helps ensure that this value isn’t
+  accidentally changed. Constants also have other benefits that we’ll explore in
+  subsequent lessons.
+</p>
+<p>
+  Although it is a well-known oxymoron, a variable whose value cannot be changed
+  after initialization is called a <strong>constant variable</strong>.
+</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Declaring a const variable
+</p>
+<p>
+  To declare a constant variable, we place the <code>const</code> keyword
+  (called a “const qualifier”) adjacent to the object’s type:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-const">const</span> <span class="token keyword keyword-double">double</span> gravity <span class="token punctuation brace-curly brace-open brace-level-1" id="pair-65-close">{</span> <span class="token number">9.8</span> <span class="token punctuation brace-curly brace-close brace-level-1" id="pair-65-open">}</span><span class="token punctuation">;</span>  <span class="token comment">// preferred use of const before type</span>
+<span class="token keyword keyword-int">int</span> <span class="token keyword keyword-const">const</span> sidesInSquare <span class="token punctuation brace-curly brace-open brace-level-1" id="pair-66-close">{</span> <span class="token number">4</span> <span class="token punctuation brace-curly brace-close brace-level-1" id="pair-66-open">}</span><span class="token punctuation">;</span> <span class="token comment">// "east const" style, okay but not preferred</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  Although C++ will accept the const qualifier either before or after the type,
+  it’s much more common to use <code>const</code> before the type because it
+  better follows standard English language convention where modifiers come
+  before the object being modified (e.g. a “a green ball”, not a “a ball
+  green”).
+</p>
+<div class="code-block code-block-3" style="margin: 8px 0; clear: both"></div>
+<div class="cpp-note cpp-lightgraybackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">As an aside…</p>
+  <p>
+    Due to the way that the compiler parses more complex declarations, some
+    developers prefer placing the <code>const</code> after the type (because it
+    is slightly more consistent). This style is called “east const”. While this
+    style has some advocates (and some reasonable points), it has not caught on
+    significantly.
+  </p>
+</div>
+<div class="cpp-note cpp-lightgreenbackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Best practice</p>
+  <p>
+    Place <code>const</code> before the type (because it is more conventional to
+    do so).
+  </p>
+</div>
+<div class="cpp-note cpp-lightbluebackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Key insight</p>
+  <p>
+    The type of an object includes the const qualifier, so when we define
+    <code>const double gravity { 9.8 };</code> the type of
+    <code>gravity</code> is <code>const double</code>.
+  </p>
+</div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Const variables must be initialized
+</p>
+<p>
+  Const variables <em>must</em> be initialized when you define them, and then
+  that value can not be changed via assignment:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-67-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-67-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-68-close">{</span>
+    <span class="token keyword keyword-const">const</span> <span class="token keyword keyword-double">double</span> gravity<span class="token punctuation">;</span> <span class="token comment">// error: const variables must be initialized</span>
+    gravity <span class="token operator">=</span> <span class="token number">9.9</span><span class="token punctuation">;</span>        <span class="token comment">// error: const variables can not be changed</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-68-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  Note that const variables can be initialized from other variables (including
+  non-const ones):
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-69-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-69-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-72-close">{</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Enter your age: "</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-int">int</span> age<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-70-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-70-open">}</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>cin <span class="token operator">&gt;&gt;</span> age<span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-const">const</span> <span class="token keyword keyword-int">int</span> constAge <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-71-close">{</span> age <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-71-open">}</span><span class="token punctuation">;</span> <span class="token comment">// initialize const variable using non-const value</span>
+
+    age <span class="token operator">=</span> <span class="token number">5</span><span class="token punctuation">;</span>      <span class="token comment">// ok: age is non-const, so we can change its value</span>
+    constAge <span class="token operator">=</span> <span class="token number">6</span><span class="token punctuation">;</span> <span class="token comment">// error: constAge is const, so we cannot change its value</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-72-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  In the above example, we initialize const variable <code>constAge</code> with
+  non-const variable <code>age</code>. Because <code>age</code> is still
+  non-const, we can change its value. However, because <code>constAge</code> is
+  const, we cannot change the value it has after initialization.
+</p>
+<div class="cpp-note cpp-lightbluebackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Key insight</p>
+  <p>The initializer of a const variable can be a non-constant value.</p>
+</div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Naming your const variables
+</p>
+<p>
+  There are a number of different naming conventions that are used for const
+  variables.
+</p>
+<div class="code-block code-block-4" style="margin: 8px 0; clear: both"></div>
+<p>
+  Programmers who have transitioned from C often prefer underscored, upper-case
+  names for const variables (e.g. <code>EARTH_GRAVITY</code>). More common in
+  C++ is to use intercapped names with a ‘k’ prefix (e.g.
+  <code>kEarthGravity</code>).
+</p>
+<p>
+  However, because const variables act like normal variables (except they can
+  not be assigned to), there is no reason that they need a special naming
+  convention. For this reason, we prefer using the same naming convention that
+  we use for non-const variables (e.g. <code>earthGravity</code>).
+</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Const function parameters
+</p>
+<p>
+  Function parameters can be made constants via the <code>const</code> keyword:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-void">void</span> <span class="token function">printInt</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-73-close">(</span><span class="token keyword keyword-const">const</span> <span class="token keyword keyword-int">int</span> x<span class="token punctuation brace-round brace-close brace-level-1" id="pair-73-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-77-close">{</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> x <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-77-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-74-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-74-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-78-close">{</span>
+    <span class="token function">printInt</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-75-close">(</span><span class="token number">5</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-75-open">)</span><span class="token punctuation">;</span> <span class="token comment">// 5 will be used as the initializer for x</span>
+    <span class="token function">printInt</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-76-close">(</span><span class="token number">6</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-76-open">)</span><span class="token punctuation">;</span> <span class="token comment">// 6 will be used as the initializer for x</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-78-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  Note that we did not provide an explicit initializer for our const parameter
+  <code>x</code> -- the value of the argument in the function call will be used
+  as the initializer for <code>x</code>.
+</p>
+<p>
+  Making a function parameter constant enlists the compiler’s help to ensure
+  that the parameter’s value is not changed inside the function. However, in
+  modern C++ we don’t make value parameters <code>const</code> because we
+  generally don’t care if the function changes the value of the parameter (since
+  it’s just a copy that will be destroyed at the end of the function anyway).
+  The <code>const</code> keyword also adds a small amount of unnecessary clutter
+  to the function prototype.
+</p>
+<div class="code-block code-block-5" style="margin: 8px 0; clear: both"></div>
+<div class="cpp-note cpp-lightgreenbackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Best practice</p>
+  <p>Don’t use <code>const</code> for value parameters.</p>
+</div>
+<p>
+  Later in this tutorial series, we’ll talk about two other ways to pass
+  arguments to functions: pass by reference, and pass by address. When using
+  either of these methods, proper use of <code>const</code> is important.
+</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Const return values
+</p>
+<p>A function’s return value may also be made const:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-const">const</span> <span class="token keyword keyword-int">int</span> <span class="token function">getValue</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-79-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-79-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-82-close">{</span>
+    <span class="token keyword keyword-return">return</span> <span class="token number">5</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-82-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-80-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-80-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-83-close">{</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token function">getValue</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-81-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-81-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-83-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  For fundamental types, the <code>const</code> qualifier on a return type is
+  simply ignored (your compiler may generate a warning).
+</p>
+<p>
+  For other types (which we’ll cover later), there is typically little point in
+  returning const objects by value, because they are temporary copies that will
+  be destroyed anyway. Returning a const value can also impede certain kinds of
+  compiler optimizations (involving move semantics), which can result in lower
+  performance.
+</p>
+<div class="cpp-note cpp-lightgreenbackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Best practice</p>
+  <p>Don’t use <code>const</code> when returning by value.</p>
+</div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Why variables should be made constant
+</p>
+<div class="code-block code-block-6" style="margin: 8px 0; clear: both"></div>
+<p>
+  If a variable can be made constant, it generally should be made constant. This
+  is important for a number of reasons:
+</p>
+<ul>
+  <li>
+    It reduces the chance of bugs. By making a variable constant, you ensure
+    that the value can’t be changed accidentally.
+  </li>
+  <li>
+    It provides more opportunity for the compiler to optimize programs. When the
+    compiler can assume a value isn’t changing, it is able to leverage more
+    techniques to optimize the program, resulting in a compiled program that is
+    smaller and faster. We’ll discuss this further later in this chapter.
+  </li>
+  <li>
+    Most importantly, it reduces the overall complexity of our programs. When
+    trying to determine what a section of code is doing or trying to debug an
+    issue, we know that a const variable can’t have its value changed, so we
+    don’t have to worry about whether its value is actually changing, what value
+    it is changing to, and whether that new value is correct.
+  </li>
+</ul>
+<div class="cpp-note cpp-lightbluebackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Key insight</p>
+  <p>
+    Every moving part in a system increases complexity and the risk of defect or
+    failure. Non-constant variables are moving parts, while constant variables
+    are not.
+  </p>
+</div>
+<div class="cpp-note cpp-lightgreenbackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Best practice</p>
+  <p>
+    Make variables constant whenever possible. Exception cases include by-value
+    function parameters and by-value return types, which should generally not be
+    made constant.
+  </p>
+</div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Object-like macros with substitution text
+</p>
+<p>
+  In lesson
+  <a
+    href="https://www.learncpp.com/cpp-tutorial/introduction-to-the-preprocessor/"
+    >2.10 -- Introduction to the preprocessor</a
+  >, we discussed object-like macros with substitution text. For example:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">MY_NAME</span> <span class="token string">"Alex"</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-84-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-84-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-85-close">{</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"My name is: "</span> <span class="token operator">&lt;&lt;</span> MY_NAME <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-85-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  When the preprocessor processes the file containing this code, it will replace
+  <code>MY_NAME</code> (on line 7) with <code>"Alex"</code>. Note that
+  <code>MY_NAME</code> is a name, and the substitution text is a constant value,
+  so object-like macros with substitution text are also named constants.
+</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Prefer constant variables to preprocessor macros
+</p>
+<div class="code-block code-block-7" style="margin: 8px 0; clear: both"></div>
+<p>
+  So why not use preprocessor macros for named constants? There are (at least)
+  three major problems.
+</p>
+<p>
+  The biggest issue is that macros don’t follow normal C++ scoping rules. Once a
+  macro is #defined, all subsequent occurrences of the macro’s name in the
+  current file will be replaced. If that name is used elsewhere, you’ll get
+  macro substitution where you didn’t want it. This will most likely lead to
+  strange compilation errors. For example:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-void">void</span> <span class="token function">someFcn</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-86-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-86-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-90-close">{</span>
+<span class="token comment">// Even though gravity is defined inside this function</span>
+<span class="token comment">// the preprocessor will replace all subsequent occurrences of gravity in the rest of the file</span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">gravity</span> <span class="token expression"><span class="token number">9.8</span></span></span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-90-open">}</span>
+
+<span class="token keyword keyword-void">void</span> <span class="token function">printGravity</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-87-close">(</span><span class="token keyword keyword-double">double</span> gravity<span class="token punctuation brace-round brace-close brace-level-1" id="pair-87-open">)</span> <span class="token comment">// including this one, causing a compilation error</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-91-close">{</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"gravity: "</span> <span class="token operator">&lt;&lt;</span> gravity <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-91-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-88-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-88-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-92-close">{</span>
+    <span class="token function">printGravity</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-89-close">(</span><span class="token number">3.71</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-89-open">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-92-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>When compiled, GCC produced this confusing error:</p>
+<pre>
+prog.cc:7:17: error: expected ',' or '...' before numeric constant
+    5 | #define gravity 9.8
+      |                 ^~~
+prog.cc:10:26: note: in expansion of macro 'gravity'
+</pre>
+<p>
+  Second, it is often harder to debug code using macros. Although your source
+  code will have the macro’s name, the compiler and debugger never see the macro
+  because it has already been replaced before they run. Many debuggers are
+  unable to inspect a macro’s value, and often have limited capabilities when
+  working with macros.
+</p>
+<p>
+  Third, macro substitution behaves differently than everything else in C++.
+  Inadvertent mistakes can be easily made as a result.
+</p>
+<div class="code-block code-block-8" style="margin: 8px 0; clear: both"></div>
+<p>
+  Constant variables have none of these problems: they follow normal scoping
+  rules, can be seen by the compiler and debugger, and behave consistently.
+</p>
+<div class="cpp-note cpp-lightgreenbackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Best practice</p>
+  <p>
+    Prefer constant variables over object-like macros with substitution text.
+  </p>
+</div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Using constant variables throughout a multi-file program
+</p>
+<p>
+  In many applications, a given named constant needs to be used throughout your
+  code (not just in one file). These can include physics or mathematical
+  constants that don’t change (e.g. pi or Avogadro’s number), or
+  application-specific “tuning” values (e.g. friction or gravity coefficients).
+  Instead of redefining these every time they are needed, it’s better to declare
+  them once in a central location and use them wherever needed. That way, if you
+  ever need to change them, you only need to change them in one place.
+</p>
+<p>
+  There are multiple ways to facilitate this within C++ -- we cover this topic
+  in full detail in lesson
+  <a
+    href="https://www.learncpp.com/cpp-tutorial/sharing-global-constants-across-multiple-files-using-inline-variables/"
+    >7.10 -- Sharing global constants across multiple files (using inline
+    variables)</a
+  >.
+</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Nomenclature: type qualifiers
+</p>
+<p>
+  A <strong>type qualifier</strong> (sometimes called a
+  <strong>qualifier</strong> for short) is a keyword that is applied to a type
+  that modifies how that type behaves. The <code>const</code> used to declare a
+  constant variable is called a <strong>const type qualifier</strong> (or
+  <strong>const qualifier</strong> for short).
+</p>
+<p>
+  As of C++23, C++ only has two type qualifiers: <code>const</code> and
+  <code>volatile</code>.
+</p>
+<div class="cpp-note cpp-lightgraybackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Optional reading</p>
+  <p>
+    The <code>volatile</code> qualifier is used to tell the compiler that an
+    object may have its value changed at any time. This rarely-used qualifier
+    disables certain types of optimizations.
+  </p>
+  <p>
+    In technical documentation, the <code>const</code> and
+    <code>volatile</code> qualifiers are often referred to as
+    <strong>cv-qualifiers</strong>. The following terms are also used in the C++
+    standard:
+  </p>
+  <ul>
+    <li>
+      A <strong>cv-unqualified</strong> type is a type with no type qualifiers
+      (e.g. <code>int</code>).
+    </li>
+    <li>
+      A <strong>cv-qualified</strong> type is a type with one or more type
+      qualifiers applied (e.g. <code>const int</code>).
+    </li>
+    <li>
+      A <strong>possibly cv-qualified</strong> type is a type that may be
+      cv-unqualified or cv-qualified.
+    </li>
+  </ul>
+  <p>
+    These terms are not used much outside of technical documentation, so they
+    are listed here for reference, not as something you need to remember.
+  </p>
+  <p>
+    But at least now you can appreciate this joke from
+    <a href="https://x.com/jfbastien/status/1017819242815631360">JF Bastien</a>:
+  </p>
+  <ul>
+    <li>Q: How do you know if a C++ developer is qualified?</li>
+    <li>A: You look at their CV.</li>
+  </ul>
+</div>
+<div class="prevnext">
+  <div class="prevnext-inline">
+    <a class="nav-link" href="https://www.learncpp.com/cpp-tutorial/literals/"
+      ><div class="nav-button nav-button-next">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-right" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Next lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">5.2</span>Literals
+          </div>
+        </div>
+      </div></a
+    ><a class="nav-link" href="/"
+      ><div class="nav-button nav-button-index">
+        <div class="nav-button-icon">
+          <i class="fa fa-home" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Back to table of contents</div>
+        </div>
+      </div></a
+    ><a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/chapter-4-summary-and-quiz/"
+      ><div class="nav-button nav-button-prev">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-left" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Previous lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">4.x</span>Chapter 4 summary
+            and quiz
+          </div>
+        </div>
+      </div></a
+    >
+  </div>
+</div>
+<div class="code-block code-block-10" style="margin: 8px 0; clear: both"></div>

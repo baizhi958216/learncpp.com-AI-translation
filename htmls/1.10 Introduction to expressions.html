@@ -1,0 +1,606 @@
+<div
+  class="code-block code-block-1"
+  style="margin: 8px 8px 8px 0; float: left"
+></div>
+<p class="cpp-section" data-ezoic-video-excluded="1">Expressions</p>
+<p>
+  Consider the following series of statements, each of which defines a variable
+  and initializes it:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token comment">// five() is a function that returns the value 5</span>
+<span class="token keyword keyword-int">int</span> <span class="token function">five</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-0-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-0-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-4-close">{</span>
+    <span class="token keyword keyword-return">return</span> <span class="token number">5</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-4-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-1-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-1-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-10-close">{</span>
+    <span class="token keyword keyword-int">int</span> a<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-5-close">{</span> <span class="token number">2</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-5-open">}</span><span class="token punctuation">;</span>             <span class="token comment">// initialize variable a with literal value 2</span>
+    <span class="token keyword keyword-int">int</span> b<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-6-close">{</span> <span class="token number">2</span> <span class="token operator">+</span> <span class="token number">3</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-6-open">}</span><span class="token punctuation">;</span>         <span class="token comment">// initialize variable b with computed value 5</span>
+    <span class="token keyword keyword-int">int</span> c<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-7-close">{</span> <span class="token punctuation brace-round brace-open brace-level-3" id="pair-2-close">(</span><span class="token number">2</span> <span class="token operator">*</span> <span class="token number">3</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-2-open">)</span> <span class="token operator">+</span> <span class="token number">4</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-7-open">}</span><span class="token punctuation">;</span>   <span class="token comment">// initialize variable c with computed value 10</span>
+    <span class="token keyword keyword-int">int</span> d<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-8-close">{</span> b <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-8-open">}</span><span class="token punctuation">;</span>             <span class="token comment">// initialize variable d with variable value 5</span>
+    <span class="token keyword keyword-int">int</span> e<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-9-close">{</span> <span class="token function">five</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-3-close">(</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-3-open">)</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-9-open">}</span><span class="token punctuation">;</span>        <span class="token comment">// initialize variable e with function return value 5</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-10-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  Note that the initializers above make use of a variety of different entities:
+  literals, variables, operators, and function calls. Somehow, C++ is converting
+  all of these different things into a single value that can then be used as the
+  initial value for the variable.
+</p>
+<p>
+  What do all of these initializers have in common? They make use of an
+  expression.
+</p>
+<p>
+  In general programming, an <strong>expression</strong> is a non-empty sequence
+  of literals, variables, operators, and function calls that calculates a value.
+  The process of executing an expression is called <strong>evaluation</strong>,
+  and the resulting value produced is called the <strong>result</strong> of the
+  expression (also sometimes called the <strong>return value</strong>).
+</p>
+<div class="cpp-note cpp-lightgraybackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">For advanced readers</p>
+  <p>In C++, the result of an expression is one of the following:</p>
+  <ul>
+    <li>A value (most commonly)</li>
+    <li>
+      An object or a function. We discuss expressions that return objects in
+      lesson
+      <a
+        href="https://www.learncpp.com/cpp-tutorial/value-categories-lvalues-and-rvalues/"
+        >12.2 -- Value categories (lvalues and rvalues)</a
+      >.
+    </li>
+    <li>
+      Nothing. These are the result of non-value returning function calls
+      (covered in lesson
+      <a
+        href="https://www.learncpp.com/cpp-tutorial/void-functions-non-value-returning-functions/"
+        >2.3 -- Void functions (non-value returning functions)</a
+      >) that are called only for their side effects
+    </li>
+  </ul>
+  <p>
+    For now, to keep things simple, we’ll assume expressions are evaluated to
+    produce values.
+  </p>
+</div>
+<p>
+  When an expression is evaluated, each of the terms inside the expression are
+  evaluated, until a single value remains. Here are some examples of different
+  kinds of expressions, with comments indicating how they evaluate:
+</p>
+<div class="code-block code-block-2" style="margin: 8px 0; clear: both"></div>
+
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token number">2</span>               <span class="token comment">// 2 is a literal that evaluates to value 2</span>
+<span class="token string">"Hello world!"</span>  <span class="token comment">// "Hello world!" is a literal that evaluates to text "Hello world!"</span>
+x               <span class="token comment">// x is a variable that evaluates to the value held by variable x</span>
+<span class="token number">2</span> <span class="token operator">+</span> <span class="token number">3</span>           <span class="token comment">// operator+ uses operands 2 and 3 to evaluate to value 5</span>
+<span class="token function">five</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-11-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-11-open">)</span>          <span class="token comment">// evaluates to the return value of function five()</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  As you can see, literals evaluate to their own values. Variables evaluate to
+  the value of the variable. Operators (such as <code>operator+</code>) use
+  their operands to evaluate to some other value. We haven’t covered function
+  calls yet, but in the context of an expression, function calls evaluate to
+  whatever value the function returns.
+</p>
+<div class="cpp-note cpp-lightgraybackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">For advanced readers</p>
+  <p>
+    Expressions involving operators with side effects are a little more tricky:
+  </p>
+  <div class="code-toolbar">
+    <pre
+      class="line-numbers language-cpp"
+      tabindex="0"
+    ><code class="match-braces language-cpp">x <span class="token operator">=</span> <span class="token number">5</span>           <span class="token comment">// x = 5 has side effect of assigning 5 to x, evaluates to x</span>
+x <span class="token operator">=</span> <span class="token number">2</span> <span class="token operator">+</span> <span class="token number">3</span>       <span class="token comment">// has side effect of assigning 5 to x, evaluates to x</span>
+std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> x  <span class="token comment">// has side effect of printing value of x to console, evaluates to std::cout</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+    <div class="toolbar">
+      <div class="toolbar-item">
+        <button
+          class="copy-to-clipboard-button"
+          type="button"
+          data-copy-state="copy"
+        >
+          <span>Copy</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="cpp-note cpp-lightbluebackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Key insight</p>
+  <p>
+    Wherever a single value is expected in C++, you can use an value-producing
+    expression instead, and the expression will be evaluated to produce a single
+    value.
+  </p>
+</div>
+<p>
+  Expressions do not end in a semicolon, and cannot be compiled by themselves.
+  For example, if you were to try compiling the expression <code>x = 5</code>,
+  your compiler would complain (probably about a missing semicolon). Rather,
+  expressions are always evaluated as part of statements.
+</p>
+<p>For example, take this statement:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-int">int</span> x<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-12-close">{</span> <span class="token number">2</span> <span class="token operator">+</span> <span class="token number">3</span> <span class="token punctuation brace-curly brace-close brace-level-1" id="pair-12-open">}</span><span class="token punctuation">;</span> <span class="token comment">// 2 + 3 is an expression that has no semicolon -- the semicolon is at the end of the statement containing the expression</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 32px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  If you were to break this statement down into its syntax, it would look like
+  this:
+</p>
+<p><code>type identifier { expression };</code></p>
+<div class="code-block code-block-3" style="margin: 8px 0; clear: both"></div>
+
+<p>
+  <em>type</em> could be any valid type (we chose <code>int</code>).
+  <em>identifier</em> could be any valid name (we chose <code>x</code>). And
+  <em>expression</em> could be any valid expression (we chose
+  <code>2 + 3</code>, which uses two literals and an operator).
+</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Expression statements
+</p>
+<p>
+  Certain expressions (such as <code>x = 5</code>) are used primarily for their
+  side effects (in this case, to assign the value <code>5</code> to the variable
+  <code>x</code>) rather than the value they produce.
+</p>
+<div class="cpp-note cpp-lightgraybackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Related content</p>
+  <p>
+    We cover side effects in lesson
+    <a
+      href="https://www.learncpp.com/cpp-tutorial/introduction-to-literals-and-operators/"
+      >1.9 -- Introduction to literals and operators</a
+    >).
+  </p>
+</div>
+<p>
+  However, we mentioned above that expressions cannot be executed by themselves
+  -- they must exist as part of a statement. Fortunately, it’s trivial to
+  convert any expression into an equivalent statement. An
+  <strong>expression statement</strong> is a statement that consists of an
+  expression followed by a semicolon. When the expression statement is executed,
+  the expression will be evaluated.
+</p>
+<p>
+  Thus, we can take any expression (such as <code>x = 5</code>), and turn it
+  into an expression statement (<code>x = 5;</code>) that will compile.
+</p>
+<p>
+  When an expression is used in an expression statement, any result generated by
+  the expression is discarded (because it is not used). For example, when the
+  expression <code>x = 5</code> evaluates, the return value of
+  <code>operator=</code> is discarded. And that’s fine, because we just wanted
+  to assign <code>5</code> to <code>x</code> anyway.
+</p>
+<div class="code-block code-block-4" style="margin: 8px 0; clear: both"></div>
+
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Useless expression statements
+</p>
+<p>
+  We can also make expression statements that compile but have no effect. For
+  example, the expression statement (<code>2 * 3;</code>) is an expression
+  statement whose expression evaluates to the result value of <em>6</em>, which
+  is then discarded. While syntactically valid, such expression statements are
+  useless. Some compilers (such as gcc and Clang) will produce warnings if they
+  can detect that an expression statement is useless.
+</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Subexpressions, full expressions, and compound expressions
+</p>
+<p>
+  We occasionally need to talk about specific kinds of expressions. For this
+  purpose, we will define some related terms.
+</p>
+<p>Consider the following expressions:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token number">2</span>               <span class="token comment">// 2 is a literal that evaluates to value 2</span>
+<span class="token number">2</span> <span class="token operator">+</span> <span class="token number">3</span>           <span class="token comment">// 2 + 3 uses operator+ to evaluate to value 5</span>
+x <span class="token operator">=</span> <span class="token number">4</span> <span class="token operator">+</span> <span class="token number">5</span>       <span class="token comment">// 4 + 5 evaluates to value 9, which is then assigned to variable x</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  Simplifying a bit, a <strong>subexpression</strong> is an expression used as
+  an operand. For example, the subexpressions of <code>x = 4 + 5</code> are
+  <code>x</code> and <code>4 + 5</code>. The subexpressions of
+  <code>4 + 5</code> are <code>4</code> and <code>5</code>.
+</p>
+<p>
+  A <strong>full expression</strong> is an expression that is not a
+  subexpression. All three expressions above (<code>2</code>,
+  <code>2 + 3</code>, and <code>x = 4 + 5</code>) are full expressions.
+</p>
+<div class="code-block code-block-5" style="margin: 8px 0; clear: both"></div>
+
+<p>
+  In casual language, a <strong>compound expression</strong> is an expression
+  that contains two or more uses of operators. <code>x = 4 + 5</code> is a
+  compound expression because it contains two uses of operators (<code
+    >operator=</code
+  >
+  and <code>operator+</code>). <code>2</code> and <code>2 + 3</code> are not
+  compound expressions.
+</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Quiz time
+</p>
+<p></p>
+<p class="cpp-quiz-question" style="clear: both">Question #1</p>
+<br />
+What is the difference between a statement and an expression?
+<p></p>
+<p>
+  <a
+    class="solution_link_show"
+    href="javascript:void(0)"
+    onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_0'), this, 'Show Solution', 'Hide Solution')"
+    >Show Solution</a
+  >
+</p>
+<div class="wpsolution" id="cpp_solution_id_0" style="display: none">
+  <p>
+    Statements are used when we want the program to perform an action.
+    Expressions are used when we want the program to calculate a value.
+  </p>
+</div>
+<p class="cpp-quiz-question cpp-topline" style="clear: both">Question #2</p>
+<p>
+  Indicate whether each of the following lines are
+  <em>statements that do not contain expressions</em>,
+  <em>statements that contain expressions</em>, or are
+  <em>expression statements</em>.
+</p>
+<p>a)</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-int">int</span> x<span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  <a
+    class="solution_link_show"
+    href="javascript:void(0)"
+    onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_1'), this, 'Show Solution', 'Hide Solution')"
+    >Show Solution</a
+  >
+</p>
+<div class="wpsolution" id="cpp_solution_id_1" style="display: none">
+  <p>
+    Statement does not contain an expression. This is a variable definition
+    statement. <code>x</code> is not an expression in this context because it is
+    being defined, not evaluated.
+  </p>
+</div>
+<p>b)</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-int">int</span> x <span class="token operator">=</span> <span class="token number">5</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  <a
+    class="solution_link_show"
+    href="javascript:void(0)"
+    onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_2'), this, 'Show Solution', 'Hide Solution')"
+    >Show Solution</a
+  >
+</p>
+<div class="code-block code-block-6" style="margin: 8px 0; clear: both"></div>
+
+<div class="wpsolution" id="cpp_solution_id_2" style="display: none">
+  <p>
+    Statement contains an expression. <code>int x</code> is a variable
+    definition. The <code>=</code> is part of the syntax for copy
+    initialization. The initializer to the right of the equals sign is an
+    expression.
+  </p>
+</div>
+<p>c)</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp">x <span class="token operator">=</span> <span class="token number">5</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  <a
+    class="solution_link_show"
+    href="javascript:void(0)"
+    onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_3'), this, 'Show Solution', 'Hide Solution')"
+    >Show Solution</a
+  >
+</p>
+<div class="wpsolution" id="cpp_solution_id_3" style="display: none">
+  <p>
+    Expression statement. <code>x = 5</code> is a call to
+    <code>operator=</code> with two operands: <code>x</code> and <code>5</code>.
+    The semicolon makes it an expression statement.
+  </p>
+</div>
+<p>d) Extra credit:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token function">foo</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-13-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-13-open">)</span><span class="token punctuation">;</span> <span class="token comment">// foo is a function</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  <a
+    class="solution_link_show"
+    href="javascript:void(0)"
+    onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_4'), this, 'Show Solution', 'Hide Solution')"
+    >Show Solution</a
+  >
+</p>
+<div class="wpsolution" id="cpp_solution_id_4" style="display: none">
+  <p>
+    Function calls are part of an expression, so this is an expression
+    statement.
+  </p>
+</div>
+<p>e) Extra credit:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp">std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> x<span class="token punctuation">;</span> <span class="token comment">// Hint: operator&lt;&lt; is a binary operator.</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  <a
+    class="solution_link_show"
+    href="javascript:void(0)"
+    onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_5'), this, 'Show Solution', 'Hide Solution')"
+    >Show Solution</a
+  >
+</p>
+<div class="wpsolution" id="cpp_solution_id_5" style="display: none">
+  <p>
+    <code>operator&lt;&lt;</code> is a binary operator, so
+    <code>std::cout</code> must be the left-hand operand, and
+    <code>x</code> must be the right-hand operand. Since that’s the entire
+    statement, this must be an expression statement.
+  </p>
+</div>
+<p class="cpp-quiz-question cpp-topline" style="clear: both">Question #3</p>
+<p>
+  Determine what values the following program outputs. Do not compile this
+  program. Just work through it line by line in your head.
+</p>
+<div class="code-block code-block-7" style="margin: 8px 0; clear: both"></div>
+
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-14-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-14-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-18-close">{</span>
+	std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token number">2</span> <span class="token operator">+</span> <span class="token number">3</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+	<span class="token keyword keyword-int">int</span> x<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-15-close">{</span> <span class="token number">6</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-15-open">}</span><span class="token punctuation">;</span>
+	<span class="token keyword keyword-int">int</span> y<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-16-close">{</span> x <span class="token operator">-</span> <span class="token number">2</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-16-open">}</span><span class="token punctuation">;</span>
+	std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> y <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+	<span class="token keyword keyword-int">int</span> z<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-17-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-17-open">}</span><span class="token punctuation">;</span>
+	z <span class="token operator">=</span> x<span class="token punctuation">;</span>
+	std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> z <span class="token operator">*</span> x <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+	<span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-18-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  <a
+    class="solution_link_show"
+    href="javascript:void(0)"
+    onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_6'), this, 'Show Solution', 'Hide Solution')"
+    >Show Solution</a
+  >
+</p>
+<div class="wpsolution" id="cpp_solution_id_6" style="display: none">
+  <pre>
+5
+4
+36
+</pre
+  >
+</div>
+<div class="prevnext">
+  <div class="prevnext-inline">
+    <a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/developing-your-first-program/"
+    >
+      <div class="nav-button nav-button-next">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-right" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Next lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">1.11</span>Developing your
+            first program
+          </div>
+        </div>
+      </div></a
+    >
+    <a class="nav-link" href="/">
+      <div class="nav-button nav-button-index">
+        <div class="nav-button-icon">
+          <i class="fa fa-home" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Back to table of contents</div>
+        </div>
+      </div></a
+    >
+    <a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/introduction-to-literals-and-operators/"
+    >
+      <div class="nav-button nav-button-prev">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-left" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Previous lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">1.9</span>Introduction to
+            literals and operators
+          </div>
+        </div>
+      </div></a
+    >
+  </div>
+</div>
+<div class="code-block code-block-10" style="margin: 8px 0; clear: both"></div>

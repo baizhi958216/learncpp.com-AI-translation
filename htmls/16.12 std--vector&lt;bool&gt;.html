@@ -1,0 +1,517 @@
+<div
+  class="code-block code-block-1"
+  style="margin: 8px 8px 8px 0; float: left"
+></div>
+<p>
+  In lesson
+  <a
+    href="https://www.learncpp.com/cpp-tutorial/bit-flags-and-bit-manipulation-via-stdbitset/"
+    >O.1 -- Bit flags and bit manipulation via std::bitset</a
+  >, we discussed how <code>std::bitset</code> has the capability to compact 8
+  Boolean values into a byte. Those bits can then be modified via the member
+  functions of <code>std::bitset</code>.
+</p>
+<p>
+  <code>std::vector</code> has an interesting trick up its sleeves. There is a
+  special implementation for <code>std::vector&lt;bool&gt;</code> that may be
+  more space efficient for Boolean values by similarly compacting 8 Boolean
+  values into a byte.
+</p>
+<div class="cpp-note cpp-lightgraybackground">
+  <p class="cpp-note-title cpp-bottomline">For advanced readers</p>
+  <p>
+    When a template class has a different implementation for a particular
+    template type argument, this is called
+    <strong>class template specialization</strong>. We discuss this topic
+    further in lesson
+    <a
+      href="https://www.learncpp.com/cpp-tutorial/class-template-specialization/"
+      >26.4 -- Class template specialization</a
+    >.
+  </p>
+</div>
+<p>
+  Unlike <code>std::bitset</code>, which was designed for bit manipulation,
+  <code>std::vector&lt;bool&gt;</code> lacks bit manipulation member functions.
+</p>
+<p class="cpp-section cpp-topline" style="clear: both">
+  Using <code>std::vector&lt;bool&gt;</code>
+</p>
+<p>
+  For the most part, <code>std::vector&lt;bool&gt;</code> works just like a
+  normal <code>std::vector</code>:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;vector&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-0-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-0-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-5-close">{</span>
+    std<span class="token double-colon punctuation">::</span>vector<span class="token operator">&lt;</span><span class="token keyword keyword-bool">bool</span><span class="token operator">&gt;</span> v <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-4-close">{</span> <span class="token boolean">true</span><span class="token punctuation">,</span> <span class="token boolean">false</span><span class="token punctuation">,</span> <span class="token boolean">false</span><span class="token punctuation">,</span> <span class="token boolean">true</span><span class="token punctuation">,</span> <span class="token boolean">true</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-4-open">}</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-for">for</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-1-close">(</span><span class="token keyword keyword-int">int</span> i <span class="token operator">:</span> v<span class="token punctuation brace-round brace-close brace-level-2" id="pair-1-open">)</span>
+        std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> i <span class="token operator">&lt;&lt;</span> <span class="token string">' '</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+    <span class="token comment">// Change the Boolean value with index 4 to false</span>
+    v<span class="token punctuation brace-square brace-open brace-level-2" id="pair-3-close">[</span><span class="token number">4</span><span class="token punctuation brace-square brace-close brace-level-2" id="pair-3-open">]</span> <span class="token operator">=</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-for">for</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-2-close">(</span><span class="token keyword keyword-int">int</span> i <span class="token operator">:</span> v<span class="token punctuation brace-round brace-close brace-level-2" id="pair-2-open">)</span>
+        std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> i <span class="token operator">&lt;&lt;</span> <span class="token string">' '</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-5-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>On the author’s 64-bit machine, this prints:</p>
+<div
+  class="google-auto-placed ap_container"
+  style="width: 100%; height: auto; clear: both; text-align: center"
+>
+  <ins
+    data-ad-format="auto"
+    class="adsbygoogle adsbygoogle-noablate"
+    data-ad-client="ca-pub-0588844875925051"
+    data-adsbygoogle-status="done"
+    style="
+      display: block;
+      margin: auto;
+      background-color: transparent;
+      height: 0px;
+    "
+    ><div
+      id="aswift_5_host"
+      style="
+        border: none;
+        height: 0px;
+        width: 1027px;
+        margin: 0px;
+        padding: 0px;
+        position: relative;
+        visibility: visible;
+        background-color: transparent;
+        display: inline-block;
+        overflow: hidden;
+        opacity: 0;
+      "
+    >
+      <iframe
+        id="aswift_5"
+        name="aswift_5"
+        browsingtopics="true"
+        style="
+          left: 0px;
+          position: absolute;
+          top: 0px;
+          border: 0px;
+          width: 1027px;
+          height: 0px;
+          min-height: auto;
+          max-height: none;
+          min-width: auto;
+          max-width: none;
+        "
+        sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation"
+        width="1027"
+        height="0"
+        frameborder="0"
+        marginwidth="0"
+        marginheight="0"
+        vspace="0"
+        hspace="0"
+        allowtransparency="true"
+        scrolling="no"
+        allow="attribution-reporting; run-ad-auction"
+        src="https://googleads.g.doubleclick.net/pagead/ads?client=ca-pub-0588844875925051&amp;output=html&amp;h=280&amp;adk=182661276&amp;adf=541842773&amp;w=1027&amp;abgtt=11&amp;fwrn=4&amp;fwrnh=100&amp;lmt=1750692395&amp;num_ads=1&amp;rafmt=1&amp;armr=3&amp;sem=mc&amp;pwprc=4633386603&amp;ad_type=text_image&amp;format=1027x280&amp;url=https%3A%2F%2Fwww.learncpp.com%2Fcpp-tutorial%2Fstdvector-bool%2F&amp;fwr=0&amp;pra=3&amp;rh=200&amp;rw=1026&amp;rpe=1&amp;resp_fmts=3&amp;wgl=1&amp;fa=27&amp;uach=WyJXaW5kb3dzIiwiMTkuMC4wIiwieDg2IiwiIiwiMTM3LjAuNzE1MS4xMjIiLG51bGwsMCxudWxsLCI2NCIsW1siR29vZ2xlIENocm9tZSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJDaHJvbWl1bSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJOb3QvQSlCcmFuZCIsIjI0LjAuMC4wIl1dLDBd&amp;dt=1751963115408&amp;bpp=1&amp;bdt=975&amp;idt=-M&amp;shv=r20250702&amp;mjsv=m202507020101&amp;ptt=9&amp;saldr=aa&amp;abxe=1&amp;cookie=ID%3D05f6e82287d810b4%3AT%3D1751962604%3ART%3D1751962911%3AS%3DALNI_MaQYA0TSAU2k8xwY5tqlN0xFCcd6g&amp;gpic=UID%3D00001157d9e27d0a%3AT%3D1751962604%3ART%3D1751962911%3AS%3DALNI_MYgtHzQJAQQXY_151HTGSSfVxE8_A&amp;eo_id_str=ID%3D52c21936d98c6d2b%3AT%3D1751962604%3ART%3D1751962911%3AS%3DAA-AfjZsJ15yjdEPJ8d11hPojsJQ&amp;prev_fmts=0x0%2C336x280%2C336x280%2C160x600%2C160x600&amp;nras=2&amp;correlator=2111894931823&amp;frm=20&amp;pv=1&amp;u_tz=480&amp;u_his=2&amp;u_h=600&amp;u_w=800&amp;u_ah=600&amp;u_aw=800&amp;u_cd=24&amp;u_sd=1&amp;dmc=8&amp;adx=27&amp;ady=1138&amp;biw=1080&amp;bih=1024&amp;scr_x=0&amp;scr_y=0&amp;eid=31093233%2C95353386%2C95362655%2C95365225%2C95365235%2C95365460%2C95365699%2C95359265%2C95365122%2C95365797&amp;oid=2&amp;pvsid=8505680780716361&amp;tmod=1708485235&amp;uas=0&amp;nvt=1&amp;fc=1408&amp;brdim=10%2C10%2C10%2C10%2C800%2C0%2C780%2C580%2C1080%2C1024&amp;vis=1&amp;rsz=%7C%7Cs%7C&amp;abl=NS&amp;fu=128&amp;bc=31&amp;bz=0.72&amp;td=1&amp;tdf=2&amp;psd=W251bGwsbnVsbCxudWxsLDNd&amp;nt=1&amp;ifi=6&amp;uci=a!6&amp;btvi=2&amp;fsb=1&amp;dtd=7"
+        data-google-container-id="a!6"
+        tabindex="0"
+        title="Advertisement"
+        aria-label="Advertisement"
+        data-google-query-id="CJ7B5ZjrrI4DFVNbwgUdRuoN7g"
+        data-load-complete="true"
+      ></iframe></div
+  ></ins>
+</div>
+<div class="code-block code-block-2" style="margin: 8px 0; clear: both"></div>
+
+<pre>
+1 0 0 1 1
+1 0 0 1 0
+</pre>
+<p class="cpp-section cpp-topline" style="clear: both">
+  <code>std::vector&lt;bool&gt;</code> tradeoffs
+</p>
+<p>
+  However, <code>std::vector&lt;bool&gt;</code> has some tradeoffs that users
+  should be aware of.
+</p>
+<p>
+  First, <code>std::vector&lt;bool&gt;</code> has a fairly high amount of
+  overhead (<code>sizeof(std::vector&lt;bool&gt;)</code> is 40 bytes on the
+  author’s machine), so you won’t save memory unless you’re allocating more
+  Boolean values than the overhead for your architecture.
+</p>
+<p>
+  Second, the performance of <code>std::vector&lt;bool&gt;</code> is highly
+  dependent upon the implementation (as implementations aren’t even required to
+  do optimization, let alone do it well). Per
+  <a href="https://isocpp.org/blog/2012/11/on-vectorbool">this article</a>, a
+  highly optimized implementation can be significantly faster than alternatives.
+  However, a poorly optimized implementation will be slower.
+</p>
+<div
+  class="google-auto-placed ap_container"
+  style="width: 100%; height: auto; clear: both; text-align: center"
+>
+  <ins
+    data-ad-format="auto"
+    class="adsbygoogle adsbygoogle-noablate"
+    data-ad-client="ca-pub-0588844875925051"
+    data-adsbygoogle-status="done"
+    style="
+      display: block;
+      margin: auto;
+      background-color: transparent;
+      height: 0px;
+    "
+    data-ad-status="unfilled"
+    ><div
+      id="aswift_6_host"
+      style="
+        border: none;
+        height: 0px;
+        width: 1027px;
+        margin: 0px;
+        padding: 0px;
+        position: relative;
+        visibility: visible;
+        background-color: transparent;
+        display: inline-block;
+        overflow: hidden;
+        opacity: 0;
+      "
+    >
+      <iframe
+        id="aswift_6"
+        name="aswift_6"
+        browsingtopics="true"
+        style="
+          left: 0px;
+          position: absolute;
+          top: 0px;
+          border: 0px;
+          width: 1027px;
+          height: 0px;
+          min-height: auto;
+          max-height: none;
+          min-width: auto;
+          max-width: none;
+        "
+        sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation"
+        width="1027"
+        height="0"
+        frameborder="0"
+        marginwidth="0"
+        marginheight="0"
+        vspace="0"
+        hspace="0"
+        allowtransparency="true"
+        scrolling="no"
+        allow="attribution-reporting; run-ad-auction"
+        src="https://googleads.g.doubleclick.net/pagead/ads?client=ca-pub-0588844875925051&amp;output=html&amp;h=280&amp;adk=182661276&amp;adf=528509199&amp;w=1027&amp;abgtt=11&amp;fwrn=4&amp;fwrnh=100&amp;lmt=1750692395&amp;num_ads=1&amp;rafmt=1&amp;armr=3&amp;sem=mc&amp;pwprc=4633386603&amp;ad_type=text_image&amp;format=1027x280&amp;url=https%3A%2F%2Fwww.learncpp.com%2Fcpp-tutorial%2Fstdvector-bool%2F&amp;fwr=0&amp;pra=3&amp;rh=200&amp;rw=1026&amp;rpe=1&amp;resp_fmts=3&amp;wgl=1&amp;fa=27&amp;uach=WyJXaW5kb3dzIiwiMTkuMC4wIiwieDg2IiwiIiwiMTM3LjAuNzE1MS4xMjIiLG51bGwsMCxudWxsLCI2NCIsW1siR29vZ2xlIENocm9tZSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJDaHJvbWl1bSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJOb3QvQSlCcmFuZCIsIjI0LjAuMC4wIl1dLDBd&amp;dt=1751963115408&amp;bpp=1&amp;bdt=975&amp;idt=-M&amp;shv=r20250702&amp;mjsv=m202507020101&amp;ptt=9&amp;saldr=aa&amp;abxe=1&amp;cookie=ID%3D05f6e82287d810b4%3AT%3D1751962604%3ART%3D1751962911%3AS%3DALNI_MaQYA0TSAU2k8xwY5tqlN0xFCcd6g&amp;gpic=UID%3D00001157d9e27d0a%3AT%3D1751962604%3ART%3D1751962911%3AS%3DALNI_MYgtHzQJAQQXY_151HTGSSfVxE8_A&amp;eo_id_str=ID%3D52c21936d98c6d2b%3AT%3D1751962604%3ART%3D1751962911%3AS%3DAA-AfjZsJ15yjdEPJ8d11hPojsJQ&amp;prev_fmts=0x0%2C336x280%2C336x280%2C160x600%2C160x600%2C1027x280&amp;nras=3&amp;correlator=2111894931823&amp;frm=20&amp;pv=1&amp;u_tz=480&amp;u_his=2&amp;u_h=600&amp;u_w=800&amp;u_ah=600&amp;u_aw=800&amp;u_cd=24&amp;u_sd=1&amp;dmc=8&amp;adx=27&amp;ady=1729&amp;biw=1080&amp;bih=1024&amp;scr_x=0&amp;scr_y=0&amp;eid=31093233%2C95353386%2C95362655%2C95365225%2C95365235%2C95365460%2C95365699%2C95359265%2C95365122%2C95365797&amp;oid=2&amp;pvsid=8505680780716361&amp;tmod=1708485235&amp;uas=0&amp;nvt=1&amp;fc=1408&amp;brdim=10%2C10%2C10%2C10%2C800%2C0%2C780%2C580%2C1080%2C1024&amp;vis=1&amp;rsz=%7C%7Cs%7C&amp;abl=NS&amp;fu=128&amp;bc=31&amp;bz=0.72&amp;td=1&amp;tdf=2&amp;psd=W251bGwsbnVsbCxudWxsLDNd&amp;nt=1&amp;ifi=7&amp;uci=a!7&amp;btvi=3&amp;fsb=1&amp;dtd=8"
+        data-google-container-id="a!7"
+        tabindex="0"
+        title="Advertisement"
+        aria-label="Advertisement"
+        data-load-complete="true"
+        data-google-query-id="CIX_5JjrrI4DFQBLwgUdEuoblQ"
+      ></iframe></div
+  ></ins>
+</div>
+<p>
+  Third and most importantly, <code>std::vector&lt;bool&gt;</code> is not a
+  vector (it is not required to be contiguous in memory), nor does it hold
+  <code>bool</code> values (it holds a collection of bits), nor does it meet
+  C++’s definition of a container.
+</p>
+<div class="code-block code-block-3" style="margin: 8px 0; clear: both"></div>
+
+<p>
+  Although <code>std::vector&lt;bool&gt;</code> behaves like a vector in most
+  cases, it is not fully compatible with the rest of the standard library. Code
+  that works with other element types may not work with
+  <code>std::vector&lt;bool&gt;</code>.
+</p>
+<p>
+  For example, the following code works when <code>T</code> is any type except
+  <code>bool</code>:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-template">template</span><span class="token operator">&lt;</span><span class="token keyword keyword-typename">typename</span> <span class="token class-name">T</span><span class="token operator">&gt;</span>
+<span class="token keyword keyword-void">void</span> <span class="token function">foo</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-6-close">(</span> std<span class="token double-colon punctuation">::</span>vector<span class="token operator">&lt;</span>T<span class="token operator">&gt;</span><span class="token operator">&amp;</span> v <span class="token punctuation brace-round brace-close brace-level-1" id="pair-6-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-8-close">{</span>
+    T<span class="token operator">&amp;</span> first <span class="token operator">=</span> v<span class="token punctuation brace-square brace-open brace-level-2" id="pair-7-close">[</span><span class="token number">0</span><span class="token punctuation brace-square brace-close brace-level-2" id="pair-7-open">]</span><span class="token punctuation">;</span> <span class="token comment">// get a reference to the first element</span>
+    <span class="token comment">// Do something with first</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-8-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p class="cpp-section cpp-topline" style="clear: both">
+  Avoid <code>std::vector&lt;bool&gt;</code>
+</p>
+<div
+  class="google-auto-placed ap_container"
+  style="width: 100%; height: auto; clear: both; text-align: center"
+>
+  <ins
+    data-ad-format="auto"
+    class="adsbygoogle adsbygoogle-noablate"
+    data-ad-client="ca-pub-0588844875925051"
+    data-adsbygoogle-status="done"
+    style="
+      display: block;
+      margin: auto;
+      background-color: transparent;
+      height: 0px;
+    "
+    ><div
+      id="aswift_7_host"
+      style="
+        border: none;
+        height: 0px;
+        width: 1027px;
+        margin: 0px;
+        padding: 0px;
+        position: relative;
+        visibility: visible;
+        background-color: transparent;
+        display: inline-block;
+        overflow: hidden;
+        opacity: 0;
+      "
+    >
+      <iframe
+        id="aswift_7"
+        name="aswift_7"
+        browsingtopics="true"
+        style="
+          left: 0px;
+          position: absolute;
+          top: 0px;
+          border: 0px;
+          width: 1027px;
+          height: 0px;
+          min-height: auto;
+          max-height: none;
+          min-width: auto;
+          max-width: none;
+        "
+        sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation"
+        width="1027"
+        height="0"
+        frameborder="0"
+        marginwidth="0"
+        marginheight="0"
+        vspace="0"
+        hspace="0"
+        allowtransparency="true"
+        scrolling="no"
+        allow="attribution-reporting; run-ad-auction"
+        src="https://googleads.g.doubleclick.net/pagead/ads?client=ca-pub-0588844875925051&amp;output=html&amp;h=280&amp;adk=182661276&amp;adf=4288706302&amp;w=1027&amp;abgtt=11&amp;fwrn=4&amp;fwrnh=100&amp;lmt=1750692395&amp;num_ads=1&amp;rafmt=1&amp;armr=3&amp;sem=mc&amp;pwprc=4633386603&amp;ad_type=text_image&amp;format=1027x280&amp;url=https%3A%2F%2Fwww.learncpp.com%2Fcpp-tutorial%2Fstdvector-bool%2F&amp;fwr=0&amp;pra=3&amp;rh=200&amp;rw=1026&amp;rpe=1&amp;resp_fmts=3&amp;wgl=1&amp;fa=27&amp;uach=WyJXaW5kb3dzIiwiMTkuMC4wIiwieDg2IiwiIiwiMTM3LjAuNzE1MS4xMjIiLG51bGwsMCxudWxsLCI2NCIsW1siR29vZ2xlIENocm9tZSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJDaHJvbWl1bSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJOb3QvQSlCcmFuZCIsIjI0LjAuMC4wIl1dLDBd&amp;dt=1751963115408&amp;bpp=1&amp;bdt=975&amp;idt=-M&amp;shv=r20250702&amp;mjsv=m202507020101&amp;ptt=9&amp;saldr=aa&amp;abxe=1&amp;cookie=ID%3D05f6e82287d810b4%3AT%3D1751962604%3ART%3D1751962911%3AS%3DALNI_MaQYA0TSAU2k8xwY5tqlN0xFCcd6g&amp;gpic=UID%3D00001157d9e27d0a%3AT%3D1751962604%3ART%3D1751962911%3AS%3DALNI_MYgtHzQJAQQXY_151HTGSSfVxE8_A&amp;eo_id_str=ID%3D52c21936d98c6d2b%3AT%3D1751962604%3ART%3D1751962911%3AS%3DAA-AfjZsJ15yjdEPJ8d11hPojsJQ&amp;prev_fmts=0x0%2C336x280%2C336x280%2C160x600%2C160x600%2C1027x280%2C1027x280&amp;nras=4&amp;correlator=2111894931823&amp;frm=20&amp;pv=1&amp;u_tz=480&amp;u_his=2&amp;u_h=600&amp;u_w=800&amp;u_ah=600&amp;u_aw=800&amp;u_cd=24&amp;u_sd=1&amp;dmc=8&amp;adx=27&amp;ady=2349&amp;biw=1080&amp;bih=1024&amp;scr_x=0&amp;scr_y=0&amp;eid=31093233%2C95353386%2C95362655%2C95365225%2C95365235%2C95365460%2C95365699%2C95359265%2C95365122%2C95365797&amp;oid=2&amp;pvsid=8505680780716361&amp;tmod=1708485235&amp;uas=0&amp;nvt=1&amp;fc=1408&amp;brdim=10%2C10%2C10%2C10%2C800%2C0%2C780%2C580%2C1080%2C1024&amp;vis=1&amp;rsz=%7C%7Cs%7C&amp;abl=NS&amp;fu=128&amp;bc=31&amp;bz=0.72&amp;td=1&amp;tdf=2&amp;psd=W251bGwsbnVsbCxudWxsLDNd&amp;nt=1&amp;ifi=8&amp;uci=a!8&amp;btvi=4&amp;fsb=1&amp;dtd=9"
+        data-google-container-id="a!8"
+        tabindex="0"
+        title="Advertisement"
+        aria-label="Advertisement"
+        data-load-complete="true"
+        data-google-query-id="CNKi5ZjrrI4DFSdSwgUdcm85Kw"
+      ></iframe></div
+  ></ins>
+</div>
+<p>
+  The modern consensus is that <code>std::vector&lt;bool&gt;</code> should
+  generally be avoided, as the performance gains are unlikely to be worth the
+  incompatibility headaches due to it not being a proper container.
+</p>
+<p>
+  Unfortunately, this optimizing version of
+  <code>std::vector&lt;bool&gt;</code> is enabled by default, and there is no
+  way to disable it in favor of a non-optimized version that is actually a
+  container. There have been calls to deprecate
+  <code>std::vector&lt;bool&gt;</code>, and work is underway to determine what a
+  replacement compacted vector of <code>bool</code> might look like (perhaps as
+  a future <code>std::dynamic_bitset</code>).
+</p>
+<div class="code-block code-block-4" style="margin: 8px 0; clear: both"></div>
+
+<p>Our recommendation is as follows:</p>
+<ul>
+  <li>
+    Use (constexpr) <code>std::bitset</code> when the number of bits you need is
+    known at compile-time, you don’t have more than a moderate number of Boolean
+    values to store (e.g. under 64k), and the limited set of operators and
+    member functions (e.g. lack of iterator support) meets your requirements.
+  </li>
+  <li>
+    Prefer <code>std::vector&lt;char&gt;</code> when you need a resizable
+    container of Boolean values and space-savings isn’t a necessity. This type
+    behaves like a normal container.
+  </li>
+  <li>
+    Favor a 3rd party implementation of a dynamic bitset (such as
+    <code>boost::dynamic_bitset</code>) when you need a dynamic bitset to do bit
+    operations on. Such types won’t pretend to be standard library containers
+    when they aren’t.
+  </li>
+</ul>
+<div class="cpp-note cpp-lightgreenbackground" style="height: auto !important">
+  <p class="cpp-note-title cpp-bottomline">Best practice</p>
+  <div
+    class="google-auto-placed ap_container"
+    style="width: 100%; height: auto; clear: both; text-align: center"
+  >
+    <ins
+      data-ad-format="auto"
+      class="adsbygoogle adsbygoogle-noablate"
+      data-ad-client="ca-pub-0588844875925051"
+      data-adsbygoogle-status="done"
+      style="
+        display: block;
+        margin: auto;
+        background-color: transparent;
+        height: 0px;
+      "
+      data-ad-status="unfilled"
+      ><div
+        id="aswift_8_host"
+        style="
+          border: none;
+          height: 0px;
+          width: 995px;
+          margin: 0px;
+          padding: 0px;
+          position: relative;
+          visibility: visible;
+          background-color: transparent;
+          display: inline-block;
+          overflow: hidden;
+          opacity: 0;
+        "
+      >
+        <iframe
+          id="aswift_8"
+          name="aswift_8"
+          browsingtopics="true"
+          style="
+            left: 0px;
+            position: absolute;
+            top: 0px;
+            border: 0px;
+            width: 995px;
+            height: 0px;
+            min-height: auto;
+            max-height: none;
+            min-width: auto;
+            max-width: none;
+          "
+          sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation"
+          width="995"
+          height="0"
+          frameborder="0"
+          marginwidth="0"
+          marginheight="0"
+          vspace="0"
+          hspace="0"
+          allowtransparency="true"
+          scrolling="no"
+          allow="attribution-reporting; run-ad-auction"
+          src="https://googleads.g.doubleclick.net/pagead/ads?client=ca-pub-0588844875925051&amp;output=html&amp;h=280&amp;adk=3423266215&amp;adf=263067442&amp;w=995&amp;abgtt=11&amp;fwrn=4&amp;fwrnh=100&amp;lmt=1750692395&amp;num_ads=1&amp;rafmt=1&amp;armr=3&amp;sem=mc&amp;pwprc=4633386603&amp;ad_type=text_image&amp;format=995x280&amp;url=https%3A%2F%2Fwww.learncpp.com%2Fcpp-tutorial%2Fstdvector-bool%2F&amp;fwr=0&amp;pra=3&amp;rh=200&amp;rw=994&amp;rpe=1&amp;resp_fmts=3&amp;wgl=1&amp;fa=27&amp;uach=WyJXaW5kb3dzIiwiMTkuMC4wIiwieDg2IiwiIiwiMTM3LjAuNzE1MS4xMjIiLG51bGwsMCxudWxsLCI2NCIsW1siR29vZ2xlIENocm9tZSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJDaHJvbWl1bSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJOb3QvQSlCcmFuZCIsIjI0LjAuMC4wIl1dLDBd&amp;dt=1751963115408&amp;bpp=1&amp;bdt=974&amp;idt=1&amp;shv=r20250702&amp;mjsv=m202507020101&amp;ptt=9&amp;saldr=aa&amp;abxe=1&amp;cookie=ID%3D05f6e82287d810b4%3AT%3D1751962604%3ART%3D1751962911%3AS%3DALNI_MaQYA0TSAU2k8xwY5tqlN0xFCcd6g&amp;gpic=UID%3D00001157d9e27d0a%3AT%3D1751962604%3ART%3D1751962911%3AS%3DALNI_MYgtHzQJAQQXY_151HTGSSfVxE8_A&amp;eo_id_str=ID%3D52c21936d98c6d2b%3AT%3D1751962604%3ART%3D1751962911%3AS%3DAA-AfjZsJ15yjdEPJ8d11hPojsJQ&amp;prev_fmts=0x0%2C336x280%2C336x280%2C160x600%2C160x600%2C1027x280%2C1027x280%2C1027x280&amp;nras=5&amp;correlator=2111894931823&amp;frm=20&amp;pv=1&amp;u_tz=480&amp;u_his=2&amp;u_h=600&amp;u_w=800&amp;u_ah=600&amp;u_aw=800&amp;u_cd=24&amp;u_sd=1&amp;dmc=8&amp;adx=43&amp;ady=2990&amp;biw=1080&amp;bih=1024&amp;scr_x=0&amp;scr_y=0&amp;eid=31093233%2C95353386%2C95362655%2C95365225%2C95365235%2C95365460%2C95365699%2C95359265%2C95365122%2C95365797&amp;oid=2&amp;pvsid=8505680780716361&amp;tmod=1708485235&amp;uas=0&amp;nvt=1&amp;fc=1408&amp;brdim=10%2C10%2C10%2C10%2C800%2C0%2C780%2C580%2C1080%2C1024&amp;vis=1&amp;rsz=%7C%7Cs%7C&amp;abl=NS&amp;fu=128&amp;bc=31&amp;bz=0.72&amp;td=1&amp;tdf=2&amp;psd=W251bGwsbnVsbCxudWxsLDNd&amp;nt=1&amp;ifi=9&amp;uci=a!9&amp;btvi=5&amp;fsb=1&amp;dtd=9"
+          data-google-container-id="a!9"
+          tabindex="0"
+          title="Advertisement"
+          aria-label="Advertisement"
+          data-load-complete="true"
+          data-google-query-id="CK2T5ZjrrI4DFc9KwgUdbisFWQ"
+        ></iframe></div
+    ></ins>
+  </div>
+  <p>
+    Favor <code>constexpr std::bitset</code>,
+    <code>std::vector&lt;char&gt;</code>, or 3rd party dynamic bitsets over
+    <code>std::vector&lt;bool&gt;</code>.
+  </p>
+</div>
+<div class="prevnext">
+  <div class="prevnext-inline">
+    <a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/chapter-16-summary-and-quiz/"
+    >
+      <div class="nav-button nav-button-next">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-right" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Next lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">16.x</span>Chapter 16 summary
+            and quiz
+          </div>
+        </div>
+      </div></a
+    >
+    <a class="nav-link" href="/">
+      <div class="nav-button nav-button-index">
+        <div class="nav-button-icon">
+          <i class="fa fa-home" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Back to table of contents</div>
+        </div>
+      </div></a
+    >
+    <a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/stdvector-and-stack-behavior/"
+    >
+      <div class="nav-button nav-button-prev">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-left" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Previous lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">16.11</span>std::vector and
+            stack behavior
+          </div>
+        </div>
+      </div></a
+    >
+  </div>
+</div>
+<div class="code-block code-block-10" style="margin: 8px 0; clear: both"></div>

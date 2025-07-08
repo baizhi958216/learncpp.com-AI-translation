@@ -1,0 +1,813 @@
+<div
+  class="code-block code-block-1"
+  style="margin: 8px 8px 8px 0; float: left"
+></div>
+<p>
+  <strong>Literals</strong> are values that are inserted directly into the code.
+  For example:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-return">return</span> <span class="token number">5</span><span class="token punctuation">;</span>                     <span class="token comment">// 5 is an integer literal</span>
+<span class="token keyword keyword-bool">bool</span> myNameIsAlex <span class="token punctuation brace-curly brace-open brace-level-1" id="pair-84-close">{</span> <span class="token boolean">true</span> <span class="token punctuation brace-curly brace-close brace-level-1" id="pair-84-open">}</span><span class="token punctuation">;</span>   <span class="token comment">// true is a boolean literal</span>
+<span class="token keyword keyword-double">double</span> d <span class="token punctuation brace-curly brace-open brace-level-1" id="pair-85-close">{</span> <span class="token number">3.4</span> <span class="token punctuation brace-curly brace-close brace-level-1" id="pair-85-open">}</span><span class="token punctuation">;</span>             <span class="token comment">// 3.4 is a double literal</span>
+std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Hello, world!"</span><span class="token punctuation">;</span> <span class="token comment">// "Hello, world!" is a C-style string literal</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  Literals are sometimes called <strong>literal constants</strong> because their
+  meaning cannot be redefined (<code>5</code> always means the integral value
+  5).
+</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  The type of a literal
+</p>
+<p>
+  Just like objects have a type, all literals have a type. The type of a literal
+  is deduced from the literal’s value. For example, a literal that is a whole
+  number (e.g. <code>5</code>) is deduced to be of type <code>int</code>.
+</p>
+<p>By default:</p>
+<div class="cpp-table-wrapper" data-ezoic-video-excluded="1">
+  <table class="cpp-table" data-ezoic-video-excluded="1">
+    <tbody>
+      <tr>
+        <th>Literal value</th>
+        <th>Examples</th>
+        <th>Default literal type</th>
+        <th>Note</th>
+      </tr>
+      <tr>
+        <td>integer value</td>
+        <td>5, 0, -3</td>
+        <td>int</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>boolean value</td>
+        <td>true, false</td>
+        <td>bool</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>floating point value</td>
+        <td>1.2, 0.0, 3.4</td>
+        <td>double (not float!)</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>character</td>
+        <td>‘a’, ‘\n’</td>
+        <td>char</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>C-style string</td>
+        <td>“Hello, world!”</td>
+        <td>const char[14]</td>
+        <td>see C-style string literals section below</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Literal suffixes
+</p>
+<p>
+  If the default type of a literal is not as desired, you can change the type of
+  a literal by adding a suffix. Here are some of the more common suffixes:
+</p>
+<div class="code-block code-block-2" style="margin: 8px 0; clear: both"></div>
+<div class="cpp-table-wrapper" data-ezoic-video-excluded="1">
+  <table class="cpp-table" data-ezoic-video-excluded="1">
+    <tbody>
+      <tr>
+        <th>Data type</th>
+        <th>Suffix</th>
+        <th>Meaning</th>
+      </tr>
+      <tr>
+        <td>integral</td>
+        <td>u or U</td>
+        <td>unsigned int</td>
+      </tr>
+      <tr>
+        <td>integral</td>
+        <td>l or L</td>
+        <td>long</td>
+      </tr>
+      <tr>
+        <td>integral</td>
+        <td>ul, uL, Ul, UL, lu, lU, Lu, LU</td>
+        <td>unsigned long</td>
+      </tr>
+      <tr>
+        <td>integral</td>
+        <td>ll or LL</td>
+        <td>long long</td>
+      </tr>
+      <tr>
+        <td>integral</td>
+        <td>ull, uLL, Ull, ULL, llu, llU, LLu, LLU</td>
+        <td>unsigned long long</td>
+      </tr>
+      <tr>
+        <td>integral</td>
+        <td>z or Z</td>
+        <td>The signed version of std::size_t (C++23)</td>
+      </tr>
+      <tr>
+        <td>integral</td>
+        <td>uz, uZ, Uz, UZ, zu, zU, Zu, ZU</td>
+        <td>std::size_t (C++23)</td>
+      </tr>
+      <tr>
+        <td>floating point</td>
+        <td>f or F</td>
+        <td>float</td>
+      </tr>
+      <tr>
+        <td>floating point</td>
+        <td>l or L</td>
+        <td>long double</td>
+      </tr>
+      <tr>
+        <td>string</td>
+        <td>s</td>
+        <td>std::string</td>
+      </tr>
+      <tr>
+        <td>string</td>
+        <td>sv</td>
+        <td>std::string_view</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<p>
+  We’ll discuss the integral and floating point literals and suffixes more in a
+  moment.
+</p>
+<p>In most cases, suffixes aren’t needed (except for <code>f</code>).</p>
+<div class="cpp-note cpp-lightgraybackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Related content</p>
+  <p>
+    The <code>s</code> and <code>sv</code> suffixes require an additional line
+    of code to use. We cover these further in lessons
+    <a href="https://www.learncpp.com/cpp-tutorial/introduction-to-stdstring/"
+      >5.7 -- Introduction to std::string</a
+    >
+    and
+    <a
+      href="https://www.learncpp.com/cpp-tutorial/introduction-to-stdstring_view/"
+      >5.8 -- Introduction to std::string_view</a
+    >.
+  </p>
+  <p>
+    Additional (rarely used) suffixes exist for complex numbers and chrono
+    (time) literals. These are documented
+    <a href="https://en.cppreference.com/w/cpp/symbol_index/literals">here</a>.
+  </p>
+</div>
+<div class="cpp-note cpp-lightgraybackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">For advanced readers</p>
+  <p>
+    Excepting the <code>f</code> suffix, suffixes are most often used in cases
+    where type deduction is involved. See
+    <a
+      href="https://www.learncpp.com/cpp-tutorial/type-deduction-for-objects-using-the-auto-keyword/"
+      >10.8 -- Type deduction for objects using the auto keyword</a
+    >
+    and
+    <a
+      href="https://www.learncpp.com/cpp-tutorial/class-template-argument-deduction-ctad-and-deduction-guides/"
+      >13.14 -- Class template argument deduction (CTAD) and deduction guides</a
+    >.
+  </p>
+</div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Suffix casing
+</p>
+<p>Most of the suffixes are not case sensitive. The exceptions are:</p>
+<ul>
+  <li><code>s</code> and <code>sv</code> must be lower case.</li>
+  <li>
+    Two consecutive <code>l</code> or <code>L</code> characters must have the
+    same casing (<code>lL</code> and <code>Ll</code> are not accepted).
+  </li>
+</ul>
+<p>
+  Because lower-case <code>L</code> can look like numeric <code>1</code> in some
+  fonts, some developers prefer to use upper-case literals. Others use lower
+  case suffixes except for <code>L</code>.
+</p>
+<div class="code-block code-block-3" style="margin: 8px 0; clear: both"></div>
+<div class="cpp-note cpp-lightgreenbackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Best practice</p>
+  <p>Prefer literal suffix L (upper case) over l (lower case).</p>
+</div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Integral literals
+</p>
+<p>
+  You generally won’t need to use suffixes for integral literals, but here are
+  examples:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-86-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-86-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-87-close">{</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token number">5</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>  <span class="token comment">// 5 (no suffix) is type int (by default)</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token number">5L</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span> <span class="token comment">// 5L is type long</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token number">5u</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span> <span class="token comment">// 5u is type unsigned int</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-87-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  In most cases, it’s fine to use non-suffixed <code>int</code> literals, even
+  when initializing non-<code>int</code> types:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-88-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-88-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-92-close">{</span>
+    <span class="token keyword keyword-int">int</span> a <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-89-close">{</span> <span class="token number">5</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-89-open">}</span><span class="token punctuation">;</span>          <span class="token comment">// ok: types match</span>
+    <span class="token keyword keyword-unsigned">unsigned</span> <span class="token keyword keyword-int">int</span> b <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-90-close">{</span> <span class="token number">6</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-90-open">}</span><span class="token punctuation">;</span> <span class="token comment">// ok: compiler will convert int value 6 to unsigned int value 6</span>
+    <span class="token keyword keyword-long">long</span> c <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-91-close">{</span> <span class="token number">7</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-91-open">}</span><span class="token punctuation">;</span>         <span class="token comment">// ok: compiler will convert int value 7 to long value 7</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-92-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  In such cases, the compiler will convert the int literal to the appropriate
+  type.
+</p>
+<p>
+  In the first case, <code>5</code> is already an <code>int</code> by default,
+  so the compiler can use this value directly to initialize
+  <code>int</code> variable <code>a</code>. In the second case,
+  <code>int</code> value <code>6</code> doesn’t match the type of
+  <code>unsigned int b</code>. The compiler will convert int value
+  <code>6</code> to <code>unsigned int</code> value <code>6</code>, and then use
+  that as an initializer for <code>b</code>. In the third case,
+  <code>int</code> value <code>7</code> doesn’t match the type of
+  <code>long c</code>. The compiler will convert int value <code>7</code> to
+  <code>long</code> value <code>7</code>, and then use that as an initializer
+  for <code>c</code>.
+</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Floating point literals
+</p>
+<p>
+  By default, floating point literals have a type of <code>double</code>. To
+  make them <code>float</code> literals instead, the <code>f</code> (or
+  <code>F</code>) suffix should be used:
+</p>
+<div class="code-block code-block-4" style="margin: 8px 0; clear: both"></div>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-93-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-93-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-94-close">{</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token number">5.0</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>  <span class="token comment">// 5.0 (no suffix) is type double (by default)</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token number">5.0f</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span> <span class="token comment">// 5.0f is type float</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-94-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  New programmers are often confused about why the following causes a compiler
+  warning:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-float">float</span> f <span class="token punctuation brace-curly brace-open brace-level-1" id="pair-95-close">{</span> <span class="token number">4.1</span> <span class="token punctuation brace-curly brace-close brace-level-1" id="pair-95-open">}</span><span class="token punctuation">;</span> <span class="token comment">// warning: 4.1 is a double literal, not a float literal</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  Because <code>4.1</code> has no suffix, the literal has type
+  <code>double</code>, not <code>float</code>. When the compiler determines the
+  type of a literal, it doesn’t care what you’re doing with the literal (e.g. in
+  this case, using it to initialize a <code>float</code> variable). Since the
+  type of the literal (<code>double</code>) doesn’t match the type of the
+  variable it is being used to initialize (<code>float</code>), the literal
+  value must be converted to a <code>float</code> so it can then be used to
+  initialize variable <code>f</code>. Converting a value from a
+  <code>double</code> to a <code>float</code> can result in a loss of precision,
+  so the compiler will issue a warning.
+</p>
+<p>The solution here is one of the following:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-float">float</span> f <span class="token punctuation brace-curly brace-open brace-level-1" id="pair-96-close">{</span> <span class="token number">4.1f</span> <span class="token punctuation brace-curly brace-close brace-level-1" id="pair-96-open">}</span><span class="token punctuation">;</span> <span class="token comment">// use 'f' suffix so the literal is a float and matches variable type of float</span>
+<span class="token keyword keyword-double">double</span> d <span class="token punctuation brace-curly brace-open brace-level-1" id="pair-97-close">{</span> <span class="token number">4.1</span> <span class="token punctuation brace-curly brace-close brace-level-1" id="pair-97-open">}</span><span class="token punctuation">;</span> <span class="token comment">// change variable to type double so it matches the literal type double</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Scientific notation for floating point literals
+</p>
+<p>There are two different ways to write floating-point literals.</p>
+<div class="code-block code-block-5" style="margin: 8px 0; clear: both"></div>
+<ol start="1">
+  <li>In standard notation, we write a number with a decimal point:</li>
+</ol>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-double">double</span> pi <span class="token punctuation brace-curly brace-open brace-level-1" id="pair-98-close">{</span> <span class="token number">3.14159</span> <span class="token punctuation brace-curly brace-close brace-level-1" id="pair-98-open">}</span><span class="token punctuation">;</span> <span class="token comment">// 3.14159 is a double literal in standard notation</span>
+<span class="token keyword keyword-double">double</span> d <span class="token punctuation brace-curly brace-open brace-level-1" id="pair-99-close">{</span> <span class="token operator">-</span><span class="token number">1.23</span> <span class="token punctuation brace-curly brace-close brace-level-1" id="pair-99-open">}</span><span class="token punctuation">;</span>    <span class="token comment">// the literal can be negative</span>
+<span class="token keyword keyword-double">double</span> why <span class="token punctuation brace-curly brace-open brace-level-1" id="pair-100-close">{</span> <span class="token number">0.</span> <span class="token punctuation brace-curly brace-close brace-level-1" id="pair-100-open">}</span><span class="token punctuation">;</span>     <span class="token comment">// syntactically acceptable, but avoid this because it's hard to see the decimal point (prefer 0.0)</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<ol start="2">
+  <li>
+    In scientific notation, we add an <code>e</code> to represent the exponent:
+  </li>
+</ol>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-double">double</span> avogadro <span class="token punctuation brace-curly brace-open brace-level-1" id="pair-101-close">{</span> <span class="token number">6.02e23</span> <span class="token punctuation brace-curly brace-close brace-level-1" id="pair-101-open">}</span><span class="token punctuation">;</span> <span class="token comment">// 6.02 x 10^23 is a double literal in scientific notation</span>
+<span class="token keyword keyword-double">double</span> protonCharge <span class="token punctuation brace-curly brace-open brace-level-1" id="pair-102-close">{</span> <span class="token number">1.6e-19</span> <span class="token punctuation brace-curly brace-close brace-level-1" id="pair-102-open">}</span><span class="token punctuation">;</span> <span class="token comment">// charge on a proton is 1.6 x 10^-19</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  String literals
+</p>
+<p>
+  In programming, a <strong>string</strong> is a collection of sequential
+  characters used to represent text (such as names, words, and sentences).
+</p>
+<p>The very first C++ program you wrote probably looked something like this:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-103-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-103-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-104-close">{</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Hello, world!"</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-104-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  <code>"Hello, world!"</code> is a string literal. String literals are placed
+  between double quotes to identify them as strings (as opposed to char
+  literals, which are placed between single quotes).
+</p>
+<p>
+  Because strings are commonly used in programs, most modern programming
+  languages include a fundamental string data type. For historical reasons,
+  strings are not a fundamental type in C++. Rather, they have a strange,
+  complicated type that is hard to work with (we’ll cover how/why in a future
+  lesson, once we’ve covered more fundamentals required to explain how they
+  work). Such strings are often called <strong>C strings</strong> or
+  <strong>C-style strings</strong>, as they are inherited from the C-language.
+</p>
+<div class="code-block code-block-6" style="margin: 8px 0; clear: both"></div>
+<p>
+  There are two non-obvious things worth knowing about C-style string literals.
+</p>
+<ol start="1">
+  <li>
+    All C-style string literals have an implicit null terminator. Consider a
+    string such as <code>"hello"</code>. While this C-style string appears to
+    only have five characters, it actually has six: <code>'h'</code>,
+    <code>'e'</code>, <code>'l</code>‘, <code>'l'</code>, <code>'o'</code>, and
+    <code>'\0'</code> (a character with ASCII code 0). This trailing ‘\0’
+    character is a special character called a <strong>null terminator</strong>,
+    and it is used to indicate the end of the string. A string that ends with a
+    null terminator is called a <strong>null-terminated string</strong>.
+  </li>
+</ol>
+<div class="cpp-note cpp-lightgraybackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">For advanced readers</p>
+  <p>
+    This is the reason the string <code>"Hello, world!"</code> has type
+    <code>const char[14]</code> rather than <code>const char[13]</code> -- the
+    hidden null terminator counts as a character.
+  </p>
+</div>
+<p>
+  The reason for the null-terminator is also historical: it can be used to
+  determine where the string ends.
+</p>
+<ol start="2">
+  <li>
+    Unlike most other literals (which are values, not objects), C-style string
+    literals are const objects that are created at the start of the program and
+    are guaranteed to exist for the entirety of the program. This fact will
+    become important in a few lessons, when we discuss
+    <code>std::string_view</code>.
+  </li>
+</ol>
+<div class="cpp-note cpp-lightbluebackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Key insight</p>
+  <p>
+    C-style string literals are const objects that are created at the start of
+    the program and are guaranteed to exist for the entirety of the program.
+  </p>
+</div>
+<p>
+  Unlike C-style string literals, <code>std::string</code> and
+  <code>std::string_view</code> literals create temporary objects. These
+  temporary objects must be used immediately, as they are destroyed at the end
+  of the full expression in which they are created.
+</p>
+<div class="cpp-note cpp-lightgraybackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Related content</p>
+  <p>
+    We discuss <code>std::string</code> and
+    <code>std::string_view</code> literals in lesson
+    <a href="https://www.learncpp.com/cpp-tutorial/introduction-to-stdstring/"
+      >5.7 -- Introduction to std::string</a
+    >
+    and
+    <a
+      href="https://www.learncpp.com/cpp-tutorial/introduction-to-stdstring_view/"
+      >5.8 -- Introduction to std::string_view</a
+    >
+    respectively.
+  </p>
+</div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Magic numbers
+</p>
+<p>
+  A <strong>magic number</strong> is a literal (usually a number) that either
+  has an unclear meaning or may need to be changed later.
+</p>
+<div class="code-block code-block-7" style="margin: 8px 0; clear: both"></div>
+<p>Here are two statements showing examples of magic numbers:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-const">const</span> <span class="token keyword keyword-int">int</span> maxStudentsPerSchool<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-106-close">{</span> numClassrooms <span class="token operator">*</span> <span class="token number">30</span> <span class="token punctuation brace-curly brace-close brace-level-1" id="pair-106-open">}</span><span class="token punctuation">;</span>
+<span class="token function">setMax</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-105-close">(</span><span class="token number">30</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-105-open">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  What do the literals <code>30</code> mean in these contexts? In the former,
+  you can probably guess that it’s the number of students per class, but it’s
+  not immediately obvious. In the latter, who knows. We’d have to go look at the
+  function to know what it does.
+</p>
+<p>
+  In complex programs, it can be very difficult to infer what a literal
+  represents, unless there’s a comment to explain it.
+</p>
+<p>
+  Using magic numbers is generally considered bad practice because, in addition
+  to not providing context as to what they are being used for, they pose
+  problems if the value needs to change. Let’s assume that the school buys new
+  desks that allow them to raise the class size from 30 to 35, and our program
+  needs to reflect that.
+</p>
+<p>
+  To do so, we need to update one or more literal from <code>30</code> to
+  <code>35</code>. But which literals? The <code>30</code> in the initializer of
+  <code>maxStudentsPerSchool</code> seems obvious. But what about the
+  <code>30</code> used as an argument to <code>setMax()</code>? Does that
+  <code>30</code> have the same meaning as the other <code>30</code>? If so, it
+  should be updated. If not, it should be left alone, or we might break our
+  program somewhere else. If you do a global search-and-replace, you might
+  inadvertently update the argument of <code>setMax()</code> when it wasn’t
+  supposed to change. So you have to look through all the code for every
+  instance of the literal <code>30</code> (of which there might be hundreds),
+  and then make an individual determination as to whether it needs to change or
+  not. That can be seriously time consuming (and error prone).
+</p>
+<div class="code-block code-block-8" style="margin: 8px 0; clear: both"></div>
+<p>
+  Fortunately, both the lack of context and the issues around updating can be
+  easily addressed by using symbolic constants:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-const">const</span> <span class="token keyword keyword-int">int</span> maxStudentsPerClass <span class="token punctuation brace-curly brace-open brace-level-1" id="pair-108-close">{</span> <span class="token number">30</span> <span class="token punctuation brace-curly brace-close brace-level-1" id="pair-108-open">}</span><span class="token punctuation">;</span>
+<span class="token keyword keyword-const">const</span> <span class="token keyword keyword-int">int</span> totalStudents<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-109-close">{</span> numClassrooms <span class="token operator">*</span> maxStudentsPerClass <span class="token punctuation brace-curly brace-close brace-level-1" id="pair-109-open">}</span><span class="token punctuation">;</span> <span class="token comment">// now obvious what this 30 means</span>
+
+<span class="token keyword keyword-const">const</span> <span class="token keyword keyword-int">int</span> maxNameLength<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-110-close">{</span> <span class="token number">30</span> <span class="token punctuation brace-curly brace-close brace-level-1" id="pair-110-open">}</span><span class="token punctuation">;</span>
+<span class="token function">setMax</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-107-close">(</span>maxNameLength<span class="token punctuation brace-round brace-close brace-level-1" id="pair-107-open">)</span><span class="token punctuation">;</span> <span class="token comment">// now obvious this 30 is used in a different context</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  The name of the constant provides context, and we only need to update a value
+  in one place to make a change to the value across our entire program.
+</p>
+<p>
+  Note that magic numbers aren’t always numbers -- they can also be text (e.g.
+  names) or other types:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-111-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-111-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-113-close">{</span>
+    <span class="token function">printAppWelcome</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-112-close">(</span><span class="token string">"MyCalculator"</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-112-open">)</span><span class="token punctuation">;</span> <span class="token comment">// bad: app name may be used in other places or change in the future</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-113-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  Literals used in obvious contexts that are unlikely to change are typically
+  not considered magic. The values <code>-1</code>, <code>0</code>,
+  <code>0.0</code>, and <code>1</code> are often used in such contexts:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-int">int</span> idGenerator <span class="token punctuation brace-curly brace-open brace-level-1" id="pair-114-close">{</span> <span class="token number">0</span> <span class="token punctuation brace-curly brace-close brace-level-1" id="pair-114-open">}</span><span class="token punctuation">;</span>         <span class="token comment">// okay: we're starting our id generator with value 0</span>
+idGenerator <span class="token operator">=</span> idGenerator <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">;</span> <span class="token comment">// okay: we're just incrementing our generator</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  Other numbers may also be obvious in context (and thus, not considered magic):
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-int">int</span> <span class="token function">kmtoM</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-115-close">(</span><span class="token keyword keyword-int">int</span> km<span class="token punctuation brace-round brace-close brace-level-1" id="pair-115-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-116-close">{</span>
+    <span class="token keyword keyword-return">return</span> km <span class="token operator">*</span> <span class="token number">1000</span><span class="token punctuation">;</span> <span class="token comment">// okay: it's obvious 1000 is a conversion factor</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-116-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>Sequential integral ids are also generally not considered magic:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-117-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-117-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-120-close">{</span>
+    <span class="token comment">// okay: these are just sequential ids/counts</span>
+    <span class="token function">printPlayerInfo</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-118-close">(</span><span class="token number">1</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-118-open">)</span><span class="token punctuation">;</span> <span class="token comment">// `1` would not really benefit from being named `player1` instead</span>
+    <span class="token function">printPlayerInfo</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-119-close">(</span><span class="token number">2</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-119-open">)</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-120-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<div class="cpp-note cpp-lightgreenbackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Best practice</p>
+  <p>
+    Avoid magic numbers in your code (use constexpr variables instead, see
+    lesson
+    <a href="https://www.learncpp.com/cpp-tutorial/constexpr-variables/"
+      >5.6 -- Constexpr variables</a
+    >).
+  </p>
+</div>
+<div class="prevnext">
+  <div class="prevnext-inline">
+    <a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/numeral-systems-decimal-binary-hexadecimal-and-octal/"
+      ><div class="nav-button nav-button-next">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-right" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Next lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">5.3</span>Numeral systems
+            (decimal, binary, hexadecimal, and octal)
+          </div>
+        </div>
+      </div></a
+    ><a class="nav-link" href="/"
+      ><div class="nav-button nav-button-index">
+        <div class="nav-button-icon">
+          <i class="fa fa-home" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Back to table of contents</div>
+        </div>
+      </div></a
+    ><a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/constant-variables-named-constants/"
+      ><div class="nav-button nav-button-prev">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-left" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Previous lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">5.1</span>Constant variables
+            (named constants)
+          </div>
+        </div>
+      </div></a
+    >
+  </div>
+</div>
+<div class="code-block code-block-10" style="margin: 8px 0; clear: both"></div>

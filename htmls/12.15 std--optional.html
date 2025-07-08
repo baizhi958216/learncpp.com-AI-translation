@@ -1,0 +1,1346 @@
+<div
+  class="code-block code-block-1"
+  style="margin: 8px 8px 8px 0; float: left"
+></div>
+<p>
+  In lesson
+  <a href="https://www.learncpp.com/cpp-tutorial/detecting-and-handling-errors/"
+    >9.4 -- Detecting and handling errors</a
+  >, we discussed cases where a function encounters an error that it cannot
+  reasonably handle itself. For example, consider a function that calculates and
+  returns a value:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-int">int</span> <span class="token function">doIntDivision</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-0-close">(</span><span class="token keyword keyword-int">int</span> x<span class="token punctuation">,</span> <span class="token keyword keyword-int">int</span> y<span class="token punctuation brace-round brace-close brace-level-1" id="pair-0-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-1-close">{</span>
+    <span class="token keyword keyword-return">return</span> x <span class="token operator">/</span> y<span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-1-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  If the caller passes in a value that is semantically invalid (such as
+  <code>y</code> = <code>0</code>), this function cannot calculate a value to
+  return (as division by 0 is mathematically undefined). What do we do in that
+  case? Because functions that calculate results should have no side effects,
+  this function cannot reasonably resolve the error itself. In such cases, the
+  typical thing to do is have the function detect the error, but then pass the
+  error back to the caller to deal with in some program-appropriate way.
+</p>
+<p>
+  In the previously linked lesson, we covered two different ways to have a
+  function return an error back to the caller:
+</p>
+<ul>
+  <li>
+    Have a void-returning function return a bool instead (indicating success or
+    failure).
+  </li>
+  <li>
+    Have a value-returning function return a sentinel value (a special value
+    that does not occur in the set of possible values the function can otherwise
+    return) to indicate an error.
+  </li>
+</ul>
+<p>
+  As an example of the latter, the <code>reciprocal()</code> function that
+  follows returns value <code>0.0</code> (which can never otherwise occur) if
+  the user passes in a semantically invalid argument for <code>x</code>:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token comment">// The reciprocal of x is 1/x, returns 0.0 if x=0</span>
+<span class="token keyword keyword-double">double</span> <span class="token function">reciprocal</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-2-close">(</span><span class="token keyword keyword-double">double</span> x<span class="token punctuation brace-round brace-close brace-level-1" id="pair-2-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-11-close">{</span>
+    <span class="token keyword keyword-if">if</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-3-close">(</span>x <span class="token operator">==</span> <span class="token number">0.0</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-3-open">)</span> <span class="token comment">// if x is semantically invalid</span>
+       <span class="token keyword keyword-return">return</span> <span class="token number">0.0</span><span class="token punctuation">;</span> <span class="token comment">// return 0.0 as a sentinel to indicate an error occurred</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">1.0</span> <span class="token operator">/</span> x<span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-11-open">}</span>
+
+<span class="token keyword keyword-void">void</span> <span class="token function">testReciprocal</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-4-close">(</span><span class="token keyword keyword-double">double</span> d<span class="token punctuation brace-round brace-close brace-level-1" id="pair-4-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-13-close">{</span>
+     <span class="token keyword keyword-double">double</span> result <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-12-close">{</span> <span class="token function">reciprocal</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-5-close">(</span>d<span class="token punctuation brace-round brace-close brace-level-3" id="pair-5-open">)</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-12-open">}</span><span class="token punctuation">;</span>
+     std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"The reciprocal of "</span> <span class="token operator">&lt;&lt;</span> d <span class="token operator">&lt;&lt;</span> <span class="token string">" is "</span><span class="token punctuation">;</span>
+     <span class="token keyword keyword-if">if</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-6-close">(</span>result <span class="token operator">!=</span> <span class="token number">0.0</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-6-open">)</span>
+         std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> result <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+     <span class="token keyword keyword-else">else</span>
+         std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"undefined\n"</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-13-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-7-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-7-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-14-close">{</span>
+    <span class="token function">testReciprocal</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-8-close">(</span><span class="token number">5.0</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-8-open">)</span><span class="token punctuation">;</span>
+    <span class="token function">testReciprocal</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-9-close">(</span><span class="token operator">-</span><span class="token number">4.0</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-9-open">)</span><span class="token punctuation">;</span>
+    <span class="token function">testReciprocal</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-10-close">(</span><span class="token number">0.0</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-10-open">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-14-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<div
+  class="google-auto-placed ap_container"
+  style="width: 100%; height: auto; clear: both; text-align: center"
+>
+  <ins
+    data-ad-format="auto"
+    class="adsbygoogle adsbygoogle-noablate"
+    data-ad-client="ca-pub-0588844875925051"
+    data-adsbygoogle-status="done"
+    style="
+      display: block;
+      margin: auto;
+      background-color: transparent;
+      height: 0px;
+    "
+    data-ad-status="unfilled"
+    ><div
+      id="aswift_5_host"
+      style="
+        border: none;
+        height: 0px;
+        width: 1027px;
+        margin: 0px;
+        padding: 0px;
+        position: relative;
+        visibility: visible;
+        background-color: transparent;
+        display: inline-block;
+        overflow: hidden;
+        opacity: 0;
+      "
+    >
+      <iframe
+        id="aswift_5"
+        name="aswift_5"
+        browsingtopics="true"
+        style="
+          left: 0px;
+          position: absolute;
+          top: 0px;
+          border: 0px;
+          width: 1027px;
+          height: 0px;
+          min-height: auto;
+          max-height: none;
+          min-width: auto;
+          max-width: none;
+        "
+        sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation"
+        width="1027"
+        height="0"
+        frameborder="0"
+        marginwidth="0"
+        marginheight="0"
+        vspace="0"
+        hspace="0"
+        allowtransparency="true"
+        scrolling="no"
+        allow="attribution-reporting; run-ad-auction"
+        src="https://googleads.g.doubleclick.net/pagead/ads?client=ca-pub-0588844875925051&amp;output=html&amp;h=280&amp;adk=339949009&amp;adf=794655738&amp;w=1027&amp;abgtt=11&amp;fwrn=4&amp;fwrnh=100&amp;lmt=1750135007&amp;num_ads=1&amp;rafmt=1&amp;armr=3&amp;sem=mc&amp;pwprc=4633386603&amp;ad_type=text_image&amp;format=1027x280&amp;url=https%3A%2F%2Fwww.learncpp.com%2Fcpp-tutorial%2Fstdoptional%2F&amp;fwr=0&amp;pra=3&amp;rh=200&amp;rw=1026&amp;rpe=1&amp;resp_fmts=3&amp;wgl=1&amp;fa=27&amp;uach=WyJXaW5kb3dzIiwiMTkuMC4wIiwieDg2IiwiIiwiMTM3LjAuNzE1MS4xMjIiLG51bGwsMCxudWxsLCI2NCIsW1siR29vZ2xlIENocm9tZSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJDaHJvbWl1bSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJOb3QvQSlCcmFuZCIsIjI0LjAuMC4wIl1dLDBd&amp;dt=1751962762650&amp;bpp=1&amp;bdt=569&amp;idt=-M&amp;shv=r20250702&amp;mjsv=m202507020101&amp;ptt=9&amp;saldr=aa&amp;abxe=1&amp;cookie=ID%3D05f6e82287d810b4%3AT%3D1751962604%3ART%3D1751962604%3AS%3DALNI_MaQYA0TSAU2k8xwY5tqlN0xFCcd6g&amp;gpic=UID%3D00001157d9e27d0a%3AT%3D1751962604%3ART%3D1751962604%3AS%3DALNI_MYgtHzQJAQQXY_151HTGSSfVxE8_A&amp;eo_id_str=ID%3D52c21936d98c6d2b%3AT%3D1751962604%3ART%3D1751962604%3AS%3DAA-AfjZsJ15yjdEPJ8d11hPojsJQ&amp;prev_fmts=0x0%2C336x280%2C160x600%2C160x600&amp;nras=2&amp;correlator=2637559404373&amp;frm=20&amp;pv=1&amp;u_tz=480&amp;u_his=2&amp;u_h=600&amp;u_w=800&amp;u_ah=600&amp;u_aw=800&amp;u_cd=24&amp;u_sd=1&amp;dmc=8&amp;adx=27&amp;ady=1368&amp;biw=1080&amp;bih=1024&amp;scr_x=0&amp;scr_y=0&amp;eid=95353386%2C95362656%2C95365225%2C95365234%2C95365460%2C42533293%2C95344791%2C95359265%2C95365122%2C95365798&amp;oid=2&amp;pvsid=8893106367217139&amp;tmod=1708485235&amp;uas=0&amp;nvt=1&amp;fc=1408&amp;brdim=10%2C10%2C10%2C10%2C800%2C0%2C780%2C580%2C1080%2C1024&amp;vis=1&amp;rsz=%7C%7Cs%7C&amp;abl=NS&amp;fu=128&amp;bc=31&amp;bz=0.72&amp;td=1&amp;tdf=2&amp;psd=W251bGwsbnVsbCxudWxsLDNd&amp;nt=1&amp;ifi=6&amp;uci=a!6&amp;btvi=1&amp;fsb=1&amp;dtd=19"
+        data-google-container-id="a!6"
+        tabindex="0"
+        title="Advertisement"
+        aria-label="Advertisement"
+        data-load-complete="true"
+        data-google-query-id="COH7yvDprI4DFXvKFgUdQFYFvA"
+      ></iframe></div
+  ></ins>
+</div>
+<p>
+  While this is a fairly attractive solution, there are a number of potential
+  downsides:
+</p>
+<div class="code-block code-block-2" style="margin: 8px 0; clear: both"></div>
+
+<ul>
+  <li>
+    The programmer must know which sentinel value the function is using to
+    indicate an error (and this value may differ for each function returning an
+    error using this method).
+  </li>
+  <li>
+    A different version of the same function may use a different sentinel value.
+  </li>
+  <li>
+    This method does not work for functions where all possible sentinel values
+    are valid return values.
+  </li>
+</ul>
+<p>
+  Consider our <code>doIntDivision()</code> function above. What value could it
+  return if the user passes in <code>0</code> for <code>y</code>? We can’t use
+  <code>0</code>, because <code>0</code> divided by anything yields
+  <code>0</code> as a valid result. In fact, there are no values that we could
+  return that cannot occur naturally.
+</p>
+<p>So what are we to do?</p>
+<p>
+  First, we could pick some (hopefully) uncommon return value as our sentinel
+  and use it to indicate an error:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;limits&gt;</span> <span class="token comment">// for std::numeric_limits</span></span>
+
+<span class="token comment">// returns std::numeric_limits&lt;int&gt;::lowest() on failure</span>
+<span class="token keyword keyword-int">int</span> <span class="token function">doIntDivision</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-15-close">(</span><span class="token keyword keyword-int">int</span> x<span class="token punctuation">,</span> <span class="token keyword keyword-int">int</span> y<span class="token punctuation brace-round brace-close brace-level-1" id="pair-15-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-18-close">{</span>
+    <span class="token keyword keyword-if">if</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-16-close">(</span>y <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-16-open">)</span>
+        <span class="token keyword keyword-return">return</span> std<span class="token double-colon punctuation">::</span><span class="token class-name">numeric_limits</span><span class="token operator">&lt;</span><span class="token keyword keyword-int">int</span><span class="token operator">&gt;</span><span class="token double-colon punctuation">::</span><span class="token function">lowest</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-17-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-17-open">)</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-return">return</span> x <span class="token operator">/</span> y<span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-18-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<div
+  class="google-auto-placed ap_container"
+  style="width: 100%; height: auto; clear: both; text-align: center"
+>
+  <ins
+    data-ad-format="auto"
+    class="adsbygoogle adsbygoogle-noablate"
+    data-ad-client="ca-pub-0588844875925051"
+    data-adsbygoogle-status="done"
+    style="
+      display: block;
+      margin: auto;
+      background-color: transparent;
+      height: 0px;
+    "
+    data-ad-status="unfilled"
+    ><div
+      id="aswift_6_host"
+      style="
+        border: none;
+        height: 0px;
+        width: 1027px;
+        margin: 0px;
+        padding: 0px;
+        position: relative;
+        visibility: visible;
+        background-color: transparent;
+        display: inline-block;
+        overflow: hidden;
+        opacity: 0;
+      "
+    >
+      <iframe
+        id="aswift_6"
+        name="aswift_6"
+        browsingtopics="true"
+        style="
+          left: 0px;
+          position: absolute;
+          top: 0px;
+          border: 0px;
+          width: 1027px;
+          height: 0px;
+          min-height: auto;
+          max-height: none;
+          min-width: auto;
+          max-width: none;
+        "
+        sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation"
+        width="1027"
+        height="0"
+        frameborder="0"
+        marginwidth="0"
+        marginheight="0"
+        vspace="0"
+        hspace="0"
+        allowtransparency="true"
+        scrolling="no"
+        allow="attribution-reporting; run-ad-auction"
+        src="https://googleads.g.doubleclick.net/pagead/ads?client=ca-pub-0588844875925051&amp;output=html&amp;h=280&amp;adk=339949009&amp;adf=101403243&amp;w=1027&amp;abgtt=11&amp;fwrn=4&amp;fwrnh=100&amp;lmt=1750135007&amp;num_ads=1&amp;rafmt=1&amp;armr=3&amp;sem=mc&amp;pwprc=4633386603&amp;ad_type=text_image&amp;format=1027x280&amp;url=https%3A%2F%2Fwww.learncpp.com%2Fcpp-tutorial%2Fstdoptional%2F&amp;fwr=0&amp;pra=3&amp;rh=200&amp;rw=1026&amp;rpe=1&amp;resp_fmts=3&amp;wgl=1&amp;fa=27&amp;uach=WyJXaW5kb3dzIiwiMTkuMC4wIiwieDg2IiwiIiwiMTM3LjAuNzE1MS4xMjIiLG51bGwsMCxudWxsLCI2NCIsW1siR29vZ2xlIENocm9tZSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJDaHJvbWl1bSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJOb3QvQSlCcmFuZCIsIjI0LjAuMC4wIl1dLDBd&amp;dt=1751962762650&amp;bpp=1&amp;bdt=570&amp;idt=-M&amp;shv=r20250702&amp;mjsv=m202507020101&amp;ptt=9&amp;saldr=aa&amp;abxe=1&amp;cookie=ID%3D05f6e82287d810b4%3AT%3D1751962604%3ART%3D1751962604%3AS%3DALNI_MaQYA0TSAU2k8xwY5tqlN0xFCcd6g&amp;gpic=UID%3D00001157d9e27d0a%3AT%3D1751962604%3ART%3D1751962604%3AS%3DALNI_MYgtHzQJAQQXY_151HTGSSfVxE8_A&amp;eo_id_str=ID%3D52c21936d98c6d2b%3AT%3D1751962604%3ART%3D1751962604%3AS%3DAA-AfjZsJ15yjdEPJ8d11hPojsJQ&amp;prev_fmts=0x0%2C336x280%2C160x600%2C160x600%2C1027x280&amp;nras=3&amp;correlator=2637559404373&amp;frm=20&amp;pv=1&amp;u_tz=480&amp;u_his=2&amp;u_h=600&amp;u_w=800&amp;u_ah=600&amp;u_aw=800&amp;u_cd=24&amp;u_sd=1&amp;dmc=8&amp;adx=27&amp;ady=2096&amp;biw=1080&amp;bih=1024&amp;scr_x=0&amp;scr_y=0&amp;eid=95353386%2C95362656%2C95365225%2C95365234%2C95365460%2C42533293%2C95344791%2C95359265%2C95365122%2C95365798&amp;oid=2&amp;pvsid=8893106367217139&amp;tmod=1708485235&amp;uas=0&amp;nvt=1&amp;fc=1408&amp;brdim=10%2C10%2C10%2C10%2C800%2C0%2C780%2C580%2C1080%2C1024&amp;vis=1&amp;rsz=%7C%7Cs%7C&amp;abl=NS&amp;cms=2&amp;fu=128&amp;bc=31&amp;bz=0.72&amp;td=1&amp;tdf=2&amp;psd=W251bGwsbnVsbCxudWxsLDNd&amp;nt=1&amp;ifi=7&amp;uci=a!7&amp;btvi=2&amp;fsb=1&amp;dtd=20"
+        data-google-container-id="a!7"
+        tabindex="0"
+        title="Advertisement"
+        aria-label="Advertisement"
+        data-load-complete="true"
+        data-google-query-id="CMCUy_DprI4DFQ_IFgUd91kC3Q"
+      ></iframe></div
+  ></ins>
+</div>
+<p>
+  <code>std::numeric_limits&lt;T&gt;::lowest()</code> is a function that returns
+  the most negative value for type <code>T</code>. It is the counterpart to the
+  <code>std::numeric_limits&lt;T&gt;::max()</code> function (which returns the
+  largest positive value for type <code>T</code>) that we introduced in lesson
+  <a
+    href="https://www.learncpp.com/cpp-tutorial/stdcin-and-handling-invalid-input/"
+    >9.5 -- std::cin and handling invalid input</a
+  >.
+</p>
+<p>
+  In the example above, if <code>doIntDivision()</code> cannot proceed, we
+  return <code>std::numeric_limits&lt;int&gt;::lowest()</code>, which returns
+  the most negative int value back to the caller to indicate that the function
+  failed.
+</p>
+<div class="code-block code-block-3" style="margin: 8px 0; clear: both"></div>
+
+<p>While this mostly works, it has two downsides:</p>
+<ul>
+  <li>
+    Every time we call this function, we need to test the return value for
+    equality with <code>std::numeric_limits&lt;int&gt;::lowest()</code> to see
+    if it failed. That’s verbose and ugly.
+  </li>
+  <li>
+    It is an example of a
+    <a href="https://en.wikipedia.org/wiki/Semipredicate_problem"
+      >semipredicate problem</a
+    >: if the user calls
+    <code>doIntDivision(std::numeric_limits&lt;int&gt;::lowest(), 1)</code>, the
+    returned result <code>std::numeric_limits&lt;int&gt;::lowest()</code> will
+    be ambiguous as to whether the function succeeded or failed. That may or may
+    not be a problem depending on how the function is actually used, but it’s
+    another thing we have to worry about and another potential way that errors
+    can creep into our program.
+  </li>
+</ul>
+<p>
+  Second, we could abandon using return values to return errors and use some
+  other mechanism (e.g. exceptions). However, exceptions have their own
+  complications and performance costs, and may not be appropriate or desired.
+  That’s probably overkill for something like this.
+</p>
+<div
+  class="google-auto-placed ap_container"
+  style="width: 100%; height: auto; clear: both; text-align: center"
+>
+  <ins
+    data-ad-format="auto"
+    class="adsbygoogle adsbygoogle-noablate"
+    data-ad-client="ca-pub-0588844875925051"
+    data-adsbygoogle-status="done"
+    style="
+      display: block;
+      margin: auto;
+      background-color: transparent;
+      height: 0px;
+    "
+    data-ad-status="unfilled"
+    ><div
+      id="aswift_7_host"
+      style="
+        border: none;
+        height: 0px;
+        width: 1027px;
+        margin: 0px;
+        padding: 0px;
+        position: relative;
+        visibility: visible;
+        background-color: transparent;
+        display: inline-block;
+        overflow: hidden;
+        opacity: 0;
+      "
+    >
+      <iframe
+        id="aswift_7"
+        name="aswift_7"
+        browsingtopics="true"
+        style="
+          left: 0px;
+          position: absolute;
+          top: 0px;
+          border: 0px;
+          width: 1027px;
+          height: 0px;
+          min-height: auto;
+          max-height: none;
+          min-width: auto;
+          max-width: none;
+        "
+        sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation"
+        width="1027"
+        height="0"
+        frameborder="0"
+        marginwidth="0"
+        marginheight="0"
+        vspace="0"
+        hspace="0"
+        allowtransparency="true"
+        scrolling="no"
+        allow="attribution-reporting; run-ad-auction"
+        src="https://googleads.g.doubleclick.net/pagead/ads?client=ca-pub-0588844875925051&amp;output=html&amp;h=280&amp;adk=339949009&amp;adf=1400279998&amp;w=1027&amp;abgtt=11&amp;fwrn=4&amp;fwrnh=100&amp;lmt=1750135007&amp;num_ads=1&amp;rafmt=1&amp;armr=3&amp;sem=mc&amp;pwprc=4633386603&amp;ad_type=text_image&amp;format=1027x280&amp;url=https%3A%2F%2Fwww.learncpp.com%2Fcpp-tutorial%2Fstdoptional%2F&amp;fwr=0&amp;pra=3&amp;rh=200&amp;rw=1026&amp;rpe=1&amp;resp_fmts=3&amp;wgl=1&amp;fa=27&amp;uach=WyJXaW5kb3dzIiwiMTkuMC4wIiwieDg2IiwiIiwiMTM3LjAuNzE1MS4xMjIiLG51bGwsMCxudWxsLCI2NCIsW1siR29vZ2xlIENocm9tZSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJDaHJvbWl1bSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJOb3QvQSlCcmFuZCIsIjI0LjAuMC4wIl1dLDBd&amp;dt=1751962762650&amp;bpp=1&amp;bdt=570&amp;idt=-M&amp;shv=r20250702&amp;mjsv=m202507020101&amp;ptt=9&amp;saldr=aa&amp;abxe=1&amp;cookie=ID%3D05f6e82287d810b4%3AT%3D1751962604%3ART%3D1751962604%3AS%3DALNI_MaQYA0TSAU2k8xwY5tqlN0xFCcd6g&amp;gpic=UID%3D00001157d9e27d0a%3AT%3D1751962604%3ART%3D1751962604%3AS%3DALNI_MYgtHzQJAQQXY_151HTGSSfVxE8_A&amp;eo_id_str=ID%3D52c21936d98c6d2b%3AT%3D1751962604%3ART%3D1751962604%3AS%3DAA-AfjZsJ15yjdEPJ8d11hPojsJQ&amp;prev_fmts=0x0%2C336x280%2C160x600%2C160x600%2C1027x280%2C1027x280&amp;nras=4&amp;correlator=2637559404373&amp;frm=20&amp;pv=1&amp;u_tz=480&amp;u_his=2&amp;u_h=600&amp;u_w=800&amp;u_ah=600&amp;u_aw=800&amp;u_cd=24&amp;u_sd=1&amp;dmc=8&amp;adx=27&amp;ady=2703&amp;biw=1080&amp;bih=1024&amp;scr_x=0&amp;scr_y=0&amp;eid=95353386%2C95362656%2C95365225%2C95365234%2C95365460%2C42533293%2C95344791%2C95359265%2C95365122%2C95365798&amp;oid=2&amp;pvsid=8893106367217139&amp;tmod=1708485235&amp;uas=0&amp;nvt=1&amp;fc=1408&amp;brdim=10%2C10%2C10%2C10%2C800%2C0%2C780%2C580%2C1080%2C1024&amp;vis=1&amp;rsz=%7C%7Cs%7C&amp;abl=NS&amp;fu=128&amp;bc=31&amp;bz=0.72&amp;td=1&amp;tdf=2&amp;psd=W251bGwsbnVsbCxudWxsLDNd&amp;nt=1&amp;ifi=8&amp;uci=a!8&amp;btvi=3&amp;fsb=1&amp;dtd=21"
+        data-google-container-id="a!8"
+        tabindex="0"
+        title="Advertisement"
+        aria-label="Advertisement"
+        data-load-complete="true"
+        data-google-query-id="CKeSy_DprI4DFR3dFgUdM1oHoA"
+      ></iframe></div
+  ></ins>
+</div>
+<p>
+  Third, we could abandon returning a single value and return two values
+  instead: one (of type <code>bool</code>) that indicates whether the function
+  succeeded, and the other (of the desired return type) that holds the actual
+  return value (if the function succeeded) or an indeterminate value (if the
+  function failed). This is probably the best option of the bunch.
+</p>
+<p>
+  Prior to C++17, choosing this latter option required you to implement it
+  yourself. And while C++ provides multiple ways to do so, any roll-your-own
+  approach will inevitably lead to inconsistencies and errors.
+</p>
+<p class="cpp-section cpp-topline" style="clear: both">
+  Returning a <code>std::optional</code>
+</p>
+<p>
+  C++17 introduces <code>std::optional</code>, which is a class template type
+  that implements an optional value. That is, a
+  <code>std::optional&lt;T&gt;</code> can either have a value of type
+  <code>T</code>, or not. We can use this to implement the third option above:
+</p>
+<div class="code-block code-block-4" style="margin: 8px 0; clear: both"></div>
+
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;optional&gt;</span> <span class="token comment">// for std::optional (C++17)</span></span>
+
+<span class="token comment">// Our function now optionally returns an int value</span>
+std<span class="token double-colon punctuation">::</span>optional<span class="token operator">&lt;</span><span class="token keyword keyword-int">int</span><span class="token operator">&gt;</span> <span class="token function">doIntDivision</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-19-close">(</span><span class="token keyword keyword-int">int</span> x<span class="token punctuation">,</span> <span class="token keyword keyword-int">int</span> y<span class="token punctuation brace-round brace-close brace-level-1" id="pair-19-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-27-close">{</span>
+    <span class="token keyword keyword-if">if</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-20-close">(</span>y <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-20-open">)</span>
+        <span class="token keyword keyword-return">return</span> <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-26-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-26-open">}</span><span class="token punctuation">;</span> <span class="token comment">// or return std::nullopt</span>
+    <span class="token keyword keyword-return">return</span> x <span class="token operator">/</span> y<span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-27-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-21-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-21-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-30-close">{</span>
+    std<span class="token double-colon punctuation">::</span>optional<span class="token operator">&lt;</span><span class="token keyword keyword-int">int</span><span class="token operator">&gt;</span> result1 <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-28-close">{</span> <span class="token function">doIntDivision</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-22-close">(</span><span class="token number">20</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-22-open">)</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-28-open">}</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-if">if</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-23-close">(</span>result1<span class="token punctuation brace-round brace-close brace-level-2" id="pair-23-open">)</span> <span class="token comment">// if the function returned a value</span>
+        std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Result 1: "</span> <span class="token operator">&lt;&lt;</span> <span class="token operator">*</span>result1 <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span> <span class="token comment">// get the value</span>
+    <span class="token keyword keyword-else">else</span>
+        std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Result 1: failed\n"</span><span class="token punctuation">;</span>
+
+    std<span class="token double-colon punctuation">::</span>optional<span class="token operator">&lt;</span><span class="token keyword keyword-int">int</span><span class="token operator">&gt;</span> result2 <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-29-close">{</span> <span class="token function">doIntDivision</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-24-close">(</span><span class="token number">5</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-24-open">)</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-29-open">}</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-if">if</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-25-close">(</span>result2<span class="token punctuation brace-round brace-close brace-level-2" id="pair-25-open">)</span>
+        std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Result 2: "</span> <span class="token operator">&lt;&lt;</span> <span class="token operator">*</span>result2 <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-else">else</span>
+        std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Result 2: failed\n"</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-30-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<div
+  class="google-auto-placed ap_container"
+  style="width: 100%; height: auto; clear: both; text-align: center"
+>
+  <ins
+    data-ad-format="auto"
+    class="adsbygoogle adsbygoogle-noablate"
+    data-ad-client="ca-pub-0588844875925051"
+    data-adsbygoogle-status="done"
+    style="
+      display: block;
+      margin: auto;
+      background-color: transparent;
+      height: 0px;
+    "
+    data-ad-status="unfilled"
+    ><div
+      id="aswift_8_host"
+      style="
+        border: none;
+        height: 0px;
+        width: 1027px;
+        margin: 0px;
+        padding: 0px;
+        position: relative;
+        visibility: visible;
+        background-color: transparent;
+        display: inline-block;
+        overflow: hidden;
+        opacity: 0;
+      "
+    >
+      <iframe
+        id="aswift_8"
+        name="aswift_8"
+        browsingtopics="true"
+        style="
+          left: 0px;
+          position: absolute;
+          top: 0px;
+          border: 0px;
+          width: 1027px;
+          height: 0px;
+          min-height: auto;
+          max-height: none;
+          min-width: auto;
+          max-width: none;
+        "
+        sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation"
+        width="1027"
+        height="0"
+        frameborder="0"
+        marginwidth="0"
+        marginheight="0"
+        vspace="0"
+        hspace="0"
+        allowtransparency="true"
+        scrolling="no"
+        allow="attribution-reporting; run-ad-auction"
+        src="https://googleads.g.doubleclick.net/pagead/ads?client=ca-pub-0588844875925051&amp;output=html&amp;h=280&amp;adk=339949009&amp;adf=1028215827&amp;w=1027&amp;abgtt=11&amp;fwrn=4&amp;fwrnh=100&amp;lmt=1750135007&amp;num_ads=1&amp;rafmt=1&amp;armr=3&amp;sem=mc&amp;pwprc=4633386603&amp;ad_type=text_image&amp;format=1027x280&amp;url=https%3A%2F%2Fwww.learncpp.com%2Fcpp-tutorial%2Fstdoptional%2F&amp;fwr=0&amp;pra=3&amp;rh=200&amp;rw=1026&amp;rpe=1&amp;resp_fmts=3&amp;wgl=1&amp;fa=27&amp;uach=WyJXaW5kb3dzIiwiMTkuMC4wIiwieDg2IiwiIiwiMTM3LjAuNzE1MS4xMjIiLG51bGwsMCxudWxsLCI2NCIsW1siR29vZ2xlIENocm9tZSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJDaHJvbWl1bSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJOb3QvQSlCcmFuZCIsIjI0LjAuMC4wIl1dLDBd&amp;dt=1751962762650&amp;bpp=1&amp;bdt=570&amp;idt=1&amp;shv=r20250702&amp;mjsv=m202507020101&amp;ptt=9&amp;saldr=aa&amp;abxe=1&amp;cookie=ID%3D05f6e82287d810b4%3AT%3D1751962604%3ART%3D1751962604%3AS%3DALNI_MaQYA0TSAU2k8xwY5tqlN0xFCcd6g&amp;gpic=UID%3D00001157d9e27d0a%3AT%3D1751962604%3ART%3D1751962604%3AS%3DALNI_MYgtHzQJAQQXY_151HTGSSfVxE8_A&amp;eo_id_str=ID%3D52c21936d98c6d2b%3AT%3D1751962604%3ART%3D1751962604%3AS%3DAA-AfjZsJ15yjdEPJ8d11hPojsJQ&amp;prev_fmts=0x0%2C336x280%2C160x600%2C160x600%2C1027x280%2C1027x280%2C1027x280&amp;nras=5&amp;correlator=2637559404373&amp;frm=20&amp;pv=1&amp;u_tz=480&amp;u_his=2&amp;u_h=600&amp;u_w=800&amp;u_ah=600&amp;u_aw=800&amp;u_cd=24&amp;u_sd=1&amp;dmc=8&amp;adx=27&amp;ady=3716&amp;biw=1080&amp;bih=1024&amp;scr_x=0&amp;scr_y=0&amp;eid=95353386%2C95362656%2C95365225%2C95365234%2C95365460%2C42533293%2C95344791%2C95359265%2C95365122%2C95365798&amp;oid=2&amp;pvsid=8893106367217139&amp;tmod=1708485235&amp;uas=0&amp;nvt=1&amp;fc=1408&amp;brdim=10%2C10%2C10%2C10%2C800%2C0%2C780%2C580%2C1080%2C1024&amp;vis=1&amp;rsz=%7C%7Cs%7C&amp;abl=NS&amp;fu=128&amp;bc=31&amp;bz=0.72&amp;td=1&amp;tdf=2&amp;psd=W251bGwsbnVsbCxudWxsLDNd&amp;nt=1&amp;ifi=9&amp;uci=a!9&amp;btvi=4&amp;fsb=1&amp;dtd=22"
+        data-google-container-id="a!9"
+        tabindex="0"
+        title="Advertisement"
+        aria-label="Advertisement"
+        data-load-complete="true"
+        data-google-query-id="CIWhy_DprI4DFX7IFgUdFb4NXA"
+      ></iframe></div
+  ></ins>
+</div>
+<p>This prints:</p>
+<pre>
+Result 1: 4
+Result 2: failed
+</pre>
+<p>
+  Using <code>std::optional</code> is quite easy. We can construct a
+  <code>std::optional&lt;T&gt;</code> either with or without a value:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp">std<span class="token double-colon punctuation">::</span>optional<span class="token operator">&lt;</span><span class="token keyword keyword-int">int</span><span class="token operator">&gt;</span> o1 <span class="token punctuation brace-curly brace-open brace-level-1" id="pair-31-close">{</span> <span class="token number">5</span> <span class="token punctuation brace-curly brace-close brace-level-1" id="pair-31-open">}</span><span class="token punctuation">;</span>            <span class="token comment">// initialize with a value</span>
+std<span class="token double-colon punctuation">::</span>optional<span class="token operator">&lt;</span><span class="token keyword keyword-int">int</span><span class="token operator">&gt;</span> o2 <span class="token punctuation brace-curly brace-open brace-level-1" id="pair-32-close">{</span><span class="token punctuation brace-curly brace-close brace-level-1" id="pair-32-open">}</span><span class="token punctuation">;</span>               <span class="token comment">// initialize with no value</span>
+std<span class="token double-colon punctuation">::</span>optional<span class="token operator">&lt;</span><span class="token keyword keyword-int">int</span><span class="token operator">&gt;</span> o3 <span class="token punctuation brace-curly brace-open brace-level-1" id="pair-33-close">{</span> std<span class="token double-colon punctuation">::</span>nullopt <span class="token punctuation brace-curly brace-close brace-level-1" id="pair-33-open">}</span><span class="token punctuation">;</span> <span class="token comment">// initialize with no value</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  To see if a <code>std::optional</code> has a value, we can choose one of the
+  following:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-if">if</span> <span class="token punctuation brace-round brace-open brace-level-1" id="pair-35-close">(</span>o1<span class="token punctuation">.</span><span class="token function">has_value</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-34-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-34-open">)</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-35-open">)</span> <span class="token comment">// call has_value() to check if o1 has a value</span>
+<span class="token keyword keyword-if">if</span> <span class="token punctuation brace-round brace-open brace-level-1" id="pair-36-close">(</span>o2<span class="token punctuation brace-round brace-close brace-level-1" id="pair-36-open">)</span>             <span class="token comment">// use implicit conversion to bool to check if o2 has a value</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<div
+  class="google-auto-placed ap_container"
+  style="width: 100%; height: auto; clear: both; text-align: center"
+>
+  <ins
+    data-ad-format="auto"
+    class="adsbygoogle adsbygoogle-noablate"
+    data-ad-client="ca-pub-0588844875925051"
+    data-adsbygoogle-status="done"
+    style="
+      display: block;
+      margin: auto;
+      background-color: transparent;
+      height: 0px;
+    "
+    data-ad-status="unfilled"
+    ><div
+      id="aswift_9_host"
+      style="
+        border: none;
+        height: 0px;
+        width: 1027px;
+        margin: 0px;
+        padding: 0px;
+        position: relative;
+        visibility: visible;
+        background-color: transparent;
+        display: inline-block;
+        overflow: hidden;
+        opacity: 0;
+      "
+    >
+      <iframe
+        id="aswift_9"
+        name="aswift_9"
+        browsingtopics="true"
+        style="
+          left: 0px;
+          position: absolute;
+          top: 0px;
+          border: 0px;
+          width: 1027px;
+          height: 0px;
+          min-height: auto;
+          max-height: none;
+          min-width: auto;
+          max-width: none;
+        "
+        sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation"
+        width="1027"
+        height="0"
+        frameborder="0"
+        marginwidth="0"
+        marginheight="0"
+        vspace="0"
+        hspace="0"
+        allowtransparency="true"
+        scrolling="no"
+        allow="attribution-reporting; run-ad-auction"
+        src="https://googleads.g.doubleclick.net/pagead/ads?client=ca-pub-0588844875925051&amp;output=html&amp;h=280&amp;adk=339949009&amp;adf=190692423&amp;w=1027&amp;abgtt=11&amp;fwrn=4&amp;fwrnh=100&amp;lmt=1750135007&amp;num_ads=1&amp;rafmt=1&amp;armr=3&amp;sem=mc&amp;pwprc=4633386603&amp;ad_type=text_image&amp;format=1027x280&amp;url=https%3A%2F%2Fwww.learncpp.com%2Fcpp-tutorial%2Fstdoptional%2F&amp;fwr=0&amp;pra=3&amp;rh=200&amp;rw=1026&amp;rpe=1&amp;resp_fmts=3&amp;wgl=1&amp;fa=27&amp;uach=WyJXaW5kb3dzIiwiMTkuMC4wIiwieDg2IiwiIiwiMTM3LjAuNzE1MS4xMjIiLG51bGwsMCxudWxsLCI2NCIsW1siR29vZ2xlIENocm9tZSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJDaHJvbWl1bSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJOb3QvQSlCcmFuZCIsIjI0LjAuMC4wIl1dLDBd&amp;dt=1751962762653&amp;bpp=1&amp;bdt=572&amp;idt=0&amp;shv=r20250702&amp;mjsv=m202507020101&amp;ptt=9&amp;saldr=aa&amp;abxe=1&amp;cookie=ID%3D05f6e82287d810b4%3AT%3D1751962604%3ART%3D1751962604%3AS%3DALNI_MaQYA0TSAU2k8xwY5tqlN0xFCcd6g&amp;gpic=UID%3D00001157d9e27d0a%3AT%3D1751962604%3ART%3D1751962604%3AS%3DALNI_MYgtHzQJAQQXY_151HTGSSfVxE8_A&amp;eo_id_str=ID%3D52c21936d98c6d2b%3AT%3D1751962604%3ART%3D1751962604%3AS%3DAA-AfjZsJ15yjdEPJ8d11hPojsJQ&amp;prev_fmts=0x0%2C336x280%2C160x600%2C160x600%2C1027x280%2C1027x280%2C1027x280%2C1027x280&amp;nras=6&amp;correlator=2637559404373&amp;frm=20&amp;pv=1&amp;u_tz=480&amp;u_his=2&amp;u_h=600&amp;u_w=800&amp;u_ah=600&amp;u_aw=800&amp;u_cd=24&amp;u_sd=1&amp;dmc=8&amp;adx=27&amp;ady=3797&amp;biw=1080&amp;bih=1024&amp;scr_x=0&amp;scr_y=0&amp;eid=95353386%2C95362656%2C95365225%2C95365234%2C95365460%2C42533293%2C95344791%2C95359265%2C95365122%2C95365798&amp;oid=2&amp;pvsid=8893106367217139&amp;tmod=1708485235&amp;uas=0&amp;nvt=1&amp;fc=1408&amp;brdim=10%2C10%2C10%2C10%2C800%2C0%2C780%2C580%2C1080%2C1024&amp;vis=1&amp;rsz=%7C%7Cs%7C&amp;abl=NS&amp;fu=128&amp;bc=31&amp;bz=0.72&amp;td=1&amp;tdf=2&amp;psd=W251bGwsbnVsbCxudWxsLDNd&amp;nt=1&amp;ifi=10&amp;uci=a!a&amp;btvi=5&amp;fsb=1&amp;dtd=291"
+        data-google-container-id="a!a"
+        tabindex="0"
+        title="Advertisement"
+        aria-label="Advertisement"
+        data-load-complete="true"
+        data-google-query-id="CJ7b2_DprI4DFY7KFgUd9C01QA"
+      ></iframe></div
+  ></ins>
+</div>
+<p>
+  To get the value from a <code>std::optional</code>, we can choose one of the
+  following:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp">std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token operator">*</span>o1<span class="token punctuation">;</span>             <span class="token comment">// dereference to get value stored in o1 (undefined behavior if o1 does not have a value)</span>
+std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> o2<span class="token punctuation">.</span><span class="token function">value</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-37-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-37-open">)</span><span class="token punctuation">;</span>      <span class="token comment">// call value() to get value stored in o2 (throws std::bad_optional_access exception if o2 does not have a value)</span>
+std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> o3<span class="token punctuation">.</span><span class="token function">value_or</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-38-close">(</span><span class="token number">42</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-38-open">)</span><span class="token punctuation">;</span> <span class="token comment">// call value_or() to get value stored in o3 (or value `42` if o3 doesn't have a value)</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 32px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  Note that <code>std::optional</code> has a usage syntax that is essentially
+  identical to a pointer:
+</p>
+<div class="cpp-table-wrapper">
+  <table class="cpp-table">
+    <tbody>
+      <tr>
+        <th>Behavior</th>
+        <th>Pointer</th>
+        <th><code>std::optional</code></th>
+      </tr>
+      <tr>
+        <td>Hold no value</td>
+        <td>initialize/assign <code>{}</code> or <code>std::nullptr</code></td>
+        <td>initialize/assign <code>{}</code> or <code>std::nullopt</code></td>
+      </tr>
+      <tr>
+        <td>Hold a value</td>
+        <td>initialize/assign an address</td>
+        <td>initialize/assign a value</td>
+      </tr>
+      <tr>
+        <td>Check if has value</td>
+        <td>implicit conversion to bool</td>
+        <td>implicit conversion to bool or <code>has_value()</code></td>
+      </tr>
+      <tr>
+        <td>Get value</td>
+        <td>dereference</td>
+        <td>dereference or <code>value()</code></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<p>
+  However, semantically, a pointer and a <code>std::optional</code> are quite
+  different.
+</p>
+<div
+  class="google-auto-placed ap_container"
+  style="width: 100%; height: auto; clear: both; text-align: center"
+>
+  <ins
+    data-ad-format="auto"
+    class="adsbygoogle adsbygoogle-noablate"
+    data-ad-client="ca-pub-0588844875925051"
+    data-adsbygoogle-status="done"
+    style="
+      display: block;
+      margin: auto;
+      background-color: transparent;
+      height: 0px;
+    "
+    ><div
+      id="aswift_10_host"
+      style="
+        border: none;
+        height: 0px;
+        width: 1027px;
+        margin: 0px;
+        padding: 0px;
+        position: relative;
+        visibility: visible;
+        background-color: transparent;
+        display: inline-block;
+        overflow: hidden;
+        opacity: 0;
+      "
+    >
+      <iframe
+        id="aswift_10"
+        name="aswift_10"
+        browsingtopics="true"
+        style="
+          left: 0px;
+          position: absolute;
+          top: 0px;
+          border: 0px;
+          width: 1027px;
+          height: 0px;
+          min-height: auto;
+          max-height: none;
+          min-width: auto;
+          max-width: none;
+        "
+        sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation"
+        width="1027"
+        height="0"
+        frameborder="0"
+        marginwidth="0"
+        marginheight="0"
+        vspace="0"
+        hspace="0"
+        allowtransparency="true"
+        scrolling="no"
+        allow="attribution-reporting; run-ad-auction"
+        src="https://googleads.g.doubleclick.net/pagead/ads?client=ca-pub-0588844875925051&amp;output=html&amp;h=280&amp;adk=339949009&amp;adf=652214954&amp;w=1027&amp;abgtt=11&amp;fwrn=4&amp;fwrnh=100&amp;lmt=1750135007&amp;num_ads=1&amp;rafmt=1&amp;armr=3&amp;sem=mc&amp;pwprc=4633386603&amp;ad_type=text_image&amp;format=1027x280&amp;url=https%3A%2F%2Fwww.learncpp.com%2Fcpp-tutorial%2Fstdoptional%2F&amp;fwr=0&amp;pra=3&amp;rh=200&amp;rw=1026&amp;rpe=1&amp;resp_fmts=3&amp;wgl=1&amp;fa=27&amp;uach=WyJXaW5kb3dzIiwiMTkuMC4wIiwieDg2IiwiIiwiMTM3LjAuNzE1MS4xMjIiLG51bGwsMCxudWxsLCI2NCIsW1siR29vZ2xlIENocm9tZSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJDaHJvbWl1bSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJOb3QvQSlCcmFuZCIsIjI0LjAuMC4wIl1dLDBd&amp;dt=1751962762655&amp;bpp=1&amp;bdt=575&amp;idt=0&amp;shv=r20250702&amp;mjsv=m202507020101&amp;ptt=9&amp;saldr=aa&amp;abxe=1&amp;cookie=ID%3D05f6e82287d810b4%3AT%3D1751962604%3ART%3D1751962604%3AS%3DALNI_MaQYA0TSAU2k8xwY5tqlN0xFCcd6g&amp;gpic=UID%3D00001157d9e27d0a%3AT%3D1751962604%3ART%3D1751962604%3AS%3DALNI_MYgtHzQJAQQXY_151HTGSSfVxE8_A&amp;eo_id_str=ID%3D52c21936d98c6d2b%3AT%3D1751962604%3ART%3D1751962604%3AS%3DAA-AfjZsJ15yjdEPJ8d11hPojsJQ&amp;prev_fmts=0x0%2C336x280%2C160x600%2C160x600%2C1027x280%2C1027x280%2C1027x280%2C1027x280%2C1027x280&amp;nras=7&amp;correlator=2637559404373&amp;frm=20&amp;pv=1&amp;u_tz=480&amp;u_his=2&amp;u_h=600&amp;u_w=800&amp;u_ah=600&amp;u_aw=800&amp;u_cd=24&amp;u_sd=1&amp;dmc=8&amp;adx=27&amp;ady=3937&amp;biw=1080&amp;bih=1024&amp;scr_x=0&amp;scr_y=0&amp;eid=95353386%2C95362656%2C95365225%2C95365234%2C95365460%2C42533293%2C95344791%2C95359265%2C95365122%2C95365798&amp;oid=2&amp;pvsid=8893106367217139&amp;tmod=1708485235&amp;uas=0&amp;nvt=1&amp;fc=1408&amp;brdim=10%2C10%2C10%2C10%2C800%2C0%2C780%2C580%2C1080%2C1024&amp;vis=1&amp;rsz=%7C%7Cs%7C&amp;abl=NS&amp;fu=128&amp;bc=31&amp;bz=0.72&amp;td=1&amp;tdf=2&amp;psd=W251bGwsbnVsbCxudWxsLDNd&amp;nt=1&amp;ifi=11&amp;uci=a!b&amp;btvi=6&amp;fsb=1&amp;dtd=310"
+        data-google-container-id="a!b"
+        tabindex="0"
+        title="Advertisement"
+        aria-label="Advertisement"
+        data-load-complete="true"
+        data-google-query-id="CKGB3fDprI4DFWvIFgUd5dwrQg"
+      ></iframe></div
+  ></ins>
+</div>
+<div class="code-block code-block-5" style="margin: 8px 0; clear: both"></div>
+
+<ul>
+  <li>
+    A pointer has reference semantics, meaning it references some other object,
+    and assignment copies the pointer, not the object. If we return a pointer by
+    address, the pointer is copied back to the caller, not the object being
+    pointed to. This means we can’t return a local object by address, as we’ll
+    copy that object’s address back to the caller, and then the object will be
+    destroyed, leaving the returned pointer dangling.
+  </li>
+  <li>
+    A <code>std::optional</code> has value semantics, meaning it actually
+    contains its value, and assignment copies the value. If we return a
+    <code>std::optional</code> by value, the
+    <code>std::optional</code> (including the contained value) is copied back to
+    the caller. This means we can return a value from the function back to the
+    caller using <code>std::optional</code>.
+  </li>
+</ul>
+<p>
+  With this in mind, let’s look at how our example works. Our
+  <code>doIntDivision()</code> now returns a
+  <code>std::optional&lt;int&gt;</code> instead of an <code>int</code>. Inside
+  the function body, if we detect an error, we return <code>{}</code>, which
+  implicitly returns a <code>std::optional</code> containing no value. If we
+  have a value, we return that value, which implicit returns a
+  <code>std::optional</code> containing that value.
+</p>
+<p>
+  Within <code>main()</code>, we use an implicit conversion to bool to check if
+  our returned <code>std::optional</code> has a value or not. If it does, we
+  dereference the <code>std::optional</code> object to get the value. If it
+  doesn’t, then we execute our error condition. That’s it!
+</p>
+<p class="cpp-section cpp-topline" style="clear: both">
+  Pros and cons of returning a <code>std::optional</code>
+</p>
+<div
+  class="google-auto-placed ap_container"
+  style="width: 100%; height: auto; clear: both; text-align: center"
+>
+  <ins
+    data-ad-format="auto"
+    class="adsbygoogle adsbygoogle-noablate"
+    data-ad-client="ca-pub-0588844875925051"
+    data-adsbygoogle-status="done"
+    style="
+      display: block;
+      margin: auto;
+      background-color: transparent;
+      height: 0px;
+    "
+    ><div
+      id="aswift_11_host"
+      style="
+        border: none;
+        height: 0px;
+        width: 1027px;
+        margin: 0px;
+        padding: 0px;
+        position: relative;
+        visibility: visible;
+        background-color: transparent;
+        display: inline-block;
+        overflow: hidden;
+        opacity: 0;
+      "
+    >
+      <iframe
+        id="aswift_11"
+        name="aswift_11"
+        browsingtopics="true"
+        style="
+          left: 0px;
+          position: absolute;
+          top: 0px;
+          border: 0px;
+          width: 1027px;
+          height: 0px;
+          min-height: auto;
+          max-height: none;
+          min-width: auto;
+          max-width: none;
+        "
+        sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation"
+        width="1027"
+        height="0"
+        frameborder="0"
+        marginwidth="0"
+        marginheight="0"
+        vspace="0"
+        hspace="0"
+        allowtransparency="true"
+        scrolling="no"
+        allow="attribution-reporting; run-ad-auction"
+        src="https://googleads.g.doubleclick.net/pagead/ads?client=ca-pub-0588844875925051&amp;output=html&amp;h=280&amp;adk=339949009&amp;adf=339915523&amp;w=1027&amp;abgtt=11&amp;fwrn=4&amp;fwrnh=100&amp;lmt=1750135007&amp;num_ads=1&amp;rafmt=1&amp;armr=3&amp;sem=mc&amp;pwprc=4633386603&amp;ad_type=text_image&amp;format=1027x280&amp;url=https%3A%2F%2Fwww.learncpp.com%2Fcpp-tutorial%2Fstdoptional%2F&amp;fwr=0&amp;pra=3&amp;rh=200&amp;rw=1026&amp;rpe=1&amp;resp_fmts=3&amp;wgl=1&amp;fa=27&amp;uach=WyJXaW5kb3dzIiwiMTkuMC4wIiwieDg2IiwiIiwiMTM3LjAuNzE1MS4xMjIiLG51bGwsMCxudWxsLCI2NCIsW1siR29vZ2xlIENocm9tZSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJDaHJvbWl1bSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJOb3QvQSlCcmFuZCIsIjI0LjAuMC4wIl1dLDBd&amp;dt=1751962762657&amp;bpp=1&amp;bdt=576&amp;idt=0&amp;shv=r20250702&amp;mjsv=m202507020101&amp;ptt=9&amp;saldr=aa&amp;abxe=1&amp;cookie=ID%3D05f6e82287d810b4%3AT%3D1751962604%3ART%3D1751962604%3AS%3DALNI_MaQYA0TSAU2k8xwY5tqlN0xFCcd6g&amp;gpic=UID%3D00001157d9e27d0a%3AT%3D1751962604%3ART%3D1751962604%3AS%3DALNI_MYgtHzQJAQQXY_151HTGSSfVxE8_A&amp;eo_id_str=ID%3D52c21936d98c6d2b%3AT%3D1751962604%3ART%3D1751962604%3AS%3DAA-AfjZsJ15yjdEPJ8d11hPojsJQ&amp;prev_fmts=0x0%2C336x280%2C160x600%2C160x600%2C1027x280%2C1027x280%2C1027x280%2C1027x280%2C1027x280%2C1027x280&amp;nras=8&amp;correlator=2637559404373&amp;frm=20&amp;pv=1&amp;u_tz=480&amp;u_his=2&amp;u_h=600&amp;u_w=800&amp;u_ah=600&amp;u_aw=800&amp;u_cd=24&amp;u_sd=1&amp;dmc=8&amp;adx=27&amp;ady=3993&amp;biw=1080&amp;bih=1024&amp;scr_x=0&amp;scr_y=0&amp;eid=95353386%2C95362656%2C95365225%2C95365234%2C95365460%2C42533293%2C95344791%2C95359265%2C95365122%2C95365798&amp;oid=2&amp;pvsid=8893106367217139&amp;tmod=1708485235&amp;uas=0&amp;nvt=1&amp;fc=1408&amp;brdim=10%2C10%2C10%2C10%2C800%2C0%2C780%2C580%2C1080%2C1024&amp;vis=1&amp;rsz=%7C%7Cs%7C&amp;abl=NS&amp;fu=128&amp;bc=31&amp;bz=0.72&amp;td=1&amp;tdf=2&amp;psd=W251bGwsbnVsbCxudWxsLDNd&amp;nt=1&amp;ifi=12&amp;uci=a!c&amp;btvi=7&amp;fsb=1&amp;dtd=625"
+        data-google-container-id="a!c"
+        tabindex="0"
+        title="Advertisement"
+        aria-label="Advertisement"
+        data-load-complete="true"
+        data-google-query-id="CKqt8PDprI4DFVjHFgUdVAEZig"
+      ></iframe></div
+  ></ins>
+</div>
+<p>Returning a <code>std::optional</code> is nice for a number of reasons:</p>
+<ul>
+  <li>
+    Using <code>std::optional</code> effectively documents that a function may
+    return a value or not.
+  </li>
+  <li>
+    We don’t have to remember which value is being returned as a sentinel.
+  </li>
+  <li>
+    The syntax for using <code>std::optional</code> is convenient and intuitive.
+  </li>
+</ul>
+<p>Returning a <code>std::optional</code> does come with a few downsides:</p>
+<div class="code-block code-block-6" style="margin: 8px 0; clear: both"></div>
+
+<ul>
+  <li>
+    We have to make sure the <code>std::optional</code> contains a value before
+    getting the value. If we dereference a <code>std::optional</code> that does
+    not contain a value, we get undefined behavior.
+  </li>
+  <li>
+    <code>std::optional</code> does not provide a way to pass back information
+    about why the function failed.
+  </li>
+</ul>
+<p>
+  Unless your function needs to return additional information about why it
+  failed (either to better understand the failure, or to differentiate different
+  kinds of failure), <code>std::optional</code> is an excellent choice for
+  functions that may return a value or fail.
+</p>
+<div class="cpp-note cpp-lightgreenbackground">
+  <p class="cpp-note-title cpp-bottomline">Best practice</p>
+  <div
+    class="google-auto-placed ap_container"
+    style="width: 100%; height: auto; clear: both; text-align: center"
+  >
+    <ins
+      data-ad-format="auto"
+      class="adsbygoogle adsbygoogle-noablate"
+      data-ad-client="ca-pub-0588844875925051"
+      data-adsbygoogle-status="done"
+      style="
+        display: block;
+        margin: auto;
+        background-color: transparent;
+        height: 280px;
+      "
+      ><div
+        id="aswift_12_host"
+        style="
+          border: none;
+          height: 280px;
+          width: 995px;
+          margin: 0px;
+          padding: 0px;
+          position: relative;
+          visibility: visible;
+          background-color: transparent;
+          display: inline-block;
+        "
+      ></div
+    ></ins>
+  </div>
+  <p>
+    Return a <code>std::optional</code> (instead of a sentinel value) for
+    functions that may fail, unless your function needs to return additional
+    information about why it failed.
+  </p>
+</div>
+<div class="cpp-note cpp-lightgraybackground">
+  <p class="cpp-note-title cpp-bottomline">Related content</p>
+  <p>
+    <code>std::expected</code> (introduced in C++23) is designed to handle the
+    case where a function can return either an expected value or an unexpected
+    error code. See the
+    <a href="https://en.cppreference.com/w/cpp/utility/expected"
+      >std::expected reference</a
+    >
+    for more information.
+  </p>
+</div>
+<p class="cpp-section cpp-topline" style="clear: both">
+  Using <code>std::optional</code> as an optional function parameter
+</p>
+<p>
+  In lesson
+  <a href="https://www.learncpp.com/cpp-tutorial/pass-by-address-part-2/"
+    >12.11 -- Pass by address (part 2)</a
+  >, we discussed how pass by address can be used to allow a function to accept
+  an “optional” argument (that is, the caller can either pass in
+  <code>nullptr</code> to represent “no argument” or an object). However, one
+  downside of this approach is that a non-nullptr argument must be an lvalue (so
+  that its address can be passed to the function).
+</p>
+<div
+  class="google-auto-placed ap_container"
+  style="width: 100%; height: auto; clear: both; text-align: center"
+>
+  <ins
+    data-ad-format="auto"
+    class="adsbygoogle adsbygoogle-noablate"
+    data-ad-client="ca-pub-0588844875925051"
+    data-adsbygoogle-status="done"
+    style="
+      display: block;
+      margin: auto;
+      background-color: transparent;
+      height: 280px;
+    "
+    ><div
+      id="aswift_13_host"
+      style="
+        border: none;
+        height: 280px;
+        width: 1027px;
+        margin: 0px;
+        padding: 0px;
+        position: relative;
+        visibility: visible;
+        background-color: transparent;
+        display: inline-block;
+      "
+    ></div
+  ></ins>
+</div>
+<p>
+  Perhaps unsurprisingly (given the name), <code>std::optional</code> is an
+  alternative way for a function to accept an optional argument (that is used as
+  an in-parameter only). Instead of this:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-void">void</span> <span class="token function">printIDNumber</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-39-close">(</span><span class="token keyword keyword-const">const</span> <span class="token keyword keyword-int">int</span> <span class="token operator">*</span>id<span class="token operator">=</span><span class="token keyword keyword-nullptr">nullptr</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-39-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-44-close">{</span>
+    <span class="token keyword keyword-if">if</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-40-close">(</span>id<span class="token punctuation brace-round brace-close brace-level-2" id="pair-40-open">)</span>
+        std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Your ID number is "</span> <span class="token operator">&lt;&lt;</span> <span class="token operator">*</span>id <span class="token operator">&lt;&lt;</span> <span class="token string">".\n"</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-else">else</span>
+        std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Your ID number is not known.\n"</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-44-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-41-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-41-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-46-close">{</span>
+    <span class="token function">printIDNumber</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-42-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-42-open">)</span><span class="token punctuation">;</span> <span class="token comment">// we don't know the user's ID yet</span>
+
+    <span class="token keyword keyword-int">int</span> userid <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-45-close">{</span> <span class="token number">34</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-45-open">}</span><span class="token punctuation">;</span>
+    <span class="token function">printIDNumber</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-43-close">(</span><span class="token operator">&amp;</span>userid<span class="token punctuation brace-round brace-close brace-level-2" id="pair-43-open">)</span><span class="token punctuation">;</span> <span class="token comment">// we know the user's ID now</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-46-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>You can do this:</p>
+<div class="code-block code-block-7" style="margin: 8px 0; clear: both"></div>
+
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;optional&gt;</span></span>
+
+<span class="token keyword keyword-void">void</span> <span class="token function">printIDNumber</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-47-close">(</span>std<span class="token double-colon punctuation">::</span>optional<span class="token operator">&lt;</span><span class="token keyword keyword-const">const</span> <span class="token keyword keyword-int">int</span><span class="token operator">&gt;</span> id <span class="token operator">=</span> std<span class="token double-colon punctuation">::</span>nullopt<span class="token punctuation brace-round brace-close brace-level-1" id="pair-47-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-53-close">{</span>
+    <span class="token keyword keyword-if">if</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-48-close">(</span>id<span class="token punctuation brace-round brace-close brace-level-2" id="pair-48-open">)</span>
+        std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Your ID number is "</span> <span class="token operator">&lt;&lt;</span> <span class="token operator">*</span>id <span class="token operator">&lt;&lt;</span> <span class="token string">".\n"</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-else">else</span>
+        std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Your ID number is not known.\n"</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-53-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-49-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-49-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-55-close">{</span>
+    <span class="token function">printIDNumber</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-50-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-50-open">)</span><span class="token punctuation">;</span> <span class="token comment">// we don't know the user's ID yet</span>
+
+    <span class="token keyword keyword-int">int</span> userid <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-54-close">{</span> <span class="token number">34</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-54-open">}</span><span class="token punctuation">;</span>
+    <span class="token function">printIDNumber</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-51-close">(</span>userid<span class="token punctuation brace-round brace-close brace-level-2" id="pair-51-open">)</span><span class="token punctuation">;</span> <span class="token comment">// we know the user's ID now</span>
+
+    <span class="token function">printIDNumber</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-52-close">(</span><span class="token number">62</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-52-open">)</span><span class="token punctuation">;</span> <span class="token comment">// we can also pass an rvalue</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-55-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>There are two advantages to this approach:</p>
+<ol start="1">
+  <li>It effectively documents that the parameter is optional.</li>
+  <li>
+    We can pass in an rvalue (since <code>std::optional</code> will make a
+    copy).
+  </li>
+</ol>
+<p>
+  However, because <code>std::optional</code> makes a copy of its argument, this
+  becomes problematic when <code>T</code> is an expensive-to-copy type (like
+  <code>std::string</code>). With normal function parameters, we worked around
+  this by making the parameter a <code>const lvalue reference</code>, so that a
+  copy would not be made. Unfortunately, as of C++23
+  <code>std::optional</code> does not support references.
+</p>
+<p>
+  Therefore, we recommend using <code>std::optional&lt;T&gt;</code> as an
+  optional parameter only when <code>T</code> would normally be passed by value.
+  Otherwise, use <code>const T*</code>.
+</p>
+<div class="cpp-note cpp-lightgraybackground">
+  <p class="cpp-note-title cpp-bottomline">For advanced readers</p>
+  <p>
+    Although <code>std::optional</code> doesn’t support references directly, you
+    can use <code>std::reference_wrapper</code> (which we cover in lesson
+    <a
+      href="https://www.learncpp.com/cpp-tutorial/arrays-of-references-via-stdreference_wrapper/"
+      >17.5 -- Arrays of references via std::reference_wrapper</a
+    >) to mimic a reference. Let’s take a look at what the above program looks
+    like using a <code>std::string</code> id and
+    <code>std::reference_wrapper</code>:
+  </p>
+  <div class="code-toolbar">
+    <pre
+      class="line-numbers language-cpp"
+      tabindex="0"
+    ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;functional&gt;</span>  <span class="token comment">// for std::reference_wrapper</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;optional&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;string&gt;</span></span>
+
+<span class="token keyword keyword-struct">struct</span> <span class="token class-name">Employee</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-63-close">{</span>
+    std<span class="token double-colon punctuation">::</span>string name<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-62-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-62-open">}</span><span class="token punctuation">;</span> <span class="token comment">// expensive to copy</span>
+    <span class="token keyword keyword-int">int</span> id<span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-63-open">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword keyword-void">void</span> <span class="token function">printEmployeeID</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-56-close">(</span>std<span class="token double-colon punctuation">::</span>optional<span class="token operator">&lt;</span>std<span class="token double-colon punctuation">::</span>reference_wrapper<span class="token operator">&lt;</span>Employee<span class="token operator">&gt;&gt;</span> e<span class="token operator">=</span>std<span class="token double-colon punctuation">::</span>nullopt<span class="token punctuation brace-round brace-close brace-level-1" id="pair-56-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-64-close">{</span>
+    <span class="token keyword keyword-if">if</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-57-close">(</span>e<span class="token punctuation brace-round brace-close brace-level-2" id="pair-57-open">)</span>
+        std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Your ID number is "</span> <span class="token operator">&lt;&lt;</span> e<span class="token operator">-&gt;</span><span class="token function">get</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-58-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-58-open">)</span><span class="token punctuation">.</span>id <span class="token operator">&lt;&lt;</span> <span class="token string">".\n"</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-else">else</span>
+        std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Your ID number is not known.\n"</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-64-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-59-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-59-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-66-close">{</span>
+    <span class="token function">printEmployeeID</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-60-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-60-open">)</span><span class="token punctuation">;</span> <span class="token comment">// we don't know the Employee yet</span>
+
+    Employee e <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-65-close">{</span> <span class="token string">"James"</span><span class="token punctuation">,</span> <span class="token number">34</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-65-open">}</span><span class="token punctuation">;</span>
+    <span class="token function">printEmployeeID</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-61-close">(</span>e<span class="token punctuation brace-round brace-close brace-level-2" id="pair-61-open">)</span><span class="token punctuation">;</span> <span class="token comment">// we know the Employee's ID now</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-66-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+    <div class="toolbar">
+      <div class="toolbar-item">
+        <button
+          class="copy-to-clipboard-button"
+          type="button"
+          data-copy-state="copy"
+        >
+          <span>Copy</span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <p>And for comparison, the pointer version:</p>
+  <div class="code-toolbar">
+    <pre
+      class="line-numbers language-cpp"
+      tabindex="0"
+    ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;string&gt;</span></span>
+
+<span class="token keyword keyword-struct">struct</span> <span class="token class-name">Employee</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-73-close">{</span>
+    std<span class="token double-colon punctuation">::</span>string name<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-72-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-72-open">}</span><span class="token punctuation">;</span> <span class="token comment">// expensive to copy</span>
+    <span class="token keyword keyword-int">int</span> id<span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-73-open">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword keyword-void">void</span> <span class="token function">printEmployeeID</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-67-close">(</span><span class="token keyword keyword-const">const</span> Employee<span class="token operator">*</span> e<span class="token operator">=</span><span class="token keyword keyword-nullptr">nullptr</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-67-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-74-close">{</span>
+    <span class="token keyword keyword-if">if</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-68-close">(</span>e<span class="token punctuation brace-round brace-close brace-level-2" id="pair-68-open">)</span>
+        std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Your ID number is "</span> <span class="token operator">&lt;&lt;</span> e<span class="token operator">-&gt;</span>id <span class="token operator">&lt;&lt;</span> <span class="token string">".\n"</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-else">else</span>
+        std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Your ID number is not known.\n"</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-74-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-69-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-69-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-76-close">{</span>
+    <span class="token function">printEmployeeID</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-70-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-70-open">)</span><span class="token punctuation">;</span> <span class="token comment">// we don't know the Employee yet</span>
+
+    Employee e <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-75-close">{</span> <span class="token string">"James"</span><span class="token punctuation">,</span> <span class="token number">34</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-75-open">}</span><span class="token punctuation">;</span>
+    <span class="token function">printEmployeeID</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-71-close">(</span><span class="token operator">&amp;</span>e<span class="token punctuation brace-round brace-close brace-level-2" id="pair-71-open">)</span><span class="token punctuation">;</span> <span class="token comment">// we know the Employee's ID now</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-76-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+    <div class="toolbar">
+      <div class="toolbar-item">
+        <button
+          class="copy-to-clipboard-button"
+          type="button"
+          data-copy-state="copy"
+        >
+          <span>Copy</span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <p>
+    These two programs are nearly identical. We’d argue the former isn’t more
+    readable or maintainable than the latter, and isn’t worth introducing two
+    additional types into your program for.
+  </p>
+</div>
+<p>In many cases, function overloading provides a superior solution:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;string&gt;</span></span>
+
+<span class="token keyword keyword-struct">struct</span> <span class="token class-name">Employee</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-84-close">{</span>
+    std<span class="token double-colon punctuation">::</span>string name<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-83-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-83-open">}</span><span class="token punctuation">;</span> <span class="token comment">// expensive to copy</span>
+    <span class="token keyword keyword-int">int</span> id<span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-84-open">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword keyword-void">void</span> <span class="token function">printEmployeeID</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-77-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-77-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-85-close">{</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Your ID number is not known.\n"</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-85-open">}</span>
+
+<span class="token keyword keyword-void">void</span> <span class="token function">printEmployeeID</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-78-close">(</span><span class="token keyword keyword-const">const</span> Employee<span class="token operator">&amp;</span> e<span class="token punctuation brace-round brace-close brace-level-1" id="pair-78-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-86-close">{</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Your ID number is "</span> <span class="token operator">&lt;&lt;</span> e<span class="token punctuation">.</span>id <span class="token operator">&lt;&lt;</span> <span class="token string">".\n"</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-86-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-79-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-79-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-89-close">{</span>
+    <span class="token function">printEmployeeID</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-80-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-80-open">)</span><span class="token punctuation">;</span> <span class="token comment">// we don't know the Employee yet</span>
+
+    Employee e <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-87-close">{</span> <span class="token string">"James"</span><span class="token punctuation">,</span> <span class="token number">34</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-87-open">}</span><span class="token punctuation">;</span>
+    <span class="token function">printEmployeeID</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-81-close">(</span>e<span class="token punctuation brace-round brace-close brace-level-2" id="pair-81-open">)</span><span class="token punctuation">;</span> <span class="token comment">// we know the Employee's ID now</span>
+
+    <span class="token function">printEmployeeID</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-82-close">(</span> <span class="token punctuation brace-curly brace-open brace-level-3" id="pair-88-close">{</span> <span class="token string">"Dave"</span><span class="token punctuation">,</span> <span class="token number">62</span> <span class="token punctuation brace-curly brace-close brace-level-3" id="pair-88-open">}</span> <span class="token punctuation brace-round brace-close brace-level-2" id="pair-82-open">)</span><span class="token punctuation">;</span> <span class="token comment">// we can even pass rvalues</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-89-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<div class="cpp-note cpp-lightgreenbackground">
+  <p class="cpp-note-title cpp-bottomline">Best practice</p>
+  <p>Prefer <code>std::optional</code> for optional return types.</p>
+  <p>
+    Prefer function overloading for optional function parameters (when
+    possible). Otherwise, use <code>std::optional&lt;T&gt;</code> for optional
+    arguments when <code>T</code> would normally be passed by value. Favor
+    <code>const T*</code> when <code>T</code> is expensive to copy.
+  </p>
+</div>
+<div class="prevnext">
+  <div class="prevnext-inline">
+    <a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/chapter-12-summary-and-quiz/"
+    >
+      <div class="nav-button nav-button-next">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-right" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Next lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">12.x</span>Chapter 12 summary
+            and quiz
+          </div>
+        </div>
+      </div></a
+    >
+    <a class="nav-link" href="/">
+      <div class="nav-button nav-button-index">
+        <div class="nav-button-icon">
+          <i class="fa fa-home" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Back to table of contents</div>
+        </div>
+      </div></a
+    >
+    <a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/type-deduction-with-pointers-references-and-const/"
+    >
+      <div class="nav-button nav-button-prev">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-left" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Previous lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">12.14</span>Type deduction
+            with pointers, references, and const
+          </div>
+        </div>
+      </div></a
+    >
+  </div>
+</div>
+<div class="code-block code-block-10" style="margin: 8px 0; clear: both"></div>

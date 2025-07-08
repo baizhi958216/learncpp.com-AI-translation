@@ -1,0 +1,354 @@
+<div
+  class="code-block code-block-1"
+  style="margin: 8px 8px 8px 0; float: left"
+></div>
+<p>
+  In lesson
+  <a
+    href="https://www.learncpp.com/cpp-tutorial/object-sizes-and-the-sizeof-operator/"
+    >4.3 -- Object sizes and the sizeof operator</a
+  >, we noted that C++ has minimum size guarantees for each of the fundamental
+  types. However, the actual size of these types can vary based on the compiler
+  and architecture.
+</p>
+<p>
+  This variability was allowed so that the <code>int</code> and
+  <code>double</code> data types could be set to the size that maximizes
+  performance on a given architecture. For example, a 32-bit computer will
+  typically be able to process 32-bits of data at a time. In such cases, an
+  <code>int</code> would likely be set to a width of 32-bits, since this is the
+  “natural” size of the data that the CPU operates on (and likely to be the most
+  performant).
+</p>
+<div class="cpp-note cpp-lightgraybackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">A reminder</p>
+  <p>
+    The number of bits a data type uses is called its width. A wider data type
+    is one that uses more bits, and a narrower data type is one that uses less
+    bits.
+  </p>
+</div>
+<p>
+  But what happens when we want our 32-bit CPU to modify an 8-bit value (such as
+  a <code>char</code>) or a 16-bit value? Some 32-bit processors (such as 32-bit
+  x86 CPUs) can manipulate 8-bit or 16-bit values directly. However, doing so is
+  often slower than manipulating 32-bit values! Other 32-bit CPUs (like 32-bit
+  PowerPC CPUs), can only operate on 32-bit values, and additional tricks must
+  be employed to manipulate narrower values.
+</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Numeric promotion
+</p>
+<p>
+  Because C++ is designed to be portable and performant across a wide range of
+  architectures, the language designers did not want to assume a given CPU would
+  be able to efficiently manipulate values that were narrower than the natural
+  data size for that CPU.
+</p>
+<p>
+  To help address this challenge, C++ defines a category of type conversions
+  informally called the <code>numeric promotions</code>. A
+  <strong>numeric promotion</strong> is the type conversion of certain narrower
+  numeric types (such as a <code>char</code>) to certain wider numeric types
+  (typically <code>int</code> or <code>double</code>) that can be processed
+  efficiently.
+</p>
+<div class="code-block code-block-2" style="margin: 8px 0; clear: both"></div>
+<p>
+  All numeric promotions are value-preserving. A
+  <strong>value-preserving conversion</strong> (also called a
+  <strong>safe conversion</strong>) is one where every possible source value can
+  be converted into an equal value of the destination type.
+</p>
+<p>
+  Because promotions are safe, the compiler will freely use numeric promotion as
+  needed, and will not issue a warning when doing so.
+</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Numeric promotion reduces redundancy
+</p>
+<p>
+  Numeric promotion solves another problem as well. Consider the case where you
+  wanted to write a function to print a value of type <code>int</code>:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-void">void</span> <span class="token function">printInt</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-52-close">(</span><span class="token keyword keyword-int">int</span> x<span class="token punctuation brace-round brace-close brace-level-1" id="pair-52-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-53-close">{</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> x <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-53-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  While this is straightforward, what happens if we want to also be able to
+  print a value of type <code>short</code>, or type <code>char</code>? If type
+  conversions did not exist, we’d have to write a different print function for
+  <code>short</code> and another one for <code>char</code>. And don’t forget
+  another version for <code>unsigned char</code>, <code>signed char</code>,
+  <code>unsigned short</code>, <code>wchar_t</code>, <code>char8_t</code>,
+  <code>char16_t</code>, and <code>char32_t</code>! You can see how this quickly
+  becomes unmanageable.
+</p>
+<p>
+  Numeric promotion comes to the rescue here: we can write functions that have
+  <code>int</code> and/or <code>double</code> parameters (such as the
+  <code>printInt()</code> function above). That same code can then be called
+  with arguments of types that can be numerically promoted to match the types of
+  the function parameters.
+</p>
+<div class="code-block code-block-3" style="margin: 8px 0; clear: both"></div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Numeric promotion categories
+</p>
+<p>
+  The numeric promotion rules are divided into two subcategories:
+  <code>integral promotions</code> and <code>floating point promotions</code>.
+  Only the conversions listed in these categories are considered to be numeric
+  promotions.
+</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Floating point promotions
+</p>
+<p>We’ll start with the easier one.</p>
+<p>
+  Using the <strong>floating point promotion</strong> rules, a value of type
+  <code>float</code> can be converted to a value of type <code>double</code>.
+</p>
+<p>
+  This means we can write a function that takes a <code>double</code> and then
+  call it with either a <code>double</code> or a <code>float</code> value:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-void">void</span> <span class="token function">printDouble</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-54-close">(</span><span class="token keyword keyword-double">double</span> d<span class="token punctuation brace-round brace-close brace-level-1" id="pair-54-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-58-close">{</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> d <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-58-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-55-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-55-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-59-close">{</span>
+    <span class="token function">printDouble</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-56-close">(</span><span class="token number">5.0</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-56-open">)</span><span class="token punctuation">;</span> <span class="token comment">// no conversion necessary</span>
+    <span class="token function">printDouble</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-57-close">(</span><span class="token number">4.0f</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-57-open">)</span><span class="token punctuation">;</span> <span class="token comment">// numeric promotion of float to double</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-59-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  In the second call to <code>printDouble()</code>, the
+  <code>float</code> literal <code>4.0f</code> is promoted into a
+  <code>double</code>, so that the type of argument matches the type of the
+  function parameter.
+</p>
+<div class="code-block code-block-4" style="margin: 8px 0; clear: both"></div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Integral promotions
+</p>
+<p>The integral promotion rules are more complicated.</p>
+<p>
+  Using the <strong>integral promotion</strong> rules, the following conversions
+  can be made:
+</p>
+<ul>
+  <li>signed char or signed short can be converted to int.</li>
+  <li>
+    unsigned char, char8_t, and unsigned short can be converted to int if int
+    can hold the entire range of the type, or unsigned int otherwise.
+  </li>
+  <li>
+    If char is signed by default, it follows the signed char conversion rules
+    above. If it is unsigned by default, it follows the unsigned char conversion
+    rules above.
+  </li>
+  <li>
+    bool can be converted to int, with false becoming 0 and true becoming 1.
+  </li>
+</ul>
+<p>
+  Assuming an 8 bit byte and an <code>int</code> size of 4 bytes or larger
+  (which is typical these days), the above basically means that
+  <code>bool</code>, <code>char</code>, <code>signed char</code>,
+  <code>unsigned char</code>, <code>signed short</code>, and
+  <code>unsigned short</code> all get promoted to <code>int</code>.
+</p>
+<p>
+  There are a few other integral promotion rules that are used less often. These
+  can be found at
+  <a
+    href="https://en.cppreference.com/w/cpp/language/implicit_conversion#Integral_promotion"
+    >https://en.cppreference.com/w/cpp/language/implicit_conversion#Integral_promotion</a
+  >.
+</p>
+<p>
+  In most cases, this lets us write a function taking an
+  <code>int</code> parameter, and then use it with a wide variety of other
+  integral types. For example:
+</p>
+<div class="code-block code-block-5" style="margin: 8px 0; clear: both"></div>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-void">void</span> <span class="token function">printInt</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-60-close">(</span><span class="token keyword keyword-int">int</span> x<span class="token punctuation brace-round brace-close brace-level-1" id="pair-60-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-66-close">{</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> x <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-66-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-61-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-61-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-68-close">{</span>
+    <span class="token function">printInt</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-62-close">(</span><span class="token number">2</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-62-open">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-short">short</span> s<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-67-close">{</span> <span class="token number">3</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-67-open">}</span><span class="token punctuation">;</span> <span class="token comment">// there is no short literal suffix, so we'll use a variable for this one</span>
+    <span class="token function">printInt</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-63-close">(</span>s<span class="token punctuation brace-round brace-close brace-level-2" id="pair-63-open">)</span><span class="token punctuation">;</span> <span class="token comment">// numeric promotion of short to int</span>
+
+    <span class="token function">printInt</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-64-close">(</span><span class="token string">'a'</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-64-open">)</span><span class="token punctuation">;</span> <span class="token comment">// numeric promotion of char to int</span>
+    <span class="token function">printInt</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-65-close">(</span><span class="token boolean">true</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-65-open">)</span><span class="token punctuation">;</span> <span class="token comment">// numeric promotion of bool to int</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-68-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  There are two things worth noting here. First, on some architectures (e.g.
+  with 2 byte ints) it is possible for some of the unsigned integral types to be
+  promoted to <code>unsigned int</code> rather than <code>int</code>.
+</p>
+<p>
+  Second, some narrower unsigned types (such as <code>unsigned char</code>) may
+  be promoted to larger signed types (such as <code>int</code>). So while
+  integral promotion is value-preserving, it does not necessarily preserve the
+  signedness (signed/unsigned) of the type.
+</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Not all widening conversions are numeric promotions
+</p>
+<p>
+  Some widening type conversions (such as <code>char</code> to
+  <code>short</code>, or <code>int</code> to <code>long</code>) are not
+  considered to be numeric promotions in C++ (they are
+  <code>numeric conversions</code>, which we’ll cover shortly in lesson
+  <a href="https://www.learncpp.com/cpp-tutorial/numeric-conversions/"
+    >10.3 -- Numeric conversions</a
+  >). This is because such conversions do not assist in the goal of converting
+  smaller types to larger types that can be processed more efficiently.
+</p>
+<p>
+  The distinction is mostly academic. However, in certain cases, the compiler
+  will favor numeric promotions over numeric conversions. We’ll see examples
+  where this makes a difference when we cover function overload resolution (in
+  upcoming lesson
+  <a
+    href="https://www.learncpp.com/cpp-tutorial/function-overload-resolution-and-ambiguous-matches/"
+    >11.3 -- Function overload resolution and ambiguous matches</a
+  >).
+</p>
+<div class="code-block code-block-6" style="margin: 8px 0; clear: both"></div>
+<div class="prevnext">
+  <div class="prevnext-inline">
+    <a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/numeric-conversions/"
+      ><div class="nav-button nav-button-next">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-right" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Next lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">10.3</span>Numeric
+            conversions
+          </div>
+        </div>
+      </div></a
+    ><a class="nav-link" href="/"
+      ><div class="nav-button nav-button-index">
+        <div class="nav-button-icon">
+          <i class="fa fa-home" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Back to table of contents</div>
+        </div>
+      </div></a
+    ><a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/implicit-type-conversion/"
+      ><div class="nav-button nav-button-prev">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-left" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Previous lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">10.1</span>Implicit type
+            conversion
+          </div>
+        </div>
+      </div></a
+    >
+  </div>
+</div>
+<div class="code-block code-block-10" style="margin: 8px 0; clear: both"></div>

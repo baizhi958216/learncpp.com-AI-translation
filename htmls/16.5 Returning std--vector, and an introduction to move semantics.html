@@ -1,0 +1,969 @@
+<div
+  class="code-block code-block-1"
+  style="margin: 8px 8px 8px 0; float: left"
+></div>
+<p>
+  When we need to pass a <code>std::vector</code> to a function, we pass it by
+  (const) reference so that we do not make an expensive copy of the array data.
+</p>
+<p>
+  Therefore, you will probably be surprised to find that it is okay to return a
+  <code>std::vector</code> by value.
+</p>
+<p>Say whaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaat?</p>
+<p class="cpp-section cpp-topline" style="clear: both">Copy semantics</p>
+<p>Consider the following program:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;vector&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-0-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-0-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-7-close">{</span>
+    std<span class="token double-colon punctuation">::</span>vector arr1 <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-5-close">{</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">,</span> <span class="token number">5</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-5-open">}</span><span class="token punctuation">;</span> <span class="token comment">// copies { 1, 2, 3, 4, 5 } into arr1</span>
+    std<span class="token double-colon punctuation">::</span>vector arr2 <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-6-close">{</span> arr1 <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-6-open">}</span><span class="token punctuation">;</span>          <span class="token comment">// copies arr1 into arr2</span>
+
+    arr1<span class="token punctuation brace-square brace-open brace-level-2" id="pair-1-close">[</span><span class="token number">0</span><span class="token punctuation brace-square brace-close brace-level-2" id="pair-1-open">]</span> <span class="token operator">=</span> <span class="token number">6</span><span class="token punctuation">;</span> <span class="token comment">// We can continue to use arr1</span>
+    arr2<span class="token punctuation brace-square brace-open brace-level-2" id="pair-2-close">[</span><span class="token number">0</span><span class="token punctuation brace-square brace-close brace-level-2" id="pair-2-open">]</span> <span class="token operator">=</span> <span class="token number">7</span><span class="token punctuation">;</span> <span class="token comment">// and we can continue to use arr2</span>
+
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> arr1<span class="token punctuation brace-square brace-open brace-level-2" id="pair-3-close">[</span><span class="token number">0</span><span class="token punctuation brace-square brace-close brace-level-2" id="pair-3-open">]</span> <span class="token operator">&lt;&lt;</span> arr2<span class="token punctuation brace-square brace-open brace-level-2" id="pair-4-close">[</span><span class="token number">0</span><span class="token punctuation brace-square brace-close brace-level-2" id="pair-4-open">]</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-7-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  When <code>arr2</code> is initialized with <code>arr1</code>, the copy
+  constructor of <code>std::vector</code> is called, which copies
+  <code>arr1</code> into <code>arr2</code>.
+</p>
+<p>
+  Making a copy is the only reasonable thing to do in this case, as we need both
+  <code>arr1</code> and <code>arr2</code> to live on independently. This example
+  ends up making two copies, one for each initialization.
+</p>
+<div
+  class="google-auto-placed ap_container"
+  style="width: 100%; height: auto; clear: both; text-align: center"
+>
+  <ins
+    data-ad-format="auto"
+    class="adsbygoogle adsbygoogle-noablate"
+    data-ad-client="ca-pub-0588844875925051"
+    data-adsbygoogle-status="done"
+    style="
+      display: block;
+      margin: auto;
+      background-color: transparent;
+      height: 280px;
+    "
+    data-ad-status="unfilled"
+    ><div
+      id="aswift_5_host"
+      style="
+        border: none;
+        height: 280px;
+        width: 1027px;
+        margin: 0px;
+        padding: 0px;
+        position: relative;
+        visibility: visible;
+        background-color: transparent;
+        display: inline-block;
+        overflow: visible;
+      "
+    >
+      <iframe
+        id="aswift_5"
+        name="aswift_5"
+        browsingtopics="true"
+        style="
+          left: 0;
+          position: absolute;
+          top: 0;
+          border: 0;
+          width: 1027px;
+          height: 280px;
+          min-height: auto;
+          max-height: none;
+          min-width: auto;
+          max-width: none;
+        "
+        sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation"
+        width="1027"
+        height="280"
+        frameborder="0"
+        marginwidth="0"
+        marginheight="0"
+        vspace="0"
+        hspace="0"
+        allowtransparency="true"
+        scrolling="no"
+        allow="attribution-reporting; run-ad-auction"
+        src="https://googleads.g.doubleclick.net/pagead/ads?client=ca-pub-0588844875925051&amp;output=html&amp;h=280&amp;adk=2465272330&amp;adf=3244801908&amp;w=1027&amp;abgtt=11&amp;fwrn=4&amp;fwrnh=100&amp;lmt=1751590356&amp;num_ads=1&amp;rafmt=1&amp;armr=3&amp;sem=mc&amp;pwprc=4633386603&amp;ad_type=text_image&amp;format=1027x280&amp;url=https%3A%2F%2Fwww.learncpp.com%2Fcpp-tutorial%2Freturning-stdvector-and-an-introduction-to-move-semantics%2F&amp;fwr=0&amp;pra=3&amp;rh=200&amp;rw=1026&amp;rpe=1&amp;resp_fmts=3&amp;wgl=1&amp;fa=27&amp;uach=WyJXaW5kb3dzIiwiMTkuMC4wIiwieDg2IiwiIiwiMTM3LjAuNzE1MS4xMjIiLG51bGwsMCxudWxsLCI2NCIsW1siR29vZ2xlIENocm9tZSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJDaHJvbWl1bSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJOb3QvQSlCcmFuZCIsIjI0LjAuMC4wIl1dLDBd&amp;dt=1751963080029&amp;bpp=1&amp;bdt=919&amp;idt=-M&amp;shv=r20250702&amp;mjsv=m202507020101&amp;ptt=9&amp;saldr=aa&amp;abxe=1&amp;cookie=ID%3D05f6e82287d810b4%3AT%3D1751962604%3ART%3D1751962911%3AS%3DALNI_MaQYA0TSAU2k8xwY5tqlN0xFCcd6g&amp;gpic=UID%3D00001157d9e27d0a%3AT%3D1751962604%3ART%3D1751962911%3AS%3DALNI_MYgtHzQJAQQXY_151HTGSSfVxE8_A&amp;eo_id_str=ID%3D52c21936d98c6d2b%3AT%3D1751962604%3ART%3D1751962911%3AS%3DAA-AfjZsJ15yjdEPJ8d11hPojsJQ&amp;prev_fmts=0x0%2C160x600%2C336x280%2C160x600&amp;nras=2&amp;correlator=8729156797674&amp;frm=20&amp;pv=1&amp;u_tz=480&amp;u_his=2&amp;u_h=600&amp;u_w=800&amp;u_ah=600&amp;u_aw=800&amp;u_cd=24&amp;u_sd=1&amp;dmc=8&amp;adx=27&amp;ady=960&amp;biw=1080&amp;bih=1024&amp;scr_x=0&amp;scr_y=0&amp;eid=95353387%2C95362656%2C95365225%2C95365234%2C95365700%2C42533294%2C95344791%2C95359265%2C95365119%2C95365798&amp;oid=2&amp;pvsid=7612712960401464&amp;tmod=1708485235&amp;uas=0&amp;nvt=1&amp;fc=1408&amp;brdim=10%2C10%2C10%2C10%2C800%2C0%2C780%2C580%2C1080%2C1024&amp;vis=1&amp;rsz=%7C%7Cs%7C&amp;abl=NS&amp;fu=128&amp;bc=31&amp;bz=0.72&amp;td=1&amp;tdf=2&amp;psd=W251bGwsbnVsbCxudWxsLDNd&amp;nt=1&amp;ifi=6&amp;uci=a!6&amp;fsb=1&amp;dtd=22"
+        data-google-container-id="a!6"
+        tabindex="0"
+        title="Advertisement"
+        aria-label="Advertisement"
+        data-load-complete="true"
+        data-google-query-id="CLDy9ofrrI4DFeDIFgUdzKoSIQ"
+      ></iframe></div
+  ></ins>
+</div>
+<p>
+  The term <strong>copy semantics</strong> refers to the rules that determine
+  how copies of objects are made. When we say a type supports copy semantics, we
+  mean that objects of that type are copyable, because the rules for making such
+  copies have been defined. When we say copy semantics are being invoked, that
+  means we’ve done something that will make a copy of an object.
+</p>
+<div class="code-block code-block-2" style="margin: 8px 0; clear: both"></div>
+
+<p>
+  For class types, copy semantics are typically implemented via the copy
+  constructor (and copy assignment operator), which defines how objects of that
+  type are copied. Typically this results in each data member of the class type
+  being copied. In the prior example, the statement
+  <code>std::vector arr2 { arr1 };</code> invokes copy semantics, resulting in a
+  call to the copy constructor of <code>std::vector</code>, which then makes a
+  copy of each data member of <code>arr1</code> into <code>arr2</code>. The end
+  result is that <code>arr1</code> is equivalent to (but independent from)
+  <code>arr2</code>.
+</p>
+<p class="cpp-section cpp-topline" style="clear: both">
+  When copy semantics is not optimal
+</p>
+<p>Now consider this related example:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;vector&gt;</span></span>
+
+std<span class="token double-colon punctuation">::</span>vector<span class="token operator">&lt;</span><span class="token keyword keyword-int">int</span><span class="token operator">&gt;</span> <span class="token function">generate</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-8-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-8-open">)</span> <span class="token comment">// return by value</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-14-close">{</span>
+    <span class="token comment">// We're intentionally using a named object here so mandatory copy elision doesn't apply</span>
+    std<span class="token double-colon punctuation">::</span>vector arr1 <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-13-close">{</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">,</span> <span class="token number">5</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-13-open">}</span><span class="token punctuation">;</span> <span class="token comment">// copies { 1, 2, 3, 4, 5 } into arr1</span>
+    <span class="token keyword keyword-return">return</span> arr1<span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-14-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-9-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-9-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-16-close">{</span>
+    std<span class="token double-colon punctuation">::</span>vector arr2 <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-15-close">{</span> <span class="token function">generate</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-10-close">(</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-10-open">)</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-15-open">}</span><span class="token punctuation">;</span> <span class="token comment">// the return value of generate() dies at the end of the expression</span>
+
+    <span class="token comment">// There is no way to use the return value of generate() here</span>
+    arr2<span class="token punctuation brace-square brace-open brace-level-2" id="pair-11-close">[</span><span class="token number">0</span><span class="token punctuation brace-square brace-close brace-level-2" id="pair-11-open">]</span> <span class="token operator">=</span> <span class="token number">7</span><span class="token punctuation">;</span> <span class="token comment">// we only have access to arr2</span>
+
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> arr2<span class="token punctuation brace-square brace-open brace-level-2" id="pair-12-close">[</span><span class="token number">0</span><span class="token punctuation brace-square brace-close brace-level-2" id="pair-12-open">]</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-16-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  When <code>arr2</code> is initialized this time, it is being initialized using
+  a temporary object returned from function <code>generate()</code>. Unlike the
+  prior case, where the initializer was an lvalue that could be used in future
+  statements, in this case, the temporary object is an rvalue will be destroyed
+  at the end of the initialization expression. The temporary object can’t be
+  used beyond that point. Because the temporary (and its data) will be destroyed
+  at the end of the expression, we need some way to get the data out of the
+  temporary and into <code>arr2</code>.
+</p>
+<div
+  class="google-auto-placed ap_container"
+  style="width: 100%; height: auto; clear: both; text-align: center"
+>
+  <ins
+    data-ad-format="auto"
+    class="adsbygoogle adsbygoogle-noablate"
+    data-ad-client="ca-pub-0588844875925051"
+    data-adsbygoogle-status="done"
+    style="
+      display: block;
+      margin: auto;
+      background-color: transparent;
+      height: 0px;
+    "
+    data-ad-status="unfilled"
+    ><div
+      id="aswift_6_host"
+      style="
+        border: none;
+        height: 0px;
+        width: 1027px;
+        margin: 0px;
+        padding: 0px;
+        position: relative;
+        visibility: visible;
+        background-color: transparent;
+        display: inline-block;
+        overflow: hidden;
+        opacity: 0;
+      "
+    >
+      <iframe
+        id="aswift_6"
+        name="aswift_6"
+        browsingtopics="true"
+        style="
+          left: 0px;
+          position: absolute;
+          top: 0px;
+          border: 0px;
+          width: 1027px;
+          height: 0px;
+          min-height: auto;
+          max-height: none;
+          min-width: auto;
+          max-width: none;
+        "
+        sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation"
+        width="1027"
+        height="0"
+        frameborder="0"
+        marginwidth="0"
+        marginheight="0"
+        vspace="0"
+        hspace="0"
+        allowtransparency="true"
+        scrolling="no"
+        allow="attribution-reporting; run-ad-auction"
+        src="https://googleads.g.doubleclick.net/pagead/ads?client=ca-pub-0588844875925051&amp;output=html&amp;h=280&amp;adk=2465272330&amp;adf=1765413677&amp;w=1027&amp;abgtt=11&amp;fwrn=4&amp;fwrnh=100&amp;lmt=1751590356&amp;num_ads=1&amp;rafmt=1&amp;armr=3&amp;sem=mc&amp;pwprc=4633386603&amp;ad_type=text_image&amp;format=1027x280&amp;url=https%3A%2F%2Fwww.learncpp.com%2Fcpp-tutorial%2Freturning-stdvector-and-an-introduction-to-move-semantics%2F&amp;fwr=0&amp;pra=3&amp;rh=200&amp;rw=1026&amp;rpe=1&amp;resp_fmts=3&amp;wgl=1&amp;fa=27&amp;uach=WyJXaW5kb3dzIiwiMTkuMC4wIiwieDg2IiwiIiwiMTM3LjAuNzE1MS4xMjIiLG51bGwsMCxudWxsLCI2NCIsW1siR29vZ2xlIENocm9tZSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJDaHJvbWl1bSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJOb3QvQSlCcmFuZCIsIjI0LjAuMC4wIl1dLDBd&amp;dt=1751963080029&amp;bpp=1&amp;bdt=919&amp;idt=-M&amp;shv=r20250702&amp;mjsv=m202507020101&amp;ptt=9&amp;saldr=aa&amp;abxe=1&amp;cookie=ID%3D05f6e82287d810b4%3AT%3D1751962604%3ART%3D1751962911%3AS%3DALNI_MaQYA0TSAU2k8xwY5tqlN0xFCcd6g&amp;gpic=UID%3D00001157d9e27d0a%3AT%3D1751962604%3ART%3D1751962911%3AS%3DALNI_MYgtHzQJAQQXY_151HTGSSfVxE8_A&amp;eo_id_str=ID%3D52c21936d98c6d2b%3AT%3D1751962604%3ART%3D1751962911%3AS%3DAA-AfjZsJ15yjdEPJ8d11hPojsJQ&amp;prev_fmts=0x0%2C160x600%2C336x280%2C160x600%2C1027x280&amp;nras=3&amp;correlator=8729156797674&amp;frm=20&amp;pv=1&amp;u_tz=480&amp;u_his=2&amp;u_h=600&amp;u_w=800&amp;u_ah=600&amp;u_aw=800&amp;u_cd=24&amp;u_sd=1&amp;dmc=8&amp;adx=27&amp;ady=1981&amp;biw=1080&amp;bih=1024&amp;scr_x=0&amp;scr_y=0&amp;eid=95353387%2C95362656%2C95365225%2C95365234%2C95365700%2C42533294%2C95344791%2C95359265%2C95365119%2C95365798&amp;oid=2&amp;pvsid=7612712960401464&amp;tmod=1708485235&amp;uas=0&amp;nvt=1&amp;fc=1408&amp;brdim=10%2C10%2C10%2C10%2C800%2C0%2C780%2C580%2C1080%2C1024&amp;vis=1&amp;rsz=%7C%7Cs%7C&amp;abl=NS&amp;fu=128&amp;bc=31&amp;bz=0.72&amp;td=1&amp;tdf=2&amp;psd=W251bGwsbnVsbCxudWxsLDNd&amp;nt=1&amp;ifi=7&amp;uci=a!7&amp;btvi=1&amp;fsb=1&amp;dtd=25"
+        data-google-container-id="a!7"
+        tabindex="0"
+        title="Advertisement"
+        aria-label="Advertisement"
+        data-load-complete="true"
+        data-google-query-id="COqd94frrI4DFaLJFgUdwaIwGQ"
+      ></iframe></div
+  ></ins>
+</div>
+<p>
+  The usual thing to do here is the same as in the previous example: use copy
+  semantics and make a potentially expensive copy. That way
+  <code>arr2</code> gets its own copy of the data that can be used even after
+  the temporary (and its data) is destroyed.
+</p>
+<div class="code-block code-block-3" style="margin: 8px 0; clear: both"></div>
+
+<p>
+  However, what makes this case different than the previous example is that the
+  temporary is going to be destroyed anyway. After initialization is complete,
+  the temporary doesn’t need its data any more (which is why we can destroy it).
+  We don’t need two sets of data to exist simultaneously. In such cases, making
+  a potentially expensive copy and then destroying the original data is
+  suboptimal.
+</p>
+<p class="cpp-section cpp-topline" style="clear: both">
+  Introduction to move semantics
+</p>
+<p>
+  Instead, what if there was a way for <code>arr2</code> to “steal” the
+  temporary’s data instead of copying it? <code>arr2</code> would then be the
+  new owner of the data, and no copy of the data would need to be made. When
+  ownership of data is transferred from one object to another, we say that data
+  has been <strong>moved</strong>. The cost of such a move is typically trivial
+  (usually just two or three pointer assignments, which is way faster than
+  copying an array of data!).
+</p>
+<p>
+  As an added benefit, when the temporary was then destroyed at the end of the
+  expression, it would no longer have any data to destroy, so we wouldn’t have
+  to pay that cost either.
+</p>
+<div
+  class="google-auto-placed ap_container"
+  style="width: 100%; height: auto; clear: both; text-align: center"
+>
+  <ins
+    data-ad-format="auto"
+    class="adsbygoogle adsbygoogle-noablate"
+    data-ad-client="ca-pub-0588844875925051"
+    data-adsbygoogle-status="done"
+    style="
+      display: block;
+      margin: auto;
+      background-color: transparent;
+      height: 0px;
+    "
+    data-ad-status="unfilled"
+    ><div
+      id="aswift_7_host"
+      style="
+        border: none;
+        height: 0px;
+        width: 1027px;
+        margin: 0px;
+        padding: 0px;
+        position: relative;
+        visibility: visible;
+        background-color: transparent;
+        display: inline-block;
+        overflow: hidden;
+        opacity: 0;
+      "
+    >
+      <iframe
+        id="aswift_7"
+        name="aswift_7"
+        browsingtopics="true"
+        style="
+          left: 0px;
+          position: absolute;
+          top: 0px;
+          border: 0px;
+          width: 1027px;
+          height: 0px;
+          min-height: auto;
+          max-height: none;
+          min-width: auto;
+          max-width: none;
+        "
+        sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation"
+        width="1027"
+        height="0"
+        frameborder="0"
+        marginwidth="0"
+        marginheight="0"
+        vspace="0"
+        hspace="0"
+        allowtransparency="true"
+        scrolling="no"
+        allow="attribution-reporting; run-ad-auction"
+        src="https://googleads.g.doubleclick.net/pagead/ads?client=ca-pub-0588844875925051&amp;output=html&amp;h=280&amp;adk=2465272330&amp;adf=3635105336&amp;w=1027&amp;abgtt=11&amp;fwrn=4&amp;fwrnh=100&amp;lmt=1751590356&amp;num_ads=1&amp;rafmt=1&amp;armr=3&amp;sem=mc&amp;pwprc=4633386603&amp;ad_type=text_image&amp;format=1027x280&amp;url=https%3A%2F%2Fwww.learncpp.com%2Fcpp-tutorial%2Freturning-stdvector-and-an-introduction-to-move-semantics%2F&amp;fwr=0&amp;pra=3&amp;rh=200&amp;rw=1026&amp;rpe=1&amp;resp_fmts=3&amp;wgl=1&amp;fa=27&amp;uach=WyJXaW5kb3dzIiwiMTkuMC4wIiwieDg2IiwiIiwiMTM3LjAuNzE1MS4xMjIiLG51bGwsMCxudWxsLCI2NCIsW1siR29vZ2xlIENocm9tZSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJDaHJvbWl1bSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJOb3QvQSlCcmFuZCIsIjI0LjAuMC4wIl1dLDBd&amp;dt=1751963080029&amp;bpp=1&amp;bdt=919&amp;idt=-M&amp;shv=r20250702&amp;mjsv=m202507020101&amp;ptt=9&amp;saldr=aa&amp;abxe=1&amp;cookie=ID%3D05f6e82287d810b4%3AT%3D1751962604%3ART%3D1751962911%3AS%3DALNI_MaQYA0TSAU2k8xwY5tqlN0xFCcd6g&amp;gpic=UID%3D00001157d9e27d0a%3AT%3D1751962604%3ART%3D1751962911%3AS%3DALNI_MYgtHzQJAQQXY_151HTGSSfVxE8_A&amp;eo_id_str=ID%3D52c21936d98c6d2b%3AT%3D1751962604%3ART%3D1751962911%3AS%3DAA-AfjZsJ15yjdEPJ8d11hPojsJQ&amp;prev_fmts=0x0%2C160x600%2C336x280%2C160x600%2C1027x280%2C1027x280&amp;nras=4&amp;correlator=8729156797674&amp;frm=20&amp;pv=1&amp;u_tz=480&amp;u_his=2&amp;u_h=600&amp;u_w=800&amp;u_ah=600&amp;u_aw=800&amp;u_cd=24&amp;u_sd=1&amp;dmc=8&amp;adx=27&amp;ady=2575&amp;biw=1080&amp;bih=1024&amp;scr_x=0&amp;scr_y=0&amp;eid=95353387%2C95362656%2C95365225%2C95365234%2C95365700%2C42533294%2C95344791%2C95359265%2C95365119%2C95365798&amp;oid=2&amp;pvsid=7612712960401464&amp;tmod=1708485235&amp;uas=0&amp;nvt=1&amp;fc=1408&amp;brdim=10%2C10%2C10%2C10%2C800%2C0%2C780%2C580%2C1080%2C1024&amp;vis=1&amp;rsz=%7C%7Cs%7C&amp;abl=NS&amp;cms=2&amp;fu=128&amp;bc=31&amp;bz=0.72&amp;td=1&amp;tdf=2&amp;psd=W251bGwsbnVsbCxudWxsLDNd&amp;nt=1&amp;ifi=8&amp;uci=a!8&amp;btvi=2&amp;fsb=1&amp;dtd=26"
+        data-google-container-id="a!8"
+        tabindex="0"
+        title="Advertisement"
+        aria-label="Advertisement"
+        data-load-complete="true"
+        data-google-query-id="CIXo9ofrrI4DFbvIFgUd8CkPGA"
+      ></iframe></div
+  ></ins>
+</div>
+<p>
+  This is the essence of <strong>move semantics</strong>, which refers to the
+  rules that determine how the data from one object is moved to another object.
+  When move semantics is invoked, any data member that can be moved is moved,
+  and any data member that can’t be moved is copied. The ability to move data
+  instead of copying it can make move semantics more efficient than copy
+  semantics, especially when we can replace an expensive copy with an
+  inexpensive move.
+</p>
+<div class="cpp-note cpp-lightbluebackground">
+  <p class="cpp-note-title cpp-bottomline">Key insight</p>
+  <p>
+    Move semantics is an optimization that allows us, under certain
+    circumstances, to inexpensively transfer ownership of some data members from
+    one object to another object (rather than making a more expensive copy).
+  </p>
+  <p>Data members that can’t be moved are copied instead.</p>
+</div>
+<p class="cpp-section cpp-topline" style="clear: both">
+  How move semantics is invoked
+</p>
+<div
+  class="google-auto-placed ap_container"
+  style="width: 100%; height: auto; clear: both; text-align: center"
+>
+  <ins
+    data-ad-format="auto"
+    class="adsbygoogle adsbygoogle-noablate"
+    data-ad-client="ca-pub-0588844875925051"
+    data-adsbygoogle-status="done"
+    style="
+      display: block;
+      margin: auto;
+      background-color: transparent;
+      height: 0px;
+    "
+    data-ad-status="unfilled"
+    ><div
+      id="aswift_8_host"
+      style="
+        border: none;
+        height: 0px;
+        width: 1027px;
+        margin: 0px;
+        padding: 0px;
+        position: relative;
+        visibility: visible;
+        background-color: transparent;
+        display: inline-block;
+        overflow: hidden;
+        opacity: 0;
+      "
+    >
+      <iframe
+        id="aswift_8"
+        name="aswift_8"
+        browsingtopics="true"
+        style="
+          left: 0px;
+          position: absolute;
+          top: 0px;
+          border: 0px;
+          width: 1027px;
+          height: 0px;
+          min-height: auto;
+          max-height: none;
+          min-width: auto;
+          max-width: none;
+        "
+        sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation"
+        width="1027"
+        height="0"
+        frameborder="0"
+        marginwidth="0"
+        marginheight="0"
+        vspace="0"
+        hspace="0"
+        allowtransparency="true"
+        scrolling="no"
+        allow="attribution-reporting; run-ad-auction"
+        src="https://googleads.g.doubleclick.net/pagead/ads?client=ca-pub-0588844875925051&amp;output=html&amp;h=280&amp;adk=2465272330&amp;adf=551658201&amp;w=1027&amp;abgtt=11&amp;fwrn=4&amp;fwrnh=100&amp;lmt=1751590356&amp;num_ads=1&amp;rafmt=1&amp;armr=3&amp;sem=mc&amp;pwprc=4633386603&amp;ad_type=text_image&amp;format=1027x280&amp;url=https%3A%2F%2Fwww.learncpp.com%2Fcpp-tutorial%2Freturning-stdvector-and-an-introduction-to-move-semantics%2F&amp;fwr=0&amp;pra=3&amp;rh=200&amp;rw=1026&amp;rpe=1&amp;resp_fmts=3&amp;wgl=1&amp;fa=27&amp;uach=WyJXaW5kb3dzIiwiMTkuMC4wIiwieDg2IiwiIiwiMTM3LjAuNzE1MS4xMjIiLG51bGwsMCxudWxsLCI2NCIsW1siR29vZ2xlIENocm9tZSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJDaHJvbWl1bSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJOb3QvQSlCcmFuZCIsIjI0LjAuMC4wIl1dLDBd&amp;dt=1751963080029&amp;bpp=1&amp;bdt=919&amp;idt=-M&amp;shv=r20250702&amp;mjsv=m202507020101&amp;ptt=9&amp;saldr=aa&amp;abxe=1&amp;cookie=ID%3D05f6e82287d810b4%3AT%3D1751962604%3ART%3D1751962911%3AS%3DALNI_MaQYA0TSAU2k8xwY5tqlN0xFCcd6g&amp;gpic=UID%3D00001157d9e27d0a%3AT%3D1751962604%3ART%3D1751962911%3AS%3DALNI_MYgtHzQJAQQXY_151HTGSSfVxE8_A&amp;eo_id_str=ID%3D52c21936d98c6d2b%3AT%3D1751962604%3ART%3D1751962911%3AS%3DAA-AfjZsJ15yjdEPJ8d11hPojsJQ&amp;prev_fmts=0x0%2C160x600%2C336x280%2C160x600%2C1027x280%2C1027x280%2C1027x280&amp;nras=5&amp;correlator=8729156797674&amp;frm=20&amp;pv=1&amp;u_tz=480&amp;u_his=2&amp;u_h=600&amp;u_w=800&amp;u_ah=600&amp;u_aw=800&amp;u_cd=24&amp;u_sd=1&amp;dmc=8&amp;adx=27&amp;ady=3131&amp;biw=1080&amp;bih=1024&amp;scr_x=0&amp;scr_y=0&amp;eid=95353387%2C95362656%2C95365225%2C95365234%2C95365700%2C42533294%2C95344791%2C95359265%2C95365119%2C95365798&amp;oid=2&amp;pvsid=7612712960401464&amp;tmod=1708485235&amp;uas=0&amp;nvt=1&amp;fc=1408&amp;brdim=10%2C10%2C10%2C10%2C800%2C0%2C780%2C580%2C1080%2C1024&amp;vis=1&amp;rsz=%7C%7Cs%7C&amp;abl=NS&amp;fu=128&amp;bc=31&amp;bz=0.72&amp;td=1&amp;tdf=2&amp;psd=W251bGwsbnVsbCxudWxsLDNd&amp;nt=1&amp;ifi=9&amp;uci=a!9&amp;btvi=3&amp;fsb=1&amp;dtd=27"
+        data-google-container-id="a!9"
+        tabindex="0"
+        title="Advertisement"
+        aria-label="Advertisement"
+        data-load-complete="true"
+        data-google-query-id="CL7m9ofrrI4DFczHFgUd1lwfUw"
+      ></iframe></div
+  ></ins>
+</div>
+<div class="code-block code-block-4" style="margin: 8px 0; clear: both"></div>
+
+<p>
+  Normally, when an object is being initialized with (or assigned) an object of
+  the same type, copy semantics will be used (assuming the copy isn’t elided).
+</p>
+<div class="cpp-note cpp-lightgraybackground">
+  <p class="cpp-note-title cpp-bottomline">Related content</p>
+  <p>
+    We covered copy elision in lesson
+    <a
+      href="https://www.learncpp.com/cpp-tutorial/class-initialization-and-copy-elision/"
+      >14.15 -- Class initialization and copy elision</a
+    >.
+  </p>
+</div>
+<p>
+  However, when all of the following are true, move semantics will be invoked
+  instead:
+</p>
+<ul>
+  <li>The type of the object supports move semantics.</li>
+  <li>
+    The object is being initialized with (or assigned) an rvalue (temporary)
+    object of the same type.
+  </li>
+  <li>The move isn’t elided.</li>
+</ul>
+<p>
+  Here’s the sad news: not that many types support move semantics. However,
+  <code>std::vector</code> and <code>std::string</code> both do!
+</p>
+<div
+  class="google-auto-placed ap_container"
+  style="width: 100%; height: auto; clear: both; text-align: center"
+>
+  <ins
+    data-ad-format="auto"
+    class="adsbygoogle adsbygoogle-noablate"
+    data-ad-client="ca-pub-0588844875925051"
+    data-adsbygoogle-status="done"
+    style="
+      display: block;
+      margin: auto;
+      background-color: transparent;
+      height: 0px;
+    "
+    data-ad-status="unfilled"
+    ><div
+      id="aswift_9_host"
+      style="
+        border: none;
+        height: 0px;
+        width: 1027px;
+        margin: 0px;
+        padding: 0px;
+        position: relative;
+        visibility: visible;
+        background-color: transparent;
+        display: inline-block;
+        overflow: hidden;
+        opacity: 0;
+      "
+    >
+      <iframe
+        id="aswift_9"
+        name="aswift_9"
+        browsingtopics="true"
+        style="
+          left: 0px;
+          position: absolute;
+          top: 0px;
+          border: 0px;
+          width: 1027px;
+          height: 0px;
+          min-height: auto;
+          max-height: none;
+          min-width: auto;
+          max-width: none;
+        "
+        sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation"
+        width="1027"
+        height="0"
+        frameborder="0"
+        marginwidth="0"
+        marginheight="0"
+        vspace="0"
+        hspace="0"
+        allowtransparency="true"
+        scrolling="no"
+        allow="attribution-reporting; run-ad-auction"
+        src="https://googleads.g.doubleclick.net/pagead/ads?client=ca-pub-0588844875925051&amp;output=html&amp;h=280&amp;adk=2465272330&amp;adf=2915227584&amp;w=1027&amp;abgtt=11&amp;fwrn=4&amp;fwrnh=100&amp;lmt=1751590356&amp;num_ads=1&amp;rafmt=1&amp;armr=3&amp;sem=mc&amp;pwprc=4633386603&amp;ad_type=text_image&amp;format=1027x280&amp;url=https%3A%2F%2Fwww.learncpp.com%2Fcpp-tutorial%2Freturning-stdvector-and-an-introduction-to-move-semantics%2F&amp;fwr=0&amp;pra=3&amp;rh=200&amp;rw=1026&amp;rpe=1&amp;resp_fmts=3&amp;wgl=1&amp;fa=27&amp;uach=WyJXaW5kb3dzIiwiMTkuMC4wIiwieDg2IiwiIiwiMTM3LjAuNzE1MS4xMjIiLG51bGwsMCxudWxsLCI2NCIsW1siR29vZ2xlIENocm9tZSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJDaHJvbWl1bSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJOb3QvQSlCcmFuZCIsIjI0LjAuMC4wIl1dLDBd&amp;dt=1751963080029&amp;bpp=1&amp;bdt=919&amp;idt=0&amp;shv=r20250702&amp;mjsv=m202507020101&amp;ptt=9&amp;saldr=aa&amp;abxe=1&amp;cookie=ID%3D05f6e82287d810b4%3AT%3D1751962604%3ART%3D1751962911%3AS%3DALNI_MaQYA0TSAU2k8xwY5tqlN0xFCcd6g&amp;gpic=UID%3D00001157d9e27d0a%3AT%3D1751962604%3ART%3D1751962911%3AS%3DALNI_MYgtHzQJAQQXY_151HTGSSfVxE8_A&amp;eo_id_str=ID%3D52c21936d98c6d2b%3AT%3D1751962604%3ART%3D1751962911%3AS%3DAA-AfjZsJ15yjdEPJ8d11hPojsJQ&amp;prev_fmts=0x0%2C160x600%2C336x280%2C160x600%2C1027x280%2C1027x280%2C1027x280%2C1027x280&amp;nras=6&amp;correlator=8729156797674&amp;frm=20&amp;pv=1&amp;u_tz=480&amp;u_his=2&amp;u_h=600&amp;u_w=800&amp;u_ah=600&amp;u_aw=800&amp;u_cd=24&amp;u_sd=1&amp;dmc=8&amp;adx=27&amp;ady=3698&amp;biw=1080&amp;bih=1024&amp;scr_x=0&amp;scr_y=0&amp;eid=95353387%2C95362656%2C95365225%2C95365234%2C95365700%2C42533294%2C95344791%2C95359265%2C95365119%2C95365798&amp;oid=2&amp;pvsid=7612712960401464&amp;tmod=1708485235&amp;uas=0&amp;nvt=1&amp;fc=1408&amp;brdim=10%2C10%2C10%2C10%2C800%2C0%2C780%2C580%2C1080%2C1024&amp;vis=1&amp;rsz=%7C%7Cs%7C&amp;abl=NS&amp;fu=128&amp;bc=31&amp;bz=0.72&amp;td=1&amp;tdf=2&amp;psd=W251bGwsbnVsbCxudWxsLDNd&amp;nt=1&amp;ifi=10&amp;uci=a!a&amp;btvi=4&amp;fsb=1&amp;dtd=28"
+        data-google-container-id="a!a"
+        tabindex="0"
+        title="Advertisement"
+        aria-label="Advertisement"
+        data-load-complete="true"
+        data-google-query-id="CJyD94frrI4DFX3JFgUdbYgohw"
+      ></iframe></div
+  ></ins>
+</div>
+<p>
+  We’ll dig into how move semantics works in more detail in
+  <a href="https://www.learncpp.com#Chapter22">chapter 22</a>. For now, it’s
+  enough to know what move semantics is, and which types are move-capable.
+</p>
+<p class="cpp-section cpp-topline" style="clear: both">
+  We can return move-capable types like <code>std::vector</code> by value
+</p>
+<div class="code-block code-block-5" style="margin: 8px 0; clear: both"></div>
+
+<p>
+  Because return by value returns an rvalue, if the returned type supports move
+  semantics, then the returned value can be moved instead of copied into the
+  destination object. This makes return by value extremely inexpensive for these
+  types!
+</p>
+<div class="cpp-note cpp-lightbluebackground">
+  <p class="cpp-note-title cpp-bottomline">Key insight</p>
+  <p>
+    We can return move-capable types (like <code>std::vector</code> and
+    <code>std::string</code>) by value. Such types will inexpensively move their
+    values instead of making an expensive copy.
+  </p>
+  <p>Such types should still be passed by const reference.</p>
+</div>
+<p class="cpp-section cpp-topline" style="clear: both">
+  Wait, wait, wait. Expensive-to-copy types shouldn’t be passed by value, but if
+  they are move-capable they can be returned by value?
+</p>
+<div
+  class="google-auto-placed ap_container"
+  style="width: 100%; height: auto; clear: both; text-align: center"
+>
+  <ins
+    data-ad-format="auto"
+    class="adsbygoogle adsbygoogle-noablate"
+    data-ad-client="ca-pub-0588844875925051"
+    data-adsbygoogle-status="done"
+    style="
+      display: block;
+      margin: auto;
+      background-color: transparent;
+      height: 0px;
+    "
+    data-ad-status="unfilled"
+    ><div
+      id="aswift_10_host"
+      style="
+        border: none;
+        height: 0px;
+        width: 1027px;
+        margin: 0px;
+        padding: 0px;
+        position: relative;
+        visibility: visible;
+        background-color: transparent;
+        display: inline-block;
+        overflow: hidden;
+        opacity: 0;
+      "
+    >
+      <iframe
+        id="aswift_10"
+        name="aswift_10"
+        browsingtopics="true"
+        style="
+          left: 0px;
+          position: absolute;
+          top: 0px;
+          border: 0px;
+          width: 1027px;
+          height: 0px;
+          min-height: auto;
+          max-height: none;
+          min-width: auto;
+          max-width: none;
+        "
+        sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation"
+        width="1027"
+        height="0"
+        frameborder="0"
+        marginwidth="0"
+        marginheight="0"
+        vspace="0"
+        hspace="0"
+        allowtransparency="true"
+        scrolling="no"
+        allow="attribution-reporting; run-ad-auction"
+        src="https://googleads.g.doubleclick.net/pagead/ads?client=ca-pub-0588844875925051&amp;output=html&amp;h=280&amp;adk=2465272330&amp;adf=1127676186&amp;w=1027&amp;abgtt=11&amp;fwrn=4&amp;fwrnh=100&amp;lmt=1751590356&amp;num_ads=1&amp;rafmt=1&amp;armr=3&amp;sem=mc&amp;pwprc=4633386603&amp;ad_type=text_image&amp;format=1027x280&amp;url=https%3A%2F%2Fwww.learncpp.com%2Fcpp-tutorial%2Freturning-stdvector-and-an-introduction-to-move-semantics%2F&amp;fwr=0&amp;pra=3&amp;rh=200&amp;rw=1026&amp;rpe=1&amp;resp_fmts=3&amp;wgl=1&amp;fa=27&amp;uach=WyJXaW5kb3dzIiwiMTkuMC4wIiwieDg2IiwiIiwiMTM3LjAuNzE1MS4xMjIiLG51bGwsMCxudWxsLCI2NCIsW1siR29vZ2xlIENocm9tZSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJDaHJvbWl1bSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJOb3QvQSlCcmFuZCIsIjI0LjAuMC4wIl1dLDBd&amp;dt=1751963080031&amp;bpp=1&amp;bdt=921&amp;idt=0&amp;shv=r20250702&amp;mjsv=m202507020101&amp;ptt=9&amp;saldr=aa&amp;abxe=1&amp;cookie=ID%3D05f6e82287d810b4%3AT%3D1751962604%3ART%3D1751962911%3AS%3DALNI_MaQYA0TSAU2k8xwY5tqlN0xFCcd6g&amp;gpic=UID%3D00001157d9e27d0a%3AT%3D1751962604%3ART%3D1751962911%3AS%3DALNI_MYgtHzQJAQQXY_151HTGSSfVxE8_A&amp;eo_id_str=ID%3D52c21936d98c6d2b%3AT%3D1751962604%3ART%3D1751962911%3AS%3DAA-AfjZsJ15yjdEPJ8d11hPojsJQ&amp;prev_fmts=0x0%2C160x600%2C336x280%2C160x600%2C1027x280%2C1027x280%2C1027x280%2C1027x280%2C1027x280&amp;nras=7&amp;correlator=8729156797674&amp;frm=20&amp;pv=1&amp;u_tz=480&amp;u_his=2&amp;u_h=600&amp;u_w=800&amp;u_ah=600&amp;u_aw=800&amp;u_cd=24&amp;u_sd=1&amp;dmc=8&amp;adx=27&amp;ady=4065&amp;biw=1080&amp;bih=1024&amp;scr_x=0&amp;scr_y=0&amp;eid=95353387%2C95362656%2C95365225%2C95365234%2C95365700%2C42533294%2C95344791%2C95359265%2C95365119%2C95365798&amp;oid=2&amp;pvsid=7612712960401464&amp;tmod=1708485235&amp;uas=0&amp;nvt=1&amp;fc=1408&amp;brdim=10%2C10%2C10%2C10%2C800%2C0%2C780%2C580%2C1080%2C1024&amp;vis=1&amp;rsz=%7C%7Cs%7C&amp;abl=NS&amp;fu=128&amp;bc=31&amp;bz=0.72&amp;td=1&amp;tdf=2&amp;psd=W251bGwsbnVsbCxudWxsLDNd&amp;nt=1&amp;ifi=11&amp;uci=a!b&amp;btvi=5&amp;fsb=1&amp;dtd=182"
+        data-google-container-id="a!b"
+        tabindex="0"
+        title="Advertisement"
+        aria-label="Advertisement"
+        data-load-complete="true"
+        data-google-query-id="CMqcgIjrrI4DFQvsFgUd7B4ByQ"
+      ></iframe></div
+  ></ins>
+</div>
+<p>Correct.</p>
+<p>
+  This following discussion is optional, but may help you understand why this is
+  the case.
+</p>
+<p>
+  One of the most common things we do in C++ is pass a value to some function,
+  and get a different value back. When the passed values are class types, that
+  process involves 4 steps:
+</p>
+<ol start="1">
+  <li>Construct the value to be passed.</li>
+  <li>Actually pass the value to the function.</li>
+  <li>Construct the value to be returned.</li>
+  <li>Actually pass the return value back to the caller.</li>
+</ol>
+<p>Here’s an example of the above process using <code>std::vector</code>:</p>
+<div class="code-block code-block-6" style="margin: 8px 0; clear: both"></div>
+
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;vector&gt;</span></span>
+
+std<span class="token double-colon punctuation">::</span>vector<span class="token operator">&lt;</span><span class="token keyword keyword-int">int</span><span class="token operator">&gt;</span> <span class="token function">doSomething</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-17-close">(</span>std<span class="token double-colon punctuation">::</span>vector<span class="token operator">&lt;</span><span class="token keyword keyword-int">int</span><span class="token operator">&gt;</span> v2<span class="token punctuation brace-round brace-close brace-level-1" id="pair-17-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-25-close">{</span>
+    std<span class="token double-colon punctuation">::</span>vector v3 <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-24-close">{</span> v2<span class="token punctuation brace-square brace-open brace-level-3" id="pair-20-close">[</span><span class="token number">0</span><span class="token punctuation brace-square brace-close brace-level-3" id="pair-20-open">]</span> <span class="token operator">+</span> v2<span class="token punctuation brace-square brace-open brace-level-3" id="pair-21-close">[</span><span class="token number">0</span><span class="token punctuation brace-square brace-close brace-level-3" id="pair-21-open">]</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-24-open">}</span><span class="token punctuation">;</span> <span class="token comment">// 3 -- construct value to be returned to caller</span>
+    <span class="token keyword keyword-return">return</span> v3<span class="token punctuation">;</span> <span class="token comment">// 4 -- actually return value</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-25-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-18-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-18-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-27-close">{</span>
+    std<span class="token double-colon punctuation">::</span>vector v1 <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-26-close">{</span> <span class="token number">5</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-26-open">}</span><span class="token punctuation">;</span> <span class="token comment">// 1 -- construct value to be passed to function</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token function">doSomething</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-19-close">(</span>v1<span class="token punctuation brace-round brace-close brace-level-2" id="pair-19-open">)</span><span class="token punctuation brace-square brace-open brace-level-2" id="pair-22-close">[</span><span class="token number">0</span><span class="token punctuation brace-square brace-close brace-level-2" id="pair-22-open">]</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span> <span class="token comment">// 2 -- actually pass value</span>
+
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> v1<span class="token punctuation brace-square brace-open brace-level-2" id="pair-23-close">[</span><span class="token number">0</span><span class="token punctuation brace-square brace-close brace-level-2" id="pair-23-open">]</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-27-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  First, let’s assume <code>std::vector</code> is not move-capable. In that
+  case, the above program makes 4 copies:
+</p>
+<ol start="1">
+  <li>
+    Constructing the value to be passed copies the initializer list into
+    <code>v1</code>
+  </li>
+  <li>
+    Actually passing the value to the function copies argument
+    <code>v1</code> into function parameter <code>v2</code>.
+  </li>
+  <li>
+    Constructing the value to be returned copies the initializer into
+    <code>v3</code>
+  </li>
+  <li>
+    Actually returning the value to the caller copies <code>v3</code> back to
+    the caller.
+  </li>
+</ol>
+<p>
+  Now let’s talk about how we might optimize the above. We have many tools at
+  our disposal here: pass by reference or address, elision, move semantics, and
+  out parameters.
+</p>
+<div
+  class="google-auto-placed ap_container"
+  style="width: 100%; height: auto; clear: both; text-align: center"
+>
+  <ins
+    data-ad-format="auto"
+    class="adsbygoogle adsbygoogle-noablate"
+    data-ad-client="ca-pub-0588844875925051"
+    data-adsbygoogle-status="done"
+    style="
+      display: block;
+      margin: auto;
+      background-color: transparent;
+      height: 0px;
+    "
+    ><div
+      id="aswift_11_host"
+      style="
+        border: none;
+        height: 0px;
+        width: 1027px;
+        margin: 0px;
+        padding: 0px;
+        position: relative;
+        visibility: visible;
+        background-color: transparent;
+        display: inline-block;
+        overflow: hidden;
+        opacity: 0;
+      "
+    >
+      <iframe
+        id="aswift_11"
+        name="aswift_11"
+        browsingtopics="true"
+        style="
+          left: 0px;
+          position: absolute;
+          top: 0px;
+          border: 0px;
+          width: 1027px;
+          height: 0px;
+          min-height: auto;
+          max-height: none;
+          min-width: auto;
+          max-width: none;
+        "
+        sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation"
+        width="1027"
+        height="0"
+        frameborder="0"
+        marginwidth="0"
+        marginheight="0"
+        vspace="0"
+        hspace="0"
+        allowtransparency="true"
+        scrolling="no"
+        allow="attribution-reporting; run-ad-auction"
+        src="https://googleads.g.doubleclick.net/pagead/ads?client=ca-pub-0588844875925051&amp;output=html&amp;h=280&amp;adk=2465272330&amp;adf=1173421749&amp;w=1027&amp;abgtt=11&amp;fwrn=4&amp;fwrnh=100&amp;lmt=1751590356&amp;num_ads=1&amp;rafmt=1&amp;armr=3&amp;sem=mc&amp;pwprc=4633386603&amp;ad_type=text_image&amp;format=1027x280&amp;url=https%3A%2F%2Fwww.learncpp.com%2Fcpp-tutorial%2Freturning-stdvector-and-an-introduction-to-move-semantics%2F&amp;fwr=0&amp;pra=3&amp;rh=200&amp;rw=1026&amp;rpe=1&amp;resp_fmts=3&amp;wgl=1&amp;fa=27&amp;uach=WyJXaW5kb3dzIiwiMTkuMC4wIiwieDg2IiwiIiwiMTM3LjAuNzE1MS4xMjIiLG51bGwsMCxudWxsLCI2NCIsW1siR29vZ2xlIENocm9tZSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJDaHJvbWl1bSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJOb3QvQSlCcmFuZCIsIjI0LjAuMC4wIl1dLDBd&amp;dt=1751963080032&amp;bpp=1&amp;bdt=921&amp;idt=1&amp;shv=r20250702&amp;mjsv=m202507020101&amp;ptt=9&amp;saldr=aa&amp;abxe=1&amp;cookie=ID%3D05f6e82287d810b4%3AT%3D1751962604%3ART%3D1751962911%3AS%3DALNI_MaQYA0TSAU2k8xwY5tqlN0xFCcd6g&amp;gpic=UID%3D00001157d9e27d0a%3AT%3D1751962604%3ART%3D1751962911%3AS%3DALNI_MYgtHzQJAQQXY_151HTGSSfVxE8_A&amp;eo_id_str=ID%3D52c21936d98c6d2b%3AT%3D1751962604%3ART%3D1751962911%3AS%3DAA-AfjZsJ15yjdEPJ8d11hPojsJQ&amp;prev_fmts=0x0%2C160x600%2C336x280%2C160x600%2C1027x280%2C1027x280%2C1027x280%2C1027x280%2C1027x280%2C1027x280&amp;nras=8&amp;correlator=8729156797674&amp;frm=20&amp;pv=1&amp;u_tz=480&amp;u_his=2&amp;u_h=600&amp;u_w=800&amp;u_ah=600&amp;u_aw=800&amp;u_cd=24&amp;u_sd=1&amp;dmc=8&amp;adx=27&amp;ady=4011&amp;biw=1080&amp;bih=1024&amp;scr_x=0&amp;scr_y=0&amp;eid=95353387%2C95362656%2C95365225%2C95365234%2C95365700%2C42533294%2C95344791%2C95359265%2C95365119%2C95365798&amp;oid=2&amp;pvsid=7612712960401464&amp;tmod=1708485235&amp;uas=0&amp;nvt=1&amp;fc=1408&amp;brdim=10%2C10%2C10%2C10%2C800%2C0%2C780%2C580%2C1080%2C1024&amp;vis=1&amp;rsz=%7C%7Cs%7C&amp;abl=NS&amp;fu=128&amp;bc=31&amp;bz=0.72&amp;td=1&amp;tdf=2&amp;psd=W251bGwsbnVsbCxudWxsLDNd&amp;nt=1&amp;ifi=12&amp;uci=a!c&amp;btvi=6&amp;fsb=1&amp;dtd=428"
+        data-google-container-id="a!c"
+        tabindex="0"
+        title="Advertisement"
+        aria-label="Advertisement"
+        data-load-complete="true"
+        data-google-query-id="CNavj4jrrI4DFY_IFgUdBvAabQ"
+      ></iframe></div
+  ></ins>
+</div>
+<p>
+  We can’t optimize copies 1 and 3 at all. We need a <code>std::vector</code> to
+  pass to the function, and we need a <code>std::vector</code> to return --
+  these objects have to be constructed. <code>std::vector</code> is an owner of
+  its data, so it necessarily makes a copy of its initializer.
+</p>
+<p>What we can affect is copies 2 and 4.</p>
+<p>
+  Copy 2 is made because we’re passing by value from the caller to the called
+  function. What other options do we have?
+</p>
+<div class="code-block code-block-7" style="margin: 8px 0; clear: both"></div>
+
+<ul>
+  <li>
+    Can we pass by reference or address? Yes. We are guaranteed that the
+    argument will exist for the entire function call -- the caller does not have
+    to worry about the passed object unexpectedly going out of scope.
+  </li>
+  <li>
+    Can this copy be elided? No. Elision only works when we’re making a
+    redundant copy or move. There’s no redundant copy or move here.
+  </li>
+  <li>
+    Can we use an out parameter here? No. We’re passing a value to the function,
+    not getting a value back.
+  </li>
+  <li>
+    Can we use move semantics here? No. The argument is an lvalue. If we moved
+    data from <code>v1</code> to <code>v2</code>, <code>v1</code> would become
+    an empty vector, and subsequently printing <code>v1[0]</code> would lead to
+    undefined behavior.
+  </li>
+</ul>
+<p>
+  Clearly pass by const reference is our best option here, as it avoids the
+  copy, avoids null pointer issues, and works with both lvalue and rvalue
+  arguments.
+</p>
+<div
+  class="google-auto-placed ap_container"
+  style="width: 100%; height: auto; clear: both; text-align: center"
+>
+  <ins
+    data-ad-format="auto"
+    class="adsbygoogle adsbygoogle-noablate"
+    data-ad-client="ca-pub-0588844875925051"
+    data-adsbygoogle-status="done"
+    style="
+      display: block;
+      margin: auto;
+      background-color: transparent;
+      height: 280px;
+    "
+    ><div
+      id="aswift_12_host"
+      style="
+        border: none;
+        height: 280px;
+        width: 1027px;
+        margin: 0px;
+        padding: 0px;
+        position: relative;
+        visibility: visible;
+        background-color: transparent;
+        display: inline-block;
+      "
+    ></div
+  ></ins>
+</div>
+<p>
+  Copy 4 is made because we’re passing by value from the called function back to
+  the caller. What other options do we have here?
+</p>
+<ul>
+  <li>
+    Can we return by reference or address? No. The object we’re returning is
+    created as a local variable inside the function, and will be destroyed when
+    the function returns. Returning a reference or pointer will result in the
+    caller receiving a dangling pointer or reference.
+  </li>
+  <li>
+    Can this copy be elided? Yes, possibly. If the compiler is smart, it will
+    realize that we’re constructing an object in the scope of the called
+    function and returning it. By rewriting the code (under the as-if rule) so
+    that <code>v3</code> is constructed in the scope of the caller instead, we
+    can avoid the copy that would otherwise be made when returning. However, we
+    are reliant upon the compiler realizing it can do this, so it is not
+    guaranteed.
+  </li>
+  <li>
+    Can we use an out parameter here? Yes. Instead of constructing
+    <code>v3</code> as a local variable, we can construct an empty
+    <code>std::vector</code> object in the scope of the caller, and pass it to
+    the function by non-const reference. The function can then fill this
+    parameter with data. When the function returns, this object will still
+    exist. This avoids the copy, but also has some significant downsides and
+    constraints: ugly calling semantics, doesn’t work with objects that don’t
+    support assignment, and it is challenging to write such functions that can
+    work with both lvalue and rvalue arguments.
+  </li>
+  <li>
+    Can we use move semantics here? Yes. <code>v3</code> is going to be
+    destroyed when the function returns, so instead of copying
+    <code>v3</code> back to the caller, we can use move semantics to move its
+    data to the caller, avoiding the copy.
+  </li>
+</ul>
+<p>
+  Elision is the best option here, but whether it happens is out of our control.
+  The next best option for move-capable types is move semantics, which can be
+  used in cases where the compiler doesn’t elide the copy. And for move-capable
+  types, move semantics is invoked automatically when returning by value.
+</p>
+<p>
+  To summarize, for move-capable types, we prefer to pass by const reference,
+  and return by value.
+</p>
+<div class="prevnext">
+  <div class="prevnext-inline">
+    <a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/arrays-and-loops/"
+    >
+      <div class="nav-button nav-button-next">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-right" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Next lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">16.6</span>Arrays and loops
+          </div>
+        </div>
+      </div></a
+    >
+    <a class="nav-link" href="/">
+      <div class="nav-button nav-button-index">
+        <div class="nav-button-icon">
+          <i class="fa fa-home" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Back to table of contents</div>
+        </div>
+      </div></a
+    >
+    <a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/passing-stdvector/"
+    >
+      <div class="nav-button nav-button-prev">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-left" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Previous lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">16.4</span>Passing
+            std::vector
+          </div>
+        </div>
+      </div></a
+    >
+  </div>
+</div>
+<div class="code-block code-block-10" style="margin: 8px 0; clear: both"></div>

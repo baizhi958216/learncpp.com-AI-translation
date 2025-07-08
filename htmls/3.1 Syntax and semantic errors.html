@@ -1,0 +1,268 @@
+<div
+  class="code-block code-block-1"
+  style="margin: 8px 8px 8px 0; float: left"
+></div>
+<p>
+  Software errors are prevalent. It’s easy to make them, and it’s hard to find
+  them. In this chapter, we’ll explore topics related to the finding and removal
+  of bugs within our C++ programs, including learning how to use the integrated
+  debugger that is part of our IDE.
+</p>
+<p>
+  Although debugging tools and techniques aren’t part of the C++ standard,
+  learning to find and remove bugs in the programs you write is an extremely
+  important part of being a successful programmer. Therefore, we’ll spend a bit
+  of time covering such topics, so that as the programs you write become more
+  complex, your ability to diagnose and remedy issues advances at a similar
+  pace.
+</p>
+<p>
+  If you have experience debugging programs in another programming language,
+  much of this will be familiar to you.
+</p>
+<p class="cpp-section cpp-topline" style="clear: both">Syntax errors</p>
+<p>
+  Programming can be challenging, and C++ is somewhat of a quirky language. Put
+  those two together, and there are a lot of ways to make mistakes. Errors
+  generally fall into one of two categories: syntax errors, and semantic errors
+  (logic errors).
+</p>
+<p>
+  A <strong>syntax error</strong> occurs when you write a statement that is not
+  valid according to the grammar of the C++ language. This includes errors such
+  as missing semicolons, mismatched parentheses or braces, etc… For example, the
+  following program contains quite a few syntax errors:
+</p>
+<div class="code-block code-block-2" style="margin: 8px 0; clear: both"></div>
+
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1">(</span> <span class="token comment">// missing closing brace</span>
+<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-32-close">{</span>
+    <span class="token keyword keyword-int">int</span> <span class="token number">1</span>x<span class="token punctuation">;</span> <span class="token comment">// variable name can't start with number</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Hi there"</span><span class="token punctuation">;</span> <span class="token operator">&lt;&lt;</span> x <span class="token operator">++</span><span class="token operator">+</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span> <span class="token comment">// extraneous semicolon, operator+++ does not exist</span>
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span> <span class="token comment">// missing semicolon at end of statement</span>
+<span class="token punctuation brace-curly brace-close brace-level-2" id="pair-32-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  Fortunately, the compiler will detect syntax errors and issue a compilation
+  warning or error, so you easily identify and fix the problem. Then it’s just a
+  matter of compiling again until you get rid of all the errors.
+</p>
+<p class="cpp-section cpp-topline" style="clear: both">Semantic errors</p>
+<p>
+  A <strong>semantic error</strong> is an error in meaning. These occur when a
+  statement is syntactically valid, but either violates other rules of the
+  language, or does not do what the programmer intended.
+</p>
+<p>
+  Some kind of semantic errors can be caught by the compiler. Common examples
+  include using an undeclared variable, type mismatches (when we use an object
+  with the wrong type somewhere), etc…
+</p>
+<p>
+  For example, the following program contains several compile-time semantic
+  errors:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-33-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-33-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-34-close">{</span>
+    <span class="token number">5</span> <span class="token operator">=</span> x<span class="token punctuation">;</span> <span class="token comment">// x not declared, cannot assign a value to 5</span>
+    <span class="token keyword keyword-return">return</span> <span class="token string">"hello"</span><span class="token punctuation">;</span> <span class="token comment">// "hello" cannot be converted to an int</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-34-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  Other semantic errors only manifest at runtime. Sometimes these will cause
+  your program to crash, such as in the case of division by zero:
+</p>
+<div class="code-block code-block-3" style="margin: 8px 0; clear: both"></div>
+
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-35-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-35-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-38-close">{</span>
+    <span class="token keyword keyword-int">int</span> a <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-36-close">{</span> <span class="token number">10</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-36-open">}</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-int">int</span> b <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-37-close">{</span> <span class="token number">0</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-37-open">}</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> a <span class="token operator">&lt;&lt;</span> <span class="token string">" / "</span> <span class="token operator">&lt;&lt;</span> b <span class="token operator">&lt;&lt;</span> <span class="token string">" = "</span> <span class="token operator">&lt;&lt;</span> a <span class="token operator">/</span> b <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span> <span class="token comment">// division by 0 is undefined in mathematics</span>
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-38-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>More often these will just produce the wrong value or behavior:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-39-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-39-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-40-close">{</span>
+    <span class="token keyword keyword-int">int</span> x<span class="token punctuation">;</span> <span class="token comment">// no initializer provided</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> x <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span> <span class="token comment">// Use of uninitialized variable leads to undefined result</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-40-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>or</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">add</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-41-close">(</span><span class="token keyword keyword-int">int</span> x<span class="token punctuation">,</span> <span class="token keyword keyword-int">int</span> y<span class="token punctuation brace-round brace-close brace-level-1" id="pair-41-open">)</span> <span class="token comment">// this function is supposed to perform addition</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-44-close">{</span>
+    <span class="token keyword keyword-return">return</span> x <span class="token operator">-</span> y<span class="token punctuation">;</span> <span class="token comment">// but it doesn't due to the wrong operator being used</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-44-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-42-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-42-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-45-close">{</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"5 + 3 = "</span> <span class="token operator">&lt;&lt;</span> <span class="token function">add</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-43-close">(</span><span class="token number">5</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-43-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span> <span class="token comment">// should produce 8, but produces 2</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-45-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>or</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-46-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-46-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-47-close">{</span>
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span> <span class="token comment">// function returns here</span>
+
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Hello, world!\n"</span><span class="token punctuation">;</span> <span class="token comment">// so this never executes</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-47-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  In the above example, the errors are fairly easy to spot. But in most
+  non-trivial programs, runtime semantic errors are not easy to find by
+  eyeballing the code. This is where debugging techniques can come in handy.
+</p>
+<div class="prevnext">
+  <div class="prevnext-inline">
+    <a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/the-debugging-process/"
+    >
+      <div class="nav-button nav-button-next">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-right" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Next lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">3.2</span>The debugging
+            process
+          </div>
+        </div>
+      </div></a
+    >
+    <a class="nav-link" href="/">
+      <div class="nav-button nav-button-index">
+        <div class="nav-button-icon">
+          <i class="fa fa-home" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Back to table of contents</div>
+        </div>
+      </div></a
+    >
+    <a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/chapter-2-summary-and-quiz/"
+    >
+      <div class="nav-button nav-button-prev">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-left" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Previous lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">2.x</span>Chapter 2 summary
+            and quiz
+          </div>
+        </div>
+      </div></a
+    >
+  </div>
+</div>
+<div class="code-block code-block-10" style="margin: 8px 0; clear: both"></div>

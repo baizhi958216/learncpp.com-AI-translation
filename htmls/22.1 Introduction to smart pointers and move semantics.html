@@ -1,0 +1,1108 @@
+<div
+  class="code-block code-block-1"
+  style="margin: 8px 8px 8px 0; float: left"
+></div>
+<p>Consider a function in which we dynamically allocate a value:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-void">void</span> <span class="token function">someFunction</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-0-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-0-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-2-close">{</span>
+    Resource<span class="token operator">*</span> ptr <span class="token operator">=</span> <span class="token keyword keyword-new">new</span> <span class="token function">Resource</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-1-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-1-open">)</span><span class="token punctuation">;</span> <span class="token comment">// Resource is a struct or class</span>
+
+    <span class="token comment">// do stuff with ptr here</span>
+
+    <span class="token keyword keyword-delete">delete</span> ptr<span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-2-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  Although the above code seems fairly straightforward, it’s fairly easy to
+  forget to deallocate ptr. Even if you do remember to delete ptr at the end of
+  the function, there are a myriad of ways that ptr may not be deleted if the
+  function exits early. This can happen via an early return:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-void">void</span> <span class="token function">someFunction</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-3-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-3-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-6-close">{</span>
+    Resource<span class="token operator">*</span> ptr <span class="token operator">=</span> <span class="token keyword keyword-new">new</span> <span class="token function">Resource</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-4-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-4-open">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-int">int</span> x<span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Enter an integer: "</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>cin <span class="token operator">&gt;&gt;</span> x<span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-if">if</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-5-close">(</span>x <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-5-open">)</span>
+        <span class="token keyword keyword-return">return</span><span class="token punctuation">;</span> <span class="token comment">// the function returns early, and ptr won’t be deleted!</span>
+
+    <span class="token comment">// do stuff with ptr here</span>
+
+    <span class="token keyword keyword-delete">delete</span> ptr<span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-6-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>or via a thrown exception:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-void">void</span> <span class="token function">someFunction</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-7-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-7-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-10-close">{</span>
+    Resource<span class="token operator">*</span> ptr <span class="token operator">=</span> <span class="token keyword keyword-new">new</span> <span class="token function">Resource</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-8-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-8-open">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-int">int</span> x<span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Enter an integer: "</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>cin <span class="token operator">&gt;&gt;</span> x<span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-if">if</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-9-close">(</span>x <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-9-open">)</span>
+        <span class="token keyword keyword-throw">throw</span> <span class="token number">0</span><span class="token punctuation">;</span> <span class="token comment">// the function returns early, and ptr won’t be deleted!</span>
+
+    <span class="token comment">// do stuff with ptr here</span>
+
+    <span class="token keyword keyword-delete">delete</span> ptr<span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-10-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  In the above two programs, the early return or throw statement execute,
+  causing the function to terminate without variable ptr being deleted.
+  Consequently, the memory allocated for variable ptr is now leaked (and will be
+  leaked again every time this function is called and returns early).
+</p>
+<div
+  class="google-auto-placed ap_container"
+  style="width: 100%; height: auto; clear: both; text-align: center"
+>
+  <ins
+    data-ad-format="auto"
+    class="adsbygoogle adsbygoogle-noablate"
+    data-ad-client="ca-pub-0588844875925051"
+    data-adsbygoogle-status="done"
+    style="
+      display: block;
+      margin: auto;
+      background-color: transparent;
+      height: 0px;
+    "
+    ><div
+      id="aswift_5_host"
+      style="
+        border: none;
+        height: 0px;
+        width: 1027px;
+        margin: 0px;
+        padding: 0px;
+        position: relative;
+        visibility: visible;
+        background-color: transparent;
+        display: inline-block;
+        overflow: hidden;
+        opacity: 0;
+      "
+    >
+      <iframe
+        id="aswift_5"
+        name="aswift_5"
+        browsingtopics="true"
+        style="
+          left: 0px;
+          position: absolute;
+          top: 0px;
+          border: 0px;
+          width: 1027px;
+          height: 0px;
+          min-height: auto;
+          max-height: none;
+          min-width: auto;
+          max-width: none;
+        "
+        sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation"
+        width="1027"
+        height="0"
+        frameborder="0"
+        marginwidth="0"
+        marginheight="0"
+        vspace="0"
+        hspace="0"
+        allowtransparency="true"
+        scrolling="no"
+        allow="attribution-reporting; run-ad-auction"
+        src="https://googleads.g.doubleclick.net/pagead/ads?client=ca-pub-0588844875925051&amp;output=html&amp;h=280&amp;adk=3848385371&amp;adf=2930693306&amp;w=1027&amp;abgtt=11&amp;fwrn=4&amp;fwrnh=100&amp;lmt=1751213590&amp;num_ads=1&amp;rafmt=1&amp;armr=3&amp;sem=mc&amp;pwprc=4633386603&amp;ad_type=text_image&amp;format=1027x280&amp;url=https%3A%2F%2Fwww.learncpp.com%2Fcpp-tutorial%2Fintroduction-to-smart-pointers-move-semantics%2F&amp;fwr=0&amp;pra=3&amp;rh=200&amp;rw=1026&amp;rpe=1&amp;resp_fmts=3&amp;wgl=1&amp;fa=27&amp;uach=WyJXaW5kb3dzIiwiMTkuMC4wIiwieDg2IiwiIiwiMTM3LjAuNzE1MS4xMjIiLG51bGwsMCxudWxsLCI2NCIsW1siR29vZ2xlIENocm9tZSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJDaHJvbWl1bSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJOb3QvQSlCcmFuZCIsIjI0LjAuMC4wIl1dLDBd&amp;dt=1751963377723&amp;bpp=1&amp;bdt=1194&amp;idt=-M&amp;shv=r20250702&amp;mjsv=m202507020101&amp;ptt=9&amp;saldr=aa&amp;abxe=1&amp;cookie=ID%3D05f6e82287d810b4%3AT%3D1751962604%3ART%3D1751963214%3AS%3DALNI_MaQYA0TSAU2k8xwY5tqlN0xFCcd6g&amp;gpic=UID%3D00001157d9e27d0a%3AT%3D1751962604%3ART%3D1751963214%3AS%3DALNI_MYgtHzQJAQQXY_151HTGSSfVxE8_A&amp;eo_id_str=ID%3D52c21936d98c6d2b%3AT%3D1751962604%3ART%3D1751963214%3AS%3DAA-AfjZsJ15yjdEPJ8d11hPojsJQ&amp;prev_fmts=0x0%2C336x280%2C160x600%2C160x600&amp;nras=2&amp;correlator=1385624834728&amp;frm=20&amp;pv=1&amp;u_tz=480&amp;u_his=2&amp;u_h=600&amp;u_w=800&amp;u_ah=600&amp;u_aw=800&amp;u_cd=24&amp;u_sd=1&amp;dmc=8&amp;adx=27&amp;ady=1457&amp;biw=1080&amp;bih=1024&amp;scr_x=0&amp;scr_y=0&amp;eid=31093040%2C95331832%2C95353387%2C95362656%2C95363082%2C95365225%2C95365234%2C95365112%2C95359265%2C95365116%2C95365798&amp;oid=2&amp;pvsid=8682932744964179&amp;tmod=1708485235&amp;uas=0&amp;nvt=1&amp;fc=1408&amp;brdim=10%2C10%2C10%2C10%2C800%2C0%2C780%2C580%2C1080%2C1024&amp;vis=1&amp;rsz=%7C%7Cs%7C&amp;abl=NS&amp;fu=128&amp;bc=31&amp;bz=0.72&amp;td=1&amp;tdf=2&amp;psd=W251bGwsbnVsbCxudWxsLDNd&amp;nt=1&amp;ifi=6&amp;uci=a!6&amp;btvi=1&amp;fsb=1&amp;dtd=21"
+        data-google-container-id="a!6"
+        tabindex="0"
+        title="Advertisement"
+        aria-label="Advertisement"
+        data-google-query-id="CNON8JXsrI4DFTGOuQUdK94XBQ"
+        data-load-complete="true"
+      ></iframe></div
+  ></ins>
+</div>
+<p>
+  At heart, these kinds of issues occur because pointer variables have no
+  inherent mechanism to clean up after themselves.
+</p>
+<div class="code-block code-block-2" style="margin: 8px 0; clear: both"></div>
+
+<p><strong>Smart pointer classes to the rescue?</strong></p>
+<p>
+  One of the best things about classes is that they contain destructors that
+  automatically get executed when an object of the class goes out of scope. So
+  if you allocate (or acquire) memory in your constructor, you can deallocate it
+  in your destructor, and be guaranteed that the memory will be deallocated when
+  the class object is destroyed (regardless of whether it goes out of scope,
+  gets explicitly deleted, etc…). This is at the heart of the RAII programming
+  paradigm that we talked about in lesson
+  <a href="https://www.learncpp.com/cpp-tutorial/destructors/"
+    >19.3 -- Destructors</a
+  >.
+</p>
+<p>
+  So can we use a class to help us manage and clean up our pointers? We can!
+</p>
+<p>
+  Consider a class whose sole job was to hold and “own” a pointer passed to it,
+  and then deallocate that pointer when the class object went out of scope. As
+  long as objects of that class were only created as local variables, we could
+  guarantee that the class would properly go out of scope (regardless of when or
+  how our functions terminate) and the owned pointer would get destroyed.
+</p>
+<p>Here’s a first draft of the idea:</p>
+<div class="code-block code-block-3" style="margin: 8px 0; clear: both"></div>
+
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-template">template</span> <span class="token operator">&lt;</span><span class="token keyword keyword-typename">typename</span> <span class="token class-name">T</span><span class="token operator">&gt;</span>
+<span class="token keyword keyword-class">class</span> <span class="token class-name">Auto_ptr1</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-26-close">{</span>
+	T<span class="token operator">*</span> m_ptr <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-21-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-21-open">}</span><span class="token punctuation">;</span>
+<span class="token keyword keyword-public">public</span><span class="token operator">:</span>
+	<span class="token comment">// Pass in a pointer to "own" via the constructor</span>
+	<span class="token function">Auto_ptr1</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-11-close">(</span>T<span class="token operator">*</span> ptr<span class="token operator">=</span><span class="token keyword keyword-nullptr">nullptr</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-11-open">)</span>
+		<span class="token operator">:</span><span class="token function">m_ptr</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-12-close">(</span>ptr<span class="token punctuation brace-round brace-close brace-level-2" id="pair-12-open">)</span>
+	<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-22-close">{</span>
+	<span class="token punctuation brace-curly brace-close brace-level-2" id="pair-22-open">}</span>
+
+	<span class="token comment">// The destructor will make sure it gets deallocated</span>
+	<span class="token operator">~</span><span class="token function">Auto_ptr1</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-13-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-13-open">)</span>
+	<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-23-close">{</span>
+		<span class="token keyword keyword-delete">delete</span> m_ptr<span class="token punctuation">;</span>
+	<span class="token punctuation brace-curly brace-close brace-level-2" id="pair-23-open">}</span>
+
+	<span class="token comment">// Overload dereference and operator-&gt; so we can use Auto_ptr1 like m_ptr.</span>
+	T<span class="token operator">&amp;</span> <span class="token keyword keyword-operator">operator</span><span class="token operator">*</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-14-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-14-open">)</span> <span class="token keyword keyword-const">const</span> <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-24-close">{</span> <span class="token keyword keyword-return">return</span> <span class="token operator">*</span>m_ptr<span class="token punctuation">;</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-24-open">}</span>
+	T<span class="token operator">*</span> <span class="token keyword keyword-operator">operator</span><span class="token operator">-&gt;</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-15-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-15-open">)</span> <span class="token keyword keyword-const">const</span> <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-25-close">{</span> <span class="token keyword keyword-return">return</span> m_ptr<span class="token punctuation">;</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-25-open">}</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-26-open">}</span><span class="token punctuation">;</span>
+
+<span class="token comment">// A sample class to prove the above works</span>
+<span class="token keyword keyword-class">class</span> <span class="token class-name">Resource</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-29-close">{</span>
+<span class="token keyword keyword-public">public</span><span class="token operator">:</span>
+    <span class="token function">Resource</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-16-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-16-open">)</span> <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-27-close">{</span> std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Resource acquired\n"</span><span class="token punctuation">;</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-27-open">}</span>
+    <span class="token operator">~</span><span class="token function">Resource</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-17-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-17-open">)</span> <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-28-close">{</span> std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Resource destroyed\n"</span><span class="token punctuation">;</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-28-open">}</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-29-open">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-18-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-18-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-30-close">{</span>
+	Auto_ptr1<span class="token operator">&lt;</span>Resource<span class="token operator">&gt;</span> <span class="token function">res</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-20-close">(</span><span class="token keyword keyword-new">new</span> <span class="token function">Resource</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-19-close">(</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-19-open">)</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-20-open">)</span><span class="token punctuation">;</span> <span class="token comment">// Note the allocation of memory here</span>
+
+        <span class="token comment">// ... but no explicit delete needed</span>
+
+	<span class="token comment">// Also note that we use &lt;Resource&gt;, not &lt;Resource*&gt;</span>
+        <span class="token comment">// This is because we've defined m_ptr to have type T* (not T)</span>
+
+	<span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-30-open">}</span> <span class="token comment">// res goes out of scope here, and destroys the allocated Resource for us</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>This program prints:</p>
+<div
+  class="google-auto-placed ap_container"
+  style="width: 100%; height: auto; clear: both; text-align: center"
+>
+  <ins
+    data-ad-format="auto"
+    class="adsbygoogle adsbygoogle-noablate"
+    data-ad-client="ca-pub-0588844875925051"
+    data-adsbygoogle-status="done"
+    style="
+      display: block;
+      margin: auto;
+      background-color: transparent;
+      height: 0px;
+    "
+    ><div
+      id="aswift_6_host"
+      style="
+        border: none;
+        height: 0px;
+        width: 1027px;
+        margin: 0px;
+        padding: 0px;
+        position: relative;
+        visibility: visible;
+        background-color: transparent;
+        display: inline-block;
+        overflow: hidden;
+        opacity: 0;
+      "
+    >
+      <iframe
+        id="aswift_6"
+        name="aswift_6"
+        browsingtopics="true"
+        style="
+          left: 0px;
+          position: absolute;
+          top: 0px;
+          border: 0px;
+          width: 1027px;
+          height: 0px;
+          min-height: auto;
+          max-height: none;
+          min-width: auto;
+          max-width: none;
+        "
+        sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation"
+        width="1027"
+        height="0"
+        frameborder="0"
+        marginwidth="0"
+        marginheight="0"
+        vspace="0"
+        hspace="0"
+        allowtransparency="true"
+        scrolling="no"
+        allow="attribution-reporting; run-ad-auction"
+        src="https://googleads.g.doubleclick.net/pagead/ads?client=ca-pub-0588844875925051&amp;output=html&amp;h=280&amp;adk=3848385371&amp;adf=395876852&amp;w=1027&amp;abgtt=11&amp;fwrn=4&amp;fwrnh=100&amp;lmt=1751213590&amp;num_ads=1&amp;rafmt=1&amp;armr=3&amp;sem=mc&amp;pwprc=4633386603&amp;ad_type=text_image&amp;format=1027x280&amp;url=https%3A%2F%2Fwww.learncpp.com%2Fcpp-tutorial%2Fintroduction-to-smart-pointers-move-semantics%2F&amp;fwr=0&amp;pra=3&amp;rh=200&amp;rw=1026&amp;rpe=1&amp;resp_fmts=3&amp;wgl=1&amp;fa=27&amp;uach=WyJXaW5kb3dzIiwiMTkuMC4wIiwieDg2IiwiIiwiMTM3LjAuNzE1MS4xMjIiLG51bGwsMCxudWxsLCI2NCIsW1siR29vZ2xlIENocm9tZSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJDaHJvbWl1bSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJOb3QvQSlCcmFuZCIsIjI0LjAuMC4wIl1dLDBd&amp;dt=1751963377723&amp;bpp=1&amp;bdt=1195&amp;idt=0&amp;shv=r20250702&amp;mjsv=m202507020101&amp;ptt=9&amp;saldr=aa&amp;abxe=1&amp;cookie=ID%3D05f6e82287d810b4%3AT%3D1751962604%3ART%3D1751963214%3AS%3DALNI_MaQYA0TSAU2k8xwY5tqlN0xFCcd6g&amp;gpic=UID%3D00001157d9e27d0a%3AT%3D1751962604%3ART%3D1751963214%3AS%3DALNI_MYgtHzQJAQQXY_151HTGSSfVxE8_A&amp;eo_id_str=ID%3D52c21936d98c6d2b%3AT%3D1751962604%3ART%3D1751963214%3AS%3DAA-AfjZsJ15yjdEPJ8d11hPojsJQ&amp;prev_fmts=0x0%2C336x280%2C160x600%2C160x600%2C1027x280&amp;nras=3&amp;correlator=1385624834728&amp;frm=20&amp;pv=1&amp;u_tz=480&amp;u_his=2&amp;u_h=600&amp;u_w=800&amp;u_ah=600&amp;u_aw=800&amp;u_cd=24&amp;u_sd=1&amp;dmc=8&amp;adx=27&amp;ady=2819&amp;biw=1080&amp;bih=1024&amp;scr_x=0&amp;scr_y=0&amp;eid=31093040%2C95331832%2C95353387%2C95362656%2C95363082%2C95365225%2C95365234%2C95365112%2C95359265%2C95365116%2C95365798&amp;oid=2&amp;pvsid=8682932744964179&amp;tmod=1708485235&amp;uas=0&amp;nvt=1&amp;fc=1408&amp;brdim=10%2C10%2C10%2C10%2C800%2C0%2C780%2C580%2C1080%2C1024&amp;vis=1&amp;rsz=%7C%7Cs%7C&amp;abl=NS&amp;fu=128&amp;bc=31&amp;bz=0.72&amp;td=1&amp;tdf=2&amp;psd=W251bGwsbnVsbCxudWxsLDNd&amp;nt=1&amp;ifi=7&amp;uci=a!7&amp;btvi=2&amp;fsb=1&amp;dtd=22"
+        data-google-container-id="a!7"
+        tabindex="0"
+        title="Advertisement"
+        aria-label="Advertisement"
+        data-load-complete="true"
+        data-google-query-id="COaV8JXsrI4DFfXuTAIdTTQrUw"
+      ></iframe></div
+  ></ins>
+</div>
+<pre>
+Resource acquired
+Resource destroyed
+</pre>
+<p>
+  Consider how this program and class work. First, we dynamically create a
+  Resource, and pass it as a parameter to our templated Auto_ptr1 class. From
+  that point forward, our Auto_ptr1 variable res owns that Resource object
+  (Auto_ptr1 has a composition relationship with m_ptr). Because res is declared
+  as a local variable and has block scope, it will go out of scope when the
+  block ends, and be destroyed (no worries about forgetting to deallocate it).
+  And because it is a class, when it is destroyed, the Auto_ptr1 destructor will
+  be called. That destructor will ensure that the Resource pointer it is holding
+  gets deleted!
+</p>
+<p>
+  As long as Auto_ptr1 is defined as a local variable (with automatic duration,
+  hence the “Auto” part of the class name), the Resource will be guaranteed to
+  be destroyed at the end of the block it is declared in, regardless of how the
+  function terminates (even if it terminates early).
+</p>
+<p>
+  Such a class is called a smart pointer. A <strong>Smart pointer</strong> is a
+  composition class that is designed to manage dynamically allocated memory and
+  ensure that memory gets deleted when the smart pointer object goes out of
+  scope. (Relatedly, built-in pointers are sometimes called “dumb pointers”
+  because they can’t clean up after themselves).
+</p>
+<p>
+  Now let’s go back to our someFunction() example above, and show how a smart
+  pointer class can solve our challenge:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-template">template</span> <span class="token operator">&lt;</span><span class="token keyword keyword-typename">typename</span> <span class="token class-name">T</span><span class="token operator">&gt;</span>
+<span class="token keyword keyword-class">class</span> <span class="token class-name">Auto_ptr1</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-51-close">{</span>
+	T<span class="token operator">*</span> m_ptr <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-46-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-46-open">}</span><span class="token punctuation">;</span>
+<span class="token keyword keyword-public">public</span><span class="token operator">:</span>
+	<span class="token comment">// Pass in a pointer to "own" via the constructor</span>
+	<span class="token function">Auto_ptr1</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-31-close">(</span>T<span class="token operator">*</span> ptr<span class="token operator">=</span><span class="token keyword keyword-nullptr">nullptr</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-31-open">)</span>
+		<span class="token operator">:</span><span class="token function">m_ptr</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-32-close">(</span>ptr<span class="token punctuation brace-round brace-close brace-level-2" id="pair-32-open">)</span>
+	<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-47-close">{</span>
+	<span class="token punctuation brace-curly brace-close brace-level-2" id="pair-47-open">}</span>
+
+	<span class="token comment">// The destructor will make sure it gets deallocated</span>
+	<span class="token operator">~</span><span class="token function">Auto_ptr1</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-33-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-33-open">)</span>
+	<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-48-close">{</span>
+		<span class="token keyword keyword-delete">delete</span> m_ptr<span class="token punctuation">;</span>
+	<span class="token punctuation brace-curly brace-close brace-level-2" id="pair-48-open">}</span>
+
+	<span class="token comment">// Overload dereference and operator-&gt; so we can use Auto_ptr1 like m_ptr.</span>
+	T<span class="token operator">&amp;</span> <span class="token keyword keyword-operator">operator</span><span class="token operator">*</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-34-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-34-open">)</span> <span class="token keyword keyword-const">const</span> <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-49-close">{</span> <span class="token keyword keyword-return">return</span> <span class="token operator">*</span>m_ptr<span class="token punctuation">;</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-49-open">}</span>
+	T<span class="token operator">*</span> <span class="token keyword keyword-operator">operator</span><span class="token operator">-&gt;</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-35-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-35-open">)</span> <span class="token keyword keyword-const">const</span> <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-50-close">{</span> <span class="token keyword keyword-return">return</span> m_ptr<span class="token punctuation">;</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-50-open">}</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-51-open">}</span><span class="token punctuation">;</span>
+
+<span class="token comment">// A sample class to prove the above works</span>
+<span class="token keyword keyword-class">class</span> <span class="token class-name">Resource</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-55-close">{</span>
+<span class="token keyword keyword-public">public</span><span class="token operator">:</span>
+    <span class="token function">Resource</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-36-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-36-open">)</span> <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-52-close">{</span> std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Resource acquired\n"</span><span class="token punctuation">;</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-52-open">}</span>
+    <span class="token operator">~</span><span class="token function">Resource</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-37-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-37-open">)</span> <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-53-close">{</span> std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Resource destroyed\n"</span><span class="token punctuation">;</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-53-open">}</span>
+    <span class="token keyword keyword-void">void</span> <span class="token function">sayHi</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-38-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-38-open">)</span> <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-54-close">{</span> std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Hi!\n"</span><span class="token punctuation">;</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-54-open">}</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-55-open">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword keyword-void">void</span> <span class="token function">someFunction</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-39-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-39-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-56-close">{</span>
+    Auto_ptr1<span class="token operator">&lt;</span>Resource<span class="token operator">&gt;</span> <span class="token function">ptr</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-41-close">(</span><span class="token keyword keyword-new">new</span> <span class="token function">Resource</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-40-close">(</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-40-open">)</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-41-open">)</span><span class="token punctuation">;</span> <span class="token comment">// ptr now owns the Resource</span>
+
+    <span class="token keyword keyword-int">int</span> x<span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Enter an integer: "</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>cin <span class="token operator">&gt;&gt;</span> x<span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-if">if</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-42-close">(</span>x <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-42-open">)</span>
+        <span class="token keyword keyword-return">return</span><span class="token punctuation">;</span> <span class="token comment">// the function returns early</span>
+
+    <span class="token comment">// do stuff with ptr here</span>
+    ptr<span class="token operator">-&gt;</span><span class="token function">sayHi</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-43-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-43-open">)</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-56-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-44-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-44-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-57-close">{</span>
+    <span class="token function">someFunction</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-45-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-45-open">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-57-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>If the user enters a non-zero integer, the above program will print:</p>
+<div
+  class="google-auto-placed ap_container"
+  style="width: 100%; height: auto; clear: both; text-align: center"
+>
+  <ins
+    data-ad-format="auto"
+    class="adsbygoogle adsbygoogle-noablate"
+    data-ad-client="ca-pub-0588844875925051"
+    data-adsbygoogle-status="done"
+    style="
+      display: block;
+      margin: auto;
+      background-color: transparent;
+      height: 0px;
+    "
+    ><div
+      id="aswift_7_host"
+      style="
+        border: none;
+        height: 0px;
+        width: 1027px;
+        margin: 0px;
+        padding: 0px;
+        position: relative;
+        visibility: visible;
+        background-color: transparent;
+        display: inline-block;
+        overflow: hidden;
+        opacity: 0;
+      "
+    >
+      <iframe
+        id="aswift_7"
+        name="aswift_7"
+        browsingtopics="true"
+        style="
+          left: 0px;
+          position: absolute;
+          top: 0px;
+          border: 0px;
+          width: 1027px;
+          height: 0px;
+          min-height: auto;
+          max-height: none;
+          min-width: auto;
+          max-width: none;
+        "
+        sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation"
+        width="1027"
+        height="0"
+        frameborder="0"
+        marginwidth="0"
+        marginheight="0"
+        vspace="0"
+        hspace="0"
+        allowtransparency="true"
+        scrolling="no"
+        allow="attribution-reporting; run-ad-auction"
+        src="https://googleads.g.doubleclick.net/pagead/ads?client=ca-pub-0588844875925051&amp;output=html&amp;h=280&amp;adk=3848385371&amp;adf=2823996546&amp;w=1027&amp;abgtt=11&amp;fwrn=4&amp;fwrnh=100&amp;lmt=1751213590&amp;num_ads=1&amp;rafmt=1&amp;armr=3&amp;sem=mc&amp;pwprc=4633386603&amp;ad_type=text_image&amp;format=1027x280&amp;url=https%3A%2F%2Fwww.learncpp.com%2Fcpp-tutorial%2Fintroduction-to-smart-pointers-move-semantics%2F&amp;fwr=0&amp;pra=3&amp;rh=200&amp;rw=1026&amp;rpe=1&amp;resp_fmts=3&amp;wgl=1&amp;fa=27&amp;uach=WyJXaW5kb3dzIiwiMTkuMC4wIiwieDg2IiwiIiwiMTM3LjAuNzE1MS4xMjIiLG51bGwsMCxudWxsLCI2NCIsW1siR29vZ2xlIENocm9tZSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJDaHJvbWl1bSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJOb3QvQSlCcmFuZCIsIjI0LjAuMC4wIl1dLDBd&amp;dt=1751963377725&amp;bpp=1&amp;bdt=1196&amp;idt=1&amp;shv=r20250702&amp;mjsv=m202507020101&amp;ptt=9&amp;saldr=aa&amp;abxe=1&amp;cookie=ID%3D05f6e82287d810b4%3AT%3D1751962604%3ART%3D1751963214%3AS%3DALNI_MaQYA0TSAU2k8xwY5tqlN0xFCcd6g&amp;gpic=UID%3D00001157d9e27d0a%3AT%3D1751962604%3ART%3D1751963214%3AS%3DALNI_MYgtHzQJAQQXY_151HTGSSfVxE8_A&amp;eo_id_str=ID%3D52c21936d98c6d2b%3AT%3D1751962604%3ART%3D1751963214%3AS%3DAA-AfjZsJ15yjdEPJ8d11hPojsJQ&amp;prev_fmts=0x0%2C336x280%2C160x600%2C160x600%2C1027x280%2C1027x280&amp;nras=4&amp;correlator=1385624834728&amp;frm=20&amp;pv=1&amp;u_tz=480&amp;u_his=2&amp;u_h=600&amp;u_w=800&amp;u_ah=600&amp;u_aw=800&amp;u_cd=24&amp;u_sd=1&amp;dmc=8&amp;adx=27&amp;ady=3834&amp;biw=1080&amp;bih=1024&amp;scr_x=0&amp;scr_y=0&amp;eid=31093040%2C95331832%2C95353387%2C95362656%2C95363082%2C95365225%2C95365234%2C95365112%2C95359265%2C95365116%2C95365798&amp;oid=2&amp;pvsid=8682932744964179&amp;tmod=1708485235&amp;uas=0&amp;nvt=1&amp;fc=1408&amp;brdim=10%2C10%2C10%2C10%2C800%2C0%2C780%2C580%2C1080%2C1024&amp;vis=1&amp;rsz=%7C%7Cs%7C&amp;abl=NS&amp;fu=128&amp;bc=31&amp;bz=0.72&amp;td=1&amp;tdf=2&amp;psd=W251bGwsbnVsbCxudWxsLDNd&amp;nt=1&amp;ifi=8&amp;uci=a!8&amp;btvi=3&amp;fsb=1&amp;dtd=329"
+        data-google-container-id="a!8"
+        tabindex="0"
+        title="Advertisement"
+        aria-label="Advertisement"
+        data-load-complete="true"
+        data-google-query-id="CJj2gpbsrI4DFVL-TAIdkEkaPA"
+      ></iframe></div
+  ></ins>
+</div>
+<div class="code-block code-block-4" style="margin: 8px 0; clear: both"></div>
+
+<pre>
+Resource acquired
+Hi!
+Resource destroyed
+</pre>
+<p>
+  If the user enters zero, the above program will terminate early, printing:
+</p>
+<pre>
+Resource acquired
+Resource destroyed
+</pre>
+<p>
+  Note that even in the case where the user enters zero and the function
+  terminates early, the Resource is still properly deallocated.
+</p>
+<p>
+  Because the ptr variable is a local variable, ptr will be destroyed when the
+  function terminates (regardless of how it terminates). And because the
+  Auto_ptr1 destructor will clean up the Resource, we are assured that the
+  Resource will be properly cleaned up.
+</p>
+<p><strong>A critical flaw</strong></p>
+<div
+  class="google-auto-placed ap_container"
+  style="width: 100%; height: auto; clear: both; text-align: center"
+>
+  <ins
+    data-ad-format="auto"
+    class="adsbygoogle adsbygoogle-noablate"
+    data-ad-client="ca-pub-0588844875925051"
+    data-adsbygoogle-status="done"
+    style="
+      display: block;
+      margin: auto;
+      background-color: transparent;
+      height: 280px;
+    "
+    ><div
+      id="aswift_8_host"
+      style="
+        border: none;
+        height: 280px;
+        width: 1027px;
+        margin: 0px;
+        padding: 0px;
+        position: relative;
+        visibility: visible;
+        background-color: transparent;
+        display: inline-block;
+      "
+    ></div
+  ></ins>
+</div>
+<p>
+  The Auto_ptr1 class has a critical flaw lurking behind some auto-generated
+  code. Before reading further, see if you can identify what it is. We’ll wait…
+</p>
+<p>
+  (Hint: consider what parts of a class get auto-generated if you don’t supply
+  them)
+</p>
+<div class="code-block code-block-5" style="margin: 8px 0; clear: both"></div>
+
+<p>(Jeopardy music)</p>
+<p>Okay, time’s up.</p>
+<p>Rather than tell you, we’ll show you. Consider the following program:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token comment">// Same as above</span>
+<span class="token keyword keyword-template">template</span> <span class="token operator">&lt;</span><span class="token keyword keyword-typename">typename</span> <span class="token class-name">T</span><span class="token operator">&gt;</span>
+<span class="token keyword keyword-class">class</span> <span class="token class-name">Auto_ptr1</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-74-close">{</span>
+	T<span class="token operator">*</span> m_ptr <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-69-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-69-open">}</span><span class="token punctuation">;</span>
+<span class="token keyword keyword-public">public</span><span class="token operator">:</span>
+	<span class="token function">Auto_ptr1</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-58-close">(</span>T<span class="token operator">*</span> ptr<span class="token operator">=</span><span class="token keyword keyword-nullptr">nullptr</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-58-open">)</span>
+		<span class="token operator">:</span><span class="token function">m_ptr</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-59-close">(</span>ptr<span class="token punctuation brace-round brace-close brace-level-2" id="pair-59-open">)</span>
+	<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-70-close">{</span>
+	<span class="token punctuation brace-curly brace-close brace-level-2" id="pair-70-open">}</span>
+
+	<span class="token operator">~</span><span class="token function">Auto_ptr1</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-60-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-60-open">)</span>
+	<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-71-close">{</span>
+		<span class="token keyword keyword-delete">delete</span> m_ptr<span class="token punctuation">;</span>
+	<span class="token punctuation brace-curly brace-close brace-level-2" id="pair-71-open">}</span>
+
+	T<span class="token operator">&amp;</span> <span class="token keyword keyword-operator">operator</span><span class="token operator">*</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-61-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-61-open">)</span> <span class="token keyword keyword-const">const</span> <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-72-close">{</span> <span class="token keyword keyword-return">return</span> <span class="token operator">*</span>m_ptr<span class="token punctuation">;</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-72-open">}</span>
+	T<span class="token operator">*</span> <span class="token keyword keyword-operator">operator</span><span class="token operator">-&gt;</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-62-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-62-open">)</span> <span class="token keyword keyword-const">const</span> <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-73-close">{</span> <span class="token keyword keyword-return">return</span> m_ptr<span class="token punctuation">;</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-73-open">}</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-74-open">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword keyword-class">class</span> <span class="token class-name">Resource</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-77-close">{</span>
+<span class="token keyword keyword-public">public</span><span class="token operator">:</span>
+	<span class="token function">Resource</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-63-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-63-open">)</span> <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-75-close">{</span> std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Resource acquired\n"</span><span class="token punctuation">;</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-75-open">}</span>
+	<span class="token operator">~</span><span class="token function">Resource</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-64-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-64-open">)</span> <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-76-close">{</span> std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Resource destroyed\n"</span><span class="token punctuation">;</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-76-open">}</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-77-open">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-65-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-65-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-78-close">{</span>
+	Auto_ptr1<span class="token operator">&lt;</span>Resource<span class="token operator">&gt;</span> <span class="token function">res1</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-67-close">(</span><span class="token keyword keyword-new">new</span> <span class="token function">Resource</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-66-close">(</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-66-open">)</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-67-open">)</span><span class="token punctuation">;</span>
+	Auto_ptr1<span class="token operator">&lt;</span>Resource<span class="token operator">&gt;</span> <span class="token function">res2</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-68-close">(</span>res1<span class="token punctuation brace-round brace-close brace-level-2" id="pair-68-open">)</span><span class="token punctuation">;</span> <span class="token comment">// Alternatively, don't initialize res2 and then assign res2 = res1;</span>
+
+	<span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-78-open">}</span> <span class="token comment">// res1 and res2 go out of scope here</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>This program prints:</p>
+<div
+  class="google-auto-placed ap_container"
+  style="width: 100%; height: auto; clear: both; text-align: center"
+>
+  <ins
+    data-ad-format="auto"
+    class="adsbygoogle adsbygoogle-noablate"
+    data-ad-client="ca-pub-0588844875925051"
+    data-adsbygoogle-status="done"
+    style="
+      display: block;
+      margin: auto;
+      background-color: transparent;
+      height: 280px;
+    "
+    ><div
+      id="aswift_9_host"
+      style="
+        border: none;
+        height: 280px;
+        width: 1027px;
+        margin: 0px;
+        padding: 0px;
+        position: relative;
+        visibility: visible;
+        background-color: transparent;
+        display: inline-block;
+      "
+    ></div
+  ></ins>
+</div>
+<pre>
+Resource acquired
+Resource destroyed
+Resource destroyed
+</pre>
+<p>
+  Very likely (but not necessarily) your program will crash at this point. See
+  the problem now? Because we haven’t supplied a copy constructor or an
+  assignment operator, C++ provides one for us. And the functions it provides do
+  shallow copies. So when we initialize res2 with res1, both Auto_ptr1 variables
+  are pointed at the same Resource. When res2 goes out of the scope, it deletes
+  the resource, leaving res1 with a dangling pointer. When res1 goes to delete
+  its (already deleted) Resource, undefined behavior will result (probably a
+  crash)!
+</p>
+<p>You’d run into a similar problem with a function like this:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-void">void</span> <span class="token function">passByValue</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-79-close">(</span>Auto_ptr1<span class="token operator">&lt;</span>Resource<span class="token operator">&gt;</span> res<span class="token punctuation brace-round brace-close brace-level-1" id="pair-79-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-84-close">{</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-84-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-80-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-80-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-85-close">{</span>
+	Auto_ptr1<span class="token operator">&lt;</span>Resource<span class="token operator">&gt;</span> <span class="token function">res1</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-82-close">(</span><span class="token keyword keyword-new">new</span> <span class="token function">Resource</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-81-close">(</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-81-open">)</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-82-open">)</span><span class="token punctuation">;</span>
+	<span class="token function">passByValue</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-83-close">(</span>res1<span class="token punctuation brace-round brace-close brace-level-2" id="pair-83-open">)</span><span class="token punctuation">;</span>
+
+	<span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-85-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  In this program, <code>res1</code> will be copied by value into parameter
+  <code>res</code>, so both <code>res1.m_ptr</code> and
+  <code>res.m_ptr</code> will hold the same address.
+</p>
+<div
+  class="google-auto-placed ap_container"
+  style="width: 100%; height: auto; clear: both; text-align: center"
+>
+  <ins
+    data-ad-format="auto"
+    class="adsbygoogle adsbygoogle-noablate"
+    data-ad-client="ca-pub-0588844875925051"
+    data-adsbygoogle-status="done"
+    style="
+      display: block;
+      margin: auto;
+      background-color: transparent;
+      height: 280px;
+    "
+    ><div
+      id="aswift_10_host"
+      style="
+        border: none;
+        height: 280px;
+        width: 1027px;
+        margin: 0px;
+        padding: 0px;
+        position: relative;
+        visibility: visible;
+        background-color: transparent;
+        display: inline-block;
+      "
+    ></div
+  ></ins>
+</div>
+<p>
+  When <code>res</code> is destroyed at the end of the function,
+  <code>res1.m_ptr</code> is left dangling. When <code>res1.m_ptr</code> is
+  later deleted, undefined behavior will result.
+</p>
+<div class="code-block code-block-6" style="margin: 8px 0; clear: both"></div>
+
+<p>So clearly this isn’t good. How can we address this?</p>
+<p>
+  Well, one thing we could do would be to explicitly define and delete the copy
+  constructor and assignment operator, thereby preventing any copies from being
+  made in the first place. That would prevent the pass by value case (which is
+  good, we probably shouldn’t be passing these by value anyway).
+</p>
+<p>
+  But then how would we return an Auto_ptr1 from a function back to the caller?
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token operator">?</span><span class="token operator">?</span><span class="token operator">?</span> <span class="token function">generateResource</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-86-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-86-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-90-close">{</span>
+     Resource<span class="token operator">*</span> r<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-89-close">{</span> <span class="token keyword keyword-new">new</span> <span class="token function">Resource</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-87-close">(</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-87-open">)</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-89-open">}</span><span class="token punctuation">;</span>
+     <span class="token keyword keyword-return">return</span> <span class="token function">Auto_ptr1</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-88-close">(</span>r<span class="token punctuation brace-round brace-close brace-level-2" id="pair-88-open">)</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-90-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  We can’t return our Auto_ptr1 by reference, because the local Auto_ptr1 will
+  be destroyed at the end of the function, and the caller will be left with a
+  dangling reference. We could return pointer r as <code>Resource*</code>, but
+  then we might forget to delete r later, which is the whole point of using
+  smart pointers in the first place. So that’s out. Returning the Auto_ptr1 by
+  value is the only option that makes sense -- but then we end up with shallow
+  copies, duplicated pointers, and crashes.
+</p>
+<div
+  class="google-auto-placed ap_container"
+  style="width: 100%; height: auto; clear: both; text-align: center"
+>
+  <ins
+    data-ad-format="auto"
+    class="adsbygoogle adsbygoogle-noablate"
+    data-ad-client="ca-pub-0588844875925051"
+    data-adsbygoogle-status="done"
+    style="
+      display: block;
+      margin: auto;
+      background-color: transparent;
+      height: 280px;
+    "
+    ><div
+      id="aswift_11_host"
+      style="
+        border: none;
+        height: 280px;
+        width: 1027px;
+        margin: 0px;
+        padding: 0px;
+        position: relative;
+        visibility: visible;
+        background-color: transparent;
+        display: inline-block;
+      "
+    ></div
+  ></ins>
+</div>
+<p>
+  Another option would be to overload the copy constructor and assignment
+  operator to make deep copies. In this way, we’d at least guarantee to avoid
+  duplicate pointers to the same object. But copying can be expensive (and may
+  not be desirable or even possible), and we don’t want to make needless copies
+  of objects just to return an Auto_ptr1 from a function. Plus assigning or
+  initializing a dumb pointer doesn’t copy the object being pointed to, so why
+  would we expect smart pointers to behave differently?
+</p>
+<div class="code-block code-block-7" style="margin: 8px 0; clear: both"></div>
+
+<p>What do we do?</p>
+<p><strong>Move semantics</strong></p>
+<p>
+  What if, instead of having our copy constructor and assignment operator copy
+  the pointer (“copy semantics”), we instead transfer/move ownership of the
+  pointer from the source to the destination object? This is the core idea
+  behind move semantics. <strong>Move semantics</strong> means the class will
+  transfer ownership of the object rather than making a copy.
+</p>
+<p>Let’s update our Auto_ptr1 class to show how this can be done:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-template">template</span> <span class="token operator">&lt;</span><span class="token keyword keyword-typename">typename</span> <span class="token class-name">T</span><span class="token operator">&gt;</span>
+<span class="token keyword keyword-class">class</span> <span class="token class-name">Auto_ptr2</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-121-close">{</span>
+	T<span class="token operator">*</span> m_ptr <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-113-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-113-open">}</span><span class="token punctuation">;</span>
+<span class="token keyword keyword-public">public</span><span class="token operator">:</span>
+	<span class="token function">Auto_ptr2</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-91-close">(</span>T<span class="token operator">*</span> ptr<span class="token operator">=</span><span class="token keyword keyword-nullptr">nullptr</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-91-open">)</span>
+		<span class="token operator">:</span><span class="token function">m_ptr</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-92-close">(</span>ptr<span class="token punctuation brace-round brace-close brace-level-2" id="pair-92-open">)</span>
+	<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-114-close">{</span>
+	<span class="token punctuation brace-curly brace-close brace-level-2" id="pair-114-open">}</span>
+
+	<span class="token operator">~</span><span class="token function">Auto_ptr2</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-93-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-93-open">)</span>
+	<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-115-close">{</span>
+		<span class="token keyword keyword-delete">delete</span> m_ptr<span class="token punctuation">;</span>
+	<span class="token punctuation brace-curly brace-close brace-level-2" id="pair-115-open">}</span>
+
+	<span class="token comment">// A copy constructor that implements move semantics</span>
+	<span class="token function">Auto_ptr2</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-94-close">(</span>Auto_ptr2<span class="token operator">&amp;</span> a<span class="token punctuation brace-round brace-close brace-level-2" id="pair-94-open">)</span> <span class="token comment">// note: not const</span>
+	<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-116-close">{</span>
+		<span class="token comment">// We don't need to delete m_ptr here.  This constructor is only called when we're creating a new object, and m_ptr can't be set prior to this.</span>
+		m_ptr <span class="token operator">=</span> a<span class="token punctuation">.</span>m_ptr<span class="token punctuation">;</span> <span class="token comment">// transfer our dumb pointer from the source to our local object</span>
+		a<span class="token punctuation">.</span>m_ptr <span class="token operator">=</span> <span class="token keyword keyword-nullptr">nullptr</span><span class="token punctuation">;</span> <span class="token comment">// make sure the source no longer owns the pointer</span>
+	<span class="token punctuation brace-curly brace-close brace-level-2" id="pair-116-open">}</span>
+
+	<span class="token comment">// An assignment operator that implements move semantics</span>
+	Auto_ptr2<span class="token operator">&amp;</span> <span class="token keyword keyword-operator">operator</span><span class="token operator">=</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-95-close">(</span>Auto_ptr2<span class="token operator">&amp;</span> a<span class="token punctuation brace-round brace-close brace-level-2" id="pair-95-open">)</span> <span class="token comment">// note: not const</span>
+	<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-117-close">{</span>
+		<span class="token keyword keyword-if">if</span> <span class="token punctuation brace-round brace-open brace-level-3" id="pair-96-close">(</span><span class="token operator">&amp;</span>a <span class="token operator">==</span> <span class="token keyword keyword-this">this</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-96-open">)</span>
+			<span class="token keyword keyword-return">return</span> <span class="token operator">*</span><span class="token keyword keyword-this">this</span><span class="token punctuation">;</span>
+
+		<span class="token keyword keyword-delete">delete</span> m_ptr<span class="token punctuation">;</span> <span class="token comment">// make sure we deallocate any pointer the destination is already holding first</span>
+		m_ptr <span class="token operator">=</span> a<span class="token punctuation">.</span>m_ptr<span class="token punctuation">;</span> <span class="token comment">// then transfer our dumb pointer from the source to the local object</span>
+		a<span class="token punctuation">.</span>m_ptr <span class="token operator">=</span> <span class="token keyword keyword-nullptr">nullptr</span><span class="token punctuation">;</span> <span class="token comment">// make sure the source no longer owns the pointer</span>
+		<span class="token keyword keyword-return">return</span> <span class="token operator">*</span><span class="token keyword keyword-this">this</span><span class="token punctuation">;</span>
+	<span class="token punctuation brace-curly brace-close brace-level-2" id="pair-117-open">}</span>
+
+	T<span class="token operator">&amp;</span> <span class="token keyword keyword-operator">operator</span><span class="token operator">*</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-97-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-97-open">)</span> <span class="token keyword keyword-const">const</span> <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-118-close">{</span> <span class="token keyword keyword-return">return</span> <span class="token operator">*</span>m_ptr<span class="token punctuation">;</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-118-open">}</span>
+	T<span class="token operator">*</span> <span class="token keyword keyword-operator">operator</span><span class="token operator">-&gt;</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-98-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-98-open">)</span> <span class="token keyword keyword-const">const</span> <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-119-close">{</span> <span class="token keyword keyword-return">return</span> m_ptr<span class="token punctuation">;</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-119-open">}</span>
+	<span class="token keyword keyword-bool">bool</span> <span class="token function">isNull</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-99-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-99-open">)</span> <span class="token keyword keyword-const">const</span> <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-120-close">{</span> <span class="token keyword keyword-return">return</span> m_ptr <span class="token operator">==</span> <span class="token keyword keyword-nullptr">nullptr</span><span class="token punctuation">;</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-120-open">}</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-121-open">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword keyword-class">class</span> <span class="token class-name">Resource</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-124-close">{</span>
+<span class="token keyword keyword-public">public</span><span class="token operator">:</span>
+	<span class="token function">Resource</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-100-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-100-open">)</span> <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-122-close">{</span> std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Resource acquired\n"</span><span class="token punctuation">;</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-122-open">}</span>
+	<span class="token operator">~</span><span class="token function">Resource</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-101-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-101-open">)</span> <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-123-close">{</span> std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Resource destroyed\n"</span><span class="token punctuation">;</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-123-open">}</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-124-open">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-102-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-102-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-125-close">{</span>
+	Auto_ptr2<span class="token operator">&lt;</span>Resource<span class="token operator">&gt;</span> <span class="token function">res1</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-104-close">(</span><span class="token keyword keyword-new">new</span> <span class="token function">Resource</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-103-close">(</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-103-open">)</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-104-open">)</span><span class="token punctuation">;</span>
+	Auto_ptr2<span class="token operator">&lt;</span>Resource<span class="token operator">&gt;</span> res2<span class="token punctuation">;</span> <span class="token comment">// Start as nullptr</span>
+
+	std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"res1 is "</span> <span class="token operator">&lt;&lt;</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-106-close">(</span>res1<span class="token punctuation">.</span><span class="token function">isNull</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-105-close">(</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-105-open">)</span> <span class="token operator">?</span> <span class="token string">"null\n"</span> <span class="token operator">:</span> <span class="token string">"not null\n"</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-106-open">)</span><span class="token punctuation">;</span>
+	std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"res2 is "</span> <span class="token operator">&lt;&lt;</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-108-close">(</span>res2<span class="token punctuation">.</span><span class="token function">isNull</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-107-close">(</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-107-open">)</span> <span class="token operator">?</span> <span class="token string">"null\n"</span> <span class="token operator">:</span> <span class="token string">"not null\n"</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-108-open">)</span><span class="token punctuation">;</span>
+
+	res2 <span class="token operator">=</span> res1<span class="token punctuation">;</span> <span class="token comment">// res2 assumes ownership, res1 is set to null</span>
+
+	std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Ownership transferred\n"</span><span class="token punctuation">;</span>
+
+	std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"res1 is "</span> <span class="token operator">&lt;&lt;</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-110-close">(</span>res1<span class="token punctuation">.</span><span class="token function">isNull</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-109-close">(</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-109-open">)</span> <span class="token operator">?</span> <span class="token string">"null\n"</span> <span class="token operator">:</span> <span class="token string">"not null\n"</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-110-open">)</span><span class="token punctuation">;</span>
+	std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"res2 is "</span> <span class="token operator">&lt;&lt;</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-112-close">(</span>res2<span class="token punctuation">.</span><span class="token function">isNull</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-111-close">(</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-111-open">)</span> <span class="token operator">?</span> <span class="token string">"null\n"</span> <span class="token operator">:</span> <span class="token string">"not null\n"</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-112-open">)</span><span class="token punctuation">;</span>
+
+	<span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-125-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 32px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>This program prints:</p>
+<div
+  class="google-auto-placed ap_container"
+  style="width: 100%; height: auto; clear: both; text-align: center"
+>
+  <ins
+    data-ad-format="auto"
+    class="adsbygoogle adsbygoogle-noablate"
+    data-ad-client="ca-pub-0588844875925051"
+    data-adsbygoogle-status="done"
+    style="
+      display: block;
+      margin: auto;
+      background-color: transparent;
+      height: 280px;
+    "
+    ><div
+      id="aswift_12_host"
+      style="
+        border: none;
+        height: 280px;
+        width: 1027px;
+        margin: 0px;
+        padding: 0px;
+        position: relative;
+        visibility: visible;
+        background-color: transparent;
+        display: inline-block;
+      "
+    ></div
+  ></ins>
+</div>
+<pre>
+Resource acquired
+res1 is not null
+res2 is null
+Ownership transferred
+res1 is null
+res2 is not null
+Resource destroyed
+</pre>
+<p>
+  Note that our overloaded operator= gave ownership of m_ptr from res1 to res2!
+  Consequently, we don’t end up with duplicate copies of the pointer, and
+  everything gets tidily cleaned up.
+</p>
+<div class="cpp-note cpp-lightgraybackground">
+  <p class="cpp-note-title cpp-bottomline">A reminder</p>
+  <p>Deleting a nullptr is okay, as it does nothing.</p>
+</div>
+<p><strong>std::auto_ptr, and why it was a bad idea</strong></p>
+<div
+  class="google-auto-placed ap_container"
+  style="width: 100%; height: auto; clear: both; text-align: center"
+>
+  <ins
+    data-ad-format="auto"
+    class="adsbygoogle adsbygoogle-noablate"
+    data-ad-client="ca-pub-0588844875925051"
+    data-adsbygoogle-status="done"
+    style="
+      display: block;
+      margin: auto;
+      background-color: transparent;
+      height: 280px;
+    "
+    ><div
+      id="aswift_13_host"
+      style="
+        border: none;
+        height: 280px;
+        width: 1027px;
+        margin: 0px;
+        padding: 0px;
+        position: relative;
+        visibility: visible;
+        background-color: transparent;
+        display: inline-block;
+      "
+    ></div
+  ></ins>
+</div>
+<p>
+  Now would be an appropriate time to talk about std::auto_ptr. std::auto_ptr,
+  introduced in C++98 and removed in C++17, was C++’s first attempt at a
+  standardized smart pointer. std::auto_ptr opted to implement move semantics
+  just like the Auto_ptr2 class does.
+</p>
+<div class="code-block code-block-8" style="margin: 8px 0; clear: both"></div>
+
+<p>
+  However, std::auto_ptr (and our Auto_ptr2 class) has a number of problems that
+  makes using it dangerous.
+</p>
+<p>
+  First, because std::auto_ptr implements move semantics through the copy
+  constructor and assignment operator, passing a std::auto_ptr by value to a
+  function will cause your resource to get moved to the function parameter (and
+  be destroyed at the end of the function when the function parameters go out of
+  scope). Then when you go to access your auto_ptr argument from the caller (not
+  realizing it was transferred and deleted), you’re suddenly dereferencing a
+  null pointer. Crash!
+</p>
+<p>
+  Second, std::auto_ptr always deletes its contents using non-array delete. This
+  means auto_ptr won’t work correctly with dynamically allocated arrays, because
+  it uses the wrong kind of deallocation. Worse, it won’t prevent you from
+  passing it a dynamic array, which it will then mismanage, leading to memory
+  leaks.
+</p>
+<p>
+  Finally, auto_ptr doesn’t play nice with a lot of the other classes in the
+  standard library, including most of the containers and algorithms. This occurs
+  because those standard library classes assume that when they copy an item, it
+  actually makes a copy, not a move.
+</p>
+<p>
+  Because of the above mentioned shortcomings, std::auto_ptr has been deprecated
+  in C++11 and removed in C++17.
+</p>
+<p><strong>Moving forward</strong></p>
+<p>
+  The core problem with the design of std::auto_ptr is that prior to C++11, the
+  C++ language simply had no mechanism to differentiate “copy semantics” from
+  “move semantics”. Overriding the copy semantics to implement move semantics
+  leads to weird edge cases and inadvertent bugs. For example, you can write
+  <code>res1 = res2</code> and have no idea whether res2 will be changed or not!
+</p>
+<p>
+  Because of this, in C++11, the concept of “move” was formally defined, and
+  “move semantics” were added to the language to properly differentiate copying
+  from moving. Now that we’ve set the stage for why move semantics can be
+  useful, we’ll explore the topic of move semantics throughout the rest of this
+  chapter. We’ll also fix our Auto_ptr2 class using move semantics.
+</p>
+<p>
+  In C++11, std::auto_ptr has been replaced by a bunch of other types of
+  “move-aware” smart pointers: std::unique_ptr, std::weak_ptr, and
+  std::shared_ptr. We’ll also explore the two most popular of these: unique_ptr
+  (which is a direct replacement for auto_ptr) and shared_ptr.
+</p>
+<div class="prevnext">
+  <div class="prevnext-inline">
+    <a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/rvalue-references/"
+    >
+      <div class="nav-button nav-button-next">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-right" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Next lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">22.2</span>R-value references
+          </div>
+        </div>
+      </div></a
+    >
+    <a class="nav-link" href="/">
+      <div class="nav-button nav-button-index">
+        <div class="nav-button-icon">
+          <i class="fa fa-home" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Back to table of contents</div>
+        </div>
+      </div></a
+    >
+    <a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/chapter-21-project/"
+    >
+      <div class="nav-button nav-button-prev">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-left" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Previous lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">21.y</span>Chapter 21 project
+          </div>
+        </div>
+      </div></a
+    >
+  </div>
+</div>
+<div class="code-block code-block-10" style="margin: 8px 0; clear: both"></div>

@@ -1,0 +1,560 @@
+<div
+  class="code-block code-block-1"
+  style="margin: 8px 8px 8px 0; float: left"
+></div>
+<p>Consider the following program:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-120-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-120-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-122-close">{</span>
+    <span class="token keyword keyword-int">int</span> x <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-121-close">{</span> <span class="token number">5</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-121-open">}</span><span class="token punctuation">;</span> <span class="token comment">// x makes a copy of its initializer</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> x <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-122-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  When the definition for <code>x</code> is executed, the initialization value
+  <code>5</code> is copied into the memory allocated for variable
+  <code>int x</code>. For fundamental types, initializing and copying a variable
+  is fast.
+</p>
+<p>Now consider this similar program:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;string&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-123-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-123-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-125-close">{</span>
+    std<span class="token double-colon punctuation">::</span>string s<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-124-close">{</span> <span class="token string">"Hello, world!"</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-124-open">}</span><span class="token punctuation">;</span> <span class="token comment">// s makes a copy of its initializer</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> s <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-125-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  When <code>s</code> is initialized, the C-style string literal
+  <code>"Hello, world!"</code> is copied into memory allocated for
+  <code>std::string s</code>. Unlike fundamental types, initializing and copying
+  a <code>std::string</code> is slow.
+</p>
+<p>
+  In the above program, all we do with <code>s</code> is print the value to the
+  console, and then <code>s</code> is destroyed. We’ve essentially made a copy
+  of “Hello, world!” just to print and then destroy that copy. That’s
+  inefficient.
+</p>
+<p>We see something similar in this example:</p>
+<div class="code-block code-block-2" style="margin: 8px 0; clear: both"></div>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;string&gt;</span></span>
+
+<span class="token keyword keyword-void">void</span> <span class="token function">printString</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-126-close">(</span>std<span class="token double-colon punctuation">::</span>string str<span class="token punctuation brace-round brace-close brace-level-1" id="pair-126-open">)</span> <span class="token comment">// str makes a copy of its initializer</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-129-close">{</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> str <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-129-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-127-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-127-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-131-close">{</span>
+    std<span class="token double-colon punctuation">::</span>string s<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-130-close">{</span> <span class="token string">"Hello, world!"</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-130-open">}</span><span class="token punctuation">;</span> <span class="token comment">// s makes a copy of its initializer</span>
+    <span class="token function">printString</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-128-close">(</span>s<span class="token punctuation brace-round brace-close brace-level-2" id="pair-128-open">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-131-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  This example makes two copies of the C-style string “Hello, world!”: one when
+  we initialize <code>s</code> in <code>main()</code>, and another when we
+  initialize parameter <code>str</code> in <code>printString()</code>. That’s a
+  lot of needless copying just to print a string!
+</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  std::string_view
+  <span class="cpp-section-pill cpp-section-standard">C++17</span>
+</p>
+<p>
+  To address the issue with <code>std::string</code> being expensive to
+  initialize (or copy), C++17 introduced <code>std::string_view</code> (which
+  lives in the &lt;string_view&gt; header).
+  <code>std::string_view</code> provides read-only access to an
+  <em>existing</em> string (a C-style string, a <code>std::string</code>, or
+  another <code>std::string_view</code>) without making a copy.
+  <strong>Read-only</strong> means that we can access and use the value being
+  viewed, but we can not modify it.
+</p>
+<p>
+  The following example is identical to the prior one, except we’ve replaced
+  <code>std::string</code> with <code>std::string_view</code>.
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;string_view&gt;</span> <span class="token comment">// C++17</span></span>
+
+<span class="token comment">// str provides read-only access to whatever argument is passed in</span>
+<span class="token keyword keyword-void">void</span> <span class="token function">printSV</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-132-close">(</span>std<span class="token double-colon punctuation">::</span>string_view str<span class="token punctuation brace-round brace-close brace-level-1" id="pair-132-open">)</span> <span class="token comment">// now a std::string_view</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-135-close">{</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> str <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-135-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-133-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-133-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-137-close">{</span>
+    std<span class="token double-colon punctuation">::</span>string_view s<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-136-close">{</span> <span class="token string">"Hello, world!"</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-136-open">}</span><span class="token punctuation">;</span> <span class="token comment">// now a std::string_view</span>
+    <span class="token function">printSV</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-134-close">(</span>s<span class="token punctuation brace-round brace-close brace-level-2" id="pair-134-open">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-137-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  This program produces the same output as the prior one, but no copies of the
+  string “Hello, world!” are made.
+</p>
+<p>
+  When we initialize <code>std::string_view s</code> with C-style string literal
+  <code>"Hello, world!"</code>, <code>s</code> provides read-only access to
+  “Hello, world!” without making a copy of the string. When we pass
+  <code>s</code> to <code>printSV()</code>, parameter <code>str</code> is
+  initialized from <code>s</code>. This allows us to access “Hello, world!”
+  through <code>str</code>, again without making a copy of the string.
+</p>
+<div class="code-block code-block-3" style="margin: 8px 0; clear: both"></div>
+<div class="cpp-note cpp-lightgreenbackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Best practice</p>
+  <p>
+    Prefer <code>std::string_view</code> over <code>std::string</code> when you
+    need a read-only string, especially for function parameters.
+  </p>
+</div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  <code>std::string_view</code> can be initialized with many different types of
+  strings
+</p>
+<p>
+  One of the neat things about a <code>std::string_view</code> is how flexible
+  it is. A <code>std::string_view</code> object can be initialized with a
+  C-style string, a <code>std::string</code>, or another
+  <code>std::string_view</code>:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;string&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;string_view&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-138-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-138-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-143-close">{</span>
+    std<span class="token double-colon punctuation">::</span>string_view s1 <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-139-close">{</span> <span class="token string">"Hello, world!"</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-139-open">}</span><span class="token punctuation">;</span> <span class="token comment">// initialize with C-style string literal</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> s1 <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+    std<span class="token double-colon punctuation">::</span>string s<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-140-close">{</span> <span class="token string">"Hello, world!"</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-140-open">}</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>string_view s2 <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-141-close">{</span> s <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-141-open">}</span><span class="token punctuation">;</span>  <span class="token comment">// initialize with std::string</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> s2 <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+    std<span class="token double-colon punctuation">::</span>string_view s3 <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-142-close">{</span> s2 <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-142-open">}</span><span class="token punctuation">;</span> <span class="token comment">// initialize with std::string_view</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> s3 <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-143-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  <code>std::string_view</code> parameters will accept many different types of
+  string arguments
+</p>
+<p>
+  Both a C-style string and a <code>std::string</code> will implicitly convert
+  to a <code>std::string_view</code>. Therefore, a
+  <code>std::string_view</code> parameter will accept arguments of type C-style
+  string, a <code>std::string</code>, or <code>std::string_view</code>:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;string&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;string_view&gt;</span></span>
+
+<span class="token keyword keyword-void">void</span> <span class="token function">printSV</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-144-close">(</span>std<span class="token double-colon punctuation">::</span>string_view str<span class="token punctuation brace-round brace-close brace-level-1" id="pair-144-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-149-close">{</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> str <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-149-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-145-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-145-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-152-close">{</span>
+    <span class="token function">printSV</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-146-close">(</span><span class="token string">"Hello, world!"</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-146-open">)</span><span class="token punctuation">;</span> <span class="token comment">// call with C-style string literal</span>
+
+    std<span class="token double-colon punctuation">::</span>string s2<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-150-close">{</span> <span class="token string">"Hello, world!"</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-150-open">}</span><span class="token punctuation">;</span>
+    <span class="token function">printSV</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-147-close">(</span>s2<span class="token punctuation brace-round brace-close brace-level-2" id="pair-147-open">)</span><span class="token punctuation">;</span> <span class="token comment">// call with std::string</span>
+
+    std<span class="token double-colon punctuation">::</span>string_view s3 <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-151-close">{</span> s2 <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-151-open">}</span><span class="token punctuation">;</span>
+    <span class="token function">printSV</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-148-close">(</span>s3<span class="token punctuation brace-round brace-close brace-level-2" id="pair-148-open">)</span><span class="token punctuation">;</span> <span class="token comment">// call with std::string_view</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-152-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  <code>std::string_view</code> will not implicitly convert to
+  <code>std::string</code>
+</p>
+<div class="code-block code-block-4" style="margin: 8px 0; clear: both"></div>
+<p>
+  Because <code>std::string</code> makes a copy of its initializer (which is
+  expensive), C++ won’t allow implicit conversion of a
+  <code>std::string_view</code> to a <code>std::string</code>. This is to
+  prevent accidentally passing a <code>std::string_view</code> argument to a
+  <code>std::string</code> parameter, and inadvertently making an expensive copy
+  where such a copy may not be required.
+</p>
+<p>However, if this is desired, we have two options:</p>
+<ol start="1">
+  <li>
+    Explicitly create a <code>std::string</code> with a
+    <code>std::string_view</code> initializer (which is allowed, since this will
+    rarely be done unintentionally)
+  </li>
+  <li>
+    Convert an existing <code>std::string_view</code> to a
+    <code>std::string</code> using <code>static_cast</code>
+  </li>
+</ol>
+<p>The following example shows both options:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;string&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;string_view&gt;</span></span>
+
+<span class="token keyword keyword-void">void</span> <span class="token function">printString</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-153-close">(</span>std<span class="token double-colon punctuation">::</span>string str<span class="token punctuation brace-round brace-close brace-level-1" id="pair-153-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-158-close">{</span>
+	std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> str <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-158-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-154-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-154-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-161-close">{</span>
+	std<span class="token double-colon punctuation">::</span>string_view sv<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-159-close">{</span> <span class="token string">"Hello, world!"</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-159-open">}</span><span class="token punctuation">;</span>
+
+	<span class="token comment">// printString(sv);   // compile error: won't implicitly convert std::string_view to a std::string</span>
+
+	std<span class="token double-colon punctuation">::</span>string s<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-160-close">{</span> sv <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-160-open">}</span><span class="token punctuation">;</span> <span class="token comment">// okay: we can create std::string using std::string_view initializer</span>
+	<span class="token function">printString</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-155-close">(</span>s<span class="token punctuation brace-round brace-close brace-level-2" id="pair-155-open">)</span><span class="token punctuation">;</span>      <span class="token comment">// and call the function with the std::string</span>
+
+	<span class="token function">printString</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-157-close">(</span><span class="token generic-function"><span class="token function">static_cast</span><span class="token generic class-name"><span class="token operator">&lt;</span>std<span class="token double-colon punctuation">::</span>string<span class="token operator">&gt;</span></span></span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-156-close">(</span>sv<span class="token punctuation brace-round brace-close brace-level-3" id="pair-156-open">)</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-157-open">)</span><span class="token punctuation">;</span> <span class="token comment">// okay: we can explicitly cast a std::string_view to a std::string</span>
+
+	<span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-161-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Assignment changes what the <code>std::string_view</code> is viewing
+</p>
+<p>
+  Assigning a new string to a <code>std::string_view</code> causes the
+  <code>std::string_view</code> to view the new string. It does not modify the
+  prior string being viewed in any way.
+</p>
+<div class="code-block code-block-5" style="margin: 8px 0; clear: both"></div>
+<p>The following example illustrates this:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;string&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;string_view&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-162-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-162-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-165-close">{</span>
+    std<span class="token double-colon punctuation">::</span>string name <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-163-close">{</span> <span class="token string">"Alex"</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-163-open">}</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>string_view sv <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-164-close">{</span> name <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-164-open">}</span><span class="token punctuation">;</span> <span class="token comment">// sv is now viewing name</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> sv <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span> <span class="token comment">// prints Alex</span>
+
+    sv <span class="token operator">=</span> <span class="token string">"John"</span><span class="token punctuation">;</span> <span class="token comment">// sv is now viewing "John" (does not change name)</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> sv <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span> <span class="token comment">// prints John</span>
+
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> name <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span> <span class="token comment">// prints Alex</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-165-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  In the above example, <code>sv = "John"</code> causes <code>sv</code> to now
+  view the string <code>"John"</code>. It does not change the value held by
+  <code>name</code> (which is still <code>"Alex"</code>).
+</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Literals for <code>std::string_view</code>
+</p>
+<p>
+  Double-quoted string literals are C-style string literals by default. We can
+  create string literals with type <code>std::string_view</code> by using a
+  <code>sv</code> suffix after the double-quoted string literal. The
+  <code>sv</code> must be lower case.
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;string&gt;</span>      <span class="token comment">// for std::string</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;string_view&gt;</span> <span class="token comment">// for std::string_view</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-166-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-166-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-167-close">{</span>
+    <span class="token keyword keyword-using">using</span> <span class="token keyword keyword-namespace">namespace</span> std<span class="token double-colon punctuation">::</span>string_literals<span class="token punctuation">;</span>      <span class="token comment">// access the s suffix</span>
+    <span class="token keyword keyword-using">using</span> <span class="token keyword keyword-namespace">namespace</span> std<span class="token double-colon punctuation">::</span>string_view_literals<span class="token punctuation">;</span> <span class="token comment">// access the sv suffix</span>
+
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"foo\n"</span><span class="token punctuation">;</span>   <span class="token comment">// no suffix is a C-style string literal</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"goo\n"</span>s<span class="token punctuation">;</span>  <span class="token comment">// s suffix is a std::string literal</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"moo\n"</span>sv<span class="token punctuation">;</span> <span class="token comment">// sv suffix is a std::string_view literal</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-167-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<div class="cpp-note cpp-lightgraybackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Related content</p>
+  <p>
+    We discuss this use of <code>using namespace</code> in lesson
+    <a href="https://www.learncpp.com/cpp-tutorial/introduction-to-stdstring/"
+      >5.7 -- Introduction to std::string</a
+    >. The same advice applies here.
+  </p>
+</div>
+<p>
+  It’s fine to initialize a <code>std::string_view</code> object with a C-style
+  string literal (you don’t need to initialize it with a
+  <code>std::string_view</code> literal).
+</p>
+<p>
+  That said, initializing a <code>std::string_view</code> using a
+  <code>std::string_view</code> literal won’t cause problems (as such literals
+  are actually C-style string literals in disguise).
+</p>
+<div class="code-block code-block-6" style="margin: 8px 0; clear: both"></div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  constexpr <code>std::string_view</code>
+</p>
+<p>
+  Unlike <code>std::string</code>, <code>std::string_view</code> has full
+  support for constexpr:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;string_view&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-168-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-168-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-170-close">{</span>
+    <span class="token keyword keyword-constexpr">constexpr</span> std<span class="token double-colon punctuation">::</span>string_view s<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-169-close">{</span> <span class="token string">"Hello, world!"</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-169-open">}</span><span class="token punctuation">;</span> <span class="token comment">// s is a string symbolic constant</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> s <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span> <span class="token comment">// s will be replaced with "Hello, world!" at compile-time</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-170-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  This makes <code>constexpr std::string_view</code> the preferred choice when
+  string symbolic constants are needed.
+</p>
+<p>
+  We will continue discussing <code>std::string_view</code> in the next lesson.
+</p>
+<div class="prevnext">
+  <div class="prevnext-inline">
+    <a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/stdstring_view-part-2/"
+      ><div class="nav-button nav-button-next">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-right" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Next lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">5.9</span>std::string_view
+            (part 2)
+          </div>
+        </div>
+      </div></a
+    ><a class="nav-link" href="/"
+      ><div class="nav-button nav-button-index">
+        <div class="nav-button-icon">
+          <i class="fa fa-home" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Back to table of contents</div>
+        </div>
+      </div></a
+    ><a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/introduction-to-stdstring/"
+      ><div class="nav-button nav-button-prev">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-left" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Previous lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">5.7</span>Introduction to
+            std::string
+          </div>
+        </div>
+      </div></a
+    >
+  </div>
+</div>
+<div class="code-block code-block-10" style="margin: 8px 0; clear: both"></div>

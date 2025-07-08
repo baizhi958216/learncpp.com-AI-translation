@@ -1,0 +1,531 @@
+<div
+  class="code-block code-block-1"
+  style="margin: 8px 8px 8px 0; float: left"
+></div>
+<p>
+  In some applications, certain symbolic constants may need to be used
+  throughout your code (not just in one location). These can include physics or
+  mathematical constants that don’t change (e.g. pi or Avogadro’s number), or
+  application-specific “tuning” values (e.g. friction or gravity coefficients).
+  Instead of redefining these constants in every file that needs them (a
+  violation of the “Don’t Repeat Yourself” rule), it’s better to declare them
+  once in a central location and use them wherever needed. That way, if you ever
+  need to change them, you only need to change them in one place, and those
+  changes can be propagated out.
+</p>
+<p>This lesson discusses the most common ways to do this.</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Global constants as internal variables
+</p>
+<p>Prior to C++17, the following is the easiest and most common solution:</p>
+<ol start="1">
+  <li>Create a header file to hold these constants</li>
+  <li>
+    Inside this header file, define a namespace (discussed in lesson
+    <a
+      href="https://www.learncpp.com/cpp-tutorial/user-defined-namespaces-and-the-scope-resolution-operator/"
+      >7.2 -- User-defined namespaces and the scope resolution operator</a
+    >)
+  </li>
+  <li>
+    Add all your constants inside the namespace (make sure they’re
+    <em>constexpr</em>)
+  </li>
+  <li>#include the header file wherever you need it</li>
+</ol>
+<p>For example:</p>
+<p>constants.h:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">ifndef</span> <span class="token expression">CONSTANTS_H</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">CONSTANTS_H</span></span>
+
+<span class="token comment">// Define your own namespace to hold constants</span>
+<span class="token keyword keyword-namespace">namespace</span> constants
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-47-close">{</span>
+    <span class="token comment">// Global constants have internal linkage by default</span>
+    <span class="token keyword keyword-constexpr">constexpr</span> <span class="token keyword keyword-double">double</span> pi <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-44-close">{</span> <span class="token number">3.14159</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-44-open">}</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-constexpr">constexpr</span> <span class="token keyword keyword-double">double</span> avogadro <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-45-close">{</span> <span class="token number">6.0221413e23</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-45-open">}</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-constexpr">constexpr</span> <span class="token keyword keyword-double">double</span> myGravity <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-46-close">{</span> <span class="token number">9.2</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-46-open">}</span><span class="token punctuation">;</span> <span class="token comment">// m/s^2 -- gravity is light on this planet</span>
+    <span class="token comment">// ... other related constants</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-47-open">}</span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">endif</span></span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  Then use the scope resolution operator (::) with the namespace name to the
+  left, and your variable name to the right in order to access your constants in
+  .cpp files:
+</p>
+<div class="code-block code-block-2" style="margin: 8px 0; clear: both"></div>
+<p>main.cpp:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">"constants.h"</span> <span class="token comment">// include a copy of each constant in this file</span></span>
+
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-48-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-48-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-50-close">{</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Enter a radius: "</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-double">double</span> radius<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-49-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-49-open">}</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>cin <span class="token operator">&gt;&gt;</span> radius<span class="token punctuation">;</span>
+
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"The circumference is: "</span> <span class="token operator">&lt;&lt;</span> <span class="token number">2</span> <span class="token operator">*</span> radius <span class="token operator">*</span> constants<span class="token double-colon punctuation">::</span>pi <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-50-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  When this header gets #included into a .cpp file, each of these variables
+  defined in the header will be copied into that code file at the point of
+  inclusion. Because these variables live outside of a function, they’re treated
+  as global variables within the file they are included into, which is why you
+  can use them anywhere in that file.
+</p>
+<p>
+  Because const globals have internal linkage, each .cpp file gets an
+  independent version of the global variable that the linker can’t see. In most
+  cases, because these are constexpr, the compiler will simply optimize the
+  variables away.
+</p>
+<p>
+  While this is simple (and fine for smaller programs), every time
+  <em>constants.h</em> gets #included into a different code file, each of these
+  variables is copied into the including code file. Therefore, if constants.h
+  gets included into 20 different code files, each of these variables is
+  duplicated 20 times. Header guards won’t stop this from happening, as they
+  only prevent a header from being included more than once into a single
+  including file, not from being included one time into multiple different code
+  files. This introduces two challenges:
+</p>
+<ol start="1">
+  <li>
+    Changing a single constant value would require recompiling every file that
+    includes the constants header, which can lead to lengthy rebuild times for
+    larger projects.
+  </li>
+  <li>
+    If the constants are large in size and can’t be optimized away, this can use
+    a lot of memory.
+  </li>
+</ol>
+<p>Advantages:</p>
+<ul>
+  <li>Works prior to C++17.</li>
+  <li>
+    Can be used in constant expressions in any translation unit that includes
+    them.
+  </li>
+</ul>
+<p>Downsides:</p>
+<ul>
+  <li>
+    Changing anything in the header file requires recompiling files including
+    the header.
+  </li>
+  <li>
+    Each translation unit including the header gets its own copy of the
+    variable.
+  </li>
+</ul>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Global constants as external variables
+</p>
+<p>
+  If you’re actively changing values or adding new constants, the prior solution
+  might be problematic, at least until things settle.
+</p>
+<div class="code-block code-block-3" style="margin: 8px 0; clear: both"></div>
+<p>
+  One way to avoid these problems is by turning these constants into external
+  variables, since we can then have a single variable (initialized once) that is
+  shared across all files. In this method, we’ll define the constants in a .cpp
+  file (to ensure the definitions only exist in one place), and put forward
+  declarations in the header (which will be included by other files).
+</p>
+<p>constants.cpp:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">"constants.h"</span></span>
+
+<span class="token keyword keyword-namespace">namespace</span> constants
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-54-close">{</span>
+    <span class="token comment">// We use extern to ensure these have external linkage</span>
+    <span class="token keyword keyword-extern">extern</span> <span class="token keyword keyword-constexpr">constexpr</span> <span class="token keyword keyword-double">double</span> pi <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-51-close">{</span> <span class="token number">3.14159</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-51-open">}</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-extern">extern</span> <span class="token keyword keyword-constexpr">constexpr</span> <span class="token keyword keyword-double">double</span> avogadro <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-52-close">{</span> <span class="token number">6.0221413e23</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-52-open">}</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-extern">extern</span> <span class="token keyword keyword-constexpr">constexpr</span> <span class="token keyword keyword-double">double</span> myGravity <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-53-close">{</span> <span class="token number">9.2</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-53-open">}</span><span class="token punctuation">;</span> <span class="token comment">// m/s^2 -- gravity is light on this planet</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-54-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>constants.h:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">ifndef</span> <span class="token expression">CONSTANTS_H</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">CONSTANTS_H</span></span>
+
+<span class="token keyword keyword-namespace">namespace</span> constants
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-55-close">{</span>
+    <span class="token comment">// Since the actual variables are inside a namespace, the forward declarations need to be inside a namespace as well</span>
+    <span class="token comment">// We can't forward declare variables as constexpr, but we can forward declare them as (runtime) const</span>
+    <span class="token keyword keyword-extern">extern</span> <span class="token keyword keyword-const">const</span> <span class="token keyword keyword-double">double</span> pi<span class="token punctuation">;</span>
+    <span class="token keyword keyword-extern">extern</span> <span class="token keyword keyword-const">const</span> <span class="token keyword keyword-double">double</span> avogadro<span class="token punctuation">;</span>
+    <span class="token keyword keyword-extern">extern</span> <span class="token keyword keyword-const">const</span> <span class="token keyword keyword-double">double</span> myGravity<span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-55-open">}</span>
+
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">endif</span></span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>Use in the code file stays the same:</p>
+<p>main.cpp:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">"constants.h"</span> <span class="token comment">// include all the forward declarations</span></span>
+
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-56-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-56-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-58-close">{</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Enter a radius: "</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-double">double</span> radius<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-57-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-57-open">}</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>cin <span class="token operator">&gt;&gt;</span> radius<span class="token punctuation">;</span>
+
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"The circumference is: "</span> <span class="token operator">&lt;&lt;</span> <span class="token number">2</span> <span class="token operator">*</span> radius <span class="token operator">*</span> constants<span class="token double-colon punctuation">::</span>pi <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-58-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  Now the symbolic constants will get instantiated only once (in
+  <em>constants.cpp</em>) instead of in each code file where
+  <em>constants.h</em> is #included, and all uses of these constants will be
+  linked to the version instantiated in <em>constants.cpp</em>. Any changes made
+  to <em>constants.cpp</em> will require recompiling only
+  <em>constants.cpp</em>.
+</p>
+<p>
+  However, there are a couple of downsides to this method. First, because only
+  the variable definitions are constexpr (the forward declarations aren’t, and
+  can’t be), these constants are constant expressions only within the file they
+  are actually defined in (<em>constants.cpp</em>). In other files, the compiler
+  will only see the forward declaration, which doesn’t define a constexpr value
+  (and must be resolved by the linker). This means outside of the file where
+  they are defined, these variables can’t be used in a constant expression.
+  Second, because constant expressions can typically be optimized more than
+  runtime expressions, the compiler may not be able to optimize these as much.
+</p>
+<div class="cpp-note cpp-lightbluebackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Key insight</p>
+  <p>
+    In order for variables to be usable in compile-time contexts, such as array
+    sizes, the compiler has to see the variable’s definition (not just a forward
+    declaration).
+  </p>
+</div>
+<p>
+  Because the compiler compiles each source file individually, it can only see
+  variable definitions that appear in the source file being compiled (which
+  includes any included headers). For example, variable definitions in
+  <em>constants.cpp</em> are not visible when the compiler compiles
+  <em>main.cpp</em>. For this reason, constexpr variables cannot be separated
+  into header and source file, they have to be defined in the header file.
+</p>
+<div class="code-block code-block-4" style="margin: 8px 0; clear: both"></div>
+<p>
+  Given the above downsides, prefer defining your constants in a header file
+  (either per the prior section, or per the next section). If you find that the
+  values for your constants are changing a lot (e.g. because you are tuning the
+  program) and this is leading to long compilation times, you can temporarily
+  move just the offending constants into a .cpp file (using this method) as
+  needed.
+</p>
+<p>Advantages:</p>
+<ul>
+  <li>Works prior to C++17.</li>
+  <li>Only one copy of each variable is required.</li>
+  <li>
+    Only requires recompilation of one file if the value of a constant changes.
+  </li>
+</ul>
+<p>Disadvantages:</p>
+<ul>
+  <li>
+    Forward declarations and variable definitions are in separate files, and
+    must be kept in sync.
+  </li>
+  <li>
+    Variables not usable in constant expressions outside of the file in which
+    they are defined.
+  </li>
+</ul>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Global constants as inline variables
+  <span class="cpp-section-pill cpp-section-standard">C++17</span>
+</p>
+<p>
+  In lesson
+  <a
+    href="https://www.learncpp.com/cpp-tutorial/inline-functions-and-variables/"
+    >7.9 -- Inline functions and variables</a
+  >, we covered inline variables, which are variables that can have more than
+  one definition, so long as those definitions are identical. By making our
+  constexpr variables inline, we can define them in a header file and then
+  #include them into any .cpp file that requires them. This avoids both ODR
+  violations and the downside of duplicated variables.
+</p>
+<div class="cpp-note cpp-lightgraybackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">A reminder</p>
+  <p>
+    Constexpr functions are implicitly inline, but constexpr variables are not
+    implicitly inline. If you want an inline constexpr variable, you must
+    explicitly mark it as <code>inline</code>.
+  </p>
+</div>
+<div class="cpp-note cpp-lightbluebackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Key insight</p>
+  <p>
+    Inline variables have external linkage by default, so that they are visible
+    to the linker. This is necessary so the linker can de-duplicate the
+    definitions.
+  </p>
+  <p>
+    Non-inline constexpr variables have internal linkage. If included into
+    multiple translation units, each translation unit will get its own copy of
+    the variable. This is not an ODR violation because they are not exposed to
+    the linker.
+  </p>
+</div>
+<p>constants.h:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">ifndef</span> <span class="token expression">CONSTANTS_H</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">CONSTANTS_H</span></span>
+
+<span class="token comment">// define your own namespace to hold constants</span>
+<span class="token keyword keyword-namespace">namespace</span> constants
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-62-close">{</span>
+    <span class="token keyword keyword-inline">inline</span> <span class="token keyword keyword-constexpr">constexpr</span> <span class="token keyword keyword-double">double</span> pi <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-59-close">{</span> <span class="token number">3.14159</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-59-open">}</span><span class="token punctuation">;</span> <span class="token comment">// note: now inline constexpr</span>
+    <span class="token keyword keyword-inline">inline</span> <span class="token keyword keyword-constexpr">constexpr</span> <span class="token keyword keyword-double">double</span> avogadro <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-60-close">{</span> <span class="token number">6.0221413e23</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-60-open">}</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-inline">inline</span> <span class="token keyword keyword-constexpr">constexpr</span> <span class="token keyword keyword-double">double</span> myGravity <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-61-close">{</span> <span class="token number">9.2</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-61-open">}</span><span class="token punctuation">;</span> <span class="token comment">// m/s^2 -- gravity is light on this planet</span>
+    <span class="token comment">// ... other related constants</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-62-open">}</span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">endif</span></span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>main.cpp:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">"constants.h"</span></span>
+
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-63-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-63-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-65-close">{</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Enter a radius: "</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-double">double</span> radius<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-64-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-64-open">}</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>cin <span class="token operator">&gt;&gt;</span> radius<span class="token punctuation">;</span>
+
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"The circumference is: "</span> <span class="token operator">&lt;&lt;</span> <span class="token number">2</span> <span class="token operator">*</span> radius <span class="token operator">*</span> constants<span class="token double-colon punctuation">::</span>pi <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-65-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  We can include <code>constants.h</code> into as many code files as we want,
+  but these variables will only be instantiated once and shared across all code
+  files.
+</p>
+<div class="code-block code-block-5" style="margin: 8px 0; clear: both"></div>
+<p>
+  This method does retain the downside of requiring every file that includes the
+  constants header be recompiled if any constant value is changed.
+</p>
+<p>Advantages:</p>
+<ul>
+  <li>
+    Can be used in constant expressions in any translation unit that includes
+    them.
+  </li>
+  <li>Only one copy of each variable is required.</li>
+</ul>
+<p>Downsides:</p>
+<ul>
+  <li>Only works in C++17 onward.</li>
+  <li>
+    Changing anything in the header file requires recompiling files including
+    the header.
+  </li>
+</ul>
+<div class="cpp-note cpp-lightgreenbackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Best practice</p>
+  <p>
+    If you need global constants and your compiler is C++17 capable, prefer
+    defining inline constexpr global variables in a header file.
+  </p>
+</div>
+<div class="cpp-note cpp-lightgraybackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">A reminder</p>
+  <p>
+    Use <code>std::string_view</code> for <code>constexpr</code> strings. We
+    cover this in lesson
+    <a
+      href="https://www.learncpp.com/cpp-tutorial/introduction-to-stdstring_view/"
+      >5.8 -- Introduction to std::string_view</a
+    >.
+  </p>
+</div>
+<div class="cpp-note cpp-lightgraybackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Related content</p>
+  <p>
+    We summarize the scope, duration, and linkage of various kinds of variables
+    in lesson
+    <a
+      href="https://www.learncpp.com/cpp-tutorial/scope-duration-and-linkage-summary/"
+      >7.12 -- Scope, duration, and linkage summary</a
+    >.
+  </p>
+</div>
+<div class="prevnext">
+  <div class="prevnext-inline">
+    <a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/static-local-variables/"
+      ><div class="nav-button nav-button-next">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-right" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Next lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">7.11</span>Static local
+            variables
+          </div>
+        </div>
+      </div></a
+    ><a class="nav-link" href="/"
+      ><div class="nav-button nav-button-index">
+        <div class="nav-button-icon">
+          <i class="fa fa-home" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Back to table of contents</div>
+        </div>
+      </div></a
+    ><a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/inline-functions-and-variables/"
+      ><div class="nav-button nav-button-prev">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-left" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Previous lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">7.9</span>Inline functions
+            and variables
+          </div>
+        </div>
+      </div></a
+    >
+  </div>
+</div>
+<div class="code-block code-block-10" style="margin: 8px 0; clear: both"></div>

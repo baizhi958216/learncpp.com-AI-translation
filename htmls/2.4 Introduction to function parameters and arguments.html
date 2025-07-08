@@ -1,0 +1,1083 @@
+<div
+  class="code-block code-block-1"
+  style="margin: 8px 8px 8px 0; float: left"
+></div>
+<p>
+  In the previous lesson, we learned that we could have a function return a
+  value back to the function’s caller. We used that to create a modular
+  <em>getValueFromUser</em> function that we used in this program:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">getValueFromUser</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-318-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-318-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-322-close">{</span>
+ 	std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Enter an integer: "</span><span class="token punctuation">;</span>
+	<span class="token keyword keyword-int">int</span> input<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-321-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-321-open">}</span><span class="token punctuation">;</span>
+	std<span class="token double-colon punctuation">::</span>cin <span class="token operator">&gt;&gt;</span> input<span class="token punctuation">;</span>
+
+	<span class="token keyword keyword-return">return</span> input<span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-322-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-319-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-319-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-324-close">{</span>
+	<span class="token keyword keyword-int">int</span> num <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-323-close">{</span> <span class="token function">getValueFromUser</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-320-close">(</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-320-open">)</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-323-open">}</span><span class="token punctuation">;</span>
+
+	std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> num <span class="token operator">&lt;&lt;</span> <span class="token string">" doubled is: "</span> <span class="token operator">&lt;&lt;</span> num <span class="token operator">*</span> <span class="token number">2</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+	<span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-324-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  However, what if we wanted to put the output line into its own function as
+  well? You might try something like this:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">getValueFromUser</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-325-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-325-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-331-close">{</span>
+ 	std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Enter an integer: "</span><span class="token punctuation">;</span>
+	<span class="token keyword keyword-int">int</span> input<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-330-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-330-open">}</span><span class="token punctuation">;</span>
+	std<span class="token double-colon punctuation">::</span>cin <span class="token operator">&gt;&gt;</span> input<span class="token punctuation">;</span>
+
+	<span class="token keyword keyword-return">return</span> input<span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-331-open">}</span>
+
+<span class="token comment">// This function won't compile</span>
+<span class="token keyword keyword-void">void</span> <span class="token function">printDouble</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-326-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-326-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-332-close">{</span>
+	std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> num <span class="token operator">&lt;&lt;</span> <span class="token string">" doubled is: "</span> <span class="token operator">&lt;&lt;</span> num <span class="token operator">*</span> <span class="token number">2</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-332-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-327-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-327-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-334-close">{</span>
+	<span class="token keyword keyword-int">int</span> num <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-333-close">{</span> <span class="token function">getValueFromUser</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-328-close">(</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-328-open">)</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-333-open">}</span><span class="token punctuation">;</span>
+
+	<span class="token function">printDouble</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-329-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-329-open">)</span><span class="token punctuation">;</span>
+
+	<span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-334-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  This won’t compile, because function <em>printDouble</em> doesn’t know what
+  identifier <em>num</em> is. You might try defining num as a variable inside
+  function printDouble():
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-void">void</span> <span class="token function">printDouble</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-335-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-335-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-337-close">{</span>
+	<span class="token keyword keyword-int">int</span> num<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-336-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-336-open">}</span><span class="token punctuation">;</span> <span class="token comment">// we added this line</span>
+	std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> num <span class="token operator">&lt;&lt;</span> <span class="token string">" doubled is: "</span> <span class="token operator">&lt;&lt;</span> num <span class="token operator">*</span> <span class="token number">2</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-337-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  While this addresses the compiler error and makes the program compile-able,
+  the program still doesn’t work correctly (it always prints “0 doubled is: 0”).
+  The core of the problem here is that function <em>printDouble</em> doesn’t
+  have a way to access the value the user entered.
+</p>
+<p>
+  We need some way to pass the value of variable <em>num</em> to function
+  <em>printDouble</em> so that <em>printDouble</em> can use that value in the
+  function body.
+</p>
+<div class="code-block code-block-2" style="margin: 8px 0; clear: both"></div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Function parameters and arguments
+</p>
+<p>
+  In many cases, it is useful to be able to pass information <em>to</em> a
+  function being called, so that the function has data to work with. For
+  example, if we wanted to write a function to add two numbers, we need some way
+  to tell the function which two numbers to add when we call it. Otherwise, how
+  would the function know what to add? We do that via function parameters and
+  arguments.
+</p>
+<p>
+  A <strong>function parameter</strong> is a variable used in the header of a
+  function. Function parameters work almost identically to variables defined
+  inside the function, but with one difference: they are initialized with a
+  value provided by the caller of the function.
+</p>
+<p>
+  Function parameters are defined in the function header by placing them in
+  between the parenthesis after the function name, with multiple parameters
+  being separated by commas.
+</p>
+<p>Here are some examples of functions with different numbers of parameters:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token comment">// This function takes no parameters</span>
+<span class="token comment">// It does not rely on the caller for anything</span>
+<span class="token keyword keyword-void">void</span> <span class="token function">doPrint</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-338-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-338-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-341-close">{</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"In doPrint()\n"</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-341-open">}</span>
+
+<span class="token comment">// This function takes one integer parameter named x</span>
+<span class="token comment">// The caller will supply the value of x</span>
+<span class="token keyword keyword-void">void</span> <span class="token function">printValue</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-339-close">(</span><span class="token keyword keyword-int">int</span> x<span class="token punctuation brace-round brace-close brace-level-1" id="pair-339-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-342-close">{</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> x <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-342-open">}</span>
+
+<span class="token comment">// This function has two integer parameters, one named x, and one named y</span>
+<span class="token comment">// The caller will supply the value of both x and y</span>
+<span class="token keyword keyword-int">int</span> <span class="token function">add</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-340-close">(</span><span class="token keyword keyword-int">int</span> x<span class="token punctuation">,</span> <span class="token keyword keyword-int">int</span> y<span class="token punctuation brace-round brace-close brace-level-1" id="pair-340-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-343-close">{</span>
+    <span class="token keyword keyword-return">return</span> x <span class="token operator">+</span> y<span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-343-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  An <strong>argument</strong> is a value that is passed <em>from</em> the
+  caller <em>to</em> the function when a function call is made:
+</p>
+<div class="code-block code-block-3" style="margin: 8px 0; clear: both"></div>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token function">doPrint</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-344-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-344-open">)</span><span class="token punctuation">;</span> <span class="token comment">// this call has no arguments</span>
+<span class="token function">printValue</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-345-close">(</span><span class="token number">6</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-345-open">)</span><span class="token punctuation">;</span> <span class="token comment">// 6 is the argument passed to function printValue()</span>
+<span class="token function">add</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-346-close">(</span><span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-346-open">)</span><span class="token punctuation">;</span> <span class="token comment">// 2 and 3 are the arguments passed to function add()</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>Note that multiple arguments are also separated by commas.</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  How parameters and arguments work together
+</p>
+<p>
+  When a function is called, all of the parameters of the function are created
+  as variables, and the value of each of the arguments is <em>copied</em> into
+  the matching parameter (using copy initialization). This process is called
+  <strong>pass by value</strong>. Function parameters that utilize pass by value
+  are called <strong>value parameters</strong>.
+</p>
+<p>For example:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token comment">// This function has two integer parameters, one named x, and one named y</span>
+<span class="token comment">// The values of x and y are passed in by the caller</span>
+<span class="token keyword keyword-void">void</span> <span class="token function">printValues</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-347-close">(</span><span class="token keyword keyword-int">int</span> x<span class="token punctuation">,</span> <span class="token keyword keyword-int">int</span> y<span class="token punctuation brace-round brace-close brace-level-1" id="pair-347-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-350-close">{</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> x <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> y <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-350-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-348-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-348-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-351-close">{</span>
+    <span class="token function">printValues</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-349-close">(</span><span class="token number">6</span><span class="token punctuation">,</span> <span class="token number">7</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-349-open">)</span><span class="token punctuation">;</span> <span class="token comment">// This function call has two arguments, 6 and 7</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-351-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  When function <em>printValues</em> is called with arguments <em>6</em> and
+  <em>7</em>, <em>printValues</em>‘s parameter <em>x</em> is created and
+  initialized with the value of <em>6</em>, and <em>printValues</em>‘s parameter
+  <em>y</em> is created and initialized with the value of <em>7</em>.
+</p>
+<p>This results in the output:</p>
+<div class="code-block code-block-4" style="margin: 8px 0; clear: both"></div>
+<pre>
+6
+7
+</pre>
+<p>
+  Note that the number of arguments must generally match the number of function
+  parameters, or the compiler will throw an error. The argument passed to a
+  function can be any valid expression (as the argument is essentially just an
+  initializer for the parameter, and initializers can be any valid expression).
+</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Fixing our challenge program
+</p>
+<p>
+  We now have the tool we need to fix the program we presented at the top of the
+  lesson:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">getValueFromUser</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-352-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-352-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-358-close">{</span>
+ 	std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Enter an integer: "</span><span class="token punctuation">;</span>
+	<span class="token keyword keyword-int">int</span> input<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-357-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-357-open">}</span><span class="token punctuation">;</span>
+	std<span class="token double-colon punctuation">::</span>cin <span class="token operator">&gt;&gt;</span> input<span class="token punctuation">;</span>
+
+	<span class="token keyword keyword-return">return</span> input<span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-358-open">}</span>
+
+<span class="token keyword keyword-void">void</span> <span class="token function">printDouble</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-353-close">(</span><span class="token keyword keyword-int">int</span> value<span class="token punctuation brace-round brace-close brace-level-1" id="pair-353-open">)</span> <span class="token comment">// This function now has an integer parameter</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-359-close">{</span>
+	std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> value <span class="token operator">&lt;&lt;</span> <span class="token string">" doubled is: "</span> <span class="token operator">&lt;&lt;</span> value <span class="token operator">*</span> <span class="token number">2</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-359-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-354-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-354-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-361-close">{</span>
+	<span class="token keyword keyword-int">int</span> num <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-360-close">{</span> <span class="token function">getValueFromUser</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-355-close">(</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-355-open">)</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-360-open">}</span><span class="token punctuation">;</span>
+
+	<span class="token function">printDouble</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-356-close">(</span>num<span class="token punctuation brace-round brace-close brace-level-2" id="pair-356-open">)</span><span class="token punctuation">;</span>
+
+	<span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-361-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  In this program, variable <em>num</em> is first initialized with the value
+  entered by the user. Then, function <em>printDouble</em> is called, and the
+  value of argument <em>num</em> is copied into the <em>value</em> parameter of
+  function <em>printDouble</em>. Function <em>printDouble</em> then uses the
+  value of parameter <em>value</em>.
+</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Using return values as arguments
+</p>
+<p>
+  In the above problem, we can see that variable <em>num</em> is only used once,
+  to transport the return value of function <em>getValueFromUser</em> to the
+  argument of the call to function <em>printDouble</em>.
+</p>
+<div class="code-block code-block-5" style="margin: 8px 0; clear: both"></div>
+<p>We can simplify the above example slightly as follows:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">getValueFromUser</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-362-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-362-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-368-close">{</span>
+ 	std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Enter an integer: "</span><span class="token punctuation">;</span>
+	<span class="token keyword keyword-int">int</span> input<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-367-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-367-open">}</span><span class="token punctuation">;</span>
+	std<span class="token double-colon punctuation">::</span>cin <span class="token operator">&gt;&gt;</span> input<span class="token punctuation">;</span>
+
+	<span class="token keyword keyword-return">return</span> input<span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-368-open">}</span>
+
+<span class="token keyword keyword-void">void</span> <span class="token function">printDouble</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-363-close">(</span><span class="token keyword keyword-int">int</span> value<span class="token punctuation brace-round brace-close brace-level-1" id="pair-363-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-369-close">{</span>
+	std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> value <span class="token operator">&lt;&lt;</span> <span class="token string">" doubled is: "</span> <span class="token operator">&lt;&lt;</span> value <span class="token operator">*</span> <span class="token number">2</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-369-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-364-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-364-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-370-close">{</span>
+	<span class="token function">printDouble</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-366-close">(</span><span class="token function">getValueFromUser</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-365-close">(</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-365-open">)</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-366-open">)</span><span class="token punctuation">;</span>
+
+	<span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-370-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  Now, we’re using the return value of function
+  <em>getValueFromUser</em> directly as an argument to function
+  <em>printDouble</em>!
+</p>
+<p>
+  Although this program is more concise (and makes it clear that the value read
+  by the user will be used for nothing else), you may also find this “compact
+  syntax” a bit hard to read. If you’re more comfortable sticking with the
+  version that uses the variable instead, that’s fine.
+</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  How parameters and return values work together
+</p>
+<p>
+  By using both parameters and a return value, we can create functions that take
+  data as input, do some calculation with it, and return the value to the
+  caller.
+</p>
+<div class="code-block code-block-6" style="margin: 8px 0; clear: both"></div>
+<p>
+  Here is an example of a very simple function that adds two numbers together
+  and returns the result to the caller:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token comment">// add() takes two integers as parameters, and returns the result of their sum</span>
+<span class="token comment">// The values of x and y are determined by the function that calls add()</span>
+<span class="token keyword keyword-int">int</span> <span class="token function">add</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-371-close">(</span><span class="token keyword keyword-int">int</span> x<span class="token punctuation">,</span> <span class="token keyword keyword-int">int</span> y<span class="token punctuation brace-round brace-close brace-level-1" id="pair-371-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-374-close">{</span>
+    <span class="token keyword keyword-return">return</span> x <span class="token operator">+</span> y<span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-374-open">}</span>
+
+<span class="token comment">// main takes no parameters</span>
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-372-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-372-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-375-close">{</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token function">add</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-373-close">(</span><span class="token number">4</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-373-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span> <span class="token comment">// Arguments 4 and 5 are passed to function add()</span>
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-375-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  Execution starts at the top of <em>main</em>. When <code>add(4, 5)</code> is
+  evaluated, function <em>add</em> is called, with parameter <em>x</em> being
+  initialized with value <em>4</em>, and parameter <em>y</em> being initialized
+  with value <em>5</em>.
+</p>
+<p>
+  The <em>return statement</em> in function <em>add</em> evaluates
+  <em>x + y</em> to produce the value <em>9</em>, which is then returned back to
+  <em>main</em>. This value of <em>9</em> is then sent to <em>std::cout</em> to
+  be printed on the console.
+</p>
+<p>Output:</p>
+<pre>
+9
+</pre>
+<p>In pictorial format:</p>
+<div class="cpp-image-wrapper">
+  <img
+    src="https://www.learncpp.com/images/CppTutorial/Chapter2/ParametersReturn.png"
+    alt=""
+  />
+</div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  More examples
+</p>
+<p>Let’s take a look at some more function calls:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">add</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-376-close">(</span><span class="token keyword keyword-int">int</span> x<span class="token punctuation">,</span> <span class="token keyword keyword-int">int</span> y<span class="token punctuation brace-round brace-close brace-level-1" id="pair-376-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-386-close">{</span>
+    <span class="token keyword keyword-return">return</span> x <span class="token operator">+</span> y<span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-386-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">multiply</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-377-close">(</span><span class="token keyword keyword-int">int</span> z<span class="token punctuation">,</span> <span class="token keyword keyword-int">int</span> w<span class="token punctuation brace-round brace-close brace-level-1" id="pair-377-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-387-close">{</span>
+    <span class="token keyword keyword-return">return</span> z <span class="token operator">*</span> w<span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-387-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-378-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-378-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-389-close">{</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token function">add</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-379-close">(</span><span class="token number">4</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-379-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span> <span class="token comment">// within add() x=4, y=5, so x+y=9</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token function">add</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-380-close">(</span><span class="token number">1</span> <span class="token operator">+</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span> <span class="token operator">*</span> <span class="token number">4</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-380-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span> <span class="token comment">// within add() x=3, y=12, so x+y=15</span>
+
+    <span class="token keyword keyword-int">int</span> a<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-388-close">{</span> <span class="token number">5</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-388-open">}</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token function">add</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-381-close">(</span>a<span class="token punctuation">,</span> a<span class="token punctuation brace-round brace-close brace-level-2" id="pair-381-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span> <span class="token comment">// evaluates (5 + 5)</span>
+
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token function">add</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-383-close">(</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token function">multiply</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-382-close">(</span><span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-382-open">)</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-383-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span> <span class="token comment">// evaluates 1 + (2 * 3)</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token function">add</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-385-close">(</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token function">add</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-384-close">(</span><span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-384-open">)</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-385-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span> <span class="token comment">// evaluates 1 + (2 + 3)</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-389-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>This program produces the output:</p>
+<div class="code-block code-block-7" style="margin: 8px 0; clear: both"></div>
+<pre>
+9
+15
+10
+7
+6
+</pre>
+<p>The first statement is straightforward.</p>
+<p>
+  In the second statement, the arguments are expressions that get evaluated
+  before being passed. In this case, <em>1 + 2</em> evaluates to <em>3</em>, so
+  <em>3</em> is copied to parameter <em>x</em>. <em>3 * 4</em> evaluates to
+  <em>12</em>, so <em>12</em> is copied to parameter <em>y</em>.
+  <em>add(3, 12)</em> resolves to <em>15</em>.
+</p>
+<p>The next pair of statements is relatively easy as well:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-int">int</span> a<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-391-close">{</span> <span class="token number">5</span> <span class="token punctuation brace-curly brace-close brace-level-1" id="pair-391-open">}</span><span class="token punctuation">;</span>
+std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token function">add</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-390-close">(</span>a<span class="token punctuation">,</span> a<span class="token punctuation brace-round brace-close brace-level-1" id="pair-390-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span> <span class="token comment">// evaluates (5 + 5)</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  In this case, <em>add()</em> is called where the value of <em>a</em> is copied
+  into both parameters <em>x</em> and <em>y</em>. Since <em>a</em> has value
+  <em>5</em>, <em>add(a, a)</em> = <em>add(5, 5)</em>, which resolves to value
+  <em>10</em>.
+</p>
+<p>Let’s take a look at the first tricky statement in the bunch:</p>
+<div class="code-block code-block-8" style="margin: 8px 0; clear: both"></div>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp">std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token function">add</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-393-close">(</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token function">multiply</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-392-close">(</span><span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-392-open">)</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-393-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span> <span class="token comment">// evaluates 1 + (2 * 3)</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  When the function <em>add</em> is executed, the program needs to determine
+  what the values for parameters <em>x</em> and <em>y</em> are. <em>x</em> is
+  simple since we just passed it the integer <em>1</em>. To get a value for
+  parameter <em>y</em>, it needs to evaluate <em>multiply(2, 3)</em> first. The
+  program calls <em>multiply</em> and initializes <em>z</em> = <em>2</em> and
+  <em>w</em> = <em>3</em>, so <em>multiply(2, 3)</em> returns the integer value
+  <em>6</em>. That return value of <em>6</em> can now be used to initialize the
+  <em>y</em> parameter of the <em>add</em> function. <em>add(1, 6)</em> returns
+  the integer <em>7</em>, which is then passed to std::cout for printing.
+</p>
+<p>
+  Put less verbosely:<br /><em>add(1, multiply(2, 3))</em> evaluates to
+  <em>add(1, 6)</em> evaluates to <em>7</em>
+</p>
+<p>
+  The following statement looks tricky because one of the arguments given to
+  <em>add</em> is another call to <em>add</em>.
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp">std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token function">add</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-395-close">(</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token function">add</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-394-close">(</span><span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-394-open">)</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-395-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span> <span class="token comment">// evaluates 1 + (2 + 3)</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  But this case works exactly the same as the prior case. add(2, 3) resolves
+  first, resulting in the return value of <em>5</em>. Now it can resolve add(1,
+  5), which evaluates to the value <em>6</em>, which is passed to std::cout for
+  printing.
+</p>
+<p>
+  Less verbosely:<br /><em>add(1, add(2, 3))</em> evaluates to
+  <em>add(1, 5)</em> =&gt; evaluates to <em>6</em>
+</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Unreferenced parameters and unnamed parameters
+</p>
+<p>
+  In certain cases, you will encounter functions that have parameters that are
+  not used in the body of the function. These are called
+  <strong>unreferenced parameters</strong>.
+</p>
+<p>As a trivial example:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-void">void</span> <span class="token function">doSomething</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-396-close">(</span><span class="token keyword keyword-int">int</span> count<span class="token punctuation brace-round brace-close brace-level-1" id="pair-396-open">)</span> <span class="token comment">// warning: unreferenced parameter count</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-399-close">{</span>
+    <span class="token comment">// This function used to do something with count but it is not used any longer</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-399-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-397-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-397-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-400-close">{</span>
+    <span class="token function">doSomething</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-398-close">(</span><span class="token number">4</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-398-open">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-400-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  Just like with unused local variables, your compiler will probably warn that
+  variable <code>count</code> has been defined but not used.
+</p>
+<p>
+  In a function definition, the name of a function parameter is optional.
+  Therefore, in cases where a function parameter needs to exist but is not used
+  in the body of the function, you can simply omit the name. A parameter without
+  a name is called an <strong>unnamed parameter</strong>:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-void">void</span> <span class="token function">doSomething</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-401-close">(</span><span class="token keyword keyword-int">int</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-401-open">)</span> <span class="token comment">// ok: unnamed parameter will not generate warning</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-402-close">{</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-402-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  The Google C++ style guide recommends using a comment to document what the
+  unnamed parameter was:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-void">void</span> <span class="token function">doSomething</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-403-close">(</span><span class="token keyword keyword-int">int</span> <span class="token comment">/*count*/</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-403-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-404-close">{</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-404-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<div class="cpp-note cpp-lightgraybackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Author’s note</p>
+  <p>
+    You’re probably wondering why we’d write a function that has a parameter
+    whose value isn’t used. This happens most often in cases similar to the
+    following:
+  </p>
+  <ol start="1">
+    <li>
+      Let’s say we have a function with a single parameter. Later, the function
+      is updated in some way, and the value of the parameter is no longer
+      needed. If the now-unused function parameter were simply removed, then
+      every existing call to the function would break (because the function call
+      would be supplying more arguments than the function could accept). This
+      would require us to find every call to the function and remove the
+      unneeded argument. This might be a lot of work (and require a lot of
+      retesting). It also might not even be possible (in cases where we did not
+      control all of the code calling the function). So instead, we might leave
+      the parameter as it is, and just have it do nothing.
+    </li>
+  </ol>
+</div>
+<div class="cpp-note cpp-lightgraybackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">For advanced readers</p>
+  <p>Other cases where this occurs:</p>
+  <ol start="2">
+    <li>
+      Operators <code>++</code> and <code>--</code> have prefix and postfix
+      variants (e.g. <code>++foo</code> vs <code>foo++</code>). An unreferenced
+      function parameter is used to differentiate whether an overload of such an
+      operator is for the prefix or postfix case. We cover this in lesson
+      <a
+        href="https://www.learncpp.com/cpp-tutorial/overloading-the-increment-and-decrement-operators/"
+        >21.8 -- Overloading the increment and decrement operators</a
+      >.
+    </li>
+    <li>
+      When we need to determine something from the type (rather than the value)
+      of a type template parameter.
+    </li>
+  </ol>
+</div>
+<div class="cpp-note cpp-lightgraybackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Author’s note</p>
+  <p>
+    If unnamed parameters still don’t make sense to you yet, don’t worry. We’ll
+    encounter them again in future lessons, when we have more context to explain
+    when they are useful.
+  </p>
+</div>
+<div class="cpp-note cpp-lightgreenbackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Best practice</p>
+  <p>
+    When a function parameter exists but is not used in the body of the
+    function, do not give it a name. You can optionally put a name inside a
+    comment.
+  </p>
+</div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Conclusion
+</p>
+<p>
+  Function parameters and return values are the key mechanisms by which
+  functions can be written in a reusable way, as it allows us to write functions
+  that can perform tasks and return retrieved or calculated results back to the
+  caller without knowing what the specific inputs or outputs are ahead of time.
+</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Quiz time
+</p>
+<div class="quiz" style="clear: both">
+  <p class="quiz-header">Question #1</p>
+  <p>What’s wrong with this program fragment?</p>
+  <div class="code-toolbar">
+    <pre
+      class="line-numbers language-cpp"
+      tabindex="0"
+    ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-void">void</span> <span class="token function">multiply</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-405-close">(</span><span class="token keyword keyword-int">int</span> x<span class="token punctuation">,</span> <span class="token keyword keyword-int">int</span> y<span class="token punctuation brace-round brace-close brace-level-1" id="pair-405-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-408-close">{</span>
+    <span class="token keyword keyword-return">return</span> x <span class="token operator">*</span> y<span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-408-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-406-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-406-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-409-close">{</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token function">multiply</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-407-close">(</span><span class="token number">4</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-407-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-409-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+    <div class="toolbar">
+      <div class="toolbar-item">
+        <button
+          class="copy-to-clipboard-button"
+          type="button"
+          data-copy-state="copy"
+        >
+          <span>Copy</span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <p>
+    <a
+      class="solution_link_show"
+      href="javascript:void(0)"
+      onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_0'),this,'Show Solution','Hide Solution')"
+      >Show Solution</a
+    >
+  </p>
+  <div class="wpsolution" id="cpp_solution_id_0" style="display: none">
+    multiply() has a return type of void, meaning it is a non-value returning
+    function. Since the function is trying to return a value (via a return
+    statement), this function will produce a compiler error. The return type
+    should be int.
+  </div>
+  <p></p>
+</div>
+<div class="quiz" style="clear: both">
+  <p class="quiz-header">Question #2</p>
+  <p>What two things are wrong with this program fragment?</p>
+  <div class="code-toolbar">
+    <pre
+      class="line-numbers language-cpp"
+      tabindex="0"
+    ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">multiply</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-410-close">(</span><span class="token keyword keyword-int">int</span> x<span class="token punctuation">,</span> <span class="token keyword keyword-int">int</span> y<span class="token punctuation brace-round brace-close brace-level-1" id="pair-410-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-414-close">{</span>
+    <span class="token keyword keyword-int">int</span> product <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-413-close">{</span> x <span class="token operator">*</span> y <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-413-open">}</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-414-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-411-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-411-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-415-close">{</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token function">multiply</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-412-close">(</span><span class="token number">4</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-412-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-415-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+    <div class="toolbar">
+      <div class="toolbar-item">
+        <button
+          class="copy-to-clipboard-button"
+          type="button"
+          data-copy-state="copy"
+        >
+          <span>Copy</span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <p>
+    <a
+      class="solution_link_show"
+      href="javascript:void(0)"
+      onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_1'),this,'Show Solution','Hide Solution')"
+      >Show Solution</a
+    >
+  </p>
+  <div class="wpsolution" id="cpp_solution_id_1" style="display: none">
+    Problem 1: main() passes one argument to multiply(), but multiply() requires
+    two arguments. Problem 2: multiply() doesn’t have a return statement.
+  </div>
+  <p></p>
+</div>
+<div class="quiz" style="clear: both">
+  <p class="quiz-header">Question #3</p>
+  <p>What value does the following program print?</p>
+  <div class="code-toolbar">
+    <pre
+      class="line-numbers language-cpp"
+      tabindex="0"
+    ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">add</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-416-close">(</span><span class="token keyword keyword-int">int</span> x<span class="token punctuation">,</span> <span class="token keyword keyword-int">int</span> y<span class="token punctuation">,</span> <span class="token keyword keyword-int">int</span> z<span class="token punctuation brace-round brace-close brace-level-1" id="pair-416-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-421-close">{</span>
+    <span class="token keyword keyword-return">return</span> x <span class="token operator">+</span> y <span class="token operator">+</span> z<span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-421-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">multiply</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-417-close">(</span><span class="token keyword keyword-int">int</span> x<span class="token punctuation">,</span> <span class="token keyword keyword-int">int</span> y<span class="token punctuation brace-round brace-close brace-level-1" id="pair-417-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-422-close">{</span>
+    <span class="token keyword keyword-return">return</span> x <span class="token operator">*</span> y<span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-422-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-418-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-418-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-423-close">{</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token function">multiply</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-420-close">(</span><span class="token function">add</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-419-close">(</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-419-open">)</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-420-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-423-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+    <div class="toolbar">
+      <div class="toolbar-item">
+        <button
+          class="copy-to-clipboard-button"
+          type="button"
+          data-copy-state="copy"
+        >
+          <span>Copy</span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <p>
+    <a
+      class="solution_link_show"
+      href="javascript:void(0)"
+      onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_2'),this,'Show Solution','Hide Solution')"
+      >Show Solution</a
+    >
+  </p>
+  <div class="wpsolution" id="cpp_solution_id_2" style="display: none">
+    multiply is called where x = add(1, 2, 3), and y = 4. First, the CPU
+    resolves x = add(1, 2, 3), which returns 1 + 2 + 3, or x = 6. multiply(6, 4)
+    = 24, which is the answer.
+  </div>
+  <p></p>
+</div>
+<div class="quiz" style="clear: both">
+  <p class="quiz-header">Question #4</p>
+  <p>
+    Write a function called doubleNumber() that takes one integer parameter. The
+    function should return double the value of the parameter.
+  </p>
+  <p>
+    <a
+      class="solution_link_show"
+      href="javascript:void(0)"
+      onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_3'),this,'Show Solution','Hide Solution')"
+      >Show Solution</a
+    >
+  </p>
+  <div class="wpsolution" id="cpp_solution_id_3" style="display: none">
+    <div class="code-toolbar">
+      <pre
+        class="line-numbers language-cpp"
+        tabindex="0"
+      ><code class="match-braces language-cpp"><span class="token keyword keyword-int">int</span> <span class="token function">doubleNumber</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-424-close">(</span><span class="token keyword keyword-int">int</span> x<span class="token punctuation brace-round brace-close brace-level-1" id="pair-424-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-425-close">{</span>
+    <span class="token keyword keyword-return">return</span> <span class="token number">2</span> <span class="token operator">*</span> x<span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-425-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+      <div class="toolbar">
+        <div class="toolbar-item">
+          <button
+            class="copy-to-clipboard-button"
+            type="button"
+            data-copy-state="copy"
+          >
+            <span>Copy</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="quiz" style="clear: both">
+  <p class="quiz-header">Question #5</p>
+  <ol start="5">
+    <li>
+      Write a complete program that reads an integer from the user, doubles it
+      using the doubleNumber() function you wrote in the previous quiz question,
+      and then prints the doubled value out to the console.
+    </li>
+  </ol>
+  <p>
+    <a
+      class="solution_link_show"
+      href="javascript:void(0)"
+      onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_4'),this,'Show Solution','Hide Solution')"
+      >Show Solution</a
+    >
+  </p>
+  <div class="wpsolution" id="cpp_solution_id_4" style="display: none">
+    <div class="code-toolbar">
+      <pre
+        class="line-numbers language-cpp"
+        tabindex="0"
+      ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">doubleNumber</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-426-close">(</span><span class="token keyword keyword-int">int</span> x<span class="token punctuation brace-round brace-close brace-level-1" id="pair-426-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-429-close">{</span>
+    <span class="token keyword keyword-return">return</span> <span class="token number">2</span> <span class="token operator">*</span> x<span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-429-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-427-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-427-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-431-close">{</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Enter an integer value: "</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-int">int</span> x<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-430-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-430-open">}</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>cin <span class="token operator">&gt;&gt;</span> x<span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token function">doubleNumber</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-428-close">(</span>x<span class="token punctuation brace-round brace-close brace-level-2" id="pair-428-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-431-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+      <div class="toolbar">
+        <div class="toolbar-item">
+          <button
+            class="copy-to-clipboard-button"
+            type="button"
+            data-copy-state="copy"
+          >
+            <span>Copy</span>
+          </button>
+        </div>
+      </div>
+    </div>
+    <p>
+      Note: You may come up with other (similar) solutions. There are often many
+      ways to do the same thing in C++.
+    </p>
+  </div>
+  <p></p>
+</div>
+<div class="prevnext">
+  <div class="prevnext-inline">
+    <a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/introduction-to-local-scope/"
+      ><div class="nav-button nav-button-next">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-right" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Next lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">2.5</span>Introduction to
+            local scope
+          </div>
+        </div>
+      </div></a
+    ><a class="nav-link" href="/"
+      ><div class="nav-button nav-button-index">
+        <div class="nav-button-icon">
+          <i class="fa fa-home" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Back to table of contents</div>
+        </div>
+      </div></a
+    ><a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/void-functions-non-value-returning-functions/"
+      ><div class="nav-button nav-button-prev">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-left" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Previous lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">2.3</span>Void functions
+            (non-value returning functions)
+          </div>
+        </div>
+      </div></a
+    >
+  </div>
+</div>
+<div class="code-block code-block-10" style="margin: 8px 0; clear: both"></div>

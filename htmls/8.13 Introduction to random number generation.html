@@ -1,0 +1,884 @@
+<div
+  class="code-block code-block-1"
+  style="margin: 8px 8px 8px 0; float: left"
+></div>
+<p>
+  The ability to generate random numbers can be useful in certain kinds of
+  programs, particularly in games, statistical modelling programs, and
+  cryptographic applications that need to encrypt and decrypt things. Take games
+  for example -- without random events, monsters would always attack you the
+  same way, you’d always find the same treasure, the dungeon layout would never
+  change, etc… and that would not make for a very good game.
+</p>
+<p>
+  In real life, we often produce randomization by doing things like flipping a
+  coin, rolling a dice, or shuffling a deck of cards. These events aren’t
+  actually random, but involve so many physical variables (e.g. gravity,
+  friction, air resistance, momentum, etc…) that they become almost impossible
+  to predict or control, and (unless you’re a magician) produce results that are
+  for all intents and purposes random.
+</p>
+<p>
+  However, computers aren’t designed to take advantage of physical variables --
+  your computer can’t toss a coin, throw a dice, or shuffle real cards. Modern
+  computers live in a controlled electrical world where everything is binary (0
+  or 1) and there is no in-between. By their very nature, computers are designed
+  to produce results that are as predictable as possible. When you tell the
+  computer to calculate 2 + 2, you <em>always</em> want the answer to be 4. Not
+  3 or 5 on occasion.
+</p>
+<p>
+  Consequently, computers are generally incapable of generating truly random
+  numbers (at least through software). Instead, modern programs typically
+  <em>simulate</em> randomness using an algorithm.
+</p>
+<p>
+  In this lesson, we’ll cover a lot of the theory behind how random numbers are
+  generated in programs, and introduce some terminology we’ll use in future
+  lessons.
+</p>
+<div class="code-block code-block-2" style="margin: 8px 0; clear: both"></div>
+
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Algorithms and state
+</p>
+<p>First, let’s take a detour through the concepts of algorithms and states.</p>
+<p>
+  An <strong>algorithm</strong> is a finite sequence of instructions that can be
+  followed to solve some problem or produce some useful result.
+</p>
+<p>
+  For example, let’s say your boss gives you a small text file containing a
+  bunch of unsorted names (one per line), and asks you to sort the list. Since
+  the list is small, and you don’t expect to do this often, you decide to sort
+  it by hand. There are multiple ways to sort a list, but you might do something
+  like this:
+</p>
+<ul>
+  <li>Create a new empty list to hold the sorted results</li>
+  <li>
+    Scan the list of unsorted names to find the name that comes first
+    alphabetically
+  </li>
+  <li>
+    Cut that name out of the unsorted list and paste it at the bottom of the
+    sorted list
+  </li>
+  <li>
+    Repeat the previous two steps until there are no more names on the unsorted
+    list
+  </li>
+</ul>
+<p>
+  The above set of steps describes a sorting algorithm (using natural language).
+  By nature, algorithms are reusable -- if your boss asks you to sort another
+  list tomorrow, you can just apply the same algorithm to the new list.
+</p>
+<p>
+  Because computers can execute instructions and manipulate data much more
+  quickly than we can, algorithms are often written using programming languages,
+  allowing us to automate tasks. In C++, algorithms are typically implemented as
+  reusable functions.
+</p>
+<div class="code-block code-block-3" style="margin: 8px 0; clear: both"></div>
+
+<p>
+  Here’s a simple algorithm for generating a sequence of numbers where each
+  successive number is incremented by 1:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">plusOne</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-68-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-68-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-74-close">{</span>
+    <span class="token keyword keyword-static">static</span> <span class="token keyword keyword-int">int</span> s_state <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-73-close">{</span> <span class="token number">3</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-73-open">}</span><span class="token punctuation">;</span> <span class="token comment">// only initialized the first time this function is called</span>
+
+    <span class="token comment">// Generate the next number</span>
+
+    <span class="token operator">++</span>s_state<span class="token punctuation">;</span>      <span class="token comment">// first we modify the state</span>
+    <span class="token keyword keyword-return">return</span> s_state<span class="token punctuation">;</span> <span class="token comment">// then we use the new state to generate the next number in the sequence</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-74-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-69-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-69-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-75-close">{</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token function">plusOne</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-70-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-70-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token function">plusOne</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-71-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-71-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token function">plusOne</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-72-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-72-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-75-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>This prints:</p>
+<pre>
+4
+5
+6
+</pre>
+<p>
+  This algorithm is pretty simple. The first time we call
+  <code>plusOne()</code>, <code>s_state</code> is initialized to value
+  <code>3</code>. Then the next number in the output sequence is generated and
+  returned.
+</p>
+<p>
+  An algorithm is considered to be <strong>stateful</strong> if it retains some
+  information across calls. Conversely, a <strong>stateless</strong> algorithm
+  does not store any information (and must be given all the information it needs
+  to work with whenever it is called). Our <code>plusOne()</code> function is
+  stateful, in that it uses the static variable <code>s_state</code> to store
+  the last number that was generated. When applied to algorithms, the term
+  <strong>state</strong> refers to the current values held in stateful variables
+  (those retained across calls).
+</p>
+<p>
+  To generate the next number in the sequence, our algorithm uses a two step
+  process:
+</p>
+<ul>
+  <li>
+    First, the current state (initialized from the start value, or preserved
+    from the prior call) is modified to produce a new state.
+  </li>
+  <li>
+    Then, the next number in the sequence is generated from the new state.
+  </li>
+</ul>
+<p>
+  Our algorithm is considered <strong>deterministic</strong>, meaning that for a
+  given input (the value provided for <code>start</code>), it will always
+  produce the same output sequence.
+</p>
+<div class="code-block code-block-4" style="margin: 8px 0; clear: both"></div>
+
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Pseudo-random number generators (PRNGs)
+</p>
+<p>
+  To simulate randomness, programs typically use a pseudo-random number
+  generator. A <strong>pseudo-random number generator (PRNG)</strong> is an
+  algorithm that generates a sequence of numbers whose properties simulate a
+  sequence of random numbers.
+</p>
+<p>
+  It’s easy to write a basic PRNG algorithm. Here’s a short PRNG example that
+  generates 100 16-bit pseudo-random numbers:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token comment">// For illustrative purposes only, don't use this</span>
+<span class="token keyword keyword-unsigned">unsigned</span> <span class="token keyword keyword-int">int</span> <span class="token function">LCG16</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-76-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-76-open">)</span> <span class="token comment">// our PRNG</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-82-close">{</span>
+    <span class="token keyword keyword-static">static</span> <span class="token keyword keyword-unsigned">unsigned</span> <span class="token keyword keyword-int">int</span> s_state<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-81-close">{</span> <span class="token number">0</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-81-open">}</span><span class="token punctuation">;</span> <span class="token comment">// only initialized the first time this function is called</span>
+
+    <span class="token comment">// Generate the next number</span>
+
+    <span class="token comment">// We modify the state using large constants and intentional overflow to make it hard</span>
+    <span class="token comment">// for someone to casually determine what the next number in the sequence will be.</span>
+
+    s_state <span class="token operator">=</span> <span class="token number">8253729</span> <span class="token operator">*</span> s_state <span class="token operator">+</span> <span class="token number">2396403</span><span class="token punctuation">;</span> <span class="token comment">// first we modify the state</span>
+    <span class="token keyword keyword-return">return</span> s_state <span class="token operator">%</span> <span class="token number">32768</span><span class="token punctuation">;</span> <span class="token comment">// then we use the new state to generate the next number in the sequence</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-82-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-77-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-77-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-85-close">{</span>
+    <span class="token comment">// Print 100 random numbers</span>
+    <span class="token keyword keyword-for">for</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-78-close">(</span><span class="token keyword keyword-int">int</span> count<span class="token punctuation brace-curly brace-open brace-level-3" id="pair-83-close">{</span> <span class="token number">1</span> <span class="token punctuation brace-curly brace-close brace-level-3" id="pair-83-open">}</span><span class="token punctuation">;</span> count <span class="token operator">&lt;=</span> <span class="token number">100</span><span class="token punctuation">;</span> <span class="token operator">++</span>count<span class="token punctuation brace-round brace-close brace-level-2" id="pair-78-open">)</span>
+    <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-84-close">{</span>
+        std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token function">LCG16</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-79-close">(</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-79-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\t'</span><span class="token punctuation">;</span>
+
+        <span class="token comment">// If we've printed 10 numbers, start a new row</span>
+        <span class="token keyword keyword-if">if</span> <span class="token punctuation brace-round brace-open brace-level-3" id="pair-80-close">(</span>count <span class="token operator">%</span> <span class="token number">10</span> <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-80-open">)</span>
+            std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+    <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-84-open">}</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-85-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>The result of this program is:</p>
+<pre>
+4339	838	25337	15372	6783	2642	6021	19992	14859	26462	
+25105	13860	28567	6762	17053	29744	15139	9078	14633	2108	
+7343	642	17845	29256	5179	14222	26689	12884	8647	17050	
+8397	18528	17747	9126	28505	13420	32479	23218	21477	30328	
+20075	26558	20081	3716	13303	19146	24317	31888	12163	982	
+1417	16540	16655	4834	16917	23208	26779	30702	5281	19124	
+9767	13050	32045	4288	31155	17414	31673	11468	25407	11026	
+4165	7896	25291	26654	15057	26340	30807	31530	31581	1264	
+9187	25654	20969	30972	25967	9026	15989	17160	15611	14414	
+16641	25364	10887	9050	22925	22816	11795	25702	2073	9516	
+</pre>
+<p>Each number appears to be pretty random with respect to the previous one.</p>
+<p>
+  Notice how similar <code>LCG16()</code> is to our
+  <code>plusOne()</code> example above! The state is initially set to value
+  <code>0</code>. Then to produce the next number in the output sequence, the
+  current state is modified (by applying some mathematical operations) to
+  produce a new state, and the next number in the sequence is generated from
+  that new state.
+</p>
+<div class="code-block code-block-5" style="margin: 8px 0; clear: both"></div>
+
+<p>
+  As it turns out, this particular algorithm isn’t very good as a random number
+  generator (note how each result alternates between even and odd -- that’s not
+  very random!). But most PRNGs work similarly to <code>LCG16()</code> -- they
+  just typically use more state variables and more complex mathematical
+  operations in order to generate better quality results.
+</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Seeding a PRNG
+</p>
+<p>
+  The sequence of “random numbers” generated by a PRNG is not random at all.
+  Just like our <code>plusOne()</code> function, <code>LCG16()</code> is also
+  deterministic. Given some initial state value (such as <code>0</code>), a PRNG
+  will generate the same sequence of numbers each time. If you run the above
+  program 3 times, you’ll see it generates the same sequence of values each
+  time.
+</p>
+<p>
+  In order to generate different output sequences, the initial state of a PRNG
+  needs to be varied. The value (or set of values) used to set the initial state
+  of a PRNG is called a <strong>random seed</strong> (or
+  <strong>seed</strong> for short). When the initial state of a PRNG has been
+  set using a seed, we say it has been <strong>seeded</strong>.
+</p>
+<div class="cpp-note cpp-lightbluebackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Key insight</p>
+  <p>
+    Because the initial state of the PRNG is set from the seed value(s), all of
+    the values that a PRNG will produce are deterministically calculated from
+    the seed value(s).
+  </p>
+</div>
+<p>
+  The seed value is typically provided by the program using the PRNG. Here’s a
+  sample program that requests a seed value from the user and then generates 10
+  random numbers using that seed value (using our
+  <code>LCG16()</code> function).
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-unsigned">unsigned</span> <span class="token keyword keyword-int">int</span> g_state<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-94-close">{</span> <span class="token number">0</span> <span class="token punctuation brace-curly brace-close brace-level-1" id="pair-94-open">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword keyword-void">void</span> <span class="token function">seedPRNG</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-86-close">(</span><span class="token keyword keyword-unsigned">unsigned</span> <span class="token keyword keyword-int">int</span> seed<span class="token punctuation brace-round brace-close brace-level-1" id="pair-86-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-95-close">{</span>
+    g_state <span class="token operator">=</span> seed<span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-95-open">}</span>
+
+<span class="token comment">// For illustrative purposes only, don't use this</span>
+<span class="token keyword keyword-unsigned">unsigned</span> <span class="token keyword keyword-int">int</span> <span class="token function">LCG16</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-87-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-87-open">)</span> <span class="token comment">// our PRNG</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-96-close">{</span>
+    <span class="token comment">// We modify the state using large constants and intentional overflow to make it hard</span>
+    <span class="token comment">// for someone to casually determine what the next number in the sequence will be.</span>
+
+    g_state <span class="token operator">=</span> <span class="token number">8253729</span> <span class="token operator">*</span> g_state <span class="token operator">+</span> <span class="token number">2396403</span><span class="token punctuation">;</span> <span class="token comment">// first we modify the state</span>
+    <span class="token keyword keyword-return">return</span> g_state <span class="token operator">%</span> <span class="token number">32768</span><span class="token punctuation">;</span> <span class="token comment">// then we use the new state to generate the next number in the sequence</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-96-open">}</span>
+
+<span class="token keyword keyword-void">void</span> <span class="token function">print10</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-88-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-88-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-99-close">{</span>
+    <span class="token comment">// Print 10 random numbers</span>
+    <span class="token keyword keyword-for">for</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-89-close">(</span><span class="token keyword keyword-int">int</span> count<span class="token punctuation brace-curly brace-open brace-level-3" id="pair-97-close">{</span> <span class="token number">1</span> <span class="token punctuation brace-curly brace-close brace-level-3" id="pair-97-open">}</span><span class="token punctuation">;</span> count <span class="token operator">&lt;=</span> <span class="token number">10</span><span class="token punctuation">;</span> <span class="token operator">++</span>count<span class="token punctuation brace-round brace-close brace-level-2" id="pair-89-open">)</span>
+    <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-98-close">{</span>
+        std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token function">LCG16</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-90-close">(</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-90-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\t'</span><span class="token punctuation">;</span>
+    <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-98-open">}</span>
+
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-99-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-91-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-91-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-101-close">{</span>
+    <span class="token keyword keyword-unsigned">unsigned</span> <span class="token keyword keyword-int">int</span> x <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-100-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-100-open">}</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Enter a seed value: "</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>cin <span class="token operator">&gt;&gt;</span> x<span class="token punctuation">;</span>
+
+    <span class="token function">seedPRNG</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-92-close">(</span>x<span class="token punctuation brace-round brace-close brace-level-2" id="pair-92-open">)</span><span class="token punctuation">;</span> <span class="token comment">// seed our PRNG</span>
+    <span class="token function">print10</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-93-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-93-open">)</span><span class="token punctuation">;</span>   <span class="token comment">// generate 10 random values</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-101-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>Here are 3 sample runs from this:</p>
+<div class="code-block code-block-6" style="margin: 8px 0; clear: both"></div>
+
+<pre>
+Enter a seed value: 7
+10458	3853	16032	17299	10726	32153	19116	7455	242	549	
+</pre>
+<pre>
+Enter a seed value: 7
+10458	3853	16032	17299	10726	32153	19116	7455	242	549	
+</pre>
+<pre>
+Enter a seed value: 9876
+24071	18138	27917	23712	8595	18406	23449	26796	31519	7922	
+</pre>
+<p>
+  Notice that when we provide the same seed value, we get the same output
+  sequence. If we provide a different seed value, we get a different output
+  sequence.
+</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Seed quality and underseeding
+</p>
+<p>
+  If we want the program to produce different randomized numbers each time it is
+  run, then we need some way to vary the seed each time the program is run.
+  Asking the user to provide a seed value isn’t great, since they can just enter
+  the same value each time. The program really needs some way to generate a
+  randomized seed value each time it is run. Unfortunately, we can’t use a PRNG
+  to generate a random seed, because we need a randomized seed to generate
+  random numbers. Instead, we’ll typically use a seed generation algorithm that
+  is designed to produce seed values. We’ll discuss (and implement) such
+  algorithms in the next lesson.
+</p>
+<p>
+  The theoretical maximum number of unique sequences that a PRNG can generate is
+  determined by the number of bits in the PRNG’s state. For example, a PRNG with
+  128 bits of state can theoretically generate up to 2^128
+  (340,282,366,920,938,463,463,374,607,431,768,211,456) unique output sequences.
+  That’s a lot!
+</p>
+<p>
+  However, which output sequence is <em>actually</em> generated depends on the
+  initial state of the PRNG, which is determined by the seed. Therefore,
+  practically speaking, the number of unique output sequences a PRNG can
+  <em>actually</em> generate is limited by the number of unique seed values the
+  program using the PRNG can provide. For example, if a particular seed
+  generation algorithm can only generate 4 different seed values, then the PRNG
+  will only be able to generate at most 4 different output sequences.
+</p>
+<p>
+  If a PRNG is not provided with enough bits of quality seed data, we say that
+  it is <strong>underseeded</strong>. An underseeded PRNG may begin to produce
+  randomized results whose quality is compromised in some way -- and the more
+  severe the underseeding, the more the quality of the results will suffer.
+</p>
+<div class="code-block code-block-7" style="margin: 8px 0; clear: both"></div>
+
+<p>For example, an underseeded PRNG may exhibit any of the following issues:</p>
+<ul>
+  <li>
+    The random sequences generated by consecutive runs may have a high
+    correlation to each other.
+  </li>
+  <li>
+    On the generation of the Nth random number, some values will never be able
+    to be generated. For example, a Mersenne Twister that is underseeded in a
+    particular way will never generate the values 7 or 13 as its first output.
+  </li>
+  <li>
+    Someone may be able to guess the seed based on the initial random value
+    produced (or the first few random values). That would allow them to then
+    generate all future random numbers that are going to be produced by the
+    generator. This may allow them to cheat or game the system.
+  </li>
+</ul>
+<div class="cpp-note cpp-lightgraybackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">For advanced readers</p>
+  <p>An ideal seed should have the following characteristics:</p>
+  <ul>
+    <li>
+      The seed should contain at least as many bits as the state of the PRNG, so
+      that every bit in the state of the PRNG can be initialized by an
+      independent bit in the seed.
+    </li>
+    <li>Each bit in the seed should be independently randomized.</li>
+    <li>
+      The seed should contain a good mix of 0 and 1s distributed across all of
+      the bits.
+    </li>
+    <li>
+      There should be no bits in the seed that are always 0 or always 1. These
+      “stuck bits” do not provide any value.
+    </li>
+    <li>
+      The seed should have a low correlation with previously generated seeds.
+    </li>
+  </ul>
+  <p>
+    In practice, we may compromise on some of these characteristics. Some PRNGs
+    have huge states (e.g. the state of a Mersenne Twister has 19937 bits), and
+    generating quality seeds that large can be difficult. As a result, PRNGs
+    with large states are often designed to be resilient to being seeded with
+    fewer bits. Stuck bits are also common. For example, if we use the system
+    clock as part of our seed, we’ll end up with some number of stuck bits, as
+    the bits that represent larger time units (e.g. years) are effectively
+    stuck.
+  </p>
+</div>
+<p>
+  Developers who aren’t familiar with proper seeding practices will often try to
+  initialize a PRNG using a single 32-bit or 64-bit value (unfortunately, the
+  design of C++’s standard Random library inadvertently encourages this). This
+  will generally result in a significantly underseeded PRNG.
+</p>
+<p>
+  Seeding a PRNG with 64 bytes of quality seed data (less if the PRNGs state is
+  smaller) is typically good enough to facilitate the generation of 8-byte
+  random values for non-sensitive uses (e.g. not statistical simulations or
+  cryptography).
+</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  What makes a good PRNG? (optional reading)
+</p>
+<p>
+  In order to be a good PRNG, the PRNG needs to exhibit a number of properties:
+</p>
+<div class="code-block code-block-8" style="margin: 8px 0; clear: both"></div>
+
+<ul>
+  <li>
+    The PRNG should generate each number with approximately the same
+    probability.
+  </li>
+</ul>
+<p>
+  This is called distribution uniformity. If some numbers are generated more
+  often than others, the result of the program that uses the PRNG will be
+  biased! To check distribution uniformity, we can use a histogram. A histogram
+  is a graph that tracks how many times each number has been generated. Since
+  our histograms are text-based, we’ll use a * symbol to represent each time a
+  given number was generated.
+</p>
+<p>
+  Consider a PRNG that generates numbers between 1 and 6. If we generate 36
+  numbers, a PRNG with distribution uniformity should generate a histogram that
+  looks something like this:
+</p>
+<pre>
+1|******
+2|******
+3|******
+4|******
+5|******
+6|******
+</pre>
+<p>
+  A PRNG that is biased in some way will generate a histogram that is uneven,
+  like this:
+</p>
+<pre>
+1|***
+2|******
+3|******
+4|******
+5|******
+6|*********
+</pre>
+<p>or this:</p>
+<pre>
+1|****
+2|********
+3|******
+4|********
+5|******
+6|****
+</pre>
+<p>or maybe even this:</p>
+<pre>
+1|*******
+2|********
+3|*******
+4|********
+5|
+6|******
+</pre>
+<p>
+  Let’s say you’re trying to write a random item generator for a game. When a
+  monster is killed, your code generates a random number between 1 and 6, and if
+  the result is a 6, the monster will drop a rare item instead of a common one.
+  You would expect a 1 in 6 chance of this happening. But if the underlying PRNG
+  is not uniform, and generates a lot more 6s than it should (like the second
+  histogram above), your players will end up getting more rare items than you’d
+  intended, possibly trivializing the difficulty of your game, or messing up
+  your in-game economy.
+</p>
+<p>Finding PRNG algorithms that produce uniform results is difficult.</p>
+<ul>
+  <li>
+    The method by which the next number in the sequence is generated shouldn’t
+    be predictable.
+  </li>
+</ul>
+<p>
+  For example, consider the following PRNG algorithm: <code>return ++num</code>.
+  This PRNG is perfectly uniform, but it is also completely predictable -- and
+  not very useful as a sequence of random numbers!
+</p>
+<p>
+  Even sequences of numbers that seem random to the eye (such as the output of
+  <code>LCG16()</code> above) may be trivially predictable by someone who is
+  motivated. By examining just a few numbers generated from the
+  <code>LCG16()</code> function above, it is possible to determine which
+  constants are used (<code>8253729</code> and <code>2396403</code>) to modify
+  the state. Once that is known, it becomes trivial to calculate all of the
+  future numbers that will be generated from this PRNG.
+</p>
+<p>
+  Now, imagine you’re running a betting website where users can bet $100. Your
+  website then generates a random number between 0 and 32767. If the number is
+  greater than 20000, the customer wins and you return double the bet.
+  Otherwise, they lose and you keep the bet. Since the customer wins only
+  12767/32767 (39%) of the time, your website should make tons of money, right?
+  However, if customers are able to determine which numbers will be generated
+  next, then they can strategically place bets so they always (or usually) win.
+  Congrats, now you get to file for bankruptcy!
+</p>
+<ul>
+  <li>The PRNG should have a good dimensional distribution of numbers.</li>
+</ul>
+<p>
+  This means the PRNG should return numbers across the entire range of possible
+  results at random. For example, the PRNG should generate low numbers, middle
+  numbers, high numbers, even numbers, and odd numbers seemingly at random.
+</p>
+<p>
+  A PRNG that returned all low numbers, then all high numbers may be uniform and
+  non-predictable, but it’s still going to lead to biased results, particularly
+  if the number of random numbers you actually use is small.
+</p>
+<ul>
+  <li>The PRNG should have a high period for all seeds</li>
+</ul>
+<p>
+  All PRNGs are periodic, which means that at some point the sequence of numbers
+  generated will begin to repeat itself. The length of the sequence before a
+  PRNG begins to repeat itself is known as the <strong>period</strong>.
+</p>
+<p>
+  For example, here are the first 100 numbers generated from a PRNG with poor
+  periodicity:
+</p>
+<pre>
+112	9	130	97	64	31	152	119	86	53	
+20	141	108	75	42	9	130	97	64	31	
+152	119	86	53	20	141	108	75	42	9	
+130	97	64	31	152	119	86	53	20	141	
+108	75	42	9	130	97	64	31	152	119	
+86	53	20	141	108	75	42	9	130	97	
+64	31	152	119	86	53	20	141	108	75	
+42	9	130	97	64	31	152	119	86	53	
+20	141	108	75	42	9	130	97	64	31	
+152	119	86	53	20	141	108	75	42	9
+</pre>
+<p>
+  You will note that it generated 9 as the 2nd number, again as the 16th number,
+  and then every 14 numbers after that. This PRNG is stuck generating the
+  following sequence repeatedly:
+  9-130-97-64-31-152-119-86-53-20-141-108-75-42-(repeat).
+</p>
+<p>
+  This happens because PRNGs are deterministic. Once the state of a PRNG is
+  identical to a prior state, the PRNG will start producing the same sequence of
+  outputs it has produced before -- resulting in a loop.
+</p>
+<p>
+  A good PRNG should have a long period for <em>all</em> seed numbers. Designing
+  an algorithm that meets this property can be extremely difficult -- many PRNGs
+  have long periods only for some seeds and not others. If the user happens to
+  pick a seed that results in a state with a short period, then the PRNG won’t
+  do a good job if many random numbers are needed.
+</p>
+<ul>
+  <li>The PRNG should be efficient</li>
+</ul>
+<p>
+  Most PRNGs have a state size of less than 4096 bytes, so total memory usage
+  typically isn’t a concern. However, the larger the internal state, the more
+  likely the PRNG is to be underseeded, and the slower the initial seeding will
+  be (since there’s more state to initialize).
+</p>
+<p>
+  Second, to generate the next number in sequence, a PRNG has to mix up its
+  internal state by applying various mathematical operations. How much time this
+  takes can vary significantly by PRNG and also by architecture (some PRNGs
+  perform better on certain architectures than others). This doesn’t matter if
+  you only generate random numbers periodically, but can have a huge impact if
+  you need lots of randomness.
+</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  There are many different kinds of PRNG algorithms
+</p>
+<p>
+  Over the years, many different kinds of PRNG algorithms have been developed
+  (Wikipedia has a good list
+  <a href="https://en.wikipedia.org/wiki/List_of_random_number_generators"
+    >here</a
+  >). Every PRNG algorithm has strengths and weaknesses that might make it more
+  or less suitable for a particular application, so selecting the right
+  algorithm for your application is important.
+</p>
+<p>
+  Many PRNGs are now considered relatively poor by modern standards -- and
+  there’s no reason to use a PRNG that doesn’t perform well when it’s just as
+  easy to use one that does.
+</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  <a name="random"></a>Randomization in C++
+  <a href="#random"><i class="fa fa-link" style="font-size: 0.8em"></i></a>
+</p>
+<p>
+  The randomization capabilities in C++ are accessible via the
+  <code>&lt;random&gt;</code> header of the standard library. Within the random
+  library, there are 6 PRNG families available for use (as of C++20):
+</p>
+<div class="cpp-table-wrapper" data-ezoic-video-excluded="1">
+  <table class="cpp-table" data-ezoic-video-excluded="1">
+    <tbody>
+      <tr>
+        <th>Type name</th>
+        <th>Family</th>
+        <th>Period</th>
+        <th>State size*</th>
+        <th>Performance</th>
+        <th>Quality</th>
+        <th>Should I use this?</th>
+      </tr>
+      <tr>
+        <td>minstd_rand<br />minstd_rand0</td>
+        <td>Linear congruential generator</td>
+        <td>2^31</td>
+        <td>4 bytes</td>
+        <td>Bad</td>
+        <td>Awful</td>
+        <td>No</td>
+      </tr>
+      <tr>
+        <td>mt19937<br />mt19937_64</td>
+        <td>Mersenne twister</td>
+        <td>2^19937</td>
+        <td>2500 bytes</td>
+        <td>Decent</td>
+        <td>Decent</td>
+        <td>Probably (see next section)</td>
+      </tr>
+      <tr>
+        <td>ranlux24<br />ranlux48</td>
+        <td>Subtract and carry</td>
+        <td>10^171</td>
+        <td>96 bytes</td>
+        <td>Awful</td>
+        <td>Good</td>
+        <td>No</td>
+      </tr>
+      <tr>
+        <td>knuth_b</td>
+        <td>Shuffled linear congruential generator</td>
+        <td>2^31</td>
+        <td>1028 bytes</td>
+        <td>Awful</td>
+        <td>Bad</td>
+        <td>No</td>
+      </tr>
+      <tr>
+        <td>default_random_engine</td>
+        <td>Any of above (implementation defined)</td>
+        <td>Varies</td>
+        <td>Varies</td>
+        <td>?</td>
+        <td>?</td>
+        <td>No<sup>2</sup></td>
+      </tr>
+      <tr>
+        <td>rand()</td>
+        <td>Linear congruential generator</td>
+        <td>2^31</td>
+        <td>4 bytes</td>
+        <td>Bad</td>
+        <td>Awful</td>
+        <td>No<sup>no</sup></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<p>
+  There is zero reason to use <code>knuth_b</code>,
+  <code>default_random_engine</code>, or <code>rand()</code> (which is a random
+  number generator provided for compatibility with C).
+</p>
+<p>
+  As of C++20, the Mersenne Twister algorithm is the only PRNG that ships with
+  C++ that has both decent performance and quality.
+</p>
+<div class="cpp-note cpp-lightgraybackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">For advanced readers</p>
+  <p>
+    A test called <a href="http://pracrand.sourceforge.net/">PracRand</a> is
+    often used to assess the performance and quality of PRNGs (to determine
+    whether they have different kinds of biases). You may also see references to
+    SmallCrush, Crush or BigCrush -- these are other tests that are sometimes
+    used for the same purpose.
+  </p>
+  <p>
+    If you want to see what the output of Pracrand looks like,
+    <a
+      href="https://arvid.io/2018/06/30/on-cxx-random-number-generator-quality/"
+      >this website</a
+    >
+    has output for all of the PRNGs that C++ supports as of C++20.
+  </p>
+</div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  So we should use Mersenne Twister, right?
+</p>
+<p>
+  Probably. For most applications, Mersenne Twister is fine, both in terms of
+  performance and quality.
+</p>
+<p>
+  However, it’s worth noting that by modern PRNG standards, Mersenne Twister is
+  <a href="https://en.wikipedia.org/wiki/Mersenne_Twister#Characteristics"
+    >a bit outdated</a
+  >. The biggest issue with Mersenne Twister is that its results can be
+  predicted after seeing 624 generated numbers, making it non-suitable for any
+  application that requires non-predictability.
+</p>
+<p>
+  If you are developing an application that requires the highest quality random
+  results (e.g. a statistical simulation), the fastest results, or one where
+  non-predictability is important (e.g. cryptography), you’ll need to use a 3rd
+  party library.
+</p>
+<p>Popular choices as of the time of writing:</p>
+<ul>
+  <li>
+    The <a href="https://prng.di.unimi.it/">Xoshiro family</a> and
+    <a href="https://github.com/wangyi-fudan/wyhash">Wyrand</a> for
+    non-cryptographic PRNGs.
+  </li>
+  <li>
+    The <a href="https://cr.yp.to/chacha.html">Chacha family</a> for
+    cryptographic (non-predictable) PRNGs.
+  </li>
+</ul>
+<p>
+  Okay, now that your eyes are probably bleeding, that’s enough theory. Let’s
+  discuss how to actually generate random numbers with Mersenne Twister in C++.
+</p>
+<div class="prevnext">
+  <div class="prevnext-inline">
+    <a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/generating-random-numbers-using-mersenne-twister/"
+    >
+      <div class="nav-button nav-button-next">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-right" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Next lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">8.14</span>Generating random
+            numbers using Mersenne Twister
+          </div>
+        </div>
+      </div></a
+    >
+    <a class="nav-link" href="/">
+      <div class="nav-button nav-button-index">
+        <div class="nav-button-icon">
+          <i class="fa fa-home" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Back to table of contents</div>
+        </div>
+      </div></a
+    >
+    <a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/halts-exiting-your-program-early/"
+    >
+      <div class="nav-button nav-button-prev">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-left" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Previous lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">8.12</span>Halts (exiting
+            your program early)
+          </div>
+        </div>
+      </div></a
+    >
+  </div>
+</div>
+<div class="code-block code-block-10" style="margin: 8px 0; clear: both"></div>

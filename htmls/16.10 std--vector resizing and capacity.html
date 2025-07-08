@@ -1,0 +1,813 @@
+<div
+  class="code-block code-block-1"
+  style="margin: 8px 8px 8px 0; float: left"
+></div>
+<p>
+  In the previous lessons in this chapter, we introduced containers, arrays, and
+  <code>std::vector</code>. We also discussed topics such as how to access array
+  elements, get the length of an array, and how to traverse an array. While we
+  used <code>std::vector</code> in our examples, the concepts that we have
+  discussed are generally applicable to all of the array types.
+</p>
+<p>
+  In the remaining lessons in this chapter, we’re going to focus on the one
+  thing that makes <code>std::vector</code> significantly different than most of
+  the other array types: the ability to resize itself after it has been
+  instantiated.
+</p>
+<p class="cpp-section cpp-topline" style="clear: both">
+  Fixed-size arrays vs dynamic arrays
+</p>
+<p>
+  Most array types have a significant limitation: the length of the array must
+  be known at the point of instantiation, and then cannot be changed. Such
+  arrays are called <strong>fixed-size arrays</strong> or
+  <strong>fixed-length arrays</strong>. Both <code>std::array</code> and
+  <code>C-style arrays</code> are fixed-size array types. We’ll discuss these
+  further next chapter.
+</p>
+<p>
+  On the other hand, <code>std::vector</code> is a dynamic array. A
+  <strong>dynamic array</strong> (also called a
+  <strong>resizable array</strong>) is an array whose size can be changed after
+  instantiation. This ability to be resized is what makes
+  <code>std::vector</code> special.
+</p>
+<div class="code-block code-block-2" style="margin: 8px 0; clear: both"></div>
+
+<p class="cpp-section cpp-topline" style="clear: both">
+  Resizing a <code>std::vector</code> at runtime
+</p>
+<p>
+  A <code>std::vector</code> can be resized after instantiation by calling the
+  <code>resize()</code> member function with the new desired length:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;vector&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-0-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-0-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-6-close">{</span>
+    std<span class="token double-colon punctuation">::</span>vector v<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-5-close">{</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-5-open">}</span><span class="token punctuation">;</span> <span class="token comment">// create vector with 3 elements</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"The length is: "</span> <span class="token operator">&lt;&lt;</span> v<span class="token punctuation">.</span><span class="token function">size</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-1-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-1-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+    v<span class="token punctuation">.</span><span class="token function">resize</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-2-close">(</span><span class="token number">5</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-2-open">)</span><span class="token punctuation">;</span>              <span class="token comment">// resize to 5 elements</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"The length is: "</span> <span class="token operator">&lt;&lt;</span> v<span class="token punctuation">.</span><span class="token function">size</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-3-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-3-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-for">for</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-4-close">(</span><span class="token keyword keyword-auto">auto</span> i <span class="token operator">:</span> v<span class="token punctuation brace-round brace-close brace-level-2" id="pair-4-open">)</span>
+        std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> i <span class="token operator">&lt;&lt;</span> <span class="token string">' '</span><span class="token punctuation">;</span>
+
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-6-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>This prints:</p>
+<pre>
+The length is: 3
+The length is: 5
+0 1 2 0 0
+</pre>
+<p>
+  There are two things to note here. First, when we resized the vector, the
+  existing element values were preserved! Second, the new elements are
+  value-initialized (which performs default-initialization for class types, and
+  zero-initialization for other types). Thus the two new elements of type
+  <code>int</code> were zero-initialized to value <code>0</code>.
+</p>
+<p>Vectors may also be resized to be smaller:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;vector&gt;</span></span>
+
+<span class="token keyword keyword-void">void</span> <span class="token function">printLength</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-7-close">(</span><span class="token keyword keyword-const">const</span> std<span class="token double-colon punctuation">::</span>vector<span class="token operator">&lt;</span><span class="token keyword keyword-int">int</span><span class="token operator">&gt;</span><span class="token operator">&amp;</span> v<span class="token punctuation brace-round brace-close brace-level-1" id="pair-7-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-14-close">{</span>
+	std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"The length is: "</span>	<span class="token operator">&lt;&lt;</span> v<span class="token punctuation">.</span><span class="token function">size</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-8-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-8-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-14-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-9-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-9-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-16-close">{</span>
+    std<span class="token double-colon punctuation">::</span>vector v<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-15-close">{</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">4</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-15-open">}</span><span class="token punctuation">;</span> <span class="token comment">// length is initially 5</span>
+    <span class="token function">printLength</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-10-close">(</span>v<span class="token punctuation brace-round brace-close brace-level-2" id="pair-10-open">)</span><span class="token punctuation">;</span>
+
+    v<span class="token punctuation">.</span><span class="token function">resize</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-11-close">(</span><span class="token number">3</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-11-open">)</span><span class="token punctuation">;</span>                    <span class="token comment">// resize to 3 elements</span>
+    <span class="token function">printLength</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-12-close">(</span>v<span class="token punctuation brace-round brace-close brace-level-2" id="pair-12-open">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-for">for</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-13-close">(</span><span class="token keyword keyword-int">int</span> i <span class="token operator">:</span> v<span class="token punctuation brace-round brace-close brace-level-2" id="pair-13-open">)</span>
+        std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> i <span class="token operator">&lt;&lt;</span> <span class="token string">' '</span><span class="token punctuation">;</span>
+
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-16-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>This prints:</p>
+<pre>
+The length is: 5
+The length is: 3
+0 1 2
+</pre>
+<p class="cpp-section cpp-topline" style="clear: both">
+  The length vs capacity of a <code>std::vector</code>
+</p>
+<div class="code-block code-block-3" style="margin: 8px 0; clear: both"></div>
+
+<p>
+  Consider a row of 12 houses. We’d say that the count of houses (or the length
+  of the row of houses) is 12. If we wanted to know which of those houses were
+  currently being occupied… we’d have to determine that in some other way (e.g.
+  ring the doorbell and see if anybody answered). When we only have a length, we
+  only know how many things exist.
+</p>
+<p>
+  Now consider a carton of eggs that currently has 5 eggs in it. We’d say that
+  the count of eggs is 5. But in this context, there’s another dimension we care
+  about: how many eggs the carton could hold if it were full. We’d say that the
+  capacity of the carton of eggs is 12. The carton has room for 12 eggs, and
+  only 5 are being used -- therefore, we could add 7 more eggs without
+  overflowing the carton. When we have both a length and a capacity, we can
+  differentiate how many things currently exist from how many things there is
+  space for.
+</p>
+<div
+  class="google-auto-placed ap_container"
+  style="width: 100%; height: auto; clear: both; text-align: center"
+>
+  <ins
+    data-ad-format="auto"
+    class="adsbygoogle adsbygoogle-noablate"
+    data-ad-client="ca-pub-0588844875925051"
+    data-adsbygoogle-status="done"
+    style="
+      display: block;
+      margin: auto;
+      background-color: transparent;
+      height: 0px;
+    "
+    data-ad-status="unfilled"
+    ><div
+      id="aswift_5_host"
+      style="
+        border: none;
+        height: 0px;
+        width: 1027px;
+        margin: 0px;
+        padding: 0px;
+        position: relative;
+        visibility: visible;
+        background-color: transparent;
+        display: inline-block;
+        overflow: hidden;
+        opacity: 0;
+      "
+    >
+      <iframe
+        id="aswift_5"
+        name="aswift_5"
+        browsingtopics="true"
+        style="
+          left: 0px;
+          position: absolute;
+          top: 0px;
+          border: 0px;
+          width: 1027px;
+          height: 0px;
+          min-height: auto;
+          max-height: none;
+          min-width: auto;
+          max-width: none;
+        "
+        sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation"
+        width="1027"
+        height="0"
+        frameborder="0"
+        marginwidth="0"
+        marginheight="0"
+        vspace="0"
+        hspace="0"
+        allowtransparency="true"
+        scrolling="no"
+        allow="attribution-reporting; run-ad-auction"
+        src="https://googleads.g.doubleclick.net/pagead/ads?client=ca-pub-0588844875925051&amp;output=html&amp;h=280&amp;adk=3101282854&amp;adf=2127891247&amp;pi=t.aa~a.3048083739~i.39~rp.4&amp;w=1027&amp;abgtt=11&amp;fwrn=4&amp;fwrnh=100&amp;lmt=1750282037&amp;num_ads=1&amp;rafmt=1&amp;armr=3&amp;sem=mc&amp;pwprc=4633386603&amp;ad_type=text_image&amp;format=1027x280&amp;url=https%3A%2F%2Fwww.learncpp.com%2Fcpp-tutorial%2Fstdvector-resizing-and-capacity%2F&amp;fwr=0&amp;pra=3&amp;rh=200&amp;rw=1026&amp;rpe=1&amp;resp_fmts=3&amp;wgl=1&amp;fa=27&amp;uach=WyJXaW5kb3dzIiwiMTkuMC4wIiwieDg2IiwiIiwiMTM3LjAuNzE1MS4xMjIiLG51bGwsMCxudWxsLCI2NCIsW1siR29vZ2xlIENocm9tZSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJDaHJvbWl1bSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJOb3QvQSlCcmFuZCIsIjI0LjAuMC4wIl1dLDBd&amp;dt=1751963105790&amp;bpp=1&amp;bdt=716&amp;idt=-M&amp;shv=r20250702&amp;mjsv=m202507020101&amp;ptt=9&amp;saldr=aa&amp;abxe=1&amp;cookie=ID%3D05f6e82287d810b4%3AT%3D1751962604%3ART%3D1751962911%3AS%3DALNI_MaQYA0TSAU2k8xwY5tqlN0xFCcd6g&amp;gpic=UID%3D00001157d9e27d0a%3AT%3D1751962604%3ART%3D1751962911%3AS%3DALNI_MYgtHzQJAQQXY_151HTGSSfVxE8_A&amp;eo_id_str=ID%3D52c21936d98c6d2b%3AT%3D1751962604%3ART%3D1751962911%3AS%3DAA-AfjZsJ15yjdEPJ8d11hPojsJQ&amp;prev_fmts=0x0%2C336x280%2C160x600%2C160x600&amp;nras=2&amp;correlator=1542569243310&amp;frm=20&amp;pv=1&amp;u_tz=480&amp;u_his=2&amp;u_h=600&amp;u_w=800&amp;u_ah=600&amp;u_aw=800&amp;u_cd=24&amp;u_sd=1&amp;dmc=8&amp;adx=27&amp;ady=2089&amp;biw=1080&amp;bih=1024&amp;scr_x=0&amp;scr_y=0&amp;eid=31093040%2C31093233%2C42532524%2C95353386%2C95362656%2C95364968%2C95365225%2C95365235%2C95365107%2C95359266%2C95365115%2C95365797%2C31092546&amp;oid=2&amp;pvsid=4713870574021494&amp;tmod=1708485235&amp;uas=0&amp;nvt=1&amp;fc=1408&amp;brdim=10%2C10%2C10%2C10%2C800%2C0%2C780%2C580%2C1080%2C1024&amp;vis=1&amp;rsz=%7C%7Cs%7C&amp;abl=NS&amp;fu=128&amp;bc=31&amp;bz=0.72&amp;td=1&amp;tdf=2&amp;psd=W251bGwsbnVsbCxudWxsLDNd&amp;nt=1&amp;ifi=6&amp;uci=a!6&amp;btvi=1&amp;fsb=1&amp;dtd=8"
+        data-google-container-id="a!6"
+        tabindex="0"
+        title="Advertisement"
+        aria-label="Advertisement"
+        data-load-complete="true"
+        data-google-query-id="CN7tmZTrrI4DFeBfDwIdd2YwnA"
+      ></iframe></div
+  ></ins>
+</div>
+<p>
+  Up to this point, we’ve only talked about the length of a
+  <code>std::vector</code>. But <code>std::vector</code> also has a capacity. In
+  the context of a <code>std::vector</code>, <strong>capacity</strong> is how
+  many elements the <code>std::vector</code> has allocated storage for, and
+  <strong>length</strong> is how many elements are currently being used.
+</p>
+<p>
+  A <code>std::vector</code> with a capacity of 5 has allocated space for 5
+  elements. If the vector contains 2 elements in active use, the length (size)
+  of the vector is 2. The 3 remaining elements have memory allocated for them,
+  but they are not considered to be in active use. They can be used later
+  without overflowing the vector.
+</p>
+<div class="cpp-note cpp-lightbluebackground">
+  <p class="cpp-note-title cpp-bottomline">Key insight</p>
+  <p>
+    The length of a vector is how many elements are “in use”.<br />
+    The capacity of a vector is how many elements have been allocated in memory.
+  </p>
+</div>
+<p class="cpp-section cpp-topline" style="clear: both">
+  Getting the capacity of a <code>std::vector</code>
+</p>
+<div class="code-block code-block-4" style="margin: 8px 0; clear: both"></div>
+
+<p>
+  We can ask a <code>std::vector</code> for its capacity via the
+  <code>capacity()</code> member function.
+</p>
+<p>For example:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;vector&gt;</span></span>
+
+<span class="token keyword keyword-void">void</span> <span class="token function">printCapLen</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-17-close">(</span><span class="token keyword keyword-const">const</span> std<span class="token double-colon punctuation">::</span>vector<span class="token operator">&lt;</span><span class="token keyword keyword-int">int</span><span class="token operator">&gt;</span><span class="token operator">&amp;</span> v<span class="token punctuation brace-round brace-close brace-level-1" id="pair-17-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-26-close">{</span>
+	std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Capacity: "</span> <span class="token operator">&lt;&lt;</span> v<span class="token punctuation">.</span><span class="token function">capacity</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-18-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-18-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">" Length:"</span>	<span class="token operator">&lt;&lt;</span> v<span class="token punctuation">.</span><span class="token function">size</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-19-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-19-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-26-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-20-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-20-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-28-close">{</span>
+    std<span class="token double-colon punctuation">::</span>vector v<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-27-close">{</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-27-open">}</span><span class="token punctuation">;</span> <span class="token comment">// length is initially 3</span>
+
+    <span class="token function">printCapLen</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-21-close">(</span>v<span class="token punctuation brace-round brace-close brace-level-2" id="pair-21-open">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-for">for</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-22-close">(</span><span class="token keyword keyword-auto">auto</span> i <span class="token operator">:</span> v<span class="token punctuation brace-round brace-close brace-level-2" id="pair-22-open">)</span>
+        std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> i <span class="token operator">&lt;&lt;</span> <span class="token string">' '</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+    v<span class="token punctuation">.</span><span class="token function">resize</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-23-close">(</span><span class="token number">5</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-23-open">)</span><span class="token punctuation">;</span> <span class="token comment">// resize to 5 elements</span>
+
+    <span class="token function">printCapLen</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-24-close">(</span>v<span class="token punctuation brace-round brace-close brace-level-2" id="pair-24-open">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-for">for</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-25-close">(</span><span class="token keyword keyword-auto">auto</span> i <span class="token operator">:</span> v<span class="token punctuation brace-round brace-close brace-level-2" id="pair-25-open">)</span>
+        std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> i <span class="token operator">&lt;&lt;</span> <span class="token string">' '</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-28-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>On the author’s machine, this prints the following:</p>
+<div
+  class="google-auto-placed ap_container"
+  style="width: 100%; height: auto; clear: both; text-align: center"
+>
+  <ins
+    data-ad-format="auto"
+    class="adsbygoogle adsbygoogle-noablate"
+    data-ad-client="ca-pub-0588844875925051"
+    data-adsbygoogle-status="done"
+    style="
+      display: block;
+      margin: auto;
+      background-color: transparent;
+      height: 0px;
+    "
+    data-ad-status="unfilled"
+    ><div
+      id="aswift_6_host"
+      style="
+        border: none;
+        height: 0px;
+        width: 1027px;
+        margin: 0px;
+        padding: 0px;
+        position: relative;
+        visibility: visible;
+        background-color: transparent;
+        display: inline-block;
+        overflow: hidden;
+        opacity: 0;
+      "
+    >
+      <iframe
+        id="aswift_6"
+        name="aswift_6"
+        browsingtopics="true"
+        style="
+          left: 0px;
+          position: absolute;
+          top: 0px;
+          border: 0px;
+          width: 1027px;
+          height: 0px;
+          min-height: auto;
+          max-height: none;
+          min-width: auto;
+          max-width: none;
+        "
+        sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation"
+        width="1027"
+        height="0"
+        frameborder="0"
+        marginwidth="0"
+        marginheight="0"
+        vspace="0"
+        hspace="0"
+        allowtransparency="true"
+        scrolling="no"
+        allow="attribution-reporting; run-ad-auction"
+        src="https://googleads.g.doubleclick.net/pagead/ads?client=ca-pub-0588844875925051&amp;output=html&amp;h=280&amp;adk=3101282854&amp;adf=743243734&amp;pi=t.aa~a.3048083739~i.56~rp.4&amp;w=1027&amp;abgtt=11&amp;fwrn=4&amp;fwrnh=100&amp;lmt=1750282037&amp;num_ads=1&amp;rafmt=1&amp;armr=3&amp;sem=mc&amp;pwprc=4633386603&amp;ad_type=text_image&amp;format=1027x280&amp;url=https%3A%2F%2Fwww.learncpp.com%2Fcpp-tutorial%2Fstdvector-resizing-and-capacity%2F&amp;fwr=0&amp;pra=3&amp;rh=200&amp;rw=1026&amp;rpe=1&amp;resp_fmts=3&amp;wgl=1&amp;fa=27&amp;uach=WyJXaW5kb3dzIiwiMTkuMC4wIiwieDg2IiwiIiwiMTM3LjAuNzE1MS4xMjIiLG51bGwsMCxudWxsLCI2NCIsW1siR29vZ2xlIENocm9tZSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJDaHJvbWl1bSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJOb3QvQSlCcmFuZCIsIjI0LjAuMC4wIl1dLDBd&amp;dt=1751963105790&amp;bpp=1&amp;bdt=716&amp;idt=0&amp;shv=r20250702&amp;mjsv=m202507020101&amp;ptt=9&amp;saldr=aa&amp;abxe=1&amp;cookie=ID%3D05f6e82287d810b4%3AT%3D1751962604%3ART%3D1751962911%3AS%3DALNI_MaQYA0TSAU2k8xwY5tqlN0xFCcd6g&amp;gpic=UID%3D00001157d9e27d0a%3AT%3D1751962604%3ART%3D1751962911%3AS%3DALNI_MYgtHzQJAQQXY_151HTGSSfVxE8_A&amp;eo_id_str=ID%3D52c21936d98c6d2b%3AT%3D1751962604%3ART%3D1751962911%3AS%3DAA-AfjZsJ15yjdEPJ8d11hPojsJQ&amp;prev_fmts=0x0%2C336x280%2C160x600%2C160x600%2C1027x280&amp;nras=3&amp;correlator=1542569243310&amp;frm=20&amp;pv=1&amp;u_tz=480&amp;u_his=2&amp;u_h=600&amp;u_w=800&amp;u_ah=600&amp;u_aw=800&amp;u_cd=24&amp;u_sd=1&amp;dmc=8&amp;adx=27&amp;ady=3248&amp;biw=1080&amp;bih=1024&amp;scr_x=0&amp;scr_y=0&amp;eid=31093040%2C31093233%2C42532524%2C95353386%2C95362656%2C95364968%2C95365225%2C95365235%2C95365107%2C95359266%2C95365115%2C95365797%2C31092546&amp;oid=2&amp;pvsid=4713870574021494&amp;tmod=1708485235&amp;uas=0&amp;nvt=1&amp;fc=1408&amp;brdim=10%2C10%2C10%2C10%2C800%2C0%2C780%2C580%2C1080%2C1024&amp;vis=1&amp;rsz=%7C%7Cs%7C&amp;abl=NS&amp;fu=128&amp;bc=31&amp;bz=0.72&amp;td=1&amp;tdf=2&amp;psd=W251bGwsbnVsbCxudWxsLDNd&amp;nt=1&amp;ifi=7&amp;uci=a!7&amp;btvi=2&amp;fsb=1&amp;dtd=9"
+        data-google-container-id="a!7"
+        tabindex="0"
+        title="Advertisement"
+        aria-label="Advertisement"
+        data-load-complete="true"
+        data-google-query-id="CJL1mZTrrI4DFTlWDwIdUhMKUg"
+      ></iframe></div
+  ></ins>
+</div>
+<pre>
+Capacity: 3  Length: 3
+0 1 2
+Capacity: 5  Length: 5
+0 1 2 0 0
+</pre>
+<p>
+  First, we’ve initialized the vector with 3 elements. This causes the vector to
+  allocate storage for 3 elements (capacity is 3), and all 3 elements are
+  considered to be in active use (length = 3).
+</p>
+<p>
+  We then call <code>resize(5)</code>, meaning we now want a vector with a
+  length of 5. Since the vector only has storage for 3 elements, but it needs 5,
+  the vector needs to get more storage to hold the additional elements.
+</p>
+<p>
+  After the call to <code>resize()</code> has completed, we can see that the
+  vector now has space for 5 elements (capacity is 5), and that all 5 elements
+  are now considered to be in use (length is 5).
+</p>
+<div class="code-block code-block-5" style="margin: 8px 0; clear: both"></div>
+
+<p>
+  Most of the time you won’t need to use the <code>capacity()</code> function,
+  but we’ll use it a lot in the following examples so we can see what’s
+  happening to the storage of the vector.
+</p>
+<p class="cpp-section cpp-topline" style="clear: both">
+  Reallocation of storage, and why it is expensive
+</p>
+<p>
+  When a <code>std::vector</code> changes the amount of storage it is managing,
+  this process is called <strong>reallocation</strong>. Informally, the
+  reallocation process goes something like this:
+</p>
+<ul>
+  <li>
+    The <code>std::vector</code> acquires new memory with capacity for the
+    desired number of elements. These elements are value-initialized.
+  </li>
+  <li>
+    The elements in the old memory are copied (or moved, if possible) into the
+    new memory. The old memory is then returned to the system.
+  </li>
+  <li>
+    The capacity and length of the <code>std::vector</code> are set to the new
+    values.
+  </li>
+</ul>
+<p>
+  From the outside, it looks like the <code>std::vector</code> has been resized.
+  But internally, the memory (and all of the elements) have actually been
+  replaced!
+</p>
+<div class="cpp-note cpp-lightgraybackground">
+  <p class="cpp-note-title cpp-bottomline">Related content</p>
+  <p>
+    The process of acquiring new memory at runtime is called dynamic memory
+    allocation. We cover this in lesson
+    <a
+      href="https://www.learncpp.com/cpp-tutorial/dynamic-memory-allocation-with-new-and-delete/"
+      >19.1 -- Dynamic memory allocation with new and delete</a
+    >.
+  </p>
+</div>
+<p>
+  Because reallocation typically requires every element in the array to be
+  copied, reallocation is an expensive process. As a result, we want to avoid
+  reallocation as much as reasonable.
+</p>
+<div class="code-block code-block-6" style="margin: 8px 0; clear: both"></div>
+
+<div class="cpp-note cpp-lightbluebackground">
+  <p class="cpp-note-title cpp-bottomline">Key insight</p>
+  <p>Reallocation is typically expensive. Avoid unnecessary reallocations.</p>
+</div>
+<p class="cpp-section cpp-topline" style="clear: both">
+  Why differentiate length and capacity?
+</p>
+<p>
+  A <code>std::vector</code> will reallocate its storage if needed, but like
+  Melville’s Bartleby, it would prefer not to, because reallocating storage is
+  computationally expensive.
+</p>
+<p>
+  If a <code>std::vector</code> only kept track of its length, then every
+  <code>resize()</code> request would result in an expensive reallocation to the
+  new length. Separating length and capacity gives the
+  <code>std::vector</code> the ability to be smarter about when reallocations
+  are needed.
+</p>
+<p>The following example illustrates this:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;vector&gt;</span></span>
+
+<span class="token keyword keyword-void">void</span> <span class="token function">printCapLen</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-29-close">(</span><span class="token keyword keyword-const">const</span> std<span class="token double-colon punctuation">::</span>vector<span class="token operator">&lt;</span><span class="token keyword keyword-int">int</span><span class="token operator">&gt;</span><span class="token operator">&amp;</span> v<span class="token punctuation brace-round brace-close brace-level-1" id="pair-29-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-41-close">{</span>
+	std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Capacity: "</span> <span class="token operator">&lt;&lt;</span> v<span class="token punctuation">.</span><span class="token function">capacity</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-30-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-30-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">" Length:"</span>	<span class="token operator">&lt;&lt;</span> v<span class="token punctuation">.</span><span class="token function">size</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-31-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-31-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-41-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-32-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-32-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-44-close">{</span>
+    <span class="token comment">// Create a vector with length 5</span>
+    std<span class="token double-colon punctuation">::</span>vector v<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-42-close">{</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">4</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-42-open">}</span><span class="token punctuation">;</span>
+    v <span class="token operator">=</span> <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-43-close">{</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">4</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-43-open">}</span><span class="token punctuation">;</span> <span class="token comment">// okay, array length = 5</span>
+    <span class="token function">printCapLen</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-33-close">(</span>v<span class="token punctuation brace-round brace-close brace-level-2" id="pair-33-open">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-for">for</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-34-close">(</span><span class="token keyword keyword-auto">auto</span> i <span class="token operator">:</span> v<span class="token punctuation brace-round brace-close brace-level-2" id="pair-34-open">)</span>
+        std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> i <span class="token operator">&lt;&lt;</span> <span class="token string">' '</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+    <span class="token comment">// Resize vector to 3 elements</span>
+    v<span class="token punctuation">.</span><span class="token function">resize</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-35-close">(</span><span class="token number">3</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-35-open">)</span><span class="token punctuation">;</span> <span class="token comment">// we could also assign a list of 3 elements here</span>
+    <span class="token function">printCapLen</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-36-close">(</span>v<span class="token punctuation brace-round brace-close brace-level-2" id="pair-36-open">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-for">for</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-37-close">(</span><span class="token keyword keyword-auto">auto</span> i <span class="token operator">:</span> v<span class="token punctuation brace-round brace-close brace-level-2" id="pair-37-open">)</span>
+        std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> i <span class="token operator">&lt;&lt;</span> <span class="token string">' '</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+    <span class="token comment">// Resize vector back to 5 elements</span>
+    v<span class="token punctuation">.</span><span class="token function">resize</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-38-close">(</span><span class="token number">5</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-38-open">)</span><span class="token punctuation">;</span>
+    <span class="token function">printCapLen</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-39-close">(</span>v<span class="token punctuation brace-round brace-close brace-level-2" id="pair-39-open">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-for">for</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-40-close">(</span><span class="token keyword keyword-auto">auto</span> i <span class="token operator">:</span> v<span class="token punctuation brace-round brace-close brace-level-2" id="pair-40-open">)</span>
+        std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> i <span class="token operator">&lt;&lt;</span> <span class="token string">' '</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-44-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>This produces the following:</p>
+<pre>
+Capacity: 5  Length: 5
+0 1 2 3 4 
+Capacity: 5  Length: 3
+0 1 2 
+Capacity: 5  Length: 5
+0 1 2 0 0
+</pre>
+<p>
+  When we initialized our vector with 5 elements, the capacity was set to 5,
+  indicating that our vector initially allocated space for 5 elements. The
+  length was also set to 5, indicating that all of those elements are in use.
+</p>
+<div
+  class="google-auto-placed ap_container"
+  style="width: 100%; height: auto; clear: both; text-align: center"
+>
+  <ins
+    data-ad-format="auto"
+    class="adsbygoogle adsbygoogle-noablate"
+    data-ad-client="ca-pub-0588844875925051"
+    data-adsbygoogle-status="done"
+    style="
+      display: block;
+      margin: auto;
+      background-color: transparent;
+      height: 280px;
+    "
+    ><div
+      id="aswift_7_host"
+      style="
+        border: none;
+        height: 280px;
+        width: 1027px;
+        margin: 0px;
+        padding: 0px;
+        position: relative;
+        visibility: visible;
+        background-color: transparent;
+        display: inline-block;
+      "
+    ></div
+  ></ins>
+</div>
+<div class="code-block code-block-7" style="margin: 8px 0; clear: both"></div>
+
+<p>
+  After we called <code>v.resize(3)</code>, the length was changed to 3 to
+  fulfill our request for a smaller array. However, note that the capacity is
+  still 5, meaning that the vector did not do a reallocation!
+</p>
+<p>
+  Finally, we called <code>v.resize(5)</code>. Because the vector already had a
+  capacity of 5, it did not need to reallocate. It simply changed the length
+  back to 5, and value-initialized the last two elements.
+</p>
+<p>
+  By separating length and capacity, in this example we avoided 2 reallocations
+  that would have otherwise occurred. In the next lesson, we’ll see examples
+  where we are adding elements to a vector one by one. In such cases, the
+  ability to not reallocate every time length changes is even more important.
+</p>
+<div class="cpp-note cpp-lightbluebackground">
+  <p class="cpp-note-title cpp-bottomline">Key insight</p>
+  <p>
+    Tracking capacity separately from length allows the
+    <code>std::vector</code> to avoid some reallocations when length is changed.
+  </p>
+</div>
+<p class="cpp-section cpp-topline" style="clear: both">
+  Vector indexing is based on length, not capacity
+</p>
+<p>
+  You may be surprised to find that the valid indices for the subscript operator
+  (<code>operator[]</code>) and <code>at()</code> member function is based on
+  the vector’s length, not the capacity.
+</p>
+<div class="code-block code-block-8" style="margin: 8px 0; clear: both"></div>
+
+<p>
+  In the example above, when <code>v</code> has capacity 5 and length 3, only
+  indices from 0 and 2 are valid. Even though the elements with indices between
+  the length of 3 (inclusive) and capacity of 5 (exclusive) exist, their indices
+  are considered to be out of bounds.
+</p>
+<div class="cpp-note cpp-lightredbackground">
+  <p class="cpp-note-title cpp-bottomline">Warning</p>
+  <p>
+    A subscript is only valid if it is between 0 and the vector’s length (not
+    its capacity)!
+  </p>
+</div>
+<p class="cpp-section cpp-topline" style="clear: both">
+  Shrinking a <code>std::vector</code>
+</p>
+<p>
+  Resizing a vector to be larger will increase the vector’s length, and will
+  increase its capacity if required. However, resizing a vector to be smaller
+  will only decrease its length, and not its capacity.
+</p>
+<p>
+  Reallocating a vector just to reclaim the memory from a small number of
+  elements that are no longer needed is a poor choice. However, in the case
+  where we have a vector with a large number of elements that we no longer need,
+  the memory waste could be substantive.
+</p>
+<div
+  class="google-auto-placed ap_container"
+  style="width: 100%; height: auto; clear: both; text-align: center"
+>
+  <ins
+    data-ad-format="auto"
+    class="adsbygoogle adsbygoogle-noablate"
+    data-ad-client="ca-pub-0588844875925051"
+    data-adsbygoogle-status="done"
+    style="
+      display: block;
+      margin: auto;
+      background-color: transparent;
+      height: 280px;
+    "
+    ><div
+      id="aswift_8_host"
+      style="
+        border: none;
+        height: 280px;
+        width: 1027px;
+        margin: 0px;
+        padding: 0px;
+        position: relative;
+        visibility: visible;
+        background-color: transparent;
+        display: inline-block;
+      "
+    ></div
+  ></ins>
+</div>
+<p>
+  To help address this situation, <code>std::vector</code> has a member function
+  called <code>shrink_to_fit()</code> that requests that the vector shrink its
+  capacity to match its length. This request is non-binding, meaning the
+  implementation is free to ignore it. Depending on what the implementation
+  thinks is best, an implementation may decide to fulfill the request, may
+  partially fulfill it (e.g. reduce the capacity but not all the way), or may
+  completely ignore the request.
+</p>
+<p>Here’s an example:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;vector&gt;</span></span>
+
+<span class="token keyword keyword-void">void</span> <span class="token function">printCapLen</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-45-close">(</span><span class="token keyword keyword-const">const</span> std<span class="token double-colon punctuation">::</span>vector<span class="token operator">&lt;</span><span class="token keyword keyword-int">int</span><span class="token operator">&gt;</span><span class="token operator">&amp;</span> v<span class="token punctuation brace-round brace-close brace-level-1" id="pair-45-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-55-close">{</span>
+	std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Capacity: "</span> <span class="token operator">&lt;&lt;</span> v<span class="token punctuation">.</span><span class="token function">capacity</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-46-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-46-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">" Length:"</span>	<span class="token operator">&lt;&lt;</span> v<span class="token punctuation">.</span><span class="token function">size</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-47-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-47-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-55-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-48-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-48-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-56-close">{</span>
+
+	std<span class="token double-colon punctuation">::</span>vector<span class="token operator">&lt;</span><span class="token keyword keyword-int">int</span><span class="token operator">&gt;</span> <span class="token function">v</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-49-close">(</span><span class="token number">1000</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-49-open">)</span><span class="token punctuation">;</span> <span class="token comment">// allocate room for 1000 elements</span>
+	<span class="token function">printCapLen</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-50-close">(</span>v<span class="token punctuation brace-round brace-close brace-level-2" id="pair-50-open">)</span><span class="token punctuation">;</span>
+
+	v<span class="token punctuation">.</span><span class="token function">resize</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-51-close">(</span><span class="token number">0</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-51-open">)</span><span class="token punctuation">;</span> <span class="token comment">// resize to 0 elements</span>
+	<span class="token function">printCapLen</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-52-close">(</span>v<span class="token punctuation brace-round brace-close brace-level-2" id="pair-52-open">)</span><span class="token punctuation">;</span>
+
+	v<span class="token punctuation">.</span><span class="token function">shrink_to_fit</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-53-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-53-open">)</span><span class="token punctuation">;</span>
+	<span class="token function">printCapLen</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-54-close">(</span>v<span class="token punctuation brace-round brace-close brace-level-2" id="pair-54-open">)</span><span class="token punctuation">;</span>
+
+	<span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-56-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>On the author’s machine, this produces the following result:</p>
+<pre>
+Capacity: 1000  Length: 1000
+Capacity: 1000  Length: 0
+Capacity: 0  Length: 0
+</pre>
+<p>
+  As you can see, when <code>v.shrink_to_fit()</code> was called, the vector
+  reallocated its capacity to 0, freeing up the memory for 1000 elements.
+</p>
+<p></p>
+<p class="cpp-section cpp-topline" style="clear: both">Quiz time</p>
+<p class="cpp-quiz-question" style="clear: both">Question #1</p>
+<p></p>
+<p>What do the length and capacity of a std::vector represent?</p>
+<p>
+  <a
+    class="solution_link_show"
+    href="javascript:void(0)"
+    onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_0'), this, 'Show Solution', 'Hide Solution')"
+    >Show Solution</a
+  >
+</p>
+<div class="wpsolution" id="cpp_solution_id_0" style="display: none">
+  <p>
+    Length is the number of elements currently in use.<br />
+    Capacity is the number of elements that have storage allocated.
+  </p>
+</div>
+<p>Why are length and capacity separate values?</p>
+<p>
+  <a
+    class="solution_link_show"
+    href="javascript:void(0)"
+    onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_1'), this, 'Show Solution', 'Hide Solution')"
+    >Show Solution</a
+  >
+</p>
+<div class="wpsolution" id="cpp_solution_id_1" style="display: none">
+  <p>
+    Capacity is tracked separately so that the vector can avoid some
+    reallocations when the length is changed.
+  </p>
+</div>
+<p>
+  Are the valid indices for <code>std::vector</code> based on length or
+  capacity?
+</p>
+<p>
+  <a
+    class="solution_link_show"
+    href="javascript:void(0)"
+    onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_2'), this, 'Show Solution', 'Hide Solution')"
+    >Show Solution</a
+  >
+</p>
+<div class="wpsolution" id="cpp_solution_id_2" style="display: none">
+  <p>Length.</p>
+</div>
+<div class="prevnext">
+  <div class="prevnext-inline">
+    <a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/stdvector-and-stack-behavior/"
+    >
+      <div class="nav-button nav-button-next">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-right" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Next lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">16.11</span>std::vector and
+            stack behavior
+          </div>
+        </div>
+      </div></a
+    >
+    <a class="nav-link" href="/">
+      <div class="nav-button nav-button-index">
+        <div class="nav-button-icon">
+          <i class="fa fa-home" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Back to table of contents</div>
+        </div>
+      </div></a
+    >
+    <a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/array-indexing-and-length-using-enumerators/"
+    >
+      <div class="nav-button nav-button-prev">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-left" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Previous lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">16.9</span>Array indexing and
+            length using enumerators
+          </div>
+        </div>
+      </div></a
+    >
+  </div>
+</div>
+<div class="code-block code-block-10" style="margin: 8px 0; clear: both"></div>

@@ -1,0 +1,558 @@
+<div
+  class="code-block code-block-1"
+  style="margin: 8px 8px 8px 0; float: left"
+></div>
+<p>
+  In the previous lesson
+  <a
+    href="https://www.learncpp.com/cpp-tutorial/constant-expressions/#whywecare"
+    >5.5 -- Constant expressions</a
+  >, we defined what a constant expression is, discussed why constant
+  expressions are desirable, and concluded with when constant expressions
+  actually evaluate at compile-time.
+</p>
+<p>
+  In this lesson, we’ll take a closer look at how we create variables that can
+  be used in constant expressions in modern C++. We’ll also explore our first
+  method for ensuring that code actually executes at compile-time.
+</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  The compile-time <code>const</code> challenge
+</p>
+<p>
+  In the prior lesson, we noted that one way to create a variable that can be
+  used in a constant expression is to use the <code>const</code> keyword. A
+  <code>const</code> variable with an integral type and a constant expression
+  initializer can be used in a constant expression. All other
+  <code>const</code> variables cannot be used in constant expressions.
+</p>
+<p>
+  However, the use of <code>const</code> to create variables that can be used in
+  constant expressions has a few challenges.
+</p>
+<p>
+  First, use of <code>const</code> does not make it immediately clear whether
+  the variable is usable in a constant expression or not. In some cases, we can
+  figure it out fairly easily:
+</p>
+<div class="code-block code-block-2" style="margin: 8px 0; clear: both"></div>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-int">int</span> a <span class="token punctuation brace-curly brace-open brace-level-1" id="pair-116-close">{</span> <span class="token number">5</span> <span class="token punctuation brace-curly brace-close brace-level-1" id="pair-116-open">}</span><span class="token punctuation">;</span>       <span class="token comment">// not const at all</span>
+<span class="token keyword keyword-const">const</span> <span class="token keyword keyword-int">int</span> b <span class="token punctuation brace-curly brace-open brace-level-1" id="pair-117-close">{</span> a <span class="token punctuation brace-curly brace-close brace-level-1" id="pair-117-open">}</span><span class="token punctuation">;</span> <span class="token comment">// clearly not a constant expression (since initializer is non-const)</span>
+<span class="token keyword keyword-const">const</span> <span class="token keyword keyword-int">int</span> c <span class="token punctuation brace-curly brace-open brace-level-1" id="pair-118-close">{</span> <span class="token number">5</span> <span class="token punctuation brace-curly brace-close brace-level-1" id="pair-118-open">}</span><span class="token punctuation">;</span> <span class="token comment">// clearly a constant expression (since initializer is a constant expression)</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>In other cases, it can be quite difficult:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-const">const</span> <span class="token keyword keyword-int">int</span> d <span class="token punctuation brace-curly brace-open brace-level-1" id="pair-120-close">{</span> someVar <span class="token punctuation brace-curly brace-close brace-level-1" id="pair-120-open">}</span><span class="token punctuation">;</span>    <span class="token comment">// not obvious whether d is usable in a constant expression or not</span>
+<span class="token keyword keyword-const">const</span> <span class="token keyword keyword-int">int</span> e <span class="token punctuation brace-curly brace-open brace-level-1" id="pair-121-close">{</span> <span class="token function">getValue</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-119-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-119-open">)</span> <span class="token punctuation brace-curly brace-close brace-level-1" id="pair-121-open">}</span><span class="token punctuation">;</span> <span class="token comment">// not obvious whether e is usable in a constant expression or not</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  In the above example, variables <code>d</code> and <code>e</code> may or may
+  not be usable in a constant expressions, depending on how
+  <code>someVar</code> and <code>getValue()</code> are defined. That means we
+  have to go inspect the definitions of those initializers and infer what case
+  we’re in. And that may not even be sufficient -- if <code>someVar</code> is
+  const and initialized with a variable or a function call, we’ll have to go
+  inspect the definition of its initializer too!
+</p>
+<p>
+  Second, use of <code>const</code> does not provide a way to inform the
+  compiler that we require a variable that is usable in a constant expression
+  (and that it should halt compilation if it isn’t). Instead, it will just
+  silently create a variable that can only be used in runtime expressions.
+</p>
+<p>
+  Third, the use of <code>const</code> to create compile-time constant variables
+  does not extend to non-integral variables. And there are many cases where we
+  would like non-integral variables to be compile-time constants too.
+</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  The <code>constexpr</code> keyword
+</p>
+<p>
+  Fortunately, we can enlist the compiler’s help to ensure we get a compile-time
+  constant variable where we desire one. To do so, we use the
+  <code>constexpr</code> keyword (which is shorthand for “constant expression”)
+  instead of <code>const</code> in a variable’s declaration. A
+  <strong>constexpr</strong> variable is always a compile-time constant. As a
+  result, a constexpr variable must be initialized with a constant expression,
+  otherwise a compilation error will result.
+</p>
+<div class="code-block code-block-3" style="margin: 8px 0; clear: both"></div>
+<p>For example:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token comment">// The return value of a non-constexpr function is not constexpr</span>
+<span class="token keyword keyword-int">int</span> <span class="token function">five</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-122-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-122-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-125-close">{</span>
+    <span class="token keyword keyword-return">return</span> <span class="token number">5</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-125-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-123-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-123-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-132-close">{</span>
+    <span class="token keyword keyword-constexpr">constexpr</span> <span class="token keyword keyword-double">double</span> gravity <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-126-close">{</span> <span class="token number">9.8</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-126-open">}</span><span class="token punctuation">;</span> <span class="token comment">// ok: 9.8 is a constant expression</span>
+    <span class="token keyword keyword-constexpr">constexpr</span> <span class="token keyword keyword-int">int</span> sum <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-127-close">{</span> <span class="token number">4</span> <span class="token operator">+</span> <span class="token number">5</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-127-open">}</span><span class="token punctuation">;</span>      <span class="token comment">// ok: 4 + 5 is a constant expression</span>
+    <span class="token keyword keyword-constexpr">constexpr</span> <span class="token keyword keyword-int">int</span> something <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-128-close">{</span> sum <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-128-open">}</span><span class="token punctuation">;</span>  <span class="token comment">// ok: sum is a constant expression</span>
+
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Enter your age: "</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-int">int</span> age<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-129-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-129-open">}</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>cin <span class="token operator">&gt;&gt;</span> age<span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-constexpr">constexpr</span> <span class="token keyword keyword-int">int</span> myAge <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-130-close">{</span> age <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-130-open">}</span><span class="token punctuation">;</span>      <span class="token comment">// compile error: age is not a constant expression</span>
+    <span class="token keyword keyword-constexpr">constexpr</span> <span class="token keyword keyword-int">int</span> f <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-131-close">{</span> <span class="token function">five</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-124-close">(</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-124-open">)</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-131-open">}</span><span class="token punctuation">;</span>       <span class="token comment">// compile error: return value of five() is not constexpr</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-132-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  Because functions normally execute at runtime, the return value of a function
+  is not constexpr (even when the return expression is a constant expression).
+  This is why <code>five()</code> is not a legal initialization value for
+  <code>constexpr int f</code>.
+</p>
+<div class="cpp-note cpp-lightgraybackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Related content</p>
+  <p>
+    We talk about functions whose return values can be used in constant
+    expressions in lesson
+    <a href="https://www.learncpp.com/cpp-tutorial/constexpr-functions/"
+      >F.1 -- Constexpr functions</a
+    >.
+  </p>
+</div>
+<p>
+  Additionally, <code>constexpr</code> works for variables with non-integral
+  types:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-constexpr">constexpr</span> <span class="token keyword keyword-double">double</span> d <span class="token punctuation brace-curly brace-open brace-level-1" id="pair-133-close">{</span> <span class="token number">1.2</span> <span class="token punctuation brace-curly brace-close brace-level-1" id="pair-133-open">}</span><span class="token punctuation">;</span> <span class="token comment">// d can be used in constant expressions!</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  The meaning of const vs constexpr for variables
+</p>
+<p>For variables:</p>
+<ul>
+  <li>
+    <code>const</code> means that the value of an object cannot be changed after
+    initialization. The value of the initializer may be known at compile-time or
+    runtime. The const object can be evaluated at runtime.
+  </li>
+  <li>
+    <code>constexpr</code> means that the object can be used in a constant
+    expression. The value of the initializer must be known at compile-time. The
+    constexpr object can be evaluated at runtime or compile-time.
+  </li>
+</ul>
+<p>
+  Constexpr variables are implicitly const. Const variables are not implicitly
+  constexpr (except for const integral variables with a constant expression
+  initializer). Although a variable can be defined as both
+  <code>constexpr</code> and <code>const</code>, in most cases this is
+  redundant, and we only need to use either <code>const</code> or
+  <code>constexpr</code>.
+</p>
+<p>
+  Unlike <code>const</code>, <code>constexpr</code> is not part of an object’s
+  type. Therefore a variable defined as <code>constexpr int</code> actually has
+  type <code>const int</code> (due to the implicit <code>const</code> that
+  <code>constexpr</code> provides for objects).
+</p>
+<div class="code-block code-block-4" style="margin: 8px 0; clear: both"></div>
+<div class="cpp-note cpp-lightgreenbackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Best practice</p>
+  <p>
+    Any constant variable whose initializer is a constant expression should be
+    declared as <code>constexpr</code>.
+  </p>
+  <p>
+    Any constant variable whose initializer is not a constant expression (making
+    it a runtime constant) should be declared as <code>const</code>.
+  </p>
+  <p>
+    Caveat: In the future we will discuss some types that are not fully
+    compatible with <code>constexpr</code> (including <code>std::string</code>,
+    <code>std::vector</code>, and other types that use dynamic memory
+    allocation). For constant objects of these types, either use
+    <code>const</code> instead of <code>constexpr</code>, or pick a different
+    type that is constexpr compatible (e.g. <code>std::string_view</code> or
+    <code>std::array</code>).
+  </p>
+</div>
+<div class="cpp-note cpp-lightgraybackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Nomenclature</p>
+  <p>
+    The term <code>constexpr</code> is a portmanteau of “constant expression”.
+    This name was picked because constexpr objects (and functions) can be used
+    in constant expressions.
+  </p>
+  <p>
+    Formally, the keyword <code>constexpr</code> applies only to objects and
+    functions. Conventionally, the term <code>constexpr</code> is used as
+    shorthand for any constant expression (such as <code>1 + 2</code>).
+  </p>
+</div>
+<div class="cpp-note cpp-lightgraybackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Author’s note</p>
+  <p>
+    Some of the examples on this site were written prior to the best practice to
+    use <code>constexpr</code> -- as a result, you will note that some examples
+    do not follow the above best practice. We are currently in the process of
+    updating non-compliant examples as we run across them.
+  </p>
+</div>
+<div class="cpp-note cpp-lightgraybackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">For advanced readers</p>
+  <p>
+    In C and C++, the declaration of an array object (an object can hold
+    multiple values) requires the length of the array (the number of values that
+    it can hold) be known at compile-time (so the compiler can ensure the
+    correct amount of memory is allocated for array objects).
+  </p>
+  <p>
+    Since literals are known at compile-time, they can be used as an array
+    length:
+  </p>
+  <div class="code-toolbar">
+    <pre
+      class="line-numbers language-cpp"
+      tabindex="0"
+    ><code class="match-braces language-cpp"><span class="token keyword keyword-int">int</span> arr<span class="token punctuation brace-square brace-open brace-level-1" id="pair-134-close">[</span><span class="token number">5</span><span class="token punctuation brace-square brace-close brace-level-1" id="pair-134-open">]</span><span class="token punctuation">;</span> <span class="token comment">// an array of 5 int values, length of 5 is known at compile-time</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+    <div class="toolbar">
+      <div class="toolbar-item">
+        <button
+          class="copy-to-clipboard-button"
+          type="button"
+          data-copy-state="copy"
+        >
+          <span>Copy</span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <p>
+    In many cases, it would be preferable to use a symbolic constant as an array
+    length (e.g. to avoid magic numbers and make the array length easier to
+    change if it is used in multiple places). In C, this can be done via a
+    preprocessor macro, or via an enumerator, but not via a const variable
+    (excluding VLA’s, which have other downsides). C++, looking to improve on
+    this situation, wanted to allow the use of const variables instead of
+    macros. But the value of variables was generally assumed to be known only at
+    runtime, which made them ineligible to be used as array lengths.
+  </p>
+  <p>
+    To solve this problem, the C++ language standard added an exemption so that
+    const integral types with a constant expression initializer would be treated
+    as values known at compile-time, and thus be usable as array lengths:
+  </p>
+  <div class="code-toolbar">
+    <pre
+      class="line-numbers language-cpp"
+      tabindex="0"
+    ><code class="match-braces language-cpp"><span class="token keyword keyword-const">const</span> <span class="token keyword keyword-int">int</span> arrLen <span class="token operator">=</span> <span class="token number">5</span><span class="token punctuation">;</span>
+<span class="token keyword keyword-int">int</span> arr<span class="token punctuation brace-square brace-open brace-level-1" id="pair-135-close">[</span>arrLen<span class="token punctuation brace-square brace-close brace-level-1" id="pair-135-open">]</span><span class="token punctuation">;</span> <span class="token comment">// ok: array of 5 ints</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+    <div class="toolbar">
+      <div class="toolbar-item">
+        <button
+          class="copy-to-clipboard-button"
+          type="button"
+          data-copy-state="copy"
+        >
+          <span>Copy</span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <p>
+    When C++11 introduced constant expressions, it made sense for a const int
+    with a constant expression initializer to be grandfathered into that
+    definition. The committee discussed whether other types should be included
+    as well, but ultimately decided not to.
+  </p>
+</div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Const and constexpr function parameters
+</p>
+<p>
+  Normal function calls are evaluated at runtime, with the supplied arguments
+  being used to initialize the function’s parameters. Because the initialization
+  of function parameters happens at runtime, this leads to two consequences:
+</p>
+<ol start="1">
+  <li>
+    <code>const</code> function parameters are treated as runtime constants
+    (even when the supplied argument is a compile-time constant).
+  </li>
+  <li>
+    Function parameters cannot be declared as <code>constexpr</code>, since
+    their initialization value isn’t determined until runtime.
+  </li>
+</ol>
+<div class="cpp-note cpp-lightgraybackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Related content</p>
+  <p>
+    We discuss functions that can be evaluated at compile-time (and thus be used
+    in constant expressions) below.
+  </p>
+  <p>
+    C++ also supports a way to pass compile-time constants to a function. We
+    discuss these in lesson
+    <a
+      href="https://www.learncpp.com/cpp-tutorial/non-type-template-parameters/"
+      >11.9 -- Non-type template parameters</a
+    >.
+  </p>
+</div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Nomenclature recap
+</p>
+<div class="cpp-table-wrapper" data-ezoic-video-excluded="1">
+  <table class="cpp-table" data-ezoic-video-excluded="1">
+    <tbody>
+      <tr>
+        <th>Term</th>
+        <th>Definition</th>
+      </tr>
+      <tr>
+        <td>Compile-time constant</td>
+        <td>
+          A value or non-modifiable object whose value must be known at compile
+          time (e.g. literals and constexpr variables).
+        </td>
+      </tr>
+      <tr>
+        <td>Constexpr</td>
+        <td>
+          Keyword that declares objects as compile-time constants (and functions
+          that can be evaluated at compile-time). Informally, shorthand for
+          “constant expression”.
+        </td>
+      </tr>
+      <tr>
+        <td>Constant expression</td>
+        <td>
+          An expression that contains only compile-time constants and
+          operators/functions that support compile-time evaluation.
+        </td>
+      </tr>
+      <tr>
+        <td>Runtime expression</td>
+        <td>An expression that is not a constant expression.</td>
+      </tr>
+      <tr>
+        <td>Runtime constant</td>
+        <td>
+          A value or non-modifiable object that is not a compile-time constant.
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  A brief introduction to constexpr functions
+</p>
+<p>
+  A <strong>constexpr function</strong> is a function that can be called in a
+  constant expression. A constexpr function must evaluate at compile-time when
+  the constant expression it is part of must evaluate at compile time (e.g. in
+  the initializer of a constexpr variable). Otherwise, a constexpr function may
+  be evaluated at either compile-time (if eligible) or runtime. To be eligible
+  for compile-time execution, all arguments must be constant expressions.
+</p>
+<p>
+  To make a constexpr function, the <code>constexpr</code> keyword is placed in
+  the function declaration before the return type:
+</p>
+<div class="code-block code-block-5" style="margin: 8px 0; clear: both"></div>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">max</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-136-close">(</span><span class="token keyword keyword-int">int</span> x<span class="token punctuation">,</span> <span class="token keyword keyword-int">int</span> y<span class="token punctuation brace-round brace-close brace-level-1" id="pair-136-open">)</span> <span class="token comment">// this is a non-constexpr function</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-147-close">{</span>
+    <span class="token keyword keyword-if">if</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-137-close">(</span>x <span class="token operator">&gt;</span> y<span class="token punctuation brace-round brace-close brace-level-2" id="pair-137-open">)</span>
+        <span class="token keyword keyword-return">return</span> x<span class="token punctuation">;</span>
+    <span class="token keyword keyword-else">else</span>
+        <span class="token keyword keyword-return">return</span> y<span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-147-open">}</span>
+
+<span class="token keyword keyword-constexpr">constexpr</span> <span class="token keyword keyword-int">int</span> <span class="token function">cmax</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-138-close">(</span><span class="token keyword keyword-int">int</span> x<span class="token punctuation">,</span> <span class="token keyword keyword-int">int</span> y<span class="token punctuation brace-round brace-close brace-level-1" id="pair-138-open">)</span> <span class="token comment">// this is a constexpr function</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-148-close">{</span>
+    <span class="token keyword keyword-if">if</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-139-close">(</span>x <span class="token operator">&gt;</span> y<span class="token punctuation brace-round brace-close brace-level-2" id="pair-139-open">)</span>
+        <span class="token keyword keyword-return">return</span> x<span class="token punctuation">;</span>
+    <span class="token keyword keyword-else">else</span>
+        <span class="token keyword keyword-return">return</span> y<span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-148-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-140-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-140-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-155-close">{</span>
+    <span class="token keyword keyword-int">int</span> m1 <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-149-close">{</span> <span class="token function">max</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-141-close">(</span><span class="token number">5</span><span class="token punctuation">,</span> <span class="token number">6</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-141-open">)</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-149-open">}</span><span class="token punctuation">;</span>            <span class="token comment">// ok</span>
+    <span class="token keyword keyword-const">const</span> <span class="token keyword keyword-int">int</span> m2 <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-150-close">{</span> <span class="token function">max</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-142-close">(</span><span class="token number">5</span><span class="token punctuation">,</span> <span class="token number">6</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-142-open">)</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-150-open">}</span><span class="token punctuation">;</span>      <span class="token comment">// ok</span>
+    <span class="token keyword keyword-constexpr">constexpr</span> <span class="token keyword keyword-int">int</span> m3 <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-151-close">{</span> <span class="token function">max</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-143-close">(</span><span class="token number">5</span><span class="token punctuation">,</span> <span class="token number">6</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-143-open">)</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-151-open">}</span><span class="token punctuation">;</span>  <span class="token comment">// compile error: max(5, 6) not a constant expression</span>
+
+    <span class="token keyword keyword-int">int</span> m4 <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-152-close">{</span> <span class="token function">cmax</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-144-close">(</span><span class="token number">5</span><span class="token punctuation">,</span> <span class="token number">6</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-144-open">)</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-152-open">}</span><span class="token punctuation">;</span>           <span class="token comment">// ok: may evaluate at compile-time or runtime</span>
+    <span class="token keyword keyword-const">const</span> <span class="token keyword keyword-int">int</span> m5 <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-153-close">{</span> <span class="token function">cmax</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-145-close">(</span><span class="token number">5</span><span class="token punctuation">,</span> <span class="token number">6</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-145-open">)</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-153-open">}</span><span class="token punctuation">;</span>     <span class="token comment">// ok: may evaluate at compile-time or runtime</span>
+    <span class="token keyword keyword-constexpr">constexpr</span> <span class="token keyword keyword-int">int</span> m6 <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-154-close">{</span> <span class="token function">cmax</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-146-close">(</span><span class="token number">5</span><span class="token punctuation">,</span> <span class="token number">6</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-146-open">)</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-154-open">}</span><span class="token punctuation">;</span> <span class="token comment">// okay: must evaluate at compile-time</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-155-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<div class="cpp-note cpp-lightgraybackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Author’s note</p>
+  <p>
+    We used to discuss constexpr functions in detail in this chapter, but
+    feedback from readers indicated that the topic was too long and nuanced to
+    present this early in the tutorial series. As a result, we’ve moved the full
+    discussion back to lesson
+    <a href="https://www.learncpp.com/cpp-tutorial/constexpr-functions/"
+      >F.1 -- Constexpr functions</a
+    >.
+  </p>
+  <p>
+    The key thing to take away from this introduction is that a constexpr
+    function may be called in constant expressions.
+  </p>
+  <p>
+    You will see constexpr functions used in some future examples (where
+    appropriate), but we will not expect you to understand them further or write
+    your own constexpr functions until we’ve formally covered the topic.
+  </p>
+</div>
+<div class="prevnext">
+  <div class="prevnext-inline">
+    <a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/introduction-to-stdstring/"
+      ><div class="nav-button nav-button-next">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-right" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Next lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">5.7</span>Introduction to
+            std::string
+          </div>
+        </div>
+      </div></a
+    ><a class="nav-link" href="/"
+      ><div class="nav-button nav-button-index">
+        <div class="nav-button-icon">
+          <i class="fa fa-home" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Back to table of contents</div>
+        </div>
+      </div></a
+    ><a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/constant-expressions/"
+      ><div class="nav-button nav-button-prev">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-left" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Previous lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">5.5</span>Constant
+            expressions
+          </div>
+        </div>
+      </div></a
+    >
+  </div>
+</div>
+<div class="code-block code-block-10" style="margin: 8px 0; clear: both"></div>

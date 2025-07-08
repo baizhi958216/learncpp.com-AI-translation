@@ -1,0 +1,1227 @@
+<div
+  class="code-block code-block-1"
+  style="margin: 8px 8px 8px 0; float: left"
+></div>
+<p>
+  In all of the functions we’ve seen so far, the number of parameters a function
+  will take must be known in advance (even if they have default values).
+  However, there are certain cases where it can be useful to be able to pass a
+  variable number of parameters to a function. C++ provides a special specifier
+  known as ellipsis (aka “…”) that allow us to do precisely this.
+</p>
+<p>
+  Because ellipsis are rarely used, potentially dangerous, and we recommend
+  avoiding their use, this section can be considered optional reading.
+</p>
+<p>Functions that use ellipsis take the form:</p>
+<pre>
+return_type function_name(argument_list, ...)
+</pre>
+<p>
+  The <em>argument_list</em> is one or more normal function parameters. Note
+  that functions that use ellipsis must have at least one non-ellipsis
+  parameter. Any arguments passed to the function must match the argument_list
+  parameters first.
+</p>
+<p>
+  The ellipsis (which are represented as three periods in a row) must always be
+  the last parameter in the function. The ellipsis capture any additional
+  arguments (if there are any). Though it is not quite accurate, it is
+  conceptually useful to think of the ellipsis as an array that holds any
+  additional parameters beyond those in the argument_list.
+</p>
+<div class="code-block code-block-2" style="margin: 8px 0; clear: both"></div>
+
+<p><strong>An ellipsis example</strong></p>
+<p>
+  The best way to learn about ellipsis is by example. So let’s write a simple
+  program that uses ellipsis. Let’s say we want to write a function that
+  calculates the average of a bunch of integers. We’d do it like this:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;cstdarg&gt;</span> <span class="token comment">// needed to use ellipsis</span></span>
+
+<span class="token comment">// The ellipsis must be the last parameter</span>
+<span class="token comment">// count is how many additional arguments we're passing</span>
+<span class="token keyword keyword-double">double</span> <span class="token function">findAverage</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-0-close">(</span><span class="token keyword keyword-int">int</span> count<span class="token punctuation">,</span> <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-0-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-12-close">{</span>
+    <span class="token keyword keyword-int">int</span> sum<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-9-close">{</span> <span class="token number">0</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-9-open">}</span><span class="token punctuation">;</span>
+
+    <span class="token comment">// We access the ellipsis through a va_list, so let's declare one</span>
+    std<span class="token double-colon punctuation">::</span>va_list list<span class="token punctuation">;</span>
+
+    <span class="token comment">// We initialize the va_list using va_start.  The first argument is</span>
+    <span class="token comment">// the list to initialize.  The second argument is the last non-ellipsis</span>
+    <span class="token comment">// parameter.</span>
+    <span class="token function">va_start</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-1-close">(</span>list<span class="token punctuation">,</span> count<span class="token punctuation brace-round brace-close brace-level-2" id="pair-1-open">)</span><span class="token punctuation">;</span>
+
+    <span class="token comment">// Loop through all the ellipsis values</span>
+    <span class="token keyword keyword-for">for</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-2-close">(</span><span class="token keyword keyword-int">int</span> arg<span class="token punctuation brace-curly brace-open brace-level-3" id="pair-10-close">{</span> <span class="token number">0</span> <span class="token punctuation brace-curly brace-close brace-level-3" id="pair-10-open">}</span><span class="token punctuation">;</span> arg <span class="token operator">&lt;</span> count<span class="token punctuation">;</span> <span class="token operator">++</span>arg<span class="token punctuation brace-round brace-close brace-level-2" id="pair-2-open">)</span>
+    <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-11-close">{</span>
+         <span class="token comment">// We use va_arg to get values out of our ellipsis</span>
+         <span class="token comment">// The first argument is the va_list we're using</span>
+         <span class="token comment">// The second argument is the type of the value</span>
+         sum <span class="token operator">+=</span> <span class="token function">va_arg</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-3-close">(</span>list<span class="token punctuation">,</span> <span class="token keyword keyword-int">int</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-3-open">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-11-open">}</span>
+
+    <span class="token comment">// Cleanup the va_list when we're done.</span>
+    <span class="token function">va_end</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-4-close">(</span>list<span class="token punctuation brace-round brace-close brace-level-2" id="pair-4-open">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token generic-function"><span class="token function">static_cast</span><span class="token generic class-name"><span class="token operator">&lt;</span><span class="token keyword keyword-double">double</span><span class="token operator">&gt;</span></span></span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-5-close">(</span>sum<span class="token punctuation brace-round brace-close brace-level-2" id="pair-5-open">)</span> <span class="token operator">/</span> count<span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-12-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-6-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-6-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-13-close">{</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token function">findAverage</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-7-close">(</span><span class="token number">5</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-7-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token function">findAverage</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-8-close">(</span><span class="token number">6</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">,</span> <span class="token number">6</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-8-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-13-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>This code prints:</p>
+<div
+  class="google-auto-placed ap_container"
+  style="width: 100%; height: auto; clear: both; text-align: center"
+>
+  <ins
+    data-ad-format="auto"
+    class="adsbygoogle adsbygoogle-noablate"
+    data-ad-client="ca-pub-0588844875925051"
+    data-adsbygoogle-status="done"
+    style="
+      display: block;
+      margin: auto;
+      background-color: transparent;
+      height: 0px;
+    "
+    data-ad-status="unfilled"
+    ><div
+      id="aswift_5_host"
+      style="
+        border: none;
+        height: 0px;
+        width: 1027px;
+        margin: 0px;
+        padding: 0px;
+        position: relative;
+        visibility: visible;
+        background-color: transparent;
+        display: inline-block;
+        overflow: hidden;
+        opacity: 0;
+      "
+    >
+      <iframe
+        id="aswift_5"
+        name="aswift_5"
+        browsingtopics="true"
+        style="
+          left: 0px;
+          position: absolute;
+          top: 0px;
+          border: 0px;
+          width: 1027px;
+          height: 0px;
+          min-height: auto;
+          max-height: none;
+          min-width: auto;
+          max-width: none;
+        "
+        sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation"
+        width="1027"
+        height="0"
+        frameborder="0"
+        marginwidth="0"
+        marginheight="0"
+        vspace="0"
+        hspace="0"
+        allowtransparency="true"
+        scrolling="no"
+        allow="attribution-reporting; run-ad-auction"
+        src="https://googleads.g.doubleclick.net/pagead/ads?client=ca-pub-0588844875925051&amp;output=html&amp;h=280&amp;adk=3392715899&amp;adf=4050924718&amp;w=1027&amp;abgtt=11&amp;fwrn=4&amp;fwrnh=100&amp;lmt=1751778172&amp;num_ads=1&amp;rafmt=1&amp;armr=3&amp;sem=mc&amp;pwprc=4633386603&amp;ad_type=text_image&amp;format=1027x280&amp;url=https%3A%2F%2Fwww.learncpp.com%2Fcpp-tutorial%2Fellipsis-and-why-to-avoid-them%2F&amp;fwr=0&amp;pra=3&amp;rh=200&amp;rw=1026&amp;rpe=1&amp;resp_fmts=3&amp;wgl=1&amp;fa=27&amp;uach=WyJXaW5kb3dzIiwiMTkuMC4wIiwieDg2IiwiIiwiMTM3LjAuNzE1MS4xMjIiLG51bGwsMCxudWxsLCI2NCIsW1siR29vZ2xlIENocm9tZSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJDaHJvbWl1bSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJOb3QvQSlCcmFuZCIsIjI0LjAuMC4wIl1dLDBd&amp;dt=1751963256930&amp;bpp=2&amp;bdt=572&amp;idt=-M&amp;shv=r20250702&amp;mjsv=m202507020101&amp;ptt=9&amp;saldr=aa&amp;abxe=1&amp;cookie=ID%3D05f6e82287d810b4%3AT%3D1751962604%3ART%3D1751963214%3AS%3DALNI_MaQYA0TSAU2k8xwY5tqlN0xFCcd6g&amp;gpic=UID%3D00001157d9e27d0a%3AT%3D1751962604%3ART%3D1751963214%3AS%3DALNI_MYgtHzQJAQQXY_151HTGSSfVxE8_A&amp;eo_id_str=ID%3D52c21936d98c6d2b%3AT%3D1751962604%3ART%3D1751963214%3AS%3DAA-AfjZsJ15yjdEPJ8d11hPojsJQ&amp;prev_fmts=0x0%2C336x280%2C160x600%2C160x600&amp;nras=2&amp;correlator=4803168852300&amp;frm=20&amp;pv=1&amp;u_tz=480&amp;u_his=2&amp;u_h=600&amp;u_w=800&amp;u_ah=600&amp;u_aw=800&amp;u_cd=24&amp;u_sd=1&amp;dmc=8&amp;adx=27&amp;ady=1399&amp;biw=1080&amp;bih=1024&amp;scr_x=0&amp;scr_y=0&amp;eid=95353387%2C95362656%2C95363185%2C95365225%2C95365234%2C95365460%2C95365109%2C95359266%2C95365116%2C95365798&amp;oid=2&amp;pvsid=7834453356421222&amp;tmod=1708485235&amp;uas=0&amp;nvt=1&amp;fc=1408&amp;brdim=10%2C10%2C10%2C10%2C800%2C0%2C780%2C580%2C1080%2C1024&amp;vis=1&amp;rsz=%7C%7Cs%7C&amp;abl=NS&amp;fu=128&amp;bc=31&amp;bz=0.72&amp;td=1&amp;tdf=2&amp;psd=W251bGwsbnVsbCxudWxsLDNd&amp;nt=1&amp;ifi=6&amp;uci=a!6&amp;btvi=1&amp;fsb=1&amp;dtd=20"
+        data-google-container-id="a!6"
+        tabindex="0"
+        title="Advertisement"
+        aria-label="Advertisement"
+        data-load-complete="true"
+        data-google-query-id="CN22o9zrrI4DFc7IFgUd6C4QYA"
+      ></iframe></div
+  ></ins>
+</div>
+<pre>
+3
+3.5
+</pre>
+<p>
+  As you can see, this function takes a variable number of parameters! Now,
+  let’s take a look at the components that make up this example.
+</p>
+<p>
+  First, we have to include the cstdarg header. This header defines va_list,
+  va_arg, va_start, and va_end, which are macros that we need to use to access
+  the parameters that are part of the ellipsis.
+</p>
+<p>
+  We then declare our function that uses the ellipsis. Remember that the
+  argument list must be one or more fixed parameters. In this case, we’re
+  passing in a single integer that tells us how many numbers to average. The
+  ellipsis always comes last.
+</p>
+<div
+  class="google-auto-placed ap_container"
+  style="width: 100%; height: auto; clear: both; text-align: center"
+>
+  <ins
+    data-ad-format="auto"
+    class="adsbygoogle adsbygoogle-noablate"
+    data-ad-client="ca-pub-0588844875925051"
+    data-adsbygoogle-status="done"
+    style="
+      display: block;
+      margin: auto;
+      background-color: transparent;
+      height: 0px;
+    "
+    data-ad-status="unfilled"
+    ><div
+      id="aswift_6_host"
+      style="
+        border: none;
+        height: 0px;
+        width: 1027px;
+        margin: 0px;
+        padding: 0px;
+        position: relative;
+        visibility: visible;
+        background-color: transparent;
+        display: inline-block;
+        overflow: hidden;
+        opacity: 0;
+      "
+    >
+      <iframe
+        id="aswift_6"
+        name="aswift_6"
+        browsingtopics="true"
+        style="
+          left: 0px;
+          position: absolute;
+          top: 0px;
+          border: 0px;
+          width: 1027px;
+          height: 0px;
+          min-height: auto;
+          max-height: none;
+          min-width: auto;
+          max-width: none;
+        "
+        sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation"
+        width="1027"
+        height="0"
+        frameborder="0"
+        marginwidth="0"
+        marginheight="0"
+        vspace="0"
+        hspace="0"
+        allowtransparency="true"
+        scrolling="no"
+        allow="attribution-reporting; run-ad-auction"
+        src="https://googleads.g.doubleclick.net/pagead/ads?client=ca-pub-0588844875925051&amp;output=html&amp;h=280&amp;adk=3392715899&amp;adf=994368093&amp;w=1027&amp;abgtt=11&amp;fwrn=4&amp;fwrnh=100&amp;lmt=1751778172&amp;num_ads=1&amp;rafmt=1&amp;armr=3&amp;sem=mc&amp;pwprc=4633386603&amp;ad_type=text_image&amp;format=1027x280&amp;url=https%3A%2F%2Fwww.learncpp.com%2Fcpp-tutorial%2Fellipsis-and-why-to-avoid-them%2F&amp;fwr=0&amp;pra=3&amp;rh=200&amp;rw=1026&amp;rpe=1&amp;resp_fmts=3&amp;wgl=1&amp;fa=27&amp;uach=WyJXaW5kb3dzIiwiMTkuMC4wIiwieDg2IiwiIiwiMTM3LjAuNzE1MS4xMjIiLG51bGwsMCxudWxsLCI2NCIsW1siR29vZ2xlIENocm9tZSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJDaHJvbWl1bSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJOb3QvQSlCcmFuZCIsIjI0LjAuMC4wIl1dLDBd&amp;dt=1751963256930&amp;bpp=1&amp;bdt=572&amp;idt=-M&amp;shv=r20250702&amp;mjsv=m202507020101&amp;ptt=9&amp;saldr=aa&amp;abxe=1&amp;cookie=ID%3D05f6e82287d810b4%3AT%3D1751962604%3ART%3D1751963214%3AS%3DALNI_MaQYA0TSAU2k8xwY5tqlN0xFCcd6g&amp;gpic=UID%3D00001157d9e27d0a%3AT%3D1751962604%3ART%3D1751963214%3AS%3DALNI_MYgtHzQJAQQXY_151HTGSSfVxE8_A&amp;eo_id_str=ID%3D52c21936d98c6d2b%3AT%3D1751962604%3ART%3D1751963214%3AS%3DAA-AfjZsJ15yjdEPJ8d11hPojsJQ&amp;prev_fmts=0x0%2C336x280%2C160x600%2C160x600%2C1027x280&amp;nras=3&amp;correlator=4803168852300&amp;frm=20&amp;pv=1&amp;u_tz=480&amp;u_his=2&amp;u_h=600&amp;u_w=800&amp;u_ah=600&amp;u_aw=800&amp;u_cd=24&amp;u_sd=1&amp;dmc=8&amp;adx=27&amp;ady=1910&amp;biw=1080&amp;bih=1024&amp;scr_x=0&amp;scr_y=0&amp;eid=95353387%2C95362656%2C95363185%2C95365225%2C95365234%2C95365460%2C95365109%2C95359266%2C95365116%2C95365798&amp;oid=2&amp;pvsid=7834453356421222&amp;tmod=1708485235&amp;uas=0&amp;nvt=1&amp;fc=1408&amp;brdim=10%2C10%2C10%2C10%2C800%2C0%2C780%2C580%2C1080%2C1024&amp;vis=1&amp;rsz=%7C%7Cs%7C&amp;abl=NS&amp;cms=2&amp;fu=128&amp;bc=31&amp;bz=0.72&amp;td=1&amp;tdf=2&amp;psd=W251bGwsbnVsbCxudWxsLDNd&amp;nt=1&amp;ifi=7&amp;uci=a!7&amp;btvi=2&amp;fsb=1&amp;dtd=21"
+        data-google-container-id="a!7"
+        tabindex="0"
+        title="Advertisement"
+        aria-label="Advertisement"
+        data-load-complete="true"
+        data-google-query-id="CIfFo9zrrI4DFRLJFgUd6JgTZA"
+      ></iframe></div
+  ></ins>
+</div>
+<p>
+  Note that the ellipsis parameter has no name! Instead, we access the values in
+  the ellipsis through a special type known as va_list. It is conceptually
+  useful to think of va_list as a pointer that points to the ellipsis array.
+  First, we declare a va_list, which we’ve called “list” for simplicity.
+</p>
+<div class="code-block code-block-3" style="margin: 8px 0; clear: both"></div>
+
+<p>
+  The next thing we need to do is make list point to our ellipsis parameters. We
+  do this by calling va_start(). va_start() takes two parameters: the va_list
+  itself, and the name of the <em>last</em> non-ellipsis parameter in the
+  function. Once va_start() has been called, va_list points to the first
+  parameter in the ellipsis.
+</p>
+<p>
+  To get the value of the parameter that va_list currently points to, we use
+  va_arg(). va_arg() also takes two parameters: the va_list itself, and the type
+  of the parameter we’re trying to access. Note that va_arg() also moves the
+  va_list to the next parameter in the ellipsis!
+</p>
+<p>
+  Finally, to clean up when we are done, we call va_end(), with va_list as the
+  parameter.
+</p>
+<div
+  class="google-auto-placed ap_container"
+  style="width: 100%; height: auto; clear: both; text-align: center"
+>
+  <ins
+    data-ad-format="auto"
+    class="adsbygoogle adsbygoogle-noablate"
+    data-ad-client="ca-pub-0588844875925051"
+    data-adsbygoogle-status="done"
+    style="
+      display: block;
+      margin: auto;
+      background-color: transparent;
+      height: 0px;
+    "
+    data-ad-status="unfilled"
+    ><div
+      id="aswift_7_host"
+      style="
+        border: none;
+        height: 0px;
+        width: 1027px;
+        margin: 0px;
+        padding: 0px;
+        position: relative;
+        visibility: visible;
+        background-color: transparent;
+        display: inline-block;
+        overflow: hidden;
+        opacity: 0;
+      "
+    >
+      <iframe
+        id="aswift_7"
+        name="aswift_7"
+        browsingtopics="true"
+        style="
+          left: 0px;
+          position: absolute;
+          top: 0px;
+          border: 0px;
+          width: 1027px;
+          height: 0px;
+          min-height: auto;
+          max-height: none;
+          min-width: auto;
+          max-width: none;
+        "
+        sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation"
+        width="1027"
+        height="0"
+        frameborder="0"
+        marginwidth="0"
+        marginheight="0"
+        vspace="0"
+        hspace="0"
+        allowtransparency="true"
+        scrolling="no"
+        allow="attribution-reporting; run-ad-auction"
+        src="https://googleads.g.doubleclick.net/pagead/ads?client=ca-pub-0588844875925051&amp;output=html&amp;h=280&amp;adk=3392715899&amp;adf=3870763048&amp;w=1027&amp;abgtt=11&amp;fwrn=4&amp;fwrnh=100&amp;lmt=1751778172&amp;num_ads=1&amp;rafmt=1&amp;armr=3&amp;sem=mc&amp;pwprc=4633386603&amp;ad_type=text_image&amp;format=1027x280&amp;url=https%3A%2F%2Fwww.learncpp.com%2Fcpp-tutorial%2Fellipsis-and-why-to-avoid-them%2F&amp;fwr=0&amp;pra=3&amp;rh=200&amp;rw=1026&amp;rpe=1&amp;resp_fmts=3&amp;wgl=1&amp;fa=27&amp;uach=WyJXaW5kb3dzIiwiMTkuMC4wIiwieDg2IiwiIiwiMTM3LjAuNzE1MS4xMjIiLG51bGwsMCxudWxsLCI2NCIsW1siR29vZ2xlIENocm9tZSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJDaHJvbWl1bSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJOb3QvQSlCcmFuZCIsIjI0LjAuMC4wIl1dLDBd&amp;dt=1751963256930&amp;bpp=1&amp;bdt=572&amp;idt=-M&amp;shv=r20250702&amp;mjsv=m202507020101&amp;ptt=9&amp;saldr=aa&amp;abxe=1&amp;cookie=ID%3D05f6e82287d810b4%3AT%3D1751962604%3ART%3D1751963214%3AS%3DALNI_MaQYA0TSAU2k8xwY5tqlN0xFCcd6g&amp;gpic=UID%3D00001157d9e27d0a%3AT%3D1751962604%3ART%3D1751963214%3AS%3DALNI_MYgtHzQJAQQXY_151HTGSSfVxE8_A&amp;eo_id_str=ID%3D52c21936d98c6d2b%3AT%3D1751962604%3ART%3D1751963214%3AS%3DAA-AfjZsJ15yjdEPJ8d11hPojsJQ&amp;prev_fmts=0x0%2C336x280%2C160x600%2C160x600%2C1027x280%2C1027x280&amp;nras=4&amp;correlator=4803168852300&amp;frm=20&amp;pv=1&amp;u_tz=480&amp;u_his=2&amp;u_h=600&amp;u_w=800&amp;u_ah=600&amp;u_aw=800&amp;u_cd=24&amp;u_sd=1&amp;dmc=8&amp;adx=27&amp;ady=2392&amp;biw=1080&amp;bih=1024&amp;scr_x=0&amp;scr_y=0&amp;eid=95353387%2C95362656%2C95363185%2C95365225%2C95365234%2C95365460%2C95365109%2C95359266%2C95365116%2C95365798&amp;oid=2&amp;pvsid=7834453356421222&amp;tmod=1708485235&amp;uas=0&amp;nvt=1&amp;fc=1408&amp;brdim=10%2C10%2C10%2C10%2C800%2C0%2C780%2C580%2C1080%2C1024&amp;vis=1&amp;rsz=%7C%7Cs%7C&amp;abl=NS&amp;fu=128&amp;bc=31&amp;bz=0.72&amp;td=1&amp;tdf=2&amp;psd=W251bGwsbnVsbCxudWxsLDNd&amp;nt=1&amp;ifi=8&amp;uci=a!8&amp;btvi=3&amp;fsb=1&amp;dtd=22"
+        data-google-container-id="a!8"
+        tabindex="0"
+        title="Advertisement"
+        aria-label="Advertisement"
+        data-load-complete="true"
+        data-google-query-id="CJfMo9zrrI4DFbHJFgUdI9ockg"
+      ></iframe></div
+  ></ins>
+</div>
+<p>
+  Note that va_start() can be called again any time we want to reset the va_list
+  to point to the first parameter in the ellipses again.
+</p>
+<p><strong>Why ellipsis are dangerous: Type checking is suspended</strong></p>
+<div class="code-block code-block-4" style="margin: 8px 0; clear: both"></div>
+
+<p>
+  Ellipsis offer the programmer a lot of flexibility to implement functions that
+  can take a variable number of parameters. However, this flexibility comes with
+  some downsides.
+</p>
+<p>
+  With regular function parameters, the compiler uses type checking to ensure
+  the types of the function arguments match the types of the function parameters
+  (or can be implicitly converted so they match). This helps ensure you don’t
+  pass a function an integer when it was expecting a string, or vice versa.
+  However, note that ellipsis parameters have no type declarations. When using
+  ellipsis, the compiler completely suspends type checking for ellipsis
+  parameters. This means it is possible to send arguments of any type to the
+  ellipsis! However, the downside is that the compiler will no longer be able to
+  warn you if you call the function with ellipsis arguments that do not make
+  sense. When using the ellipsis, it is completely up to the caller to ensure
+  the function is called with ellipsis arguments that the function can handle.
+  Obviously that leaves quite a bit of room for error (especially if the caller
+  wasn’t the one who wrote the function).
+</p>
+<div
+  class="google-auto-placed ap_container"
+  style="width: 100%; height: auto; clear: both; text-align: center"
+>
+  <ins
+    data-ad-format="auto"
+    class="adsbygoogle adsbygoogle-noablate"
+    data-ad-client="ca-pub-0588844875925051"
+    data-adsbygoogle-status="done"
+    style="
+      display: block;
+      margin: auto;
+      background-color: transparent;
+      height: 0px;
+    "
+    data-ad-status="unfilled"
+    ><div
+      id="aswift_8_host"
+      style="
+        border: none;
+        height: 0px;
+        width: 1027px;
+        margin: 0px;
+        padding: 0px;
+        position: relative;
+        visibility: visible;
+        background-color: transparent;
+        display: inline-block;
+        overflow: hidden;
+        opacity: 0;
+      "
+    >
+      <iframe
+        id="aswift_8"
+        name="aswift_8"
+        browsingtopics="true"
+        style="
+          left: 0px;
+          position: absolute;
+          top: 0px;
+          border: 0px;
+          width: 1027px;
+          height: 0px;
+          min-height: auto;
+          max-height: none;
+          min-width: auto;
+          max-width: none;
+        "
+        sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation"
+        width="1027"
+        height="0"
+        frameborder="0"
+        marginwidth="0"
+        marginheight="0"
+        vspace="0"
+        hspace="0"
+        allowtransparency="true"
+        scrolling="no"
+        allow="attribution-reporting; run-ad-auction"
+        src="https://googleads.g.doubleclick.net/pagead/ads?client=ca-pub-0588844875925051&amp;output=html&amp;h=280&amp;adk=3392715899&amp;adf=1095496332&amp;w=1027&amp;abgtt=11&amp;fwrn=4&amp;fwrnh=100&amp;lmt=1751778172&amp;num_ads=1&amp;rafmt=1&amp;armr=3&amp;sem=mc&amp;pwprc=4633386603&amp;ad_type=text_image&amp;format=1027x280&amp;url=https%3A%2F%2Fwww.learncpp.com%2Fcpp-tutorial%2Fellipsis-and-why-to-avoid-them%2F&amp;fwr=0&amp;pra=3&amp;rh=200&amp;rw=1026&amp;rpe=1&amp;resp_fmts=3&amp;wgl=1&amp;fa=27&amp;uach=WyJXaW5kb3dzIiwiMTkuMC4wIiwieDg2IiwiIiwiMTM3LjAuNzE1MS4xMjIiLG51bGwsMCxudWxsLCI2NCIsW1siR29vZ2xlIENocm9tZSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJDaHJvbWl1bSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJOb3QvQSlCcmFuZCIsIjI0LjAuMC4wIl1dLDBd&amp;dt=1751963256930&amp;bpp=1&amp;bdt=572&amp;idt=-M&amp;shv=r20250702&amp;mjsv=m202507020101&amp;ptt=9&amp;saldr=aa&amp;abxe=1&amp;cookie=ID%3D05f6e82287d810b4%3AT%3D1751962604%3ART%3D1751963214%3AS%3DALNI_MaQYA0TSAU2k8xwY5tqlN0xFCcd6g&amp;gpic=UID%3D00001157d9e27d0a%3AT%3D1751962604%3ART%3D1751963214%3AS%3DALNI_MYgtHzQJAQQXY_151HTGSSfVxE8_A&amp;eo_id_str=ID%3D52c21936d98c6d2b%3AT%3D1751962604%3ART%3D1751963214%3AS%3DAA-AfjZsJ15yjdEPJ8d11hPojsJQ&amp;prev_fmts=0x0%2C336x280%2C160x600%2C160x600%2C1027x280%2C1027x280%2C1027x280&amp;nras=5&amp;correlator=4803168852300&amp;frm=20&amp;pv=1&amp;u_tz=480&amp;u_his=2&amp;u_h=600&amp;u_w=800&amp;u_ah=600&amp;u_aw=800&amp;u_cd=24&amp;u_sd=1&amp;dmc=8&amp;adx=27&amp;ady=2938&amp;biw=1080&amp;bih=1024&amp;scr_x=0&amp;scr_y=0&amp;eid=95353387%2C95362656%2C95363185%2C95365225%2C95365234%2C95365460%2C95365109%2C95359266%2C95365116%2C95365798&amp;oid=2&amp;pvsid=7834453356421222&amp;tmod=1708485235&amp;uas=0&amp;nvt=1&amp;fc=1408&amp;brdim=10%2C10%2C10%2C10%2C800%2C0%2C780%2C580%2C1080%2C1024&amp;vis=1&amp;rsz=%7C%7Cs%7C&amp;abl=NS&amp;fu=128&amp;bc=31&amp;bz=0.72&amp;td=1&amp;tdf=2&amp;psd=W251bGwsbnVsbCxudWxsLDNd&amp;nt=1&amp;ifi=9&amp;uci=a!9&amp;btvi=4&amp;fsb=1&amp;dtd=22"
+        data-google-container-id="a!9"
+        tabindex="0"
+        title="Advertisement"
+        aria-label="Advertisement"
+        data-load-complete="true"
+        data-google-query-id="CM-FpNzrrI4DFQ_IFgUd91kC3Q"
+      ></iframe></div
+  ></ins>
+</div>
+<p>Let’s look at an example of a mistake that is pretty subtle:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp">std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token function">findAverage</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-14-close">(</span><span class="token number">6</span><span class="token punctuation">,</span> <span class="token number">1.0</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">,</span> <span class="token number">6</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-14-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  Although this may look harmless enough at first glance, note that the second
+  argument (the first ellipsis argument) is a double instead of an integer. This
+  compiles fine, and produces a somewhat surprising result:
+</p>
+<pre>
+1.78782e+008
+</pre>
+<div
+  class="google-auto-placed ap_container"
+  style="width: 100%; height: auto; clear: both; text-align: center"
+>
+  <ins
+    data-ad-format="auto"
+    class="adsbygoogle adsbygoogle-noablate"
+    data-ad-client="ca-pub-0588844875925051"
+    data-adsbygoogle-status="done"
+    style="
+      display: block;
+      margin: auto;
+      background-color: transparent;
+      height: 0px;
+    "
+    data-ad-status="unfilled"
+    ><div
+      id="aswift_9_host"
+      style="
+        border: none;
+        height: 0px;
+        width: 1027px;
+        margin: 0px;
+        padding: 0px;
+        position: relative;
+        visibility: visible;
+        background-color: transparent;
+        display: inline-block;
+        overflow: hidden;
+        opacity: 0;
+      "
+    >
+      <iframe
+        id="aswift_9"
+        name="aswift_9"
+        browsingtopics="true"
+        style="
+          left: 0px;
+          position: absolute;
+          top: 0px;
+          border: 0px;
+          width: 1027px;
+          height: 0px;
+          min-height: auto;
+          max-height: none;
+          min-width: auto;
+          max-width: none;
+        "
+        sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation"
+        width="1027"
+        height="0"
+        frameborder="0"
+        marginwidth="0"
+        marginheight="0"
+        vspace="0"
+        hspace="0"
+        allowtransparency="true"
+        scrolling="no"
+        allow="attribution-reporting; run-ad-auction"
+        src="https://googleads.g.doubleclick.net/pagead/ads?client=ca-pub-0588844875925051&amp;output=html&amp;h=280&amp;adk=3392715899&amp;adf=882018923&amp;w=1027&amp;abgtt=11&amp;fwrn=4&amp;fwrnh=100&amp;lmt=1751778172&amp;num_ads=1&amp;rafmt=1&amp;armr=3&amp;sem=mc&amp;pwprc=4633386603&amp;ad_type=text_image&amp;format=1027x280&amp;url=https%3A%2F%2Fwww.learncpp.com%2Fcpp-tutorial%2Fellipsis-and-why-to-avoid-them%2F&amp;fwr=0&amp;pra=3&amp;rh=200&amp;rw=1026&amp;rpe=1&amp;resp_fmts=3&amp;wgl=1&amp;fa=27&amp;uach=WyJXaW5kb3dzIiwiMTkuMC4wIiwieDg2IiwiIiwiMTM3LjAuNzE1MS4xMjIiLG51bGwsMCxudWxsLCI2NCIsW1siR29vZ2xlIENocm9tZSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJDaHJvbWl1bSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJOb3QvQSlCcmFuZCIsIjI0LjAuMC4wIl1dLDBd&amp;dt=1751963256930&amp;bpp=1&amp;bdt=572&amp;idt=-M&amp;shv=r20250702&amp;mjsv=m202507020101&amp;ptt=9&amp;saldr=aa&amp;abxe=1&amp;cookie=ID%3D05f6e82287d810b4%3AT%3D1751962604%3ART%3D1751963214%3AS%3DALNI_MaQYA0TSAU2k8xwY5tqlN0xFCcd6g&amp;gpic=UID%3D00001157d9e27d0a%3AT%3D1751962604%3ART%3D1751963214%3AS%3DALNI_MYgtHzQJAQQXY_151HTGSSfVxE8_A&amp;eo_id_str=ID%3D52c21936d98c6d2b%3AT%3D1751962604%3ART%3D1751963214%3AS%3DAA-AfjZsJ15yjdEPJ8d11hPojsJQ&amp;prev_fmts=0x0%2C336x280%2C160x600%2C160x600%2C1027x280%2C1027x280%2C1027x280%2C1027x280&amp;nras=6&amp;correlator=4803168852300&amp;frm=20&amp;pv=1&amp;u_tz=480&amp;u_his=2&amp;u_h=600&amp;u_w=800&amp;u_ah=600&amp;u_aw=800&amp;u_cd=24&amp;u_sd=1&amp;dmc=8&amp;adx=27&amp;ady=3434&amp;biw=1080&amp;bih=1024&amp;scr_x=0&amp;scr_y=0&amp;eid=95353387%2C95362656%2C95363185%2C95365225%2C95365234%2C95365460%2C95365109%2C95359266%2C95365116%2C95365798&amp;oid=2&amp;pvsid=7834453356421222&amp;tmod=1708485235&amp;uas=0&amp;nvt=1&amp;fc=1408&amp;brdim=10%2C10%2C10%2C10%2C800%2C0%2C780%2C580%2C1080%2C1024&amp;vis=1&amp;rsz=%7C%7Cs%7C&amp;abl=NS&amp;fu=128&amp;bc=31&amp;bz=0.72&amp;td=1&amp;tdf=2&amp;psd=W251bGwsbnVsbCxudWxsLDNd&amp;nt=1&amp;ifi=10&amp;uci=a!a&amp;btvi=5&amp;fsb=1&amp;dtd=24"
+        data-google-container-id="a!a"
+        tabindex="0"
+        title="Advertisement"
+        aria-label="Advertisement"
+        data-load-complete="true"
+        data-google-query-id="CPTro9zrrI4DFcTuFgUdN3ki3Q"
+      ></iframe></div
+  ></ins>
+</div>
+<p>which is a REALLY big number. How did this happen?</p>
+<div class="code-block code-block-5" style="margin: 8px 0; clear: both"></div>
+
+<p>
+  As you have learned in previous lessons, a computer stores all data as a
+  sequence of bits. A variable’s type tells the computer how to translate that
+  sequence of bits into a meaningful value. However, you just learned that the
+  ellipsis throw away the variable’s type! Consequently, the only way to get a
+  meaningful value back from the ellipsis is to manually tell va_arg() what the
+  expected type of the next parameter is. This is what the second parameter of
+  va_arg() does. If the actual parameter type doesn’t match the expected
+  parameter type, bad things will usually happen.
+</p>
+<p>
+  In the above findAverage program, we told va_arg() that our variables are all
+  expected to have a type of int. Consequently, each call to va_arg() will
+  return the next sequence of bits translated as an integer.
+</p>
+<div
+  class="google-auto-placed ap_container"
+  style="width: 100%; height: auto; clear: both; text-align: center"
+>
+  <ins
+    data-ad-format="auto"
+    class="adsbygoogle adsbygoogle-noablate"
+    data-ad-client="ca-pub-0588844875925051"
+    data-adsbygoogle-status="done"
+    style="
+      display: block;
+      margin: auto;
+      background-color: transparent;
+      height: 0px;
+    "
+    data-ad-status="unfilled"
+    ><div
+      id="aswift_10_host"
+      style="
+        border: none;
+        height: 0px;
+        width: 1027px;
+        margin: 0px;
+        padding: 0px;
+        position: relative;
+        visibility: visible;
+        background-color: transparent;
+        display: inline-block;
+        overflow: hidden;
+        opacity: 0;
+      "
+    >
+      <iframe
+        id="aswift_10"
+        name="aswift_10"
+        browsingtopics="true"
+        style="
+          left: 0px;
+          position: absolute;
+          top: 0px;
+          border: 0px;
+          width: 1027px;
+          height: 0px;
+          min-height: auto;
+          max-height: none;
+          min-width: auto;
+          max-width: none;
+        "
+        sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation"
+        width="1027"
+        height="0"
+        frameborder="0"
+        marginwidth="0"
+        marginheight="0"
+        vspace="0"
+        hspace="0"
+        allowtransparency="true"
+        scrolling="no"
+        allow="attribution-reporting; run-ad-auction"
+        src="https://googleads.g.doubleclick.net/pagead/ads?client=ca-pub-0588844875925051&amp;output=html&amp;h=280&amp;adk=3392715899&amp;adf=2254880683&amp;w=1027&amp;abgtt=11&amp;fwrn=4&amp;fwrnh=100&amp;lmt=1751778172&amp;num_ads=1&amp;rafmt=1&amp;armr=3&amp;sem=mc&amp;pwprc=4633386603&amp;ad_type=text_image&amp;format=1027x280&amp;url=https%3A%2F%2Fwww.learncpp.com%2Fcpp-tutorial%2Fellipsis-and-why-to-avoid-them%2F&amp;fwr=0&amp;pra=3&amp;rh=200&amp;rw=1026&amp;rpe=1&amp;resp_fmts=3&amp;wgl=1&amp;fa=27&amp;uach=WyJXaW5kb3dzIiwiMTkuMC4wIiwieDg2IiwiIiwiMTM3LjAuNzE1MS4xMjIiLG51bGwsMCxudWxsLCI2NCIsW1siR29vZ2xlIENocm9tZSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJDaHJvbWl1bSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJOb3QvQSlCcmFuZCIsIjI0LjAuMC4wIl1dLDBd&amp;dt=1751963256930&amp;bpp=1&amp;bdt=572&amp;idt=0&amp;shv=r20250702&amp;mjsv=m202507020101&amp;ptt=9&amp;saldr=aa&amp;abxe=1&amp;cookie=ID%3D05f6e82287d810b4%3AT%3D1751962604%3ART%3D1751963214%3AS%3DALNI_MaQYA0TSAU2k8xwY5tqlN0xFCcd6g&amp;gpic=UID%3D00001157d9e27d0a%3AT%3D1751962604%3ART%3D1751963214%3AS%3DALNI_MYgtHzQJAQQXY_151HTGSSfVxE8_A&amp;eo_id_str=ID%3D52c21936d98c6d2b%3AT%3D1751962604%3ART%3D1751963214%3AS%3DAA-AfjZsJ15yjdEPJ8d11hPojsJQ&amp;prev_fmts=0x0%2C336x280%2C160x600%2C160x600%2C1027x280%2C1027x280%2C1027x280%2C1027x280%2C1027x280&amp;nras=7&amp;correlator=4803168852300&amp;frm=20&amp;pv=1&amp;u_tz=480&amp;u_his=2&amp;u_h=600&amp;u_w=800&amp;u_ah=600&amp;u_aw=800&amp;u_cd=24&amp;u_sd=1&amp;dmc=8&amp;adx=27&amp;ady=3903&amp;biw=1080&amp;bih=1024&amp;scr_x=0&amp;scr_y=0&amp;eid=95353387%2C95362656%2C95363185%2C95365225%2C95365234%2C95365460%2C95365109%2C95359266%2C95365116%2C95365798&amp;oid=2&amp;pvsid=7834453356421222&amp;tmod=1708485235&amp;uas=0&amp;nvt=1&amp;fc=1408&amp;brdim=10%2C10%2C10%2C10%2C800%2C0%2C780%2C580%2C1080%2C1024&amp;vis=1&amp;rsz=%7C%7Cs%7C&amp;abl=NS&amp;fu=128&amp;bc=31&amp;bz=0.72&amp;td=1&amp;tdf=2&amp;psd=W251bGwsbnVsbCxudWxsLDNd&amp;nt=1&amp;ifi=11&amp;uci=a!b&amp;btvi=6&amp;fsb=1&amp;dtd=25"
+        data-google-container-id="a!b"
+        tabindex="0"
+        title="Advertisement"
+        aria-label="Advertisement"
+        data-load-complete="true"
+        data-google-query-id="CIn1o9zrrI4DFRXJFgUdo7k2AQ"
+      ></iframe></div
+  ></ins>
+</div>
+<p>
+  In this case, the problem is that the double we passed in as the first
+  ellipsis argument is 8 bytes, whereas va_arg(list, int) will only return 4
+  bytes of data with each call. Consequently, the first call to va_arg will only
+  read the first 4 bytes of the double (producing a garbage result), and the
+  second call to va_arg will read the second 4 bytes of the double (producing
+  another garbage result). Thus, our overall result is garbage.
+</p>
+<p>
+  Because type checking is suspended, the compiler won’t even complain if we do
+  something completely ridiculous, like this:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-int">int</span> value<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-16-close">{</span> <span class="token number">7</span> <span class="token punctuation brace-curly brace-close brace-level-1" id="pair-16-open">}</span><span class="token punctuation">;</span>
+std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token function">findAverage</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-15-close">(</span><span class="token number">6</span><span class="token punctuation">,</span> <span class="token number">1.0</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token string">"Hello, world!"</span><span class="token punctuation">,</span> <span class="token string">'G'</span><span class="token punctuation">,</span> <span class="token operator">&amp;</span>value<span class="token punctuation">,</span> <span class="token operator">&amp;</span>findAverage<span class="token punctuation brace-round brace-close brace-level-1" id="pair-15-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  Believe it or not, this actually compiles just fine, and produces the
+  following result on the author’s machine:
+</p>
+<div
+  class="google-auto-placed ap_container"
+  style="width: 100%; height: auto; clear: both; text-align: center"
+>
+  <ins
+    data-ad-format="auto"
+    class="adsbygoogle adsbygoogle-noablate"
+    data-ad-client="ca-pub-0588844875925051"
+    data-adsbygoogle-status="done"
+    style="
+      display: block;
+      margin: auto;
+      background-color: transparent;
+      height: 0px;
+    "
+    data-ad-status="unfilled"
+    ><div
+      id="aswift_11_host"
+      style="
+        border: none;
+        height: 0px;
+        width: 1027px;
+        margin: 0px;
+        padding: 0px;
+        position: relative;
+        visibility: visible;
+        background-color: transparent;
+        display: inline-block;
+        overflow: hidden;
+        opacity: 0;
+      "
+    >
+      <iframe
+        id="aswift_11"
+        name="aswift_11"
+        browsingtopics="true"
+        style="
+          left: 0px;
+          position: absolute;
+          top: 0px;
+          border: 0px;
+          width: 1027px;
+          height: 0px;
+          min-height: auto;
+          max-height: none;
+          min-width: auto;
+          max-width: none;
+        "
+        sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation"
+        width="1027"
+        height="0"
+        frameborder="0"
+        marginwidth="0"
+        marginheight="0"
+        vspace="0"
+        hspace="0"
+        allowtransparency="true"
+        scrolling="no"
+        allow="attribution-reporting; run-ad-auction"
+        src="https://googleads.g.doubleclick.net/pagead/ads?client=ca-pub-0588844875925051&amp;output=html&amp;h=280&amp;adk=3392715899&amp;adf=3151076776&amp;w=1027&amp;abgtt=11&amp;fwrn=4&amp;fwrnh=100&amp;lmt=1751778172&amp;num_ads=1&amp;rafmt=1&amp;armr=3&amp;sem=mc&amp;pwprc=4633386603&amp;ad_type=text_image&amp;format=1027x280&amp;url=https%3A%2F%2Fwww.learncpp.com%2Fcpp-tutorial%2Fellipsis-and-why-to-avoid-them%2F&amp;fwr=0&amp;pra=3&amp;rh=200&amp;rw=1026&amp;rpe=1&amp;resp_fmts=3&amp;wgl=1&amp;fa=27&amp;uach=WyJXaW5kb3dzIiwiMTkuMC4wIiwieDg2IiwiIiwiMTM3LjAuNzE1MS4xMjIiLG51bGwsMCxudWxsLCI2NCIsW1siR29vZ2xlIENocm9tZSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJDaHJvbWl1bSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJOb3QvQSlCcmFuZCIsIjI0LjAuMC4wIl1dLDBd&amp;dt=1751963256932&amp;bpp=1&amp;bdt=574&amp;idt=0&amp;shv=r20250702&amp;mjsv=m202507020101&amp;ptt=9&amp;saldr=aa&amp;abxe=1&amp;cookie=ID%3D05f6e82287d810b4%3AT%3D1751962604%3ART%3D1751963214%3AS%3DALNI_MaQYA0TSAU2k8xwY5tqlN0xFCcd6g&amp;gpic=UID%3D00001157d9e27d0a%3AT%3D1751962604%3ART%3D1751963214%3AS%3DALNI_MYgtHzQJAQQXY_151HTGSSfVxE8_A&amp;eo_id_str=ID%3D52c21936d98c6d2b%3AT%3D1751962604%3ART%3D1751963214%3AS%3DAA-AfjZsJ15yjdEPJ8d11hPojsJQ&amp;prev_fmts=0x0%2C336x280%2C160x600%2C160x600%2C1027x280%2C1027x280%2C1027x280%2C1027x280%2C1027x280%2C1027x280&amp;nras=8&amp;correlator=4803168852300&amp;frm=20&amp;pv=1&amp;u_tz=480&amp;u_his=2&amp;u_h=600&amp;u_w=800&amp;u_ah=600&amp;u_aw=800&amp;u_cd=24&amp;u_sd=1&amp;dmc=8&amp;adx=27&amp;ady=3567&amp;biw=1080&amp;bih=1024&amp;scr_x=0&amp;scr_y=0&amp;eid=95353387%2C95362656%2C95363185%2C95365225%2C95365234%2C95365460%2C95365109%2C95359266%2C95365116%2C95365798&amp;oid=2&amp;pvsid=7834453356421222&amp;tmod=1708485235&amp;uas=0&amp;nvt=1&amp;fc=1408&amp;brdim=10%2C10%2C10%2C10%2C800%2C0%2C780%2C580%2C1080%2C1024&amp;vis=1&amp;rsz=%7C%7Cs%7C&amp;abl=NS&amp;fu=128&amp;bc=31&amp;bz=0.72&amp;td=1&amp;tdf=2&amp;psd=W251bGwsbnVsbCxudWxsLDNd&amp;nt=1&amp;ifi=12&amp;uci=a!c&amp;btvi=7&amp;fsb=1&amp;dtd=244"
+        data-google-container-id="a!c"
+        tabindex="0"
+        title="Advertisement"
+        aria-label="Advertisement"
+        data-load-complete="true"
+        data-google-query-id="CP2OsdzrrI4DFWfJFgUd1kkoLw"
+      ></iframe></div
+  ></ins>
+</div>
+<div class="code-block code-block-6" style="margin: 8px 0; clear: both"></div>
+
+<pre>
+1.79766e+008
+</pre>
+<p>
+  This result epitomizes the phrase, “Garbage in, garbage out”, which is a
+  popular computer science phrase “used primarily to call attention to the fact
+  that computers, unlike humans, will unquestioningly process the most
+  nonsensical of input data and produce nonsensical output” (<a
+    href="https://en.wikipedia.org/wiki/Garbage_in,_garbage_out"
+    >Wikipedia</a
+  >).
+</p>
+<p>
+  So, in summary, type checking on the parameters is suspended, and we have to
+  trust the caller to pass in the right type of parameters. If they don’t, the
+  compiler won’t complain -- our program will just produce garbage (or maybe
+  crash).
+</p>
+<div
+  class="google-auto-placed ap_container"
+  style="width: 100%; height: auto; clear: both; text-align: center"
+>
+  <ins
+    data-ad-format="auto"
+    class="adsbygoogle adsbygoogle-noablate"
+    data-ad-client="ca-pub-0588844875925051"
+    data-adsbygoogle-status="done"
+    style="
+      display: block;
+      margin: auto;
+      background-color: transparent;
+      height: 0px;
+    "
+    data-ad-status="unfilled"
+    ><div
+      id="aswift_12_host"
+      style="
+        border: none;
+        height: 0px;
+        width: 1027px;
+        margin: 0px;
+        padding: 0px;
+        position: relative;
+        visibility: visible;
+        background-color: transparent;
+        display: inline-block;
+        overflow: hidden;
+        opacity: 0;
+      "
+    >
+      <iframe
+        id="aswift_12"
+        name="aswift_12"
+        browsingtopics="true"
+        style="
+          left: 0px;
+          position: absolute;
+          top: 0px;
+          border: 0px;
+          width: 1027px;
+          height: 0px;
+          min-height: auto;
+          max-height: none;
+          min-width: auto;
+          max-width: none;
+        "
+        sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation"
+        width="1027"
+        height="0"
+        frameborder="0"
+        marginwidth="0"
+        marginheight="0"
+        vspace="0"
+        hspace="0"
+        allowtransparency="true"
+        scrolling="no"
+        allow="attribution-reporting; run-ad-auction"
+        src="https://googleads.g.doubleclick.net/pagead/ads?client=ca-pub-0588844875925051&amp;output=html&amp;h=280&amp;adk=3392715899&amp;adf=826071883&amp;w=1027&amp;abgtt=11&amp;fwrn=4&amp;fwrnh=100&amp;lmt=1751778172&amp;num_ads=1&amp;rafmt=1&amp;armr=3&amp;sem=mc&amp;pwprc=4633386603&amp;ad_type=text_image&amp;format=1027x280&amp;url=https%3A%2F%2Fwww.learncpp.com%2Fcpp-tutorial%2Fellipsis-and-why-to-avoid-them%2F&amp;fwr=0&amp;pra=3&amp;rh=200&amp;rw=1026&amp;rpe=1&amp;resp_fmts=3&amp;wgl=1&amp;fa=27&amp;uach=WyJXaW5kb3dzIiwiMTkuMC4wIiwieDg2IiwiIiwiMTM3LjAuNzE1MS4xMjIiLG51bGwsMCxudWxsLCI2NCIsW1siR29vZ2xlIENocm9tZSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJDaHJvbWl1bSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJOb3QvQSlCcmFuZCIsIjI0LjAuMC4wIl1dLDBd&amp;dt=1751963256934&amp;bpp=1&amp;bdt=576&amp;idt=1&amp;shv=r20250702&amp;mjsv=m202507020101&amp;ptt=9&amp;saldr=aa&amp;abxe=1&amp;cookie=ID%3D05f6e82287d810b4%3AT%3D1751962604%3ART%3D1751963214%3AS%3DALNI_MaQYA0TSAU2k8xwY5tqlN0xFCcd6g&amp;gpic=UID%3D00001157d9e27d0a%3AT%3D1751962604%3ART%3D1751963214%3AS%3DALNI_MYgtHzQJAQQXY_151HTGSSfVxE8_A&amp;eo_id_str=ID%3D52c21936d98c6d2b%3AT%3D1751962604%3ART%3D1751963214%3AS%3DAA-AfjZsJ15yjdEPJ8d11hPojsJQ&amp;prev_fmts=0x0%2C336x280%2C160x600%2C160x600%2C1027x280%2C1027x280%2C1027x280%2C1027x280%2C1027x280%2C1027x280%2C1027x280&amp;nras=9&amp;correlator=4803168852300&amp;frm=20&amp;pv=1&amp;u_tz=480&amp;u_his=2&amp;u_h=600&amp;u_w=800&amp;u_ah=600&amp;u_aw=800&amp;u_cd=24&amp;u_sd=1&amp;dmc=8&amp;adx=27&amp;ady=4030&amp;biw=1080&amp;bih=1024&amp;scr_x=0&amp;scr_y=0&amp;eid=95353387%2C95362656%2C95363185%2C95365225%2C95365234%2C95365460%2C95365109%2C95359266%2C95365116%2C95365798&amp;oid=2&amp;pvsid=7834453356421222&amp;tmod=1708485235&amp;uas=0&amp;nvt=1&amp;fc=1408&amp;brdim=10%2C10%2C10%2C10%2C800%2C0%2C780%2C580%2C1080%2C1024&amp;vis=1&amp;rsz=%7C%7Cs%7C&amp;abl=NS&amp;fu=128&amp;bc=31&amp;bz=0.72&amp;td=1&amp;tdf=2&amp;psd=W251bGwsbnVsbCxudWxsLDNd&amp;nt=1&amp;ifi=13&amp;uci=a!d&amp;btvi=8&amp;fsb=1&amp;dtd=248"
+        data-google-container-id="a!d"
+        tabindex="0"
+        title="Advertisement"
+        aria-label="Advertisement"
+        data-load-complete="true"
+        data-google-query-id="CKjSsdzrrI4DFa7IFgUdqD4Lkg"
+      ></iframe></div
+  ></ins>
+</div>
+<p>
+  <strong
+    >Why ellipsis are dangerous: ellipsis don’t know how many parameters were
+    passed</strong
+  >
+</p>
+<p>
+  Not only do the ellipsis throw away the <em>type</em> of the parameters, it
+  also throws away the <em>number</em> of parameters in the ellipsis. This means
+  we have to devise our own solution for keeping track of the number of
+  parameters passed into the ellipsis. Typically, this is done in one of three
+  ways.
+</p>
+<p><strong>Method 1: Pass a length parameter</strong></p>
+<div class="code-block code-block-7" style="margin: 8px 0; clear: both"></div>
+
+<p>
+  Method #1 is to have one of the fixed parameters represent the number of
+  optional parameters passed. This is the solution we use in the findAverage()
+  example above.
+</p>
+<div
+  class="google-auto-placed ap_container"
+  style="width: 100%; height: auto; clear: both; text-align: center"
+>
+  <ins
+    data-ad-format="auto"
+    class="adsbygoogle adsbygoogle-noablate"
+    data-ad-client="ca-pub-0588844875925051"
+    data-adsbygoogle-status="done"
+    style="
+      display: block;
+      margin: auto;
+      background-color: transparent;
+      height: 0px;
+    "
+    data-ad-status="unfilled"
+    ><div
+      id="aswift_13_host"
+      style="
+        border: none;
+        height: 0px;
+        width: 1027px;
+        margin: 0px;
+        padding: 0px;
+        position: relative;
+        visibility: visible;
+        background-color: transparent;
+        display: inline-block;
+        overflow: hidden;
+        opacity: 0;
+      "
+    >
+      <iframe
+        id="aswift_13"
+        name="aswift_13"
+        browsingtopics="true"
+        style="
+          left: 0px;
+          position: absolute;
+          top: 0px;
+          border: 0px;
+          width: 1027px;
+          height: 0px;
+          min-height: auto;
+          max-height: none;
+          min-width: auto;
+          max-width: none;
+        "
+        sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation"
+        width="1027"
+        height="0"
+        frameborder="0"
+        marginwidth="0"
+        marginheight="0"
+        vspace="0"
+        hspace="0"
+        allowtransparency="true"
+        scrolling="no"
+        allow="attribution-reporting; run-ad-auction"
+        src="https://googleads.g.doubleclick.net/pagead/ads?client=ca-pub-0588844875925051&amp;output=html&amp;h=280&amp;adk=3392715899&amp;adf=2986746740&amp;w=1027&amp;abgtt=11&amp;fwrn=4&amp;fwrnh=100&amp;lmt=1751778172&amp;num_ads=1&amp;rafmt=1&amp;armr=3&amp;sem=mc&amp;pwprc=4633386603&amp;ad_type=text_image&amp;format=1027x280&amp;url=https%3A%2F%2Fwww.learncpp.com%2Fcpp-tutorial%2Fellipsis-and-why-to-avoid-them%2F&amp;fwr=0&amp;pra=3&amp;rh=200&amp;rw=1026&amp;rpe=1&amp;resp_fmts=3&amp;wgl=1&amp;fa=27&amp;uach=WyJXaW5kb3dzIiwiMTkuMC4wIiwieDg2IiwiIiwiMTM3LjAuNzE1MS4xMjIiLG51bGwsMCxudWxsLCI2NCIsW1siR29vZ2xlIENocm9tZSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJDaHJvbWl1bSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJOb3QvQSlCcmFuZCIsIjI0LjAuMC4wIl1dLDBd&amp;dt=1751963256936&amp;bpp=1&amp;bdt=578&amp;idt=1&amp;shv=r20250702&amp;mjsv=m202507020101&amp;ptt=9&amp;saldr=aa&amp;abxe=1&amp;cookie=ID%3D05f6e82287d810b4%3AT%3D1751962604%3ART%3D1751963214%3AS%3DALNI_MaQYA0TSAU2k8xwY5tqlN0xFCcd6g&amp;gpic=UID%3D00001157d9e27d0a%3AT%3D1751962604%3ART%3D1751963214%3AS%3DALNI_MYgtHzQJAQQXY_151HTGSSfVxE8_A&amp;eo_id_str=ID%3D52c21936d98c6d2b%3AT%3D1751962604%3ART%3D1751963214%3AS%3DAA-AfjZsJ15yjdEPJ8d11hPojsJQ&amp;prev_fmts=0x0%2C336x280%2C160x600%2C160x600%2C1027x280%2C1027x280%2C1027x280%2C1027x280%2C1027x280%2C1027x280%2C1027x280%2C1027x280&amp;nras=10&amp;correlator=4803168852300&amp;frm=20&amp;pv=1&amp;u_tz=480&amp;u_his=2&amp;u_h=600&amp;u_w=800&amp;u_ah=600&amp;u_aw=800&amp;u_cd=24&amp;u_sd=1&amp;dmc=8&amp;adx=27&amp;ady=3651&amp;biw=1080&amp;bih=1024&amp;scr_x=0&amp;scr_y=0&amp;eid=95353387%2C95362656%2C95363185%2C95365225%2C95365234%2C95365460%2C95365109%2C95359266%2C95365116%2C95365798&amp;oid=2&amp;pvsid=7834453356421222&amp;tmod=1708485235&amp;uas=0&amp;nvt=1&amp;fc=1408&amp;brdim=10%2C10%2C10%2C10%2C800%2C0%2C780%2C580%2C1080%2C1024&amp;vis=1&amp;rsz=%7C%7Cs%7C&amp;abl=NS&amp;fu=128&amp;bc=31&amp;bz=0.72&amp;td=1&amp;tdf=2&amp;psd=W251bGwsbnVsbCxudWxsLDNd&amp;nt=1&amp;ifi=14&amp;uci=a!e&amp;btvi=9&amp;fsb=1&amp;dtd=315"
+        data-google-container-id="a!e"
+        tabindex="0"
+        title="Advertisement"
+        aria-label="Advertisement"
+        data-load-complete="true"
+        data-google-query-id="COnstdzrrI4DFZLJFgUdA1od6g"
+      ></iframe></div
+  ></ins>
+</div>
+<p>
+  However, even here we run into trouble. For example, consider the following
+  call:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp">std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token function">findAverage</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-17-close">(</span><span class="token number">6</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-17-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>On the author’s machine at the time of writing, this produced the result:</p>
+<pre>
+699773
+</pre>
+<p>
+  What happened? We told findAverage() we were going to provide 6 additional
+  values, but we only gave it 5. Consequently, the first five values that
+  va_arg() returns were the ones we passed in. The 6th value it returns was a
+  garbage value somewhere in the stack. Consequently, we got a garbage answer.
+</p>
+<p>A more insidious case:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp">std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token function">findAverage</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-18-close">(</span><span class="token number">6</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">,</span> <span class="token number">6</span><span class="token punctuation">,</span> <span class="token number">7</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-18-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  This produces the answer 3.5, which may look correct at first glance, but
+  omits the last number in the average, because we only told it we were going to
+  provide 6 additional values (and then actually provided 7). These kind of
+  mistakes can be very hard to catch.
+</p>
+<div class="code-block code-block-8" style="margin: 8px 0; clear: both"></div>
+
+<p><strong>Method 2: Use a sentinel value</strong></p>
+<p>
+  Method #2 is to use a sentinel value. A <strong>sentinel</strong> is a special
+  value that is used to terminate a loop when it is encountered. For example,
+  with strings, the null terminator is used as a sentinel value to denote the
+  end of the string. With ellipsis, the sentinel is typically passed in as the
+  last parameter. Here’s an example of findAverage() rewritten to use a sentinel
+  value of -1:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;cstdarg&gt;</span> <span class="token comment">// needed to use ellipsis</span></span>
+
+<span class="token comment">// The ellipsis must be the last parameter</span>
+<span class="token keyword keyword-double">double</span> <span class="token function">findAverage</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-19-close">(</span><span class="token keyword keyword-int">int</span> first<span class="token punctuation">,</span> <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-19-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-33-close">{</span>
+	<span class="token comment">// We have to deal with the first number specially</span>
+	<span class="token keyword keyword-int">int</span> sum<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-29-close">{</span> first <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-29-open">}</span><span class="token punctuation">;</span>
+
+	<span class="token comment">// We access the ellipsis through a va_list, so let's declare one</span>
+	std<span class="token double-colon punctuation">::</span>va_list list<span class="token punctuation">;</span>
+
+	<span class="token comment">// We initialize the va_list using va_start.  The first argument is</span>
+	<span class="token comment">// the list to initialize.  The second argument is the last non-ellipsis</span>
+	<span class="token comment">// parameter.</span>
+	<span class="token function">va_start</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-20-close">(</span>list<span class="token punctuation">,</span> first<span class="token punctuation brace-round brace-close brace-level-2" id="pair-20-open">)</span><span class="token punctuation">;</span>
+
+	<span class="token keyword keyword-int">int</span> count<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-30-close">{</span> <span class="token number">1</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-30-open">}</span><span class="token punctuation">;</span>
+	<span class="token comment">// Loop indefinitely</span>
+	<span class="token keyword keyword-while">while</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-21-close">(</span><span class="token boolean">true</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-21-open">)</span>
+	<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-32-close">{</span>
+		<span class="token comment">// We use va_arg to get values out of our ellipsis</span>
+		<span class="token comment">// The first argument is the va_list we're using</span>
+		<span class="token comment">// The second argument is the type of the value</span>
+		<span class="token keyword keyword-int">int</span> arg<span class="token punctuation brace-curly brace-open brace-level-3" id="pair-31-close">{</span> <span class="token function">va_arg</span><span class="token punctuation brace-round brace-open brace-level-4" id="pair-22-close">(</span>list<span class="token punctuation">,</span> <span class="token keyword keyword-int">int</span><span class="token punctuation brace-round brace-close brace-level-4" id="pair-22-open">)</span> <span class="token punctuation brace-curly brace-close brace-level-3" id="pair-31-open">}</span><span class="token punctuation">;</span>
+
+		<span class="token comment">// If this parameter is our sentinel value, stop looping</span>
+		<span class="token keyword keyword-if">if</span> <span class="token punctuation brace-round brace-open brace-level-3" id="pair-23-close">(</span>arg <span class="token operator">==</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-23-open">)</span>
+			<span class="token keyword keyword-break">break</span><span class="token punctuation">;</span>
+
+		sum <span class="token operator">+=</span> arg<span class="token punctuation">;</span>
+		<span class="token operator">++</span>count<span class="token punctuation">;</span>
+	<span class="token punctuation brace-curly brace-close brace-level-2" id="pair-32-open">}</span>
+
+	<span class="token comment">// Cleanup the va_list when we're done.</span>
+	<span class="token function">va_end</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-24-close">(</span>list<span class="token punctuation brace-round brace-close brace-level-2" id="pair-24-open">)</span><span class="token punctuation">;</span>
+
+	<span class="token keyword keyword-return">return</span> <span class="token generic-function"><span class="token function">static_cast</span><span class="token generic class-name"><span class="token operator">&lt;</span><span class="token keyword keyword-double">double</span><span class="token operator">&gt;</span></span></span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-25-close">(</span>sum<span class="token punctuation brace-round brace-close brace-level-2" id="pair-25-open">)</span> <span class="token operator">/</span> count<span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-33-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-26-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-26-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-34-close">{</span>
+	std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token function">findAverage</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-27-close">(</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">,</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-27-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+	std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token function">findAverage</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-28-close">(</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">,</span> <span class="token number">6</span><span class="token punctuation">,</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-28-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+	<span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-34-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  Note that we no longer need to pass an explicit length as the first parameter.
+  Instead, we pass a sentinel value as the last parameter.
+</p>
+<p>
+  However, there are a couple of challenges here. First, C++ requires that we
+  pass at least one fixed parameter. In the previous example, this was our count
+  variable. In this example, the first value is actually part of the numbers to
+  be averaged. So instead of treating the first value to be averaged as part of
+  the ellipsis parameters, we explicitly declare it as a normal parameter. We
+  then need special handling for it inside the function (in this case, we set
+  sum to first instead of 0 to start).
+</p>
+<p>
+  Second, this requires the user to pass in the sentinel as the last value. If
+  the user forgets to pass in the sentinel value (or passes in the wrong value),
+  the function will loop continuously until it runs into garbage that matches
+  the sentinel (or crashes).
+</p>
+<p>
+  Finally, note that we’ve chosen -1 as our sentinel. That’s fine if we only
+  wanted to find the average of positive numbers, but what if we wanted to
+  include negative numbers? Sentinel values only work well if there is a value
+  that falls outside the valid set of values for the problem you are trying to
+  solve.
+</p>
+<p><strong>Method 3: Use a decoder string</strong></p>
+<p>
+  Method #3 involves passing a “decoder string” that tells the program how to
+  interpret the parameters.
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;string_view&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;cstdarg&gt;</span> <span class="token comment">// needed to use ellipsis</span></span>
+
+<span class="token comment">// The ellipsis must be the last parameter</span>
+<span class="token keyword keyword-double">double</span> <span class="token function">findAverage</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-35-close">(</span>std<span class="token double-colon punctuation">::</span>string_view decoder<span class="token punctuation">,</span> <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-35-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-50-close">{</span>
+	<span class="token keyword keyword-double">double</span> sum<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-47-close">{</span> <span class="token number">0</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-47-open">}</span><span class="token punctuation">;</span>
+
+	<span class="token comment">// We access the ellipsis through a va_list, so let's declare one</span>
+	std<span class="token double-colon punctuation">::</span>va_list list<span class="token punctuation">;</span>
+
+	<span class="token comment">// We initialize the va_list using va_start.  The first argument is</span>
+	<span class="token comment">// the list to initialize.  The second argument is the last non-ellipsis</span>
+	<span class="token comment">// parameter.</span>
+	<span class="token function">va_start</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-36-close">(</span>list<span class="token punctuation">,</span> decoder<span class="token punctuation brace-round brace-close brace-level-2" id="pair-36-open">)</span><span class="token punctuation">;</span>
+
+	<span class="token keyword keyword-for">for</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-37-close">(</span><span class="token keyword keyword-auto">auto</span> codetype<span class="token operator">:</span> decoder<span class="token punctuation brace-round brace-close brace-level-2" id="pair-37-open">)</span>
+	<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-49-close">{</span>
+		<span class="token keyword keyword-switch">switch</span> <span class="token punctuation brace-round brace-open brace-level-3" id="pair-38-close">(</span>codetype<span class="token punctuation brace-round brace-close brace-level-3" id="pair-38-open">)</span>
+		<span class="token punctuation brace-curly brace-open brace-level-3" id="pair-48-close">{</span>
+		<span class="token keyword keyword-case">case</span> <span class="token string">'i'</span><span class="token operator">:</span>
+			sum <span class="token operator">+=</span> <span class="token function">va_arg</span><span class="token punctuation brace-round brace-open brace-level-4" id="pair-39-close">(</span>list<span class="token punctuation">,</span> <span class="token keyword keyword-int">int</span><span class="token punctuation brace-round brace-close brace-level-4" id="pair-39-open">)</span><span class="token punctuation">;</span>
+			<span class="token keyword keyword-break">break</span><span class="token punctuation">;</span>
+
+		<span class="token keyword keyword-case">case</span> <span class="token string">'d'</span><span class="token operator">:</span>
+			sum <span class="token operator">+=</span> <span class="token function">va_arg</span><span class="token punctuation brace-round brace-open brace-level-4" id="pair-40-close">(</span>list<span class="token punctuation">,</span> <span class="token keyword keyword-double">double</span><span class="token punctuation brace-round brace-close brace-level-4" id="pair-40-open">)</span><span class="token punctuation">;</span>
+			<span class="token keyword keyword-break">break</span><span class="token punctuation">;</span>
+		<span class="token punctuation brace-curly brace-close brace-level-3" id="pair-48-open">}</span>
+	<span class="token punctuation brace-curly brace-close brace-level-2" id="pair-49-open">}</span>
+
+	<span class="token comment">// Cleanup the va_list when we're done.</span>
+	<span class="token function">va_end</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-41-close">(</span>list<span class="token punctuation brace-round brace-close brace-level-2" id="pair-41-open">)</span><span class="token punctuation">;</span>
+
+	<span class="token keyword keyword-return">return</span> sum <span class="token operator">/</span> std<span class="token double-colon punctuation">::</span><span class="token function">size</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-42-close">(</span>decoder<span class="token punctuation brace-round brace-close brace-level-2" id="pair-42-open">)</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-50-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-43-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-43-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-51-close">{</span>
+	std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token function">findAverage</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-44-close">(</span><span class="token string">"iiiii"</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-44-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+	std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token function">findAverage</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-45-close">(</span><span class="token string">"iiiiii"</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">,</span> <span class="token number">6</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-45-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+	std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token function">findAverage</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-46-close">(</span><span class="token string">"iiddi"</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3.5</span><span class="token punctuation">,</span> <span class="token number">4.5</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-46-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+	<span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-51-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  In this example, we pass a string that encodes both the number of optional
+  variables and their types. The cool thing is that this lets us deal with
+  parameters of different types. However, this method has downsides as well: the
+  decoder string can be a bit cryptic, and if the number or types of the
+  optional parameters don’t match the decoder string precisely, bad things can
+  happen.
+</p>
+<p>For those of you coming from C, this is what printf does!</p>
+<p><strong>Recommendations for safer use of ellipsis</strong></p>
+<p>
+  First, if possible, do not use ellipsis at all! Oftentimes, other reasonable
+  solutions are available, even if they require slightly more work. For example,
+  in our findAverage() program, we could have passed in a dynamically sized
+  array of integers instead. This would have provided both strong type checking
+  (to make sure the caller doesn’t try to do something nonsensical) while
+  preserving the ability to pass a variable number of integers to be averaged.
+</p>
+<p>
+  Second, if you do use ellipsis, it is better if all values passed to the
+  ellipses parameter are the same type (e.g. all <code>int</code>, or all
+  <code>double</code>, not a mix of each). Intermixing different types vastly
+  increases the possibility of the caller inadvertently passing in data of the
+  wrong type and va_arg() producing a garbage result.
+</p>
+<p>
+  Third, using a count parameter or decoder string parameter is generally safer
+  than using a sentinel value. This forces the user to pick an appropriate value
+  for the count/decoder parameter, which ensures the ellipsis loop will
+  terminate after a reasonable number of iterations even if it produces a
+  garbage value.
+</p>
+<div class="cpp-note cpp-lightgraybackground">
+  <p class="cpp-note-title cpp-bottomline">For advanced readers</p>
+  <p>
+    To improve upon ellipses-like functionality, C++11 introduced
+    <code>parameter packs</code> and <code>variadic templates</code>, which
+    offers functionality similar to ellipses, but with strong type checking.
+    However, significant usability challenges impeded adoption of this feature.
+  </p>
+  <p>
+    In C++17,
+    <a href="https://en.cppreference.com/w/cpp/language/fold"
+      >fold expressions</a
+    >
+    were added, which significantly improves the usability of parameter packs,
+    to the point where they are now a viable option.
+  </p>
+  <p>We hope to introduce lessons on these topics in a future site update.</p>
+</div>
+<div class="prevnext">
+  <div class="prevnext-inline">
+    <a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/introduction-to-lambdas-anonymous-functions/"
+    >
+      <div class="nav-button nav-button-next">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-right" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Next lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">20.6</span>Introduction to
+            lambdas (anonymous functions)
+          </div>
+        </div>
+      </div></a
+    >
+    <a class="nav-link" href="/">
+      <div class="nav-button nav-button-index">
+        <div class="nav-button-icon">
+          <i class="fa fa-home" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Back to table of contents</div>
+        </div>
+      </div></a
+    >
+    <a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/command-line-arguments/"
+    >
+      <div class="nav-button nav-button-prev">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-left" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Previous lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">20.4</span>Command line
+            arguments
+          </div>
+        </div>
+      </div></a
+    >
+  </div>
+</div>
+<div class="code-block code-block-10" style="margin: 8px 0; clear: both"></div>

@@ -1,0 +1,826 @@
+<div
+  class="code-block code-block-1"
+  style="margin: 8px 8px 8px 0; float: left"
+></div>
+<p>
+  <strong>Whitespace</strong> is a term that refers to characters that are used
+  for formatting purposes. In C++, this refers primarily to spaces, tabs, and
+  newlines. Whitespace in C++ is generally used for 3 things: separating certain
+  language elements, inside text, and for formatting code.
+</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Some language elements must be whitespace-separated
+</p>
+<p>
+  The syntax of the language requires that some elements are separated by
+  whitespace. This mostly occurs when two keywords or identifiers must be placed
+  consecutively, so the compiler can tell them apart.
+</p>
+<p>For example, a variable declaration must be whitespace separated:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-int">int</span> x<span class="token punctuation">;</span> <span class="token comment">// int and x must be whitespace separated</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  If we typed <code>intx</code> instead, the compiler would interpret this as an
+  identifier, and then complain it doesn’t know what identifier
+  <code>intx</code> is.
+</p>
+<div class="code-block code-block-2" style="margin: 8px 0; clear: both"></div>
+<p>
+  As another example, a function’s return type and name must be whitespace
+  separated:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-34-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-34-open">)</span><span class="token punctuation">;</span> <span class="token comment">// int and main must be whitespace separated</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  When whitespace is required as a separator, the compiler doesn’t care how much
+  whitespace is used, as long as some exists.
+</p>
+<p>The following variable definitions are all valid:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-int">int</span> x<span class="token punctuation">;</span>
+<span class="token keyword keyword-int">int</span>                y<span class="token punctuation">;</span>
+            <span class="token keyword keyword-int">int</span>
+z<span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  In certain cases, newlines are used as a separator. Single-line comments are
+  terminated by a newline.
+</p>
+<p>As an example, doing something like this will get you in trouble:</p>
+<div class="code-block code-block-3" style="margin: 8px 0; clear: both"></div>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp">std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Hello world!"</span><span class="token punctuation">;</span> <span class="token comment">// This is part of the comment and</span>
+<span class="token keyword keyword-this">this</span> is <span class="token operator">not</span> part of the comment<span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  Preprocessor directives (e.g. <code>#include &lt;iostream&gt;</code>) must be
+  placed on separate lines:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;string&gt;</span></span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Quoted text takes the amount of whitespace literally
+</p>
+<p>Inside quoted text, the amount of whitespace is taken literally.</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp">std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Hello world!"</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>is different than:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp">std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Hello          world!"</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>Newlines are not allowed in quoted text:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp">std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> "Hello
+     world<span class="token operator">!</span>"<span class="token punctuation">;</span> <span class="token comment">// Not allowed!</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  Quoted text separated by nothing but whitespace (spaces, tabs, or newlines)
+  will be concatenated:
+</p>
+<div class="code-block code-block-4" style="margin: 8px 0; clear: both"></div>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp">std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Hello "</span>
+     <span class="token string">"world!"</span><span class="token punctuation">;</span> <span class="token comment">// prints "Hello world!"</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Using whitespace to format code
+</p>
+<p>
+  Whitespace is otherwise generally ignored. This means we can use whitespace
+  wherever we like to format our code in order to make it easier to read.
+</p>
+<p>For example, the following is pretty hard to read:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-35-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-35-open">)</span><span class="token punctuation brace-curly brace-open brace-level-1" id="pair-36-close">{</span>std<span class="token double-colon punctuation">::</span>cout<span class="token operator">&lt;&lt;</span><span class="token string">"Hello world"</span><span class="token punctuation">;</span><span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span><span class="token punctuation brace-curly brace-close brace-level-1" id="pair-36-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>The following is better (but still pretty dense):</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-37-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-37-open">)</span> <span class="token punctuation brace-curly brace-open brace-level-1" id="pair-38-close">{</span>
+std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Hello world"</span><span class="token punctuation">;</span>
+<span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-38-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>And the following is even better:</p>
+<div class="code-block code-block-5" style="margin: 8px 0; clear: both"></div>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-39-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-39-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-40-close">{</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Hello world"</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-40-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>Statements may be split over multiple lines if desired:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-41-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-41-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-42-close">{</span>
+    std<span class="token double-colon punctuation">::</span>cout
+        <span class="token operator">&lt;&lt;</span> <span class="token string">"Hello world"</span><span class="token punctuation">;</span> <span class="token comment">// works fine</span>
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-42-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>This can be useful for particularly long statements.</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Basic formatting
+</p>
+<p>
+  Unlike some other languages, C++ does not enforce any kind of formatting
+  restrictions on the programmer. For this reason, we say that C++ is a
+  whitespace-independent language.
+</p>
+<p>
+  This is a mixed blessing. On one hand, it’s nice to have the freedom to do
+  whatever you like. On the other hand, many different methods of formatting C++
+  programs have been developed throughout the years, and you will find
+  (sometimes significant and distracting) disagreement on which ones are best.
+  Our basic rule of thumb is that the best styles are the ones that produce the
+  most readable code, and provide the most consistency.
+</p>
+<p>Here are our recommendations for basic formatting:</p>
+<div class="code-block code-block-6" style="margin: 8px 0; clear: both"></div>
+<ol start="1">
+  <li>
+    It’s fine to use either tabs or spaces for indentation (most IDEs have a
+    setting where you can convert a tab press into the appropriate number of
+    spaces). Developers who prefer spaces tend to do so because it ensures that
+    code is precisely aligned as intended regardless of which editor or settings
+    are used. Proponents of using tabs wonder why you wouldn’t use the character
+    designed to do indentation for indentation, especially as you can set the
+    width to whatever your personal preference is. There’s no right answer here
+    -- and debating it is like arguing whether cake or pie is better. It
+    ultimately comes down to personal preference.
+  </li>
+</ol>
+<p>
+  Either way, we recommend you set your tabs to 4 spaces worth of indentation.
+  Some IDEs default to 3 spaces of indentation, which is fine too.
+</p>
+<ol start="2">
+  <li>There are two conventional styles for function braces.</li>
+</ol>
+<p>
+  Many developers prefer putting the opening curly brace on the same line as the
+  statement:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-43-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-43-open">)</span> <span class="token punctuation brace-curly brace-open brace-level-1" id="pair-44-close">{</span>
+    <span class="token comment">// statements here</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-44-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  The justification for this is that it reduces the amount of vertical
+  whitespace (as you aren’t devoting an entire line to an opening curly brace),
+  so you can fit more code on a screen. This enhances code comprehension, as you
+  don’t need to scroll as much to understand what the code is doing.
+</p>
+<p>
+  However, in this tutorial series, we’ll use the common alternative, where the
+  opening brace appears on its own line:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-45-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-45-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-46-close">{</span>
+    <span class="token comment">// statements here</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-46-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  This enhances readability, and is less error prone since your brace pairs
+  should always be indented at the same level. If you get a compiler error due
+  to a brace mismatch, it’s very easy to see where.
+</p>
+<div class="code-block code-block-7" style="margin: 8px 0; clear: both"></div>
+<ol start="3">
+  <li>
+    Each statement within curly braces should start one tab in from the opening
+    brace of the function it belongs to. For example:
+  </li>
+</ol>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-47-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-47-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-48-close">{</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Hello world!\n"</span><span class="token punctuation">;</span> <span class="token comment">// tabbed in one tab (4 spaces)</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Nice to meet you.\n"</span><span class="token punctuation">;</span> <span class="token comment">// tabbed in one tab (4 spaces)</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-48-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<ol start="4">
+  <li>
+    Lines should not be too long. Typically, 80 characters has been the de facto
+    standard for the maximum length a line should be. If a line is going to be
+    longer, it should be split (at a reasonable spot) into multiple lines. This
+    can be done by indenting each subsequent line with an extra tab, or if the
+    lines are similar, by aligning it with the line above (whichever is easier
+    to read).
+  </li>
+</ol>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-49-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-49-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-50-close">{</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"This is a really, really, really, really, really, really, really, "</span>
+        <span class="token string">"really long line\n"</span><span class="token punctuation">;</span> <span class="token comment">// one extra indentation for continuation line</span>
+
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"This is another really, really, really, really, really, really, really, "</span>
+                 <span class="token string">"really long line\n"</span><span class="token punctuation">;</span> <span class="token comment">// text aligned with the previous line for continuation line</span>
+
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"This one is short\n"</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-50-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  This makes your lines easier to read. On modern wide-screen monitors, it also
+  allows you to place two windows with similar code side by side and compare
+  them more easily.
+</p>
+<div class="cpp-note cpp-lightgreenbackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Best practice</p>
+  <p>Consider keeping your lines to 80 chars or less in length.</p>
+</div>
+<div class="cpp-note cpp-lightbluebackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Tip</p>
+  <p>
+    Many editors have a built-in feature (or plugin/extension) that will show a
+    line (called a “column guide”) at a given column (e.g. at 80 characters), so
+    you can easily see when your lines are getting too long. To see if your
+    editor supports this, do a search on your editor’s name + “Column guide”.
+  </p>
+</div>
+<ol start="5">
+  <li>
+    If a long line is split with an operator (eg. &lt;&lt; or +), the operator
+    should be placed at the beginning of the next line, not the end of the
+    current line
+  </li>
+</ol>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp">std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token number">3</span> <span class="token operator">+</span> <span class="token number">4</span>
+    <span class="token operator">+</span> <span class="token number">5</span> <span class="token operator">+</span> <span class="token number">6</span>
+    <span class="token operator">*</span> <span class="token number">7</span> <span class="token operator">*</span> <span class="token number">8</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  This helps make it clearer that subsequent lines are continuations of the
+  previous lines, and allows you to align the operators on the left, which makes
+  for easier reading.
+</p>
+<ol start="6">
+  <li>
+    Use whitespace to make your code easier to read by aligning values or
+    comments or adding spacing between blocks of code.
+  </li>
+</ol>
+<p>Harder to read:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp">cost <span class="token operator">=</span> <span class="token number">57</span><span class="token punctuation">;</span>
+pricePerItem <span class="token operator">=</span> <span class="token number">24</span><span class="token punctuation">;</span>
+value <span class="token operator">=</span> <span class="token number">5</span><span class="token punctuation">;</span>
+numberOfItems <span class="token operator">=</span> <span class="token number">17</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>Easier to read:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp">cost          <span class="token operator">=</span> <span class="token number">57</span><span class="token punctuation">;</span>
+pricePerItem  <span class="token operator">=</span> <span class="token number">24</span><span class="token punctuation">;</span>
+value         <span class="token operator">=</span> <span class="token number">5</span><span class="token punctuation">;</span>
+numberOfItems <span class="token operator">=</span> <span class="token number">17</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>Harder to read:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp">std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Hello world!\n"</span><span class="token punctuation">;</span> <span class="token comment">// cout lives in the iostream library</span>
+std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"It is very nice to meet you!\n"</span><span class="token punctuation">;</span> <span class="token comment">// these comments make the code hard to read</span>
+std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Yeah!\n"</span><span class="token punctuation">;</span> <span class="token comment">// especially when lines are different lengths</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>Easier to read:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp">std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Hello world!\n"</span><span class="token punctuation">;</span>                  <span class="token comment">// cout lives in the iostream library</span>
+std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"It is very nice to meet you!\n"</span><span class="token punctuation">;</span>  <span class="token comment">// these comments are easier to read</span>
+std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Yeah!\n"</span><span class="token punctuation">;</span>                         <span class="token comment">// especially when all lined up</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>Harder to read:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token comment">// cout lives in the iostream library</span>
+std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Hello world!\n"</span><span class="token punctuation">;</span>
+<span class="token comment">// these comments make the code hard to read</span>
+std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"It is very nice to meet you!\n"</span><span class="token punctuation">;</span>
+<span class="token comment">// especially when all bunched together</span>
+std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Yeah!\n"</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>Easier to read:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token comment">// cout lives in the iostream library</span>
+std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Hello world!\n"</span><span class="token punctuation">;</span>
+
+<span class="token comment">// these comments are easier to read</span>
+std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"It is very nice to meet you!\n"</span><span class="token punctuation">;</span>
+
+<span class="token comment">// when separated by whitespace</span>
+std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Yeah!\n"</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  We will follow these conventions throughout this tutorial, and they will
+  become second nature to you. As we introduce new topics to you, we will
+  introduce new style recommendations to go with those features.
+</p>
+<p>
+  Ultimately, C++ gives you the power to choose whichever style you are most
+  comfortable with, or think is best. However, we highly recommend you utilize
+  the same style that we use for our examples. It has been battle tested by
+  thousands of programmers over billions of lines of code, and is optimized for
+  success.
+</p>
+<p>
+  One exception: If you are working in someone else’s code base, adopt their
+  styles. It’s better to favor consistency than your preferences.
+</p>
+<div class="code-block code-block-8" style="margin: 8px 0; clear: both"></div>
+<div class="cpp-note cpp-lightgreenbackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Best practice</p>
+  <p>
+    When working in an existing project, be consistent with whatever style has
+    already been adopted.
+  </p>
+</div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Automatic formatting
+</p>
+<p>
+  Most modern IDEs will help you format your code as you type it in (e.g. when
+  you create a function, the IDE will automatically indent the statements inside
+  the function body).
+</p>
+<p>
+  However, as you add or remove code, or change the IDE’s default formatting, or
+  paste in a block of code that has different formatting, the formatting can get
+  messed up. Fixing the formatting for part or all of a file can be a headache.
+  Fortunately, modern IDEs typically contain an automatic formatting feature
+  that will reformat either a selection (highlighted with your mouse) or an
+  entire file.
+</p>
+<div class="cpp-note cpp-lightyellowbackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">For Visual Studio users</p>
+  <p>
+    In Visual Studio, the automatic formatting options can be found under
+    <em>Edit &gt; Advanced &gt; Format Document</em> and
+    <em>Edit &gt; Advanced &gt; Format Selection</em>.
+  </p>
+</div>
+<div class="cpp-note cpp-lightyellowbackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">For Code::Blocks users</p>
+  <p>
+    In Code::Blocks, the automatic formatting options can be found under
+    <em>Right mouse click &gt; Format use AStyle</em>.
+  </p>
+</div>
+<p>
+  For easier access, we recommend adding a keyboard shortcut to auto-format the
+  active file.
+</p>
+<p>
+  There are also external tools that can be used to automatically format code.
+  <a href="https://clang.llvm.org/docs/ClangFormat.html">clang-format</a> is a
+  popular one.
+</p>
+<div class="cpp-note cpp-lightgreenbackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Best practice</p>
+  <p>
+    Using the automatic formatting feature is highly recommended to keep your
+    code’s formatting style consistent.
+  </p>
+</div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Style guides
+</p>
+<p>
+  A <strong>style guide</strong> is a concise, opinionated document containing
+  (sometimes arbitrary) programming conventions, formatting guidelines, and best
+  practices. The goal of a style guide is to ensure that all developers on a
+  project are programming in a consistent manner.
+</p>
+<p>Some commonly referenced C++ style guides include:</p>
+<ul>
+  <li>
+    <a href="http://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines"
+      >C++ Core Guidelines</a
+    >, maintained by Bjarne Stroustrup and Herb Sutter.
+  </li>
+  <li>
+    <a href="https://google.github.io/styleguide/cppguide.html">Google</a>.
+  </li>
+  <li><a href="https://llvm.org/docs/CodingStandards.html">LLVM</a></li>
+  <li><a href="https://gcc.gnu.org/codingconventions.html">GCC/GNU</a></li>
+</ul>
+<p>
+  We generally favor the C++ Core Guidelines, as they are up to date and widely
+  applicable.
+</p>
+<div class="prevnext">
+  <div class="prevnext-inline">
+    <a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/introduction-to-literals-and-operators/"
+      ><div class="nav-button nav-button-next">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-right" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Next lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">1.9</span>Introduction to
+            literals and operators
+          </div>
+        </div>
+      </div></a
+    ><a class="nav-link" href="/"
+      ><div class="nav-button nav-button-index">
+        <div class="nav-button-icon">
+          <i class="fa fa-home" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Back to table of contents</div>
+        </div>
+      </div></a
+    ><a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/keywords-and-naming-identifiers/"
+      ><div class="nav-button nav-button-prev">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-left" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Previous lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">1.7</span>Keywords and naming
+            identifiers
+          </div>
+        </div>
+      </div></a
+    >
+  </div>
+</div>
+<div class="code-block code-block-10" style="margin: 8px 0; clear: both"></div>

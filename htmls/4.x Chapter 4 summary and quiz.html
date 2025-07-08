@@ -1,0 +1,564 @@
+<div
+  class="code-block code-block-1"
+  style="margin: 8px 8px 8px 0; float: left"
+></div>
+<p class="cpp-section" data-ezoic-video-excluded="1">Chapter Review</p>
+<p>
+  The smallest unit of memory is a <strong>binary digit</strong>, also called a
+  <strong>bit</strong>. The smallest unit amount of memory that can be addressed
+  (accessed) directly is a <strong>byte</strong>. The modern standard is that a
+  byte equals 8 bits.
+</p>
+<p>
+  A <strong>data type</strong> tells the compiler how to interpret the contents
+  of memory in some meaningful way.
+</p>
+<p>
+  C++ comes with support for many fundamental data types, including floating
+  point numbers, integers, boolean, chars, null pointers, and void.
+</p>
+<p>
+  <strong>Void</strong> is used to indicate no type. It is primarily used to
+  indicate that a function does not return a value.
+</p>
+<p>
+  Different types take different amounts of memory, and the amount of memory
+  used may vary by machine.
+</p>
+<div class="code-block code-block-2" style="margin: 8px 0; clear: both"></div>
+<div class="cpp-note cpp-lightgraybackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Related content</p>
+  <p>
+    See
+    <a
+      href="https://www.learncpp.com/cpp-tutorial/object-sizes-and-the-sizeof-operator/"
+      >4.3 -- Object sizes and the sizeof operator</a
+    >
+    for a table indicating the minimum size for each fundamental type.
+  </p>
+</div>
+<p>
+  The <strong>sizeof</strong> operator can be used to return the size of a type
+  in bytes.
+</p>
+<p>
+  <strong>Signed integers</strong> are used for holding positive and negative
+  whole numbers, including 0. The set of values that a specific data type can
+  hold is called its <strong>range</strong>. When using integers, keep an eye
+  out for overflow and integer division problems.
+</p>
+<p>
+  <strong>Unsigned integers</strong> only hold positive numbers (and 0), and
+  should generally be avoided unless you’re doing bit-level manipulation.
+</p>
+<p>
+  <strong>Fixed-width integers</strong> are integers with guaranteed sizes, but
+  they may not exist on all architectures. The fast and least integers are the
+  fastest and smallest integers that are at least some size.
+  <code>std::int8_t</code> and <code>std::uint8_t</code> should generally be
+  avoided, as they tend to behave like chars instead of integers.
+</p>
+<p>
+  <strong>size_t</strong> is an unsigned integral type that is used to represent
+  the size or length of objects.
+</p>
+<div class="code-block code-block-3" style="margin: 8px 0; clear: both"></div>
+<p>
+  <strong>Scientific notation</strong> is a shorthand way of writing lengthy
+  numbers. C++ supports scientific notation in conjunction with floating point
+  numbers. The digits in the significand (the part before the e) are called the
+  <strong>significant digits</strong>.
+</p>
+<p>
+  <strong>Floating point</strong> is a set of types designed to hold real
+  numbers (including those with a fractional component). The
+  <strong>precision</strong> of a number defines how many significant digits it
+  can represent without information loss. A <strong>rounding error</strong> can
+  occur when too many significant digits are stored in a floating point number
+  that can’t hold that much precision. Rounding errors happen all the time, even
+  with simple numbers such as 0.1. Because of this, you shouldn’t compare
+  floating point numbers directly.
+</p>
+<p>
+  The <strong>Boolean</strong> type is used to store a <code>true</code> or
+  <code>false</code> value.
+</p>
+<p>
+  <strong>If statements</strong> allow us to execute one or more lines of code
+  if some condition is true. The conditional expression of an if-statement is
+  interpreted as a boolean value. An <strong>else statement</strong> can be used
+  to execute a statement when a prior if-statement condition evaluates to false.
+</p>
+<p>
+  <strong>Char</strong> is used to store values that are interpreted as an ASCII
+  character. When using chars, be careful not to mix up ASCII code values and
+  numbers. Printing a char as an integer value requires use of
+  <code>static_cast.</code>
+</p>
+<div class="code-block code-block-4" style="margin: 8px 0; clear: both"></div>
+<p>
+  Angled brackets are typically used in C++ to represent something that needs a
+  parameterizable type. This is used with <code>static_cast</code> to determine
+  what data type the argument should be converted to (e.g.
+  <code>static_cast&lt;int&gt;(x)</code> will return the value of
+  <code>x</code> as an <code>int</code>).
+</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Quiz time
+</p>
+<p class="cpp-quiz-question" style="clear: both">Question #1</p>
+<p>
+  Pick the appropriate data type for a variable in each of the following
+  situations. Be as specific as possible. If the answer is an integer, pick int
+  (if size isn’t important), or a specific fixed-width integer type (e.g.
+  std::int16_t) based on range.
+</p>
+<p>
+  a) The age of the user (in years) (assume the size of the type isn’t
+  important)
+</p>
+<p>
+  <a
+    class="solution_link_show"
+    href="javascript:void(0)"
+    onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_0'),this,'Show Solution','Hide Solution')"
+    >Show Solution</a
+  >
+</p>
+<div class="wpsolution" id="cpp_solution_id_0" style="display: none">int</div>
+<p>b) Whether the user wants the application to check for updates</p>
+<p>
+  <a
+    class="solution_link_show"
+    href="javascript:void(0)"
+    onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_1'),this,'Show Solution','Hide Solution')"
+    >Show Solution</a
+  >
+</p>
+<div class="wpsolution" id="cpp_solution_id_1" style="display: none">bool</div>
+<p>c) pi (3.14159265)</p>
+<p>
+  <a
+    class="solution_link_show"
+    href="javascript:void(0)"
+    onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_2'),this,'Show Solution','Hide Solution')"
+    >Show Solution</a
+  >
+</p>
+<div class="wpsolution" id="cpp_solution_id_2" style="display: none">
+  double
+</div>
+<p>d) The number of pages in a textbook (assume size is not important)</p>
+<div class="code-block code-block-5" style="margin: 8px 0; clear: both"></div>
+<p>
+  <a
+    class="solution_link_show"
+    href="javascript:void(0)"
+    onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_3'),this,'Show Solution','Hide Solution')"
+    >Show Solution</a
+  >
+</p>
+<div class="wpsolution" id="cpp_solution_id_3" style="display: none">
+  Since books probably won’t have more than 32,767 pages, int should be fine
+  here.
+</div>
+<p>
+  e) The length of a couch in feet, to 2 decimal places (assume size is
+  important)
+</p>
+<p>
+  <a
+    class="solution_link_show"
+    href="javascript:void(0)"
+    onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_4'),this,'Show Solution','Hide Solution')"
+    >Show Solution</a
+  >
+</p>
+<div class="wpsolution" id="cpp_solution_id_4" style="display: none">float</div>
+<p>
+  f) How many times you’ve blinked since you were born (note: answer is in the
+  millions)
+</p>
+<p>
+  <a
+    class="solution_link_show"
+    href="javascript:void(0)"
+    onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_5'),this,'Show Solution','Hide Solution')"
+    >Show Solution</a
+  >
+</p>
+<div class="wpsolution" id="cpp_solution_id_5" style="display: none">
+  std::int32_t
+</div>
+<p>g) A user selecting an option from a menu by letter</p>
+<p>
+  <a
+    class="solution_link_show"
+    href="javascript:void(0)"
+    onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_6'),this,'Show Solution','Hide Solution')"
+    >Show Solution</a
+  >
+</p>
+<div class="wpsolution" id="cpp_solution_id_6" style="display: none">char</div>
+<p>h) The year someone was born (assuming size is important)</p>
+<p>
+  <a
+    class="solution_link_show"
+    href="javascript:void(0)"
+    onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_7'),this,'Show Solution','Hide Solution')"
+    >Show Solution</a
+  >
+</p>
+<div class="wpsolution" id="cpp_solution_id_7" style="display: none">
+  std::int16_t. You can use positive numbers to represent AD birthdates, and
+  negative numbers to represent BC birthdates.
+</div>
+<p class="cpp-quiz-question cpp-topline" style="clear: both">Question #2</p>
+<div class="cpp-note cpp-lightgraybackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Author’s note</p>
+  <p>
+    The quizzes get more challenging starting here. These quizzes that ask you
+    to write a program are designed to ensure you can integrate multiple
+    concepts that have been presented throughout the lessons. You should be
+    prepared to spend some time with these problems. If you’re new to
+    programming, you shouldn’t expect to be able to answer these immediately.
+  </p>
+  <p>
+    Remember, the goal here is to help you pinpoint what you know, and which
+    concepts you may need to spend additional time on. If you find yourself
+    struggling a bit, that’s okay.
+  </p>
+  <p>Here are some tips:</p>
+  <ul>
+    <li>
+      Don’t try to write the whole solution at once. Write one function, then
+      test it to make sure it works as expected. Then proceed.
+    </li>
+    <li>Use your debugger to help figure out where things are going wrong.</li>
+    <li>
+      Go back and review the answers to quizzes from prior lessons in the
+      chapter, as they’ll often contain similar concepts.
+    </li>
+  </ul>
+  <p>
+    If you are truly stuck, feel free to look at the solution, but take the time
+    to make sure you understand what each line does before proceeding. As long
+    as you leave understanding the concepts, it doesn’t matter so much whether
+    you were able to get it yourself, or had to look at the solution before
+    proceeding.
+  </p>
+</div>
+<p>
+  Write the following program: The user is asked to enter 2 floating point
+  numbers (use doubles). The user is then asked to enter one of the following
+  mathematical symbols: +, -, *, or /. The program computes the answer on the
+  two numbers the user entered and prints the results. If the user enters an
+  invalid symbol, the program should print nothing.
+</p>
+<div class="code-block code-block-6" style="margin: 8px 0; clear: both"></div>
+<p>Example of program:</p>
+<pre>
+Enter a double value: 6.2
+Enter a double value: 5
+Enter +, -, *, or /: *
+6.2 * 5 is 31
+</pre>
+<p>
+  <a
+    class="hint_link_show"
+    href="javascript:void(0)"
+    onclick="cppHintToggle(document.getElementById('cpp_hint_id_0'),this,'Show Hint','')"
+    >Show Hint</a
+  >
+</p>
+<div
+  class="wphint"
+  id="cpp_hint_id_0"
+  style="display: none; margin-bottom: 1em"
+>
+  Hint: Write three functions: one to get a double value, one to get the
+  arithmetic symbol, and one to calculate and print the answer.
+</div>
+<p>
+  <a
+    class="hint_link_show"
+    href="javascript:void(0)"
+    onclick="cppHintToggle(document.getElementById('cpp_hint_id_1'),this,'Show Hint','')"
+    >Show Hint</a
+  >
+</p>
+<div
+  class="wphint"
+  id="cpp_hint_id_1"
+  style="display: none; margin-bottom: 1em"
+>
+  Hint: Use if-statements and <code>operator==</code> to compare the user input
+  to the desired arithmetic symbol.
+</div>
+<p>
+  <a
+    class="hint_link_show"
+    href="javascript:void(0)"
+    onclick="cppHintToggle(document.getElementById('cpp_hint_id_2'),this,'Show Hint','')"
+    >Show Hint</a
+  >
+</p>
+<div
+  class="wphint"
+  id="cpp_hint_id_2"
+  style="display: none; margin-bottom: 1em"
+>
+  Hint: Consider using an early return (covered in lesson
+  <a href="https://www.learncpp.com/cpp-tutorial/introduction-to-if-statements/"
+    >4.10 -- Introduction to if statements</a
+  >) if the user doesn’t pass in a supported operation.
+</div>
+<p>
+  <a
+    class="solution_link_show"
+    href="javascript:void(0)"
+    onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_8'),this,'Show Solution','Hide Solution')"
+    >Show Solution</a
+  >
+</p>
+<div class="wpsolution" id="cpp_solution_id_8" style="display: none">
+  <div class="code-toolbar">
+    <pre
+      class="line-numbers language-cpp"
+      tabindex="0"
+    ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-double">double</span> <span class="token function">getDouble</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-281-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-281-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-294-close">{</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Enter a double value: "</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-double">double</span> x<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-293-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-293-open">}</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>cin <span class="token operator">&gt;&gt;</span> x<span class="token punctuation">;</span>
+    <span class="token keyword keyword-return">return</span> x<span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-294-open">}</span>
+
+<span class="token keyword keyword-char">char</span> <span class="token function">getOperator</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-282-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-282-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-296-close">{</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Enter +, -, *, or /: "</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-char">char</span> operation<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-295-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-295-open">}</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>cin <span class="token operator">&gt;&gt;</span> operation<span class="token punctuation">;</span>
+    <span class="token keyword keyword-return">return</span> operation<span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-296-open">}</span>
+
+<span class="token keyword keyword-void">void</span> <span class="token function">printResult</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-283-close">(</span><span class="token keyword keyword-double">double</span> x<span class="token punctuation">,</span> <span class="token keyword keyword-char">char</span> operation<span class="token punctuation">,</span> <span class="token keyword keyword-double">double</span> y<span class="token punctuation brace-round brace-close brace-level-1" id="pair-283-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-298-close">{</span>
+    <span class="token keyword keyword-double">double</span> result<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-297-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-297-open">}</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-if">if</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-284-close">(</span>operation <span class="token operator">==</span> <span class="token string">'+'</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-284-open">)</span>
+        result <span class="token operator">=</span> x <span class="token operator">+</span> y<span class="token punctuation">;</span>
+    <span class="token keyword keyword-else">else</span> <span class="token keyword keyword-if">if</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-285-close">(</span>operation <span class="token operator">==</span> <span class="token string">'-'</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-285-open">)</span>
+        result <span class="token operator">=</span> x <span class="token operator">-</span> y<span class="token punctuation">;</span>
+    <span class="token keyword keyword-else">else</span> <span class="token keyword keyword-if">if</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-286-close">(</span>operation <span class="token operator">==</span> <span class="token string">'*'</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-286-open">)</span>
+        result <span class="token operator">=</span> x <span class="token operator">*</span> y<span class="token punctuation">;</span>
+    <span class="token keyword keyword-else">else</span> <span class="token keyword keyword-if">if</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-287-close">(</span>operation <span class="token operator">==</span> <span class="token string">'/'</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-287-open">)</span>
+        result <span class="token operator">=</span> x <span class="token operator">/</span> y<span class="token punctuation">;</span>
+    <span class="token keyword keyword-else">else</span>        <span class="token comment">// if the user did not pass in a supported operation</span>
+        <span class="token keyword keyword-return">return</span><span class="token punctuation">;</span> <span class="token comment">// early return</span>
+
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> x <span class="token operator">&lt;&lt;</span> <span class="token string">' '</span> <span class="token operator">&lt;&lt;</span> operation <span class="token operator">&lt;&lt;</span> <span class="token string">' '</span> <span class="token operator">&lt;&lt;</span> y <span class="token operator">&lt;&lt;</span> <span class="token string">" is "</span> <span class="token operator">&lt;&lt;</span> result <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-298-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-288-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-288-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-302-close">{</span>
+    <span class="token keyword keyword-double">double</span> x <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-299-close">{</span> <span class="token function">getDouble</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-289-close">(</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-289-open">)</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-299-open">}</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-double">double</span> y <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-300-close">{</span> <span class="token function">getDouble</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-290-close">(</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-290-open">)</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-300-open">}</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-char">char</span> operation <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-301-close">{</span> <span class="token function">getOperator</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-291-close">(</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-291-open">)</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-301-open">}</span><span class="token punctuation">;</span>
+
+    <span class="token function">printResult</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-292-close">(</span>x<span class="token punctuation">,</span> operation<span class="token punctuation">,</span> y<span class="token punctuation brace-round brace-close brace-level-2" id="pair-292-open">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-302-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+    <div class="toolbar">
+      <div class="toolbar-item">
+        <button
+          class="copy-to-clipboard-button"
+          type="button"
+          data-copy-state="copy"
+        >
+          <span>Copy</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<p class="cpp-quiz-question cpp-topline" style="clear: both">Question #3</p>
+<p>Extra credit: This one is a little more challenging.</p>
+<p>
+  Write a short program to simulate a ball being dropped off of a tower. To
+  start, the user should be asked for the height of the tower in meters. Assume
+  normal gravity (9.8 m/s<sup>2</sup>), and that the ball has no initial
+  velocity (the ball is not moving to start). Have the program output the height
+  of the ball above the ground after 0, 1, 2, 3, 4, and 5 seconds. The ball
+  should not go underneath the ground (height 0).
+</p>
+<p>
+  Use a function to calculate the height of the ball after x seconds. The
+  function can calculate how far the ball has fallen after x seconds using the
+  following formula: distance fallen = gravity_constant * x_seconds<sup>2</sup>
+  / 2
+</p>
+<p>Expected output:</p>
+<pre>
+Enter the height of the tower in meters: 100
+At 0 seconds, the ball is at height: 100 meters
+At 1 seconds, the ball is at height: 95.1 meters
+At 2 seconds, the ball is at height: 80.4 meters
+At 3 seconds, the ball is at height: 55.9 meters
+At 4 seconds, the ball is at height: 21.6 meters
+At 5 seconds, the ball is on the ground.
+</pre>
+<p>
+  Note: Depending on the height of the tower, the ball may not reach the ground
+  in 5 seconds -- that’s okay. We’ll improve this program once we’ve covered
+  loops.<br />Note: The <code>^</code> symbol isn’t an exponent in C++.
+  Implement the formula using multiplication instead of exponentiation.<br />Note:
+  Remember to use double literals for doubles, e.g. <code>2.0</code> rather than
+  <code>2</code>.
+</p>
+<p>
+  <a
+    class="solution_link_show"
+    href="javascript:void(0)"
+    onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_9'),this,'Show Solution','Hide Solution')"
+    >Show Solution</a
+  >
+</p>
+<div class="wpsolution" id="cpp_solution_id_9" style="display: none">
+  <div class="code-toolbar">
+    <pre
+      class="line-numbers language-cpp"
+      tabindex="0"
+    ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token comment">// Gets tower height from user and returns it</span>
+<span class="token keyword keyword-double">double</span> <span class="token function">getTowerHeight</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-303-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-303-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-321-close">{</span>
+	std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Enter the height of the tower in meters: "</span><span class="token punctuation">;</span>
+	<span class="token keyword keyword-double">double</span> towerHeight<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-320-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-320-open">}</span><span class="token punctuation">;</span>
+	std<span class="token double-colon punctuation">::</span>cin <span class="token operator">&gt;&gt;</span> towerHeight<span class="token punctuation">;</span>
+	<span class="token keyword keyword-return">return</span> towerHeight<span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-321-open">}</span>
+
+<span class="token comment">// Returns the current ball height after "seconds" seconds</span>
+<span class="token keyword keyword-double">double</span> <span class="token function">calculateBallHeight</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-304-close">(</span><span class="token keyword keyword-double">double</span> towerHeight<span class="token punctuation">,</span> <span class="token keyword keyword-int">int</span> seconds<span class="token punctuation brace-round brace-close brace-level-1" id="pair-304-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-325-close">{</span>
+	<span class="token keyword keyword-double">double</span> gravity <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-322-close">{</span> <span class="token number">9.8</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-322-open">}</span><span class="token punctuation">;</span>
+
+	<span class="token comment">// Using formula: s = (u * t) + (a * t^2) / 2</span>
+	<span class="token comment">// here u (initial velocity) = 0, so (u * t) = 0</span>
+	<span class="token keyword keyword-double">double</span> fallDistance <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-323-close">{</span> gravity <span class="token operator">*</span> <span class="token punctuation brace-round brace-open brace-level-3" id="pair-305-close">(</span>seconds <span class="token operator">*</span> seconds<span class="token punctuation brace-round brace-close brace-level-3" id="pair-305-open">)</span> <span class="token operator">/</span> <span class="token number">2.0</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-323-open">}</span><span class="token punctuation">;</span>
+	<span class="token keyword keyword-double">double</span> ballHeight <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-324-close">{</span> towerHeight <span class="token operator">-</span> fallDistance <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-324-open">}</span><span class="token punctuation">;</span>
+
+	<span class="token comment">// If the ball would be under the ground, place it on the ground</span>
+	<span class="token keyword keyword-if">if</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-306-close">(</span>ballHeight <span class="token operator">&lt;</span> <span class="token number">0.0</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-306-open">)</span>
+		<span class="token keyword keyword-return">return</span> <span class="token number">0.0</span><span class="token punctuation">;</span>
+
+	<span class="token keyword keyword-return">return</span> ballHeight<span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-325-open">}</span>
+
+<span class="token comment">// Prints ball height above ground</span>
+<span class="token keyword keyword-void">void</span> <span class="token function">printBallHeight</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-307-close">(</span><span class="token keyword keyword-double">double</span> ballHeight<span class="token punctuation">,</span> <span class="token keyword keyword-int">int</span> seconds<span class="token punctuation brace-round brace-close brace-level-1" id="pair-307-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-326-close">{</span>
+	<span class="token keyword keyword-if">if</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-308-close">(</span>ballHeight <span class="token operator">&gt;</span> <span class="token number">0.0</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-308-open">)</span>
+		std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"At "</span> <span class="token operator">&lt;&lt;</span> seconds <span class="token operator">&lt;&lt;</span> <span class="token string">" seconds, the ball is at height: "</span> <span class="token operator">&lt;&lt;</span> ballHeight <span class="token operator">&lt;&lt;</span> <span class="token string">" meters\n"</span><span class="token punctuation">;</span>
+	<span class="token keyword keyword-else">else</span>
+		std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"At "</span> <span class="token operator">&lt;&lt;</span> seconds <span class="token operator">&lt;&lt;</span> <span class="token string">" seconds, the ball is on the ground.\n"</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-326-open">}</span>
+
+<span class="token comment">// Calculates the current ball height and then prints it</span>
+<span class="token comment">// This is a helper function to make it easier to do this</span>
+<span class="token keyword keyword-void">void</span> <span class="token function">calculateAndPrintBallHeight</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-309-close">(</span><span class="token keyword keyword-double">double</span> towerHeight<span class="token punctuation">,</span> <span class="token keyword keyword-int">int</span> seconds<span class="token punctuation brace-round brace-close brace-level-1" id="pair-309-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-328-close">{</span>
+	<span class="token keyword keyword-double">double</span> ballHeight<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-327-close">{</span> <span class="token function">calculateBallHeight</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-310-close">(</span>towerHeight<span class="token punctuation">,</span> seconds<span class="token punctuation brace-round brace-close brace-level-3" id="pair-310-open">)</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-327-open">}</span><span class="token punctuation">;</span>
+	<span class="token function">printBallHeight</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-311-close">(</span>ballHeight<span class="token punctuation">,</span> seconds<span class="token punctuation brace-round brace-close brace-level-2" id="pair-311-open">)</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-328-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-312-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-312-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-330-close">{</span>
+	<span class="token keyword keyword-double">double</span> towerHeight<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-329-close">{</span> <span class="token function">getTowerHeight</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-313-close">(</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-313-open">)</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-329-open">}</span><span class="token punctuation">;</span>
+
+	<span class="token function">calculateAndPrintBallHeight</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-314-close">(</span>towerHeight<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-314-open">)</span><span class="token punctuation">;</span>
+	<span class="token function">calculateAndPrintBallHeight</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-315-close">(</span>towerHeight<span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-315-open">)</span><span class="token punctuation">;</span>
+	<span class="token function">calculateAndPrintBallHeight</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-316-close">(</span>towerHeight<span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-316-open">)</span><span class="token punctuation">;</span>
+	<span class="token function">calculateAndPrintBallHeight</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-317-close">(</span>towerHeight<span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-317-open">)</span><span class="token punctuation">;</span>
+	<span class="token function">calculateAndPrintBallHeight</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-318-close">(</span>towerHeight<span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-318-open">)</span><span class="token punctuation">;</span>
+	<span class="token function">calculateAndPrintBallHeight</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-319-close">(</span>towerHeight<span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-319-open">)</span><span class="token punctuation">;</span>
+
+	<span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-330-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+    <div class="toolbar">
+      <div class="toolbar-item">
+        <button
+          class="copy-to-clipboard-button"
+          type="button"
+          data-copy-state="copy"
+        >
+          <span>Copy</span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <p>
+    For this program, we have 3 tasks: get the initial tower height, calculate
+    the ball’s current height, and print the ball’s current height. Under the
+    best practice that function should do one thing, we have a different
+    function for each of these tasks.
+    <code>calculateAndPrintBallHeight()</code> is a helper function that makes
+    calculating and printing the height more readable when called from
+    <code>main()</code>.
+  </p>
+</div>
+<div class="prevnext">
+  <div class="prevnext-inline">
+    <a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/constant-variables-named-constants/"
+      ><div class="nav-button nav-button-next">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-right" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Next lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">5.1</span>Constant variables
+            (named constants)
+          </div>
+        </div>
+      </div></a
+    ><a class="nav-link" href="/"
+      ><div class="nav-button nav-button-index">
+        <div class="nav-button-icon">
+          <i class="fa fa-home" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Back to table of contents</div>
+        </div>
+      </div></a
+    ><a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/introduction-to-type-conversion-and-static_cast/"
+      ><div class="nav-button nav-button-prev">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-left" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Previous lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">4.12</span>Introduction to
+            type conversion and static_cast
+          </div>
+        </div>
+      </div></a
+    >
+  </div>
+</div>
+<div class="code-block code-block-10" style="margin: 8px 0; clear: both"></div>

@@ -1,0 +1,606 @@
+<div
+  class="code-block code-block-1"
+  style="margin: 8px 8px 8px 0; float: left"
+></div>
+<p class="cpp-section" data-ezoic-video-excluded="1">Unsigned integers</p>
+<p>
+  In the previous lesson (<a
+    href="https://www.learncpp.com/cpp-tutorial/signed-integers/"
+    >4.4 -- Signed integers</a
+  >), we covered signed integers, which are a set of types that can hold
+  positive and negative whole numbers, including 0.
+</p>
+<p>
+  C++ also supports unsigned integers. <strong>Unsigned integers</strong> are
+  integers that can only hold non-negative whole numbers.
+</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Defining unsigned integers
+</p>
+<p>
+  To define an unsigned integer, we use the <em>unsigned</em> keyword. By
+  convention, this is placed before the type:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-unsigned">unsigned</span> <span class="token keyword keyword-short">short</span> us<span class="token punctuation">;</span>
+<span class="token keyword keyword-unsigned">unsigned</span> <span class="token keyword keyword-int">int</span> ui<span class="token punctuation">;</span>
+<span class="token keyword keyword-unsigned">unsigned</span> <span class="token keyword keyword-long">long</span> ul<span class="token punctuation">;</span>
+<span class="token keyword keyword-unsigned">unsigned</span> <span class="token keyword keyword-long">long</span> <span class="token keyword keyword-long">long</span> ull<span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Unsigned integer range
+</p>
+<p>
+  A 1-byte unsigned integer has a range of 0 to 255. Compare this to the 1-byte
+  signed integer range of -128 to 127. Both can store 256 different values, but
+  signed integers use half of their range for negative numbers, whereas unsigned
+  integers can store positive numbers that are twice as large.
+</p>
+<p>Here’s a table showing the range for unsigned integers:</p>
+<div class="code-block code-block-2" style="margin: 8px 0; clear: both"></div>
+<div class="cpp-table-wrapper" data-ezoic-video-excluded="1">
+  <p></p>
+  <p></p>
+  <table class="cpp-table" data-ezoic-video-excluded="1">
+    <tbody>
+      <tr>
+        <th>Size/Type</th>
+        <th>Range</th>
+      </tr>
+      <tr>
+        <td>8 bit unsigned</td>
+        <td>0 to 255</td>
+      </tr>
+      <tr>
+        <td>16 bit unsigned</td>
+        <td>0 to 65,535</td>
+      </tr>
+      <tr>
+        <td>32 bit unsigned</td>
+        <td>0 to 4,294,967,295</td>
+      </tr>
+      <tr>
+        <td>64 bit unsigned</td>
+        <td>0 to 18,446,744,073,709,551,615</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<p>An n-bit unsigned variable has a range of 0 to (2<sup>n</sup>)-1.</p>
+<p>
+  When no negative numbers are required, unsigned integers are well-suited for
+  networking and systems with little memory, because unsigned integers can store
+  more positive numbers without taking up extra memory.
+</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Remembering the terms signed and unsigned
+</p>
+<p>
+  New programmers sometimes get signed and unsigned mixed up. The following is a
+  simple way to remember the difference: in order to differentiate negative
+  numbers from positive ones, we use a negative sign. If a sign is not provided,
+  we assume a number is positive. Consequently, an integer with a sign (a signed
+  integer) can tell the difference between positive and negative. An integer
+  without a sign (an unsigned integer) assumes all values are positive.
+</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Unsigned integer overflow
+</p>
+<p>
+  What happens if we try to store the number <code>280</code> (which requires 9
+  bits to represent) in a 1-byte (8-bit) unsigned integer? The answer is
+  overflow.
+</p>
+<div class="code-block code-block-3" style="margin: 8px 0; clear: both"></div>
+<div class="cpp-note cpp-lightgraybackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Author’s note</p>
+  <p>
+    Oddly, the C++ standard explicitly says “a computation involving unsigned
+    operands can never overflow”. This is contrary to general programming
+    consensus that integer overflow encompasses both signed and unsigned use
+    cases
+    <sup
+      >(<a
+        href="https://en.wikipedia.org/wiki/Integer_overflow#Definition_variations_and_ambiguity"
+        >cite</a
+      >)</sup
+    >. Given that most programmers would consider this overflow, we’ll call this
+    overflow despite the C++ standard’s statements to the contrary.
+  </p>
+</div>
+<p>
+  If an unsigned value is out of range, it is divided by one greater than the
+  largest number of the type, and only the remainder kept.
+</p>
+<p>
+  The number <code>280</code> is too big to fit in our 1-byte range of 0 to 255.
+  1 greater than the largest number of the type is 256. Therefore, we divide 280
+  by 256, getting 1 remainder 24. The remainder of 24 is what is stored.
+</p>
+<p>
+  Here’s another way to think about the same thing. Any number bigger than the
+  largest number representable by the type simply “wraps around” (sometimes
+  called “modulo wrapping”). <code>255</code> is in range of a 1-byte integer,
+  so <code>255</code> is fine. <code>256</code>, however, is outside the range,
+  so it wraps around to the value <code>0</code>. <code>257</code> wraps around
+  to the value <code>1</code>. <code>280</code> wraps around to the value
+  <code>24</code>.
+</p>
+<p>Let’s take a look at this using 2-byte shorts:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-63-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-63-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-65-close">{</span>
+    <span class="token keyword keyword-unsigned">unsigned</span> <span class="token keyword keyword-short">short</span> x<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-64-close">{</span> <span class="token number">65535</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-64-open">}</span><span class="token punctuation">;</span> <span class="token comment">// largest 16-bit unsigned value possible</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"x was: "</span> <span class="token operator">&lt;&lt;</span> x <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+    x <span class="token operator">=</span> <span class="token number">65536</span><span class="token punctuation">;</span> <span class="token comment">// 65536 is out of our range, so we get modulo wrap-around</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"x is now: "</span> <span class="token operator">&lt;&lt;</span> x <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+    x <span class="token operator">=</span> <span class="token number">65537</span><span class="token punctuation">;</span> <span class="token comment">// 65537 is out of our range, so we get modulo wrap-around</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"x is now: "</span> <span class="token operator">&lt;&lt;</span> x <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-65-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>What do you think the result of this program will be?</p>
+<div class="code-block code-block-4" style="margin: 8px 0; clear: both"></div>
+<p>
+  (Note: If you try to compile the above program, your compiler should issue
+  warnings about overflow or truncation -- you’ll need to disable “treat
+  warnings as errors” to run the program)
+</p>
+<pre>
+x was: 65535
+x is now: 0
+x is now: 1
+</pre>
+<p>
+  It’s possible to wrap around the other direction as well. 0 is representable
+  in a 2-byte unsigned integer, so that’s fine. -1 is not representable, so it
+  wraps around to the top of the range, producing the value 65535. -2 wraps
+  around to 65534. And so forth.
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-66-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-66-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-68-close">{</span>
+    <span class="token keyword keyword-unsigned">unsigned</span> <span class="token keyword keyword-short">short</span> x<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-67-close">{</span> <span class="token number">0</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-67-open">}</span><span class="token punctuation">;</span> <span class="token comment">// smallest 2-byte unsigned value possible</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"x was: "</span> <span class="token operator">&lt;&lt;</span> x <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+    x <span class="token operator">=</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">;</span> <span class="token comment">// -1 is out of our range, so we get modulo wrap-around</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"x is now: "</span> <span class="token operator">&lt;&lt;</span> x <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+    x <span class="token operator">=</span> <span class="token operator">-</span><span class="token number">2</span><span class="token punctuation">;</span> <span class="token comment">// -2 is out of our range, so we get modulo wrap-around</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"x is now: "</span> <span class="token operator">&lt;&lt;</span> x <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-68-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<pre>
+x was: 0
+x is now: 65535
+x is now: 65534
+</pre>
+<p>
+  The above code triggers a warning in some compilers, because the compiler
+  detects that the integer literal is out-of-range for the given type. If you
+  want to compile the code anyway, temporarily disable “Treat warnings as
+  errors”.
+</p>
+<div class="cpp-note cpp-lightgraybackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">As an aside…</p>
+  <p>
+    Many notable bugs in video game history happened due to wrap around behavior
+    with unsigned integers. In the arcade game Donkey Kong, it’s not possible to
+    go past level 22 due to an overflow bug that leaves the user with not enough
+    bonus time to complete the level.
+  </p>
+  <p>
+    In the PC game Civilization, Gandhi was known for often being the first one
+    to use nuclear weapons, which seems contrary to his expected passive nature.
+    Players had a theory that Gandhi’s aggression setting was initially set at
+    1, but if he chose a democratic government, he’d get a -2 aggression
+    modifier (lowering his current aggression value by 2). This would cause his
+    aggression to overflow to 255, making him maximally aggressive! However,
+    more recently Sid Meier (the game’s author) clarified that this wasn’t
+    actually the case.
+  </p>
+</div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  The controversy over unsigned numbers
+</p>
+<p>
+  Many developers (and some large development houses, such as Google) believe
+  that developers should generally avoid unsigned integers.
+</p>
+<div class="code-block code-block-5" style="margin: 8px 0; clear: both"></div>
+<p>This is largely because of two behaviors that can cause problems.</p>
+<p>
+  First, with signed values, it takes a little work to accidentally overflow the
+  top or bottom of the range because those values are far from 0. With unsigned
+  numbers, it is much easier to overflow the bottom of the range, because the
+  bottom of the range is 0, which is close to where the majority of our values
+  are.
+</p>
+<p>Consider the subtraction of two unsigned numbers, such as 2 and 3:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token comment">// assume int is 4 bytes</span>
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-69-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-69-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-72-close">{</span>
+	<span class="token keyword keyword-unsigned">unsigned</span> <span class="token keyword keyword-int">int</span> x<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-70-close">{</span> <span class="token number">2</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-70-open">}</span><span class="token punctuation">;</span>
+	<span class="token keyword keyword-unsigned">unsigned</span> <span class="token keyword keyword-int">int</span> y<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-71-close">{</span> <span class="token number">3</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-71-open">}</span><span class="token punctuation">;</span>
+
+	std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> x <span class="token operator">-</span> y <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span> <span class="token comment">// prints 4294967295 (incorrect!)</span>
+
+	<span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-72-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  You and I know that <code>2 - 3</code> is <code>-1</code>, but
+  <code>-1</code> can’t be represented as an unsigned integer, so we get
+  overflow and the following result:
+</p>
+<pre>
+4294967295
+</pre>
+<p>
+  Another common unwanted wrap-around happens when an unsigned integer is
+  repeatedly decremented by 1, until it tries to decrement to a negative number.
+  You’ll see an example of this when loops are introduced.
+</p>
+<div class="code-block code-block-6" style="margin: 8px 0; clear: both"></div>
+<p>
+  Second, and more insidiously, unexpected behavior can result when you mix
+  signed and unsigned integers. In C++, if a mathematical operation (e.g.
+  arithmetic or comparison) has one signed integer and one unsigned integer, the
+  signed integer will usually be converted to an unsigned integer. And the
+  result will thus be unsigned. For example:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token comment">// assume int is 4 bytes</span>
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-73-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-73-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-76-close">{</span>
+	<span class="token keyword keyword-unsigned">unsigned</span> <span class="token keyword keyword-int">int</span> u<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-74-close">{</span> <span class="token number">2</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-74-open">}</span><span class="token punctuation">;</span>
+	<span class="token keyword keyword-signed">signed</span> <span class="token keyword keyword-int">int</span> s<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-75-close">{</span> <span class="token number">3</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-75-open">}</span><span class="token punctuation">;</span>
+
+	std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> u <span class="token operator">-</span> s <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span> <span class="token comment">// 2 - 3 = 4294967295</span>
+
+	<span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-76-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>This also produces the result:</p>
+<pre>
+4294967295
+</pre>
+<p>
+  In this case, if <code>u</code> was signed, the correct result would be
+  produced. But because <code>u</code> is unsigned (which is easy to miss),
+  <code>s</code> gets converted to unsigned, and the result (<code>-1</code>) is
+  treated as an unsigned value. Since <code>-1</code> can’t be stored in an
+  unsigned value, so we get overflow and an unexpected answer.
+</p>
+<p>Here’s another example where things go wrong:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token comment">// assume int is 4 bytes</span>
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-77-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-77-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-81-close">{</span>
+    <span class="token keyword keyword-signed">signed</span> <span class="token keyword keyword-int">int</span> s <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-79-close">{</span> <span class="token operator">-</span><span class="token number">1</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-79-open">}</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-unsigned">unsigned</span> <span class="token keyword keyword-int">int</span> u <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-80-close">{</span> <span class="token number">1</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-80-open">}</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-if">if</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-78-close">(</span>s <span class="token operator">&lt;</span> u<span class="token punctuation brace-round brace-close brace-level-2" id="pair-78-open">)</span> <span class="token comment">// -1 is implicitly converted to 4294967295, and 4294967295 &lt; 1 is false</span>
+        std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"-1 is less than 1\n"</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-else">else</span>
+        std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"1 is less than -1\n"</span><span class="token punctuation">;</span> <span class="token comment">// this statement executes</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-81-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>This prints:</p>
+<div class="code-block code-block-7" style="margin: 8px 0; clear: both"></div>
+<pre>
+1 is less than -1
+</pre>
+<p>
+  This program is well formed, compiles, and is logically consistent to the eye.
+  But it prints the wrong answer. And while your compiler should warn you about
+  a signed/unsigned mismatch in this case, your compiler will also generate
+  identical warnings for other cases that do not suffer from this problem (e.g.
+  when both numbers are positive), making it hard to detect when there is an
+  actual problem.
+</p>
+<div class="cpp-note cpp-lightgraybackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Related content</p>
+  <p>
+    We cover the conversion rules that require both operands of certain binary
+    operations to be the same type in lesson
+    <a href="https://www.learncpp.com/cpp-tutorial/arithmetic-conversions/"
+      >10.5 -- Arithmetic conversions</a
+    >.<br />We cover if-statements in upcoming lesson
+    <a
+      href="https://www.learncpp.com/cpp-tutorial/introduction-to-if-statements/"
+      >4.10 -- Introduction to if statements</a
+    >.
+  </p>
+</div>
+<p>
+  Additionally, there are other problematic cases that are challenging to
+  detect. Consider the following:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token comment">// assume int is 4 bytes</span>
+<span class="token keyword keyword-void">void</span> <span class="token function">doSomething</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-82-close">(</span><span class="token keyword keyword-unsigned">unsigned</span> <span class="token keyword keyword-int">int</span> x<span class="token punctuation brace-round brace-close brace-level-1" id="pair-82-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-85-close">{</span>
+    <span class="token comment">// Run some code x times</span>
+
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"x is "</span> <span class="token operator">&lt;&lt;</span> x <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-85-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-83-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-83-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-86-close">{</span>
+    <span class="token function">doSomething</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-84-close">(</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-84-open">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-86-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  The author of doSomething() was expecting someone to call this function with
+  only positive numbers. But the caller is passing in <em>-1</em> -- clearly a
+  mistake, but one made regardless. What happens in this case?
+</p>
+<p>
+  The signed argument of <code>-1</code> gets implicitly converted to an
+  unsigned parameter. <code>-1</code> isn’t in the range of an unsigned number,
+  so it wraps around to 4294967295. Then your program goes ballistic.
+</p>
+<p>
+  Even more problematically, it can be hard to prevent this from happening.
+  Unless you’ve configured your compiler to be aggressive about producing
+  signed/unsigned conversion warnings (and you should), your compiler probably
+  won’t even complain about this.
+</p>
+<div class="code-block code-block-8" style="margin: 8px 0; clear: both"></div>
+<p>
+  All of these problems are commonly encountered, produce unexpected behavior,
+  and are hard to find, even using automated tools designed to detect problem
+  cases.
+</p>
+<p>
+  Given the above, the somewhat controversial best practice that we’ll advocate
+  for is to avoid unsigned types except in specific circumstances.
+</p>
+<div class="cpp-note cpp-lightgreenbackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Best practice</p>
+  <p>
+    Favor signed numbers over unsigned numbers for holding quantities (even
+    quantities that should be non-negative) and mathematical operations. Avoid
+    mixing signed and unsigned numbers.
+  </p>
+</div>
+<div class="cpp-note cpp-lightgraybackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Related content</p>
+  <p>
+    Additional material in support of the above recommendations (also covers
+    refutation of some common counter-arguments):
+  </p>
+  <ol start="1">
+    <li>
+      <a href="https://www.youtube.com/watch?v=_nrly6PH6NU"
+        >Interactive C++ panel</a
+      >
+      (see 9:48-13:08, 41:06-45:26, and 1:02:50-1:03:15)
+    </li>
+    <li>
+      <a
+        href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2019/p1428r0.pdf"
+        >Subscripts and sizes should be signed</a
+      >
+      (from Bjarne Stroustrup, the creator of C++)
+    </li>
+    <li>
+      <a href="https://blog.libtorrent.org/2016/05/unsigned-integers/"
+        >Unsigned integers from the libtorrent blog</a
+      >
+    </li>
+  </ol>
+</div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  So when should you use unsigned numbers?
+</p>
+<p>
+  There are still a few cases in C++ where it’s okay / necessary to use unsigned
+  numbers.
+</p>
+<p>
+  First, unsigned numbers are preferred when dealing with bit manipulation
+  (covered in chapter O -- that’s a capital ‘o’, not a ‘0’). They are also
+  useful when well-defined wrap-around behavior is required (useful in some
+  algorithms like encryption and random number generation).
+</p>
+<p>
+  Second, use of unsigned numbers is still unavoidable in some cases, mainly
+  those having to do with array indexing. We’ll talk more about this in the
+  lessons on arrays and array indexing.
+</p>
+<p>
+  Also note that if you’re developing for an embedded system (e.g. an Arduino)
+  or some other processor/memory limited context, use of unsigned numbers is
+  more common and accepted (and in some cases, unavoidable) for performance
+  reasons.
+</p>
+<div class="prevnext">
+  <div class="prevnext-inline">
+    <a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/fixed-width-integers-and-size-t/"
+      ><div class="nav-button nav-button-next">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-right" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Next lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">4.6</span>Fixed-width
+            integers and size_t
+          </div>
+        </div>
+      </div></a
+    ><a class="nav-link" href="/"
+      ><div class="nav-button nav-button-index">
+        <div class="nav-button-icon">
+          <i class="fa fa-home" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Back to table of contents</div>
+        </div>
+      </div></a
+    ><a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/signed-integers/"
+      ><div class="nav-button nav-button-prev">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-left" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Previous lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">4.4</span>Signed integers
+          </div>
+        </div>
+      </div></a
+    >
+  </div>
+</div>
+<div class="code-block code-block-10" style="margin: 8px 0; clear: both"></div>

@@ -1,0 +1,562 @@
+<div
+  class="code-block code-block-1"
+  style="margin: 8px 8px 8px 0; float: left"
+></div>
+<p>
+  In real-life, it’s common to ask or be asked questions that can be answered
+  with “yes” or “no”. “Is an apple a fruit?” Yes. “Do you like asparagus?” No.
+</p>
+<p>
+  Now consider a similar statement that can be answered with a “true” or
+  “false”: “Apples are a fruit”. It’s clearly true. Or how about, “I like
+  asparagus”. Absolutely false (yuck!).
+</p>
+<p>
+  These kinds of sentences that have only two possible outcomes: yes/true, or
+  no/false are so common, that many programming languages include a special type
+  for dealing with them. That type is called a <strong>Boolean</strong> type
+  (note: Boolean is properly capitalized in the English language because it’s
+  named after its inventor, George Boole).
+</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Boolean variables
+</p>
+<p>
+  Boolean variables are variables that can have only two possible values:
+  <code>true</code>, and <code>false</code>.
+</p>
+<p>To declare a Boolean variable, we use the keyword <code>bool</code>.</p>
+<div class="code-block code-block-2" style="margin: 8px 0; clear: both"></div>
+
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-bool">bool</span> b<span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  To initialize or assign a <code>true</code> or <code>false</code> value to a
+  Boolean variable, we use the keywords <code>true</code> and
+  <code>false</code>.
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-bool">bool</span> b1 <span class="token punctuation brace-curly brace-open brace-level-1" id="pair-71-close">{</span> <span class="token boolean">true</span> <span class="token punctuation brace-curly brace-close brace-level-1" id="pair-71-open">}</span><span class="token punctuation">;</span>
+<span class="token keyword keyword-bool">bool</span> b2 <span class="token punctuation brace-curly brace-open brace-level-1" id="pair-72-close">{</span> <span class="token boolean">false</span> <span class="token punctuation brace-curly brace-close brace-level-1" id="pair-72-open">}</span><span class="token punctuation">;</span>
+b1 <span class="token operator">=</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+<span class="token keyword keyword-bool">bool</span> b3 <span class="token punctuation brace-curly brace-open brace-level-1" id="pair-73-close">{</span><span class="token punctuation brace-curly brace-close brace-level-1" id="pair-73-open">}</span><span class="token punctuation">;</span> <span class="token comment">// default initialize to false</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  Just as the unary minus operator (-) can be used to make an integer negative,
+  the logical NOT operator (!) can be used to flip a Boolean value from
+  <code>true</code> to <code>false</code>, or <code>false</code> to
+  <code>true</code>:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-bool">bool</span> b1 <span class="token punctuation brace-curly brace-open brace-level-1" id="pair-74-close">{</span> <span class="token operator">!</span><span class="token boolean">true</span> <span class="token punctuation brace-curly brace-close brace-level-1" id="pair-74-open">}</span><span class="token punctuation">;</span> <span class="token comment">// b1 will be initialized with the value false</span>
+<span class="token keyword keyword-bool">bool</span> b2 <span class="token punctuation brace-curly brace-open brace-level-1" id="pair-75-close">{</span> <span class="token operator">!</span><span class="token boolean">false</span> <span class="token punctuation brace-curly brace-close brace-level-1" id="pair-75-open">}</span><span class="token punctuation">;</span> <span class="token comment">// b2 will be initialized with the value true</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  Boolean values are not actually stored in Boolean variables as the words
+  “true” or “false”. Instead, they are stored as integral values:
+  <code>true</code> is stored as integer <code>1</code>, and
+  <code>false</code> is stored as integer <code>0</code>. Similarly, when
+  Boolean values are evaluated, they don’t actually evaluate to “true” or
+  “false”. They evaluate to the integers <code>0</code> (false) or
+  <code>1</code> (true). Because Booleans store integral values, they are
+  considered to be an integral type.
+</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Printing Boolean values
+</p>
+<p>
+  When we print Boolean values, <code>std::cout</code> prints <code>0</code> for
+  <code>false</code>, and <code>1</code> for <code>true</code>:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-76-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-76-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-78-close">{</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token boolean">true</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span> <span class="token comment">// true evaluates to 1</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token operator">!</span><span class="token boolean">true</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span> <span class="token comment">// !true evaluates to 0</span>
+
+    <span class="token keyword keyword-bool">bool</span> b <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-77-close">{</span><span class="token boolean">false</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-77-open">}</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> b <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span> <span class="token comment">// b is false, which evaluates to 0</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token operator">!</span>b <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span> <span class="token comment">// !b is true, which evaluates to 1</span>
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-78-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>Outputs:</p>
+<pre>
+1
+0
+0
+1
+</pre>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Use <code>std::boolalpha</code> to print <code>true</code> or
+  <code>false</code>
+</p>
+<div class="code-block code-block-3" style="margin: 8px 0; clear: both"></div>
+
+<p>
+  If you want <code>std::cout</code> to print <code>true</code> or
+  <code>false</code> instead of <code>0</code> or <code>1</code>, you can output
+  <code>std::boolalpha</code>. This doesn’t output anything, but manipulates the
+  way <code>std::cout</code> outputs <code>bool</code> values.
+</p>
+<p>Here’s an example:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-79-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-79-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-80-close">{</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token boolean">true</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token boolean">false</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> std<span class="token double-colon punctuation">::</span>boolalpha<span class="token punctuation">;</span> <span class="token comment">// print bools as true or false</span>
+
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token boolean">true</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token boolean">false</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-80-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>This prints:</p>
+<pre>
+1
+0
+true
+false
+</pre>
+<p>You can use <code>std::noboolalpha</code> to turn it back off.</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Integer to Boolean conversion
+</p>
+<p>
+  When using uniform initialization, you can initialize a variable using integer
+  literals <code>0</code> (for <code>false</code>) and <code>1</code> (for
+  <code>true</code>) (but you really should be using <code>false</code> and
+  <code>true</code> instead). Other integer literals cause compilation errors:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-81-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-81-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-85-close">{</span>
+	<span class="token keyword keyword-bool">bool</span> bFalse <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-82-close">{</span> <span class="token number">0</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-82-open">}</span><span class="token punctuation">;</span> <span class="token comment">// okay: initialized to false</span>
+	<span class="token keyword keyword-bool">bool</span> bTrue  <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-83-close">{</span> <span class="token number">1</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-83-open">}</span><span class="token punctuation">;</span> <span class="token comment">// okay: initialized to true</span>
+	<span class="token keyword keyword-bool">bool</span> bNo    <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-84-close">{</span> <span class="token number">2</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-84-open">}</span><span class="token punctuation">;</span> <span class="token comment">// error: narrowing conversions disallowed</span>
+
+	std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> bFalse <span class="token operator">&lt;&lt;</span> bTrue <span class="token operator">&lt;&lt;</span> bNo <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+	<span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-85-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  However, in any context where an integer can be converted to a Boolean, the
+  integer <code>0</code> is converted to <code>false</code>, and any other
+  integer is converted to <code>true</code>.
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-86-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-86-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-87-close">{</span>
+	std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> std<span class="token double-colon punctuation">::</span>boolalpha<span class="token punctuation">;</span> <span class="token comment">// print bools as true or false</span>
+
+	<span class="token keyword keyword-bool">bool</span> b1 <span class="token operator">=</span> <span class="token number">4</span> <span class="token punctuation">;</span> <span class="token comment">// copy initialization allows implicit conversion from int to bool</span>
+	std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> b1 <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+	<span class="token keyword keyword-bool">bool</span> b2 <span class="token operator">=</span> <span class="token number">0</span> <span class="token punctuation">;</span> <span class="token comment">// copy initialization allows implicit conversion from int to bool</span>
+	std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> b2 <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+	<span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-87-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>This prints:</p>
+<pre>
+true
+false
+</pre>
+<p>
+  Note: <code>bool b1 = 4;</code> may generate a warning. If so you’ll have to
+  disable treating warnings as errors to compile the example.
+</p>
+<div class="code-block code-block-4" style="margin: 8px 0; clear: both"></div>
+
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Inputting Boolean values
+</p>
+<p>
+  Inputting Boolean values using <code>std::cin</code> sometimes trips new
+  programmers up.
+</p>
+<p>Consider the following program:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-88-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-88-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-90-close">{</span>
+	<span class="token keyword keyword-bool">bool</span> b<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-89-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-89-open">}</span><span class="token punctuation">;</span> <span class="token comment">// default initialize to false</span>
+	std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Enter a boolean value: "</span><span class="token punctuation">;</span>
+	std<span class="token double-colon punctuation">::</span>cin <span class="token operator">&gt;&gt;</span> b<span class="token punctuation">;</span>
+	std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"You entered: "</span> <span class="token operator">&lt;&lt;</span> b <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+	<span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-90-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<pre>
+Enter a Boolean value: true
+You entered: 0
+</pre>
+<p>Wait, what?</p>
+<p>
+  By default, <code>std::cin</code> only accepts numeric input for Boolean
+  variables: <code>0</code> is <code>false</code>, and <code>1</code> is
+  <code>true</code>. Any other numeric value will be interpreted as
+  <code>true</code>, and will cause <code>std::cin</code> to enter failure mode.
+  Any non-numeric value will be interpreted as <code>false</code> and will cause
+  <code>std::cin</code> to enter failure mode.
+</p>
+<div class="cpp-note cpp-lightgraybackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Related content</p>
+  <p>
+    We discuss failure mode (and how to get out of it) in lesson
+    <a
+      href="https://www.learncpp.com/cpp-tutorial/stdcin-and-handling-invalid-input/"
+      >9.5 -- std::cin and handling invalid input</a
+    >.
+  </p>
+</div>
+<p>
+  In this case, because we entered <code>true</code>,
+  <code>std::cin</code> silently failed and set <code>b</code> to
+  <code>false</code>. Consequently, when <code>std::cout</code> prints a value
+  for <code>b</code>, it prints <code>0</code>.
+</p>
+<p>
+  To allow <code>std::cin</code> to accept the words <code>false</code> and
+  <code>true</code> as inputs, you must first input to
+  <code>std::boolalpha</code>:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-91-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-91-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-93-close">{</span>
+	<span class="token keyword keyword-bool">bool</span> b<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-92-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-92-open">}</span><span class="token punctuation">;</span>
+	std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Enter a boolean value: "</span><span class="token punctuation">;</span>
+
+	<span class="token comment">// Allow the user to input 'true' or 'false' for boolean values</span>
+	<span class="token comment">// This is case-sensitive, so True or TRUE will not work</span>
+	std<span class="token double-colon punctuation">::</span>cin <span class="token operator">&gt;&gt;</span> std<span class="token double-colon punctuation">::</span>boolalpha<span class="token punctuation">;</span>
+	std<span class="token double-colon punctuation">::</span>cin <span class="token operator">&gt;&gt;</span> b<span class="token punctuation">;</span>
+
+	<span class="token comment">// Let's also output bool values as `true` or `false`</span>
+	std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> std<span class="token double-colon punctuation">::</span>boolalpha<span class="token punctuation">;</span>
+	std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"You entered: "</span> <span class="token operator">&lt;&lt;</span> b <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+	<span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-93-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  However, when <code>std::boolalpha</code> is enabled for input, numeric values
+  will no longer be accepted (they evaluate to <code>false</code> and cause
+  std::cin to enter failure mode).
+</p>
+<div class="code-block code-block-5" style="margin: 8px 0; clear: both"></div>
+
+<div class="cpp-note cpp-lightredbackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Warning</p>
+  <p>
+    Enabling <code>std::boolalpha</code> for input will only allow lower-cased
+    <code>false</code> or <code>true</code> to be accepted. Variations with
+    capital letters will not be accepted. <code>0</code> and <code>1</code> will
+    also no longer be accepted.
+  </p>
+</div>
+<p>
+  Note that we use <code>std::cin &gt;&gt; std::boolalpha;</code> to input bool
+  values as <code>true</code> or <code>false</code>, and
+  <code>std::cout &lt;&lt; std::boolalpha;</code> to output bool values as
+  <code>true</code> or <code>false</code>. These are independent controls that
+  can be turned on (using <code>std::boolalpha</code>) or off (using
+  <code>std::noboolalpha</code>) separately.
+</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Boolean return values
+</p>
+<p>
+  Boolean values are often used as the return values for functions that check
+  whether something is true or not. Such functions are typically named starting
+  with the word <em>is</em> (e.g. isEqual) or <em>has</em> (e.g.
+  hasCommonDivisor).
+</p>
+<p>Consider the following example, which is quite similar to the above:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token comment">// returns true if x and y are equal, false otherwise</span>
+<span class="token keyword keyword-bool">bool</span> <span class="token function">isEqual</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-94-close">(</span><span class="token keyword keyword-int">int</span> x<span class="token punctuation">,</span> <span class="token keyword keyword-int">int</span> y<span class="token punctuation brace-round brace-close brace-level-1" id="pair-94-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-97-close">{</span>
+    <span class="token keyword keyword-return">return</span> x <span class="token operator">==</span> y<span class="token punctuation">;</span> <span class="token comment">// operator== returns true if x equals y, and false otherwise</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-97-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-95-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-95-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-100-close">{</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Enter an integer: "</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-int">int</span> x<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-98-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-98-open">}</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>cin <span class="token operator">&gt;&gt;</span> x<span class="token punctuation">;</span>
+
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Enter another integer: "</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-int">int</span> y<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-99-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-99-open">}</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>cin <span class="token operator">&gt;&gt;</span> y<span class="token punctuation">;</span>
+
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> std<span class="token double-colon punctuation">::</span>boolalpha<span class="token punctuation">;</span> <span class="token comment">// print bools as true or false</span>
+
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> x <span class="token operator">&lt;&lt;</span> <span class="token string">" and "</span> <span class="token operator">&lt;&lt;</span> y <span class="token operator">&lt;&lt;</span> <span class="token string">" are equal? "</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token function">isEqual</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-96-close">(</span>x<span class="token punctuation">,</span> y<span class="token punctuation brace-round brace-close brace-level-2" id="pair-96-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span> <span class="token comment">// will return true or false</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-100-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>Here’s output from two runs of this program:</p>
+<pre>
+Enter an integer: 5
+Enter another integer: 5
+5 and 5 are equal? true
+</pre>
+<pre>
+Enter an integer: 6
+Enter another integer: 4
+6 and 4 are equal? false
+</pre>
+<p>
+  How does this work? First we read in integer values for <code>x</code> and
+  <code>y</code>. Next, the expression <code>isEqual(x, y)</code> is evaluated.
+  In the first run, this results in a function call to
+  <code>isEqual(5, 5)</code>. Inside that function, <code>5 == 5</code> is
+  evaluated, producing the value <code>true</code>. The value
+  <code>true</code> is returned back to the caller to be printed by
+  <code>std::cout</code>. In the second run, the call to
+  <code>isEqual(6, 4)</code> returns the value <code>false</code>.
+</p>
+<div class="code-block code-block-6" style="margin: 8px 0; clear: both"></div>
+
+<p>
+  Boolean values take a little bit of getting used to, but once you get your
+  mind wrapped around them, they’re quite refreshing in their simplicity!
+  Boolean values are also a huge part of the language -- you’ll end up using
+  them more than all the other fundamental types put together!
+</p>
+<p>We’ll continue our exploration of Boolean values in the next lesson.</p>
+<div class="prevnext">
+  <div class="prevnext-inline">
+    <a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/introduction-to-if-statements/"
+    >
+      <div class="nav-button nav-button-next">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-right" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Next lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">4.10</span>Introduction to if
+            statements
+          </div>
+        </div>
+      </div></a
+    >
+    <a class="nav-link" href="/">
+      <div class="nav-button nav-button-index">
+        <div class="nav-button-icon">
+          <i class="fa fa-home" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Back to table of contents</div>
+        </div>
+      </div></a
+    >
+    <a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/floating-point-numbers/"
+    >
+      <div class="nav-button nav-button-prev">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-left" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Previous lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">4.8</span>Floating point
+            numbers
+          </div>
+        </div>
+      </div></a
+    >
+  </div>
+</div>
+<div class="code-block code-block-10" style="margin: 8px 0; clear: both"></div>

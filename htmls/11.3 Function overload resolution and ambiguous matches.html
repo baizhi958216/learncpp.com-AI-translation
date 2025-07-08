@@ -1,0 +1,1362 @@
+<div
+  class="code-block code-block-1"
+  style="margin: 8px 8px 8px 0; float: left"
+></div>
+<p>
+  In the previous lesson (<a
+    href="https://www.learncpp.com/cpp-tutorial/function-overload-differentiation/"
+    >11.2 -- Function overload differentiation</a
+  >), we discussed which attributes of a function are used to differentiate
+  overloaded functions from each other. If an overloaded function is not
+  properly differentiated from the other overloads of the same name, then the
+  compiler will issue a compile error.
+</p>
+<p>
+  However, having a set of differentiated overloaded functions is only half of
+  the picture. When any function call is made, the compiler must also ensure
+  that a matching function declaration can be found.
+</p>
+<p>
+  With non-overloaded functions (functions with unique names), there is only one
+  function that can potentially match a function call. That function either
+  matches (or can be made to match after type conversions are applied), or it
+  doesn’t (and a compile error results). With overloaded functions, there can be
+  many functions that can potentially match a function call. Since a function
+  call can only resolve to one of them, the compiler has to determine which
+  overloaded function is the best match. The process of matching function calls
+  to a specific overloaded function is called
+  <strong>overload resolution</strong>.
+</p>
+<p>
+  In simple cases where the type of the function arguments and type of the
+  function parameters match exactly, this is (usually) straightforward:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-void">void</span> <span class="token function">print</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-0-close">(</span><span class="token keyword keyword-int">int</span> x<span class="token punctuation brace-round brace-close brace-level-1" id="pair-0-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-5-close">{</span>
+     std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> x <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-5-open">}</span>
+
+<span class="token keyword keyword-void">void</span> <span class="token function">print</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-1-close">(</span><span class="token keyword keyword-double">double</span> d<span class="token punctuation brace-round brace-close brace-level-1" id="pair-1-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-6-close">{</span>
+     std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> d <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-6-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-2-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-2-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-7-close">{</span>
+     <span class="token function">print</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-3-close">(</span><span class="token number">5</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-3-open">)</span><span class="token punctuation">;</span> <span class="token comment">// 5 is an int, so this matches print(int)</span>
+     <span class="token function">print</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-4-close">(</span><span class="token number">6.7</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-4-open">)</span><span class="token punctuation">;</span> <span class="token comment">// 6.7 is a double, so this matches print(double)</span>
+
+     <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-7-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  But what happens in cases where the argument types in the function call don’t
+  exactly match the parameter types in any of the overloaded functions? For
+  example:
+</p>
+<div class="code-block code-block-2" style="margin: 8px 0; clear: both"></div>
+
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-void">void</span> <span class="token function">print</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-8-close">(</span><span class="token keyword keyword-int">int</span> x<span class="token punctuation brace-round brace-close brace-level-1" id="pair-8-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-13-close">{</span>
+     std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> x <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-13-open">}</span>
+
+<span class="token keyword keyword-void">void</span> <span class="token function">print</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-9-close">(</span><span class="token keyword keyword-double">double</span> d<span class="token punctuation brace-round brace-close brace-level-1" id="pair-9-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-14-close">{</span>
+     std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> d <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-14-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-10-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-10-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-15-close">{</span>
+     <span class="token function">print</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-11-close">(</span><span class="token string">'a'</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-11-open">)</span><span class="token punctuation">;</span> <span class="token comment">// char does not match int or double, so what happens?</span>
+     <span class="token function">print</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-12-close">(</span><span class="token number">5L</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-12-open">)</span><span class="token punctuation">;</span> <span class="token comment">// long does not match int or double, so what happens?</span>
+
+     <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-15-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  Just because there is no exact match here doesn’t mean a match can’t be found
+  -- after all, a <code>char</code> or <code>long</code> can be implicitly type
+  converted to an <code>int</code> or a <code>double</code>. But which is the
+  best conversion to make in each case?
+</p>
+<div
+  class="google-auto-placed ap_container"
+  style="width: 100%; height: auto; clear: both; text-align: center"
+>
+  <ins
+    data-ad-format="auto"
+    class="adsbygoogle adsbygoogle-noablate"
+    data-ad-client="ca-pub-0588844875925051"
+    data-adsbygoogle-status="done"
+    style="
+      display: block;
+      margin: auto;
+      background-color: transparent;
+      height: 0px;
+    "
+    data-ad-status="unfilled"
+    ><div
+      id="aswift_5_host"
+      style="
+        border: none;
+        height: 0px;
+        width: 1027px;
+        margin: 0px;
+        padding: 0px;
+        position: relative;
+        visibility: visible;
+        background-color: transparent;
+        display: inline-block;
+        overflow: hidden;
+        opacity: 0;
+      "
+    >
+      <iframe
+        id="aswift_5"
+        name="aswift_5"
+        browsingtopics="true"
+        style="
+          left: 0px;
+          position: absolute;
+          top: 0px;
+          border: 0px;
+          width: 1027px;
+          height: 0px;
+          min-height: auto;
+          max-height: none;
+          min-width: auto;
+          max-width: none;
+        "
+        sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation"
+        width="1027"
+        height="0"
+        frameborder="0"
+        marginwidth="0"
+        marginheight="0"
+        vspace="0"
+        hspace="0"
+        allowtransparency="true"
+        scrolling="no"
+        allow="attribution-reporting; run-ad-auction"
+        src="https://googleads.g.doubleclick.net/pagead/ads?client=ca-pub-0588844875925051&amp;output=html&amp;h=280&amp;adk=2265103498&amp;adf=3637078352&amp;w=1027&amp;abgtt=11&amp;fwrn=4&amp;fwrnh=100&amp;lmt=1751133738&amp;num_ads=1&amp;rafmt=1&amp;armr=3&amp;sem=mc&amp;pwprc=4633386603&amp;ad_type=text_image&amp;format=1027x280&amp;url=https%3A%2F%2Fwww.learncpp.com%2Fcpp-tutorial%2Ffunction-overload-resolution-and-ambiguous-matches%2F&amp;fwr=0&amp;pra=3&amp;rh=200&amp;rw=1026&amp;rpe=1&amp;resp_fmts=3&amp;wgl=1&amp;fa=27&amp;uach=WyJXaW5kb3dzIiwiMTkuMC4wIiwieDg2IiwiIiwiMTM3LjAuNzE1MS4xMjIiLG51bGwsMCxudWxsLCI2NCIsW1siR29vZ2xlIENocm9tZSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJDaHJvbWl1bSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJOb3QvQSlCcmFuZCIsIjI0LjAuMC4wIl1dLDBd&amp;dt=1751962618248&amp;bpp=1&amp;bdt=1227&amp;idt=-M&amp;shv=r20250702&amp;mjsv=m202507020101&amp;ptt=9&amp;saldr=aa&amp;abxe=1&amp;cookie=ID%3D05f6e82287d810b4%3AT%3D1751962604%3ART%3D1751962604%3AS%3DALNI_MaQYA0TSAU2k8xwY5tqlN0xFCcd6g&amp;gpic=UID%3D00001157d9e27d0a%3AT%3D1751962604%3ART%3D1751962604%3AS%3DALNI_MYgtHzQJAQQXY_151HTGSSfVxE8_A&amp;eo_id_str=ID%3D52c21936d98c6d2b%3AT%3D1751962604%3ART%3D1751962604%3AS%3DAA-AfjZsJ15yjdEPJ8d11hPojsJQ&amp;prev_fmts=0x0%2C336x280%2C160x600%2C160x600&amp;nras=2&amp;correlator=4048960149962&amp;frm=20&amp;pv=1&amp;u_tz=480&amp;u_his=2&amp;u_h=600&amp;u_w=800&amp;u_ah=600&amp;u_aw=800&amp;u_cd=24&amp;u_sd=1&amp;dmc=8&amp;adx=27&amp;ady=1340&amp;biw=1080&amp;bih=1024&amp;scr_x=0&amp;scr_y=0&amp;eid=31093232%2C42531705%2C95353387%2C95362655%2C95365226%2C95365234%2C95365108%2C95359266%2C95365117%2C95365797&amp;oid=2&amp;pvsid=6726287412682386&amp;tmod=1708485235&amp;uas=0&amp;nvt=1&amp;fc=1408&amp;brdim=10%2C10%2C10%2C10%2C800%2C0%2C780%2C580%2C1080%2C1024&amp;vis=1&amp;rsz=%7C%7Cs%7C&amp;abl=NS&amp;fu=128&amp;bc=31&amp;bz=0.72&amp;td=1&amp;tdf=2&amp;psd=W251bGwsbnVsbCxudWxsLDNd&amp;nt=1&amp;ifi=6&amp;uci=a!6&amp;btvi=1&amp;fsb=1&amp;dtd=58"
+        data-google-container-id="a!6"
+        tabindex="0"
+        title="Advertisement"
+        aria-label="Advertisement"
+        data-load-complete="true"
+        data-google-query-id="CIvT4KvprI4DFVbyTAIdeCEk1A"
+      ></iframe></div
+  ></ins>
+</div>
+<p>
+  In this lesson, we’ll explore how the compiler matches a given function call
+  to a specific overloaded function.
+</p>
+<p class="cpp-section cpp-topline" style="clear: both">
+  Resolving overloaded function calls
+</p>
+<p>
+  When a function call is made to an overloaded function, the compiler steps
+  through a sequence of rules to determine which (if any) of the overloaded
+  functions is the best match (we’ll cover these steps in the next section
+  below).
+</p>
+<p>
+  At each step, the compiler applies a bunch of different type conversions to
+  the argument(s) in the function call. For each conversion applied, the
+  compiler checks if any of the overloaded functions are now a match. After all
+  the different type conversions have been applied and checked for matches, the
+  step is done. The result will be one of three possible outcomes:
+</p>
+<div
+  class="google-auto-placed ap_container"
+  style="width: 100%; height: auto; clear: both; text-align: center"
+>
+  <ins
+    data-ad-format="auto"
+    class="adsbygoogle adsbygoogle-noablate"
+    data-ad-client="ca-pub-0588844875925051"
+    data-adsbygoogle-status="done"
+    style="
+      display: block;
+      margin: auto;
+      background-color: transparent;
+      height: 0px;
+    "
+    data-ad-status="unfilled"
+    ><div
+      id="aswift_6_host"
+      style="
+        border: none;
+        height: 0px;
+        width: 1027px;
+        margin: 0px;
+        padding: 0px;
+        position: relative;
+        visibility: visible;
+        background-color: transparent;
+        display: inline-block;
+        overflow: hidden;
+        opacity: 0;
+      "
+    >
+      <iframe
+        id="aswift_6"
+        name="aswift_6"
+        browsingtopics="true"
+        style="
+          left: 0px;
+          position: absolute;
+          top: 0px;
+          border: 0px;
+          width: 1027px;
+          height: 0px;
+          min-height: auto;
+          max-height: none;
+          min-width: auto;
+          max-width: none;
+        "
+        sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation"
+        width="1027"
+        height="0"
+        frameborder="0"
+        marginwidth="0"
+        marginheight="0"
+        vspace="0"
+        hspace="0"
+        allowtransparency="true"
+        scrolling="no"
+        allow="attribution-reporting; run-ad-auction"
+        src="https://googleads.g.doubleclick.net/pagead/ads?client=ca-pub-0588844875925051&amp;output=html&amp;h=280&amp;adk=2265103498&amp;adf=112744625&amp;w=1027&amp;abgtt=11&amp;fwrn=4&amp;fwrnh=100&amp;lmt=1751133738&amp;num_ads=1&amp;rafmt=1&amp;armr=3&amp;sem=mc&amp;pwprc=4633386603&amp;ad_type=text_image&amp;format=1027x280&amp;url=https%3A%2F%2Fwww.learncpp.com%2Fcpp-tutorial%2Ffunction-overload-resolution-and-ambiguous-matches%2F&amp;fwr=0&amp;pra=3&amp;rh=200&amp;rw=1026&amp;rpe=1&amp;resp_fmts=3&amp;wgl=1&amp;fa=27&amp;uach=WyJXaW5kb3dzIiwiMTkuMC4wIiwieDg2IiwiIiwiMTM3LjAuNzE1MS4xMjIiLG51bGwsMCxudWxsLCI2NCIsW1siR29vZ2xlIENocm9tZSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJDaHJvbWl1bSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJOb3QvQSlCcmFuZCIsIjI0LjAuMC4wIl1dLDBd&amp;dt=1751962618248&amp;bpp=1&amp;bdt=1226&amp;idt=-M&amp;shv=r20250702&amp;mjsv=m202507020101&amp;ptt=9&amp;saldr=aa&amp;abxe=1&amp;cookie=ID%3D05f6e82287d810b4%3AT%3D1751962604%3ART%3D1751962604%3AS%3DALNI_MaQYA0TSAU2k8xwY5tqlN0xFCcd6g&amp;gpic=UID%3D00001157d9e27d0a%3AT%3D1751962604%3ART%3D1751962604%3AS%3DALNI_MYgtHzQJAQQXY_151HTGSSfVxE8_A&amp;eo_id_str=ID%3D52c21936d98c6d2b%3AT%3D1751962604%3ART%3D1751962604%3AS%3DAA-AfjZsJ15yjdEPJ8d11hPojsJQ&amp;prev_fmts=0x0%2C336x280%2C160x600%2C160x600%2C1027x280&amp;nras=3&amp;correlator=4048960149962&amp;frm=20&amp;pv=1&amp;u_tz=480&amp;u_his=2&amp;u_h=600&amp;u_w=800&amp;u_ah=600&amp;u_aw=800&amp;u_cd=24&amp;u_sd=1&amp;dmc=8&amp;adx=27&amp;ady=1835&amp;biw=1080&amp;bih=1024&amp;scr_x=0&amp;scr_y=0&amp;eid=31093232%2C42531705%2C95353387%2C95362655%2C95365226%2C95365234%2C95365108%2C95359266%2C95365117%2C95365797&amp;oid=2&amp;pvsid=6726287412682386&amp;tmod=1708485235&amp;uas=0&amp;nvt=1&amp;fc=1408&amp;brdim=10%2C10%2C10%2C10%2C800%2C0%2C780%2C580%2C1080%2C1024&amp;vis=1&amp;rsz=%7C%7Cs%7C&amp;abl=NS&amp;fu=128&amp;bc=31&amp;bz=0.72&amp;td=1&amp;tdf=2&amp;psd=W251bGwsbnVsbCxudWxsLDNd&amp;nt=1&amp;ifi=7&amp;uci=a!7&amp;btvi=2&amp;fsb=1&amp;dtd=61"
+        data-google-container-id="a!7"
+        tabindex="0"
+        title="Advertisement"
+        aria-label="Advertisement"
+        data-load-complete="true"
+        data-google-query-id="CMDf4KvprI4DFWntTAIdNg0SQA"
+      ></iframe></div
+  ></ins>
+</div>
+<ul>
+  <li>
+    No matching functions were found. The compiler moves to the next step in the
+    sequence.
+  </li>
+  <li>
+    A single matching function was found. This function is considered to be the
+    best match. The matching process is now complete, and subsequent steps are
+    not executed.
+  </li>
+  <li>
+    More than one matching function was found. The compiler will issue an
+    ambiguous match compile error. We’ll discuss this case further in a bit.
+  </li>
+</ul>
+<p>
+  If the compiler reaches the end of the entire sequence without finding a
+  match, it will generate a compile error that no matching overloaded function
+  could be found for the function call.
+</p>
+<div class="code-block code-block-3" style="margin: 8px 0; clear: both"></div>
+
+<p class="cpp-section cpp-topline" style="clear: both">
+  The argument matching sequence
+</p>
+<p>
+  Step 1) The compiler tries to find an exact match. This happens in two phases.
+  First, the compiler will see if there is an overloaded function where the type
+  of the arguments in the function call exactly matches the type of the
+  parameters in the overloaded functions. For example:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-void">void</span> <span class="token function">foo</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-16-close">(</span><span class="token keyword keyword-int">int</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-16-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-21-close">{</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-21-open">}</span>
+
+<span class="token keyword keyword-void">void</span> <span class="token function">foo</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-17-close">(</span><span class="token keyword keyword-double">double</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-17-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-22-close">{</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-22-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-18-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-18-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-23-close">{</span>
+    <span class="token function">foo</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-19-close">(</span><span class="token number">0</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-19-open">)</span><span class="token punctuation">;</span>   <span class="token comment">// exact match with foo(int)</span>
+    <span class="token function">foo</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-20-close">(</span><span class="token number">3.4</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-20-open">)</span><span class="token punctuation">;</span> <span class="token comment">// exact match with foo(double)</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-23-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  Because the <code>0</code> in the function call <code>foo(0)</code> is an int,
+  the compiler will look to see if a <code>foo(int)</code> overload has been
+  declared. Since it has, the compiler determines that <code>foo(int)</code> is
+  an exact match.
+</p>
+<div
+  class="google-auto-placed ap_container"
+  style="width: 100%; height: auto; clear: both; text-align: center"
+>
+  <ins
+    data-ad-format="auto"
+    class="adsbygoogle adsbygoogle-noablate"
+    data-ad-client="ca-pub-0588844875925051"
+    data-adsbygoogle-status="done"
+    style="
+      display: block;
+      margin: auto;
+      background-color: transparent;
+      height: 0px;
+    "
+    data-ad-status="unfilled"
+    ><div
+      id="aswift_7_host"
+      style="
+        border: none;
+        height: 0px;
+        width: 1027px;
+        margin: 0px;
+        padding: 0px;
+        position: relative;
+        visibility: visible;
+        background-color: transparent;
+        display: inline-block;
+        overflow: hidden;
+        opacity: 0;
+      "
+    >
+      <iframe
+        id="aswift_7"
+        name="aswift_7"
+        browsingtopics="true"
+        style="
+          left: 0px;
+          position: absolute;
+          top: 0px;
+          border: 0px;
+          width: 1027px;
+          height: 0px;
+          min-height: auto;
+          max-height: none;
+          min-width: auto;
+          max-width: none;
+        "
+        sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation"
+        width="1027"
+        height="0"
+        frameborder="0"
+        marginwidth="0"
+        marginheight="0"
+        vspace="0"
+        hspace="0"
+        allowtransparency="true"
+        scrolling="no"
+        allow="attribution-reporting; run-ad-auction"
+        src="https://googleads.g.doubleclick.net/pagead/ads?client=ca-pub-0588844875925051&amp;output=html&amp;h=280&amp;adk=2265103498&amp;adf=3991148299&amp;w=1027&amp;abgtt=11&amp;fwrn=4&amp;fwrnh=100&amp;lmt=1751133738&amp;num_ads=1&amp;rafmt=1&amp;armr=3&amp;sem=mc&amp;pwprc=4633386603&amp;ad_type=text_image&amp;format=1027x280&amp;url=https%3A%2F%2Fwww.learncpp.com%2Fcpp-tutorial%2Ffunction-overload-resolution-and-ambiguous-matches%2F&amp;fwr=0&amp;pra=3&amp;rh=200&amp;rw=1026&amp;rpe=1&amp;resp_fmts=3&amp;wgl=1&amp;fa=27&amp;uach=WyJXaW5kb3dzIiwiMTkuMC4wIiwieDg2IiwiIiwiMTM3LjAuNzE1MS4xMjIiLG51bGwsMCxudWxsLCI2NCIsW1siR29vZ2xlIENocm9tZSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJDaHJvbWl1bSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJOb3QvQSlCcmFuZCIsIjI0LjAuMC4wIl1dLDBd&amp;dt=1751962618248&amp;bpp=1&amp;bdt=1226&amp;idt=-M&amp;shv=r20250702&amp;mjsv=m202507020101&amp;ptt=9&amp;saldr=aa&amp;abxe=1&amp;cookie=ID%3D05f6e82287d810b4%3AT%3D1751962604%3ART%3D1751962604%3AS%3DALNI_MaQYA0TSAU2k8xwY5tqlN0xFCcd6g&amp;gpic=UID%3D00001157d9e27d0a%3AT%3D1751962604%3ART%3D1751962604%3AS%3DALNI_MYgtHzQJAQQXY_151HTGSSfVxE8_A&amp;eo_id_str=ID%3D52c21936d98c6d2b%3AT%3D1751962604%3ART%3D1751962604%3AS%3DAA-AfjZsJ15yjdEPJ8d11hPojsJQ&amp;prev_fmts=0x0%2C336x280%2C160x600%2C160x600%2C1027x280%2C1027x280&amp;nras=4&amp;correlator=4048960149962&amp;frm=20&amp;pv=1&amp;u_tz=480&amp;u_his=2&amp;u_h=600&amp;u_w=800&amp;u_ah=600&amp;u_aw=800&amp;u_cd=24&amp;u_sd=1&amp;dmc=8&amp;adx=27&amp;ady=2715&amp;biw=1080&amp;bih=1024&amp;scr_x=0&amp;scr_y=0&amp;eid=31093232%2C42531705%2C95353387%2C95362655%2C95365226%2C95365234%2C95365108%2C95359266%2C95365117%2C95365797&amp;oid=2&amp;pvsid=6726287412682386&amp;tmod=1708485235&amp;uas=0&amp;nvt=1&amp;fc=1408&amp;brdim=10%2C10%2C10%2C10%2C800%2C0%2C780%2C580%2C1080%2C1024&amp;vis=1&amp;rsz=%7C%7Cs%7C&amp;abl=NS&amp;fu=128&amp;bc=31&amp;bz=0.72&amp;td=1&amp;tdf=2&amp;psd=W251bGwsbnVsbCxudWxsLDNd&amp;nt=1&amp;ifi=8&amp;uci=a!8&amp;btvi=3&amp;fsb=1&amp;dtd=62"
+        data-google-container-id="a!8"
+        tabindex="0"
+        title="Advertisement"
+        aria-label="Advertisement"
+        data-load-complete="true"
+        data-google-query-id="COmZ4avprI4DFebrTAId6TIrTQ"
+      ></iframe></div
+  ></ins>
+</div>
+<p>
+  Second, the compiler will apply a number of trivial conversions to the
+  arguments in the function call. The <strong>trivial conversions</strong> are a
+  set of specific conversion rules that will modify types (without modifying the
+  value) for purposes of finding a match. These include:
+</p>
+<ul>
+  <li>lvalue to rvalue conversions</li>
+  <li>qualification conversions (e.g. non-const to const)</li>
+  <li>non-reference to reference conversions</li>
+</ul>
+<p>For example:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-void">void</span> <span class="token function">foo</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-24-close">(</span><span class="token keyword keyword-const">const</span> <span class="token keyword keyword-int">int</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-24-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-29-close">{</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-29-open">}</span>
+
+<span class="token keyword keyword-void">void</span> <span class="token function">foo</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-25-close">(</span><span class="token keyword keyword-const">const</span> <span class="token keyword keyword-double">double</span><span class="token operator">&amp;</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-25-open">)</span> <span class="token comment">// double&amp; is a reference to a double</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-30-close">{</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-30-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-26-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-26-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-33-close">{</span>
+    <span class="token keyword keyword-int">int</span> x <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-31-close">{</span> <span class="token number">1</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-31-open">}</span><span class="token punctuation">;</span>
+    <span class="token function">foo</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-27-close">(</span>x<span class="token punctuation brace-round brace-close brace-level-2" id="pair-27-open">)</span><span class="token punctuation">;</span> <span class="token comment">// x trivially converted from int to const int</span>
+
+    <span class="token keyword keyword-double">double</span> d <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-32-close">{</span> <span class="token number">2.3</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-32-open">}</span><span class="token punctuation">;</span>
+    <span class="token function">foo</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-28-close">(</span>d<span class="token punctuation brace-round brace-close brace-level-2" id="pair-28-open">)</span><span class="token punctuation">;</span> <span class="token comment">// d trivially converted from double to const double&amp; (non-ref to ref conversion)</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-33-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  In the above example, we’ve called <code>foo(x)</code>, where
+  <code>x</code> is an <code>int</code>. The compiler will trivially convert
+  <code>x</code> from an <code>int</code> into a <code>const int</code>, which
+  then matches <code>foo(const int)</code>. We’ve also called
+  <code>foo(d)</code>, where <code>d</code> is a <code>double</code>. The
+  compiler will trivially convert <code>d</code> from a <code>double</code> to a
+  <code>const double&amp;</code>, which then matches
+  <code>foo(const double&amp;)</code>.
+</p>
+<div class="cpp-note cpp-lightgraybackground" style="height: auto !important">
+  <p class="cpp-note-title cpp-bottomline">Related content</p>
+  <div
+    class="google-auto-placed ap_container"
+    style="width: 100%; height: auto; clear: both; text-align: center"
+  >
+    <ins
+      data-ad-format="auto"
+      class="adsbygoogle adsbygoogle-noablate"
+      data-ad-client="ca-pub-0588844875925051"
+      data-adsbygoogle-status="done"
+      style="
+        display: block;
+        margin: auto;
+        background-color: transparent;
+        height: 0px;
+      "
+      data-ad-status="unfilled"
+      ><div
+        id="aswift_8_host"
+        style="
+          border: none;
+          height: 0px;
+          width: 995px;
+          margin: 0px;
+          padding: 0px;
+          position: relative;
+          visibility: visible;
+          background-color: transparent;
+          display: inline-block;
+          overflow: hidden;
+          opacity: 0;
+        "
+      >
+        <iframe
+          id="aswift_8"
+          name="aswift_8"
+          browsingtopics="true"
+          style="
+            left: 0px;
+            position: absolute;
+            top: 0px;
+            border: 0px;
+            width: 995px;
+            height: 0px;
+            min-height: auto;
+            max-height: none;
+            min-width: auto;
+            max-width: none;
+          "
+          sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation"
+          width="995"
+          height="0"
+          frameborder="0"
+          marginwidth="0"
+          marginheight="0"
+          vspace="0"
+          hspace="0"
+          allowtransparency="true"
+          scrolling="no"
+          allow="attribution-reporting; run-ad-auction"
+          src="https://googleads.g.doubleclick.net/pagead/ads?client=ca-pub-0588844875925051&amp;output=html&amp;h=280&amp;adk=1731933062&amp;adf=1247558082&amp;w=995&amp;abgtt=11&amp;fwrn=4&amp;fwrnh=100&amp;lmt=1751133738&amp;num_ads=1&amp;rafmt=1&amp;armr=3&amp;sem=mc&amp;pwprc=4633386603&amp;ad_type=text_image&amp;format=995x280&amp;url=https%3A%2F%2Fwww.learncpp.com%2Fcpp-tutorial%2Ffunction-overload-resolution-and-ambiguous-matches%2F&amp;fwr=0&amp;pra=3&amp;rh=200&amp;rw=994&amp;rpe=1&amp;resp_fmts=3&amp;wgl=1&amp;fa=27&amp;uach=WyJXaW5kb3dzIiwiMTkuMC4wIiwieDg2IiwiIiwiMTM3LjAuNzE1MS4xMjIiLG51bGwsMCxudWxsLCI2NCIsW1siR29vZ2xlIENocm9tZSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJDaHJvbWl1bSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJOb3QvQSlCcmFuZCIsIjI0LjAuMC4wIl1dLDBd&amp;dt=1751962618248&amp;bpp=1&amp;bdt=1227&amp;idt=1&amp;shv=r20250702&amp;mjsv=m202507020101&amp;ptt=9&amp;saldr=aa&amp;abxe=1&amp;cookie=ID%3D05f6e82287d810b4%3AT%3D1751962604%3ART%3D1751962604%3AS%3DALNI_MaQYA0TSAU2k8xwY5tqlN0xFCcd6g&amp;gpic=UID%3D00001157d9e27d0a%3AT%3D1751962604%3ART%3D1751962604%3AS%3DALNI_MYgtHzQJAQQXY_151HTGSSfVxE8_A&amp;eo_id_str=ID%3D52c21936d98c6d2b%3AT%3D1751962604%3ART%3D1751962604%3AS%3DAA-AfjZsJ15yjdEPJ8d11hPojsJQ&amp;prev_fmts=0x0%2C336x280%2C160x600%2C160x600%2C1027x280%2C1027x280%2C1027x280&amp;nras=5&amp;correlator=4048960149962&amp;frm=20&amp;pv=1&amp;u_tz=480&amp;u_his=2&amp;u_h=600&amp;u_w=800&amp;u_ah=600&amp;u_aw=800&amp;u_cd=24&amp;u_sd=1&amp;dmc=8&amp;adx=43&amp;ady=3622&amp;biw=1080&amp;bih=1024&amp;scr_x=0&amp;scr_y=0&amp;eid=31093232%2C42531705%2C95353387%2C95362655%2C95365226%2C95365234%2C95365108%2C95359266%2C95365117%2C95365797&amp;oid=2&amp;pvsid=6726287412682386&amp;tmod=1708485235&amp;uas=0&amp;nvt=1&amp;fc=1408&amp;brdim=10%2C10%2C10%2C10%2C800%2C0%2C780%2C580%2C1080%2C1024&amp;vis=1&amp;rsz=%7C%7Cs%7C&amp;abl=NS&amp;cms=2&amp;fu=128&amp;bc=31&amp;bz=0.72&amp;td=1&amp;tdf=2&amp;psd=W251bGwsbnVsbCxudWxsLDNd&amp;nt=1&amp;ifi=9&amp;uci=a!9&amp;btvi=4&amp;fsb=1&amp;dtd=63"
+          data-google-container-id="a!9"
+          tabindex="0"
+          title="Advertisement"
+          aria-label="Advertisement"
+          data-load-complete="true"
+          data-google-query-id="CPTf4KvprI4DFebrTAId444tFQ"
+        ></iframe></div
+    ></ins>
+  </div>
+  <p>
+    We cover references in lesson
+    <a href="https://www.learncpp.com/cpp-tutorial/lvalue-references/"
+      >12.3 -- Lvalue references</a
+    >.
+  </p>
+</div>
+<p>
+  Matches made via the trivial conversions are considered exact matches. This
+  means the following program results in an ambiguous match:
+</p>
+<div class="code-block code-block-4" style="margin: 8px 0; clear: both"></div>
+
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-void">void</span> <span class="token function">foo</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-34-close">(</span><span class="token keyword keyword-int">int</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-34-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-38-close">{</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-38-open">}</span>
+
+<span class="token keyword keyword-void">void</span> <span class="token function">foo</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-35-close">(</span><span class="token keyword keyword-const">const</span> <span class="token keyword keyword-int">int</span><span class="token operator">&amp;</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-35-open">)</span> <span class="token comment">// int&amp; is a reference to a int</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-39-close">{</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-39-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-36-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-36-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-41-close">{</span>
+    <span class="token keyword keyword-int">int</span> x <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-40-close">{</span> <span class="token number">1</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-40-open">}</span><span class="token punctuation">;</span>
+    <span class="token function">foo</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-37-close">(</span>x<span class="token punctuation brace-round brace-close brace-level-2" id="pair-37-open">)</span><span class="token punctuation">;</span> <span class="token comment">// ambiguous match with foo(int) and foo(const int&amp;)</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-41-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  Step 2) If no exact match is found, the compiler tries to find a match by
+  applying numeric promotion to the argument(s). In lesson (<a
+    href="https://www.learncpp.com/cpp-tutorial/implicit-type-conversion/"
+    >10.1 -- Implicit type conversion</a
+  >), we covered how certain narrow integral and floating point types can be
+  automatically promoted to wider types, such as <code>int</code> or
+  <code>double</code>. If, after numeric promotion, a match is found, the
+  function call is resolved.
+</p>
+<div
+  class="google-auto-placed ap_container"
+  style="width: 100%; height: auto; clear: both; text-align: center"
+>
+  <ins
+    data-ad-format="auto"
+    class="adsbygoogle adsbygoogle-noablate"
+    data-ad-client="ca-pub-0588844875925051"
+    data-adsbygoogle-status="done"
+    style="
+      display: block;
+      margin: auto;
+      background-color: transparent;
+      height: 0px;
+    "
+    data-ad-status="unfilled"
+    ><div
+      id="aswift_9_host"
+      style="
+        border: none;
+        height: 0px;
+        width: 1027px;
+        margin: 0px;
+        padding: 0px;
+        position: relative;
+        visibility: visible;
+        background-color: transparent;
+        display: inline-block;
+        overflow: hidden;
+        opacity: 0;
+      "
+    >
+      <iframe
+        id="aswift_9"
+        name="aswift_9"
+        browsingtopics="true"
+        style="
+          left: 0px;
+          position: absolute;
+          top: 0px;
+          border: 0px;
+          width: 1027px;
+          height: 0px;
+          min-height: auto;
+          max-height: none;
+          min-width: auto;
+          max-width: none;
+        "
+        sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation"
+        width="1027"
+        height="0"
+        frameborder="0"
+        marginwidth="0"
+        marginheight="0"
+        vspace="0"
+        hspace="0"
+        allowtransparency="true"
+        scrolling="no"
+        allow="attribution-reporting; run-ad-auction"
+        src="https://googleads.g.doubleclick.net/pagead/ads?client=ca-pub-0588844875925051&amp;output=html&amp;h=280&amp;adk=2265103498&amp;adf=3391804162&amp;w=1027&amp;abgtt=11&amp;fwrn=4&amp;fwrnh=100&amp;lmt=1751133738&amp;num_ads=1&amp;rafmt=1&amp;armr=3&amp;sem=mc&amp;pwprc=4633386603&amp;ad_type=text_image&amp;format=1027x280&amp;url=https%3A%2F%2Fwww.learncpp.com%2Fcpp-tutorial%2Ffunction-overload-resolution-and-ambiguous-matches%2F&amp;fwr=0&amp;pra=3&amp;rh=200&amp;rw=1026&amp;rpe=1&amp;resp_fmts=3&amp;wgl=1&amp;fa=27&amp;uach=WyJXaW5kb3dzIiwiMTkuMC4wIiwieDg2IiwiIiwiMTM3LjAuNzE1MS4xMjIiLG51bGwsMCxudWxsLCI2NCIsW1siR29vZ2xlIENocm9tZSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJDaHJvbWl1bSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJOb3QvQSlCcmFuZCIsIjI0LjAuMC4wIl1dLDBd&amp;dt=1751962618253&amp;bpp=1&amp;bdt=1232&amp;idt=1&amp;shv=r20250702&amp;mjsv=m202507020101&amp;ptt=9&amp;saldr=aa&amp;abxe=1&amp;cookie=ID%3D05f6e82287d810b4%3AT%3D1751962604%3ART%3D1751962604%3AS%3DALNI_MaQYA0TSAU2k8xwY5tqlN0xFCcd6g&amp;gpic=UID%3D00001157d9e27d0a%3AT%3D1751962604%3ART%3D1751962604%3AS%3DALNI_MYgtHzQJAQQXY_151HTGSSfVxE8_A&amp;eo_id_str=ID%3D52c21936d98c6d2b%3AT%3D1751962604%3ART%3D1751962604%3AS%3DAA-AfjZsJ15yjdEPJ8d11hPojsJQ&amp;prev_fmts=0x0%2C336x280%2C160x600%2C160x600%2C1027x280%2C1027x280%2C1027x280%2C995x280%2C1080x1024&amp;nras=7&amp;correlator=4048960149962&amp;frm=20&amp;pv=1&amp;u_tz=480&amp;u_his=2&amp;u_h=600&amp;u_w=800&amp;u_ah=600&amp;u_aw=800&amp;u_cd=24&amp;u_sd=1&amp;dmc=8&amp;adx=27&amp;ady=3511&amp;biw=1080&amp;bih=1024&amp;scr_x=0&amp;scr_y=0&amp;eid=31093232%2C42531705%2C95353387%2C95362655%2C95365226%2C95365234%2C95365108%2C95359266%2C95365117%2C95365797&amp;oid=2&amp;pvsid=6726287412682386&amp;tmod=1708485235&amp;uas=0&amp;nvt=1&amp;fc=1408&amp;brdim=10%2C10%2C10%2C10%2C800%2C0%2C780%2C580%2C1080%2C1024&amp;vis=1&amp;rsz=%7C%7Cs%7C&amp;abl=NS&amp;fu=128&amp;bc=31&amp;bz=0.72&amp;td=1&amp;tdf=2&amp;psd=W251bGwsbnVsbCxudWxsLDNd&amp;nt=1&amp;ifi=10&amp;uci=a!a&amp;btvi=5&amp;fsb=1&amp;dtd=324"
+        data-google-container-id="a!a"
+        tabindex="0"
+        title="Advertisement"
+        aria-label="Advertisement"
+        data-load-complete="true"
+        data-google-query-id="CI3b8KvprI4DFf7xTAIdWSoq4A"
+      ></iframe></div
+  ></ins>
+</div>
+<p>For example:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-void">void</span> <span class="token function">foo</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-42-close">(</span><span class="token keyword keyword-int">int</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-42-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-48-close">{</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-48-open">}</span>
+
+<span class="token keyword keyword-void">void</span> <span class="token function">foo</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-43-close">(</span><span class="token keyword keyword-double">double</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-43-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-49-close">{</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-49-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-44-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-44-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-50-close">{</span>
+    <span class="token function">foo</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-45-close">(</span><span class="token string">'a'</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-45-open">)</span><span class="token punctuation">;</span>  <span class="token comment">// promoted to match foo(int)</span>
+    <span class="token function">foo</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-46-close">(</span><span class="token boolean">true</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-46-open">)</span><span class="token punctuation">;</span> <span class="token comment">// promoted to match foo(int)</span>
+    <span class="token function">foo</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-47-close">(</span><span class="token number">4.5f</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-47-open">)</span><span class="token punctuation">;</span> <span class="token comment">// promoted to match foo(double)</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-50-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  For <code>foo('a')</code>, because an exact match for
+  <code>foo(char)</code> could not be found in the prior step, the compiler
+  promotes the char <code>'a'</code> to an <code>int</code>, and looks for a
+  match. This matches <code>foo(int)</code>, so the function call resolves to
+  <code>foo(int)</code>.
+</p>
+<div
+  class="google-auto-placed ap_container"
+  style="width: 100%; height: auto; clear: both; text-align: center"
+>
+  <ins
+    data-ad-format="auto"
+    class="adsbygoogle adsbygoogle-noablate"
+    data-ad-client="ca-pub-0588844875925051"
+    data-adsbygoogle-status="done"
+    style="
+      display: block;
+      margin: auto;
+      background-color: transparent;
+      height: 0px;
+    "
+    data-ad-status="unfilled"
+    ><div
+      id="aswift_10_host"
+      style="
+        border: none;
+        height: 0px;
+        width: 1027px;
+        margin: 0px;
+        padding: 0px;
+        position: relative;
+        visibility: visible;
+        background-color: transparent;
+        display: inline-block;
+        overflow: hidden;
+        opacity: 0;
+      "
+    >
+      <iframe
+        id="aswift_10"
+        name="aswift_10"
+        browsingtopics="true"
+        style="
+          left: 0px;
+          position: absolute;
+          top: 0px;
+          border: 0px;
+          width: 1027px;
+          height: 0px;
+          min-height: auto;
+          max-height: none;
+          min-width: auto;
+          max-width: none;
+        "
+        sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation"
+        width="1027"
+        height="0"
+        frameborder="0"
+        marginwidth="0"
+        marginheight="0"
+        vspace="0"
+        hspace="0"
+        allowtransparency="true"
+        scrolling="no"
+        allow="attribution-reporting; run-ad-auction"
+        src="https://googleads.g.doubleclick.net/pagead/ads?client=ca-pub-0588844875925051&amp;output=html&amp;h=280&amp;adk=2265103498&amp;adf=1190621092&amp;w=1027&amp;abgtt=11&amp;fwrn=4&amp;fwrnh=100&amp;lmt=1751133738&amp;num_ads=1&amp;rafmt=1&amp;armr=3&amp;sem=mc&amp;pwprc=4633386603&amp;ad_type=text_image&amp;format=1027x280&amp;url=https%3A%2F%2Fwww.learncpp.com%2Fcpp-tutorial%2Ffunction-overload-resolution-and-ambiguous-matches%2F&amp;fwr=0&amp;pra=3&amp;rh=200&amp;rw=1026&amp;rpe=1&amp;resp_fmts=3&amp;wgl=1&amp;fa=27&amp;uach=WyJXaW5kb3dzIiwiMTkuMC4wIiwieDg2IiwiIiwiMTM3LjAuNzE1MS4xMjIiLG51bGwsMCxudWxsLCI2NCIsW1siR29vZ2xlIENocm9tZSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJDaHJvbWl1bSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJOb3QvQSlCcmFuZCIsIjI0LjAuMC4wIl1dLDBd&amp;dt=1751962618257&amp;bpp=1&amp;bdt=1236&amp;idt=1&amp;shv=r20250702&amp;mjsv=m202507020101&amp;ptt=9&amp;saldr=aa&amp;abxe=1&amp;cookie=ID%3D05f6e82287d810b4%3AT%3D1751962604%3ART%3D1751962604%3AS%3DALNI_MaQYA0TSAU2k8xwY5tqlN0xFCcd6g&amp;gpic=UID%3D00001157d9e27d0a%3AT%3D1751962604%3ART%3D1751962604%3AS%3DALNI_MYgtHzQJAQQXY_151HTGSSfVxE8_A&amp;eo_id_str=ID%3D52c21936d98c6d2b%3AT%3D1751962604%3ART%3D1751962604%3AS%3DAA-AfjZsJ15yjdEPJ8d11hPojsJQ&amp;prev_fmts=0x0%2C336x280%2C160x600%2C160x600%2C1027x280%2C1027x280%2C1027x280%2C995x280%2C1080x1024%2C1027x280&amp;nras=8&amp;correlator=4048960149962&amp;frm=20&amp;pv=1&amp;u_tz=480&amp;u_his=2&amp;u_h=600&amp;u_w=800&amp;u_ah=600&amp;u_aw=800&amp;u_cd=24&amp;u_sd=1&amp;dmc=8&amp;adx=27&amp;ady=3905&amp;biw=1080&amp;bih=1024&amp;scr_x=0&amp;scr_y=0&amp;eid=31093232%2C42531705%2C95353387%2C95362655%2C95365226%2C95365234%2C95365108%2C95359266%2C95365117%2C95365797&amp;oid=2&amp;pvsid=6726287412682386&amp;tmod=1708485235&amp;uas=0&amp;nvt=1&amp;fc=1408&amp;brdim=10%2C10%2C10%2C10%2C800%2C0%2C780%2C580%2C1080%2C1024&amp;vis=1&amp;rsz=%7C%7Cs%7C&amp;abl=NS&amp;fu=128&amp;bc=31&amp;bz=0.72&amp;td=1&amp;tdf=2&amp;psd=W251bGwsbnVsbCxudWxsLDNd&amp;nt=1&amp;ifi=11&amp;uci=a!b&amp;btvi=6&amp;fsb=1&amp;dtd=365"
+        data-google-container-id="a!b"
+        tabindex="0"
+        title="Advertisement"
+        aria-label="Advertisement"
+        data-load-complete="true"
+        data-google-query-id="CLWh86vprI4DFVntTAIdxPML5w"
+      ></iframe></div
+  ></ins>
+</div>
+<p>
+  Step 3) If no match is found via numeric promotion, the compiler tries to find
+  a match by applying numeric conversions (<a
+    href="https://www.learncpp.com/cpp-tutorial/numeric-conversions/"
+    >10.3 -- Numeric conversions</a
+  >) to the arguments.
+</p>
+<p>For example:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;string&gt;</span> <span class="token comment">// for std::string</span></span>
+
+<span class="token keyword keyword-void">void</span> <span class="token function">foo</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-51-close">(</span><span class="token keyword keyword-double">double</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-51-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-55-close">{</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-55-open">}</span>
+
+<span class="token keyword keyword-void">void</span> <span class="token function">foo</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-52-close">(</span>std<span class="token double-colon punctuation">::</span>string<span class="token punctuation brace-round brace-close brace-level-1" id="pair-52-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-56-close">{</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-56-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-53-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-53-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-57-close">{</span>
+    <span class="token function">foo</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-54-close">(</span><span class="token string">'a'</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-54-open">)</span><span class="token punctuation">;</span> <span class="token comment">// 'a' converted to match foo(double)</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-57-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  In this case, because there is no <code>foo(char)</code> (exact match), and no
+  <code>foo(int)</code> (promotion match), the <code>'a'</code> is numerically
+  converted to a double and matched with <code>foo(double)</code>.
+</p>
+<div class="cpp-note cpp-lightbluebackground">
+  <p class="cpp-note-title cpp-bottomline">Key insight</p>
+  <div
+    class="google-auto-placed ap_container"
+    style="width: 100%; height: auto; clear: both; text-align: center"
+  >
+    <ins
+      data-ad-format="auto"
+      class="adsbygoogle adsbygoogle-noablate"
+      data-ad-client="ca-pub-0588844875925051"
+      data-adsbygoogle-status="done"
+      style="
+        display: block;
+        margin: auto;
+        background-color: transparent;
+        height: 280px;
+      "
+      ><div
+        id="aswift_11_host"
+        style="
+          border: none;
+          height: 280px;
+          width: 995px;
+          margin: 0px;
+          padding: 0px;
+          position: relative;
+          visibility: visible;
+          background-color: transparent;
+          display: inline-block;
+        "
+      ></div
+    ></ins>
+  </div>
+  <p>
+    Matches made by applying numeric promotions take precedence over any matches
+    made by applying numeric conversions.
+  </p>
+</div>
+<p>
+  Step 4) If no match is found via numeric conversion, the compiler tries to
+  find a match through any user-defined conversions. Although we haven’t covered
+  user-defined conversions yet, certain types (e.g. classes) can define
+  conversions to other types that can be implicitly invoked. Here’s an example,
+  just to illustrate the point:
+</p>
+<div class="code-block code-block-5" style="margin: 8px 0; clear: both"></div>
+
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token comment">// We haven't covered classes yet, so don't worry if this doesn't make sense</span>
+<span class="token keyword keyword-class">class</span> <span class="token class-name">X</span> <span class="token comment">// this defines a new type called X</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-64-close">{</span>
+<span class="token keyword keyword-public">public</span><span class="token operator">:</span>
+    <span class="token keyword keyword-operator">operator</span> <span class="token keyword keyword-int">int</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-58-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-58-open">)</span> <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-63-close">{</span> <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-63-open">}</span> <span class="token comment">// Here's a user-defined conversion from X to int</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-64-open">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword keyword-void">void</span> <span class="token function">foo</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-59-close">(</span><span class="token keyword keyword-int">int</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-59-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-65-close">{</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-65-open">}</span>
+
+<span class="token keyword keyword-void">void</span> <span class="token function">foo</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-60-close">(</span><span class="token keyword keyword-double">double</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-60-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-66-close">{</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-66-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-61-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-61-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-67-close">{</span>
+    X x<span class="token punctuation">;</span> <span class="token comment">// Here, we're creating an object of type X (named x)</span>
+    <span class="token function">foo</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-62-close">(</span>x<span class="token punctuation brace-round brace-close brace-level-2" id="pair-62-open">)</span><span class="token punctuation">;</span> <span class="token comment">// x is converted to type int using the user-defined conversion from X to int</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-67-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  In this example, the compiler will first check whether an exact match to
+  <code>foo(X)</code> exists. We haven’t defined one. Next the compiler will
+  check whether <code>x</code> can be numerically promoted, which it can’t. The
+  compiler will then check if <code>x</code> can be numerically converted, which
+  it also can’t. Finally, the compiler will then look for any user-defined
+  conversions. Because we’ve defined a user-defined conversion from
+  <code>X</code> to <code>int</code>, the compiler will convert
+  <code>X</code> to an <code>int</code> to match <code>foo(int)</code>.
+</p>
+<div
+  class="google-auto-placed ap_container"
+  style="width: 100%; height: auto; clear: both; text-align: center"
+>
+  <ins
+    data-ad-format="auto"
+    class="adsbygoogle adsbygoogle-noablate"
+    data-ad-client="ca-pub-0588844875925051"
+    data-adsbygoogle-status="done"
+    style="
+      display: block;
+      margin: auto;
+      background-color: transparent;
+      height: 280px;
+    "
+    ><div
+      id="aswift_12_host"
+      style="
+        border: none;
+        height: 280px;
+        width: 1027px;
+        margin: 0px;
+        padding: 0px;
+        position: relative;
+        visibility: visible;
+        background-color: transparent;
+        display: inline-block;
+      "
+    ></div
+  ></ins>
+</div>
+<p>
+  After applying a user-defined conversion, the compiler may apply additional
+  implicit promotions or conversions to find a match. So if our user-defined
+  conversion had been to type <code>char</code> instead of <code>int</code>, the
+  compiler would have used the user-defined conversion to <code>char</code> and
+  then promoted the result into an <code>int</code> to match.
+</p>
+<div class="cpp-note cpp-lightgraybackground">
+  <p class="cpp-note-title cpp-bottomline">Related content</p>
+  <p>
+    We discuss how to create user-defined conversions for class types (by
+    overloading the typecast operators) in lesson
+    <a href="https://www.learncpp.com/cpp-tutorial/overloading-typecasts/"
+      >21.11 -- Overloading typecasts</a
+    >.
+  </p>
+</div>
+<div class="cpp-note cpp-lightgraybackground">
+  <p class="cpp-note-title cpp-bottomline">For advanced readers</p>
+  <p>
+    The constructor of a class also acts as a user-defined conversion from other
+    types to that class type, and can be used during this step to find matching
+    functions.
+  </p>
+</div>
+<p>
+  Step 5) If no match is found via user-defined conversion, the compiler will
+  look for a matching function that uses ellipsis.
+</p>
+<div class="cpp-note cpp-lightgraybackground">
+  <p class="cpp-note-title cpp-bottomline">Related content</p>
+  <p>
+    We cover ellipses in lesson
+    <a
+      href="https://www.learncpp.com/cpp-tutorial/ellipsis-and-why-to-avoid-them/"
+      >20.5 -- Ellipsis (and why to avoid them)</a
+    >.
+  </p>
+</div>
+<p>
+  Step 6) If no matches have been found by this point, the compiler gives up and
+  will issue a compile error about not being able to find a matching function.
+</p>
+<div
+  class="google-auto-placed ap_container"
+  style="width: 100%; height: auto; clear: both; text-align: center"
+>
+  <ins
+    data-ad-format="auto"
+    class="adsbygoogle adsbygoogle-noablate"
+    data-ad-client="ca-pub-0588844875925051"
+    data-adsbygoogle-status="done"
+    style="
+      display: block;
+      margin: auto;
+      background-color: transparent;
+      height: 280px;
+    "
+    ><div
+      id="aswift_13_host"
+      style="
+        border: none;
+        height: 280px;
+        width: 1027px;
+        margin: 0px;
+        padding: 0px;
+        position: relative;
+        visibility: visible;
+        background-color: transparent;
+        display: inline-block;
+      "
+    ></div
+  ></ins>
+</div>
+<p class="cpp-section cpp-topline" style="clear: both">Ambiguous matches</p>
+<p>
+  With non-overloaded functions, each function call will either resolve to a
+  function, or no match will be found and the compiler will issue a compile
+  error:
+</p>
+<div class="code-block code-block-6" style="margin: 8px 0; clear: both"></div>
+
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-void">void</span> <span class="token function">foo</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-68-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-68-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-72-close">{</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-72-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-69-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-69-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-73-close">{</span>
+     <span class="token function">foo</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-70-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-70-open">)</span><span class="token punctuation">;</span> <span class="token comment">// okay: match found</span>
+     <span class="token function">goo</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-71-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-71-open">)</span><span class="token punctuation">;</span> <span class="token comment">// compile error: no match found</span>
+
+     <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-73-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  With overloaded functions, there is a third possible outcome: an
+  <code>ambiguous match</code> may be found. An
+  <strong>ambiguous match</strong> occurs when the compiler finds two or more
+  functions that can be made to match in the same step. When this occurs, the
+  compiler will stop matching and issue a compile error stating that it has
+  found an ambiguous function call.
+</p>
+<p>
+  Since every overloaded function must be differentiated in order to compile,
+  you might be wondering how it is possible that a function call could result in
+  more than one match. Let’s take a look at an example that illustrates this:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-void">void</span> <span class="token function">foo</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-74-close">(</span><span class="token keyword keyword-int">int</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-74-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-78-close">{</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-78-open">}</span>
+
+<span class="token keyword keyword-void">void</span> <span class="token function">foo</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-75-close">(</span><span class="token keyword keyword-double">double</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-75-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-79-close">{</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-79-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-76-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-76-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-80-close">{</span>
+    <span class="token function">foo</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-77-close">(</span><span class="token number">5L</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-77-open">)</span><span class="token punctuation">;</span> <span class="token comment">// 5L is type long</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-80-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  Since literal <code>5L</code> is of type <code>long</code>, the compiler will
+  first look to see if it can find an exact match for <code>foo(long)</code>,
+  but it will not find one. Next, the compiler will try numeric promotion, but
+  values of type <code>long</code> can’t be promoted, so there is no match here
+  either.
+</p>
+<p>
+  Following that, the compiler will try to find a match by applying numeric
+  conversions to the <code>long</code> argument. In the process of checking all
+  the numeric conversion rules, the compiler will find two potential matches. If
+  the <code>long</code> argument is numerically converted into an
+  <code>int</code>, then the function call will match <code>foo(int)</code>. If
+  the <code>long</code> argument is instead converted into a
+  <code>double</code>, then it will match <code>foo(double)</code> instead.
+  Since two possible matches via numeric conversion have been found, the
+  function call is considered ambiguous.
+</p>
+<p>On Visual Studio 2019, this results in the following error message:</p>
+<div class="code-block code-block-7" style="margin: 8px 0; clear: both"></div>
+
+<pre>
+error C2668: 'foo': ambiguous call to overloaded function
+message : could be 'void foo(double)'
+message : or       'void foo(int)'
+message : while trying to match the argument list '(long)'
+</pre>
+<div class="cpp-note cpp-lightbluebackground">
+  <p class="cpp-note-title cpp-bottomline">Key insight</p>
+  <p>
+    If the compiler finds multiple matches in a given step, an ambiguous
+    function call will result. This means no match from a given step is
+    considered to be better than any other match from the same step.
+  </p>
+</div>
+<p>Here’s another example that yields ambiguous matches:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-void">void</span> <span class="token function">foo</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-81-close">(</span><span class="token keyword keyword-unsigned">unsigned</span> <span class="token keyword keyword-int">int</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-81-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-86-close">{</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-86-open">}</span>
+
+<span class="token keyword keyword-void">void</span> <span class="token function">foo</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-82-close">(</span><span class="token keyword keyword-float">float</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-82-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-87-close">{</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-87-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-83-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-83-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-88-close">{</span>
+    <span class="token function">foo</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-84-close">(</span><span class="token number">0</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-84-open">)</span><span class="token punctuation">;</span>       <span class="token comment">// int can be numerically converted to unsigned int or to float</span>
+    <span class="token function">foo</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-85-close">(</span><span class="token number">3.14159</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-85-open">)</span><span class="token punctuation">;</span> <span class="token comment">// double can be numerically converted to unsigned int or to float</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-88-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  Although you might expect <code>0</code> to resolve to
+  <code>foo(unsigned int)</code> and <code>3.14159</code> to resolve to
+  <code>foo(float)</code>, both of these calls result in an ambiguous match. The
+  <code>int</code> value <code>0</code> can be numerically converted to either
+  an <code>unsigned int</code> or a <code>float</code>, so either overload
+  matches equally well, and the result is an ambiguous function call.
+</p>
+<p>
+  The same applies for the conversion of a <code>double</code> to either a
+  <code>float</code> or <code>unsigned int</code>. Both are numeric conversions,
+  so either overload matches equally well, and the result is again ambiguous.
+</p>
+<div class="cpp-note cpp-lightgraybackground">
+  <p class="cpp-note-title cpp-bottomline">For advanced readers</p>
+  <p>
+    Default arguments can also cause ambiguous matches. We cover such cases in
+    lesson
+    <a href="https://www.learncpp.com/cpp-tutorial/default-arguments/"
+      >11.5 -- Default arguments</a
+    >.
+  </p>
+</div>
+<p class="cpp-section cpp-topline" style="clear: both">
+  Resolving ambiguous matches
+</p>
+<p>
+  Because ambiguous matches are a compile-time error, an ambiguous match needs
+  to be disambiguated before your program will compile. There are a few ways to
+  resolve ambiguous matches:
+</p>
+<ol start="1">
+  <li>
+    Often, the best way is simply to define a new overloaded function that takes
+    parameters of exactly the type you are trying to call the function with.
+    Then C++ will be able to find an exact match for the function call.
+  </li>
+  <li>
+    Alternatively, explicitly cast the ambiguous argument(s) to match the type
+    of the function you want to call. For example, to have
+    <code>foo(0)</code> match <code>foo(unsigned int)</code> in the above
+    example, you would do this:
+  </li>
+</ol>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-int">int</span> x<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-91-close">{</span> <span class="token number">0</span> <span class="token punctuation brace-curly brace-close brace-level-1" id="pair-91-open">}</span><span class="token punctuation">;</span>
+<span class="token function">foo</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-90-close">(</span><span class="token generic-function"><span class="token function">static_cast</span><span class="token generic class-name"><span class="token operator">&lt;</span><span class="token keyword keyword-unsigned">unsigned</span> <span class="token keyword keyword-int">int</span><span class="token operator">&gt;</span></span></span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-89-close">(</span>x<span class="token punctuation brace-round brace-close brace-level-2" id="pair-89-open">)</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-90-open">)</span><span class="token punctuation">;</span> <span class="token comment">// will call foo(unsigned int)</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<ol start="3">
+  <li>
+    If your argument is a literal, you can use the literal suffix to ensure your
+    literal is interpreted as the correct type:
+  </li>
+</ol>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token function">foo</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-92-close">(</span><span class="token number">0u</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-92-open">)</span><span class="token punctuation">;</span> <span class="token comment">// will call foo(unsigned int) since 'u' suffix is unsigned int, so this is now an exact match</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  The list of the most used suffixes can be found in lesson
+  <a href="https://www.learncpp.com/cpp-tutorial/literals/">5.2 -- Literals</a>.
+</p>
+<div class="code-block code-block-8" style="margin: 8px 0; clear: both"></div>
+
+<p class="cpp-section cpp-topline" style="clear: both">
+  Matching for functions with multiple arguments
+</p>
+<p>
+  If there are multiple arguments, the compiler applies the matching rules to
+  each argument in turn. The function chosen is the one for which each argument
+  matches at least as well as all the other functions, with at least one
+  argument matching better than all the other functions. In other words, the
+  function chosen must provide a better match than all the other candidate
+  functions for at least one parameter, and no worse for all of the other
+  parameters.
+</p>
+<p>
+  In the case that such a function is found, it is clearly and unambiguously the
+  best choice. If no such function can be found, the call will be considered
+  ambiguous (or a non-match).
+</p>
+<p>For example:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-void">void</span> <span class="token function">print</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-93-close">(</span><span class="token keyword keyword-char">char</span><span class="token punctuation">,</span> <span class="token keyword keyword-int">int</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-93-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-98-close">{</span>
+	std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">'a'</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-98-open">}</span>
+
+<span class="token keyword keyword-void">void</span> <span class="token function">print</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-94-close">(</span><span class="token keyword keyword-char">char</span><span class="token punctuation">,</span> <span class="token keyword keyword-double">double</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-94-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-99-close">{</span>
+	std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">'b'</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-99-open">}</span>
+
+<span class="token keyword keyword-void">void</span> <span class="token function">print</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-95-close">(</span><span class="token keyword keyword-char">char</span><span class="token punctuation">,</span> <span class="token keyword keyword-float">float</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-95-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-100-close">{</span>
+	std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">'c'</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-100-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-96-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-96-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-101-close">{</span>
+	<span class="token function">print</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-97-close">(</span><span class="token string">'x'</span><span class="token punctuation">,</span> <span class="token string">'a'</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-97-open">)</span><span class="token punctuation">;</span>
+
+	<span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-101-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  In the above program, all functions match the first argument exactly. However,
+  the top function matches the second parameter via promotion, whereas the other
+  functions require a conversion. Therefore, <code>print(char, int)</code> is
+  unambiguously the best match.
+</p>
+<div class="prevnext">
+  <div class="prevnext-inline">
+    <a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/deleting-functions/"
+    >
+      <div class="nav-button nav-button-next">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-right" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Next lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">11.4</span>Deleting functions
+          </div>
+        </div>
+      </div></a
+    >
+    <a class="nav-link" href="/">
+      <div class="nav-button nav-button-index">
+        <div class="nav-button-icon">
+          <i class="fa fa-home" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Back to table of contents</div>
+        </div>
+      </div></a
+    >
+    <a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/function-overload-differentiation/"
+    >
+      <div class="nav-button nav-button-prev">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-left" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Previous lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">11.2</span>Function overload
+            differentiation
+          </div>
+        </div>
+      </div></a
+    >
+  </div>
+</div>
+<div class="code-block code-block-10" style="margin: 8px 0; clear: both"></div>

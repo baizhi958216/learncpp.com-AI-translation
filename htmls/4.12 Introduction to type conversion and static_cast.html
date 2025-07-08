@@ -1,0 +1,974 @@
+<div
+  class="code-block code-block-1"
+  style="margin: 8px 8px 8px 0; float: left"
+></div>
+<p class="cpp-section" data-ezoic-video-excluded="1">
+  Implicit type conversion
+</p>
+<p>Consider the following program:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-void">void</span> <span class="token function">print</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-0-close">(</span><span class="token keyword keyword-double">double</span> x<span class="token punctuation brace-round brace-close brace-level-1" id="pair-0-open">)</span> <span class="token comment">// print takes a double parameter</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-3-close">{</span>
+	std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> x <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-3-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-1-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-1-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-4-close">{</span>
+	<span class="token function">print</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-2-close">(</span><span class="token number">5</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-2-open">)</span><span class="token punctuation">;</span> <span class="token comment">// what happens when we pass an int value?</span>
+
+	<span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-4-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  In the above example, the <code>print()</code> function has a parameter of
+  type <code>double</code> but the caller is passing in the value
+  <code>5</code> which is of type <code>int</code>. What happens in this case?
+</p>
+<p>
+  In most cases, C++ will allow us to convert values of one fundamental type to
+  another fundamental type. The process of converting data from one type to
+  another type is called <strong>type conversion</strong>. Thus, the int
+  argument <code>5</code> will be converted to double value <code>5.0</code> and
+  then copied into parameter <code>x</code>. The <code>print()</code> function
+  will print this value, resulting in the following output:
+</p>
+<pre>
+5
+</pre>
+<div class="cpp-note cpp-lightgraybackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">A reminder</p>
+  <p>
+    By default, floating point values whose decimal part is 0 print without the
+    decimal places (e.g. <code>5.0</code> prints as <code>5</code>).
+  </p>
+</div>
+<p>
+  When the compiler does type conversion on our behalf without us explicitly
+  asking, we call this <strong>implicit type conversion</strong>. The above
+  example illustrates this -- nowhere do we explicitly tell the compiler to
+  convert integer value <code>5</code> to double value <code>5.0</code>. Rather,
+  the function is expecting a double value, and we pass in an integer argument.
+  The compiler will notice the mismatch and implicitly convert the integer to a
+  double.
+</p>
+<p>
+  Here’s a similar example where our argument is an int variable instead of an
+  int literal:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-void">void</span> <span class="token function">print</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-5-close">(</span><span class="token keyword keyword-double">double</span> x<span class="token punctuation brace-round brace-close brace-level-1" id="pair-5-open">)</span> <span class="token comment">// print takes a double parameter</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-8-close">{</span>
+	std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> x <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-8-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-6-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-6-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-10-close">{</span>
+	<span class="token keyword keyword-int">int</span> y <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-9-close">{</span> <span class="token number">5</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-9-open">}</span><span class="token punctuation">;</span>
+	<span class="token function">print</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-7-close">(</span>y<span class="token punctuation brace-round brace-close brace-level-2" id="pair-7-open">)</span><span class="token punctuation">;</span> <span class="token comment">// y is of type int</span>
+
+	<span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-10-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  This works identically to the above. The value held by int variable
+  <code>y</code> (<code>5</code>) will be converted to double value
+  <code>5.0</code>, and then copied into parameter <code>x</code>.
+</p>
+<div class="code-block code-block-2" style="margin: 8px 0; clear: both"></div>
+
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Type conversion of a value produces a new value
+</p>
+<p>
+  The type conversion process does not modify the value (or object) supplying
+  the data to be converted. Instead, the conversion process uses that data as
+  input, and produces the converted result.
+</p>
+<div class="cpp-note cpp-lightbluebackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Key insight</p>
+  <p>
+    The type conversion of a value to another type of value behaves much like a
+    call to a function whose return type matches the target type of the
+    conversion. The data to be converted is passed in as an argument, and the
+    converted result is returned (in a temporary object) to be used by the
+    caller.
+  </p>
+</div>
+<p>
+  In the above example, the conversion does not change variable
+  <code>y</code> from type <code>int</code> to <code>double</code> or the value
+  of <code>y</code> from <code>5</code> to <code>5.0</code>. Instead, the
+  conversion uses the value of <code>y</code> (<code>5</code>) as input, and
+  returns a temporary object of type <code>double</code> with value
+  <code>5.0</code>. This temporary object is then passed to function
+  <code>print</code>.
+</p>
+<div class="cpp-note cpp-lightgraybackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">For advanced readers</p>
+  <p>
+    Some advanced type conversions (e.g. those involving
+    <code>const_cast</code> or <code>reinterpret_cast</code>) do not return
+    temporary objects, but instead reinterpret the type of an existing value or
+    object.
+  </p>
+</div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Implicit type conversion warnings
+</p>
+<p>
+  Although implicit type conversion is sufficient for most cases where type
+  conversion is needed, there are a few cases where it is not. Consider the
+  following program, which is similar to the example above:
+</p>
+<div class="code-block code-block-3" style="margin: 8px 0; clear: both"></div>
+
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-void">void</span> <span class="token function">print</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-11-close">(</span><span class="token keyword keyword-int">int</span> x<span class="token punctuation brace-round brace-close brace-level-1" id="pair-11-open">)</span> <span class="token comment">// print now takes an int parameter</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-14-close">{</span>
+	std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> x <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-14-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-12-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-12-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-15-close">{</span>
+	<span class="token function">print</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-13-close">(</span><span class="token number">5.5</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-13-open">)</span><span class="token punctuation">;</span> <span class="token comment">// warning: we're passing in a double value</span>
+
+	<span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-15-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  In this program, we’ve changed <code>print()</code> to take an
+  <code>int</code> parameter, and the function call to <code>print()</code> is
+  now passing in <code>double</code> value <code>5.5</code>. Similar to the
+  above, the compiler will use implicit type conversion in order to convert
+  double value <code>5.5</code> into a value of type <code>int</code>, so that
+  it can be passed to function <code>print()</code>.
+</p>
+<p>
+  Unlike the initial example, when this program is compiled, your compiler will
+  generate some kind of a warning about a possible loss of data. And because you
+  have “treat warnings as errors” turned on (you do, right?), your compiler will
+  abort the compilation process.
+</p>
+<div class="cpp-note cpp-lightbluebackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Tip</p>
+  <p>
+    You’ll need to disable “treat warnings as errors” temporarily if you want to
+    compile this example. See lesson
+    <a
+      href="https://www.learncpp.com/cpp-tutorial/configuring-your-compiler-warning-and-error-levels/"
+      >0.11 -- Configuring your compiler: Warning and error levels</a
+    >
+    for more information about this setting.
+  </p>
+</div>
+<p>When compiled and run, this program prints the following:</p>
+<pre>
+5
+</pre>
+<p>
+  Note that although we passed in value <code>5.5</code>, the program printed
+  <code>5</code>. Because integral values can’t hold fractions, when double
+  value <code>5.5</code> is implicitly converted to an <code>int</code>, the
+  fractional component is dropped, and only the integral value is retained.
+</p>
+<p>
+  Because converting a floating point value to an integral value results in any
+  fractional component being dropped, the compiler will warn us when it does an
+  implicit type conversion from a floating point to an integral value. This
+  happens even if we were to pass in a floating point value with no fractional
+  component, like <code>5.0</code> -- no actual loss of value occurs during the
+  conversion to integral value <code>5</code> in this specific case, but the
+  compiler may still warn us that the conversion is unsafe.
+</p>
+<div class="code-block code-block-4" style="margin: 8px 0; clear: both"></div>
+
+<div class="cpp-note cpp-lightbluebackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Key insight</p>
+  <p>
+    Some type conversions (such as a <code>char</code> to an <code>int</code>)
+    always preserve the value being converted, whereas others (such as
+    <code>double</code> to <code>int</code>) may result in the value being
+    changed during conversion. Unsafe implicit conversions will typically either
+    generate a compiler warning, or (in the case of brace initialization) an
+    error.
+  </p>
+  <p>
+    This is one of the primary reasons brace initialization is the preferred
+    initialization form. Brace initialization will ensure we don’t try to
+    initialize a variable with an initializer that will lose value when it is
+    implicitly type converted:
+  </p>
+  <div class="code-toolbar">
+    <pre
+      class="line-numbers language-cpp"
+      tabindex="0"
+    ><code class="match-braces language-cpp"><span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-16-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-16-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-19-close">{</span>
+    <span class="token keyword keyword-double">double</span> d <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-17-close">{</span> <span class="token number">5</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-17-open">}</span><span class="token punctuation">;</span> <span class="token comment">// okay: int to double is safe</span>
+    <span class="token keyword keyword-int">int</span> x <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-18-close">{</span> <span class="token number">5.5</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-18-open">}</span><span class="token punctuation">;</span> <span class="token comment">// error: double to int not safe</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-19-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+    <div class="toolbar">
+      <div class="toolbar-item">
+        <button
+          class="copy-to-clipboard-button"
+          type="button"
+          data-copy-state="copy"
+        >
+          <span>Copy</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="cpp-note cpp-lightgraybackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Related content</p>
+  <p>
+    Implicit type conversion is a meaty topic. We dig into this topic in more
+    depth in future lessons, starting with lesson
+    <a href="https://www.learncpp.com/cpp-tutorial/implicit-type-conversion/"
+      >10.1 -- Implicit type conversion</a
+    >.
+  </p>
+</div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  An introduction to explicit type conversion via the static_cast operator
+</p>
+<p>
+  Back to our most recent <code>print()</code> example, what if we
+  <em>intentionally</em> wanted to pass a double value to a function taking an
+  integer (knowing that the converted value would drop any fractional
+  component?) Turning off “treat warnings as errors” just to make our program
+  compile is a bad idea, because then we’ll have warnings every time we compile
+  (which we will quickly learn to ignore), and we risk overlooking warnings
+  about more serious issues.
+</p>
+<p>
+  C++ supports a second method of type conversion, called explicit type
+  conversion. <strong>Explicit type conversion</strong> allow us (the
+  programmer) to explicitly tell the compiler to convert a value from one type
+  to another type, and that we take full responsibility for the result of that
+  conversion. If such a conversion results in the loss of value, the compiler
+  will not warn us.
+</p>
+<p>
+  To perform an explicit type conversion, in most cases we’ll use the
+  <code>static_cast</code> operator. The syntax for the
+  <code>static cast</code> looks a little funny:
+</p>
+<pre>
+static_cast&lt;new_type&gt;(expression)
+</pre>
+<p>
+  static_cast takes the value from an expression as input, and returns that
+  value converted into the type specified by <em>new_type</em> (e.g. int, bool,
+  char, double).
+</p>
+<div class="code-block code-block-5" style="margin: 8px 0; clear: both"></div>
+
+<div class="cpp-note cpp-lightbluebackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Key insight</p>
+  <p>
+    Whenever you see C++ syntax (excluding the preprocessor) that makes use of
+    angled brackets (&lt;&gt;), the thing between the angled brackets will most
+    likely be a type. This is typically how C++ deals with code that need a
+    parameterized type.
+  </p>
+</div>
+<p>Let’s update our prior program using <code>static_cast</code>:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-void">void</span> <span class="token function">print</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-20-close">(</span><span class="token keyword keyword-int">int</span> x<span class="token punctuation brace-round brace-close brace-level-1" id="pair-20-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-24-close">{</span>
+	std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> x <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-24-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-21-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-21-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-25-close">{</span>
+	<span class="token function">print</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-23-close">(</span> <span class="token generic-function"><span class="token function">static_cast</span><span class="token generic class-name"><span class="token operator">&lt;</span><span class="token keyword keyword-int">int</span><span class="token operator">&gt;</span></span></span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-22-close">(</span><span class="token number">5.5</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-22-open">)</span> <span class="token punctuation brace-round brace-close brace-level-2" id="pair-23-open">)</span><span class="token punctuation">;</span> <span class="token comment">// explicitly convert double value 5.5 to an int</span>
+
+	<span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-25-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  Because we’re now explicitly requesting that double value <code>5.5</code> be
+  converted to an <code>int</code> value, the compiler will not generate a
+  warning about a possible loss of data upon compilation (meaning we can leave
+  “treat warnings as errors” enabled).
+</p>
+<div class="cpp-note cpp-lightgraybackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Related content</p>
+  <p>
+    C++ supports other types of casts. We talk more about the different types of
+    casts in future lesson
+    <a
+      href="https://www.learncpp.com/cpp-tutorial/explicit-type-conversion-casting-and-static-cast/"
+      >10.6 -- Explicit type conversion (casting) and static_cast</a
+    >.
+  </p>
+</div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Using static_cast to convert char to int
+</p>
+<p>
+  In the lesson on chars
+  <a href="https://www.learncpp.com/cpp-tutorial/chars/">4.11 -- Chars</a>, we
+  saw that printing a char value using <code>std::cout</code> results in the
+  value being printed as a char:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-26-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-26-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-28-close">{</span>
+    <span class="token keyword keyword-char">char</span> ch<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-27-close">{</span> <span class="token number">97</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-27-open">}</span><span class="token punctuation">;</span> <span class="token comment">// 97 is ASCII code for 'a'</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> ch <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-28-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>This prints:</p>
+<div class="code-block code-block-6" style="margin: 8px 0; clear: both"></div>
+
+<pre>
+a
+</pre>
+<p>
+  If we want to print the integral value instead of the char, we can do this by
+  using <code>static_cast</code> to cast the value from a <code>char</code> to
+  an <code>int</code>:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-29-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-29-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-32-close">{</span>
+    <span class="token keyword keyword-char">char</span> ch<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-31-close">{</span> <span class="token number">97</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-31-open">}</span><span class="token punctuation">;</span> <span class="token comment">// 97 is ASCII code for 'a'</span>
+    <span class="token comment">// print value of variable ch as an int</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> ch <span class="token operator">&lt;&lt;</span> <span class="token string">" has value "</span> <span class="token operator">&lt;&lt;</span> <span class="token generic-function"><span class="token function">static_cast</span><span class="token generic class-name"><span class="token operator">&lt;</span><span class="token keyword keyword-int">int</span><span class="token operator">&gt;</span></span></span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-30-close">(</span>ch<span class="token punctuation brace-round brace-close brace-level-2" id="pair-30-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-32-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>This prints:</p>
+<pre>
+a has value 97
+</pre>
+<p>
+  It’s worth noting that the argument to <em>static_cast</em> evaluates as an
+  expression. When we pass in a variable, that variable is evaluated to produce
+  its value, and that value is then converted to the new type. The variable
+  itself is <em>not</em> affected by casting its value to a new type. In the
+  above case, variable <code>ch</code> is still a char, and still holds the same
+  value even after we’ve cast its value to an <code>int</code>.
+</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Sign conversions using static_cast
+</p>
+<p>
+  Signed integral values can be converted to unsigned integral values, and
+  vice-versa, using a static cast.
+</p>
+<p>
+  If the value being converted can be represented in the destination type, the
+  converted value will remain unchanged (only the type will change). For
+  example:
+</p>
+<div class="code-block code-block-7" style="margin: 8px 0; clear: both"></div>
+
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-33-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-33-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-40-close">{</span>
+    <span class="token keyword keyword-unsigned">unsigned</span> <span class="token keyword keyword-int">int</span> u1 <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-36-close">{</span> <span class="token number">5</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-36-open">}</span><span class="token punctuation">;</span>
+    <span class="token comment">// Convert value of u1 to a signed int</span>
+    <span class="token keyword keyword-int">int</span> s1 <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-37-close">{</span> <span class="token generic-function"><span class="token function">static_cast</span><span class="token generic class-name"><span class="token operator">&lt;</span><span class="token keyword keyword-int">int</span><span class="token operator">&gt;</span></span></span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-34-close">(</span>u1<span class="token punctuation brace-round brace-close brace-level-3" id="pair-34-open">)</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-37-open">}</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> s1 <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span> <span class="token comment">// prints 5</span>
+
+    <span class="token keyword keyword-int">int</span> s2 <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-38-close">{</span> <span class="token number">5</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-38-open">}</span><span class="token punctuation">;</span>
+    <span class="token comment">// Convert value of s2 to an unsigned int</span>
+    <span class="token keyword keyword-unsigned">unsigned</span> <span class="token keyword keyword-int">int</span> u2 <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-39-close">{</span> <span class="token generic-function"><span class="token function">static_cast</span><span class="token generic class-name"><span class="token operator">&lt;</span><span class="token keyword keyword-unsigned">unsigned</span> <span class="token keyword keyword-int">int</span><span class="token operator">&gt;</span></span></span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-35-close">(</span>s2<span class="token punctuation brace-round brace-close brace-level-3" id="pair-35-open">)</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-39-open">}</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> u2 <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span> <span class="token comment">// prints 5</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-40-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>This prints:</p>
+<pre>
+5
+5
+</pre>
+<p>
+  Since the value <code>5</code> is in the range of both a signed int and an
+  unsigned int, the value <code>5</code> can be converted to either type without
+  issue.
+</p>
+<p>
+  If the value being converted cannot be represented in the destination type:
+</p>
+<ul>
+  <li>
+    If the destination type is unsigned, the value will be modulo wrapped. We
+    cover modulo wrapping in lesson
+    <a
+      href="https://www.learncpp.com/cpp-tutorial/unsigned-integers-and-why-to-avoid-them/"
+      >4.5 -- Unsigned integers, and why to avoid them</a
+    >.
+  </li>
+  <li>
+    If the destination type is signed, the value is implementation-defined prior
+    to C++20, and will be modulo wrapped as of C++20.
+  </li>
+</ul>
+<p>
+  Here’s an example of converting two values that are not representable in the
+  destination type (assuming 32-bit integers):
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-41-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-41-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-46-close">{</span>
+    <span class="token keyword keyword-int">int</span> s <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-44-close">{</span> <span class="token operator">-</span><span class="token number">1</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-44-open">}</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token generic-function"><span class="token function">static_cast</span><span class="token generic class-name"><span class="token operator">&lt;</span><span class="token keyword keyword-unsigned">unsigned</span> <span class="token keyword keyword-int">int</span><span class="token operator">&gt;</span></span></span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-42-close">(</span>s<span class="token punctuation brace-round brace-close brace-level-2" id="pair-42-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span> <span class="token comment">// prints 4294967295</span>
+
+    <span class="token keyword keyword-unsigned">unsigned</span> <span class="token keyword keyword-int">int</span> u <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-45-close">{</span> <span class="token number">4294967295</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-45-open">}</span><span class="token punctuation">;</span> <span class="token comment">// largest 32-bit unsigned int</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token generic-function"><span class="token function">static_cast</span><span class="token generic class-name"><span class="token operator">&lt;</span><span class="token keyword keyword-int">int</span><span class="token operator">&gt;</span></span></span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-43-close">(</span>u<span class="token punctuation brace-round brace-close brace-level-2" id="pair-43-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span> <span class="token comment">// implementation-defined prior to C++20, -1 as of C++20</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-46-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>As of C++20, this produces the result:</p>
+<div class="code-block code-block-8" style="margin: 8px 0; clear: both"></div>
+
+<pre>
+4294967295
+-1
+</pre>
+<p>
+  Signed int value <code>-1</code> cannot be represented as an unsigned int. The
+  result modulo wraps to unsigned int value <code>4294967295</code>.
+</p>
+<p>
+  Unsigned int value <code>4294967295</code> cannot be represented as a signed
+  int. Prior to C++20, the result is implementation defined (but will probably
+  be <code>-1</code>). As of C++20, the result will modulo wrap to
+  <code>-1</code>.
+</p>
+<div class="cpp-note cpp-lightredbackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Warning</p>
+  <p>
+    Converting an unsigned integral value to a signed integral value will result
+    in implementation-defined behavior prior to C++20 if the value being
+    converted can not be represented in the signed type.
+  </p>
+</div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  std::int8_t and std::uint8_t likely behave like chars instead of integers
+</p>
+<p>
+  As noted in lesson
+  <a
+    href="https://www.learncpp.com/cpp-tutorial/fixed-width-integers-and-size-t/"
+    >4.6 -- Fixed-width integers and size_t</a
+  >, most compilers define and treat <code>std::int8_t</code> and
+  <code>std::uint8_t</code> (and the corresponding fast and least fixed-width
+  types) identically to types <code>signed char</code> and
+  <code>unsigned char</code> respectively. Now that we’ve covered what chars
+  are, we can demonstrate where this can be problematic:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;cstdint&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-47-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-47-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-49-close">{</span>
+    std<span class="token double-colon punctuation">::</span><span class="token keyword keyword-int8_t">int8_t</span> myInt<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-48-close">{</span><span class="token number">65</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-48-open">}</span><span class="token punctuation">;</span>      <span class="token comment">// initialize myInt with value 65</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> myInt <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span> <span class="token comment">// you're probably expecting this to print 65</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-49-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  Because <code>std::int8_t</code> describes itself as an int, you might be
+  tricked into believing that the above program will print the integral value
+  <code>65</code>. However, on most systems, this program will print
+  <code>A</code> instead (treating <code>myInt</code> as a
+  <code>signed char</code>). However, this is not guaranteed (on some systems,
+  it may actually print <code>65</code>).
+</p>
+<p>
+  If you want to ensure that a <code>std::int8_t</code> or
+  <code>std::uint8_t</code> object is treated as an integer, you can convert the
+  value to an integer using <code>static_cast</code>:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;cstdint&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-50-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-50-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-53-close">{</span>
+    std<span class="token double-colon punctuation">::</span><span class="token keyword keyword-int8_t">int8_t</span> myInt<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-52-close">{</span><span class="token number">65</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-52-open">}</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token generic-function"><span class="token function">static_cast</span><span class="token generic class-name"><span class="token operator">&lt;</span><span class="token keyword keyword-int">int</span><span class="token operator">&gt;</span></span></span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-51-close">(</span>myInt<span class="token punctuation brace-round brace-close brace-level-2" id="pair-51-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span> <span class="token comment">// will always print 65</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-53-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  In cases where <code>std::int8_t</code> is treated as a char, input from the
+  console can also cause problems:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;cstdint&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-54-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-54-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-57-close">{</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Enter a number between 0 and 127: "</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span><span class="token keyword keyword-int8_t">int8_t</span> myInt<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-56-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-56-open">}</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>cin <span class="token operator">&gt;&gt;</span> myInt<span class="token punctuation">;</span>
+
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"You entered: "</span> <span class="token operator">&lt;&lt;</span> <span class="token generic-function"><span class="token function">static_cast</span><span class="token generic class-name"><span class="token operator">&lt;</span><span class="token keyword keyword-int">int</span><span class="token operator">&gt;</span></span></span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-55-close">(</span>myInt<span class="token punctuation brace-round brace-close brace-level-2" id="pair-55-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-57-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>A sample run of this program:</p>
+<pre>
+Enter a number between 0 and 127: 35
+You entered: 51
+</pre>
+<p>
+  Here’s what’s happening. When <code>std::int8_t</code> is treated as a char,
+  the input routines interpret our input as a sequence of characters, not as an
+  integer. So when we enter <code>35</code>, we’re actually entering two chars,
+  <code>'3'</code> and <code>'5'</code>. Because a char object can only hold one
+  character, the <code>'3'</code> is extracted (the <code>'5'</code> is left in
+  the input stream for possible extraction later). Because the char
+  <code>'3'</code> has ASCII code point 51, the value <code>51</code> is stored
+  in <code>myInt</code>, which we then print later as an int.
+</p>
+<p>
+  In contrast, the other fixed-width types will always print and input as
+  integral values.
+</p>
+<p></p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Quiz time
+</p>
+<p class="cpp-quiz-question" style="clear: both">Question #1</p>
+<p></p>
+<p>
+  Write a short program where the user is asked to enter a single character.
+  Print the value of the character and its ASCII code, using
+  <code>static_cast</code>.
+</p>
+<p>The program’s output should match the following:</p>
+<pre>
+Enter a single character: a
+You entered 'a', which has ASCII code 97.
+</pre>
+<p>
+  <a
+    class="solution_link_show"
+    href="javascript:void(0)"
+    onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_0'), this, 'Show Solution', 'Hide Solution')"
+    >Show Solution</a
+  >
+</p>
+<div class="wpsolution" id="cpp_solution_id_0" style="display: none">
+  <div class="code-toolbar">
+    <pre
+      class="line-numbers language-cpp"
+      tabindex="0"
+    ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-58-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-58-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-61-close">{</span>
+	std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Enter a single character: "</span><span class="token punctuation">;</span>
+	<span class="token keyword keyword-char">char</span> c<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-60-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-60-open">}</span><span class="token punctuation">;</span>
+	std<span class="token double-colon punctuation">::</span>cin <span class="token operator">&gt;&gt;</span> c<span class="token punctuation">;</span>
+	std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"You entered '"</span> <span class="token operator">&lt;&lt;</span> c <span class="token operator">&lt;&lt;</span> <span class="token string">"', which has ASCII code "</span> <span class="token operator">&lt;&lt;</span> <span class="token generic-function"><span class="token function">static_cast</span><span class="token generic class-name"><span class="token operator">&lt;</span><span class="token keyword keyword-int">int</span><span class="token operator">&gt;</span></span></span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-59-close">(</span>c<span class="token punctuation brace-round brace-close brace-level-2" id="pair-59-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">".\n"</span><span class="token punctuation">;</span>
+
+	<span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-61-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+    <div class="toolbar">
+      <div class="toolbar-item">
+        <button
+          class="copy-to-clipboard-button"
+          type="button"
+          data-copy-state="copy"
+        >
+          <span>Copy</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<p class="cpp-quiz-question cpp-topline" style="clear: both">Question #2</p>
+<p>
+  Modify the program you wrote for quiz #1 to use implicit type conversion
+  instead of <code>static_cast</code>. How many different ways can you think of
+  to do this?
+</p>
+<p>
+  Note: You should favor explicit conversions over implicit conversions, so
+  don’t actually do this in real programs -- this is just to test your
+  understanding of where implicit conversions can occur.
+</p>
+<p>
+  <a
+    class="solution_link_show"
+    href="javascript:void(0)"
+    onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_1'), this, 'Show Solution', 'Hide Solution')"
+    >Show Solution</a
+  >
+</p>
+<div class="wpsolution" id="cpp_solution_id_1" style="display: none">
+  <p>There are a few easy ways to do this.</p>
+  <p>
+    First, we can create an <code>int</code> variable, and initialize it with
+    our <code>char</code> value. This will do the implicit conversion on
+    initialization.
+  </p>
+  <div class="code-toolbar">
+    <pre
+      class="line-numbers language-cpp"
+      tabindex="0"
+    ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-62-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-62-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-65-close">{</span>
+	std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Enter a single character: "</span><span class="token punctuation">;</span>
+	<span class="token keyword keyword-char">char</span> c<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-63-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-63-open">}</span><span class="token punctuation">;</span>
+	std<span class="token double-colon punctuation">::</span>cin <span class="token operator">&gt;&gt;</span> c<span class="token punctuation">;</span>
+
+	<span class="token keyword keyword-int">int</span> ascii<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-64-close">{</span> c <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-64-open">}</span><span class="token punctuation">;</span>
+	std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"You entered '"</span> <span class="token operator">&lt;&lt;</span> c <span class="token operator">&lt;&lt;</span> <span class="token string">"', which has ASCII code "</span> <span class="token operator">&lt;&lt;</span> ascii <span class="token operator">&lt;&lt;</span> <span class="token string">".\n"</span><span class="token punctuation">;</span>
+
+	<span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-65-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+    <div class="toolbar">
+      <div class="toolbar-item">
+        <button
+          class="copy-to-clipboard-button"
+          type="button"
+          data-copy-state="copy"
+        >
+          <span>Copy</span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <p>
+    Alternatively, we can use a function to return the <code>char</code> value
+    as an <code>int</code>. This will do the implicit conversion at the point of
+    return.
+  </p>
+  <div class="code-toolbar">
+    <pre
+      class="line-numbers language-cpp"
+      tabindex="0"
+    ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">charAsInt</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-66-close">(</span><span class="token keyword keyword-char">char</span> c<span class="token punctuation brace-round brace-close brace-level-1" id="pair-66-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-69-close">{</span>
+	<span class="token keyword keyword-return">return</span> c<span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-69-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-67-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-67-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-71-close">{</span>
+	std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Enter a single character: "</span><span class="token punctuation">;</span>
+	<span class="token keyword keyword-char">char</span> c<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-70-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-70-open">}</span><span class="token punctuation">;</span>
+	std<span class="token double-colon punctuation">::</span>cin <span class="token operator">&gt;&gt;</span> c<span class="token punctuation">;</span>
+
+	std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"You entered '"</span> <span class="token operator">&lt;&lt;</span> c <span class="token operator">&lt;&lt;</span> <span class="token string">"', which has ASCII code "</span> <span class="token operator">&lt;&lt;</span> <span class="token function">charAsInt</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-68-close">(</span>c<span class="token punctuation brace-round brace-close brace-level-2" id="pair-68-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">".\n"</span><span class="token punctuation">;</span>
+
+	<span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-71-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+    <div class="toolbar">
+      <div class="toolbar-item">
+        <button
+          class="copy-to-clipboard-button"
+          type="button"
+          data-copy-state="copy"
+        >
+          <span>Copy</span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <p>
+    We can also use a function and have the implicit conversion happen at the
+    point where the argument is copied into the function parameter:
+  </p>
+  <div class="code-toolbar">
+    <pre
+      class="line-numbers language-cpp"
+      tabindex="0"
+    ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">getInt</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-72-close">(</span><span class="token keyword keyword-int">int</span> c<span class="token punctuation brace-round brace-close brace-level-1" id="pair-72-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-75-close">{</span>
+	<span class="token keyword keyword-return">return</span> c<span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-75-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-73-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-73-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-77-close">{</span>
+	std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Enter a single character: "</span><span class="token punctuation">;</span>
+	<span class="token keyword keyword-char">char</span> c<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-76-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-76-open">}</span><span class="token punctuation">;</span>
+	std<span class="token double-colon punctuation">::</span>cin <span class="token operator">&gt;&gt;</span> c<span class="token punctuation">;</span>
+
+	std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"You entered '"</span> <span class="token operator">&lt;&lt;</span> c <span class="token operator">&lt;&lt;</span> <span class="token string">"', which has ASCII code "</span> <span class="token operator">&lt;&lt;</span> <span class="token function">getInt</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-74-close">(</span>c<span class="token punctuation brace-round brace-close brace-level-2" id="pair-74-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">".\n"</span><span class="token punctuation">;</span>
+
+	<span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-77-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+    <div class="toolbar">
+      <div class="toolbar-item">
+        <button
+          class="copy-to-clipboard-button"
+          type="button"
+          data-copy-state="copy"
+        >
+          <span>Copy</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="prevnext">
+  <div class="prevnext-inline">
+    <a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/chapter-4-summary-and-quiz/"
+    >
+      <div class="nav-button nav-button-next">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-right" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Next lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">4.x</span>Chapter 4 summary
+            and quiz
+          </div>
+        </div>
+      </div></a
+    >
+    <a class="nav-link" href="/">
+      <div class="nav-button nav-button-index">
+        <div class="nav-button-icon">
+          <i class="fa fa-home" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Back to table of contents</div>
+        </div>
+      </div></a
+    >
+    <a class="nav-link" href="https://www.learncpp.com/cpp-tutorial/chars/">
+      <div class="nav-button nav-button-prev">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-left" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Previous lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">4.11</span>Chars
+          </div>
+        </div>
+      </div></a
+    >
+  </div>
+</div>
+<div class="code-block code-block-10" style="margin: 8px 0; clear: both"></div>

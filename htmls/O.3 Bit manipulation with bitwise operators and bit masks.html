@@ -1,0 +1,1387 @@
+<div
+  class="code-block code-block-1"
+  style="margin: 8px 8px 8px 0; float: left"
+></div>
+<p>
+  In the previous lesson on bitwise operators (<a
+    href="https://www.learncpp.com/cpp-tutorial/bitwise-operators/"
+    >O.2 -- Bitwise operators</a
+  >), we discussed how the various bitwise operators apply logical operators to
+  each bit within the operands. Now that we understand how they function, let’s
+  take a look at how they’re more commonly used.
+</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Bit masks
+</p>
+<p>
+  In order to manipulate individual bits (e.g. turn them on or off), we need
+  some way to identify the specific bits we want to manipulate. Unfortunately,
+  the bitwise operators don’t know how to work with bit positions. Instead they
+  work with bit masks.
+</p>
+<p>
+  A <strong>bit mask</strong> is a predefined set of bits that is used to select
+  which specific bits will be modified by subsequent operations.
+</p>
+<p>
+  Consider a real-life case where you want to paint a window frame. If you’re
+  not careful, you risk painting not only the window frame, but also the glass
+  itself. You might buy some masking tape and apply it to the glass and any
+  other parts you don’t want painted. Then when you paint, the masking tape
+  blocks the paint from reaching anything you don’t want painted. In the end,
+  only the non-masked parts (the parts you want painted) get painted.
+</p>
+<p>
+  A bit mask essentially performs the same function for bits -- the bit mask
+  blocks the bitwise operators from touching bits we don’t want modified, and
+  allows access to the ones we do want modified.
+</p>
+<div class="code-block code-block-2" style="margin: 8px 0; clear: both"></div>
+
+<p>
+  Let’s first explore how to define some simple bit masks, and then we’ll show
+  you how to use them.
+</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Defining bit masks in C++14
+</p>
+<p>
+  The simplest set of bit masks is to define one bit mask for each bit position.
+  We use 0s to mask out the bits we don’t care about, and 1s to denote the bits
+  we want modified.
+</p>
+<p>
+  Although bit masks can be literals, they’re often defined as symbolic
+  constants so they can be given a meaningful name and easily reused.
+</p>
+<p>Because C++14 supports binary literals, defining these bit masks is easy:</p>
+<div class="code-block code-block-3" style="margin: 8px 0; clear: both"></div>
+
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;cstdint&gt;</span></span>
+
+<span class="token keyword keyword-constexpr">constexpr</span> std<span class="token double-colon punctuation">::</span><span class="token keyword keyword-uint8_t">uint8_t</span> mask0<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-716-close">{</span> <span class="token number">0b0000'0001</span> <span class="token punctuation brace-curly brace-close brace-level-1" id="pair-716-open">}</span><span class="token punctuation">;</span> <span class="token comment">// represents bit 0</span>
+<span class="token keyword keyword-constexpr">constexpr</span> std<span class="token double-colon punctuation">::</span><span class="token keyword keyword-uint8_t">uint8_t</span> mask1<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-717-close">{</span> <span class="token number">0b0000'0010</span> <span class="token punctuation brace-curly brace-close brace-level-1" id="pair-717-open">}</span><span class="token punctuation">;</span> <span class="token comment">// represents bit 1</span>
+<span class="token keyword keyword-constexpr">constexpr</span> std<span class="token double-colon punctuation">::</span><span class="token keyword keyword-uint8_t">uint8_t</span> mask2<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-718-close">{</span> <span class="token number">0b0000'0100</span> <span class="token punctuation brace-curly brace-close brace-level-1" id="pair-718-open">}</span><span class="token punctuation">;</span> <span class="token comment">// represents bit 2</span>
+<span class="token keyword keyword-constexpr">constexpr</span> std<span class="token double-colon punctuation">::</span><span class="token keyword keyword-uint8_t">uint8_t</span> mask3<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-719-close">{</span> <span class="token number">0b0000'1000</span> <span class="token punctuation brace-curly brace-close brace-level-1" id="pair-719-open">}</span><span class="token punctuation">;</span> <span class="token comment">// represents bit 3</span>
+<span class="token keyword keyword-constexpr">constexpr</span> std<span class="token double-colon punctuation">::</span><span class="token keyword keyword-uint8_t">uint8_t</span> mask4<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-720-close">{</span> <span class="token number">0b0001'0000</span> <span class="token punctuation brace-curly brace-close brace-level-1" id="pair-720-open">}</span><span class="token punctuation">;</span> <span class="token comment">// represents bit 4</span>
+<span class="token keyword keyword-constexpr">constexpr</span> std<span class="token double-colon punctuation">::</span><span class="token keyword keyword-uint8_t">uint8_t</span> mask5<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-721-close">{</span> <span class="token number">0b0010'0000</span> <span class="token punctuation brace-curly brace-close brace-level-1" id="pair-721-open">}</span><span class="token punctuation">;</span> <span class="token comment">// represents bit 5</span>
+<span class="token keyword keyword-constexpr">constexpr</span> std<span class="token double-colon punctuation">::</span><span class="token keyword keyword-uint8_t">uint8_t</span> mask6<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-722-close">{</span> <span class="token number">0b0100'0000</span> <span class="token punctuation brace-curly brace-close brace-level-1" id="pair-722-open">}</span><span class="token punctuation">;</span> <span class="token comment">// represents bit 6</span>
+<span class="token keyword keyword-constexpr">constexpr</span> std<span class="token double-colon punctuation">::</span><span class="token keyword keyword-uint8_t">uint8_t</span> mask7<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-723-close">{</span> <span class="token number">0b1000'0000</span> <span class="token punctuation brace-curly brace-close brace-level-1" id="pair-723-open">}</span><span class="token punctuation">;</span> <span class="token comment">// represents bit 7</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  Now we have a set of symbolic constants that represents each bit position. We
+  can use these to manipulate the bits (which we’ll show how to do in just a
+  moment).
+</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Defining bit masks in C++11 or earlier
+</p>
+<p>
+  Because C++11 doesn’t support binary literals, we have to use other methods to
+  set the symbolic constants. There are two good methods for doing this.
+</p>
+<p>The first method is to use hexadecimal literals.</p>
+<div class="cpp-note cpp-lightgraybackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Related content</p>
+  <p>
+    We talk about hexadecimal in lesson
+    <a href="https://www.learncpp.com/cpp-tutorial/literals/">5.2 -- Literals</a
+    >.
+  </p>
+</div>
+<p>Here’s how hexadecimal converts to binary:</p>
+<div class="code-block code-block-4" style="margin: 8px 0; clear: both"></div>
+
+<div class="cpp-table-wrapper" data-ezoic-video-excluded="1">
+  <table class="cpp-table" data-ezoic-video-excluded="1">
+    <tbody>
+      <tr>
+        <td>Hexadecimal</td>
+        <td>0</td>
+        <td>1</td>
+        <td>2</td>
+        <td>3</td>
+        <td>4</td>
+        <td>5</td>
+        <td>6</td>
+        <td>7</td>
+        <td>8</td>
+        <td>9</td>
+        <td>A</td>
+        <td>B</td>
+        <td>C</td>
+        <td>D</td>
+        <td>E</td>
+        <td>F</td>
+      </tr>
+      <tr>
+        <td>Binary</td>
+        <td>0000</td>
+        <td>0001</td>
+        <td>0010</td>
+        <td>0011</td>
+        <td>0100</td>
+        <td>0101</td>
+        <td>0110</td>
+        <td>0111</td>
+        <td>1000</td>
+        <td>1001</td>
+        <td>1010</td>
+        <td>1011</td>
+        <td>1100</td>
+        <td>1101</td>
+        <td>1110</td>
+        <td>1111</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<p>Therefore, we can define bit masks using hexadecimal like this:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-constexpr">constexpr</span> std<span class="token double-colon punctuation">::</span><span class="token keyword keyword-uint8_t">uint8_t</span> mask0<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-724-close">{</span> <span class="token number">0x01</span> <span class="token punctuation brace-curly brace-close brace-level-1" id="pair-724-open">}</span><span class="token punctuation">;</span> <span class="token comment">// hex for 0000 0001</span>
+<span class="token keyword keyword-constexpr">constexpr</span> std<span class="token double-colon punctuation">::</span><span class="token keyword keyword-uint8_t">uint8_t</span> mask1<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-725-close">{</span> <span class="token number">0x02</span> <span class="token punctuation brace-curly brace-close brace-level-1" id="pair-725-open">}</span><span class="token punctuation">;</span> <span class="token comment">// hex for 0000 0010</span>
+<span class="token keyword keyword-constexpr">constexpr</span> std<span class="token double-colon punctuation">::</span><span class="token keyword keyword-uint8_t">uint8_t</span> mask2<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-726-close">{</span> <span class="token number">0x04</span> <span class="token punctuation brace-curly brace-close brace-level-1" id="pair-726-open">}</span><span class="token punctuation">;</span> <span class="token comment">// hex for 0000 0100</span>
+<span class="token keyword keyword-constexpr">constexpr</span> std<span class="token double-colon punctuation">::</span><span class="token keyword keyword-uint8_t">uint8_t</span> mask3<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-727-close">{</span> <span class="token number">0x08</span> <span class="token punctuation brace-curly brace-close brace-level-1" id="pair-727-open">}</span><span class="token punctuation">;</span> <span class="token comment">// hex for 0000 1000</span>
+<span class="token keyword keyword-constexpr">constexpr</span> std<span class="token double-colon punctuation">::</span><span class="token keyword keyword-uint8_t">uint8_t</span> mask4<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-728-close">{</span> <span class="token number">0x10</span> <span class="token punctuation brace-curly brace-close brace-level-1" id="pair-728-open">}</span><span class="token punctuation">;</span> <span class="token comment">// hex for 0001 0000</span>
+<span class="token keyword keyword-constexpr">constexpr</span> std<span class="token double-colon punctuation">::</span><span class="token keyword keyword-uint8_t">uint8_t</span> mask5<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-729-close">{</span> <span class="token number">0x20</span> <span class="token punctuation brace-curly brace-close brace-level-1" id="pair-729-open">}</span><span class="token punctuation">;</span> <span class="token comment">// hex for 0010 0000</span>
+<span class="token keyword keyword-constexpr">constexpr</span> std<span class="token double-colon punctuation">::</span><span class="token keyword keyword-uint8_t">uint8_t</span> mask6<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-730-close">{</span> <span class="token number">0x40</span> <span class="token punctuation brace-curly brace-close brace-level-1" id="pair-730-open">}</span><span class="token punctuation">;</span> <span class="token comment">// hex for 0100 0000</span>
+<span class="token keyword keyword-constexpr">constexpr</span> std<span class="token double-colon punctuation">::</span><span class="token keyword keyword-uint8_t">uint8_t</span> mask7<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-731-close">{</span> <span class="token number">0x80</span> <span class="token punctuation brace-curly brace-close brace-level-1" id="pair-731-open">}</span><span class="token punctuation">;</span> <span class="token comment">// hex for 1000 0000</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  Sometimes leading hexadecimal 0s will be omitted (e.g. instead of
+  <code>0x01</code> you’ll just see <code>0x1</code>). Either way, this can be a
+  little hard to read if you’re not familiar with hexadecimal to binary
+  conversion.
+</p>
+<p>
+  An easier method is to use the left-shift operator to shift a single bit into
+  the proper location:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-constexpr">constexpr</span> std<span class="token double-colon punctuation">::</span><span class="token keyword keyword-uint8_t">uint8_t</span> mask0<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-732-close">{</span> <span class="token number">1</span> <span class="token operator">&lt;&lt;</span> <span class="token number">0</span> <span class="token punctuation brace-curly brace-close brace-level-1" id="pair-732-open">}</span><span class="token punctuation">;</span> <span class="token comment">// 0000 0001</span>
+<span class="token keyword keyword-constexpr">constexpr</span> std<span class="token double-colon punctuation">::</span><span class="token keyword keyword-uint8_t">uint8_t</span> mask1<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-733-close">{</span> <span class="token number">1</span> <span class="token operator">&lt;&lt;</span> <span class="token number">1</span> <span class="token punctuation brace-curly brace-close brace-level-1" id="pair-733-open">}</span><span class="token punctuation">;</span> <span class="token comment">// 0000 0010</span>
+<span class="token keyword keyword-constexpr">constexpr</span> std<span class="token double-colon punctuation">::</span><span class="token keyword keyword-uint8_t">uint8_t</span> mask2<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-734-close">{</span> <span class="token number">1</span> <span class="token operator">&lt;&lt;</span> <span class="token number">2</span> <span class="token punctuation brace-curly brace-close brace-level-1" id="pair-734-open">}</span><span class="token punctuation">;</span> <span class="token comment">// 0000 0100</span>
+<span class="token keyword keyword-constexpr">constexpr</span> std<span class="token double-colon punctuation">::</span><span class="token keyword keyword-uint8_t">uint8_t</span> mask3<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-735-close">{</span> <span class="token number">1</span> <span class="token operator">&lt;&lt;</span> <span class="token number">3</span> <span class="token punctuation brace-curly brace-close brace-level-1" id="pair-735-open">}</span><span class="token punctuation">;</span> <span class="token comment">// 0000 1000</span>
+<span class="token keyword keyword-constexpr">constexpr</span> std<span class="token double-colon punctuation">::</span><span class="token keyword keyword-uint8_t">uint8_t</span> mask4<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-736-close">{</span> <span class="token number">1</span> <span class="token operator">&lt;&lt;</span> <span class="token number">4</span> <span class="token punctuation brace-curly brace-close brace-level-1" id="pair-736-open">}</span><span class="token punctuation">;</span> <span class="token comment">// 0001 0000</span>
+<span class="token keyword keyword-constexpr">constexpr</span> std<span class="token double-colon punctuation">::</span><span class="token keyword keyword-uint8_t">uint8_t</span> mask5<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-737-close">{</span> <span class="token number">1</span> <span class="token operator">&lt;&lt;</span> <span class="token number">5</span> <span class="token punctuation brace-curly brace-close brace-level-1" id="pair-737-open">}</span><span class="token punctuation">;</span> <span class="token comment">// 0010 0000</span>
+<span class="token keyword keyword-constexpr">constexpr</span> std<span class="token double-colon punctuation">::</span><span class="token keyword keyword-uint8_t">uint8_t</span> mask6<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-738-close">{</span> <span class="token number">1</span> <span class="token operator">&lt;&lt;</span> <span class="token number">6</span> <span class="token punctuation brace-curly brace-close brace-level-1" id="pair-738-open">}</span><span class="token punctuation">;</span> <span class="token comment">// 0100 0000</span>
+<span class="token keyword keyword-constexpr">constexpr</span> std<span class="token double-colon punctuation">::</span><span class="token keyword keyword-uint8_t">uint8_t</span> mask7<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-739-close">{</span> <span class="token number">1</span> <span class="token operator">&lt;&lt;</span> <span class="token number">7</span> <span class="token punctuation brace-curly brace-close brace-level-1" id="pair-739-open">}</span><span class="token punctuation">;</span> <span class="token comment">// 1000 0000</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Testing a bit (to see if it is on or off)
+</p>
+<p>
+  Now that we have a set of bit masks, we can use these in conjunction with a
+  bit flag variable to manipulate our bit flags.
+</p>
+<div class="code-block code-block-5" style="margin: 8px 0; clear: both"></div>
+
+<p>
+  To determine if a bit is on or off, we use <em>bitwise AND</em> in conjunction
+  with the bit mask for the appropriate bit:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;cstdint&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-740-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-740-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-770-close">{</span>
+	<span class="token punctuation brace-square brace-open brace-level-2" id="pair-746-close">[</span><span class="token punctuation brace-square brace-open brace-level-3" id="pair-745-close">[</span>maybe_unused<span class="token punctuation brace-square brace-close brace-level-3" id="pair-745-open">]</span><span class="token punctuation brace-square brace-close brace-level-2" id="pair-746-open">]</span> <span class="token keyword keyword-constexpr">constexpr</span> std<span class="token double-colon punctuation">::</span><span class="token keyword keyword-uint8_t">uint8_t</span> mask0<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-761-close">{</span> <span class="token number">0b0000'0001</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-761-open">}</span><span class="token punctuation">;</span> <span class="token comment">// represents bit 0</span>
+	<span class="token punctuation brace-square brace-open brace-level-2" id="pair-748-close">[</span><span class="token punctuation brace-square brace-open brace-level-3" id="pair-747-close">[</span>maybe_unused<span class="token punctuation brace-square brace-close brace-level-3" id="pair-747-open">]</span><span class="token punctuation brace-square brace-close brace-level-2" id="pair-748-open">]</span> <span class="token keyword keyword-constexpr">constexpr</span> std<span class="token double-colon punctuation">::</span><span class="token keyword keyword-uint8_t">uint8_t</span> mask1<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-762-close">{</span> <span class="token number">0b0000'0010</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-762-open">}</span><span class="token punctuation">;</span> <span class="token comment">// represents bit 1</span>
+	<span class="token punctuation brace-square brace-open brace-level-2" id="pair-750-close">[</span><span class="token punctuation brace-square brace-open brace-level-3" id="pair-749-close">[</span>maybe_unused<span class="token punctuation brace-square brace-close brace-level-3" id="pair-749-open">]</span><span class="token punctuation brace-square brace-close brace-level-2" id="pair-750-open">]</span> <span class="token keyword keyword-constexpr">constexpr</span> std<span class="token double-colon punctuation">::</span><span class="token keyword keyword-uint8_t">uint8_t</span> mask2<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-763-close">{</span> <span class="token number">0b0000'0100</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-763-open">}</span><span class="token punctuation">;</span> <span class="token comment">// represents bit 2</span>
+	<span class="token punctuation brace-square brace-open brace-level-2" id="pair-752-close">[</span><span class="token punctuation brace-square brace-open brace-level-3" id="pair-751-close">[</span>maybe_unused<span class="token punctuation brace-square brace-close brace-level-3" id="pair-751-open">]</span><span class="token punctuation brace-square brace-close brace-level-2" id="pair-752-open">]</span> <span class="token keyword keyword-constexpr">constexpr</span> std<span class="token double-colon punctuation">::</span><span class="token keyword keyword-uint8_t">uint8_t</span> mask3<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-764-close">{</span> <span class="token number">0b0000'1000</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-764-open">}</span><span class="token punctuation">;</span> <span class="token comment">// represents bit 3</span>
+	<span class="token punctuation brace-square brace-open brace-level-2" id="pair-754-close">[</span><span class="token punctuation brace-square brace-open brace-level-3" id="pair-753-close">[</span>maybe_unused<span class="token punctuation brace-square brace-close brace-level-3" id="pair-753-open">]</span><span class="token punctuation brace-square brace-close brace-level-2" id="pair-754-open">]</span> <span class="token keyword keyword-constexpr">constexpr</span> std<span class="token double-colon punctuation">::</span><span class="token keyword keyword-uint8_t">uint8_t</span> mask4<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-765-close">{</span> <span class="token number">0b0001'0000</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-765-open">}</span><span class="token punctuation">;</span> <span class="token comment">// represents bit 4</span>
+	<span class="token punctuation brace-square brace-open brace-level-2" id="pair-756-close">[</span><span class="token punctuation brace-square brace-open brace-level-3" id="pair-755-close">[</span>maybe_unused<span class="token punctuation brace-square brace-close brace-level-3" id="pair-755-open">]</span><span class="token punctuation brace-square brace-close brace-level-2" id="pair-756-open">]</span> <span class="token keyword keyword-constexpr">constexpr</span> std<span class="token double-colon punctuation">::</span><span class="token keyword keyword-uint8_t">uint8_t</span> mask5<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-766-close">{</span> <span class="token number">0b0010'0000</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-766-open">}</span><span class="token punctuation">;</span> <span class="token comment">// represents bit 5</span>
+	<span class="token punctuation brace-square brace-open brace-level-2" id="pair-758-close">[</span><span class="token punctuation brace-square brace-open brace-level-3" id="pair-757-close">[</span>maybe_unused<span class="token punctuation brace-square brace-close brace-level-3" id="pair-757-open">]</span><span class="token punctuation brace-square brace-close brace-level-2" id="pair-758-open">]</span> <span class="token keyword keyword-constexpr">constexpr</span> std<span class="token double-colon punctuation">::</span><span class="token keyword keyword-uint8_t">uint8_t</span> mask6<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-767-close">{</span> <span class="token number">0b0100'0000</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-767-open">}</span><span class="token punctuation">;</span> <span class="token comment">// represents bit 6</span>
+	<span class="token punctuation brace-square brace-open brace-level-2" id="pair-760-close">[</span><span class="token punctuation brace-square brace-open brace-level-3" id="pair-759-close">[</span>maybe_unused<span class="token punctuation brace-square brace-close brace-level-3" id="pair-759-open">]</span><span class="token punctuation brace-square brace-close brace-level-2" id="pair-760-open">]</span> <span class="token keyword keyword-constexpr">constexpr</span> std<span class="token double-colon punctuation">::</span><span class="token keyword keyword-uint8_t">uint8_t</span> mask7<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-768-close">{</span> <span class="token number">0b1000'0000</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-768-open">}</span><span class="token punctuation">;</span> <span class="token comment">// represents bit 7</span>
+
+	std<span class="token double-colon punctuation">::</span><span class="token keyword keyword-uint8_t">uint8_t</span> flags<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-769-close">{</span> <span class="token number">0b0000'0101</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-769-open">}</span><span class="token punctuation">;</span> <span class="token comment">// 8 bits in size means room for 8 flags</span>
+
+	std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"bit 0 is "</span> <span class="token operator">&lt;&lt;</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-742-close">(</span><span class="token generic-function"><span class="token function">static_cast</span><span class="token generic class-name"><span class="token operator">&lt;</span><span class="token keyword keyword-bool">bool</span><span class="token operator">&gt;</span></span></span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-741-close">(</span>flags <span class="token operator">&amp;</span> mask0<span class="token punctuation brace-round brace-close brace-level-3" id="pair-741-open">)</span> <span class="token operator">?</span> <span class="token string">"on\n"</span> <span class="token operator">:</span> <span class="token string">"off\n"</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-742-open">)</span><span class="token punctuation">;</span>
+	std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"bit 1 is "</span> <span class="token operator">&lt;&lt;</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-744-close">(</span><span class="token generic-function"><span class="token function">static_cast</span><span class="token generic class-name"><span class="token operator">&lt;</span><span class="token keyword keyword-bool">bool</span><span class="token operator">&gt;</span></span></span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-743-close">(</span>flags <span class="token operator">&amp;</span> mask1<span class="token punctuation brace-round brace-close brace-level-3" id="pair-743-open">)</span> <span class="token operator">?</span> <span class="token string">"on\n"</span> <span class="token operator">:</span> <span class="token string">"off\n"</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-744-open">)</span><span class="token punctuation">;</span>
+
+	<span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-770-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>This prints:</p>
+<pre>
+bit 0 is on
+bit 1 is off
+</pre>
+<p>Let’s examine how this works.</p>
+<p>
+  In the case of <code>flags &amp; mask0</code>, we have
+  <code>0000'0101</code> &amp; <code>0000'0001</code>. Let’s line these up:
+</p>
+<pre>
+0000'0101 &amp;
+0000'0001
+---------
+0000'0001
+</pre>
+<p>
+  We are then casting <code>0000'0001</code> to a <code>bool</code>. Since any
+  non-zero number converts to <code>true</code> and this value has a non-zero
+  digit, this evaluates to <code>true</code>.
+</p>
+<p>
+  In the case of <code>flags &amp; mask1</code>, we have
+  <code>0000'0101</code> &amp; <code>0000'0010</code>. Let’s line these up:
+</p>
+<div class="code-block code-block-6" style="margin: 8px 0; clear: both"></div>
+
+<pre>
+0000'0101 &amp;
+0000'0010
+---------
+0000'0000
+</pre>
+<p>
+  Since a zero value converts to <code>false</code> and this value has only zero
+  digits, this evaluates to <code>false</code>.
+</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Setting a bit
+</p>
+<p>
+  To set (turn on) a bit (to value 1), we use bitwise OR equals (operator |=) in
+  conjunction with the bit mask for the appropriate bit:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;cstdint&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-771-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-771-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-801-close">{</span>
+    <span class="token punctuation brace-square brace-open brace-level-2" id="pair-777-close">[</span><span class="token punctuation brace-square brace-open brace-level-3" id="pair-776-close">[</span>maybe_unused<span class="token punctuation brace-square brace-close brace-level-3" id="pair-776-open">]</span><span class="token punctuation brace-square brace-close brace-level-2" id="pair-777-open">]</span> <span class="token keyword keyword-constexpr">constexpr</span> std<span class="token double-colon punctuation">::</span><span class="token keyword keyword-uint8_t">uint8_t</span> mask0<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-792-close">{</span> <span class="token number">0b0000'0001</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-792-open">}</span><span class="token punctuation">;</span> <span class="token comment">// represents bit 0</span>
+    <span class="token punctuation brace-square brace-open brace-level-2" id="pair-779-close">[</span><span class="token punctuation brace-square brace-open brace-level-3" id="pair-778-close">[</span>maybe_unused<span class="token punctuation brace-square brace-close brace-level-3" id="pair-778-open">]</span><span class="token punctuation brace-square brace-close brace-level-2" id="pair-779-open">]</span> <span class="token keyword keyword-constexpr">constexpr</span> std<span class="token double-colon punctuation">::</span><span class="token keyword keyword-uint8_t">uint8_t</span> mask1<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-793-close">{</span> <span class="token number">0b0000'0010</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-793-open">}</span><span class="token punctuation">;</span> <span class="token comment">// represents bit 1</span>
+    <span class="token punctuation brace-square brace-open brace-level-2" id="pair-781-close">[</span><span class="token punctuation brace-square brace-open brace-level-3" id="pair-780-close">[</span>maybe_unused<span class="token punctuation brace-square brace-close brace-level-3" id="pair-780-open">]</span><span class="token punctuation brace-square brace-close brace-level-2" id="pair-781-open">]</span> <span class="token keyword keyword-constexpr">constexpr</span> std<span class="token double-colon punctuation">::</span><span class="token keyword keyword-uint8_t">uint8_t</span> mask2<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-794-close">{</span> <span class="token number">0b0000'0100</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-794-open">}</span><span class="token punctuation">;</span> <span class="token comment">// represents bit 2</span>
+    <span class="token punctuation brace-square brace-open brace-level-2" id="pair-783-close">[</span><span class="token punctuation brace-square brace-open brace-level-3" id="pair-782-close">[</span>maybe_unused<span class="token punctuation brace-square brace-close brace-level-3" id="pair-782-open">]</span><span class="token punctuation brace-square brace-close brace-level-2" id="pair-783-open">]</span> <span class="token keyword keyword-constexpr">constexpr</span> std<span class="token double-colon punctuation">::</span><span class="token keyword keyword-uint8_t">uint8_t</span> mask3<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-795-close">{</span> <span class="token number">0b0000'1000</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-795-open">}</span><span class="token punctuation">;</span> <span class="token comment">// represents bit 3</span>
+    <span class="token punctuation brace-square brace-open brace-level-2" id="pair-785-close">[</span><span class="token punctuation brace-square brace-open brace-level-3" id="pair-784-close">[</span>maybe_unused<span class="token punctuation brace-square brace-close brace-level-3" id="pair-784-open">]</span><span class="token punctuation brace-square brace-close brace-level-2" id="pair-785-open">]</span> <span class="token keyword keyword-constexpr">constexpr</span> std<span class="token double-colon punctuation">::</span><span class="token keyword keyword-uint8_t">uint8_t</span> mask4<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-796-close">{</span> <span class="token number">0b0001'0000</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-796-open">}</span><span class="token punctuation">;</span> <span class="token comment">// represents bit 4</span>
+    <span class="token punctuation brace-square brace-open brace-level-2" id="pair-787-close">[</span><span class="token punctuation brace-square brace-open brace-level-3" id="pair-786-close">[</span>maybe_unused<span class="token punctuation brace-square brace-close brace-level-3" id="pair-786-open">]</span><span class="token punctuation brace-square brace-close brace-level-2" id="pair-787-open">]</span> <span class="token keyword keyword-constexpr">constexpr</span> std<span class="token double-colon punctuation">::</span><span class="token keyword keyword-uint8_t">uint8_t</span> mask5<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-797-close">{</span> <span class="token number">0b0010'0000</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-797-open">}</span><span class="token punctuation">;</span> <span class="token comment">// represents bit 5</span>
+    <span class="token punctuation brace-square brace-open brace-level-2" id="pair-789-close">[</span><span class="token punctuation brace-square brace-open brace-level-3" id="pair-788-close">[</span>maybe_unused<span class="token punctuation brace-square brace-close brace-level-3" id="pair-788-open">]</span><span class="token punctuation brace-square brace-close brace-level-2" id="pair-789-open">]</span> <span class="token keyword keyword-constexpr">constexpr</span> std<span class="token double-colon punctuation">::</span><span class="token keyword keyword-uint8_t">uint8_t</span> mask6<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-798-close">{</span> <span class="token number">0b0100'0000</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-798-open">}</span><span class="token punctuation">;</span> <span class="token comment">// represents bit 6</span>
+    <span class="token punctuation brace-square brace-open brace-level-2" id="pair-791-close">[</span><span class="token punctuation brace-square brace-open brace-level-3" id="pair-790-close">[</span>maybe_unused<span class="token punctuation brace-square brace-close brace-level-3" id="pair-790-open">]</span><span class="token punctuation brace-square brace-close brace-level-2" id="pair-791-open">]</span> <span class="token keyword keyword-constexpr">constexpr</span> std<span class="token double-colon punctuation">::</span><span class="token keyword keyword-uint8_t">uint8_t</span> mask7<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-799-close">{</span> <span class="token number">0b1000'0000</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-799-open">}</span><span class="token punctuation">;</span> <span class="token comment">// represents bit 7</span>
+
+    std<span class="token double-colon punctuation">::</span><span class="token keyword keyword-uint8_t">uint8_t</span> flags<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-800-close">{</span> <span class="token number">0b0000'0101</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-800-open">}</span><span class="token punctuation">;</span> <span class="token comment">// 8 bits in size means room for 8 flags</span>
+
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"bit 1 is "</span> <span class="token operator">&lt;&lt;</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-773-close">(</span><span class="token generic-function"><span class="token function">static_cast</span><span class="token generic class-name"><span class="token operator">&lt;</span><span class="token keyword keyword-bool">bool</span><span class="token operator">&gt;</span></span></span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-772-close">(</span>flags <span class="token operator">&amp;</span> mask1<span class="token punctuation brace-round brace-close brace-level-3" id="pair-772-open">)</span> <span class="token operator">?</span> <span class="token string">"on\n"</span> <span class="token operator">:</span> <span class="token string">"off\n"</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-773-open">)</span><span class="token punctuation">;</span>
+
+    flags <span class="token operator">|=</span> mask1<span class="token punctuation">;</span> <span class="token comment">// turn on bit 1</span>
+
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"bit 1 is "</span> <span class="token operator">&lt;&lt;</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-775-close">(</span><span class="token generic-function"><span class="token function">static_cast</span><span class="token generic class-name"><span class="token operator">&lt;</span><span class="token keyword keyword-bool">bool</span><span class="token operator">&gt;</span></span></span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-774-close">(</span>flags <span class="token operator">&amp;</span> mask1<span class="token punctuation brace-round brace-close brace-level-3" id="pair-774-open">)</span> <span class="token operator">?</span> <span class="token string">"on\n"</span> <span class="token operator">:</span> <span class="token string">"off\n"</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-775-open">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-801-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>This prints:</p>
+<pre>
+bit 1 is off
+bit 1 is on
+</pre>
+<p>
+  We can also turn on multiple bits at the same time using <em>Bitwise OR</em>:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp">flags <span class="token operator">|=</span> <span class="token punctuation brace-round brace-open brace-level-1" id="pair-802-close">(</span>mask4 <span class="token operator">|</span> mask5<span class="token punctuation brace-round brace-close brace-level-1" id="pair-802-open">)</span><span class="token punctuation">;</span> <span class="token comment">// turn bits 4 and 5 on at the same time</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Resetting a bit
+</p>
+<p>
+  To reset (clear) a bit (to value 0), we use <em>Bitwise AND</em> and
+  <em>Bitwise NOT</em> together:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;cstdint&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-803-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-803-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-833-close">{</span>
+    <span class="token punctuation brace-square brace-open brace-level-2" id="pair-809-close">[</span><span class="token punctuation brace-square brace-open brace-level-3" id="pair-808-close">[</span>maybe_unused<span class="token punctuation brace-square brace-close brace-level-3" id="pair-808-open">]</span><span class="token punctuation brace-square brace-close brace-level-2" id="pair-809-open">]</span> <span class="token keyword keyword-constexpr">constexpr</span> std<span class="token double-colon punctuation">::</span><span class="token keyword keyword-uint8_t">uint8_t</span> mask0<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-824-close">{</span> <span class="token number">0b0000'0001</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-824-open">}</span><span class="token punctuation">;</span> <span class="token comment">// represents bit 0</span>
+    <span class="token punctuation brace-square brace-open brace-level-2" id="pair-811-close">[</span><span class="token punctuation brace-square brace-open brace-level-3" id="pair-810-close">[</span>maybe_unused<span class="token punctuation brace-square brace-close brace-level-3" id="pair-810-open">]</span><span class="token punctuation brace-square brace-close brace-level-2" id="pair-811-open">]</span> <span class="token keyword keyword-constexpr">constexpr</span> std<span class="token double-colon punctuation">::</span><span class="token keyword keyword-uint8_t">uint8_t</span> mask1<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-825-close">{</span> <span class="token number">0b0000'0010</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-825-open">}</span><span class="token punctuation">;</span> <span class="token comment">// represents bit 1</span>
+    <span class="token punctuation brace-square brace-open brace-level-2" id="pair-813-close">[</span><span class="token punctuation brace-square brace-open brace-level-3" id="pair-812-close">[</span>maybe_unused<span class="token punctuation brace-square brace-close brace-level-3" id="pair-812-open">]</span><span class="token punctuation brace-square brace-close brace-level-2" id="pair-813-open">]</span> <span class="token keyword keyword-constexpr">constexpr</span> std<span class="token double-colon punctuation">::</span><span class="token keyword keyword-uint8_t">uint8_t</span> mask2<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-826-close">{</span> <span class="token number">0b0000'0100</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-826-open">}</span><span class="token punctuation">;</span> <span class="token comment">// represents bit 2</span>
+    <span class="token punctuation brace-square brace-open brace-level-2" id="pair-815-close">[</span><span class="token punctuation brace-square brace-open brace-level-3" id="pair-814-close">[</span>maybe_unused<span class="token punctuation brace-square brace-close brace-level-3" id="pair-814-open">]</span><span class="token punctuation brace-square brace-close brace-level-2" id="pair-815-open">]</span> <span class="token keyword keyword-constexpr">constexpr</span> std<span class="token double-colon punctuation">::</span><span class="token keyword keyword-uint8_t">uint8_t</span> mask3<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-827-close">{</span> <span class="token number">0b0000'1000</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-827-open">}</span><span class="token punctuation">;</span> <span class="token comment">// represents bit 3</span>
+    <span class="token punctuation brace-square brace-open brace-level-2" id="pair-817-close">[</span><span class="token punctuation brace-square brace-open brace-level-3" id="pair-816-close">[</span>maybe_unused<span class="token punctuation brace-square brace-close brace-level-3" id="pair-816-open">]</span><span class="token punctuation brace-square brace-close brace-level-2" id="pair-817-open">]</span> <span class="token keyword keyword-constexpr">constexpr</span> std<span class="token double-colon punctuation">::</span><span class="token keyword keyword-uint8_t">uint8_t</span> mask4<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-828-close">{</span> <span class="token number">0b0001'0000</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-828-open">}</span><span class="token punctuation">;</span> <span class="token comment">// represents bit 4</span>
+    <span class="token punctuation brace-square brace-open brace-level-2" id="pair-819-close">[</span><span class="token punctuation brace-square brace-open brace-level-3" id="pair-818-close">[</span>maybe_unused<span class="token punctuation brace-square brace-close brace-level-3" id="pair-818-open">]</span><span class="token punctuation brace-square brace-close brace-level-2" id="pair-819-open">]</span> <span class="token keyword keyword-constexpr">constexpr</span> std<span class="token double-colon punctuation">::</span><span class="token keyword keyword-uint8_t">uint8_t</span> mask5<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-829-close">{</span> <span class="token number">0b0010'0000</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-829-open">}</span><span class="token punctuation">;</span> <span class="token comment">// represents bit 5</span>
+    <span class="token punctuation brace-square brace-open brace-level-2" id="pair-821-close">[</span><span class="token punctuation brace-square brace-open brace-level-3" id="pair-820-close">[</span>maybe_unused<span class="token punctuation brace-square brace-close brace-level-3" id="pair-820-open">]</span><span class="token punctuation brace-square brace-close brace-level-2" id="pair-821-open">]</span> <span class="token keyword keyword-constexpr">constexpr</span> std<span class="token double-colon punctuation">::</span><span class="token keyword keyword-uint8_t">uint8_t</span> mask6<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-830-close">{</span> <span class="token number">0b0100'0000</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-830-open">}</span><span class="token punctuation">;</span> <span class="token comment">// represents bit 6</span>
+    <span class="token punctuation brace-square brace-open brace-level-2" id="pair-823-close">[</span><span class="token punctuation brace-square brace-open brace-level-3" id="pair-822-close">[</span>maybe_unused<span class="token punctuation brace-square brace-close brace-level-3" id="pair-822-open">]</span><span class="token punctuation brace-square brace-close brace-level-2" id="pair-823-open">]</span> <span class="token keyword keyword-constexpr">constexpr</span> std<span class="token double-colon punctuation">::</span><span class="token keyword keyword-uint8_t">uint8_t</span> mask7<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-831-close">{</span> <span class="token number">0b1000'0000</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-831-open">}</span><span class="token punctuation">;</span> <span class="token comment">// represents bit 7</span>
+
+    std<span class="token double-colon punctuation">::</span><span class="token keyword keyword-uint8_t">uint8_t</span> flags<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-832-close">{</span> <span class="token number">0b0000'0101</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-832-open">}</span><span class="token punctuation">;</span> <span class="token comment">// 8 bits in size means room for 8 flags</span>
+
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"bit 2 is "</span> <span class="token operator">&lt;&lt;</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-805-close">(</span><span class="token generic-function"><span class="token function">static_cast</span><span class="token generic class-name"><span class="token operator">&lt;</span><span class="token keyword keyword-bool">bool</span><span class="token operator">&gt;</span></span></span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-804-close">(</span>flags <span class="token operator">&amp;</span> mask2<span class="token punctuation brace-round brace-close brace-level-3" id="pair-804-open">)</span> <span class="token operator">?</span> <span class="token string">"on\n"</span> <span class="token operator">:</span> <span class="token string">"off\n"</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-805-open">)</span><span class="token punctuation">;</span>
+
+    flags <span class="token operator">&amp;=</span> <span class="token operator">~</span>mask2<span class="token punctuation">;</span> <span class="token comment">// turn off bit 2</span>
+
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"bit 2 is "</span> <span class="token operator">&lt;&lt;</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-807-close">(</span><span class="token generic-function"><span class="token function">static_cast</span><span class="token generic class-name"><span class="token operator">&lt;</span><span class="token keyword keyword-bool">bool</span><span class="token operator">&gt;</span></span></span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-806-close">(</span>flags <span class="token operator">&amp;</span> mask2<span class="token punctuation brace-round brace-close brace-level-3" id="pair-806-open">)</span> <span class="token operator">?</span> <span class="token string">"on\n"</span> <span class="token operator">:</span> <span class="token string">"off\n"</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-807-open">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-833-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>This prints:</p>
+<pre>
+bit 2 is on
+bit 2 is off
+</pre>
+<p>We can turn off multiple bits at the same time:</p>
+<div class="code-block code-block-7" style="margin: 8px 0; clear: both"></div>
+
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp">flags <span class="token operator">&amp;=</span> <span class="token operator">~</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-834-close">(</span>mask4 <span class="token operator">|</span> mask5<span class="token punctuation brace-round brace-close brace-level-1" id="pair-834-open">)</span><span class="token punctuation">;</span> <span class="token comment">// turn bits 4 and 5 off at the same time</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<div class="cpp-note cpp-lightbluebackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Key insight</p>
+  <p>Some compilers may complain about a sign conversion with this line:</p>
+  <pre>
+flags &amp;= ~mask2;
+</pre
+  >
+  <p>
+    Because the type of <code>mask2</code> is smaller than <code>int</code>,
+    <code>operator~</code> causes operand <code>mask2</code> to undergo integral
+    promotion to type <code>int</code>. Then the compiler complains that we’re
+    trying to use <code>operator&amp;=</code> where the left operand is unsigned
+    and the right operand is signed.
+  </p>
+  <p>If this is the case, try the following:</p>
+  <div class="code-toolbar">
+    <pre
+      class="line-numbers language-cpp"
+      tabindex="0"
+    ><code class="match-braces language-cpp">flags <span class="token operator">&amp;=</span> <span class="token generic-function"><span class="token function">static_cast</span><span class="token generic class-name"><span class="token operator">&lt;</span>std<span class="token double-colon punctuation">::</span><span class="token keyword keyword-uint8_t">uint8_t</span><span class="token operator">&gt;</span></span></span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-835-close">(</span><span class="token operator">~</span>mask2<span class="token punctuation brace-round brace-close brace-level-1" id="pair-835-open">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+    <div class="toolbar">
+      <div class="toolbar-item">
+        <button
+          class="copy-to-clipboard-button"
+          type="button"
+          data-copy-state="copy"
+        >
+          <span>Copy</span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <p>
+    We discuss this issue in lesson
+    <a href="https://www.learncpp.com/cpp-tutorial/bitwise-operators/"
+      >O.2 -- Bitwise operators</a
+    >.
+  </p>
+</div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Flipping a bit
+</p>
+<p>
+  To toggle (flip) a bit state (from 0 to 1 or from 1 to 0), we use
+  <em>Bitwise XOR</em>:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;cstdint&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-836-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-836-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-868-close">{</span>
+    <span class="token punctuation brace-square brace-open brace-level-2" id="pair-844-close">[</span><span class="token punctuation brace-square brace-open brace-level-3" id="pair-843-close">[</span>maybe_unused<span class="token punctuation brace-square brace-close brace-level-3" id="pair-843-open">]</span><span class="token punctuation brace-square brace-close brace-level-2" id="pair-844-open">]</span> <span class="token keyword keyword-constexpr">constexpr</span> std<span class="token double-colon punctuation">::</span><span class="token keyword keyword-uint8_t">uint8_t</span> mask0<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-859-close">{</span> <span class="token number">0b0000'0001</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-859-open">}</span><span class="token punctuation">;</span> <span class="token comment">// represents bit 0</span>
+    <span class="token punctuation brace-square brace-open brace-level-2" id="pair-846-close">[</span><span class="token punctuation brace-square brace-open brace-level-3" id="pair-845-close">[</span>maybe_unused<span class="token punctuation brace-square brace-close brace-level-3" id="pair-845-open">]</span><span class="token punctuation brace-square brace-close brace-level-2" id="pair-846-open">]</span> <span class="token keyword keyword-constexpr">constexpr</span> std<span class="token double-colon punctuation">::</span><span class="token keyword keyword-uint8_t">uint8_t</span> mask1<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-860-close">{</span> <span class="token number">0b0000'0010</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-860-open">}</span><span class="token punctuation">;</span> <span class="token comment">// represents bit 1</span>
+    <span class="token punctuation brace-square brace-open brace-level-2" id="pair-848-close">[</span><span class="token punctuation brace-square brace-open brace-level-3" id="pair-847-close">[</span>maybe_unused<span class="token punctuation brace-square brace-close brace-level-3" id="pair-847-open">]</span><span class="token punctuation brace-square brace-close brace-level-2" id="pair-848-open">]</span> <span class="token keyword keyword-constexpr">constexpr</span> std<span class="token double-colon punctuation">::</span><span class="token keyword keyword-uint8_t">uint8_t</span> mask2<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-861-close">{</span> <span class="token number">0b0000'0100</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-861-open">}</span><span class="token punctuation">;</span> <span class="token comment">// represents bit 2</span>
+    <span class="token punctuation brace-square brace-open brace-level-2" id="pair-850-close">[</span><span class="token punctuation brace-square brace-open brace-level-3" id="pair-849-close">[</span>maybe_unused<span class="token punctuation brace-square brace-close brace-level-3" id="pair-849-open">]</span><span class="token punctuation brace-square brace-close brace-level-2" id="pair-850-open">]</span> <span class="token keyword keyword-constexpr">constexpr</span> std<span class="token double-colon punctuation">::</span><span class="token keyword keyword-uint8_t">uint8_t</span> mask3<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-862-close">{</span> <span class="token number">0b0000'1000</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-862-open">}</span><span class="token punctuation">;</span> <span class="token comment">// represents bit 3</span>
+    <span class="token punctuation brace-square brace-open brace-level-2" id="pair-852-close">[</span><span class="token punctuation brace-square brace-open brace-level-3" id="pair-851-close">[</span>maybe_unused<span class="token punctuation brace-square brace-close brace-level-3" id="pair-851-open">]</span><span class="token punctuation brace-square brace-close brace-level-2" id="pair-852-open">]</span> <span class="token keyword keyword-constexpr">constexpr</span> std<span class="token double-colon punctuation">::</span><span class="token keyword keyword-uint8_t">uint8_t</span> mask4<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-863-close">{</span> <span class="token number">0b0001'0000</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-863-open">}</span><span class="token punctuation">;</span> <span class="token comment">// represents bit 4</span>
+    <span class="token punctuation brace-square brace-open brace-level-2" id="pair-854-close">[</span><span class="token punctuation brace-square brace-open brace-level-3" id="pair-853-close">[</span>maybe_unused<span class="token punctuation brace-square brace-close brace-level-3" id="pair-853-open">]</span><span class="token punctuation brace-square brace-close brace-level-2" id="pair-854-open">]</span> <span class="token keyword keyword-constexpr">constexpr</span> std<span class="token double-colon punctuation">::</span><span class="token keyword keyword-uint8_t">uint8_t</span> mask5<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-864-close">{</span> <span class="token number">0b0010'0000</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-864-open">}</span><span class="token punctuation">;</span> <span class="token comment">// represents bit 5</span>
+    <span class="token punctuation brace-square brace-open brace-level-2" id="pair-856-close">[</span><span class="token punctuation brace-square brace-open brace-level-3" id="pair-855-close">[</span>maybe_unused<span class="token punctuation brace-square brace-close brace-level-3" id="pair-855-open">]</span><span class="token punctuation brace-square brace-close brace-level-2" id="pair-856-open">]</span> <span class="token keyword keyword-constexpr">constexpr</span> std<span class="token double-colon punctuation">::</span><span class="token keyword keyword-uint8_t">uint8_t</span> mask6<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-865-close">{</span> <span class="token number">0b0100'0000</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-865-open">}</span><span class="token punctuation">;</span> <span class="token comment">// represents bit 6</span>
+    <span class="token punctuation brace-square brace-open brace-level-2" id="pair-858-close">[</span><span class="token punctuation brace-square brace-open brace-level-3" id="pair-857-close">[</span>maybe_unused<span class="token punctuation brace-square brace-close brace-level-3" id="pair-857-open">]</span><span class="token punctuation brace-square brace-close brace-level-2" id="pair-858-open">]</span> <span class="token keyword keyword-constexpr">constexpr</span> std<span class="token double-colon punctuation">::</span><span class="token keyword keyword-uint8_t">uint8_t</span> mask7<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-866-close">{</span> <span class="token number">0b1000'0000</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-866-open">}</span><span class="token punctuation">;</span> <span class="token comment">// represents bit 7</span>
+
+    std<span class="token double-colon punctuation">::</span><span class="token keyword keyword-uint8_t">uint8_t</span> flags<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-867-close">{</span> <span class="token number">0b0000'0101</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-867-open">}</span><span class="token punctuation">;</span> <span class="token comment">// 8 bits in size means room for 8 flags</span>
+
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"bit 2 is "</span> <span class="token operator">&lt;&lt;</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-838-close">(</span><span class="token generic-function"><span class="token function">static_cast</span><span class="token generic class-name"><span class="token operator">&lt;</span><span class="token keyword keyword-bool">bool</span><span class="token operator">&gt;</span></span></span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-837-close">(</span>flags <span class="token operator">&amp;</span> mask2<span class="token punctuation brace-round brace-close brace-level-3" id="pair-837-open">)</span> <span class="token operator">?</span> <span class="token string">"on\n"</span> <span class="token operator">:</span> <span class="token string">"off\n"</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-838-open">)</span><span class="token punctuation">;</span>
+    flags <span class="token operator">^=</span> mask2<span class="token punctuation">;</span> <span class="token comment">// flip bit 2</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"bit 2 is "</span> <span class="token operator">&lt;&lt;</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-840-close">(</span><span class="token generic-function"><span class="token function">static_cast</span><span class="token generic class-name"><span class="token operator">&lt;</span><span class="token keyword keyword-bool">bool</span><span class="token operator">&gt;</span></span></span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-839-close">(</span>flags <span class="token operator">&amp;</span> mask2<span class="token punctuation brace-round brace-close brace-level-3" id="pair-839-open">)</span> <span class="token operator">?</span> <span class="token string">"on\n"</span> <span class="token operator">:</span> <span class="token string">"off\n"</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-840-open">)</span><span class="token punctuation">;</span>
+    flags <span class="token operator">^=</span> mask2<span class="token punctuation">;</span> <span class="token comment">// flip bit 2</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"bit 2 is "</span> <span class="token operator">&lt;&lt;</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-842-close">(</span><span class="token generic-function"><span class="token function">static_cast</span><span class="token generic class-name"><span class="token operator">&lt;</span><span class="token keyword keyword-bool">bool</span><span class="token operator">&gt;</span></span></span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-841-close">(</span>flags <span class="token operator">&amp;</span> mask2<span class="token punctuation brace-round brace-close brace-level-3" id="pair-841-open">)</span> <span class="token operator">?</span> <span class="token string">"on\n"</span> <span class="token operator">:</span> <span class="token string">"off\n"</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-842-open">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-868-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>This prints:</p>
+<pre>
+bit 2 is on
+bit 2 is off
+bit 2 is on
+</pre>
+<p>We can flip multiple bits simultaneously:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp">flags <span class="token operator">^=</span> <span class="token punctuation brace-round brace-open brace-level-1" id="pair-869-close">(</span>mask4 <span class="token operator">|</span> mask5<span class="token punctuation brace-round brace-close brace-level-1" id="pair-869-open">)</span><span class="token punctuation">;</span> <span class="token comment">// flip bits 4 and 5 at the same time</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Bit masks and std::bitset
+</p>
+<p>
+  std::bitset supports the full set of bitwise operators. So even though it’s
+  easier to use the functions (test, set, reset, and flip) to modify individual
+  bits, you can use bitwise operators and bit masks if you want.
+</p>
+<p>
+  Why would you want to? The functions only allow you to modify individual bits.
+  The bitwise operators allow you to modify multiple bits at once.
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;bitset&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-870-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-870-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-915-close">{</span>
+	<span class="token punctuation brace-square brace-open brace-level-2" id="pair-891-close">[</span><span class="token punctuation brace-square brace-open brace-level-3" id="pair-890-close">[</span>maybe_unused<span class="token punctuation brace-square brace-close brace-level-3" id="pair-890-open">]</span><span class="token punctuation brace-square brace-close brace-level-2" id="pair-891-open">]</span> <span class="token keyword keyword-constexpr">constexpr</span> std<span class="token double-colon punctuation">::</span>bitset<span class="token operator">&lt;</span><span class="token number">8</span><span class="token operator">&gt;</span> mask0<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-906-close">{</span> <span class="token number">0b0000'0001</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-906-open">}</span><span class="token punctuation">;</span> <span class="token comment">// represents bit 0</span>
+	<span class="token punctuation brace-square brace-open brace-level-2" id="pair-893-close">[</span><span class="token punctuation brace-square brace-open brace-level-3" id="pair-892-close">[</span>maybe_unused<span class="token punctuation brace-square brace-close brace-level-3" id="pair-892-open">]</span><span class="token punctuation brace-square brace-close brace-level-2" id="pair-893-open">]</span> <span class="token keyword keyword-constexpr">constexpr</span> std<span class="token double-colon punctuation">::</span>bitset<span class="token operator">&lt;</span><span class="token number">8</span><span class="token operator">&gt;</span> mask1<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-907-close">{</span> <span class="token number">0b0000'0010</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-907-open">}</span><span class="token punctuation">;</span> <span class="token comment">// represents bit 1</span>
+	<span class="token punctuation brace-square brace-open brace-level-2" id="pair-895-close">[</span><span class="token punctuation brace-square brace-open brace-level-3" id="pair-894-close">[</span>maybe_unused<span class="token punctuation brace-square brace-close brace-level-3" id="pair-894-open">]</span><span class="token punctuation brace-square brace-close brace-level-2" id="pair-895-open">]</span> <span class="token keyword keyword-constexpr">constexpr</span> std<span class="token double-colon punctuation">::</span>bitset<span class="token operator">&lt;</span><span class="token number">8</span><span class="token operator">&gt;</span> mask2<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-908-close">{</span> <span class="token number">0b0000'0100</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-908-open">}</span><span class="token punctuation">;</span> <span class="token comment">// represents bit 2</span>
+	<span class="token punctuation brace-square brace-open brace-level-2" id="pair-897-close">[</span><span class="token punctuation brace-square brace-open brace-level-3" id="pair-896-close">[</span>maybe_unused<span class="token punctuation brace-square brace-close brace-level-3" id="pair-896-open">]</span><span class="token punctuation brace-square brace-close brace-level-2" id="pair-897-open">]</span> <span class="token keyword keyword-constexpr">constexpr</span> std<span class="token double-colon punctuation">::</span>bitset<span class="token operator">&lt;</span><span class="token number">8</span><span class="token operator">&gt;</span> mask3<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-909-close">{</span> <span class="token number">0b0000'1000</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-909-open">}</span><span class="token punctuation">;</span> <span class="token comment">// represents bit 3</span>
+	<span class="token punctuation brace-square brace-open brace-level-2" id="pair-899-close">[</span><span class="token punctuation brace-square brace-open brace-level-3" id="pair-898-close">[</span>maybe_unused<span class="token punctuation brace-square brace-close brace-level-3" id="pair-898-open">]</span><span class="token punctuation brace-square brace-close brace-level-2" id="pair-899-open">]</span> <span class="token keyword keyword-constexpr">constexpr</span> std<span class="token double-colon punctuation">::</span>bitset<span class="token operator">&lt;</span><span class="token number">8</span><span class="token operator">&gt;</span> mask4<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-910-close">{</span> <span class="token number">0b0001'0000</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-910-open">}</span><span class="token punctuation">;</span> <span class="token comment">// represents bit 4</span>
+	<span class="token punctuation brace-square brace-open brace-level-2" id="pair-901-close">[</span><span class="token punctuation brace-square brace-open brace-level-3" id="pair-900-close">[</span>maybe_unused<span class="token punctuation brace-square brace-close brace-level-3" id="pair-900-open">]</span><span class="token punctuation brace-square brace-close brace-level-2" id="pair-901-open">]</span> <span class="token keyword keyword-constexpr">constexpr</span> std<span class="token double-colon punctuation">::</span>bitset<span class="token operator">&lt;</span><span class="token number">8</span><span class="token operator">&gt;</span> mask5<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-911-close">{</span> <span class="token number">0b0010'0000</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-911-open">}</span><span class="token punctuation">;</span> <span class="token comment">// represents bit 5</span>
+	<span class="token punctuation brace-square brace-open brace-level-2" id="pair-903-close">[</span><span class="token punctuation brace-square brace-open brace-level-3" id="pair-902-close">[</span>maybe_unused<span class="token punctuation brace-square brace-close brace-level-3" id="pair-902-open">]</span><span class="token punctuation brace-square brace-close brace-level-2" id="pair-903-open">]</span> <span class="token keyword keyword-constexpr">constexpr</span> std<span class="token double-colon punctuation">::</span>bitset<span class="token operator">&lt;</span><span class="token number">8</span><span class="token operator">&gt;</span> mask6<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-912-close">{</span> <span class="token number">0b0100'0000</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-912-open">}</span><span class="token punctuation">;</span> <span class="token comment">// represents bit 6</span>
+	<span class="token punctuation brace-square brace-open brace-level-2" id="pair-905-close">[</span><span class="token punctuation brace-square brace-open brace-level-3" id="pair-904-close">[</span>maybe_unused<span class="token punctuation brace-square brace-close brace-level-3" id="pair-904-open">]</span><span class="token punctuation brace-square brace-close brace-level-2" id="pair-905-open">]</span> <span class="token keyword keyword-constexpr">constexpr</span> std<span class="token double-colon punctuation">::</span>bitset<span class="token operator">&lt;</span><span class="token number">8</span><span class="token operator">&gt;</span> mask7<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-913-close">{</span> <span class="token number">0b1000'0000</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-913-open">}</span><span class="token punctuation">;</span> <span class="token comment">// represents bit 7</span>
+
+	std<span class="token double-colon punctuation">::</span>bitset<span class="token operator">&lt;</span><span class="token number">8</span><span class="token operator">&gt;</span> flags<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-914-close">{</span> <span class="token number">0b0000'0101</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-914-open">}</span><span class="token punctuation">;</span> <span class="token comment">// 8 bits in size means room for 8 flags</span>
+	std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"bit 1 is "</span> <span class="token operator">&lt;&lt;</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-872-close">(</span>flags<span class="token punctuation">.</span><span class="token function">test</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-871-close">(</span><span class="token number">1</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-871-open">)</span> <span class="token operator">?</span> <span class="token string">"on\n"</span> <span class="token operator">:</span> <span class="token string">"off\n"</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-872-open">)</span><span class="token punctuation">;</span>
+	std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"bit 2 is "</span> <span class="token operator">&lt;&lt;</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-874-close">(</span>flags<span class="token punctuation">.</span><span class="token function">test</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-873-close">(</span><span class="token number">2</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-873-open">)</span> <span class="token operator">?</span> <span class="token string">"on\n"</span> <span class="token operator">:</span> <span class="token string">"off\n"</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-874-open">)</span><span class="token punctuation">;</span>
+
+	flags <span class="token operator">^=</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-875-close">(</span>mask1 <span class="token operator">|</span> mask2<span class="token punctuation brace-round brace-close brace-level-2" id="pair-875-open">)</span><span class="token punctuation">;</span> <span class="token comment">// flip bits 1 and 2</span>
+	std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"bit 1 is "</span> <span class="token operator">&lt;&lt;</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-877-close">(</span>flags<span class="token punctuation">.</span><span class="token function">test</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-876-close">(</span><span class="token number">1</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-876-open">)</span> <span class="token operator">?</span> <span class="token string">"on\n"</span> <span class="token operator">:</span> <span class="token string">"off\n"</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-877-open">)</span><span class="token punctuation">;</span>
+	std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"bit 2 is "</span> <span class="token operator">&lt;&lt;</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-879-close">(</span>flags<span class="token punctuation">.</span><span class="token function">test</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-878-close">(</span><span class="token number">2</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-878-open">)</span> <span class="token operator">?</span> <span class="token string">"on\n"</span> <span class="token operator">:</span> <span class="token string">"off\n"</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-879-open">)</span><span class="token punctuation">;</span>
+
+	flags <span class="token operator">|=</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-880-close">(</span>mask1 <span class="token operator">|</span> mask2<span class="token punctuation brace-round brace-close brace-level-2" id="pair-880-open">)</span><span class="token punctuation">;</span> <span class="token comment">// turn bits 1 and 2 on</span>
+	std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"bit 1 is "</span> <span class="token operator">&lt;&lt;</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-882-close">(</span>flags<span class="token punctuation">.</span><span class="token function">test</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-881-close">(</span><span class="token number">1</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-881-open">)</span> <span class="token operator">?</span> <span class="token string">"on\n"</span> <span class="token operator">:</span> <span class="token string">"off\n"</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-882-open">)</span><span class="token punctuation">;</span>
+	std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"bit 2 is "</span> <span class="token operator">&lt;&lt;</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-884-close">(</span>flags<span class="token punctuation">.</span><span class="token function">test</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-883-close">(</span><span class="token number">2</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-883-open">)</span> <span class="token operator">?</span> <span class="token string">"on\n"</span> <span class="token operator">:</span> <span class="token string">"off\n"</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-884-open">)</span><span class="token punctuation">;</span>
+
+	flags <span class="token operator">&amp;=</span> <span class="token operator">~</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-885-close">(</span>mask1 <span class="token operator">|</span> mask2<span class="token punctuation brace-round brace-close brace-level-2" id="pair-885-open">)</span><span class="token punctuation">;</span> <span class="token comment">// turn bits 1 and 2 off</span>
+	std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"bit 1 is "</span> <span class="token operator">&lt;&lt;</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-887-close">(</span>flags<span class="token punctuation">.</span><span class="token function">test</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-886-close">(</span><span class="token number">1</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-886-open">)</span> <span class="token operator">?</span> <span class="token string">"on\n"</span> <span class="token operator">:</span> <span class="token string">"off\n"</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-887-open">)</span><span class="token punctuation">;</span>
+	std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"bit 2 is "</span> <span class="token operator">&lt;&lt;</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-889-close">(</span>flags<span class="token punctuation">.</span><span class="token function">test</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-888-close">(</span><span class="token number">2</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-888-open">)</span> <span class="token operator">?</span> <span class="token string">"on\n"</span> <span class="token operator">:</span> <span class="token string">"off\n"</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-889-open">)</span><span class="token punctuation">;</span>
+
+	<span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-915-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>This prints:</p>
+<pre>
+bit 1 is off
+bit 2 is on
+bit 1 is on
+bit 2 is off
+bit 1 is on
+bit 2 is on
+bit 1 is off
+bit 2 is off
+</pre>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Making bit masks meaningful
+</p>
+<p>
+  Naming our bit masks “mask1” or “mask2” tells us what bit is being
+  manipulated, but doesn’t give us any indication of what that bit flag is
+  actually being used for.
+</p>
+<div class="code-block code-block-8" style="margin: 8px 0; clear: both"></div>
+
+<p>
+  A best practice is to give your bit masks useful names as a way to document
+  the meaning of your bit flags. Here’s an example from a game we might write:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;cstdint&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-916-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-916-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-945-close">{</span>
+        <span class="token comment">// Define a bunch of physical/emotional states</span>
+	<span class="token punctuation brace-square brace-open brace-level-2" id="pair-921-close">[</span><span class="token punctuation brace-square brace-open brace-level-3" id="pair-920-close">[</span>maybe_unused<span class="token punctuation brace-square brace-close brace-level-3" id="pair-920-open">]</span><span class="token punctuation brace-square brace-close brace-level-2" id="pair-921-open">]</span> <span class="token keyword keyword-constexpr">constexpr</span> std<span class="token double-colon punctuation">::</span><span class="token keyword keyword-uint8_t">uint8_t</span> isHungry   <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-936-close">{</span> <span class="token number">1</span> <span class="token operator">&lt;&lt;</span> <span class="token number">0</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-936-open">}</span><span class="token punctuation">;</span> <span class="token comment">// 0000 0001</span>
+	<span class="token punctuation brace-square brace-open brace-level-2" id="pair-923-close">[</span><span class="token punctuation brace-square brace-open brace-level-3" id="pair-922-close">[</span>maybe_unused<span class="token punctuation brace-square brace-close brace-level-3" id="pair-922-open">]</span><span class="token punctuation brace-square brace-close brace-level-2" id="pair-923-open">]</span> <span class="token keyword keyword-constexpr">constexpr</span> std<span class="token double-colon punctuation">::</span><span class="token keyword keyword-uint8_t">uint8_t</span> isSad      <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-937-close">{</span> <span class="token number">1</span> <span class="token operator">&lt;&lt;</span> <span class="token number">1</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-937-open">}</span><span class="token punctuation">;</span> <span class="token comment">// 0000 0010</span>
+	<span class="token punctuation brace-square brace-open brace-level-2" id="pair-925-close">[</span><span class="token punctuation brace-square brace-open brace-level-3" id="pair-924-close">[</span>maybe_unused<span class="token punctuation brace-square brace-close brace-level-3" id="pair-924-open">]</span><span class="token punctuation brace-square brace-close brace-level-2" id="pair-925-open">]</span> <span class="token keyword keyword-constexpr">constexpr</span> std<span class="token double-colon punctuation">::</span><span class="token keyword keyword-uint8_t">uint8_t</span> isMad      <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-938-close">{</span> <span class="token number">1</span> <span class="token operator">&lt;&lt;</span> <span class="token number">2</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-938-open">}</span><span class="token punctuation">;</span> <span class="token comment">// 0000 0100</span>
+	<span class="token punctuation brace-square brace-open brace-level-2" id="pair-927-close">[</span><span class="token punctuation brace-square brace-open brace-level-3" id="pair-926-close">[</span>maybe_unused<span class="token punctuation brace-square brace-close brace-level-3" id="pair-926-open">]</span><span class="token punctuation brace-square brace-close brace-level-2" id="pair-927-open">]</span> <span class="token keyword keyword-constexpr">constexpr</span> std<span class="token double-colon punctuation">::</span><span class="token keyword keyword-uint8_t">uint8_t</span> isHappy    <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-939-close">{</span> <span class="token number">1</span> <span class="token operator">&lt;&lt;</span> <span class="token number">3</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-939-open">}</span><span class="token punctuation">;</span> <span class="token comment">// 0000 1000</span>
+	<span class="token punctuation brace-square brace-open brace-level-2" id="pair-929-close">[</span><span class="token punctuation brace-square brace-open brace-level-3" id="pair-928-close">[</span>maybe_unused<span class="token punctuation brace-square brace-close brace-level-3" id="pair-928-open">]</span><span class="token punctuation brace-square brace-close brace-level-2" id="pair-929-open">]</span> <span class="token keyword keyword-constexpr">constexpr</span> std<span class="token double-colon punctuation">::</span><span class="token keyword keyword-uint8_t">uint8_t</span> isLaughing <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-940-close">{</span> <span class="token number">1</span> <span class="token operator">&lt;&lt;</span> <span class="token number">4</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-940-open">}</span><span class="token punctuation">;</span> <span class="token comment">// 0001 0000</span>
+	<span class="token punctuation brace-square brace-open brace-level-2" id="pair-931-close">[</span><span class="token punctuation brace-square brace-open brace-level-3" id="pair-930-close">[</span>maybe_unused<span class="token punctuation brace-square brace-close brace-level-3" id="pair-930-open">]</span><span class="token punctuation brace-square brace-close brace-level-2" id="pair-931-open">]</span> <span class="token keyword keyword-constexpr">constexpr</span> std<span class="token double-colon punctuation">::</span><span class="token keyword keyword-uint8_t">uint8_t</span> isAsleep   <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-941-close">{</span> <span class="token number">1</span> <span class="token operator">&lt;&lt;</span> <span class="token number">5</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-941-open">}</span><span class="token punctuation">;</span> <span class="token comment">// 0010 0000</span>
+	<span class="token punctuation brace-square brace-open brace-level-2" id="pair-933-close">[</span><span class="token punctuation brace-square brace-open brace-level-3" id="pair-932-close">[</span>maybe_unused<span class="token punctuation brace-square brace-close brace-level-3" id="pair-932-open">]</span><span class="token punctuation brace-square brace-close brace-level-2" id="pair-933-open">]</span> <span class="token keyword keyword-constexpr">constexpr</span> std<span class="token double-colon punctuation">::</span><span class="token keyword keyword-uint8_t">uint8_t</span> isDead     <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-942-close">{</span> <span class="token number">1</span> <span class="token operator">&lt;&lt;</span> <span class="token number">6</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-942-open">}</span><span class="token punctuation">;</span> <span class="token comment">// 0100 0000</span>
+	<span class="token punctuation brace-square brace-open brace-level-2" id="pair-935-close">[</span><span class="token punctuation brace-square brace-open brace-level-3" id="pair-934-close">[</span>maybe_unused<span class="token punctuation brace-square brace-close brace-level-3" id="pair-934-open">]</span><span class="token punctuation brace-square brace-close brace-level-2" id="pair-935-open">]</span> <span class="token keyword keyword-constexpr">constexpr</span> std<span class="token double-colon punctuation">::</span><span class="token keyword keyword-uint8_t">uint8_t</span> isCrying   <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-943-close">{</span> <span class="token number">1</span> <span class="token operator">&lt;&lt;</span> <span class="token number">7</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-943-open">}</span><span class="token punctuation">;</span> <span class="token comment">// 1000 0000</span>
+
+	std<span class="token double-colon punctuation">::</span><span class="token keyword keyword-uint8_t">uint8_t</span> me<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-944-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-944-open">}</span><span class="token punctuation">;</span> <span class="token comment">// all flags/options turned off to start</span>
+	me <span class="token operator">|=</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-917-close">(</span>isHappy <span class="token operator">|</span> isLaughing<span class="token punctuation brace-round brace-close brace-level-2" id="pair-917-open">)</span><span class="token punctuation">;</span> <span class="token comment">// I am happy and laughing</span>
+	me <span class="token operator">&amp;=</span> <span class="token operator">~</span>isLaughing<span class="token punctuation">;</span> <span class="token comment">// I am no longer laughing</span>
+
+	<span class="token comment">// Query a few states</span>
+	<span class="token comment">// (we'll use static_cast&lt;bool&gt; to interpret the results as a boolean value)</span>
+	std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> std<span class="token double-colon punctuation">::</span>boolalpha<span class="token punctuation">;</span> <span class="token comment">// print true or false instead of 1 or 0</span>
+	std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"I am happy? "</span> <span class="token operator">&lt;&lt;</span> <span class="token generic-function"><span class="token function">static_cast</span><span class="token generic class-name"><span class="token operator">&lt;</span><span class="token keyword keyword-bool">bool</span><span class="token operator">&gt;</span></span></span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-918-close">(</span>me <span class="token operator">&amp;</span> isHappy<span class="token punctuation brace-round brace-close brace-level-2" id="pair-918-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+	std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"I am laughing? "</span> <span class="token operator">&lt;&lt;</span> <span class="token generic-function"><span class="token function">static_cast</span><span class="token generic class-name"><span class="token operator">&lt;</span><span class="token keyword keyword-bool">bool</span><span class="token operator">&gt;</span></span></span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-919-close">(</span>me <span class="token operator">&amp;</span> isLaughing<span class="token punctuation brace-round brace-close brace-level-2" id="pair-919-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+	<span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-945-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>Here’s the same example implemented using std::bitset:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;bitset&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-946-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-946-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-977-close">{</span>
+        <span class="token comment">// Define a bunch of physical/emotional states</span>
+	<span class="token punctuation brace-square brace-open brace-level-2" id="pair-953-close">[</span><span class="token punctuation brace-square brace-open brace-level-3" id="pair-952-close">[</span>maybe_unused<span class="token punctuation brace-square brace-close brace-level-3" id="pair-952-open">]</span><span class="token punctuation brace-square brace-close brace-level-2" id="pair-953-open">]</span> <span class="token keyword keyword-constexpr">constexpr</span> std<span class="token double-colon punctuation">::</span>bitset<span class="token operator">&lt;</span><span class="token number">8</span><span class="token operator">&gt;</span> isHungry   <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-968-close">{</span> <span class="token number">0b0000'0001</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-968-open">}</span><span class="token punctuation">;</span>
+	<span class="token punctuation brace-square brace-open brace-level-2" id="pair-955-close">[</span><span class="token punctuation brace-square brace-open brace-level-3" id="pair-954-close">[</span>maybe_unused<span class="token punctuation brace-square brace-close brace-level-3" id="pair-954-open">]</span><span class="token punctuation brace-square brace-close brace-level-2" id="pair-955-open">]</span> <span class="token keyword keyword-constexpr">constexpr</span> std<span class="token double-colon punctuation">::</span>bitset<span class="token operator">&lt;</span><span class="token number">8</span><span class="token operator">&gt;</span> isSad      <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-969-close">{</span> <span class="token number">0b0000'0010</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-969-open">}</span><span class="token punctuation">;</span>
+	<span class="token punctuation brace-square brace-open brace-level-2" id="pair-957-close">[</span><span class="token punctuation brace-square brace-open brace-level-3" id="pair-956-close">[</span>maybe_unused<span class="token punctuation brace-square brace-close brace-level-3" id="pair-956-open">]</span><span class="token punctuation brace-square brace-close brace-level-2" id="pair-957-open">]</span> <span class="token keyword keyword-constexpr">constexpr</span> std<span class="token double-colon punctuation">::</span>bitset<span class="token operator">&lt;</span><span class="token number">8</span><span class="token operator">&gt;</span> isMad      <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-970-close">{</span> <span class="token number">0b0000'0100</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-970-open">}</span><span class="token punctuation">;</span>
+	<span class="token punctuation brace-square brace-open brace-level-2" id="pair-959-close">[</span><span class="token punctuation brace-square brace-open brace-level-3" id="pair-958-close">[</span>maybe_unused<span class="token punctuation brace-square brace-close brace-level-3" id="pair-958-open">]</span><span class="token punctuation brace-square brace-close brace-level-2" id="pair-959-open">]</span> <span class="token keyword keyword-constexpr">constexpr</span> std<span class="token double-colon punctuation">::</span>bitset<span class="token operator">&lt;</span><span class="token number">8</span><span class="token operator">&gt;</span> isHappy    <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-971-close">{</span> <span class="token number">0b0000'1000</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-971-open">}</span><span class="token punctuation">;</span>
+	<span class="token punctuation brace-square brace-open brace-level-2" id="pair-961-close">[</span><span class="token punctuation brace-square brace-open brace-level-3" id="pair-960-close">[</span>maybe_unused<span class="token punctuation brace-square brace-close brace-level-3" id="pair-960-open">]</span><span class="token punctuation brace-square brace-close brace-level-2" id="pair-961-open">]</span> <span class="token keyword keyword-constexpr">constexpr</span> std<span class="token double-colon punctuation">::</span>bitset<span class="token operator">&lt;</span><span class="token number">8</span><span class="token operator">&gt;</span> isLaughing <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-972-close">{</span> <span class="token number">0b0001'0000</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-972-open">}</span><span class="token punctuation">;</span>
+	<span class="token punctuation brace-square brace-open brace-level-2" id="pair-963-close">[</span><span class="token punctuation brace-square brace-open brace-level-3" id="pair-962-close">[</span>maybe_unused<span class="token punctuation brace-square brace-close brace-level-3" id="pair-962-open">]</span><span class="token punctuation brace-square brace-close brace-level-2" id="pair-963-open">]</span> <span class="token keyword keyword-constexpr">constexpr</span> std<span class="token double-colon punctuation">::</span>bitset<span class="token operator">&lt;</span><span class="token number">8</span><span class="token operator">&gt;</span> isAsleep   <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-973-close">{</span> <span class="token number">0b0010'0000</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-973-open">}</span><span class="token punctuation">;</span>
+	<span class="token punctuation brace-square brace-open brace-level-2" id="pair-965-close">[</span><span class="token punctuation brace-square brace-open brace-level-3" id="pair-964-close">[</span>maybe_unused<span class="token punctuation brace-square brace-close brace-level-3" id="pair-964-open">]</span><span class="token punctuation brace-square brace-close brace-level-2" id="pair-965-open">]</span> <span class="token keyword keyword-constexpr">constexpr</span> std<span class="token double-colon punctuation">::</span>bitset<span class="token operator">&lt;</span><span class="token number">8</span><span class="token operator">&gt;</span> isDead     <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-974-close">{</span> <span class="token number">0b0100'0000</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-974-open">}</span><span class="token punctuation">;</span>
+	<span class="token punctuation brace-square brace-open brace-level-2" id="pair-967-close">[</span><span class="token punctuation brace-square brace-open brace-level-3" id="pair-966-close">[</span>maybe_unused<span class="token punctuation brace-square brace-close brace-level-3" id="pair-966-open">]</span><span class="token punctuation brace-square brace-close brace-level-2" id="pair-967-open">]</span> <span class="token keyword keyword-constexpr">constexpr</span> std<span class="token double-colon punctuation">::</span>bitset<span class="token operator">&lt;</span><span class="token number">8</span><span class="token operator">&gt;</span> isCrying   <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-975-close">{</span> <span class="token number">0b1000'0000</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-975-open">}</span><span class="token punctuation">;</span>
+
+
+	std<span class="token double-colon punctuation">::</span>bitset<span class="token operator">&lt;</span><span class="token number">8</span><span class="token operator">&gt;</span> me<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-976-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-976-open">}</span><span class="token punctuation">;</span> <span class="token comment">// all flags/options turned off to start</span>
+	me <span class="token operator">|=</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-947-close">(</span>isHappy <span class="token operator">|</span> isLaughing<span class="token punctuation brace-round brace-close brace-level-2" id="pair-947-open">)</span><span class="token punctuation">;</span> <span class="token comment">// I am happy and laughing</span>
+	me <span class="token operator">&amp;=</span> <span class="token operator">~</span>isLaughing<span class="token punctuation">;</span> <span class="token comment">// I am no longer laughing</span>
+
+	<span class="token comment">// Query a few states (we use the any() function to see if any bits remain set)</span>
+	std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> std<span class="token double-colon punctuation">::</span>boolalpha<span class="token punctuation">;</span> <span class="token comment">// print true or false instead of 1 or 0</span>
+	std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"I am happy? "</span> <span class="token operator">&lt;&lt;</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-948-close">(</span>me <span class="token operator">&amp;</span> isHappy<span class="token punctuation brace-round brace-close brace-level-2" id="pair-948-open">)</span><span class="token punctuation">.</span><span class="token function">any</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-949-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-949-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+	std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"I am laughing? "</span> <span class="token operator">&lt;&lt;</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-950-close">(</span>me <span class="token operator">&amp;</span> isLaughing<span class="token punctuation brace-round brace-close brace-level-2" id="pair-950-open">)</span><span class="token punctuation">.</span><span class="token function">any</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-951-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-951-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+	<span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-977-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  Two notes here: First, std::bitset doesn’t have a nice function that allows
+  you to query bits using a bit mask. So if you want to use bit masks rather
+  than positional indexes, you’ll have to use <em>Bitwise AND</em> to query
+  bits. Second, we make use of the any() function, which returns true if any
+  bits are set, and false otherwise to see if the bit we queried remains on or
+  off.
+</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  When are bit flags most useful?
+</p>
+<p>
+  Astute readers may note that the above examples don’t actually save any
+  memory. 8 separate booleans values would normally take 8 bytes. But the
+  examples above (using std::uint8_t) use 9 bytes -- 8 bytes to define the bit
+  masks, and 1 byte for the flag variable!
+</p>
+<p>
+  Bit flags make the most sense when you have many identical flag variables. For
+  example, in the example above, imagine that instead of having one person (me),
+  you had 100. If you used 8 Booleans per person (one for each possible state),
+  you’d use 800 bytes of memory. With bit flags, you’d use 8 bytes for the bit
+  masks, and 100 bytes for the bit flag variables, for a total of 108 bytes of
+  memory -- approximately 8 times less memory.
+</p>
+<p>
+  For most programs, the amount of memory saved using bit flags is not worth the
+  added complexity. But in programs where there are tens of thousands or even
+  millions of similar objects, using bit flags can reduce memory use
+  substantially. It’s a useful optimization to have in your toolkit if you need
+  it.
+</p>
+<p>
+  There’s another case where bit flags and bit masks can make sense. Imagine you
+  had a function that could take any combination of 32 different options. One
+  way to write that function would be to use 32 individual Boolean parameters:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-void">void</span> <span class="token function">someFunction</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-978-close">(</span><span class="token keyword keyword-bool">bool</span> option1<span class="token punctuation">,</span> <span class="token keyword keyword-bool">bool</span> option2<span class="token punctuation">,</span> <span class="token keyword keyword-bool">bool</span> option3<span class="token punctuation">,</span> <span class="token keyword keyword-bool">bool</span> option4<span class="token punctuation">,</span> <span class="token keyword keyword-bool">bool</span> option5<span class="token punctuation">,</span> <span class="token keyword keyword-bool">bool</span> option6<span class="token punctuation">,</span> <span class="token keyword keyword-bool">bool</span> option7<span class="token punctuation">,</span> <span class="token keyword keyword-bool">bool</span> option8<span class="token punctuation">,</span> <span class="token keyword keyword-bool">bool</span> option9<span class="token punctuation">,</span> <span class="token keyword keyword-bool">bool</span> option10<span class="token punctuation">,</span> <span class="token keyword keyword-bool">bool</span> option11<span class="token punctuation">,</span> <span class="token keyword keyword-bool">bool</span> option12<span class="token punctuation">,</span> <span class="token keyword keyword-bool">bool</span> option13<span class="token punctuation">,</span> <span class="token keyword keyword-bool">bool</span> option14<span class="token punctuation">,</span> <span class="token keyword keyword-bool">bool</span> option15<span class="token punctuation">,</span> <span class="token keyword keyword-bool">bool</span> option16<span class="token punctuation">,</span> <span class="token keyword keyword-bool">bool</span> option17<span class="token punctuation">,</span> <span class="token keyword keyword-bool">bool</span> option18<span class="token punctuation">,</span> <span class="token keyword keyword-bool">bool</span> option19<span class="token punctuation">,</span> <span class="token keyword keyword-bool">bool</span> option20<span class="token punctuation">,</span> <span class="token keyword keyword-bool">bool</span> option21<span class="token punctuation">,</span> <span class="token keyword keyword-bool">bool</span> option22<span class="token punctuation">,</span> <span class="token keyword keyword-bool">bool</span> option23<span class="token punctuation">,</span> <span class="token keyword keyword-bool">bool</span> option24<span class="token punctuation">,</span> <span class="token keyword keyword-bool">bool</span> option25<span class="token punctuation">,</span> <span class="token keyword keyword-bool">bool</span> option26<span class="token punctuation">,</span> <span class="token keyword keyword-bool">bool</span> option27<span class="token punctuation">,</span> <span class="token keyword keyword-bool">bool</span> option28<span class="token punctuation">,</span> <span class="token keyword keyword-bool">bool</span> option29<span class="token punctuation">,</span> <span class="token keyword keyword-bool">bool</span> option30<span class="token punctuation">,</span> <span class="token keyword keyword-bool">bool</span> option31<span class="token punctuation">,</span> <span class="token keyword keyword-bool">bool</span> option32<span class="token punctuation brace-round brace-close brace-level-1" id="pair-978-open">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 64px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  Hopefully you’d give your parameters more descriptive names, but the point
+  here is to show you how obnoxiously long the parameter list is.
+</p>
+<p>
+  Then when you wanted to call the function with options 10 and 32 set to true,
+  you’d have to do so like this:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token function">someFunction</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-979-close">(</span><span class="token boolean">false</span><span class="token punctuation">,</span> <span class="token boolean">false</span><span class="token punctuation">,</span> <span class="token boolean">false</span><span class="token punctuation">,</span> <span class="token boolean">false</span><span class="token punctuation">,</span> <span class="token boolean">false</span><span class="token punctuation">,</span> <span class="token boolean">false</span><span class="token punctuation">,</span> <span class="token boolean">false</span><span class="token punctuation">,</span> <span class="token boolean">false</span><span class="token punctuation">,</span> <span class="token boolean">false</span><span class="token punctuation">,</span> <span class="token boolean">true</span><span class="token punctuation">,</span> <span class="token boolean">false</span><span class="token punctuation">,</span> <span class="token boolean">false</span><span class="token punctuation">,</span> <span class="token boolean">false</span><span class="token punctuation">,</span> <span class="token boolean">false</span><span class="token punctuation">,</span> <span class="token boolean">false</span><span class="token punctuation">,</span> <span class="token boolean">false</span><span class="token punctuation">,</span> <span class="token boolean">false</span><span class="token punctuation">,</span> <span class="token boolean">false</span><span class="token punctuation">,</span> <span class="token boolean">false</span><span class="token punctuation">,</span> <span class="token boolean">false</span><span class="token punctuation">,</span> <span class="token boolean">false</span><span class="token punctuation">,</span> <span class="token boolean">false</span><span class="token punctuation">,</span> <span class="token boolean">false</span><span class="token punctuation">,</span> <span class="token boolean">false</span><span class="token punctuation">,</span> <span class="token boolean">false</span><span class="token punctuation">,</span> <span class="token boolean">false</span><span class="token punctuation">,</span> <span class="token boolean">false</span><span class="token punctuation">,</span> <span class="token boolean">false</span><span class="token punctuation">,</span> <span class="token boolean">false</span><span class="token punctuation">,</span> <span class="token boolean">false</span><span class="token punctuation">,</span> <span class="token boolean">false</span><span class="token punctuation">,</span> <span class="token boolean">true</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-979-open">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 32px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  This is ridiculously difficult to read (is that option 9, 10, or 11 that’s set
+  to true?), and also means you have to remember which argument corresponds to
+  which option (is setting the “edit flag” the 9th, 10th, or 11th parameter?).
+</p>
+<p>Instead, if you defined the function using bit flags like this:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-void">void</span> <span class="token function">someFunction</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-980-close">(</span>std<span class="token double-colon punctuation">::</span>bitset<span class="token operator">&lt;</span><span class="token number">32</span><span class="token operator">&gt;</span> options<span class="token punctuation brace-round brace-close brace-level-1" id="pair-980-open">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>Then you could use bit flags to pass in only the options you wanted:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token function">someFunction</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-981-close">(</span>option10 <span class="token operator">|</span> option32<span class="token punctuation brace-round brace-close brace-level-1" id="pair-981-open">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>This is much more readable.</p>
+<p>
+  This is one of the reasons OpenGL, a well regarded 3d graphic library, opted
+  to use bit flag parameters instead of many consecutive Boolean parameters.
+</p>
+<p>Here’s a sample function call from OpenGL:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token function">glClear</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-982-close">(</span>GL_COLOR_BUFFER_BIT <span class="token operator">|</span> GL_DEPTH_BUFFER_BIT<span class="token punctuation brace-round brace-close brace-level-1" id="pair-982-open">)</span><span class="token punctuation">;</span> <span class="token comment">// clear the color and the depth buffer</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  GL_COLOR_BUFFER_BIT and GL_DEPTH_BUFFER_BIT are bit masks defined as follows
+  (in gl2.h):
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">GL_DEPTH_BUFFER_BIT</span>               <span class="token expression"><span class="token number">0x00000100</span></span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">GL_STENCIL_BUFFER_BIT</span>             <span class="token expression"><span class="token number">0x00000400</span></span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">GL_COLOR_BUFFER_BIT</span>               <span class="token expression"><span class="token number">0x00004000</span></span></span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Bit masks involving multiple bits
+</p>
+<p>
+  Although bit masks often are used to select a single bit, they can also be
+  used to select multiple bits. Lets take a look at a slightly more complicated
+  example where we do this.
+</p>
+<p>
+  Color display devices such as TVs and monitors are composed of millions of
+  pixels, each of which can display a dot of color. Each dot of color is the
+  result of combining three beams of light: one red, one green, and one blue
+  (RGB). The intensity of these lights are varied to produce different colors.
+</p>
+<p>
+  Typically, the intensity of R, G, and B for a given pixel is represented by an
+  8-bit unsigned integer. For example, a red pixel would have R=255, G=0, B=0. A
+  purple pixel would have R=255, G=0, B=255. A medium-grey pixel would have
+  R=127, G=127, B=127.
+</p>
+<p>
+  When assigning color values to a pixel, in addition to R, G, and B, a 4th
+  value called A is often used. “A” stands for “alpha”, and it controls how
+  transparent the color is. If A=0, the color is fully transparent. If A=255,
+  the color is opaque.
+</p>
+<p>
+  R, G, B, and A are normally stored as a single 32-bit integer, with 8 bits
+  used for each component:
+</p>
+<div class="cpp-table-wrapper" data-ezoic-video-excluded="1">
+  <p></p>
+  <p></p>
+  <table class="cpp-table" data-ezoic-video-excluded="1">
+    <tbody>
+      <tr>
+        <td colspan="4" style="text-align: center">32-bit RGBA value</td>
+      </tr>
+      <tr>
+        <td>bits 31-24</td>
+        <td>bits 23-16</td>
+        <td>bits 15-8</td>
+        <td>bits 7-0</td>
+      </tr>
+      <tr>
+        <td>RRRRRRRR</td>
+        <td>GGGGGGGG</td>
+        <td>BBBBBBBB</td>
+        <td>AAAAAAAA</td>
+      </tr>
+      <tr>
+        <td>red</td>
+        <td>green</td>
+        <td>blue</td>
+        <td>alpha</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<p>
+  The following program asks the user to enter a 32-bit hexadecimal value, and
+  then extracts the 8-bit color values for R, G, B, and A.
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;cstdint&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-983-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-983-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-1004-close">{</span>
+	<span class="token keyword keyword-constexpr">constexpr</span> std<span class="token double-colon punctuation">::</span><span class="token keyword keyword-uint32_t">uint32_t</span> redBits<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-995-close">{</span> <span class="token number">0xFF000000</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-995-open">}</span><span class="token punctuation">;</span>
+	<span class="token keyword keyword-constexpr">constexpr</span> std<span class="token double-colon punctuation">::</span><span class="token keyword keyword-uint32_t">uint32_t</span> greenBits<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-996-close">{</span> <span class="token number">0x00FF0000</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-996-open">}</span><span class="token punctuation">;</span>
+	<span class="token keyword keyword-constexpr">constexpr</span> std<span class="token double-colon punctuation">::</span><span class="token keyword keyword-uint32_t">uint32_t</span> blueBits<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-997-close">{</span> <span class="token number">0x0000FF00</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-997-open">}</span><span class="token punctuation">;</span>
+	<span class="token keyword keyword-constexpr">constexpr</span> std<span class="token double-colon punctuation">::</span><span class="token keyword keyword-uint32_t">uint32_t</span> alphaBits<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-998-close">{</span> <span class="token number">0x000000FF</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-998-open">}</span><span class="token punctuation">;</span>
+
+	std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Enter a 32-bit RGBA color value in hexadecimal (e.g. FF7F3300): "</span><span class="token punctuation">;</span>
+	std<span class="token double-colon punctuation">::</span><span class="token keyword keyword-uint32_t">uint32_t</span> pixel<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-999-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-999-open">}</span><span class="token punctuation">;</span>
+	std<span class="token double-colon punctuation">::</span>cin <span class="token operator">&gt;&gt;</span> std<span class="token double-colon punctuation">::</span>hex <span class="token operator">&gt;&gt;</span> pixel<span class="token punctuation">;</span> <span class="token comment">// std::hex allows us to read in a hex value</span>
+
+	<span class="token comment">// use Bitwise AND to isolate the pixels for our given color,</span>
+	<span class="token comment">// then right shift the value into the lower 8 bits</span>
+	<span class="token keyword keyword-const">const</span> std<span class="token double-colon punctuation">::</span><span class="token keyword keyword-uint8_t">uint8_t</span> red<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-1000-close">{</span> <span class="token generic-function"><span class="token function">static_cast</span><span class="token generic class-name"><span class="token operator">&lt;</span>std<span class="token double-colon punctuation">::</span><span class="token keyword keyword-uint8_t">uint8_t</span><span class="token operator">&gt;</span></span></span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-985-close">(</span><span class="token punctuation brace-round brace-open brace-level-4" id="pair-984-close">(</span>pixel <span class="token operator">&amp;</span> redBits<span class="token punctuation brace-round brace-close brace-level-4" id="pair-984-open">)</span> <span class="token operator">&gt;&gt;</span> <span class="token number">24</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-985-open">)</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-1000-open">}</span><span class="token punctuation">;</span>
+	<span class="token keyword keyword-const">const</span> std<span class="token double-colon punctuation">::</span><span class="token keyword keyword-uint8_t">uint8_t</span> green<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-1001-close">{</span> <span class="token generic-function"><span class="token function">static_cast</span><span class="token generic class-name"><span class="token operator">&lt;</span>std<span class="token double-colon punctuation">::</span><span class="token keyword keyword-uint8_t">uint8_t</span><span class="token operator">&gt;</span></span></span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-987-close">(</span><span class="token punctuation brace-round brace-open brace-level-4" id="pair-986-close">(</span>pixel <span class="token operator">&amp;</span> greenBits<span class="token punctuation brace-round brace-close brace-level-4" id="pair-986-open">)</span> <span class="token operator">&gt;&gt;</span> <span class="token number">16</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-987-open">)</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-1001-open">}</span><span class="token punctuation">;</span>
+	<span class="token keyword keyword-const">const</span> std<span class="token double-colon punctuation">::</span><span class="token keyword keyword-uint8_t">uint8_t</span> blue<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-1002-close">{</span> <span class="token generic-function"><span class="token function">static_cast</span><span class="token generic class-name"><span class="token operator">&lt;</span>std<span class="token double-colon punctuation">::</span><span class="token keyword keyword-uint8_t">uint8_t</span><span class="token operator">&gt;</span></span></span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-989-close">(</span><span class="token punctuation brace-round brace-open brace-level-4" id="pair-988-close">(</span>pixel <span class="token operator">&amp;</span> blueBits<span class="token punctuation brace-round brace-close brace-level-4" id="pair-988-open">)</span> <span class="token operator">&gt;&gt;</span> <span class="token number">8</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-989-open">)</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-1002-open">}</span><span class="token punctuation">;</span>
+	<span class="token keyword keyword-const">const</span> std<span class="token double-colon punctuation">::</span><span class="token keyword keyword-uint8_t">uint8_t</span> alpha<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-1003-close">{</span> <span class="token generic-function"><span class="token function">static_cast</span><span class="token generic class-name"><span class="token operator">&lt;</span>std<span class="token double-colon punctuation">::</span><span class="token keyword keyword-uint8_t">uint8_t</span><span class="token operator">&gt;</span></span></span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-990-close">(</span>pixel <span class="token operator">&amp;</span> alphaBits<span class="token punctuation brace-round brace-close brace-level-3" id="pair-990-open">)</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-1003-open">}</span><span class="token punctuation">;</span>
+
+	std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Your color contains:\n"</span><span class="token punctuation">;</span>
+	std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> std<span class="token double-colon punctuation">::</span>hex<span class="token punctuation">;</span> <span class="token comment">// print the following values in hex</span>
+
+        <span class="token comment">// reminder: std::uint8_t will likely print as a char</span>
+        <span class="token comment">// we static_cast to int to ensure it prints as an integer</span>
+	std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token generic-function"><span class="token function">static_cast</span><span class="token generic class-name"><span class="token operator">&lt;</span><span class="token keyword keyword-int">int</span><span class="token operator">&gt;</span></span></span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-991-close">(</span>red<span class="token punctuation brace-round brace-close brace-level-2" id="pair-991-open">)</span>   <span class="token operator">&lt;&lt;</span> <span class="token string">" red\n"</span><span class="token punctuation">;</span>
+	std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token generic-function"><span class="token function">static_cast</span><span class="token generic class-name"><span class="token operator">&lt;</span><span class="token keyword keyword-int">int</span><span class="token operator">&gt;</span></span></span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-992-close">(</span>green<span class="token punctuation brace-round brace-close brace-level-2" id="pair-992-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">" green\n"</span><span class="token punctuation">;</span>
+	std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token generic-function"><span class="token function">static_cast</span><span class="token generic class-name"><span class="token operator">&lt;</span><span class="token keyword keyword-int">int</span><span class="token operator">&gt;</span></span></span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-993-close">(</span>blue<span class="token punctuation brace-round brace-close brace-level-2" id="pair-993-open">)</span>  <span class="token operator">&lt;&lt;</span> <span class="token string">" blue\n"</span><span class="token punctuation">;</span>
+	std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token generic-function"><span class="token function">static_cast</span><span class="token generic class-name"><span class="token operator">&lt;</span><span class="token keyword keyword-int">int</span><span class="token operator">&gt;</span></span></span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-994-close">(</span>alpha<span class="token punctuation brace-round brace-close brace-level-2" id="pair-994-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">" alpha\n"</span><span class="token punctuation">;</span>
+
+	<span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-1004-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>This produces the output:</p>
+<pre>
+Enter a 32-bit RGBA color value in hexadecimal (e.g. FF7F3300): FF7F3300
+Your color contains:
+ff red
+7f green
+33 blue
+0 alpha
+</pre>
+<p>
+  In the above program, we use a <em>bitwise AND</em> to query the set of 8 bits
+  we’re interested in, and then we <em>right shift</em> them into an 8-bit value
+  so we can print them back as hex values.
+</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Summary
+</p>
+<p>Summarizing how to set, clear, toggle, and query bit flags:</p>
+<p>To query bit states, we use <em>bitwise AND</em>:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-if">if</span> <span class="token punctuation brace-round brace-open brace-level-1" id="pair-1005-close">(</span>flags <span class="token operator">&amp;</span> option4<span class="token punctuation brace-round brace-close brace-level-1" id="pair-1005-open">)</span> <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span> <span class="token comment">// if option4 is set, do something</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>To set bits (turn on), we use <em>bitwise OR</em>:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp">flags <span class="token operator">|=</span> option4<span class="token punctuation">;</span> <span class="token comment">// turn option 4 on.</span>
+flags <span class="token operator">|=</span> <span class="token punctuation brace-round brace-open brace-level-1" id="pair-1006-close">(</span>option4 <span class="token operator">|</span> option5<span class="token punctuation brace-round brace-close brace-level-1" id="pair-1006-open">)</span><span class="token punctuation">;</span> <span class="token comment">// turn options 4 and 5 on.</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  To clear bits (turn off), we use <em>bitwise AND</em> with
+  <em>bitwise NOT</em>:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp">flags <span class="token operator">&amp;=</span> <span class="token operator">~</span>option4<span class="token punctuation">;</span> <span class="token comment">// turn option 4 off</span>
+flags <span class="token operator">&amp;=</span> <span class="token operator">~</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-1007-close">(</span>option4 <span class="token operator">|</span> option5<span class="token punctuation brace-round brace-close brace-level-1" id="pair-1007-open">)</span><span class="token punctuation">;</span> <span class="token comment">// turn options 4 and 5 off</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>To flip bit states, we use <em>bitwise XOR</em>:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp">flags <span class="token operator">^=</span> option4<span class="token punctuation">;</span> <span class="token comment">// flip option4 from on to off, or vice versa</span>
+flags <span class="token operator">^=</span> <span class="token punctuation brace-round brace-open brace-level-1" id="pair-1008-close">(</span>option4 <span class="token operator">|</span> option5<span class="token punctuation brace-round brace-close brace-level-1" id="pair-1008-open">)</span><span class="token punctuation">;</span> <span class="token comment">// flip options 4 and 5</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Quiz time
+</p>
+<div class="quiz" style="clear: both">
+  <p class="quiz-header">Question #1</p>
+  <p>
+    Do not use <code>std::bitset</code> in this quiz. We’re only using
+    <code>std::bitset</code> for printing.
+  </p>
+  <p>Given the following program:</p>
+  <div class="code-toolbar">
+    <pre
+      class="line-numbers language-cpp"
+      tabindex="0"
+    ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;bitset&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;cstdint&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-1009-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-1009-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-1027-close">{</span>
+    <span class="token punctuation brace-square brace-open brace-level-2" id="pair-1011-close">[</span><span class="token punctuation brace-square brace-open brace-level-3" id="pair-1010-close">[</span>maybe_unused<span class="token punctuation brace-square brace-close brace-level-3" id="pair-1010-open">]</span><span class="token punctuation brace-square brace-close brace-level-2" id="pair-1011-open">]</span> <span class="token keyword keyword-constexpr">constexpr</span> std<span class="token double-colon punctuation">::</span><span class="token keyword keyword-uint8_t">uint8_t</span> option_viewed<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-1020-close">{</span> <span class="token number">0x01</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-1020-open">}</span><span class="token punctuation">;</span>
+    <span class="token punctuation brace-square brace-open brace-level-2" id="pair-1013-close">[</span><span class="token punctuation brace-square brace-open brace-level-3" id="pair-1012-close">[</span>maybe_unused<span class="token punctuation brace-square brace-close brace-level-3" id="pair-1012-open">]</span><span class="token punctuation brace-square brace-close brace-level-2" id="pair-1013-open">]</span> <span class="token keyword keyword-constexpr">constexpr</span> std<span class="token double-colon punctuation">::</span><span class="token keyword keyword-uint8_t">uint8_t</span> option_edited<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-1021-close">{</span> <span class="token number">0x02</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-1021-open">}</span><span class="token punctuation">;</span>
+    <span class="token punctuation brace-square brace-open brace-level-2" id="pair-1015-close">[</span><span class="token punctuation brace-square brace-open brace-level-3" id="pair-1014-close">[</span>maybe_unused<span class="token punctuation brace-square brace-close brace-level-3" id="pair-1014-open">]</span><span class="token punctuation brace-square brace-close brace-level-2" id="pair-1015-open">]</span> <span class="token keyword keyword-constexpr">constexpr</span> std<span class="token double-colon punctuation">::</span><span class="token keyword keyword-uint8_t">uint8_t</span> option_favorited<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-1022-close">{</span> <span class="token number">0x04</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-1022-open">}</span><span class="token punctuation">;</span>
+    <span class="token punctuation brace-square brace-open brace-level-2" id="pair-1017-close">[</span><span class="token punctuation brace-square brace-open brace-level-3" id="pair-1016-close">[</span>maybe_unused<span class="token punctuation brace-square brace-close brace-level-3" id="pair-1016-open">]</span><span class="token punctuation brace-square brace-close brace-level-2" id="pair-1017-open">]</span> <span class="token keyword keyword-constexpr">constexpr</span> std<span class="token double-colon punctuation">::</span><span class="token keyword keyword-uint8_t">uint8_t</span> option_shared<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-1023-close">{</span> <span class="token number">0x08</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-1023-open">}</span><span class="token punctuation">;</span>
+    <span class="token punctuation brace-square brace-open brace-level-2" id="pair-1019-close">[</span><span class="token punctuation brace-square brace-open brace-level-3" id="pair-1018-close">[</span>maybe_unused<span class="token punctuation brace-square brace-close brace-level-3" id="pair-1018-open">]</span><span class="token punctuation brace-square brace-close brace-level-2" id="pair-1019-open">]</span> <span class="token keyword keyword-constexpr">constexpr</span> std<span class="token double-colon punctuation">::</span><span class="token keyword keyword-uint8_t">uint8_t</span> option_deleted<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-1024-close">{</span> <span class="token number">0x10</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-1024-open">}</span><span class="token punctuation">;</span>
+
+    std<span class="token double-colon punctuation">::</span><span class="token keyword keyword-uint8_t">uint8_t</span> myArticleFlags<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-1025-close">{</span> option_favorited <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-1025-open">}</span><span class="token punctuation">;</span>
+
+    <span class="token comment">// Place all lines of code for the following quiz here</span>
+
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> std<span class="token double-colon punctuation">::</span>bitset<span class="token operator">&lt;</span><span class="token number">8</span><span class="token operator">&gt;</span><span class="token punctuation brace-curly brace-open brace-level-2" id="pair-1026-close">{</span> myArticleFlags <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-1026-open">}</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-1027-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+    <div class="toolbar">
+      <div class="toolbar-item">
+        <button
+          class="copy-to-clipboard-button"
+          type="button"
+          data-copy-state="copy"
+        >
+          <span>Copy</span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <p>
+    a) Add a line of code to set the article as viewed.<br />
+    Expected output:
+  </p>
+  <pre>
+00000101
+</pre
+  >
+  <p>
+    <a
+      class="solution_link_show"
+      href="javascript:void(0)"
+      onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_0'), this, 'Show Solution', 'Hide Solution')"
+      >Show Solution</a
+    >
+  </p>
+  <div class="wpsolution" id="cpp_solution_id_0" style="display: none">
+    <div class="code-toolbar">
+      <pre
+        class="line-numbers language-cpp"
+        tabindex="0"
+      ><code class="match-braces language-cpp">myArticleFlags <span class="token operator">|=</span> option_viewed<span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 0px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+      <div class="toolbar">
+        <div class="toolbar-item">
+          <button
+            class="copy-to-clipboard-button"
+            type="button"
+            data-copy-state="copy"
+          >
+            <span>Copy</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <p>b) Add a line of code to check if the article was deleted.</p>
+  <p>
+    <a
+      class="solution_link_show"
+      href="javascript:void(0)"
+      onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_1'), this, 'Show Solution', 'Hide Solution')"
+      >Show Solution</a
+    >
+  </p>
+  <div class="wpsolution" id="cpp_solution_id_1" style="display: none">
+    <div class="code-toolbar">
+      <pre
+        class="line-numbers language-cpp"
+        tabindex="0"
+      ><code class="match-braces language-cpp"><span class="token keyword keyword-if">if</span> <span class="token punctuation brace-round brace-open brace-level-1" id="pair-1028-close">(</span>myArticleFlags <span class="token operator">&amp;</span> option_deleted<span class="token punctuation brace-round brace-close brace-level-1" id="pair-1028-open">)</span> <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 0px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+      <div class="toolbar">
+        <div class="toolbar-item">
+          <button
+            class="copy-to-clipboard-button"
+            type="button"
+            data-copy-state="copy"
+          >
+            <span>Copy</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <p>
+    c) Add a line of code to clear the article as a favorite.<br />
+    Expected output (Assuming you did quiz (a)):
+  </p>
+  <pre>
+00000001
+</pre
+  >
+  <p>
+    <a
+      class="solution_link_show"
+      href="javascript:void(0)"
+      onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_2'), this, 'Show Solution', 'Hide Solution')"
+      >Show Solution</a
+    >
+  </p>
+  <div class="wpsolution" id="cpp_solution_id_2" style="display: none">
+    <div class="code-toolbar">
+      <pre
+        class="line-numbers language-cpp"
+        tabindex="0"
+      ><code class="match-braces language-cpp">myArticleFlags <span class="token operator">&amp;=</span> <span class="token generic-function"><span class="token function">static_cast</span><span class="token generic class-name"><span class="token operator">&lt;</span>std<span class="token double-colon punctuation">::</span><span class="token keyword keyword-uint8_t">uint8_t</span><span class="token operator">&gt;</span></span></span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-1029-close">(</span><span class="token operator">~</span>option_favorited<span class="token punctuation brace-round brace-close brace-level-1" id="pair-1029-open">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 0px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+      <div class="toolbar">
+        <div class="toolbar-item">
+          <button
+            class="copy-to-clipboard-button"
+            type="button"
+            data-copy-state="copy"
+          >
+            <span>Copy</span>
+          </button>
+        </div>
+      </div>
+    </div>
+    <p>If you got <code>00000000</code>, check two things:</p>
+    <ul>
+      <li>That the solution for quiz (a) has not been removed.</li>
+      <li>
+        That you cleared <code>option_favorited</code>, not
+        <code>option_viewed</code>.
+      </li>
+    </ul>
+  </div>
+  <p>1d) Extra credit: why are the following two lines identical?</p>
+  <div class="code-toolbar">
+    <pre
+      class="line-numbers language-cpp"
+      tabindex="0"
+    ><code class="match-braces language-cpp">myflags <span class="token operator">&amp;=</span> <span class="token operator">~</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-1030-close">(</span>option4 <span class="token operator">|</span> option5<span class="token punctuation brace-round brace-close brace-level-1" id="pair-1030-open">)</span><span class="token punctuation">;</span> <span class="token comment">// turn options 4 and 5 off</span>
+myflags <span class="token operator">&amp;=</span> <span class="token operator">~</span>option4 <span class="token operator">&amp;</span> <span class="token operator">~</span>option5<span class="token punctuation">;</span> <span class="token comment">// turn options 4 and 5 off</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+    <div class="toolbar">
+      <div class="toolbar-item">
+        <button
+          class="copy-to-clipboard-button"
+          type="button"
+          data-copy-state="copy"
+        >
+          <span>Copy</span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <p>
+    <a
+      class="solution_link_show"
+      href="javascript:void(0)"
+      onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_3'), this, 'Show Solution', 'Hide Solution')"
+      >Show Solution</a
+    >
+  </p>
+  <div class="wpsolution" id="cpp_solution_id_3" style="display: none">
+    <p>
+      De Morgan’s laws says that if we distribute a NOT, we need to flip ORs and
+      ANDs to the other. So <code>~(option4 | option5)</code> becomes
+      <code>~option4 &amp; ~option5</code>.
+    </p>
+  </div>
+  <p></p>
+</div>
+<div class="prevnext">
+  <div class="prevnext-inline">
+    <a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/converting-integers-between-binary-and-decimal-representation/"
+    >
+      <div class="nav-button nav-button-next">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-right" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Next lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">O.4</span>Converting integers
+            between binary and decimal representation
+          </div>
+        </div>
+      </div></a
+    >
+    <a class="nav-link" href="/">
+      <div class="nav-button nav-button-index">
+        <div class="nav-button-icon">
+          <i class="fa fa-home" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Back to table of contents</div>
+        </div>
+      </div></a
+    >
+    <a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/bitwise-operators/"
+    >
+      <div class="nav-button nav-button-prev">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-left" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Previous lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">O.2</span>Bitwise operators
+          </div>
+        </div>
+      </div></a
+    >
+  </div>
+</div>
+<div class="code-block code-block-10" style="margin: 8px 0; clear: both"></div>

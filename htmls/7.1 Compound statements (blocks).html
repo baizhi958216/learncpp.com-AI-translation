@@ -1,0 +1,291 @@
+<div
+  class="code-block code-block-1"
+  style="margin: 8px 8px 8px 0; float: left"
+></div>
+<p>
+  A <strong>compound statement</strong> (also called a <strong>block</strong>,
+  or <strong>block statement</strong>) is a group of
+  <em>zero or more statements</em> that is treated by the compiler as if it were
+  a single statement.
+</p>
+<p>
+  Blocks begin with a <code>{</code> symbol, end with a <code>}</code> symbol,
+  with the statements to be executed being placed in between. Blocks can be used
+  anywhere a single statement is allowed. No semicolon is needed at the end of a
+  block.
+</p>
+<p>
+  You have already seen an example of blocks when writing functions, as the
+  function body is a block:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-int">int</span> <span class="token function">add</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-127-close">(</span><span class="token keyword keyword-int">int</span> x<span class="token punctuation">,</span> <span class="token keyword keyword-int">int</span> y<span class="token punctuation brace-round brace-close brace-level-1" id="pair-127-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-130-close">{</span> <span class="token comment">// start block</span>
+    <span class="token keyword keyword-return">return</span> x <span class="token operator">+</span> y<span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-130-open">}</span> <span class="token comment">// end block (no semicolon)</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-128-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-128-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-132-close">{</span> <span class="token comment">// start block</span>
+
+    <span class="token comment">// multiple statements</span>
+    <span class="token keyword keyword-int">int</span> value <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-131-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-131-open">}</span><span class="token punctuation">;</span> <span class="token comment">// this is initialization, not a block</span>
+    <span class="token function">add</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-129-close">(</span><span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-129-open">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-132-open">}</span> <span class="token comment">// end block (no semicolon)</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Blocks inside other blocks
+</p>
+<p>
+  Although functions can’t be nested inside other functions, blocks
+  <em>can be</em> nested inside other blocks:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-int">int</span> <span class="token function">add</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-133-close">(</span><span class="token keyword keyword-int">int</span> x<span class="token punctuation">,</span> <span class="token keyword keyword-int">int</span> y<span class="token punctuation brace-round brace-close brace-level-1" id="pair-133-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-136-close">{</span> <span class="token comment">// block</span>
+    <span class="token keyword keyword-return">return</span> x <span class="token operator">+</span> y<span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-136-open">}</span> <span class="token comment">// end block</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-134-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-134-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-139-close">{</span> <span class="token comment">// outer block</span>
+
+    <span class="token comment">// multiple statements</span>
+    <span class="token keyword keyword-int">int</span> value <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-137-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-137-open">}</span><span class="token punctuation">;</span>
+
+    <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-138-close">{</span> <span class="token comment">// inner/nested block</span>
+        <span class="token function">add</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-135-close">(</span><span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-135-open">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-138-open">}</span> <span class="token comment">// end inner/nested block</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-139-open">}</span> <span class="token comment">// end outer block</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  When blocks are nested, the enclosing block is typically called the
+  <strong>outer block</strong> and the enclosed block is called the
+  <strong>inner block</strong> or <strong>nested block</strong>.
+</p>
+<div class="code-block code-block-2" style="margin: 8px 0; clear: both"></div>
+
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Using blocks to execute multiple statements conditionally
+</p>
+<p>
+  One of the most common use cases for blocks is in conjunction with
+  <code>if statements</code>. By default, an <code>if statement</code> executes
+  a single statement if the condition evaluates to <code>true</code>. However,
+  we can replace this single statement with a block of statements if we want
+  multiple statements to execute when the condition evaluates to
+  <code>true</code>.
+</p>
+<p>For example:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-140-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-140-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-145-close">{</span> <span class="token comment">// start of outer block</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Enter an integer: "</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-int">int</span> value <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-142-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-142-open">}</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>cin <span class="token operator">&gt;&gt;</span> value<span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-if">if</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-141-close">(</span>value <span class="token operator">&gt;=</span> <span class="token number">0</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-141-open">)</span>
+    <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-143-close">{</span> <span class="token comment">// start of nested block</span>
+        std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> value <span class="token operator">&lt;&lt;</span> <span class="token string">" is a positive integer (or zero)\n"</span><span class="token punctuation">;</span>
+        std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Double this number is "</span> <span class="token operator">&lt;&lt;</span> value <span class="token operator">*</span> <span class="token number">2</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+    <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-143-open">}</span> <span class="token comment">// end of nested block</span>
+    <span class="token keyword keyword-else">else</span>
+    <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-144-close">{</span> <span class="token comment">// start of another nested block</span>
+        std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> value <span class="token operator">&lt;&lt;</span> <span class="token string">" is a negative integer\n"</span><span class="token punctuation">;</span>
+        std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"The positive of this number is "</span> <span class="token operator">&lt;&lt;</span> <span class="token operator">-</span>value <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+    <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-144-open">}</span> <span class="token comment">// end of another nested block</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-145-open">}</span> <span class="token comment">// end of outer block</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>If the user enters the number 3, this program prints:</p>
+<pre>
+Enter an integer: 3
+3 is a positive integer (or zero)
+Double this number is 6
+</pre>
+<p>If the user enters the number -4, this program prints:</p>
+<pre>
+Enter an integer: -4
+-4 is a negative integer
+The positive of this number is 4
+</pre>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Block nesting levels
+</p>
+<p>It is even possible to put blocks inside of blocks inside of blocks:</p>
+<div class="code-block code-block-3" style="margin: 8px 0; clear: both"></div>
+
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-146-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-146-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-154-close">{</span> <span class="token comment">// block 1, nesting level 1</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Enter an integer: "</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-int">int</span> value <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-150-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-150-open">}</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>cin <span class="token operator">&gt;&gt;</span> value<span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-if">if</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-147-close">(</span>value <span class="token operator">&gt;</span>  <span class="token number">0</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-147-open">)</span>
+    <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-153-close">{</span> <span class="token comment">// block 2, nesting level 2</span>
+        <span class="token keyword keyword-if">if</span> <span class="token punctuation brace-round brace-open brace-level-3" id="pair-149-close">(</span><span class="token punctuation brace-round brace-open brace-level-4" id="pair-148-close">(</span>value <span class="token operator">%</span> <span class="token number">2</span><span class="token punctuation brace-round brace-close brace-level-4" id="pair-148-open">)</span> <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-149-open">)</span>
+        <span class="token punctuation brace-curly brace-open brace-level-3" id="pair-151-close">{</span> <span class="token comment">// block 3, nesting level 3</span>
+            std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> value <span class="token operator">&lt;&lt;</span> <span class="token string">" is positive and even\n"</span><span class="token punctuation">;</span>
+        <span class="token punctuation brace-curly brace-close brace-level-3" id="pair-151-open">}</span>
+        <span class="token keyword keyword-else">else</span>
+        <span class="token punctuation brace-curly brace-open brace-level-3" id="pair-152-close">{</span> <span class="token comment">// block 4, also nesting level 3</span>
+            std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> value <span class="token operator">&lt;&lt;</span> <span class="token string">" is positive and odd\n"</span><span class="token punctuation">;</span>
+        <span class="token punctuation brace-curly brace-close brace-level-3" id="pair-152-open">}</span>
+    <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-153-open">}</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-154-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  The <strong>nesting level</strong> (also called the
+  <strong>nesting depth</strong>) of a function is the maximum number of nested
+  blocks you can be inside at any point in the function (including the outer
+  block). In the above function, there are 4 blocks, but the nesting level is 3
+  since in this program you can never be inside more than 3 blocks at any point.
+</p>
+<p>
+  The C++ standard says that C++ compilers should support 256 levels of nesting
+  -- however not all do (e.g. as of the time of writing, Visual Studio supports
+  fewer).
+</p>
+<p>
+  It’s a good idea to keep your nesting level to 3 or less. Just as overly-long
+  functions are good candidates for refactoring (breaking into smaller
+  functions), overly-nested blocks are hard to read and are good candidates for
+  refactoring (with the most-nested blocks becoming separate functions).
+</p>
+<div class="cpp-note cpp-lightgreenbackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Best practice</p>
+  <p>
+    Keep the nesting level of your functions to 3 or less. If your function has
+    a need for more nested levels, consider refactoring your function into
+    sub-functions.
+  </p>
+</div>
+<div class="prevnext">
+  <div class="prevnext-inline">
+    <a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/user-defined-namespaces-and-the-scope-resolution-operator/"
+    >
+      <div class="nav-button nav-button-next">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-right" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Next lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">7.2</span>User-defined
+            namespaces and the scope resolution operator
+          </div>
+        </div>
+      </div></a
+    >
+    <a class="nav-link" href="/">
+      <div class="nav-button nav-button-index">
+        <div class="nav-button-icon">
+          <i class="fa fa-home" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Back to table of contents</div>
+        </div>
+      </div></a
+    >
+    <a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/converting-integers-between-binary-and-decimal-representation/"
+    >
+      <div class="nav-button nav-button-prev">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-left" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Previous lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">O.4</span>Converting integers
+            between binary and decimal representation
+          </div>
+        </div>
+      </div></a
+    >
+  </div>
+</div>
+<div class="code-block code-block-10" style="margin: 8px 0; clear: both"></div>

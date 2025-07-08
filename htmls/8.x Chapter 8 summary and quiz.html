@@ -1,0 +1,807 @@
+<div
+  class="code-block code-block-1"
+  style="margin: 8px 8px 8px 0; float: left"
+></div>
+<p class="cpp-section" data-ezoic-video-excluded="1">Chapter Review</p>
+<p>
+  The specific sequence of statements that the CPU executes in a program is
+  called the program’s <strong>execution path</strong>. A
+  <strong>straight-line program</strong> takes the same path every time it is
+  run.
+</p>
+<p>
+  <strong>Control flow statements</strong> (also called
+  <strong>Flow control statements</strong>) allow the programmer to change the
+  normal path of execution. When a control flow statement causes the program to
+  begin executing some non-sequential instruction sequence, this is called a
+  <strong>branch</strong>.
+</p>
+<p>
+  A <strong>conditional statement</strong> is a statement that specifies whether
+  some associated statement(s) should be executed or not.
+</p>
+<p>
+  <strong>If statements</strong> allow us to execute an associated statement
+  based on whether some condition is <code>true</code>.
+  <strong>Else statements</strong> execute if the associated condition is
+  <code>false</code>. You can chain together multiple if and else statements.
+</p>
+<p>
+  A <strong>dangling else</strong> occurs when it is ambiguous which
+  <code>if statement</code> an <code>else statement</code> is connected to.
+  <code>Dangling else</code> statements are matched up with the last unmatched
+  <code>if statement</code> in the same block. Thus, we trivially avoid
+  <code>dangling else</code> statements by ensuring the body of an
+  <code>if statement</code> is placed in a block.
+</p>
+<div class="code-block code-block-2" style="margin: 8px 0; clear: both"></div>
+
+<p>
+  A <strong>null statement</strong> is a statement that consists of just a
+  semicolon. It does nothing, and is used when the language requires a statement
+  to exist but the programmer does not need the statement to do anything.
+</p>
+<p>
+  <strong>Switch statements</strong> provide a cleaner and faster method for
+  selecting between a number of matching items. Switch statements only work with
+  integral types. <strong>Case labels</strong> are used to identify the values
+  for the evaluated condition to match. The statements beneath a
+  <strong>default label</strong> are executed if no matching case label can be
+  found.
+</p>
+<p>
+  When execution flows from a statement underneath a label into statements
+  underneath a subsequent label, this is called <strong>fallthrough</strong>. A
+  <code>break statement</code> (or <code>return statement</code>) can be used to
+  prevent fallthrough. The [[fallthrough]] attribute can be used to document
+  intentional fallthrough.
+</p>
+<p>
+  <strong>Goto statements</strong> allow the program to jump to somewhere else
+  in the code, either forward or backwards. These should generally be avoided,
+  as they can create <strong>spaghetti code</strong>, which occurs when a
+  program has a path of execution that resembles a bowl of spaghetti.
+</p>
+<p>
+  <strong>While loops</strong> allow the program to loop as long as a given
+  condition evaluates to <code>true</code>. The condition is evaluated before
+  the loop executes.
+</p>
+<div class="code-block code-block-3" style="margin: 8px 0; clear: both"></div>
+
+<p>
+  An <strong>infinite loop</strong> is a loop that has a condition that always
+  evaluates to <code>true</code>. These loops will loop forever unless another
+  control flow statement is used to stop them.
+</p>
+<p>
+  A <strong>loop variable</strong> (also called a <strong>counter</strong>) is
+  an integer variable used to count how many times a loop has executed. Each
+  execution of a loop is called an <strong>iteration</strong>.
+</p>
+<p>
+  <strong>Do while loops</strong> are similar to while loops, but the condition
+  is evaluated after the loop executes instead of before.
+</p>
+<p>
+  <strong>For loops</strong> are the most used loop, and are ideal when you need
+  to loop a specific number of times. An
+  <strong>off-by-one error</strong> occurs when the loop iterates one too many
+  or one too few times.
+</p>
+<p>
+  <strong>Break statements</strong> allow us to break out of a switch, while, do
+  while, or for loop (also <code>range-based for loops</code>, which we haven’t
+  covered yet). <strong>Continue statements</strong> allow us to move
+  immediately to the next loop iteration.
+</p>
+<div class="code-block code-block-4" style="margin: 8px 0; clear: both"></div>
+
+<p>
+  <strong>Halts</strong> allow us to terminate our program.
+  <strong>Normal termination</strong> means the program has exited in an
+  expected way (and the <code>status code</code> will indicate whether it
+  succeeded or not). <strong>std::exit()</strong> is automatically called at the
+  end of <code>main</code>, or it can be called explicitly to terminate the
+  program. It does some cleanup, but does not cleanup any local variables, or
+  unwind the call stack.
+</p>
+<p>
+  <strong>Abnormal termination</strong> occurs when the program encountered some
+  kind of unexpected error and had to be shut down.
+  <strong>std::abort</strong> can be called for an abnormal termination.
+</p>
+<p>
+  An <strong>algorithm</strong> is a finite sequence of instructions that can be
+  followed to solve some problem or produce some useful result. An algorithm is
+  considered to be <strong>stateful</strong> if it retains some information
+  across calls. Conversely, a <strong>stateless</strong> algorithm does not
+  store any information (and must be given all the information it needs to work
+  with when it is called). When applied to algorithms, the term
+  <strong>state</strong> refers to the current values held in stateful
+  variables.
+</p>
+<p>
+  An algorithm is considered <strong>deterministic</strong> if for a given input
+  (the value provided for <code>start</code>) it will always produce the same
+  output sequence.
+</p>
+<p>
+  A <strong>pseudo-random number generator (PRNG)</strong> is an algorithm that
+  generates a sequence of numbers whose properties simulate a sequence of random
+  numbers. When a PRNG is instantiated, an initial value (or set of values)
+  called a <strong>random seed</strong> (or <strong>seed</strong> for short) can
+  be provided to initialize the state of the PRNG. When a PRNG has been
+  initialized with a seed, we say it has been <strong>seeded</strong>. The size
+  of the seed value can be smaller than the size of the state of the PRNG. When
+  this happens, we say the PRNG has been <strong>underseeded</strong>. The
+  length of the sequence before a PRNG begins to repeat itself is known as the
+  <strong>period</strong>.
+</p>
+<div class="code-block code-block-5" style="margin: 8px 0; clear: both"></div>
+
+<p>
+  A <strong>random number distribution</strong> converts the output of a PRNG
+  into some other distribution of numbers. A
+  <strong>uniform distribution</strong> is a random number distribution that
+  produces outputs between two numbers X and Y (inclusive) with equal
+  probability.
+</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Quiz time
+</p>
+<p>
+  Warning: The quizzes start getting harder from this point forward, but you can
+  do it. Let’s rock these quizzes!
+</p>
+<p class="cpp-quiz-question" style="clear: both">Question #1</p>
+<p>
+  In lesson
+  <a href="https://www.learncpp.com/cpp-tutorial/chapter-4-summary-and-quiz/"
+    >4.x -- Chapter 4 summary and quiz</a
+  >, we wrote a program to simulate a ball falling off of a tower. Because we
+  didn’t have loops yet, the ball could only fall for 5 seconds.
+</p>
+<p>
+  Take the program below and modify it so that the ball falls for as many
+  seconds as needed until it reaches the ground. Update the program to use all
+  covered best practices (namespaces, constexpr, etc…).
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token comment">// Gets tower height from user and returns it</span>
+<span class="token keyword keyword-double">double</span> <span class="token function">getTowerHeight</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-0-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-0-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-18-close">{</span>
+	std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Enter the height of the tower in meters: "</span><span class="token punctuation">;</span>
+	<span class="token keyword keyword-double">double</span> towerHeight<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-17-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-17-open">}</span><span class="token punctuation">;</span>
+	std<span class="token double-colon punctuation">::</span>cin <span class="token operator">&gt;&gt;</span> towerHeight<span class="token punctuation">;</span>
+	<span class="token keyword keyword-return">return</span> towerHeight<span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-18-open">}</span>
+
+<span class="token comment">// Returns the current ball height after "seconds" seconds</span>
+<span class="token keyword keyword-double">double</span> <span class="token function">calculateBallHeight</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-1-close">(</span><span class="token keyword keyword-double">double</span> towerHeight<span class="token punctuation">,</span> <span class="token keyword keyword-int">int</span> seconds<span class="token punctuation brace-round brace-close brace-level-1" id="pair-1-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-22-close">{</span>
+	<span class="token keyword keyword-const">const</span> <span class="token keyword keyword-double">double</span> gravity <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-19-close">{</span> <span class="token number">9.8</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-19-open">}</span><span class="token punctuation">;</span>
+
+	<span class="token comment">// Using formula: s = (u * t) + (a * t^2) / 2</span>
+	<span class="token comment">// here u (initial velocity) = 0, so (u * t) = 0</span>
+	<span class="token keyword keyword-const">const</span> <span class="token keyword keyword-double">double</span> fallDistance <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-20-close">{</span> gravity <span class="token operator">*</span> <span class="token punctuation brace-round brace-open brace-level-3" id="pair-2-close">(</span>seconds <span class="token operator">*</span> seconds<span class="token punctuation brace-round brace-close brace-level-3" id="pair-2-open">)</span> <span class="token operator">/</span> <span class="token number">2.0</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-20-open">}</span><span class="token punctuation">;</span>
+	<span class="token keyword keyword-const">const</span> <span class="token keyword keyword-double">double</span> ballHeight <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-21-close">{</span> towerHeight <span class="token operator">-</span> fallDistance <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-21-open">}</span><span class="token punctuation">;</span>
+
+	<span class="token comment">// If the ball would be under the ground, place it on the ground</span>
+	<span class="token keyword keyword-if">if</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-3-close">(</span>ballHeight <span class="token operator">&lt;</span> <span class="token number">0.0</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-3-open">)</span>
+		<span class="token keyword keyword-return">return</span> <span class="token number">0.0</span><span class="token punctuation">;</span>
+
+	<span class="token keyword keyword-return">return</span> ballHeight<span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-22-open">}</span>
+
+<span class="token comment">// Prints ball height above ground</span>
+<span class="token keyword keyword-void">void</span> <span class="token function">printBallHeight</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-4-close">(</span><span class="token keyword keyword-double">double</span> ballHeight<span class="token punctuation">,</span> <span class="token keyword keyword-int">int</span> seconds<span class="token punctuation brace-round brace-close brace-level-1" id="pair-4-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-23-close">{</span>
+	<span class="token keyword keyword-if">if</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-5-close">(</span>ballHeight <span class="token operator">&gt;</span> <span class="token number">0.0</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-5-open">)</span>
+		std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"At "</span> <span class="token operator">&lt;&lt;</span> seconds <span class="token operator">&lt;&lt;</span> <span class="token string">" seconds, the ball is at height: "</span> <span class="token operator">&lt;&lt;</span> ballHeight <span class="token operator">&lt;&lt;</span> <span class="token string">" meters\n"</span><span class="token punctuation">;</span>
+	<span class="token keyword keyword-else">else</span>
+		std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"At "</span> <span class="token operator">&lt;&lt;</span> seconds <span class="token operator">&lt;&lt;</span> <span class="token string">" seconds, the ball is on the ground.\n"</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-23-open">}</span>
+
+<span class="token comment">// Calculates the current ball height and then prints it</span>
+<span class="token comment">// This is a helper function to make it easier to do this</span>
+<span class="token keyword keyword-void">void</span> <span class="token function">calculateAndPrintBallHeight</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-6-close">(</span><span class="token keyword keyword-double">double</span> towerHeight<span class="token punctuation">,</span> <span class="token keyword keyword-int">int</span> seconds<span class="token punctuation brace-round brace-close brace-level-1" id="pair-6-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-25-close">{</span>
+	<span class="token keyword keyword-const">const</span> <span class="token keyword keyword-double">double</span> ballHeight<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-24-close">{</span> <span class="token function">calculateBallHeight</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-7-close">(</span>towerHeight<span class="token punctuation">,</span> seconds<span class="token punctuation brace-round brace-close brace-level-3" id="pair-7-open">)</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-24-open">}</span><span class="token punctuation">;</span>
+	<span class="token function">printBallHeight</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-8-close">(</span>ballHeight<span class="token punctuation">,</span> seconds<span class="token punctuation brace-round brace-close brace-level-2" id="pair-8-open">)</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-25-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-9-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-9-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-27-close">{</span>
+	<span class="token keyword keyword-const">const</span> <span class="token keyword keyword-double">double</span> towerHeight<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-26-close">{</span> <span class="token function">getTowerHeight</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-10-close">(</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-10-open">)</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-26-open">}</span><span class="token punctuation">;</span>
+
+	<span class="token function">calculateAndPrintBallHeight</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-11-close">(</span>towerHeight<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-11-open">)</span><span class="token punctuation">;</span>
+	<span class="token function">calculateAndPrintBallHeight</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-12-close">(</span>towerHeight<span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-12-open">)</span><span class="token punctuation">;</span>
+	<span class="token function">calculateAndPrintBallHeight</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-13-close">(</span>towerHeight<span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-13-open">)</span><span class="token punctuation">;</span>
+	<span class="token function">calculateAndPrintBallHeight</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-14-close">(</span>towerHeight<span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-14-open">)</span><span class="token punctuation">;</span>
+	<span class="token function">calculateAndPrintBallHeight</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-15-close">(</span>towerHeight<span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-15-open">)</span><span class="token punctuation">;</span>
+	<span class="token function">calculateAndPrintBallHeight</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-16-close">(</span>towerHeight<span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-16-open">)</span><span class="token punctuation">;</span>
+
+	<span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-27-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  <a
+    class="solution_link_show"
+    href="javascript:void(0)"
+    onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_0'), this, 'Show Solution', 'Hide Solution')"
+    >Show Solution</a
+  >
+</p>
+<div class="wpsolution" id="cpp_solution_id_0" style="display: none">
+  <div class="code-toolbar">
+    <pre
+      class="line-numbers language-cpp"
+      tabindex="0"
+    ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-namespace">namespace</span> Constants
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-42-close">{</span>
+	<span class="token keyword keyword-constexpr">constexpr</span> <span class="token keyword keyword-double">double</span> gravity <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-41-close">{</span> <span class="token number">9.8</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-41-open">}</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-42-open">}</span>
+
+<span class="token comment">// Gets tower height from user and returns it</span>
+<span class="token keyword keyword-double">double</span> <span class="token function">getTowerHeight</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-28-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-28-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-44-close">{</span>
+	std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Enter the height of the tower in meters: "</span><span class="token punctuation">;</span>
+	<span class="token keyword keyword-double">double</span> towerHeight<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-43-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-43-open">}</span><span class="token punctuation">;</span>
+	std<span class="token double-colon punctuation">::</span>cin <span class="token operator">&gt;&gt;</span> towerHeight<span class="token punctuation">;</span>
+	<span class="token keyword keyword-return">return</span> towerHeight<span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-44-open">}</span>
+
+<span class="token comment">// Returns the current ball height after "seconds" seconds</span>
+<span class="token comment">// note: this function could be constexpr, but we haven't covered constexpr functions yet</span>
+<span class="token keyword keyword-double">double</span> <span class="token function">calculateBallHeight</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-29-close">(</span><span class="token keyword keyword-double">double</span> towerHeight<span class="token punctuation">,</span> <span class="token keyword keyword-int">int</span> seconds<span class="token punctuation brace-round brace-close brace-level-1" id="pair-29-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-47-close">{</span>
+	<span class="token comment">// Using formula: s = (u * t) + (a * t^2) / 2</span>
+	<span class="token comment">// here u (initial velocity) = 0, so (u * t) = 0</span>
+	<span class="token keyword keyword-const">const</span> <span class="token keyword keyword-double">double</span> fallDistance <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-45-close">{</span> Constants<span class="token double-colon punctuation">::</span>gravity <span class="token operator">*</span> <span class="token punctuation brace-round brace-open brace-level-3" id="pair-30-close">(</span>seconds <span class="token operator">*</span> seconds<span class="token punctuation brace-round brace-close brace-level-3" id="pair-30-open">)</span> <span class="token operator">/</span> <span class="token number">2.0</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-45-open">}</span><span class="token punctuation">;</span>
+	<span class="token keyword keyword-const">const</span> <span class="token keyword keyword-double">double</span> ballHeight <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-46-close">{</span> towerHeight <span class="token operator">-</span> fallDistance <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-46-open">}</span><span class="token punctuation">;</span>
+
+	<span class="token keyword keyword-if">if</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-31-close">(</span>ballHeight <span class="token operator">&lt;</span> <span class="token number">0.0</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-31-open">)</span>
+		<span class="token keyword keyword-return">return</span> <span class="token number">0.0</span><span class="token punctuation">;</span>
+
+	<span class="token keyword keyword-return">return</span> ballHeight<span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-47-open">}</span>
+
+<span class="token comment">// Prints ball height above ground</span>
+<span class="token keyword keyword-void">void</span> <span class="token function">printBallHeight</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-32-close">(</span><span class="token keyword keyword-double">double</span> ballHeight<span class="token punctuation">,</span> <span class="token keyword keyword-int">int</span> seconds<span class="token punctuation brace-round brace-close brace-level-1" id="pair-32-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-48-close">{</span>
+	<span class="token keyword keyword-if">if</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-33-close">(</span>ballHeight <span class="token operator">&gt;</span> <span class="token number">0.0</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-33-open">)</span>
+		std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"At "</span> <span class="token operator">&lt;&lt;</span> seconds <span class="token operator">&lt;&lt;</span> <span class="token string">" seconds, the ball is at height: "</span> <span class="token operator">&lt;&lt;</span> ballHeight <span class="token operator">&lt;&lt;</span> <span class="token string">" meters\n"</span><span class="token punctuation">;</span>
+	<span class="token keyword keyword-else">else</span>
+		std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"At "</span> <span class="token operator">&lt;&lt;</span> seconds <span class="token operator">&lt;&lt;</span> <span class="token string">" seconds, the ball is on the ground.\n"</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-48-open">}</span>
+
+<span class="token comment">// Calculates the current ball height and then prints it</span>
+<span class="token comment">// This is a helper function to make it easier to do this</span>
+<span class="token keyword keyword-double">double</span> <span class="token function">calculateAndPrintBallHeight</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-34-close">(</span><span class="token keyword keyword-double">double</span> towerHeight<span class="token punctuation">,</span> <span class="token keyword keyword-int">int</span> seconds<span class="token punctuation brace-round brace-close brace-level-1" id="pair-34-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-50-close">{</span>
+	<span class="token keyword keyword-const">const</span> <span class="token keyword keyword-double">double</span> ballHeight<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-49-close">{</span> <span class="token function">calculateBallHeight</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-35-close">(</span>towerHeight<span class="token punctuation">,</span> seconds<span class="token punctuation brace-round brace-close brace-level-3" id="pair-35-open">)</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-49-open">}</span><span class="token punctuation">;</span>
+	<span class="token function">printBallHeight</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-36-close">(</span>ballHeight<span class="token punctuation">,</span> seconds<span class="token punctuation brace-round brace-close brace-level-2" id="pair-36-open">)</span><span class="token punctuation">;</span>
+
+	<span class="token keyword keyword-return">return</span> ballHeight<span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-50-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-37-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-37-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-54-close">{</span>
+	<span class="token keyword keyword-const">const</span> <span class="token keyword keyword-double">double</span> towerHeight<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-51-close">{</span> <span class="token function">getTowerHeight</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-38-close">(</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-38-open">)</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-51-open">}</span><span class="token punctuation">;</span>
+
+	<span class="token keyword keyword-int">int</span> seconds <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-52-close">{</span> <span class="token number">0</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-52-open">}</span><span class="token punctuation">;</span>
+	<span class="token keyword keyword-while">while</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-40-close">(</span><span class="token function">calculateAndPrintBallHeight</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-39-close">(</span>towerHeight<span class="token punctuation">,</span> seconds<span class="token punctuation brace-round brace-close brace-level-3" id="pair-39-open">)</span> <span class="token operator">&gt;</span> <span class="token number">0.0</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-40-open">)</span>
+	<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-53-close">{</span>
+		<span class="token operator">++</span>seconds<span class="token punctuation">;</span>
+	<span class="token punctuation brace-curly brace-close brace-level-2" id="pair-53-open">}</span>
+
+	<span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-54-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+    <div class="toolbar">
+      <div class="toolbar-item">
+        <button
+          class="copy-to-clipboard-button"
+          type="button"
+          data-copy-state="copy"
+        >
+          <span>Copy</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<p class="cpp-quiz-question cpp-topline" style="clear: both">Question #2</p>
+<p>
+  A prime number is a natural number greater than 1 that is evenly divisible
+  (with no remainder) only by 1 and itself.
+</p>
+<div class="code-block code-block-6" style="margin: 8px 0; clear: both"></div>
+
+<p>
+  Complete the following program by writing the <code>isPrime()</code> function
+  using a for-loop. When successful, the program will print “Success!”.
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token comment">// Make sure that assert triggers even if we compile in release mode</span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">undef</span> <span class="token expression">NDEBUG</span></span>
+
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;cassert&gt;</span> <span class="token comment">// for assert</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-bool">bool</span> <span class="token function">isPrime</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-55-close">(</span><span class="token keyword keyword-int">int</span> x<span class="token punctuation brace-round brace-close brace-level-1" id="pair-55-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-91-close">{</span>
+    <span class="token keyword keyword-return">return</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+    <span class="token comment">// write this function using a for loop</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-91-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-56-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-56-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-92-close">{</span>
+    <span class="token function">assert</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-58-close">(</span><span class="token operator">!</span><span class="token function">isPrime</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-57-close">(</span><span class="token number">0</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-57-open">)</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-58-open">)</span><span class="token punctuation">;</span> <span class="token comment">// terminate program if isPrime(0) is true</span>
+    <span class="token function">assert</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-60-close">(</span><span class="token operator">!</span><span class="token function">isPrime</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-59-close">(</span><span class="token number">1</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-59-open">)</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-60-open">)</span><span class="token punctuation">;</span>
+    <span class="token function">assert</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-62-close">(</span><span class="token function">isPrime</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-61-close">(</span><span class="token number">2</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-61-open">)</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-62-open">)</span><span class="token punctuation">;</span>  <span class="token comment">// terminate program if isPrime(2) is false</span>
+    <span class="token function">assert</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-64-close">(</span><span class="token function">isPrime</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-63-close">(</span><span class="token number">3</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-63-open">)</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-64-open">)</span><span class="token punctuation">;</span>
+    <span class="token function">assert</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-66-close">(</span><span class="token operator">!</span><span class="token function">isPrime</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-65-close">(</span><span class="token number">4</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-65-open">)</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-66-open">)</span><span class="token punctuation">;</span>
+    <span class="token function">assert</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-68-close">(</span><span class="token function">isPrime</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-67-close">(</span><span class="token number">5</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-67-open">)</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-68-open">)</span><span class="token punctuation">;</span>
+    <span class="token function">assert</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-70-close">(</span><span class="token function">isPrime</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-69-close">(</span><span class="token number">7</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-69-open">)</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-70-open">)</span><span class="token punctuation">;</span>
+    <span class="token function">assert</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-72-close">(</span><span class="token operator">!</span><span class="token function">isPrime</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-71-close">(</span><span class="token number">9</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-71-open">)</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-72-open">)</span><span class="token punctuation">;</span>
+    <span class="token function">assert</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-74-close">(</span><span class="token function">isPrime</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-73-close">(</span><span class="token number">11</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-73-open">)</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-74-open">)</span><span class="token punctuation">;</span>
+    <span class="token function">assert</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-76-close">(</span><span class="token function">isPrime</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-75-close">(</span><span class="token number">13</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-75-open">)</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-76-open">)</span><span class="token punctuation">;</span>
+    <span class="token function">assert</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-78-close">(</span><span class="token operator">!</span><span class="token function">isPrime</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-77-close">(</span><span class="token number">15</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-77-open">)</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-78-open">)</span><span class="token punctuation">;</span>
+    <span class="token function">assert</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-80-close">(</span><span class="token operator">!</span><span class="token function">isPrime</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-79-close">(</span><span class="token number">16</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-79-open">)</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-80-open">)</span><span class="token punctuation">;</span>
+    <span class="token function">assert</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-82-close">(</span><span class="token function">isPrime</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-81-close">(</span><span class="token number">17</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-81-open">)</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-82-open">)</span><span class="token punctuation">;</span>
+    <span class="token function">assert</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-84-close">(</span><span class="token function">isPrime</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-83-close">(</span><span class="token number">19</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-83-open">)</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-84-open">)</span><span class="token punctuation">;</span>
+    <span class="token function">assert</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-86-close">(</span><span class="token function">isPrime</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-85-close">(</span><span class="token number">97</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-85-open">)</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-86-open">)</span><span class="token punctuation">;</span>
+    <span class="token function">assert</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-88-close">(</span><span class="token operator">!</span><span class="token function">isPrime</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-87-close">(</span><span class="token number">99</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-87-open">)</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-88-open">)</span><span class="token punctuation">;</span>
+    <span class="token function">assert</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-90-close">(</span><span class="token function">isPrime</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-89-close">(</span><span class="token number">13417</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-89-open">)</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-90-open">)</span><span class="token punctuation">;</span>
+
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Success!\n"</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-92-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<div class="cpp-note cpp-lightgraybackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Related content</p>
+  <p>
+    <code>assert</code> is a preprocessor macro that terminates the program if
+    the associated argument evaluates to false. So when we write
+    <code>assert(!isPrime(0))</code>, we’re meaning “if isPrime(0) is true, then
+    terminate the program”. We cover assert in more detail in lesson
+    <a href="https://www.learncpp.com/cpp-tutorial/assert-and-static_assert/"
+      >9.6 -- Assert and static_assert</a
+    >.
+  </p>
+</div>
+<p>
+  <a
+    class="solution_link_show"
+    href="javascript:void(0)"
+    onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_1'), this, 'Show Solution', 'Hide Solution')"
+    >Show Solution</a
+  >
+</p>
+<div class="wpsolution" id="cpp_solution_id_1" style="display: none">
+  <div class="code-toolbar">
+    <pre
+      class="line-numbers language-cpp"
+      tabindex="0"
+    ><code class="match-braces language-cpp"><span class="token comment">// Make sure that assert triggers even if we compile in release mode</span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">undef</span> <span class="token expression">NDEBUG</span></span>
+
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;cassert&gt;</span> <span class="token comment">// for assert</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token comment">// Non-optimized version</span>
+<span class="token keyword keyword-bool">bool</span> <span class="token function">isPrime</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-93-close">(</span><span class="token keyword keyword-int">int</span> x<span class="token punctuation brace-round brace-close brace-level-1" id="pair-93-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-134-close">{</span>
+    <span class="token keyword keyword-if">if</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-94-close">(</span>x <span class="token operator">&lt;=</span> <span class="token number">1</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-94-open">)</span> <span class="token comment">// if x is negative, 0, or 1 then the number is not prime</span>
+        <span class="token keyword keyword-return">return</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-for">for</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-95-close">(</span><span class="token keyword keyword-int">int</span> test<span class="token punctuation brace-curly brace-open brace-level-3" id="pair-132-close">{</span> <span class="token number">2</span> <span class="token punctuation brace-curly brace-close brace-level-3" id="pair-132-open">}</span><span class="token punctuation">;</span> test <span class="token operator">&lt;</span> x<span class="token punctuation">;</span> <span class="token operator">++</span>test<span class="token punctuation brace-round brace-close brace-level-2" id="pair-95-open">)</span>
+    <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-133-close">{</span>
+        <span class="token keyword keyword-if">if</span> <span class="token punctuation brace-round brace-open brace-level-3" id="pair-96-close">(</span>x <span class="token operator">%</span> test <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-96-open">)</span> <span class="token comment">// if x is evenly divisible</span>
+            <span class="token keyword keyword-return">return</span> <span class="token boolean">false</span><span class="token punctuation">;</span>  <span class="token comment">// then this number isn't prime</span>
+    <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-133-open">}</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token boolean">true</span><span class="token punctuation">;</span> <span class="token comment">// if we didn't find any divisors, then x must be prime</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-134-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-97-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-97-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-135-close">{</span>
+    <span class="token function">assert</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-99-close">(</span><span class="token operator">!</span><span class="token function">isPrime</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-98-close">(</span><span class="token number">0</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-98-open">)</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-99-open">)</span><span class="token punctuation">;</span>
+    <span class="token function">assert</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-101-close">(</span><span class="token operator">!</span><span class="token function">isPrime</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-100-close">(</span><span class="token number">1</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-100-open">)</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-101-open">)</span><span class="token punctuation">;</span>
+    <span class="token function">assert</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-103-close">(</span><span class="token function">isPrime</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-102-close">(</span><span class="token number">2</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-102-open">)</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-103-open">)</span><span class="token punctuation">;</span>
+    <span class="token function">assert</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-105-close">(</span><span class="token function">isPrime</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-104-close">(</span><span class="token number">3</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-104-open">)</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-105-open">)</span><span class="token punctuation">;</span>
+    <span class="token function">assert</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-107-close">(</span><span class="token operator">!</span><span class="token function">isPrime</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-106-close">(</span><span class="token number">4</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-106-open">)</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-107-open">)</span><span class="token punctuation">;</span>
+    <span class="token function">assert</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-109-close">(</span><span class="token function">isPrime</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-108-close">(</span><span class="token number">5</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-108-open">)</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-109-open">)</span><span class="token punctuation">;</span>
+    <span class="token function">assert</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-111-close">(</span><span class="token function">isPrime</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-110-close">(</span><span class="token number">7</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-110-open">)</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-111-open">)</span><span class="token punctuation">;</span>
+    <span class="token function">assert</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-113-close">(</span><span class="token operator">!</span><span class="token function">isPrime</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-112-close">(</span><span class="token number">9</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-112-open">)</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-113-open">)</span><span class="token punctuation">;</span>
+    <span class="token function">assert</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-115-close">(</span><span class="token function">isPrime</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-114-close">(</span><span class="token number">11</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-114-open">)</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-115-open">)</span><span class="token punctuation">;</span>
+    <span class="token function">assert</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-117-close">(</span><span class="token function">isPrime</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-116-close">(</span><span class="token number">13</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-116-open">)</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-117-open">)</span><span class="token punctuation">;</span>
+    <span class="token function">assert</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-119-close">(</span><span class="token operator">!</span><span class="token function">isPrime</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-118-close">(</span><span class="token number">15</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-118-open">)</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-119-open">)</span><span class="token punctuation">;</span>
+    <span class="token function">assert</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-121-close">(</span><span class="token operator">!</span><span class="token function">isPrime</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-120-close">(</span><span class="token number">16</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-120-open">)</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-121-open">)</span><span class="token punctuation">;</span>
+    <span class="token function">assert</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-123-close">(</span><span class="token function">isPrime</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-122-close">(</span><span class="token number">17</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-122-open">)</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-123-open">)</span><span class="token punctuation">;</span>
+    <span class="token function">assert</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-125-close">(</span><span class="token function">isPrime</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-124-close">(</span><span class="token number">19</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-124-open">)</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-125-open">)</span><span class="token punctuation">;</span>
+    <span class="token function">assert</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-127-close">(</span><span class="token function">isPrime</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-126-close">(</span><span class="token number">97</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-126-open">)</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-127-open">)</span><span class="token punctuation">;</span>
+    <span class="token function">assert</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-129-close">(</span><span class="token operator">!</span><span class="token function">isPrime</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-128-close">(</span><span class="token number">99</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-128-open">)</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-129-open">)</span><span class="token punctuation">;</span>
+    <span class="token function">assert</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-131-close">(</span><span class="token function">isPrime</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-130-close">(</span><span class="token number">13417</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-130-open">)</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-131-open">)</span><span class="token punctuation">;</span>
+
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Success!\n"</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-135-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+    <div class="toolbar">
+      <div class="toolbar-item">
+        <button
+          class="copy-to-clipboard-button"
+          type="button"
+          data-copy-state="copy"
+        >
+          <span>Copy</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<p>Extra credit:</p>
+<p>The for-loop in the above solution is suboptimal for two reasons:</p>
+<ul>
+  <li>It checks even divisors. We don’t need to test these (except for 2).</li>
+  <li>
+    It checks every number up to <code>x</code> to see if it is a divisor. A
+    non-prime number (a composite number) must have at least one divisor less
+    than or equal to its square root, so checking for divisors beyond the square
+    root of <code>x</code> is unnecessary. <code>std::sqrt(x)</code> (in the
+    &lt;cmath&gt; header) returns the square root of <code>x</code>.
+  </li>
+</ul>
+<p>
+  For the latter, we have two options: calculate <code>std::sqrt(x)</code> prior
+  to the loop, then test our loop variable against that value. Alternately, we
+  can optimize <code>std::sqrt(x)</code> out of the comparison entirely by
+  squaring both sides of the comparison (h/t to reader JJag for suggesting this)
+  (see the hint if you need additional help with this). We’ll use this latter
+  option in the quiz solution.
+</p>
+<div class="code-block code-block-7" style="margin: 8px 0; clear: both"></div>
+
+<p>
+  <a
+    class="hint_link_show"
+    href="javascript:void(0)"
+    onclick="cppHintToggle(document.getElementById('cpp_hint_id_0'), this, 'Show Hint', '')"
+    >Show Hint</a
+  >
+</p>
+<div
+  class="wphint"
+  id="cpp_hint_id_0"
+  style="display: none; margin-bottom: 1em"
+>
+  Hint: Given two variables <code>a &gt;= 0</code> and <code>b &gt;= 0</code>,
+  we can square both sides of the comparison <code>a &lt;= sqrt(b)</code> and
+  the comparison will still hold. This gives us
+  <code>a * a &lt;= sqrt(b) * sqrt(b)</code>, which is equivalent to
+  <code>a * a &lt;= b</code>.
+</div>
+<p>Update the above solution to implement both of these optimizations.</p>
+<p>
+  <a
+    class="solution_link_show"
+    href="javascript:void(0)"
+    onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_2'), this, 'Show Solution', 'Hide Solution')"
+    >Show Solution</a
+  >
+</p>
+<div class="wpsolution" id="cpp_solution_id_2" style="display: none">
+  <div class="code-toolbar">
+    <pre
+      class="line-numbers language-cpp"
+      tabindex="0"
+    ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;cassert&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;cmath&gt;</span> <span class="token comment">// for std::sqrt</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token comment">// optimized version</span>
+<span class="token keyword keyword-bool">bool</span> <span class="token function">isPrime</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-136-close">(</span><span class="token keyword keyword-int">int</span> x<span class="token punctuation brace-round brace-close brace-level-1" id="pair-136-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-179-close">{</span>
+    <span class="token keyword keyword-if">if</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-137-close">(</span>x <span class="token operator">&lt;=</span> <span class="token number">1</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-137-open">)</span>     <span class="token comment">// if x is negative, 0, or 1 then the number is not prime</span>
+        <span class="token keyword keyword-return">return</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-if">if</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-138-close">(</span>x <span class="token operator">==</span> <span class="token number">2</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-138-open">)</span>     <span class="token comment">// the number 2 is the only even prime</span>
+        <span class="token keyword keyword-return">return</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-if">if</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-139-close">(</span>x <span class="token operator">%</span> <span class="token number">2</span> <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-139-open">)</span> <span class="token comment">// any other even number is not prime</span>
+        <span class="token keyword keyword-return">return</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+
+    <span class="token comment">// For any number 3 or greater, test odd values (this is why we add 2)</span>
+    <span class="token comment">// between 3 and sqrt(x) to see if they are a divisor</span>
+    <span class="token comment">// Also see https://stackoverflow.com/questions/5811151/why-do-we-check-up-to-the-square-root-of-a-number-to-determine-if-the-number-is</span>
+    <span class="token comment">// Since test &gt;= 0 and x &gt;=0, we can optimize test &lt; std::sqrt(x) to test * text &lt; x</span>
+    <span class="token keyword keyword-for">for</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-140-close">(</span><span class="token keyword keyword-int">int</span> test<span class="token punctuation brace-curly brace-open brace-level-3" id="pair-177-close">{</span> <span class="token number">3</span> <span class="token punctuation brace-curly brace-close brace-level-3" id="pair-177-open">}</span><span class="token punctuation">;</span> test <span class="token operator">*</span> test <span class="token operator">&lt;=</span> x<span class="token punctuation">;</span> test <span class="token operator">+=</span> <span class="token number">2</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-140-open">)</span>
+    <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-178-close">{</span>
+        <span class="token keyword keyword-if">if</span> <span class="token punctuation brace-round brace-open brace-level-3" id="pair-141-close">(</span>x <span class="token operator">%</span> test <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-141-open">)</span> <span class="token comment">// if x is evenly divisible</span>
+            <span class="token keyword keyword-return">return</span> <span class="token boolean">false</span><span class="token punctuation">;</span>  <span class="token comment">// then this number isn't prime</span>
+    <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-178-open">}</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token boolean">true</span><span class="token punctuation">;</span> <span class="token comment">// if we didn't find any divisors, then x must be prime</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-179-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-142-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-142-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-180-close">{</span>
+    <span class="token function">assert</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-144-close">(</span><span class="token operator">!</span><span class="token function">isPrime</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-143-close">(</span><span class="token number">0</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-143-open">)</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-144-open">)</span><span class="token punctuation">;</span>
+    <span class="token function">assert</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-146-close">(</span><span class="token operator">!</span><span class="token function">isPrime</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-145-close">(</span><span class="token number">1</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-145-open">)</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-146-open">)</span><span class="token punctuation">;</span>
+    <span class="token function">assert</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-148-close">(</span><span class="token function">isPrime</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-147-close">(</span><span class="token number">2</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-147-open">)</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-148-open">)</span><span class="token punctuation">;</span>
+    <span class="token function">assert</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-150-close">(</span><span class="token function">isPrime</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-149-close">(</span><span class="token number">3</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-149-open">)</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-150-open">)</span><span class="token punctuation">;</span>
+    <span class="token function">assert</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-152-close">(</span><span class="token operator">!</span><span class="token function">isPrime</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-151-close">(</span><span class="token number">4</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-151-open">)</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-152-open">)</span><span class="token punctuation">;</span>
+    <span class="token function">assert</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-154-close">(</span><span class="token function">isPrime</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-153-close">(</span><span class="token number">5</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-153-open">)</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-154-open">)</span><span class="token punctuation">;</span>
+    <span class="token function">assert</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-156-close">(</span><span class="token function">isPrime</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-155-close">(</span><span class="token number">7</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-155-open">)</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-156-open">)</span><span class="token punctuation">;</span>
+    <span class="token function">assert</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-158-close">(</span><span class="token operator">!</span><span class="token function">isPrime</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-157-close">(</span><span class="token number">9</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-157-open">)</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-158-open">)</span><span class="token punctuation">;</span>
+    <span class="token function">assert</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-160-close">(</span><span class="token function">isPrime</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-159-close">(</span><span class="token number">11</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-159-open">)</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-160-open">)</span><span class="token punctuation">;</span>
+    <span class="token function">assert</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-162-close">(</span><span class="token function">isPrime</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-161-close">(</span><span class="token number">13</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-161-open">)</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-162-open">)</span><span class="token punctuation">;</span>
+    <span class="token function">assert</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-164-close">(</span><span class="token operator">!</span><span class="token function">isPrime</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-163-close">(</span><span class="token number">15</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-163-open">)</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-164-open">)</span><span class="token punctuation">;</span>
+    <span class="token function">assert</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-166-close">(</span><span class="token operator">!</span><span class="token function">isPrime</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-165-close">(</span><span class="token number">16</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-165-open">)</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-166-open">)</span><span class="token punctuation">;</span>
+    <span class="token function">assert</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-168-close">(</span><span class="token function">isPrime</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-167-close">(</span><span class="token number">17</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-167-open">)</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-168-open">)</span><span class="token punctuation">;</span>
+    <span class="token function">assert</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-170-close">(</span><span class="token function">isPrime</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-169-close">(</span><span class="token number">19</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-169-open">)</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-170-open">)</span><span class="token punctuation">;</span>
+    <span class="token function">assert</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-172-close">(</span><span class="token function">isPrime</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-171-close">(</span><span class="token number">97</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-171-open">)</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-172-open">)</span><span class="token punctuation">;</span>
+    <span class="token function">assert</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-174-close">(</span><span class="token operator">!</span><span class="token function">isPrime</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-173-close">(</span><span class="token number">99</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-173-open">)</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-174-open">)</span><span class="token punctuation">;</span>
+    <span class="token function">assert</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-176-close">(</span><span class="token function">isPrime</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-175-close">(</span><span class="token number">13417</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-175-open">)</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-176-open">)</span><span class="token punctuation">;</span>
+
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Success!\n"</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-180-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+    <div class="toolbar">
+      <div class="toolbar-item">
+        <button
+          class="copy-to-clipboard-button"
+          type="button"
+          data-copy-state="copy"
+        >
+          <span>Copy</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<p class="cpp-quiz-question cpp-topline" style="clear: both">Question #3</p>
+<p>
+  Implement a game of Hi-Lo. First, your program should pick a random integer
+  between 1 and 100. The user is given 7 tries to guess the number.
+</p>
+<p>
+  If the user does not guess the correct number, the program should tell them
+  whether they guessed too high or too low. If the user guesses the right
+  number, the program should tell them they won. If they run out of guesses, the
+  program should tell them they lost, and what the correct number is. At the end
+  of the game, the user should be asked if they want to play again. If the user
+  doesn’t enter ‘y’ or ‘n’, ask them again.
+</p>
+<p>For this quiz, assume the user enters a valid number.</p>
+<div class="code-block code-block-8" style="margin: 8px 0; clear: both"></div>
+
+<p>
+  Use the Random.h header from
+  <a
+    href="https://www.learncpp.com/cpp-tutorial/global-random-numbers-random-h/#RandomH"
+    >8.15 -- Global random numbers (Random.h)</a
+  >.
+</p>
+<p>Here’s what your output should look like:</p>
+<pre>
+Let's play a game. I'm thinking of a number between 1 and 100. You have 7 tries to guess what it is.
+Guess #1: 64
+Your guess is too high.
+Guess #2: 32
+Your guess is too low.
+Guess #3: 54
+Your guess is too high.
+Guess #4: 51
+Correct! You win!
+Would you like to play again (y/n)? y
+Let's play a game. I'm thinking of a number between 1 and 100. You have 7 tries to guess what it is.
+Guess #1: 64
+Your guess is too high.
+Guess #2: 32
+Your guess is too low.
+Guess #3: 54
+Your guess is too high.
+Guess #4: 51
+Your guess is too high.
+Guess #5: 36
+Your guess is too low.
+Guess #6: 45
+Your guess is too low.
+Guess #7: 48
+Your guess is too low.
+Sorry, you lose. The correct number was 49.
+Would you like to play again (y/n)? q
+Would you like to play again (y/n)? n
+Thank you for playing.
+</pre>
+<p>
+  For extra credit: make the minimum and maximum values and the number of
+  guesses a configurable parameter.
+</p>
+<p>
+  <a
+    class="solution_link_show"
+    href="javascript:void(0)"
+    onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_3'), this, 'Show Solution', 'Hide Solution')"
+    >Show Solution</a
+  >
+</p>
+<div class="wpsolution" id="cpp_solution_id_3" style="display: none">
+  <div class="code-toolbar">
+    <pre
+      class="line-numbers language-cpp"
+      tabindex="0"
+    ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">"Random.h"</span> <span class="token comment">// https://www.learncpp.com/cpp-tutorial/global-random-numbers-random-h/</span></span>
+
+<span class="token comment">// Returns true if the user won, false if they lost</span>
+<span class="token comment">// We don't use the return value in this program, but it doesn't add complexity to have it, and may be useful in a future update</span>
+<span class="token comment">// (e.g. if we wanted to move the won/lost messages out of the function, or conditionalize other behavior based on won/lost)</span>
+<span class="token keyword keyword-bool">bool</span> <span class="token function">playHiLo</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-181-close">(</span><span class="token keyword keyword-int">int</span> guesses<span class="token punctuation">,</span> <span class="token keyword keyword-int">int</span> min<span class="token punctuation">,</span> <span class="token keyword keyword-int">int</span> max<span class="token punctuation brace-round brace-close brace-level-1" id="pair-181-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-198-close">{</span>
+	std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Let's play a game. I'm thinking of a number between "</span> <span class="token operator">&lt;&lt;</span> min <span class="token operator">&lt;&lt;</span> <span class="token string">" and "</span> <span class="token operator">&lt;&lt;</span> max <span class="token operator">&lt;&lt;</span> <span class="token string">". You have "</span> <span class="token operator">&lt;&lt;</span> guesses <span class="token operator">&lt;&lt;</span> <span class="token string">" tries to guess what it is.\n"</span><span class="token punctuation">;</span>
+	<span class="token keyword keyword-const">const</span> <span class="token keyword keyword-int">int</span> number <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-193-close">{</span> <span class="token class-name">Random</span><span class="token double-colon punctuation">::</span><span class="token function">get</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-182-close">(</span>min<span class="token punctuation">,</span> max<span class="token punctuation brace-round brace-close brace-level-3" id="pair-182-open">)</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-193-open">}</span><span class="token punctuation">;</span> <span class="token comment">// this is the number the user needs to guess</span>
+
+	<span class="token comment">// Loop through all of the guesses</span>
+	<span class="token keyword keyword-for">for</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-183-close">(</span><span class="token keyword keyword-int">int</span> count<span class="token punctuation brace-curly brace-open brace-level-3" id="pair-194-close">{</span> <span class="token number">1</span> <span class="token punctuation brace-curly brace-close brace-level-3" id="pair-194-open">}</span><span class="token punctuation">;</span> count <span class="token operator">&lt;=</span> guesses<span class="token punctuation">;</span> <span class="token operator">++</span>count<span class="token punctuation brace-round brace-close brace-level-2" id="pair-183-open">)</span>
+	<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-197-close">{</span>
+		std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Guess #"</span> <span class="token operator">&lt;&lt;</span> count <span class="token operator">&lt;&lt;</span> <span class="token string">": "</span><span class="token punctuation">;</span>
+
+		<span class="token keyword keyword-int">int</span> guess<span class="token punctuation brace-curly brace-open brace-level-3" id="pair-195-close">{</span><span class="token punctuation brace-curly brace-close brace-level-3" id="pair-195-open">}</span><span class="token punctuation">;</span>
+		std<span class="token double-colon punctuation">::</span>cin <span class="token operator">&gt;&gt;</span> guess<span class="token punctuation">;</span>
+
+		<span class="token keyword keyword-if">if</span> <span class="token punctuation brace-round brace-open brace-level-3" id="pair-184-close">(</span>guess <span class="token operator">&gt;</span> number<span class="token punctuation brace-round brace-close brace-level-3" id="pair-184-open">)</span>
+			std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Your guess is too high.\n"</span><span class="token punctuation">;</span>
+		<span class="token keyword keyword-else">else</span> <span class="token keyword keyword-if">if</span> <span class="token punctuation brace-round brace-open brace-level-3" id="pair-185-close">(</span>guess <span class="token operator">&lt;</span> number<span class="token punctuation brace-round brace-close brace-level-3" id="pair-185-open">)</span>
+			std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Your guess is too low.\n"</span><span class="token punctuation">;</span>
+		<span class="token keyword keyword-else">else</span> <span class="token comment">// guess == number, so the user won</span>
+		<span class="token punctuation brace-curly brace-open brace-level-3" id="pair-196-close">{</span>
+			std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Correct! You win!\n"</span><span class="token punctuation">;</span>
+			<span class="token keyword keyword-return">return</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+		<span class="token punctuation brace-curly brace-close brace-level-3" id="pair-196-open">}</span>
+	<span class="token punctuation brace-curly brace-close brace-level-2" id="pair-197-open">}</span>
+
+	<span class="token comment">// The user lost</span>
+	std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Sorry, you lose. The correct number was "</span> <span class="token operator">&lt;&lt;</span> number <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+	<span class="token keyword keyword-return">return</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-198-open">}</span>
+
+<span class="token keyword keyword-bool">bool</span> <span class="token function">playAgain</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-186-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-186-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-202-close">{</span>
+	<span class="token comment">// Keep asking the user if they want to play again until they pick y or n.</span>
+	<span class="token keyword keyword-while">while</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-187-close">(</span><span class="token boolean">true</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-187-open">)</span>
+	<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-201-close">{</span>
+		<span class="token keyword keyword-char">char</span> ch<span class="token punctuation brace-curly brace-open brace-level-3" id="pair-199-close">{</span><span class="token punctuation brace-curly brace-close brace-level-3" id="pair-199-open">}</span><span class="token punctuation">;</span>
+		std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Would you like to play again (y/n)? "</span><span class="token punctuation">;</span>
+		std<span class="token double-colon punctuation">::</span>cin <span class="token operator">&gt;&gt;</span> ch<span class="token punctuation">;</span>
+
+		<span class="token keyword keyword-switch">switch</span> <span class="token punctuation brace-round brace-open brace-level-3" id="pair-188-close">(</span>ch<span class="token punctuation brace-round brace-close brace-level-3" id="pair-188-open">)</span>
+		<span class="token punctuation brace-curly brace-open brace-level-3" id="pair-200-close">{</span>
+		<span class="token keyword keyword-case">case</span> <span class="token string">'y'</span><span class="token operator">:</span> <span class="token keyword keyword-return">return</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+		<span class="token keyword keyword-case">case</span> <span class="token string">'n'</span><span class="token operator">:</span> <span class="token keyword keyword-return">return</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+		<span class="token punctuation brace-curly brace-close brace-level-3" id="pair-200-open">}</span>
+	<span class="token punctuation brace-curly brace-close brace-level-2" id="pair-201-open">}</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-202-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-189-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-189-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-207-close">{</span>
+	<span class="token keyword keyword-constexpr">constexpr</span> <span class="token keyword keyword-int">int</span> guesses <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-203-close">{</span> <span class="token number">7</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-203-open">}</span><span class="token punctuation">;</span> <span class="token comment">// the user has this many guesses</span>
+	<span class="token keyword keyword-constexpr">constexpr</span> <span class="token keyword keyword-int">int</span> min     <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-204-close">{</span> <span class="token number">1</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-204-open">}</span><span class="token punctuation">;</span>
+	<span class="token keyword keyword-constexpr">constexpr</span> <span class="token keyword keyword-int">int</span> max     <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-205-close">{</span> <span class="token number">100</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-205-open">}</span><span class="token punctuation">;</span>
+
+	<span class="token keyword keyword-do">do</span>
+	<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-206-close">{</span>
+		<span class="token function">playHiLo</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-190-close">(</span>guesses<span class="token punctuation">,</span> min<span class="token punctuation">,</span> max<span class="token punctuation brace-round brace-close brace-level-3" id="pair-190-open">)</span><span class="token punctuation">;</span>
+	<span class="token punctuation brace-curly brace-close brace-level-2" id="pair-206-open">}</span> <span class="token keyword keyword-while">while</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-192-close">(</span><span class="token function">playAgain</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-191-close">(</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-191-open">)</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-192-open">)</span><span class="token punctuation">;</span>
+
+	std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Thank you for playing.\n"</span><span class="token punctuation">;</span>
+
+	<span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-207-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+    <div class="toolbar">
+      <div class="toolbar-item">
+        <button
+          class="copy-to-clipboard-button"
+          type="button"
+          data-copy-state="copy"
+        >
+          <span>Copy</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<p>
+  We’ll add error handling to this solution in lesson
+  <a href="https://www.learncpp.com/cpp-tutorial/chapter-9-summary-and-quiz/"
+    >9.x -- Chapter 9 summary and quiz</a
+  >.
+</p>
+<div class="prevnext">
+  <div class="prevnext-inline">
+    <a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/introduction-to-testing-your-code/"
+    >
+      <div class="nav-button nav-button-next">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-right" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Next lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">9.1</span>Introduction to
+            testing your code
+          </div>
+        </div>
+      </div></a
+    >
+    <a class="nav-link" href="/">
+      <div class="nav-button nav-button-index">
+        <div class="nav-button-icon">
+          <i class="fa fa-home" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Back to table of contents</div>
+        </div>
+      </div></a
+    >
+    <a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/global-random-numbers-random-h/"
+    >
+      <div class="nav-button nav-button-prev">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-left" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Previous lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">8.15</span>Global random
+            numbers (Random.h)
+          </div>
+        </div>
+      </div></a
+    >
+  </div>
+</div>
+<div class="code-block code-block-10" style="margin: 8px 0; clear: both"></div>

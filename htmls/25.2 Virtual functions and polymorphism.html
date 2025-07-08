@@ -1,0 +1,1611 @@
+<div
+  class="code-block code-block-1"
+  style="margin: 8px 8px 8px 0; float: left"
+></div>
+<p>
+  In the previous lesson on
+  <a
+    href="https://www.learncpp.com/cpp-tutorial/121-pointers-and-references-to-the-base-class-of-derived-objects/"
+    >pointers and references to the base class of derived objects</a
+  >, we took a look at a number of examples where using pointers or references
+  to a base class had the potential to simplify code. However, in every case, we
+  ran up against the problem that the base pointer or reference was only able to
+  call the base version of a function, not a derived version.
+</p>
+<p>Here’s a simple example of this behavior:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;string_view&gt;</span></span>
+
+<span class="token keyword keyword-class">class</span> <span class="token class-name">Base</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-5-close">{</span>
+<span class="token keyword keyword-public">public</span><span class="token operator">:</span>
+    std<span class="token double-colon punctuation">::</span>string_view <span class="token function">getName</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-0-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-0-open">)</span> <span class="token keyword keyword-const">const</span> <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-4-close">{</span> <span class="token keyword keyword-return">return</span> <span class="token string">"Base"</span><span class="token punctuation">;</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-4-open">}</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-5-open">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword keyword-class">class</span> <span class="token class-name">Derived</span><span class="token operator">:</span> <span class="token base-clause"><span class="token keyword keyword-public">public</span> <span class="token class-name">Base</span></span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-7-close">{</span>
+<span class="token keyword keyword-public">public</span><span class="token operator">:</span>
+    std<span class="token double-colon punctuation">::</span>string_view <span class="token function">getName</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-1-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-1-open">)</span> <span class="token keyword keyword-const">const</span> <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-6-close">{</span> <span class="token keyword keyword-return">return</span> <span class="token string">"Derived"</span><span class="token punctuation">;</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-6-open">}</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-7-open">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-2-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-2-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-10-close">{</span>
+    Derived derived <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-8-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-8-open">}</span><span class="token punctuation">;</span>
+    Base<span class="token operator">&amp;</span> rBase<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-9-close">{</span> derived <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-9-open">}</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"rBase is a "</span> <span class="token operator">&lt;&lt;</span> rBase<span class="token punctuation">.</span><span class="token function">getName</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-3-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-3-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-10-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>This example prints the result:</p>
+<pre>
+rBase is a Base
+</pre>
+<div
+  class="google-auto-placed ap_container"
+  style="width: 100%; height: auto; clear: both; text-align: center"
+>
+  <ins
+    data-ad-format="auto"
+    class="adsbygoogle adsbygoogle-noablate"
+    data-ad-client="ca-pub-0588844875925051"
+    data-adsbygoogle-status="done"
+    style="
+      display: block;
+      margin: auto;
+      background-color: transparent;
+      height: 280px;
+    "
+    data-ad-status="unfilled"
+    ><div
+      id="aswift_5_host"
+      style="
+        border: none;
+        height: 280px;
+        width: 1027px;
+        margin: 0px;
+        padding: 0px;
+        position: relative;
+        visibility: visible;
+        background-color: transparent;
+        display: inline-block;
+        overflow: visible;
+      "
+    >
+      <iframe
+        id="aswift_5"
+        name="aswift_5"
+        browsingtopics="true"
+        style="
+          left: 0;
+          position: absolute;
+          top: 0;
+          border: 0;
+          width: 1027px;
+          height: 280px;
+          min-height: auto;
+          max-height: none;
+          min-width: auto;
+          max-width: none;
+        "
+        sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation"
+        width="1027"
+        height="280"
+        frameborder="0"
+        marginwidth="0"
+        marginheight="0"
+        vspace="0"
+        hspace="0"
+        allowtransparency="true"
+        scrolling="no"
+        allow="attribution-reporting; run-ad-auction"
+        src="https://googleads.g.doubleclick.net/pagead/ads?client=ca-pub-0588844875925051&amp;output=html&amp;h=280&amp;adk=1320891330&amp;adf=1536881005&amp;w=1027&amp;abgtt=11&amp;fwrn=4&amp;fwrnh=100&amp;lmt=1750470744&amp;num_ads=1&amp;rafmt=1&amp;armr=3&amp;sem=mc&amp;pwprc=4633386603&amp;ad_type=text_image&amp;format=1027x280&amp;url=https%3A%2F%2Fwww.learncpp.com%2Fcpp-tutorial%2Fvirtual-functions%2F&amp;fwr=0&amp;pra=3&amp;rh=200&amp;rw=1026&amp;rpe=1&amp;resp_fmts=3&amp;wgl=1&amp;fa=27&amp;uach=WyJXaW5kb3dzIiwiMTkuMC4wIiwieDg2IiwiIiwiMTM3LjAuNzE1MS4xMjIiLG51bGwsMCxudWxsLCI2NCIsW1siR29vZ2xlIENocm9tZSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJDaHJvbWl1bSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJOb3QvQSlCcmFuZCIsIjI0LjAuMC4wIl1dLDBd&amp;dt=1751963598690&amp;bpp=2&amp;bdt=838&amp;idt=-M&amp;shv=r20250702&amp;mjsv=m202507020101&amp;ptt=9&amp;saldr=aa&amp;abxe=1&amp;cookie=ID%3D05f6e82287d810b4%3AT%3D1751962604%3ART%3D1751963528%3AS%3DALNI_MaQYA0TSAU2k8xwY5tqlN0xFCcd6g&amp;gpic=UID%3D00001157d9e27d0a%3AT%3D1751962604%3ART%3D1751963528%3AS%3DALNI_MYgtHzQJAQQXY_151HTGSSfVxE8_A&amp;eo_id_str=ID%3D52c21936d98c6d2b%3AT%3D1751962604%3ART%3D1751963528%3AS%3DAA-AfjZsJ15yjdEPJ8d11hPojsJQ&amp;prev_fmts=0x0%2C336x280%2C160x600%2C160x600&amp;nras=2&amp;correlator=1837994991644&amp;frm=20&amp;pv=1&amp;u_tz=480&amp;u_his=2&amp;u_h=600&amp;u_w=800&amp;u_ah=600&amp;u_aw=800&amp;u_cd=24&amp;u_sd=1&amp;dmc=8&amp;adx=27&amp;ady=1012&amp;biw=1080&amp;bih=1024&amp;scr_x=0&amp;scr_y=0&amp;eid=95353387%2C95362655%2C95365226%2C95365235%2C95365461%2C95365113%2C95359265%2C95365117%2C95365797&amp;oid=2&amp;pvsid=7597002832661978&amp;tmod=1708485235&amp;uas=0&amp;nvt=1&amp;fc=1408&amp;brdim=10%2C10%2C10%2C10%2C800%2C0%2C780%2C580%2C1080%2C1024&amp;vis=1&amp;rsz=%7C%7Cs%7C&amp;abl=NS&amp;fu=128&amp;bc=31&amp;bz=0.72&amp;td=1&amp;tdf=2&amp;psd=W251bGwsbnVsbCxudWxsLDNd&amp;nt=1&amp;ifi=6&amp;uci=a!6&amp;fsb=1&amp;dtd=27"
+        data-google-container-id="a!6"
+        tabindex="0"
+        title="Advertisement"
+        aria-label="Advertisement"
+        data-load-complete="true"
+        data-google-query-id="CPiWn__srI4DFd3iFgUdOkwM6w"
+      ></iframe></div
+  ></ins>
+</div>
+<p>
+  Because rBase is a Base reference, it calls Base::getName(), even though it’s
+  actually referencing the Base portion of a Derived object.
+</p>
+<p>
+  In this lesson, we will show how to address this issue using virtual
+  functions.
+</p>
+<div class="code-block code-block-2" style="margin: 8px 0; clear: both"></div>
+
+<p class="cpp-section cpp-topline" style="clear: both">Virtual functions</p>
+<p>
+  A <strong>virtual function</strong> is a special type of member function that,
+  when called, resolves to the most-derived version of the function for the
+  actual type of the object being referenced or pointed to.
+</p>
+<p>
+  A derived function is considered a match if it has the same signature (name,
+  parameter types, and whether it is const) and return type as the base version
+  of the function. Such functions are called <strong>overrides</strong>.
+</p>
+<p>
+  To make a function virtual, simply place the “virtual” keyword before the
+  function declaration.
+</p>
+<p>Here’s the above example with a virtual function:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;string_view&gt;</span></span>
+
+<span class="token keyword keyword-class">class</span> <span class="token class-name">Base</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-16-close">{</span>
+<span class="token keyword keyword-public">public</span><span class="token operator">:</span>
+    <span class="token keyword keyword-virtual">virtual</span> std<span class="token double-colon punctuation">::</span>string_view <span class="token function">getName</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-11-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-11-open">)</span> <span class="token keyword keyword-const">const</span> <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-15-close">{</span> <span class="token keyword keyword-return">return</span> <span class="token string">"Base"</span><span class="token punctuation">;</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-15-open">}</span> <span class="token comment">// note addition of virtual keyword</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-16-open">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword keyword-class">class</span> <span class="token class-name">Derived</span><span class="token operator">:</span> <span class="token base-clause"><span class="token keyword keyword-public">public</span> <span class="token class-name">Base</span></span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-18-close">{</span>
+<span class="token keyword keyword-public">public</span><span class="token operator">:</span>
+    <span class="token keyword keyword-virtual">virtual</span> std<span class="token double-colon punctuation">::</span>string_view <span class="token function">getName</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-12-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-12-open">)</span> <span class="token keyword keyword-const">const</span> <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-17-close">{</span> <span class="token keyword keyword-return">return</span> <span class="token string">"Derived"</span><span class="token punctuation">;</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-17-open">}</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-18-open">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-13-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-13-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-21-close">{</span>
+    Derived derived <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-19-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-19-open">}</span><span class="token punctuation">;</span>
+    Base<span class="token operator">&amp;</span> rBase<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-20-close">{</span> derived <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-20-open">}</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"rBase is a "</span> <span class="token operator">&lt;&lt;</span> rBase<span class="token punctuation">.</span><span class="token function">getName</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-14-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-14-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-21-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>This example prints the result:</p>
+<div
+  class="google-auto-placed ap_container"
+  style="width: 100%; height: auto; clear: both; text-align: center"
+>
+  <ins
+    data-ad-format="auto"
+    class="adsbygoogle adsbygoogle-noablate"
+    data-ad-client="ca-pub-0588844875925051"
+    data-adsbygoogle-status="done"
+    style="
+      display: block;
+      margin: auto;
+      background-color: transparent;
+      height: 0px;
+    "
+    data-ad-status="unfilled"
+    ><div
+      id="aswift_6_host"
+      style="
+        border: none;
+        height: 0px;
+        width: 1027px;
+        margin: 0px;
+        padding: 0px;
+        position: relative;
+        visibility: visible;
+        background-color: transparent;
+        display: inline-block;
+        overflow: hidden;
+        opacity: 0;
+      "
+    >
+      <iframe
+        id="aswift_6"
+        name="aswift_6"
+        browsingtopics="true"
+        style="
+          left: 0px;
+          position: absolute;
+          top: 0px;
+          border: 0px;
+          width: 1027px;
+          height: 0px;
+          min-height: auto;
+          max-height: none;
+          min-width: auto;
+          max-width: none;
+        "
+        sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation"
+        width="1027"
+        height="0"
+        frameborder="0"
+        marginwidth="0"
+        marginheight="0"
+        vspace="0"
+        hspace="0"
+        allowtransparency="true"
+        scrolling="no"
+        allow="attribution-reporting; run-ad-auction"
+        src="https://googleads.g.doubleclick.net/pagead/ads?client=ca-pub-0588844875925051&amp;output=html&amp;h=280&amp;adk=1320891330&amp;adf=531225942&amp;w=1027&amp;abgtt=11&amp;fwrn=4&amp;fwrnh=100&amp;lmt=1750470744&amp;num_ads=1&amp;rafmt=1&amp;armr=3&amp;sem=mc&amp;pwprc=4633386603&amp;ad_type=text_image&amp;format=1027x280&amp;url=https%3A%2F%2Fwww.learncpp.com%2Fcpp-tutorial%2Fvirtual-functions%2F&amp;fwr=0&amp;pra=3&amp;rh=200&amp;rw=1026&amp;rpe=1&amp;resp_fmts=3&amp;wgl=1&amp;fa=27&amp;uach=WyJXaW5kb3dzIiwiMTkuMC4wIiwieDg2IiwiIiwiMTM3LjAuNzE1MS4xMjIiLG51bGwsMCxudWxsLCI2NCIsW1siR29vZ2xlIENocm9tZSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJDaHJvbWl1bSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJOb3QvQSlCcmFuZCIsIjI0LjAuMC4wIl1dLDBd&amp;dt=1751963598690&amp;bpp=1&amp;bdt=838&amp;idt=-M&amp;shv=r20250702&amp;mjsv=m202507020101&amp;ptt=9&amp;saldr=aa&amp;abxe=1&amp;cookie=ID%3D05f6e82287d810b4%3AT%3D1751962604%3ART%3D1751963528%3AS%3DALNI_MaQYA0TSAU2k8xwY5tqlN0xFCcd6g&amp;gpic=UID%3D00001157d9e27d0a%3AT%3D1751962604%3ART%3D1751963528%3AS%3DALNI_MYgtHzQJAQQXY_151HTGSSfVxE8_A&amp;eo_id_str=ID%3D52c21936d98c6d2b%3AT%3D1751962604%3ART%3D1751963528%3AS%3DAA-AfjZsJ15yjdEPJ8d11hPojsJQ&amp;prev_fmts=0x0%2C336x280%2C160x600%2C160x600%2C1027x280&amp;nras=3&amp;correlator=1837994991644&amp;frm=20&amp;pv=1&amp;u_tz=480&amp;u_his=2&amp;u_h=600&amp;u_w=800&amp;u_ah=600&amp;u_aw=800&amp;u_cd=24&amp;u_sd=1&amp;dmc=8&amp;adx=27&amp;ady=2038&amp;biw=1080&amp;bih=1024&amp;scr_x=0&amp;scr_y=0&amp;eid=95353387%2C95362655%2C95365226%2C95365235%2C95365461%2C95365113%2C95359265%2C95365117%2C95365797&amp;oid=2&amp;pvsid=7597002832661978&amp;tmod=1708485235&amp;uas=0&amp;nvt=1&amp;fc=1408&amp;brdim=10%2C10%2C10%2C10%2C800%2C0%2C780%2C580%2C1080%2C1024&amp;vis=1&amp;rsz=%7C%7Cs%7C&amp;abl=NS&amp;fu=128&amp;bc=31&amp;bz=0.72&amp;td=1&amp;tdf=2&amp;psd=W251bGwsbnVsbCxudWxsLDNd&amp;nt=1&amp;ifi=7&amp;uci=a!7&amp;btvi=1&amp;fsb=1&amp;dtd=28"
+        data-google-container-id="a!7"
+        tabindex="0"
+        title="Advertisement"
+        aria-label="Advertisement"
+        data-load-complete="true"
+        data-google-query-id="CLKfn__srI4DFfvTFgUdWrE0Pw"
+      ></iframe></div
+  ></ins>
+</div>
+<div class="code-block code-block-3" style="margin: 8px 0; clear: both"></div>
+
+<pre>
+rBase is a Derived
+</pre>
+<div class="cpp-note cpp-lightbluebackground">
+  <p class="cpp-note-title cpp-bottomline">Tip</p>
+  <p>
+    Some modern compilers may give an error about having virtual functions and
+    an accessible non-virtual destructor. If this is the case, add a virtual
+    destructor to the base class. In the above program, add this to the
+    definition of <code>Base</code>:
+  </p>
+  <div class="code-toolbar">
+    <pre
+      class="line-numbers language-cpp"
+      tabindex="0"
+    ><code class="match-braces language-cpp"><span class="token keyword keyword-virtual">virtual</span> <span class="token operator">~</span><span class="token function">Base</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-22-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-22-open">)</span> <span class="token operator">=</span> <span class="token keyword keyword-default">default</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+    <div class="toolbar">
+      <div class="toolbar-item">
+        <button
+          class="copy-to-clipboard-button"
+          type="button"
+          data-copy-state="copy"
+        >
+          <span>Copy</span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <p>
+    We discuss virtual destructors in lesson
+    <a
+      href="https://www.learncpp.com/cpp-tutorial/virtual-destructors-virtual-assignment-and-overriding-virtualization/"
+      >25.4 -- Virtual destructors, virtual assignment, and overriding
+      virtualization</a
+    >.
+  </p>
+</div>
+<p>
+  Because rBase is a reference to the Base portion of a Derived object, when
+  <em>rBase.getName()</em> is evaluated, it would normally resolve to
+  Base::getName(). However, Base::getName() is virtual, which tells the program
+  to go look and see if there are any more-derived versions of the function
+  available for a Derived object. In this case, it will resolve to
+  Derived::getName()!
+</p>
+<div
+  class="google-auto-placed ap_container"
+  style="width: 100%; height: auto; clear: both; text-align: center"
+>
+  <ins
+    data-ad-format="auto"
+    class="adsbygoogle adsbygoogle-noablate"
+    data-ad-client="ca-pub-0588844875925051"
+    data-adsbygoogle-status="done"
+    style="
+      display: block;
+      margin: auto;
+      background-color: transparent;
+      height: 0px;
+    "
+    data-ad-status="unfilled"
+    ><div
+      id="aswift_7_host"
+      style="
+        border: none;
+        height: 0px;
+        width: 1027px;
+        margin: 0px;
+        padding: 0px;
+        position: relative;
+        visibility: visible;
+        background-color: transparent;
+        display: inline-block;
+        overflow: hidden;
+        opacity: 0;
+      "
+    >
+      <iframe
+        id="aswift_7"
+        name="aswift_7"
+        browsingtopics="true"
+        style="
+          left: 0px;
+          position: absolute;
+          top: 0px;
+          border: 0px;
+          width: 1027px;
+          height: 0px;
+          min-height: auto;
+          max-height: none;
+          min-width: auto;
+          max-width: none;
+        "
+        sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation"
+        width="1027"
+        height="0"
+        frameborder="0"
+        marginwidth="0"
+        marginheight="0"
+        vspace="0"
+        hspace="0"
+        allowtransparency="true"
+        scrolling="no"
+        allow="attribution-reporting; run-ad-auction"
+        src="https://googleads.g.doubleclick.net/pagead/ads?client=ca-pub-0588844875925051&amp;output=html&amp;h=280&amp;adk=1320891330&amp;adf=1879426585&amp;w=1027&amp;abgtt=11&amp;fwrn=4&amp;fwrnh=100&amp;lmt=1750470744&amp;num_ads=1&amp;rafmt=1&amp;armr=3&amp;sem=mc&amp;pwprc=4633386603&amp;ad_type=text_image&amp;format=1027x280&amp;url=https%3A%2F%2Fwww.learncpp.com%2Fcpp-tutorial%2Fvirtual-functions%2F&amp;fwr=0&amp;pra=3&amp;rh=200&amp;rw=1026&amp;rpe=1&amp;resp_fmts=3&amp;wgl=1&amp;fa=27&amp;uach=WyJXaW5kb3dzIiwiMTkuMC4wIiwieDg2IiwiIiwiMTM3LjAuNzE1MS4xMjIiLG51bGwsMCxudWxsLCI2NCIsW1siR29vZ2xlIENocm9tZSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJDaHJvbWl1bSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJOb3QvQSlCcmFuZCIsIjI0LjAuMC4wIl1dLDBd&amp;dt=1751963598690&amp;bpp=1&amp;bdt=838&amp;idt=-M&amp;shv=r20250702&amp;mjsv=m202507020101&amp;ptt=9&amp;saldr=aa&amp;abxe=1&amp;cookie=ID%3D05f6e82287d810b4%3AT%3D1751962604%3ART%3D1751963528%3AS%3DALNI_MaQYA0TSAU2k8xwY5tqlN0xFCcd6g&amp;gpic=UID%3D00001157d9e27d0a%3AT%3D1751962604%3ART%3D1751963528%3AS%3DALNI_MYgtHzQJAQQXY_151HTGSSfVxE8_A&amp;eo_id_str=ID%3D52c21936d98c6d2b%3AT%3D1751962604%3ART%3D1751963528%3AS%3DAA-AfjZsJ15yjdEPJ8d11hPojsJQ&amp;prev_fmts=0x0%2C336x280%2C160x600%2C160x600%2C1027x280%2C1027x280&amp;nras=4&amp;correlator=1837994991644&amp;frm=20&amp;pv=1&amp;u_tz=480&amp;u_his=2&amp;u_h=600&amp;u_w=800&amp;u_ah=600&amp;u_aw=800&amp;u_cd=24&amp;u_sd=1&amp;dmc=8&amp;adx=27&amp;ady=2682&amp;biw=1080&amp;bih=1024&amp;scr_x=0&amp;scr_y=0&amp;eid=95353387%2C95362655%2C95365226%2C95365235%2C95365461%2C95365113%2C95359265%2C95365117%2C95365797&amp;oid=2&amp;pvsid=7597002832661978&amp;tmod=1708485235&amp;uas=0&amp;nvt=1&amp;fc=1408&amp;brdim=10%2C10%2C10%2C10%2C800%2C0%2C780%2C580%2C1080%2C1024&amp;vis=1&amp;rsz=%7C%7Cs%7C&amp;abl=NS&amp;fu=128&amp;bc=31&amp;bz=0.72&amp;td=1&amp;tdf=2&amp;psd=W251bGwsbnVsbCxudWxsLDNd&amp;nt=1&amp;ifi=8&amp;uci=a!8&amp;btvi=2&amp;fsb=1&amp;dtd=29"
+        data-google-container-id="a!8"
+        tabindex="0"
+        title="Advertisement"
+        aria-label="Advertisement"
+        data-load-complete="true"
+        data-google-query-id="CLGon__srI4DFQ_IFgUd91kC3Q"
+      ></iframe></div
+  ></ins>
+</div>
+<p>Let’s take a look at a slightly more complex example:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;string_view&gt;</span></span>
+
+<span class="token keyword keyword-class">class</span> <span class="token class-name">A</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-30-close">{</span>
+<span class="token keyword keyword-public">public</span><span class="token operator">:</span>
+    <span class="token keyword keyword-virtual">virtual</span> std<span class="token double-colon punctuation">::</span>string_view <span class="token function">getName</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-23-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-23-open">)</span> <span class="token keyword keyword-const">const</span> <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-29-close">{</span> <span class="token keyword keyword-return">return</span> <span class="token string">"A"</span><span class="token punctuation">;</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-29-open">}</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-30-open">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword keyword-class">class</span> <span class="token class-name">B</span><span class="token operator">:</span> <span class="token base-clause"><span class="token keyword keyword-public">public</span> <span class="token class-name">A</span></span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-32-close">{</span>
+<span class="token keyword keyword-public">public</span><span class="token operator">:</span>
+    <span class="token keyword keyword-virtual">virtual</span> std<span class="token double-colon punctuation">::</span>string_view <span class="token function">getName</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-24-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-24-open">)</span> <span class="token keyword keyword-const">const</span> <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-31-close">{</span> <span class="token keyword keyword-return">return</span> <span class="token string">"B"</span><span class="token punctuation">;</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-31-open">}</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-32-open">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword keyword-class">class</span> <span class="token class-name">C</span><span class="token operator">:</span> <span class="token base-clause"><span class="token keyword keyword-public">public</span> <span class="token class-name">B</span></span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-34-close">{</span>
+<span class="token keyword keyword-public">public</span><span class="token operator">:</span>
+    <span class="token keyword keyword-virtual">virtual</span> std<span class="token double-colon punctuation">::</span>string_view <span class="token function">getName</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-25-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-25-open">)</span> <span class="token keyword keyword-const">const</span> <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-33-close">{</span> <span class="token keyword keyword-return">return</span> <span class="token string">"C"</span><span class="token punctuation">;</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-33-open">}</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-34-open">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword keyword-class">class</span> <span class="token class-name">D</span><span class="token operator">:</span> <span class="token base-clause"><span class="token keyword keyword-public">public</span> <span class="token class-name">C</span></span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-36-close">{</span>
+<span class="token keyword keyword-public">public</span><span class="token operator">:</span>
+    <span class="token keyword keyword-virtual">virtual</span> std<span class="token double-colon punctuation">::</span>string_view <span class="token function">getName</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-26-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-26-open">)</span> <span class="token keyword keyword-const">const</span> <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-35-close">{</span> <span class="token keyword keyword-return">return</span> <span class="token string">"D"</span><span class="token punctuation">;</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-35-open">}</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-36-open">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-27-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-27-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-39-close">{</span>
+    C c <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-37-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-37-open">}</span><span class="token punctuation">;</span>
+    A<span class="token operator">&amp;</span> rBase<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-38-close">{</span> c <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-38-open">}</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"rBase is a "</span> <span class="token operator">&lt;&lt;</span> rBase<span class="token punctuation">.</span><span class="token function">getName</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-28-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-28-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-39-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>What do you think this program will output?</p>
+<div
+  class="google-auto-placed ap_container"
+  style="width: 100%; height: auto; clear: both; text-align: center"
+>
+  <ins
+    data-ad-format="auto"
+    class="adsbygoogle adsbygoogle-noablate"
+    data-ad-client="ca-pub-0588844875925051"
+    data-adsbygoogle-status="done"
+    style="
+      display: block;
+      margin: auto;
+      background-color: transparent;
+      height: 0px;
+    "
+    data-ad-status="unfilled"
+    ><div
+      id="aswift_8_host"
+      style="
+        border: none;
+        height: 0px;
+        width: 1027px;
+        margin: 0px;
+        padding: 0px;
+        position: relative;
+        visibility: visible;
+        background-color: transparent;
+        display: inline-block;
+        overflow: hidden;
+        opacity: 0;
+      "
+    >
+      <iframe
+        id="aswift_8"
+        name="aswift_8"
+        browsingtopics="true"
+        style="
+          left: 0px;
+          position: absolute;
+          top: 0px;
+          border: 0px;
+          width: 1027px;
+          height: 0px;
+          min-height: auto;
+          max-height: none;
+          min-width: auto;
+          max-width: none;
+        "
+        sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation"
+        width="1027"
+        height="0"
+        frameborder="0"
+        marginwidth="0"
+        marginheight="0"
+        vspace="0"
+        hspace="0"
+        allowtransparency="true"
+        scrolling="no"
+        allow="attribution-reporting; run-ad-auction"
+        src="https://googleads.g.doubleclick.net/pagead/ads?client=ca-pub-0588844875925051&amp;output=html&amp;h=280&amp;adk=1320891330&amp;adf=738919919&amp;w=1027&amp;abgtt=11&amp;fwrn=4&amp;fwrnh=100&amp;lmt=1750470744&amp;num_ads=1&amp;rafmt=1&amp;armr=3&amp;sem=mc&amp;pwprc=4633386603&amp;ad_type=text_image&amp;format=1027x280&amp;url=https%3A%2F%2Fwww.learncpp.com%2Fcpp-tutorial%2Fvirtual-functions%2F&amp;fwr=0&amp;pra=3&amp;rh=200&amp;rw=1026&amp;rpe=1&amp;resp_fmts=3&amp;wgl=1&amp;fa=27&amp;uach=WyJXaW5kb3dzIiwiMTkuMC4wIiwieDg2IiwiIiwiMTM3LjAuNzE1MS4xMjIiLG51bGwsMCxudWxsLCI2NCIsW1siR29vZ2xlIENocm9tZSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJDaHJvbWl1bSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJOb3QvQSlCcmFuZCIsIjI0LjAuMC4wIl1dLDBd&amp;dt=1751963598690&amp;bpp=1&amp;bdt=838&amp;idt=0&amp;shv=r20250702&amp;mjsv=m202507020101&amp;ptt=9&amp;saldr=aa&amp;abxe=1&amp;cookie=ID%3D05f6e82287d810b4%3AT%3D1751962604%3ART%3D1751963528%3AS%3DALNI_MaQYA0TSAU2k8xwY5tqlN0xFCcd6g&amp;gpic=UID%3D00001157d9e27d0a%3AT%3D1751962604%3ART%3D1751963528%3AS%3DALNI_MYgtHzQJAQQXY_151HTGSSfVxE8_A&amp;eo_id_str=ID%3D52c21936d98c6d2b%3AT%3D1751962604%3ART%3D1751963528%3AS%3DAA-AfjZsJ15yjdEPJ8d11hPojsJQ&amp;prev_fmts=0x0%2C336x280%2C160x600%2C160x600%2C1027x280%2C1027x280%2C1027x280&amp;nras=5&amp;correlator=1837994991644&amp;frm=20&amp;pv=1&amp;u_tz=480&amp;u_his=2&amp;u_h=600&amp;u_w=800&amp;u_ah=600&amp;u_aw=800&amp;u_cd=24&amp;u_sd=1&amp;dmc=8&amp;adx=27&amp;ady=3637&amp;biw=1080&amp;bih=1024&amp;scr_x=0&amp;scr_y=0&amp;eid=95353387%2C95362655%2C95365226%2C95365235%2C95365461%2C95365113%2C95359265%2C95365117%2C95365797&amp;oid=2&amp;pvsid=7597002832661978&amp;tmod=1708485235&amp;uas=0&amp;nvt=1&amp;fc=1408&amp;brdim=10%2C10%2C10%2C10%2C800%2C0%2C780%2C580%2C1080%2C1024&amp;vis=1&amp;rsz=%7C%7Cs%7C&amp;abl=NS&amp;fu=128&amp;bc=31&amp;bz=0.72&amp;td=1&amp;tdf=2&amp;psd=W251bGwsbnVsbCxudWxsLDNd&amp;nt=1&amp;ifi=9&amp;uci=a!9&amp;btvi=3&amp;fsb=1&amp;dtd=30"
+        data-google-container-id="a!9"
+        tabindex="0"
+        title="Advertisement"
+        aria-label="Advertisement"
+        data-load-complete="true"
+        data-google-query-id="CMC1n__srI4DFc7IFgUd0QEWZA"
+      ></iframe></div
+  ></ins>
+</div>
+<p>
+  Let’s look at how this works. First, we instantiate a C class object. rBase is
+  an A reference, which we set to reference the A portion of the C object.
+  Finally, we call rBase.getName(). rBase.getName() evaluates to A::getName().
+  However, A::getName() is virtual, so the compiler will call the most-derived
+  match between A and C. In this case, that is C::getName(). Note that it will
+  not call D::getName(), because our original object was a C, not a D, so only
+  functions between A and C are considered.
+</p>
+<p>As a result, our program outputs:</p>
+<div class="code-block code-block-4" style="margin: 8px 0; clear: both"></div>
+
+<pre>
+rBase is a C
+</pre>
+<p>
+  Note that virtual function resolution only works when a virtual member
+  function is called through a pointer or reference to a class type object. This
+  works because the compiler can differentiate the type of the pointer or
+  reference from the type of the object being pointed to or referenced. We see
+  this in example above.
+</p>
+<p>
+  Calling a virtual member function directly on an object (not through a pointer
+  or reference) will always invoke the member function belonging to the same
+  type of that object. For example:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp">C c<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-42-close">{</span><span class="token punctuation brace-curly brace-close brace-level-1" id="pair-42-open">}</span><span class="token punctuation">;</span>
+std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> c<span class="token punctuation">.</span><span class="token function">getName</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-40-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-40-open">)</span><span class="token punctuation">;</span> <span class="token comment">// will always call C::getName</span>
+
+A a <span class="token punctuation brace-curly brace-open brace-level-1" id="pair-43-close">{</span> c <span class="token punctuation brace-curly brace-close brace-level-1" id="pair-43-open">}</span><span class="token punctuation">;</span> <span class="token comment">// copies the A portion of c into a (don't do this)</span>
+std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> a<span class="token punctuation">.</span><span class="token function">getName</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-41-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-41-open">)</span><span class="token punctuation">;</span> <span class="token comment">// will always call A::getName</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<div class="cpp-note cpp-lightbluebackground">
+  <p class="cpp-note-title cpp-bottomline">Key insight</p>
+  <p>
+    Virtual function resolution only works when a member function is called
+    through a pointer or reference to a class type object.
+  </p>
+</div>
+<p class="cpp-section cpp-topline" style="clear: both">Polymorphism</p>
+<div
+  class="google-auto-placed ap_container"
+  style="width: 100%; height: auto; clear: both; text-align: center"
+>
+  <ins
+    data-ad-format="auto"
+    class="adsbygoogle adsbygoogle-noablate"
+    data-ad-client="ca-pub-0588844875925051"
+    data-adsbygoogle-status="done"
+    style="
+      display: block;
+      margin: auto;
+      background-color: transparent;
+      height: 0px;
+    "
+    data-ad-status="unfilled"
+    ><div
+      id="aswift_9_host"
+      style="
+        border: none;
+        height: 0px;
+        width: 1027px;
+        margin: 0px;
+        padding: 0px;
+        position: relative;
+        visibility: visible;
+        background-color: transparent;
+        display: inline-block;
+        overflow: hidden;
+        opacity: 0;
+      "
+    >
+      <iframe
+        id="aswift_9"
+        name="aswift_9"
+        browsingtopics="true"
+        style="
+          left: 0px;
+          position: absolute;
+          top: 0px;
+          border: 0px;
+          width: 1027px;
+          height: 0px;
+          min-height: auto;
+          max-height: none;
+          min-width: auto;
+          max-width: none;
+        "
+        sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation"
+        width="1027"
+        height="0"
+        frameborder="0"
+        marginwidth="0"
+        marginheight="0"
+        vspace="0"
+        hspace="0"
+        allowtransparency="true"
+        scrolling="no"
+        allow="attribution-reporting; run-ad-auction"
+        src="https://googleads.g.doubleclick.net/pagead/ads?client=ca-pub-0588844875925051&amp;output=html&amp;h=280&amp;adk=1320891330&amp;adf=3200933874&amp;w=1027&amp;abgtt=11&amp;fwrn=4&amp;fwrnh=100&amp;lmt=1750470744&amp;num_ads=1&amp;rafmt=1&amp;armr=3&amp;sem=mc&amp;pwprc=4633386603&amp;ad_type=text_image&amp;format=1027x280&amp;url=https%3A%2F%2Fwww.learncpp.com%2Fcpp-tutorial%2Fvirtual-functions%2F&amp;fwr=0&amp;pra=3&amp;rh=200&amp;rw=1026&amp;rpe=1&amp;resp_fmts=3&amp;wgl=1&amp;fa=27&amp;uach=WyJXaW5kb3dzIiwiMTkuMC4wIiwieDg2IiwiIiwiMTM3LjAuNzE1MS4xMjIiLG51bGwsMCxudWxsLCI2NCIsW1siR29vZ2xlIENocm9tZSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJDaHJvbWl1bSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJOb3QvQSlCcmFuZCIsIjI0LjAuMC4wIl1dLDBd&amp;dt=1751963598695&amp;bpp=1&amp;bdt=843&amp;idt=1&amp;shv=r20250702&amp;mjsv=m202507020101&amp;ptt=9&amp;saldr=aa&amp;abxe=1&amp;cookie=ID%3D05f6e82287d810b4%3AT%3D1751962604%3ART%3D1751963528%3AS%3DALNI_MaQYA0TSAU2k8xwY5tqlN0xFCcd6g&amp;gpic=UID%3D00001157d9e27d0a%3AT%3D1751962604%3ART%3D1751963528%3AS%3DALNI_MYgtHzQJAQQXY_151HTGSSfVxE8_A&amp;eo_id_str=ID%3D52c21936d98c6d2b%3AT%3D1751962604%3ART%3D1751963528%3AS%3DAA-AfjZsJ15yjdEPJ8d11hPojsJQ&amp;prev_fmts=0x0%2C336x280%2C160x600%2C160x600%2C1027x280%2C1027x280%2C1027x280%2C1027x280&amp;nras=6&amp;correlator=1837994991644&amp;frm=20&amp;pv=1&amp;u_tz=480&amp;u_his=2&amp;u_h=600&amp;u_w=800&amp;u_ah=600&amp;u_aw=800&amp;u_cd=24&amp;u_sd=1&amp;dmc=8&amp;adx=27&amp;ady=3634&amp;biw=1080&amp;bih=1024&amp;scr_x=0&amp;scr_y=0&amp;eid=95353387%2C95362655%2C95365226%2C95365235%2C95365461%2C95365113%2C95359265%2C95365117%2C95365797&amp;oid=2&amp;pvsid=7597002832661978&amp;tmod=1708485235&amp;uas=0&amp;nvt=1&amp;fc=1408&amp;brdim=10%2C10%2C10%2C10%2C800%2C0%2C780%2C580%2C1080%2C1024&amp;vis=1&amp;rsz=%7C%7Cs%7C&amp;abl=NS&amp;fu=128&amp;bc=31&amp;bz=0.72&amp;td=1&amp;tdf=2&amp;psd=W251bGwsbnVsbCxudWxsLDNd&amp;nt=1&amp;ifi=10&amp;uci=a!a&amp;btvi=4&amp;fsb=1&amp;dtd=428"
+        data-google-container-id="a!a"
+        tabindex="0"
+        title="Advertisement"
+        aria-label="Advertisement"
+        data-load-complete="true"
+        data-google-query-id="CNijuP_srI4DFXjKFgUd1wkpkA"
+      ></iframe></div
+  ></ins>
+</div>
+<p>
+  In programming, <strong>polymorphism</strong> refers to the ability of an
+  entity to have multiple forms (the term “polymorphism” literally means “many
+  forms”). For example, consider the following two function declarations:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-int">int</span> <span class="token function">add</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-44-close">(</span><span class="token keyword keyword-int">int</span><span class="token punctuation">,</span> <span class="token keyword keyword-int">int</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-44-open">)</span><span class="token punctuation">;</span>
+<span class="token keyword keyword-double">double</span> <span class="token function">add</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-45-close">(</span><span class="token keyword keyword-double">double</span><span class="token punctuation">,</span> <span class="token keyword keyword-double">double</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-45-open">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  The identifier <code>add</code> has two forms: <code>add(int, int)</code> and
+  <code>add(double, double)</code>.
+</p>
+<p>
+  <strong>Compile-time polymorphism</strong> refers to forms of polymorphism
+  that are resolved by the compiler. These include function overload resolution,
+  as well as template resolution.
+</p>
+<div class="code-block code-block-5" style="margin: 8px 0; clear: both"></div>
+
+<p>
+  <strong>Runtime polymorphism</strong> refers to forms of polymorphism that are
+  resolved at runtime. This includes virtual function resolution.
+</p>
+<p class="cpp-section cpp-topline" style="clear: both">
+  A more complex example
+</p>
+<div
+  class="google-auto-placed ap_container"
+  style="width: 100%; height: auto; clear: both; text-align: center"
+>
+  <ins
+    data-ad-format="auto"
+    class="adsbygoogle adsbygoogle-noablate"
+    data-ad-client="ca-pub-0588844875925051"
+    data-adsbygoogle-status="done"
+    style="
+      display: block;
+      margin: auto;
+      background-color: transparent;
+      height: 0px;
+    "
+    data-ad-status="unfilled"
+    ><div
+      id="aswift_10_host"
+      style="
+        border: none;
+        height: 0px;
+        width: 1027px;
+        margin: 0px;
+        padding: 0px;
+        position: relative;
+        visibility: visible;
+        background-color: transparent;
+        display: inline-block;
+        overflow: hidden;
+        opacity: 0;
+      "
+    >
+      <iframe
+        id="aswift_10"
+        name="aswift_10"
+        browsingtopics="true"
+        style="
+          left: 0px;
+          position: absolute;
+          top: 0px;
+          border: 0px;
+          width: 1027px;
+          height: 0px;
+          min-height: auto;
+          max-height: none;
+          min-width: auto;
+          max-width: none;
+        "
+        sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation"
+        width="1027"
+        height="0"
+        frameborder="0"
+        marginwidth="0"
+        marginheight="0"
+        vspace="0"
+        hspace="0"
+        allowtransparency="true"
+        scrolling="no"
+        allow="attribution-reporting; run-ad-auction"
+        src="https://googleads.g.doubleclick.net/pagead/ads?client=ca-pub-0588844875925051&amp;output=html&amp;h=280&amp;adk=1320891330&amp;adf=567182202&amp;w=1027&amp;abgtt=11&amp;fwrn=4&amp;fwrnh=100&amp;lmt=1750470744&amp;num_ads=1&amp;rafmt=1&amp;armr=3&amp;sem=mc&amp;pwprc=4633386603&amp;ad_type=text_image&amp;format=1027x280&amp;url=https%3A%2F%2Fwww.learncpp.com%2Fcpp-tutorial%2Fvirtual-functions%2F&amp;fwr=0&amp;pra=3&amp;rh=200&amp;rw=1026&amp;rpe=1&amp;resp_fmts=3&amp;wgl=1&amp;fa=27&amp;uach=WyJXaW5kb3dzIiwiMTkuMC4wIiwieDg2IiwiIiwiMTM3LjAuNzE1MS4xMjIiLG51bGwsMCxudWxsLCI2NCIsW1siR29vZ2xlIENocm9tZSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJDaHJvbWl1bSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJOb3QvQSlCcmFuZCIsIjI0LjAuMC4wIl1dLDBd&amp;dt=1751963598698&amp;bpp=1&amp;bdt=846&amp;idt=1&amp;shv=r20250702&amp;mjsv=m202507020101&amp;ptt=9&amp;saldr=aa&amp;abxe=1&amp;cookie=ID%3D05f6e82287d810b4%3AT%3D1751962604%3ART%3D1751963528%3AS%3DALNI_MaQYA0TSAU2k8xwY5tqlN0xFCcd6g&amp;gpic=UID%3D00001157d9e27d0a%3AT%3D1751962604%3ART%3D1751963528%3AS%3DALNI_MYgtHzQJAQQXY_151HTGSSfVxE8_A&amp;eo_id_str=ID%3D52c21936d98c6d2b%3AT%3D1751962604%3ART%3D1751963528%3AS%3DAA-AfjZsJ15yjdEPJ8d11hPojsJQ&amp;prev_fmts=0x0%2C336x280%2C160x600%2C160x600%2C1027x280%2C1027x280%2C1027x280%2C1027x280%2C1027x280&amp;nras=7&amp;correlator=1837994991644&amp;frm=20&amp;pv=1&amp;u_tz=480&amp;u_his=2&amp;u_h=600&amp;u_w=800&amp;u_ah=600&amp;u_aw=800&amp;u_cd=24&amp;u_sd=1&amp;dmc=8&amp;adx=27&amp;ady=3940&amp;biw=1080&amp;bih=1024&amp;scr_x=0&amp;scr_y=0&amp;eid=95353387%2C95362655%2C95365226%2C95365235%2C95365461%2C95365113%2C95359265%2C95365117%2C95365797&amp;oid=2&amp;pvsid=7597002832661978&amp;tmod=1708485235&amp;uas=0&amp;nvt=1&amp;fc=1408&amp;brdim=10%2C10%2C10%2C10%2C800%2C0%2C780%2C580%2C1080%2C1024&amp;vis=1&amp;rsz=%7C%7Cs%7C&amp;abl=NS&amp;fu=128&amp;bc=31&amp;bz=0.72&amp;td=1&amp;tdf=2&amp;psd=W251bGwsbnVsbCxudWxsLDNd&amp;nt=1&amp;ifi=11&amp;uci=a!b&amp;btvi=5&amp;fsb=1&amp;dtd=570"
+        data-google-container-id="a!b"
+        tabindex="0"
+        title="Advertisement"
+        aria-label="Advertisement"
+        data-load-complete="true"
+        data-google-query-id="COb9wP_srI4DFfPJFgUdvqovjQ"
+      ></iframe></div
+  ></ins>
+</div>
+<p>
+  Let’s take another look at the Animal example we were working with in the
+  previous lesson. Here’s the original class, along with some test code:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;string&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;string_view&gt;</span></span>
+
+<span class="token keyword keyword-class">class</span> <span class="token class-name">Animal</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-64-close">{</span>
+<span class="token keyword keyword-protected">protected</span><span class="token operator">:</span>
+    std<span class="token double-colon punctuation">::</span>string m_name <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-59-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-59-open">}</span><span class="token punctuation">;</span>
+
+    <span class="token comment">// We're making this constructor protected because</span>
+    <span class="token comment">// we don't want people creating Animal objects directly,</span>
+    <span class="token comment">// but we still want derived classes to be able to use it.</span>
+    <span class="token function">Animal</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-46-close">(</span>std<span class="token double-colon punctuation">::</span>string_view name<span class="token punctuation brace-round brace-close brace-level-2" id="pair-46-open">)</span>
+        <span class="token operator">:</span> m_name<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-60-close">{</span> name <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-60-open">}</span>
+    <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-61-close">{</span>
+    <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-61-open">}</span>
+
+<span class="token keyword keyword-public">public</span><span class="token operator">:</span>
+    <span class="token keyword keyword-const">const</span> std<span class="token double-colon punctuation">::</span>string<span class="token operator">&amp;</span> <span class="token function">getName</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-47-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-47-open">)</span> <span class="token keyword keyword-const">const</span> <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-62-close">{</span> <span class="token keyword keyword-return">return</span> m_name<span class="token punctuation">;</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-62-open">}</span>
+    std<span class="token double-colon punctuation">::</span>string_view <span class="token function">speak</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-48-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-48-open">)</span> <span class="token keyword keyword-const">const</span> <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-63-close">{</span> <span class="token keyword keyword-return">return</span> <span class="token string">"???"</span><span class="token punctuation">;</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-63-open">}</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-64-open">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword keyword-class">class</span> <span class="token class-name">Cat</span><span class="token operator">:</span> <span class="token base-clause"><span class="token keyword keyword-public">public</span> <span class="token class-name">Animal</span></span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-68-close">{</span>
+<span class="token keyword keyword-public">public</span><span class="token operator">:</span>
+    <span class="token function">Cat</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-49-close">(</span>std<span class="token double-colon punctuation">::</span>string_view name<span class="token punctuation brace-round brace-close brace-level-2" id="pair-49-open">)</span>
+        <span class="token operator">:</span> Animal<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-65-close">{</span> name <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-65-open">}</span>
+    <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-66-close">{</span>
+    <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-66-open">}</span>
+
+    std<span class="token double-colon punctuation">::</span>string_view <span class="token function">speak</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-50-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-50-open">)</span> <span class="token keyword keyword-const">const</span> <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-67-close">{</span> <span class="token keyword keyword-return">return</span> <span class="token string">"Meow"</span><span class="token punctuation">;</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-67-open">}</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-68-open">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword keyword-class">class</span> <span class="token class-name">Dog</span><span class="token operator">:</span> <span class="token base-clause"><span class="token keyword keyword-public">public</span> <span class="token class-name">Animal</span></span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-72-close">{</span>
+<span class="token keyword keyword-public">public</span><span class="token operator">:</span>
+    <span class="token function">Dog</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-51-close">(</span>std<span class="token double-colon punctuation">::</span>string_view name<span class="token punctuation brace-round brace-close brace-level-2" id="pair-51-open">)</span>
+        <span class="token operator">:</span> Animal<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-69-close">{</span> name <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-69-open">}</span>
+    <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-70-close">{</span>
+    <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-70-open">}</span>
+
+    std<span class="token double-colon punctuation">::</span>string_view <span class="token function">speak</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-52-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-52-open">)</span> <span class="token keyword keyword-const">const</span> <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-71-close">{</span> <span class="token keyword keyword-return">return</span> <span class="token string">"Woof"</span><span class="token punctuation">;</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-71-open">}</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-72-open">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword keyword-void">void</span> <span class="token function">report</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-53-close">(</span><span class="token keyword keyword-const">const</span> Animal<span class="token operator">&amp;</span> animal<span class="token punctuation brace-round brace-close brace-level-1" id="pair-53-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-73-close">{</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> animal<span class="token punctuation">.</span><span class="token function">getName</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-54-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-54-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">" says "</span> <span class="token operator">&lt;&lt;</span> animal<span class="token punctuation">.</span><span class="token function">speak</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-55-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-55-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-73-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-56-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-56-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-76-close">{</span>
+    Cat cat<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-74-close">{</span> <span class="token string">"Fred"</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-74-open">}</span><span class="token punctuation">;</span>
+    Dog dog<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-75-close">{</span> <span class="token string">"Garbo"</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-75-open">}</span><span class="token punctuation">;</span>
+
+    <span class="token function">report</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-57-close">(</span>cat<span class="token punctuation brace-round brace-close brace-level-2" id="pair-57-open">)</span><span class="token punctuation">;</span>
+    <span class="token function">report</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-58-close">(</span>dog<span class="token punctuation brace-round brace-close brace-level-2" id="pair-58-open">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-76-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>This prints:</p>
+<div
+  class="google-auto-placed ap_container"
+  style="width: 100%; height: auto; clear: both; text-align: center"
+>
+  <ins
+    data-ad-format="auto"
+    class="adsbygoogle adsbygoogle-noablate"
+    data-ad-client="ca-pub-0588844875925051"
+    data-adsbygoogle-status="done"
+    style="
+      display: block;
+      margin: auto;
+      background-color: transparent;
+      height: 280px;
+    "
+    ><div
+      id="aswift_11_host"
+      style="
+        border: none;
+        height: 280px;
+        width: 1027px;
+        margin: 0px;
+        padding: 0px;
+        position: relative;
+        visibility: visible;
+        background-color: transparent;
+        display: inline-block;
+      "
+    ></div
+  ></ins>
+</div>
+<pre>
+Fred says ???
+Garbo says ???
+</pre>
+<p>Here’s the equivalent class with the speak() function made virtual:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;string&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;string_view&gt;</span></span>
+
+<span class="token keyword keyword-class">class</span> <span class="token class-name">Animal</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-95-close">{</span>
+<span class="token keyword keyword-protected">protected</span><span class="token operator">:</span>
+    std<span class="token double-colon punctuation">::</span>string m_name <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-90-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-90-open">}</span><span class="token punctuation">;</span>
+
+    <span class="token comment">// We're making this constructor protected because</span>
+    <span class="token comment">// we don't want people creating Animal objects directly,</span>
+    <span class="token comment">// but we still want derived classes to be able to use it.</span>
+    <span class="token function">Animal</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-77-close">(</span>std<span class="token double-colon punctuation">::</span>string_view name<span class="token punctuation brace-round brace-close brace-level-2" id="pair-77-open">)</span>
+        <span class="token operator">:</span> m_name<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-91-close">{</span> name <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-91-open">}</span>
+    <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-92-close">{</span>
+    <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-92-open">}</span>
+
+<span class="token keyword keyword-public">public</span><span class="token operator">:</span>
+    <span class="token keyword keyword-const">const</span> std<span class="token double-colon punctuation">::</span>string<span class="token operator">&amp;</span> <span class="token function">getName</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-78-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-78-open">)</span> <span class="token keyword keyword-const">const</span> <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-93-close">{</span> <span class="token keyword keyword-return">return</span> m_name<span class="token punctuation">;</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-93-open">}</span>
+    <span class="token keyword keyword-virtual">virtual</span> std<span class="token double-colon punctuation">::</span>string_view <span class="token function">speak</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-79-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-79-open">)</span> <span class="token keyword keyword-const">const</span> <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-94-close">{</span> <span class="token keyword keyword-return">return</span> <span class="token string">"???"</span><span class="token punctuation">;</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-94-open">}</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-95-open">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword keyword-class">class</span> <span class="token class-name">Cat</span><span class="token operator">:</span> <span class="token base-clause"><span class="token keyword keyword-public">public</span> <span class="token class-name">Animal</span></span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-99-close">{</span>
+<span class="token keyword keyword-public">public</span><span class="token operator">:</span>
+    <span class="token function">Cat</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-80-close">(</span>std<span class="token double-colon punctuation">::</span>string_view name<span class="token punctuation brace-round brace-close brace-level-2" id="pair-80-open">)</span>
+        <span class="token operator">:</span> Animal<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-96-close">{</span> name <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-96-open">}</span>
+    <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-97-close">{</span>
+    <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-97-open">}</span>
+
+    <span class="token keyword keyword-virtual">virtual</span> std<span class="token double-colon punctuation">::</span>string_view <span class="token function">speak</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-81-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-81-open">)</span> <span class="token keyword keyword-const">const</span> <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-98-close">{</span> <span class="token keyword keyword-return">return</span> <span class="token string">"Meow"</span><span class="token punctuation">;</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-98-open">}</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-99-open">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword keyword-class">class</span> <span class="token class-name">Dog</span><span class="token operator">:</span> <span class="token base-clause"><span class="token keyword keyword-public">public</span> <span class="token class-name">Animal</span></span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-103-close">{</span>
+<span class="token keyword keyword-public">public</span><span class="token operator">:</span>
+    <span class="token function">Dog</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-82-close">(</span>std<span class="token double-colon punctuation">::</span>string_view name<span class="token punctuation brace-round brace-close brace-level-2" id="pair-82-open">)</span>
+        <span class="token operator">:</span> Animal<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-100-close">{</span> name <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-100-open">}</span>
+    <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-101-close">{</span>
+    <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-101-open">}</span>
+
+    <span class="token keyword keyword-virtual">virtual</span> std<span class="token double-colon punctuation">::</span>string_view <span class="token function">speak</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-83-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-83-open">)</span> <span class="token keyword keyword-const">const</span> <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-102-close">{</span> <span class="token keyword keyword-return">return</span> <span class="token string">"Woof"</span><span class="token punctuation">;</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-102-open">}</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-103-open">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword keyword-void">void</span> <span class="token function">report</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-84-close">(</span><span class="token keyword keyword-const">const</span> Animal<span class="token operator">&amp;</span> animal<span class="token punctuation brace-round brace-close brace-level-1" id="pair-84-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-104-close">{</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> animal<span class="token punctuation">.</span><span class="token function">getName</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-85-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-85-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">" says "</span> <span class="token operator">&lt;&lt;</span> animal<span class="token punctuation">.</span><span class="token function">speak</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-86-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-86-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-104-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-87-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-87-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-107-close">{</span>
+    Cat cat<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-105-close">{</span> <span class="token string">"Fred"</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-105-open">}</span><span class="token punctuation">;</span>
+    Dog dog<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-106-close">{</span> <span class="token string">"Garbo"</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-106-open">}</span><span class="token punctuation">;</span>
+
+    <span class="token function">report</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-88-close">(</span>cat<span class="token punctuation brace-round brace-close brace-level-2" id="pair-88-open">)</span><span class="token punctuation">;</span>
+    <span class="token function">report</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-89-close">(</span>dog<span class="token punctuation brace-round brace-close brace-level-2" id="pair-89-open">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-107-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>This program produces the result:</p>
+<div
+  class="google-auto-placed ap_container"
+  style="width: 100%; height: auto; clear: both; text-align: center"
+>
+  <ins
+    data-ad-format="auto"
+    class="adsbygoogle adsbygoogle-noablate"
+    data-ad-client="ca-pub-0588844875925051"
+    data-adsbygoogle-status="done"
+    style="
+      display: block;
+      margin: auto;
+      background-color: transparent;
+      height: 280px;
+    "
+    ><div
+      id="aswift_12_host"
+      style="
+        border: none;
+        height: 280px;
+        width: 1027px;
+        margin: 0px;
+        padding: 0px;
+        position: relative;
+        visibility: visible;
+        background-color: transparent;
+        display: inline-block;
+      "
+    ></div
+  ></ins>
+</div>
+<pre>
+Fred says Meow
+Garbo says Woof
+</pre>
+<p>It works!</p>
+<p>
+  When animal.speak() is evaluated, the program notes that Animal::speak() is a
+  virtual function. In the case where animal is referencing the Animal portion
+  of a Cat object, the program looks at all the classes between Animal and Cat
+  to see if it can find a more derived function. In that case, it finds
+  Cat::speak(). In the case where animal references the Animal portion of a Dog
+  object, the program resolves the function call to Dog::speak().
+</p>
+<div class="code-block code-block-6" style="margin: 8px 0; clear: both"></div>
+
+<p>
+  Note that we didn’t make Animal::getName() virtual. This is because getName()
+  is never overridden in any of the derived classes, therefore there is no need.
+</p>
+<p>Similarly, the following array example now works as expected:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp">Cat fred<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-112-close">{</span> <span class="token string">"Fred"</span> <span class="token punctuation brace-curly brace-close brace-level-1" id="pair-112-open">}</span><span class="token punctuation">;</span>
+Cat misty<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-113-close">{</span> <span class="token string">"Misty"</span> <span class="token punctuation brace-curly brace-close brace-level-1" id="pair-113-open">}</span><span class="token punctuation">;</span>
+Cat zeke<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-114-close">{</span> <span class="token string">"Zeke"</span> <span class="token punctuation brace-curly brace-close brace-level-1" id="pair-114-open">}</span><span class="token punctuation">;</span>
+
+Dog garbo<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-115-close">{</span> <span class="token string">"Garbo"</span> <span class="token punctuation brace-curly brace-close brace-level-1" id="pair-115-open">}</span><span class="token punctuation">;</span>
+Dog pooky<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-116-close">{</span> <span class="token string">"Pooky"</span> <span class="token punctuation brace-curly brace-close brace-level-1" id="pair-116-open">}</span><span class="token punctuation">;</span>
+Dog truffle<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-117-close">{</span> <span class="token string">"Truffle"</span> <span class="token punctuation brace-curly brace-close brace-level-1" id="pair-117-open">}</span><span class="token punctuation">;</span>
+
+<span class="token comment">// Set up an array of pointers to animals, and set those pointers to our Cat and Dog objects</span>
+Animal<span class="token operator">*</span> animals<span class="token punctuation brace-square brace-open brace-level-1" id="pair-111-close">[</span><span class="token punctuation brace-square brace-close brace-level-1" id="pair-111-open">]</span><span class="token punctuation brace-curly brace-open brace-level-1" id="pair-118-close">{</span> <span class="token operator">&amp;</span>fred<span class="token punctuation">,</span> <span class="token operator">&amp;</span>garbo<span class="token punctuation">,</span> <span class="token operator">&amp;</span>misty<span class="token punctuation">,</span> <span class="token operator">&amp;</span>pooky<span class="token punctuation">,</span> <span class="token operator">&amp;</span>truffle<span class="token punctuation">,</span> <span class="token operator">&amp;</span>zeke <span class="token punctuation brace-curly brace-close brace-level-1" id="pair-118-open">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword keyword-for">for</span> <span class="token punctuation brace-round brace-open brace-level-1" id="pair-108-close">(</span><span class="token keyword keyword-const">const</span> <span class="token keyword keyword-auto">auto</span><span class="token operator">*</span> animal <span class="token operator">:</span> animals<span class="token punctuation brace-round brace-close brace-level-1" id="pair-108-open">)</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> animal<span class="token operator">-&gt;</span><span class="token function">getName</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-109-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-109-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">" says "</span> <span class="token operator">&lt;&lt;</span> animal<span class="token operator">-&gt;</span><span class="token function">speak</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-110-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-110-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>Which produces the result:</p>
+<div
+  class="google-auto-placed ap_container"
+  style="width: 100%; height: auto; clear: both; text-align: center"
+>
+  <ins
+    data-ad-format="auto"
+    class="adsbygoogle adsbygoogle-noablate"
+    data-ad-client="ca-pub-0588844875925051"
+    data-adsbygoogle-status="done"
+    style="
+      display: block;
+      margin: auto;
+      background-color: transparent;
+      height: 280px;
+    "
+    ><div
+      id="aswift_13_host"
+      style="
+        border: none;
+        height: 280px;
+        width: 1027px;
+        margin: 0px;
+        padding: 0px;
+        position: relative;
+        visibility: visible;
+        background-color: transparent;
+        display: inline-block;
+      "
+    ></div
+  ></ins>
+</div>
+<pre>
+Fred says Meow
+Garbo says Woof
+Misty says Meow
+Pooky says Woof
+Truffle says Woof
+Zeke says Meow
+</pre>
+<p>
+  Even though these two examples only use Cat and Dog, any other classes we
+  derive from Animal would also work with our report() function and animal array
+  without further modification! This is perhaps the biggest benefit of virtual
+  functions -- the ability to structure your code in such a way that newly
+  derived classes will automatically work with the old code without
+  modification!
+</p>
+<p>
+  A word of warning: the signature of the derived class function must
+  <em>exactly</em> match the signature of the base class virtual function in
+  order for the derived class function to be used. If the derived class function
+  has different parameter types, the program will likely still compile fine, but
+  the virtual function will not resolve as intended. In the next lesson, we’ll
+  discuss how to guard against this.
+</p>
+<p>
+  Note that if a function is marked as virtual, all matching overrides in
+  derived classes are also implicitly considered virtual, even if they are not
+  explicitly marked as such.
+</p>
+<div class="code-block code-block-7" style="margin: 8px 0; clear: both"></div>
+
+<div class="cpp-note cpp-lightpurplebackground">
+  <p class="cpp-note-title cpp-bottomline">Rule</p>
+  <p>
+    If a function is virtual, all matching overrides in derived classes are
+    implicitly virtual.
+  </p>
+</div>
+<p>
+  This does not work the other way around -- a virtual override in a derived
+  class does not implicitly make the base class function virtual.
+</p>
+<p class="cpp-section cpp-topline" style="clear: both">
+  Return types of virtual functions
+</p>
+<p>
+  Under normal circumstances, the return type of a virtual function and its
+  override must match. Consider the following example:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-class">class</span> <span class="token class-name">Base</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-122-close">{</span>
+<span class="token keyword keyword-public">public</span><span class="token operator">:</span>
+    <span class="token keyword keyword-virtual">virtual</span> <span class="token keyword keyword-int">int</span> <span class="token function">getValue</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-119-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-119-open">)</span> <span class="token keyword keyword-const">const</span> <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-121-close">{</span> <span class="token keyword keyword-return">return</span> <span class="token number">5</span><span class="token punctuation">;</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-121-open">}</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-122-open">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword keyword-class">class</span> <span class="token class-name">Derived</span><span class="token operator">:</span> <span class="token base-clause"><span class="token keyword keyword-public">public</span> <span class="token class-name">Base</span></span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-124-close">{</span>
+<span class="token keyword keyword-public">public</span><span class="token operator">:</span>
+    <span class="token keyword keyword-virtual">virtual</span> <span class="token keyword keyword-double">double</span> <span class="token function">getValue</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-120-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-120-open">)</span> <span class="token keyword keyword-const">const</span> <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-123-close">{</span> <span class="token keyword keyword-return">return</span> <span class="token number">6.78</span><span class="token punctuation">;</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-123-open">}</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-124-open">}</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  In this case, Derived::getValue() is not considered a matching override for
+  Base::getValue() and compilation will fail.
+</p>
+<p class="cpp-section cpp-topline" style="clear: both">
+  Do not call virtual functions from constructors or destructors
+</p>
+<div class="code-block code-block-8" style="margin: 8px 0; clear: both"></div>
+
+<p>
+  Here’s another gotcha that often catches unsuspecting new programmers. You
+  should not call virtual functions from constructors or destructors. Why?
+</p>
+<p>
+  Remember that when a Derived class is created, the Base portion is constructed
+  first. If you were to call a virtual function from the Base constructor, and
+  Derived portion of the class hadn’t even been created yet, it would be unable
+  to call the Derived version of the function because there’s no Derived object
+  for the Derived function to work on. In C++, it will call the Base version
+  instead.
+</p>
+<p>
+  A similar issue exists for destructors. If you call a virtual function in a
+  Base class destructor, it will always resolve to the Base class version of the
+  function, because the Derived portion of the class will already have been
+  destroyed.
+</p>
+<div class="cpp-note cpp-lightgreenbackground">
+  <p class="cpp-note-title cpp-bottomline">Best practice</p>
+  <p>Never call virtual functions from constructors or destructors.</p>
+</div>
+<p class="cpp-section cpp-topline" style="clear: both">
+  The downside of virtual functions
+</p>
+<p>
+  Since most of the time you’ll want your functions to be virtual, why not just
+  make all functions virtual? The answer is because it’s inefficient --
+  resolving a virtual function call takes longer than resolving a regular one.
+</p>
+<p>
+  Furthermore, to make virtual functions work, the compiler has to allocate an
+  extra pointer for each object of a class that has virtual functions. This adds
+  a lot of overhead to objects that otherwise have a small size. We’ll talk
+  about this more in future lessons in this chapter.
+</p>
+<p class="cpp-section cpp-topline" style="clear: both">Quiz time</p>
+<ol start="1">
+  <li>
+    What do the following programs print? This exercise is meant to be done by
+    inspection, not by compiling the examples with your compiler.
+  </li>
+</ol>
+<p>1a)</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;string_view&gt;</span></span>
+
+<span class="token keyword keyword-class">class</span> <span class="token class-name">A</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-131-close">{</span>
+<span class="token keyword keyword-public">public</span><span class="token operator">:</span>
+    <span class="token keyword keyword-virtual">virtual</span> std<span class="token double-colon punctuation">::</span>string_view <span class="token function">getName</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-125-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-125-open">)</span> <span class="token keyword keyword-const">const</span> <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-130-close">{</span> <span class="token keyword keyword-return">return</span> <span class="token string">"A"</span><span class="token punctuation">;</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-130-open">}</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-131-open">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword keyword-class">class</span> <span class="token class-name">B</span><span class="token operator">:</span> <span class="token base-clause"><span class="token keyword keyword-public">public</span> <span class="token class-name">A</span></span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-133-close">{</span>
+<span class="token keyword keyword-public">public</span><span class="token operator">:</span>
+    <span class="token keyword keyword-virtual">virtual</span> std<span class="token double-colon punctuation">::</span>string_view <span class="token function">getName</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-126-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-126-open">)</span> <span class="token keyword keyword-const">const</span> <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-132-close">{</span> <span class="token keyword keyword-return">return</span> <span class="token string">"B"</span><span class="token punctuation">;</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-132-open">}</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-133-open">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword keyword-class">class</span> <span class="token class-name">C</span><span class="token operator">:</span> <span class="token base-clause"><span class="token keyword keyword-public">public</span> <span class="token class-name">B</span></span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-134-close">{</span>
+<span class="token keyword keyword-public">public</span><span class="token operator">:</span>
+<span class="token comment">// Note: no getName() function here</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-134-open">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword keyword-class">class</span> <span class="token class-name">D</span><span class="token operator">:</span> <span class="token base-clause"><span class="token keyword keyword-public">public</span> <span class="token class-name">C</span></span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-136-close">{</span>
+<span class="token keyword keyword-public">public</span><span class="token operator">:</span>
+    <span class="token keyword keyword-virtual">virtual</span> std<span class="token double-colon punctuation">::</span>string_view <span class="token function">getName</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-127-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-127-open">)</span> <span class="token keyword keyword-const">const</span> <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-135-close">{</span> <span class="token keyword keyword-return">return</span> <span class="token string">"D"</span><span class="token punctuation">;</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-135-open">}</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-136-open">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-128-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-128-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-139-close">{</span>
+    C c <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-137-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-137-open">}</span><span class="token punctuation">;</span>
+    A<span class="token operator">&amp;</span> rBase<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-138-close">{</span> c <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-138-open">}</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> rBase<span class="token punctuation">.</span><span class="token function">getName</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-129-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-129-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-139-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  <a
+    class="solution_link_show"
+    href="javascript:void(0)"
+    onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_0'), this, 'Show Solution', 'Hide Solution')"
+    >Show Solution</a
+  >
+</p>
+<div class="wpsolution" id="cpp_solution_id_0" style="display: none">
+  B. rBase is an A reference pointing to a C object. Normally rBase.getName()
+  would call A::getName(), but A::getName() is virtual so it instead calls the
+  most derived matching function between A and C. That is B::getName(), which
+  prints B.
+</div>
+<p>1b)</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;string_view&gt;</span></span>
+
+<span class="token keyword keyword-class">class</span> <span class="token class-name">A</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-147-close">{</span>
+<span class="token keyword keyword-public">public</span><span class="token operator">:</span>
+    <span class="token keyword keyword-virtual">virtual</span> std<span class="token double-colon punctuation">::</span>string_view <span class="token function">getName</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-140-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-140-open">)</span> <span class="token keyword keyword-const">const</span> <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-146-close">{</span> <span class="token keyword keyword-return">return</span> <span class="token string">"A"</span><span class="token punctuation">;</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-146-open">}</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-147-open">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword keyword-class">class</span> <span class="token class-name">B</span><span class="token operator">:</span> <span class="token base-clause"><span class="token keyword keyword-public">public</span> <span class="token class-name">A</span></span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-149-close">{</span>
+<span class="token keyword keyword-public">public</span><span class="token operator">:</span>
+    <span class="token keyword keyword-virtual">virtual</span> std<span class="token double-colon punctuation">::</span>string_view <span class="token function">getName</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-141-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-141-open">)</span> <span class="token keyword keyword-const">const</span> <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-148-close">{</span> <span class="token keyword keyword-return">return</span> <span class="token string">"B"</span><span class="token punctuation">;</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-148-open">}</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-149-open">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword keyword-class">class</span> <span class="token class-name">C</span><span class="token operator">:</span> <span class="token base-clause"><span class="token keyword keyword-public">public</span> <span class="token class-name">B</span></span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-151-close">{</span>
+<span class="token keyword keyword-public">public</span><span class="token operator">:</span>
+    <span class="token keyword keyword-virtual">virtual</span> std<span class="token double-colon punctuation">::</span>string_view <span class="token function">getName</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-142-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-142-open">)</span> <span class="token keyword keyword-const">const</span> <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-150-close">{</span> <span class="token keyword keyword-return">return</span> <span class="token string">"C"</span><span class="token punctuation">;</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-150-open">}</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-151-open">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword keyword-class">class</span> <span class="token class-name">D</span><span class="token operator">:</span> <span class="token base-clause"><span class="token keyword keyword-public">public</span> <span class="token class-name">C</span></span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-153-close">{</span>
+<span class="token keyword keyword-public">public</span><span class="token operator">:</span>
+    <span class="token keyword keyword-virtual">virtual</span> std<span class="token double-colon punctuation">::</span>string_view <span class="token function">getName</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-143-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-143-open">)</span> <span class="token keyword keyword-const">const</span> <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-152-close">{</span> <span class="token keyword keyword-return">return</span> <span class="token string">"D"</span><span class="token punctuation">;</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-152-open">}</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-153-open">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-144-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-144-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-155-close">{</span>
+    C c<span class="token punctuation">;</span>
+    B<span class="token operator">&amp;</span> rBase<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-154-close">{</span> c <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-154-open">}</span><span class="token punctuation">;</span> <span class="token comment">// note: rBase is a B this time</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> rBase<span class="token punctuation">.</span><span class="token function">getName</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-145-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-145-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-155-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  <a
+    class="solution_link_show"
+    href="javascript:void(0)"
+    onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_1'), this, 'Show Solution', 'Hide Solution')"
+    >Show Solution</a
+  >
+</p>
+<div class="wpsolution" id="cpp_solution_id_1" style="display: none">
+  C. This is pretty straightforward, as C::getName() is the most derived
+  matching call between classes B and C.
+</div>
+<p>1c)</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;string_view&gt;</span></span>
+
+<span class="token keyword keyword-class">class</span> <span class="token class-name">A</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-163-close">{</span>
+<span class="token keyword keyword-public">public</span><span class="token operator">:</span>
+    <span class="token comment">// note: no virtual keyword</span>
+    std<span class="token double-colon punctuation">::</span>string_view <span class="token function">getName</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-156-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-156-open">)</span> <span class="token keyword keyword-const">const</span> <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-162-close">{</span> <span class="token keyword keyword-return">return</span> <span class="token string">"A"</span><span class="token punctuation">;</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-162-open">}</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-163-open">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword keyword-class">class</span> <span class="token class-name">B</span><span class="token operator">:</span> <span class="token base-clause"><span class="token keyword keyword-public">public</span> <span class="token class-name">A</span></span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-165-close">{</span>
+<span class="token keyword keyword-public">public</span><span class="token operator">:</span>
+    <span class="token keyword keyword-virtual">virtual</span> std<span class="token double-colon punctuation">::</span>string_view <span class="token function">getName</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-157-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-157-open">)</span> <span class="token keyword keyword-const">const</span> <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-164-close">{</span> <span class="token keyword keyword-return">return</span> <span class="token string">"B"</span><span class="token punctuation">;</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-164-open">}</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-165-open">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword keyword-class">class</span> <span class="token class-name">C</span><span class="token operator">:</span> <span class="token base-clause"><span class="token keyword keyword-public">public</span> <span class="token class-name">B</span></span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-167-close">{</span>
+<span class="token keyword keyword-public">public</span><span class="token operator">:</span>
+    <span class="token keyword keyword-virtual">virtual</span> std<span class="token double-colon punctuation">::</span>string_view <span class="token function">getName</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-158-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-158-open">)</span> <span class="token keyword keyword-const">const</span> <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-166-close">{</span> <span class="token keyword keyword-return">return</span> <span class="token string">"C"</span><span class="token punctuation">;</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-166-open">}</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-167-open">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword keyword-class">class</span> <span class="token class-name">D</span><span class="token operator">:</span> <span class="token base-clause"><span class="token keyword keyword-public">public</span> <span class="token class-name">C</span></span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-169-close">{</span>
+<span class="token keyword keyword-public">public</span><span class="token operator">:</span>
+    <span class="token keyword keyword-virtual">virtual</span> std<span class="token double-colon punctuation">::</span>string_view <span class="token function">getName</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-159-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-159-open">)</span> <span class="token keyword keyword-const">const</span> <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-168-close">{</span> <span class="token keyword keyword-return">return</span> <span class="token string">"D"</span><span class="token punctuation">;</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-168-open">}</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-169-open">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-160-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-160-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-172-close">{</span>
+    C c <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-170-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-170-open">}</span><span class="token punctuation">;</span>
+    A<span class="token operator">&amp;</span> rBase<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-171-close">{</span> c <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-171-open">}</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> rBase<span class="token punctuation">.</span><span class="token function">getName</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-161-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-161-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-172-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  <a
+    class="solution_link_show"
+    href="javascript:void(0)"
+    onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_2'), this, 'Show Solution', 'Hide Solution')"
+    >Show Solution</a
+  >
+</p>
+<div class="wpsolution" id="cpp_solution_id_2" style="display: none">
+  A. Since A is not virtual, when rBase.getName() is called, A::getName() is
+  called.
+</div>
+<p>1d)</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;string_view&gt;</span></span>
+
+<span class="token keyword keyword-class">class</span> <span class="token class-name">A</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-180-close">{</span>
+<span class="token keyword keyword-public">public</span><span class="token operator">:</span>
+    <span class="token keyword keyword-virtual">virtual</span> std<span class="token double-colon punctuation">::</span>string_view <span class="token function">getName</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-173-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-173-open">)</span> <span class="token keyword keyword-const">const</span> <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-179-close">{</span> <span class="token keyword keyword-return">return</span> <span class="token string">"A"</span><span class="token punctuation">;</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-179-open">}</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-180-open">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword keyword-class">class</span> <span class="token class-name">B</span><span class="token operator">:</span> <span class="token base-clause"><span class="token keyword keyword-public">public</span> <span class="token class-name">A</span></span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-182-close">{</span>
+<span class="token keyword keyword-public">public</span><span class="token operator">:</span>
+    <span class="token comment">// note: no virtual keyword in B, C, and D</span>
+    std<span class="token double-colon punctuation">::</span>string_view <span class="token function">getName</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-174-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-174-open">)</span> <span class="token keyword keyword-const">const</span> <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-181-close">{</span> <span class="token keyword keyword-return">return</span> <span class="token string">"B"</span><span class="token punctuation">;</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-181-open">}</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-182-open">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword keyword-class">class</span> <span class="token class-name">C</span><span class="token operator">:</span> <span class="token base-clause"><span class="token keyword keyword-public">public</span> <span class="token class-name">B</span></span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-184-close">{</span>
+<span class="token keyword keyword-public">public</span><span class="token operator">:</span>
+    std<span class="token double-colon punctuation">::</span>string_view <span class="token function">getName</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-175-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-175-open">)</span> <span class="token keyword keyword-const">const</span> <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-183-close">{</span> <span class="token keyword keyword-return">return</span> <span class="token string">"C"</span><span class="token punctuation">;</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-183-open">}</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-184-open">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword keyword-class">class</span> <span class="token class-name">D</span><span class="token operator">:</span> <span class="token base-clause"><span class="token keyword keyword-public">public</span> <span class="token class-name">C</span></span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-186-close">{</span>
+<span class="token keyword keyword-public">public</span><span class="token operator">:</span>
+    std<span class="token double-colon punctuation">::</span>string_view <span class="token function">getName</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-176-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-176-open">)</span> <span class="token keyword keyword-const">const</span> <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-185-close">{</span> <span class="token keyword keyword-return">return</span> <span class="token string">"D"</span><span class="token punctuation">;</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-185-open">}</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-186-open">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-177-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-177-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-189-close">{</span>
+    C c <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-187-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-187-open">}</span><span class="token punctuation">;</span>
+    B<span class="token operator">&amp;</span> rBase<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-188-close">{</span> c <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-188-open">}</span><span class="token punctuation">;</span> <span class="token comment">// note: rBase is a B this time</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> rBase<span class="token punctuation">.</span><span class="token function">getName</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-178-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-178-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-189-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  <a
+    class="solution_link_show"
+    href="javascript:void(0)"
+    onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_3'), this, 'Show Solution', 'Hide Solution')"
+    >Show Solution</a
+  >
+</p>
+<div class="wpsolution" id="cpp_solution_id_3" style="display: none">
+  C. Even though B and C aren’t marked as virtual functions, A::getName() is
+  virtual and B::getName() and C::getName() are overrides. Therefore,
+  B::getName() and C::getName() are considered implicitly virtual, and thus the
+  call to rBase.getName() resolves to C::getName(), not B::getName().
+</div>
+<p>1e)</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;string_view&gt;</span></span>
+
+<span class="token keyword keyword-class">class</span> <span class="token class-name">A</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-197-close">{</span>
+<span class="token keyword keyword-public">public</span><span class="token operator">:</span>
+    <span class="token keyword keyword-virtual">virtual</span> std<span class="token double-colon punctuation">::</span>string_view <span class="token function">getName</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-190-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-190-open">)</span> <span class="token keyword keyword-const">const</span> <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-196-close">{</span> <span class="token keyword keyword-return">return</span> <span class="token string">"A"</span><span class="token punctuation">;</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-196-open">}</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-197-open">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword keyword-class">class</span> <span class="token class-name">B</span><span class="token operator">:</span> <span class="token base-clause"><span class="token keyword keyword-public">public</span> <span class="token class-name">A</span></span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-199-close">{</span>
+<span class="token keyword keyword-public">public</span><span class="token operator">:</span>
+    <span class="token comment">// Note: Functions in B, C, and D are non-const.</span>
+    <span class="token keyword keyword-virtual">virtual</span> std<span class="token double-colon punctuation">::</span>string_view <span class="token function">getName</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-191-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-191-open">)</span> <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-198-close">{</span> <span class="token keyword keyword-return">return</span> <span class="token string">"B"</span><span class="token punctuation">;</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-198-open">}</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-199-open">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword keyword-class">class</span> <span class="token class-name">C</span><span class="token operator">:</span> <span class="token base-clause"><span class="token keyword keyword-public">public</span> <span class="token class-name">B</span></span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-201-close">{</span>
+<span class="token keyword keyword-public">public</span><span class="token operator">:</span>
+    <span class="token keyword keyword-virtual">virtual</span> std<span class="token double-colon punctuation">::</span>string_view <span class="token function">getName</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-192-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-192-open">)</span> <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-200-close">{</span> <span class="token keyword keyword-return">return</span> <span class="token string">"C"</span><span class="token punctuation">;</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-200-open">}</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-201-open">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword keyword-class">class</span> <span class="token class-name">D</span><span class="token operator">:</span> <span class="token base-clause"><span class="token keyword keyword-public">public</span> <span class="token class-name">C</span></span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-203-close">{</span>
+<span class="token keyword keyword-public">public</span><span class="token operator">:</span>
+    <span class="token keyword keyword-virtual">virtual</span> std<span class="token double-colon punctuation">::</span>string_view <span class="token function">getName</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-193-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-193-open">)</span> <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-202-close">{</span> <span class="token keyword keyword-return">return</span> <span class="token string">"D"</span><span class="token punctuation">;</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-202-open">}</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-203-open">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-194-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-194-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-206-close">{</span>
+    C c <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-204-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-204-open">}</span><span class="token punctuation">;</span>
+    A<span class="token operator">&amp;</span> rBase<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-205-close">{</span> c <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-205-open">}</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> rBase<span class="token punctuation">.</span><span class="token function">getName</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-195-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-195-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-206-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  <a
+    class="solution_link_show"
+    href="javascript:void(0)"
+    onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_4'), this, 'Show Solution', 'Hide Solution')"
+    >Show Solution</a
+  >
+</p>
+<div class="wpsolution" id="cpp_solution_id_4" style="display: none">
+  A. This one is a little trickier. rBase is an A reference to a C object, so
+  rBase.getName() would normally call A::getName(). But A::getName() is virtual,
+  so it calls the most derived version of the function between A and C. And that
+  is A::getName(). Because B::getName() and C::getName() are not const, they are
+  not considered overrides! Consequently, this program prints A.
+</div>
+<p>1f)</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;string_view&gt;</span></span>
+
+<span class="token keyword keyword-class">class</span> <span class="token class-name">A</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-216-close">{</span>
+<span class="token keyword keyword-public">public</span><span class="token operator">:</span>
+	<span class="token function">A</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-207-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-207-open">)</span> <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-214-close">{</span> std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token function">getName</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-208-close">(</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-208-open">)</span><span class="token punctuation">;</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-214-open">}</span> <span class="token comment">// note addition of constructor (getName() now called from here)</span>
+
+	<span class="token keyword keyword-virtual">virtual</span> std<span class="token double-colon punctuation">::</span>string_view <span class="token function">getName</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-209-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-209-open">)</span> <span class="token keyword keyword-const">const</span> <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-215-close">{</span> <span class="token keyword keyword-return">return</span> <span class="token string">"A"</span><span class="token punctuation">;</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-215-open">}</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-216-open">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword keyword-class">class</span> <span class="token class-name">B</span> <span class="token operator">:</span> <span class="token base-clause"><span class="token keyword keyword-public">public</span> <span class="token class-name">A</span></span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-218-close">{</span>
+<span class="token keyword keyword-public">public</span><span class="token operator">:</span>
+	<span class="token keyword keyword-virtual">virtual</span> std<span class="token double-colon punctuation">::</span>string_view <span class="token function">getName</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-210-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-210-open">)</span> <span class="token keyword keyword-const">const</span> <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-217-close">{</span> <span class="token keyword keyword-return">return</span> <span class="token string">"B"</span><span class="token punctuation">;</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-217-open">}</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-218-open">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword keyword-class">class</span> <span class="token class-name">C</span> <span class="token operator">:</span> <span class="token base-clause"><span class="token keyword keyword-public">public</span> <span class="token class-name">B</span></span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-220-close">{</span>
+<span class="token keyword keyword-public">public</span><span class="token operator">:</span>
+	<span class="token keyword keyword-virtual">virtual</span> std<span class="token double-colon punctuation">::</span>string_view <span class="token function">getName</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-211-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-211-open">)</span> <span class="token keyword keyword-const">const</span> <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-219-close">{</span> <span class="token keyword keyword-return">return</span> <span class="token string">"C"</span><span class="token punctuation">;</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-219-open">}</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-220-open">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword keyword-class">class</span> <span class="token class-name">D</span> <span class="token operator">:</span> <span class="token base-clause"><span class="token keyword keyword-public">public</span> <span class="token class-name">C</span></span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-222-close">{</span>
+<span class="token keyword keyword-public">public</span><span class="token operator">:</span>
+	<span class="token keyword keyword-virtual">virtual</span> std<span class="token double-colon punctuation">::</span>string_view <span class="token function">getName</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-212-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-212-open">)</span> <span class="token keyword keyword-const">const</span> <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-221-close">{</span> <span class="token keyword keyword-return">return</span> <span class="token string">"D"</span><span class="token punctuation">;</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-221-open">}</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-222-open">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-213-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-213-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-224-close">{</span>
+	C c <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-223-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-223-open">}</span><span class="token punctuation">;</span>
+
+	<span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-224-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  <a
+    class="solution_link_show"
+    href="javascript:void(0)"
+    onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_5'), this, 'Show Solution', 'Hide Solution')"
+    >Show Solution</a
+  >
+</p>
+<div class="wpsolution" id="cpp_solution_id_5" style="display: none">
+  A. Another tricky one. When we create a C object, the A part is constructed
+  first. When the A constructor is called to do this, it calls virtual function
+  getName(). Because the B and C parts of the class aren’t set up yet, this
+  resolves to A::getName().
+</div>
+<div class="prevnext">
+  <div class="prevnext-inline">
+    <a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/the-override-and-final-specifiers-and-covariant-return-types/"
+    >
+      <div class="nav-button nav-button-next">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-right" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Next lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">25.3</span>The override and
+            final specifiers, and covariant return types
+          </div>
+        </div>
+      </div></a
+    >
+    <a class="nav-link" href="/">
+      <div class="nav-button nav-button-index">
+        <div class="nav-button-icon">
+          <i class="fa fa-home" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Back to table of contents</div>
+        </div>
+      </div></a
+    >
+    <a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/pointers-and-references-to-the-base-class-of-derived-objects/"
+    >
+      <div class="nav-button nav-button-prev">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-left" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Previous lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">25.1</span>Pointers and
+            references to the base class of derived objects
+          </div>
+        </div>
+      </div></a
+    >
+  </div>
+</div>
+<div class="code-block code-block-10" style="margin: 8px 0; clear: both"></div>

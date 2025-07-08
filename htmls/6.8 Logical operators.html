@@ -1,0 +1,1294 @@
+<div
+  class="code-block code-block-1"
+  style="margin: 8px 8px 8px 0; float: left"
+></div>
+<p>
+  While relational (comparison) operators can be used to test whether a
+  particular condition is true or false, they can only test one condition at a
+  time. Often we need to know whether multiple conditions are true
+  simultaneously. For example, to check whether we’ve won the lottery, we have
+  to compare whether all of the multiple numbers we picked match the winning
+  numbers. In a lottery with 6 numbers, this would involve 6 comparisons,
+  <em>all</em> of which have to be true. In other cases, we need to know whether
+  any one of multiple conditions is true. For example, we may decide to skip
+  work today if we’re sick, or if we’re too tired, or if we won the lottery in
+  our previous example. This would involve checking whether <em>any</em> of 3
+  comparisons is true.
+</p>
+<p>
+  Logical operators provide us with the capability to test multiple conditions.
+</p>
+<p style="clear: both"></p>
+<p>C++ has 3 logical operators:</p>
+<div class="cpp-table-wrapper" data-ezoic-video-excluded="1">
+  <p></p>
+  <p></p>
+  <table class="cpp-table" data-ezoic-video-excluded="1">
+    <tbody>
+      <tr>
+        <th>Operator</th>
+        <th>Symbol</th>
+        <th>Example Usage</th>
+        <th>Operation</th>
+      </tr>
+      <tr>
+        <td>Logical NOT</td>
+        <td>!</td>
+        <td>!x</td>
+        <td>true if x is false, or false if x is true</td>
+      </tr>
+      <tr>
+        <td>Logical AND</td>
+        <td>&amp;&amp;</td>
+        <td>x &amp;&amp; y</td>
+        <td>true if x and y are both true, false otherwise</td>
+      </tr>
+      <tr>
+        <td>Logical OR</td>
+        <td>||</td>
+        <td>x || y</td>
+        <td>true if either (or both) x or y are true, false otherwise</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<p><strong>Logical NOT</strong></p>
+<p>
+  You have already run across the logical NOT unary operator in lesson
+  <a href="https://www.learncpp.com/cpp-tutorial/boolean-values/"
+    >4.9 -- Boolean values</a
+  >. We can summarize the effects of logical NOT like so:
+</p>
+<div class="cpp-table-wrapper" data-ezoic-video-excluded="1">
+  <p></p>
+  <p></p>
+  <table class="cpp-table" data-ezoic-video-excluded="1">
+    <tbody>
+      <tr>
+        <th colspan="2">Logical NOT (operator !)</th>
+      </tr>
+      <tr>
+        <th>Operand</th>
+        <th>Result</th>
+      </tr>
+      <tr>
+        <td>true</td>
+        <td>false</td>
+      </tr>
+      <tr>
+        <td>false</td>
+        <td>true</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<p>
+  If <em>logical NOT’s</em> operand evaluates to true,
+  <em>logical NOT</em> evaluates to false. If <em>logical NOT’s</em> operand
+  evaluates to false, <em>logical NOT</em> evaluates to true. In other words,
+  <em>logical NOT</em> flips a Boolean value from true to false, and vice-versa.
+</p>
+<div class="code-block code-block-2" style="margin: 8px 0; clear: both"></div>
+<p>Logical NOT is often used in conditionals:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-bool">bool</span> tooLarge <span class="token punctuation brace-curly brace-open brace-level-1" id="pair-171-close">{</span> x <span class="token operator">&gt;</span> <span class="token number">100</span> <span class="token punctuation brace-curly brace-close brace-level-1" id="pair-171-open">}</span><span class="token punctuation">;</span> <span class="token comment">// tooLarge is true if x &gt; 100</span>
+<span class="token keyword keyword-if">if</span> <span class="token punctuation brace-round brace-open brace-level-1" id="pair-170-close">(</span><span class="token operator">!</span>tooLarge<span class="token punctuation brace-round brace-close brace-level-1" id="pair-170-open">)</span>
+    <span class="token comment">// do something with x</span>
+<span class="token keyword keyword-else">else</span>
+    <span class="token comment">// print an error</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  One thing to be wary of is that <em>logical NOT</em> has a very high level of
+  precedence. New programmers often make the following mistake:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-172-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-172-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-176-close">{</span>
+    <span class="token keyword keyword-int">int</span> x<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-174-close">{</span> <span class="token number">5</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-174-open">}</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-int">int</span> y<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-175-close">{</span> <span class="token number">7</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-175-open">}</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-if">if</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-173-close">(</span><span class="token operator">!</span>x <span class="token operator">&gt;</span> y<span class="token punctuation brace-round brace-close brace-level-2" id="pair-173-open">)</span>
+        std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> x <span class="token operator">&lt;&lt;</span> <span class="token string">" is not greater than "</span> <span class="token operator">&lt;&lt;</span> y <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-else">else</span>
+        std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> x <span class="token operator">&lt;&lt;</span> <span class="token string">" is greater than "</span> <span class="token operator">&lt;&lt;</span> y <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-176-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>This program prints:</p>
+<pre>
+5 is greater than 7
+</pre>
+<p>
+  But <em>x</em> is not greater than <em>y</em>, so how is this possible? The
+  answer is that because the <em>logical NOT</em> operator has higher precedence
+  than the <em>greater than</em> operator, the expression
+  <code>! x &gt; y</code> actually evaluates as <code>(!x) &gt; y</code>. Since
+  <em>x</em> is 5, !x evaluates to <em>0</em>, and <code>0 &gt; y</code> is
+  false, so the <em>else</em> statement executes!
+</p>
+<p>The correct way to write the above snippet is:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-177-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-177-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-182-close">{</span>
+    <span class="token keyword keyword-int">int</span> x<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-180-close">{</span> <span class="token number">5</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-180-open">}</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-int">int</span> y<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-181-close">{</span> <span class="token number">7</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-181-open">}</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-if">if</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-179-close">(</span><span class="token operator">!</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-178-close">(</span>x <span class="token operator">&gt;</span> y<span class="token punctuation brace-round brace-close brace-level-3" id="pair-178-open">)</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-179-open">)</span>
+        std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> x <span class="token operator">&lt;&lt;</span> <span class="token string">" is not greater than "</span> <span class="token operator">&lt;&lt;</span> y <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-else">else</span>
+        std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> x <span class="token operator">&lt;&lt;</span> <span class="token string">" is greater than "</span> <span class="token operator">&lt;&lt;</span> y <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-182-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  This way, <code>x &gt; y</code> will be evaluated first, and then logical NOT
+  will flip the Boolean result.
+</p>
+<div class="code-block code-block-3" style="margin: 8px 0; clear: both"></div>
+<div class="cpp-note cpp-lightgreenbackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Best practice</p>
+  <p>
+    If <em>logical NOT</em> is intended to operate on the result of other
+    operators, the other operators and their operands need to be enclosed in
+    parentheses.
+  </p>
+</div>
+<p>
+  Simple uses of <em>logical NOT</em>, such as <code>if (!value)</code> do not
+  need parentheses because precedence does not come into play.
+</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Logical OR
+</p>
+<p>
+  The <em>logical OR</em> operator is used to test whether either of two
+  conditions is true. If the left operand evaluates to true, or the right
+  operand evaluates to true, or both are true, then the
+  <em>logical OR</em> operator returns true. Otherwise it will return false.
+</p>
+<div class="cpp-table-wrapper" data-ezoic-video-excluded="1">
+  <p></p>
+  <p></p>
+  <table class="cpp-table" data-ezoic-video-excluded="1">
+    <tbody>
+      <tr>
+        <th colspan="3">Logical OR (operator ||)</th>
+      </tr>
+      <tr>
+        <th>Left operand</th>
+        <th>Right operand</th>
+        <th>Result</th>
+      </tr>
+      <tr>
+        <td>false</td>
+        <td>false</td>
+        <td>false</td>
+      </tr>
+      <tr>
+        <td>false</td>
+        <td>true</td>
+        <td>true</td>
+      </tr>
+      <tr>
+        <td>true</td>
+        <td>false</td>
+        <td>true</td>
+      </tr>
+      <tr>
+        <td>true</td>
+        <td>true</td>
+        <td>true</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<p>For example, consider the following program:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-183-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-183-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-186-close">{</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Enter a number: "</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-int">int</span> value <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-185-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-185-open">}</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>cin <span class="token operator">&gt;&gt;</span> value<span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-if">if</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-184-close">(</span>value <span class="token operator">==</span> <span class="token number">0</span> <span class="token operator">||</span> value <span class="token operator">==</span> <span class="token number">1</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-184-open">)</span>
+        std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"You picked 0 or 1\n"</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-else">else</span>
+        std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"You did not pick 0 or 1\n"</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-186-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  In this case, we use the logical OR operator to test whether either the left
+  condition (value == 0) or the right condition (value == 1) is true. If either
+  (or both) are true, the <em>logical OR</em> operator evaluates to true, which
+  means the <em>if statement</em> executes. If neither are true, the
+  <em>logical OR</em> operator evaluates to false, which means the
+  <em>else statement</em> executes.
+</p>
+<div class="cpp-note cpp-lightredbackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Warning</p>
+  <p>New programmers sometimes try this:</p>
+  <div class="code-toolbar">
+    <pre
+      class="line-numbers language-cpp"
+      tabindex="0"
+    ><code class="match-braces language-cpp"><span class="token keyword keyword-if">if</span> <span class="token punctuation brace-round brace-open brace-level-1" id="pair-187-close">(</span>value <span class="token operator">==</span> <span class="token number">0</span> <span class="token operator">||</span> <span class="token number">1</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-187-open">)</span> <span class="token comment">// incorrect: if value is 0, or if 1</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+    <div class="toolbar">
+      <div class="toolbar-item">
+        <button
+          class="copy-to-clipboard-button"
+          type="button"
+          data-copy-state="copy"
+        >
+          <span>Copy</span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <p>
+    When <code>1</code> is evaluated, it will implicitly convert to
+    <code>bool</code> <code>true</code>. Thus this conditional will always
+    evaluate to <code>true</code>.
+  </p>
+  <p>
+    If you want to compare a variable against multiple values, you need to
+    compare the variable multiple times:
+  </p>
+  <div class="code-toolbar">
+    <pre
+      class="line-numbers language-cpp"
+      tabindex="0"
+    ><code class="match-braces language-cpp"><span class="token keyword keyword-if">if</span> <span class="token punctuation brace-round brace-open brace-level-1" id="pair-188-close">(</span>value <span class="token operator">==</span> <span class="token number">0</span> <span class="token operator">||</span> value <span class="token operator">==</span> <span class="token number">1</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-188-open">)</span> <span class="token comment">// correct: if value is 0, or if value is 1</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+    <div class="toolbar">
+      <div class="toolbar-item">
+        <button
+          class="copy-to-clipboard-button"
+          type="button"
+          data-copy-state="copy"
+        >
+          <span>Copy</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<p>You can string together many <em>logical OR</em> statements:</p>
+<div class="code-block code-block-4" style="margin: 8px 0; clear: both"></div>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-if">if</span> <span class="token punctuation brace-round brace-open brace-level-1" id="pair-189-close">(</span>value <span class="token operator">==</span> <span class="token number">0</span> <span class="token operator">||</span> value <span class="token operator">==</span> <span class="token number">1</span> <span class="token operator">||</span> value <span class="token operator">==</span> <span class="token number">2</span> <span class="token operator">||</span> value <span class="token operator">==</span> <span class="token number">3</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-189-open">)</span>
+     std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"You picked 0, 1, 2, or 3\n"</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  New programmers sometimes confuse the <em>logical OR</em> operator (||) with
+  the <em>bitwise OR</em> operator (|) (covered in lesson
+  <a href="https://www.learncpp.com/cpp-tutorial/bitwise-operators/"
+    >O.2 -- Bitwise operators</a
+  >). Even though they both have <em>OR</em> in the name, they perform different
+  functions. Mixing them up will probably lead to incorrect results.
+</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Logical AND
+</p>
+<p>
+  The <em>logical AND</em> operator is used to test whether both operands are
+  true. If both operands are true, <em>logical AND</em> returns true. Otherwise,
+  it returns false.
+</p>
+<div class="cpp-table-wrapper" data-ezoic-video-excluded="1">
+  <p></p>
+  <p></p>
+  <table class="cpp-table" data-ezoic-video-excluded="1">
+    <tbody>
+      <tr>
+        <th colspan="3">Logical AND (operator &amp;&amp;)</th>
+      </tr>
+      <tr>
+        <th>Left operand</th>
+        <th>Right operand</th>
+        <th>Result</th>
+      </tr>
+      <tr>
+        <td>false</td>
+        <td>false</td>
+        <td>false</td>
+      </tr>
+      <tr>
+        <td>false</td>
+        <td>true</td>
+        <td>false</td>
+      </tr>
+      <tr>
+        <td>true</td>
+        <td>false</td>
+        <td>false</td>
+      </tr>
+      <tr>
+        <td>true</td>
+        <td>true</td>
+        <td>true</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<p>
+  For example, we might want to know if the value of variable <em>x</em> is
+  between <em>10</em> and <em>20</em>. This is actually two conditions: we need
+  to know if <em>x</em> is greater than <em>10</em>, and also whether
+  <em>x</em> is less than <em>20</em>.
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-190-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-190-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-193-close">{</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Enter a number: "</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-int">int</span> value <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-192-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-192-open">}</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>cin <span class="token operator">&gt;&gt;</span> value<span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-if">if</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-191-close">(</span>value <span class="token operator">&gt;</span> <span class="token number">10</span> <span class="token operator">&amp;&amp;</span> value <span class="token operator">&lt;</span> <span class="token number">20</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-191-open">)</span>
+        std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Your value is between 10 and 20\n"</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-else">else</span>
+        std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Your value is not between 10 and 20\n"</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-193-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  In this case, we use the <em>logical AND</em> operator to test whether the
+  left condition (value &gt; 10) AND the right condition (value &lt; 20) are
+  both true. If both are true, the <em>logical AND</em> operator evaluates to
+  true, and the <em>if statement</em> executes. If neither are true, or only one
+  is true, the <em>logical AND</em> operator evaluates to false, and the
+  <em>else statement</em> executes.
+</p>
+<p>
+  As with <em>logical OR</em>, you can string together many
+  <em>logical AND</em> statements:
+</p>
+<div class="code-block code-block-5" style="margin: 8px 0; clear: both"></div>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-if">if</span> <span class="token punctuation brace-round brace-open brace-level-1" id="pair-194-close">(</span>value <span class="token operator">&gt;</span> <span class="token number">10</span> <span class="token operator">&amp;&amp;</span> value <span class="token operator">&lt;</span> <span class="token number">20</span> <span class="token operator">&amp;&amp;</span> value <span class="token operator">!=</span> <span class="token number">16</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-194-open">)</span>
+    <span class="token comment">// do something</span>
+<span class="token keyword keyword-else">else</span>
+    <span class="token comment">// do something else</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  If all of these conditions are true, the <em>if statement</em> will execute.
+  If any of these conditions are false, the <em>else statement</em> will
+  execute.
+</p>
+<p>
+  As with logical and bitwise OR, new programmers sometimes confuse the
+  <em>logical AND</em> operator (&amp;&amp;) with the
+  <em>bitwise AND</em> operator (&amp;).
+</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Short circuit evaluation
+</p>
+<p>
+  In order for <em>logical AND</em> to return true, both operands must evaluate
+  to true. If the left operand evaluates to false, <em>logical AND</em> knows it
+  must return false regardless of whether the right operand evaluates to true or
+  false. In this case, the <em>logical AND</em> operator will go ahead and
+  return false immediately without even evaluating the right operand! This is
+  known as <strong>short circuit evaluation</strong>, and it is done primarily
+  for optimization purposes.
+</p>
+<p>
+  Similarly, if the left operand for <em>logical OR</em> is true, then the
+  entire OR condition has to evaluate to true, and the right operand won’t be
+  evaluated.
+</p>
+<p>
+  Short circuit evaluation presents another opportunity to show why operators
+  that cause side effects should not be used in compound expressions. Consider
+  the following snippet:
+</p>
+<div class="code-block code-block-6" style="margin: 8px 0; clear: both"></div>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-if">if</span> <span class="token punctuation brace-round brace-open brace-level-1" id="pair-195-close">(</span>x <span class="token operator">==</span> <span class="token number">1</span> <span class="token operator">&amp;&amp;</span> <span class="token operator">++</span>y <span class="token operator">==</span> <span class="token number">2</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-195-open">)</span>
+    <span class="token comment">// do something</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  if <em>x</em> does not equal <em>1</em>, the whole condition must be false, so
+  ++y never gets evaluated! Thus, <em>y</em> will only be incremented if
+  <em>x</em> evaluates to 1, which is probably not what the programmer intended!
+</p>
+<div class="cpp-note cpp-lightredbackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Warning</p>
+  <p>
+    Short circuit evaluation may cause <em>Logical OR</em> and
+    <em>Logical AND</em> to not evaluate the right operand. Avoid using
+    expressions with side effects in conjunction with these operators.
+  </p>
+</div>
+<div class="cpp-note cpp-lightbluebackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Key insight</p>
+  <p>
+    The Logical OR and logical AND operators are an exception to the rule that
+    the operands may evaluate in any order, as the standard explicitly states
+    that the left operand must evaluate first.
+  </p>
+</div>
+<div class="cpp-note cpp-lightgraybackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">For advanced readers</p>
+  <p>
+    Only the built-in versions of these operators perform short-circuit
+    evaluation. If you overload these operators to make them work with your own
+    types, those overloaded operators will not perform short-circuit evaluation.
+  </p>
+</div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Mixing ANDs and ORs
+</p>
+<p>
+  Mixing <em>logical AND</em> and <em>logical OR</em> operators in the same
+  expression often can not be avoided, but it is an area full of potential
+  dangers.
+</p>
+<p>
+  Because <em>logical AND</em> and <em>logical OR</em> seem like a pair, many
+  programmers assume they have the same precedence (just like
+  addition/subtraction and multiplication/division). However,
+  <em>logical AND</em> has higher precedence than <em>logical OR</em>, thus
+  <em>logical AND</em> operators will be evaluated ahead of
+  <em>logical OR</em> operators (unless they have been parenthesized).
+</p>
+<p>
+  New programmers will often write expressions such as
+  <code>value1 || value2 &amp;&amp; value3</code>. Because
+  <em>logical AND</em> has higher precedence, this evaluates as
+  <code>value1 || (value2 &amp;&amp; value3)</code>, not
+  <code>(value1 || value2) &amp;&amp; value3</code>. Hopefully that’s what the
+  programmer wanted! If the programmer was assuming left to right association
+  (as happens with addition/subtraction, or multiplication/division), the
+  programmer will get a result he or she was not expecting!
+</p>
+<p>
+  When mixing <em>logical AND</em> and <em>logical OR</em> in the same
+  expression, it is a good idea to explicitly parenthesize each operator and its
+  operands. This helps prevent precedence mistakes, makes your code easier to
+  read, and clearly defines how you intended the expression to evaluate. For
+  example, rather than writing
+  <code>value1 &amp;&amp; value2 || value3 &amp;&amp; value4</code>, it is
+  better to write
+  <code>(value1 &amp;&amp; value2) || (value3 &amp;&amp; value4)</code>.
+</p>
+<div class="code-block code-block-7" style="margin: 8px 0; clear: both"></div>
+<div class="cpp-note cpp-lightgreenbackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Best practice</p>
+  <p>
+    When mixing <em>logical AND</em> and <em>logical OR</em> in a single
+    expression, explicitly parenthesize each operation to ensure they evaluate
+    how you intend.
+  </p>
+</div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  De Morgan’s laws
+</p>
+<p>
+  Many programmers also make the mistake of thinking that
+  <code>!(x &amp;&amp; y)</code> is the same thing as
+  <code>!x &amp;&amp; !y</code>. Unfortunately, you can not “distribute” the
+  <em>logical NOT</em> in that manner.
+</p>
+<p>
+  <a href="https://en.wikipedia.org/wiki/De_Morgan%27s_laws"
+    >De Morgan’s laws</a
+  >
+  tell us how the <em>logical NOT</em> should be distributed in these cases:
+</p>
+<p>
+  <code>!(x &amp;&amp; y)</code> is equivalent to <code>!x || !y</code
+  ><br /><code>!(x || y)</code> is equivalent to <code>!x &amp;&amp; !y</code>
+</p>
+<p>
+  In other words, when you distribute the <em>logical NOT</em>, you also need to
+  flip <em>logical AND</em> to <em>logical OR</em>, and vice-versa!
+</p>
+<div class="code-block code-block-8" style="margin: 8px 0; clear: both"></div>
+<p>
+  This can sometimes be useful when trying to make complex expressions easier to
+  read.
+</p>
+<div class="cpp-note cpp-lightgraybackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">For advanced readers</p>
+  <p>
+    We can show that the first part of De Morgan’s Laws is correct by proving
+    that <code>!(x &amp;&amp; y)</code> equals <code>!x || !y</code> for every
+    possible value of <code>x</code> and <code>y</code>. To do so, we’ll use a
+    mathematical concept called a truth table:
+  </p>
+  <div class="cpp-table-wrapper" data-ezoic-video-excluded="1">
+    <p></p>
+    <p></p>
+    <table class="cpp-table" data-ezoic-video-excluded="1">
+      <tbody>
+        <tr>
+          <th>x</th>
+          <th>y</th>
+          <th>!x</th>
+          <th>!y</th>
+          <th>!(x &amp;&amp; y)</th>
+          <th>!x || !y</th>
+        </tr>
+        <tr>
+          <td>false</td>
+          <td>false</td>
+          <td>true</td>
+          <td>true</td>
+          <td>true</td>
+          <td>true</td>
+        </tr>
+        <tr>
+          <td>false</td>
+          <td>true</td>
+          <td>true</td>
+          <td>false</td>
+          <td>true</td>
+          <td>true</td>
+        </tr>
+        <tr>
+          <td>true</td>
+          <td>false</td>
+          <td>false</td>
+          <td>true</td>
+          <td>true</td>
+          <td>true</td>
+        </tr>
+        <tr>
+          <td>true</td>
+          <td>true</td>
+          <td>false</td>
+          <td>false</td>
+          <td>false</td>
+          <td>false</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p>
+    In this table, the first and second columns represent our <code>x</code> and
+    <code>y</code> variables. Each row in the table shows one permutation of
+    possible values for <code>x</code> and <code>y</code>. Because
+    <code>x</code> and <code>y</code> are Boolean values, we only need 4 rows to
+    cover every combination of possible values that <code>x</code> and
+    <code>y</code> can hold.
+  </p>
+  <p>
+    The rest of the columns in the table represent expressions that we want to
+    evaluate based on the initial values of <code>x</code> and <code>y</code>.
+    The third and fourth columns calculate the values of <code>!x</code> and
+    <code>!y</code> respectively. The fifth column calculates the value of
+    <code>!(x &amp;&amp; y)</code>. Finally, the sixth column calculates the
+    value of <code>!x || !y</code>.
+  </p>
+  <p>
+    You’ll notice for each row, the value in the fifth column matches the value
+    in the sixth column. This means for every possible value of
+    <code>x</code> and <code>y</code>, the value of
+    <code>!(x &amp;&amp; y)</code> equals <code>!x || !y</code>, which is what
+    we were trying to prove!
+  </p>
+  <p>We can do the same for the second part of De Morgan’s Laws:</p>
+  <div class="cpp-table-wrapper" data-ezoic-video-excluded="1">
+    <p></p>
+    <p></p>
+    <table class="cpp-table" data-ezoic-video-excluded="1">
+      <tbody>
+        <tr>
+          <th>x</th>
+          <th>y</th>
+          <th>!x</th>
+          <th>!y</th>
+          <th>!(x || y)</th>
+          <th>!x &amp;&amp; !y</th>
+        </tr>
+        <tr>
+          <td>false</td>
+          <td>false</td>
+          <td>true</td>
+          <td>true</td>
+          <td>true</td>
+          <td>true</td>
+        </tr>
+        <tr>
+          <td>false</td>
+          <td>true</td>
+          <td>true</td>
+          <td>false</td>
+          <td>false</td>
+          <td>false</td>
+        </tr>
+        <tr>
+          <td>true</td>
+          <td>false</td>
+          <td>false</td>
+          <td>true</td>
+          <td>false</td>
+          <td>false</td>
+        </tr>
+        <tr>
+          <td>true</td>
+          <td>true</td>
+          <td>false</td>
+          <td>false</td>
+          <td>false</td>
+          <td>false</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p>
+    Similarly, for every possible value of <code>x</code> and <code>y</code>, we
+    can see that the value of <code>!(x || y)</code> equals the value of
+    <code>!x &amp;&amp; !y</code>. Thus, they are equivalent.
+  </p>
+</div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Where’s the logical exclusive or (XOR) operator?
+</p>
+<p>
+  <em>Logical XOR</em> is a logical operator provided in some languages that is
+  used to test whether an odd number of conditions is true:
+</p>
+<div class="cpp-table-wrapper" data-ezoic-video-excluded="1">
+  <p></p>
+  <p></p>
+  <table class="cpp-table" data-ezoic-video-excluded="1">
+    <tbody>
+      <tr>
+        <th colspan="3">Logical XOR</th>
+      </tr>
+      <tr>
+        <th>Left operand</th>
+        <th>Right operand</th>
+        <th>Result</th>
+      </tr>
+      <tr>
+        <td>false</td>
+        <td>false</td>
+        <td>false</td>
+      </tr>
+      <tr>
+        <td>false</td>
+        <td>true</td>
+        <td>true</td>
+      </tr>
+      <tr>
+        <td>true</td>
+        <td>false</td>
+        <td>true</td>
+      </tr>
+      <tr>
+        <td>true</td>
+        <td>true</td>
+        <td>false</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<p>
+  C++ doesn’t provide an explicit <em>logical XOR</em> operator (<code
+    >operator^</code
+  >
+  is a bitwise XOR, not a logical XOR). Unlike <em>logical OR</em> or
+  <em>logical AND</em>, <em>logical XOR</em> cannot be short circuit evaluated.
+  Because of this, making a <em>logical XOR</em> operator out of
+  <em>logical OR</em> and <em>logical AND</em> operators is challenging.
+</p>
+<p>
+  However, <code>operator!=</code> produces the same result as a logical XOR
+  when given <code>bool</code> operands:
+</p>
+<div class="cpp-table-wrapper" data-ezoic-video-excluded="1">
+  <p></p>
+  <p></p>
+  <table class="cpp-table" data-ezoic-video-excluded="1">
+    <tbody>
+      <tr>
+        <th>Left operand</th>
+        <th>Right operand</th>
+        <th>logical XOR</th>
+        <th>operator!=</th>
+      </tr>
+      <tr>
+        <td>false</td>
+        <td>false</td>
+        <td>false</td>
+        <td>false</td>
+      </tr>
+      <tr>
+        <td>false</td>
+        <td>true</td>
+        <td>true</td>
+        <td>true</td>
+      </tr>
+      <tr>
+        <td>true</td>
+        <td>false</td>
+        <td>true</td>
+        <td>true</td>
+      </tr>
+      <tr>
+        <td>true</td>
+        <td>true</td>
+        <td>false</td>
+        <td>false</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<p>Therefore, a logical XOR can be implemented as follows:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-if">if</span> <span class="token punctuation brace-round brace-open brace-level-1" id="pair-196-close">(</span>a <span class="token operator">!=</span> b<span class="token punctuation brace-round brace-close brace-level-1" id="pair-196-open">)</span> <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span> <span class="token comment">// a XOR b, assuming a and b are bool</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>This can be extended to multiple operands as follows:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-if">if</span> <span class="token punctuation brace-round brace-open brace-level-1" id="pair-197-close">(</span>a <span class="token operator">!=</span> b <span class="token operator">!=</span> c<span class="token punctuation brace-round brace-close brace-level-1" id="pair-197-open">)</span> <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span> <span class="token comment">// a XOR b XOR c, assuming a, b, and c are bool</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  This evaluates to <code>true</code> if an odd number of the operands
+  (<code>a</code>, <code>b</code>, and <code>c</code>) evaluate to
+  <code>true</code>.
+</p>
+<p>
+  If the operands are not of type <code>bool</code>, using
+  <code>operator!=</code> to implement a logical XOR will not work as expected.
+</p>
+<div class="cpp-note cpp-lightgraybackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">For advanced readers</p>
+  <p>
+    If you need a form of <em>logical XOR</em> that works with non-Boolean
+    operands, you can static_cast your operands to bool:
+  </p>
+  <div class="code-toolbar">
+    <pre
+      class="line-numbers language-cpp"
+      tabindex="0"
+    ><code class="match-braces language-cpp"><span class="token keyword keyword-if">if</span> <span class="token punctuation brace-round brace-open brace-level-1" id="pair-201-close">(</span><span class="token generic-function"><span class="token function">static_cast</span><span class="token generic class-name"><span class="token operator">&lt;</span><span class="token keyword keyword-bool">bool</span><span class="token operator">&gt;</span></span></span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-198-close">(</span>a<span class="token punctuation brace-round brace-close brace-level-2" id="pair-198-open">)</span> <span class="token operator">!=</span> <span class="token generic-function"><span class="token function">static_cast</span><span class="token generic class-name"><span class="token operator">&lt;</span><span class="token keyword keyword-bool">bool</span><span class="token operator">&gt;</span></span></span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-199-close">(</span>b<span class="token punctuation brace-round brace-close brace-level-2" id="pair-199-open">)</span> <span class="token operator">!=</span> <span class="token generic-function"><span class="token function">static_cast</span><span class="token generic class-name"><span class="token operator">&lt;</span><span class="token keyword keyword-bool">bool</span><span class="token operator">&gt;</span></span></span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-200-close">(</span>c<span class="token punctuation brace-round brace-close brace-level-2" id="pair-200-open">)</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-201-open">)</span> <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span> <span class="token comment">// a XOR b XOR c, for any type that can be converted to bool</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 32px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+    <div class="toolbar">
+      <div class="toolbar-item">
+        <button
+          class="copy-to-clipboard-button"
+          type="button"
+          data-copy-state="copy"
+        >
+          <span>Copy</span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <p>
+    However, this is a bit verbose. The following trick also works and is a bit
+    more concise:
+  </p>
+  <div class="code-toolbar">
+    <pre
+      class="line-numbers language-cpp"
+      tabindex="0"
+    ><code class="match-braces language-cpp"><span class="token keyword keyword-if">if</span> <span class="token punctuation brace-round brace-open brace-level-1" id="pair-202-close">(</span><span class="token operator">!</span><span class="token operator">!</span>a <span class="token operator">!=</span> <span class="token operator">!</span><span class="token operator">!</span>b <span class="token operator">!=</span> <span class="token operator">!</span><span class="token operator">!</span>c<span class="token punctuation brace-round brace-close brace-level-1" id="pair-202-open">)</span> <span class="token comment">// a XOR b XOR c, for any type that can be converted to bool</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+    <div class="toolbar">
+      <div class="toolbar-item">
+        <button
+          class="copy-to-clipboard-button"
+          type="button"
+          data-copy-state="copy"
+        >
+          <span>Copy</span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <p>
+    This makes use of the fact that <code>operator!</code> (the logical NOT
+    operator) implicitly converts its operand to <code>bool</code>. However,
+    <code>operator!</code> also inverts the <code>bool</code> from
+    <code>true</code> to <code>false</code> or vice-versa. Therefore, we need to
+    apply <code>operator!</code> twice. The first time does the implicit
+    conversion to <code>bool</code> and inverts the bool. The second time
+    inverts the <code>bool</code> back to its original value. This
+    double-inversion is necessary in cases where a multiple-operand XOR has an
+    odd number of operands, otherwise the XOR will produce an inverted result.
+  </p>
+  <p>
+    Neither of these are very intuitive, so document them well if you use them.
+  </p>
+</div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Alternative operator representations
+</p>
+<p>
+  Many operators in C++ (such as operator ||) have names that are just symbols.
+  Historically, not all keyboards and language standards have supported all of
+  the symbols needed to type these operators. As such, C++ supports an
+  alternative set of keywords for the operators that use words instead of
+  symbols. For example, instead of <code>||</code>, you can use the keyword
+  <code>or</code>.
+</p>
+<p>
+  The full list can be found
+  <a href="https://en.cppreference.com/w/cpp/language/operator_alternative"
+    >here</a
+  >. Of particular note are the following three:
+</p>
+<div class="cpp-table-wrapper" data-ezoic-video-excluded="1">
+  <p></p>
+  <p></p>
+  <table class="cpp-table" data-ezoic-video-excluded="1">
+    <tbody>
+      <tr>
+        <th>Operator name</th>
+        <th>Keyword alternate name</th>
+      </tr>
+      <tr>
+        <td>&amp;&amp;</td>
+        <td>and</td>
+      </tr>
+      <tr>
+        <td>||</td>
+        <td>or</td>
+      </tr>
+      <tr>
+        <td>!</td>
+        <td>not</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<p>This means the following are identical:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp">std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token operator">!</span>a <span class="token operator">&amp;&amp;</span> <span class="token punctuation brace-round brace-open brace-level-1" id="pair-203-close">(</span>b <span class="token operator">||</span> c<span class="token punctuation brace-round brace-close brace-level-1" id="pair-203-open">)</span><span class="token punctuation">;</span>
+std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token operator">not</span> a <span class="token function">and</span> <span class="token punctuation brace-round brace-open brace-level-1" id="pair-204-close">(</span>b <span class="token operator">or</span> c<span class="token punctuation brace-round brace-close brace-level-1" id="pair-204-open">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  While these alternative names might seem easier to understand right now, most
+  experienced C++ developers prefer using the symbolic names over the keyword
+  names. As such, we recommend learning and using the symbolic names, as this is
+  what you will commonly find in existing code.
+</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Quiz time
+</p>
+<p class="cpp-quiz-question" style="clear: both">Question #1</p>
+<p>Evaluate the following expressions.</p>
+<p>
+  Note: in the following answers, we “explain our work” by showing you the steps
+  taken to get to the final answer. The steps are separated by a
+  <em>=&gt;</em> symbol. Expressions that were ignored due to the short circuit
+  rules are placed in square brackets. For example<br />(1 &lt; 2 || 3 != 3)
+  =&gt;<br />(true || [3 != 3]) =&gt;<br />(true) =&gt;<br />true<br />means we
+  evaluated (1 &lt; 2 || 3 != 3) to arrive at (true || [3 != 3]) and evaluated
+  that to arrive at “true”. The 3 != 3 was never executed due to short
+  circuiting.
+</p>
+<p>a) (true &amp;&amp; true) || false</p>
+<p>
+  <a
+    class="solution_link_show"
+    href="javascript:void(0)"
+    onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_0'),this,'Show Solution','Hide Solution')"
+    >Show Solution</a
+  >
+</p>
+<div class="wpsolution" id="cpp_solution_id_0" style="display: none">
+  <p>
+    (true &amp;&amp; true) || false =&gt;<br />true || [false] =&gt;<br />true
+  </p>
+</div>
+<p>b) (false &amp;&amp; true) || true</p>
+<p>
+  <a
+    class="solution_link_show"
+    href="javascript:void(0)"
+    onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_1'),this,'Show Solution','Hide Solution')"
+    >Show Solution</a
+  >
+</p>
+<div class="wpsolution" id="cpp_solution_id_1" style="display: none">
+  <p>
+    (false &amp;&amp; [true]) || true =&gt;<br />false || true =&gt;<br />true
+  </p>
+  <p>
+    Short circuiting only takes place if the first operand of <code>||</code> is
+    <code>true</code>.
+  </p>
+</div>
+<p>c) (false &amp;&amp; true) || false || true</p>
+<p>
+  <a
+    class="solution_link_show"
+    href="javascript:void(0)"
+    onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_2'),this,'Show Solution','Hide Solution')"
+    >Show Solution</a
+  >
+</p>
+<div class="wpsolution" id="cpp_solution_id_2" style="display: none">
+  <p>
+    (false &amp;&amp; [true]) || false || true =&gt;<br />false || false || true
+    =&gt;<br />false || true =&gt;<br />true
+  </p>
+</div>
+<p>d) (5 &gt; 6 || 4 &gt; 3) &amp;&amp; (7 &gt; 8)</p>
+<p>
+  <a
+    class="solution_link_show"
+    href="javascript:void(0)"
+    onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_3'),this,'Show Solution','Hide Solution')"
+    >Show Solution</a
+  >
+</p>
+<div class="wpsolution" id="cpp_solution_id_3" style="display: none">
+  <p>
+    (5 &gt; 6 || 4 &gt; 3) &amp;&amp; (7 &gt; 8) =&gt;<br />(false || 4 &gt; 3)
+    &amp;&amp; (7 &gt; 8) =&gt;<br />(false || true) &amp;&amp; (7 &gt; 8)
+    =&gt;<br />true &amp;&amp; (7 &gt; 8) =&gt;<br />true &amp;&amp; false
+    =&gt;<br />false
+  </p>
+</div>
+<p>e) !(7 &gt; 6 || 3 &gt; 4)</p>
+<p>
+  <a
+    class="solution_link_show"
+    href="javascript:void(0)"
+    onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_4'),this,'Show Solution','Hide Solution')"
+    >Show Solution</a
+  >
+</p>
+<div class="wpsolution" id="cpp_solution_id_4" style="display: none">
+  !(7 &gt; 6 || 3 &gt; 4) =&gt;<br />!(true || [3 &gt; 4]) =&gt;<br />!true
+  =&gt;<br />false
+</div>
+<p class="cpp-quiz-question cpp-topline" style="clear: both">Question #2</p>
+<p>
+  In lesson
+  <a href="https://www.learncpp.com/cpp-tutorial/remainder-and-exponentiation/"
+    >6.3 -- Remainder and Exponentiation</a
+  >, we wrote a function to determine whether a number is even that looked like
+  this:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-bool">bool</span> <span class="token function">isEven</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-205-close">(</span><span class="token keyword keyword-int">int</span> x<span class="token punctuation brace-round brace-close brace-level-1" id="pair-205-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-210-close">{</span>
+    <span class="token comment">// if x % 2 == 0, 2 divides evenly into our number, which means it must be an even number</span>
+    <span class="token keyword keyword-return">return</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-206-close">(</span>x <span class="token operator">%</span> <span class="token number">2</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-206-open">)</span> <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-210-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-207-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-207-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-212-close">{</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Enter an integer: "</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-int">int</span> x<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-211-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-211-open">}</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>cin <span class="token operator">&gt;&gt;</span> x<span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-if">if</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-209-close">(</span><span class="token function">isEven</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-208-close">(</span>x<span class="token punctuation brace-round brace-close brace-level-3" id="pair-208-open">)</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-209-open">)</span>
+        std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> x <span class="token operator">&lt;&lt;</span> <span class="token string">" is even\n"</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-else">else</span>
+        std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> x <span class="token operator">&lt;&lt;</span> <span class="token string">" is odd\n"</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-212-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  Rewrite this function using <code>operator!</code> instead of
+  <code>operator==</code>.
+</p>
+<p>
+  <a
+    class="solution_link_show"
+    href="javascript:void(0)"
+    onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_5'),this,'Show Solution','Hide Solution')"
+    >Show Solution</a
+  >
+</p>
+<div class="wpsolution" id="cpp_solution_id_5" style="display: none">
+  <div class="code-toolbar">
+    <pre
+      class="line-numbers language-cpp"
+      tabindex="0"
+    ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-bool">bool</span> <span class="token function">isEven</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-213-close">(</span><span class="token keyword keyword-int">int</span> x<span class="token punctuation brace-round brace-close brace-level-1" id="pair-213-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-218-close">{</span>
+    <span class="token keyword keyword-return">return</span> <span class="token operator">!</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-214-close">(</span>x <span class="token operator">%</span> <span class="token number">2</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-214-open">)</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-218-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-215-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-215-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-220-close">{</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Enter an integer: "</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-int">int</span> x<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-219-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-219-open">}</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>cin <span class="token operator">&gt;&gt;</span> x<span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-if">if</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-217-close">(</span><span class="token function">isEven</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-216-close">(</span>x<span class="token punctuation brace-round brace-close brace-level-3" id="pair-216-open">)</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-217-open">)</span>
+        std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> x <span class="token operator">&lt;&lt;</span> <span class="token string">" is even\n"</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-else">else</span>
+        std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> x <span class="token operator">&lt;&lt;</span> <span class="token string">" is odd\n"</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-220-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+    <div class="toolbar">
+      <div class="toolbar-item">
+        <button
+          class="copy-to-clipboard-button"
+          type="button"
+          data-copy-state="copy"
+        >
+          <span>Copy</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="prevnext">
+  <div class="prevnext-inline">
+    <a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/chapter-6-summary-and-quiz/"
+      ><div class="nav-button nav-button-next">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-right" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Next lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">6.x</span>Chapter 6 summary
+            and quiz
+          </div>
+        </div>
+      </div></a
+    ><a class="nav-link" href="/"
+      ><div class="nav-button nav-button-index">
+        <div class="nav-button-icon">
+          <i class="fa fa-home" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Back to table of contents</div>
+        </div>
+      </div></a
+    ><a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/relational-operators-and-floating-point-comparisons/"
+      ><div class="nav-button nav-button-prev">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-left" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Previous lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">6.7</span>Relational
+            operators and floating point comparisons
+          </div>
+        </div>
+      </div></a
+    >
+  </div>
+</div>
+<div class="code-block code-block-10" style="margin: 8px 0; clear: both"></div>

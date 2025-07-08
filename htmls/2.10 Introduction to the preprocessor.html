@@ -1,0 +1,832 @@
+<div
+  class="code-block code-block-1"
+  style="margin: 8px 8px 8px 0; float: left"
+></div>
+<p>
+  When you compile your project, you might expect that the compiler compiles
+  each code file exactly as you’ve written it. This actually isn’t the case.
+</p>
+<p>
+  Instead, prior to compilation, each code (.cpp) file goes through a
+  <strong>preprocessing</strong> phase. In this phase, a program called the
+  <strong>preprocessor</strong> makes various changes to the text of the code
+  file. The preprocessor does not actually modify the original code files in any
+  way -- rather, all changes made by the preprocessor happen either temporarily
+  in-memory or using temporary files.
+</p>
+<div class="cpp-note cpp-lightgraybackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">As an aside…</p>
+  <p>
+    Historically, the preprocessor was a separate program from the compiler, but
+    in modern compilers, the preprocessor may be built right into the compiler
+    itself.
+  </p>
+</div>
+<p>
+  Most of what the preprocessor does is fairly uninteresting. For example, it
+  strips out comments, and ensures each code file ends in a newline. However,
+  the preprocessor does have one very important role: it is what processes
+  <code>#include</code> directives (which we’ll discuss more in a moment).
+</p>
+<p>
+  When the preprocessor has finished processing a code file, the result is
+  called a <strong>translation unit</strong>. This translation unit is what is
+  then compiled by the compiler.
+</p>
+<div class="cpp-note cpp-lightgraybackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Related content</p>
+  <p>
+    The entire process of preprocessing, compiling, and linking is called
+    <strong>translation</strong>.
+  </p>
+  <p>
+    If you’re curious, here is a list of
+    <a href="https://en.cppreference.com/w/cpp/language/translation_phases"
+      >translation phases</a
+    >. As of the time of writing, preprocessing encompasses phases 1 through 4,
+    and compilation is phases 5 through 7.
+  </p>
+</div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Preprocessor directives
+</p>
+<div class="code-block code-block-2" style="margin: 8px 0; clear: both"></div>
+<p>
+  When the preprocessor runs, it scans through the code file (from top to
+  bottom), looking for preprocessor directives.
+  <strong>Preprocessor directives</strong> (often just called
+  <em>directives</em>) are instructions that start with a <em>#</em> symbol and
+  end with a newline (NOT a semicolon). These directives tell the preprocessor
+  to perform certain text manipulation tasks. Note that the preprocessor does
+  not understand C++ syntax -- instead, the directives have their own syntax
+  (which in some cases resembles C++ syntax, and in other cases, not so much).
+</p>
+<div class="cpp-note cpp-lightbluebackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Key insight</p>
+  <p>
+    The final output of the preprocessor contains no directives -- only the
+    output of the processed directive is passed to the compiler.
+  </p>
+</div>
+<div class="cpp-note cpp-lightgraybackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">As an aside…</p>
+  <p>
+    <code>Using directives</code> (introduced in lesson
+    <a
+      href="https://www.learncpp.com/cpp-tutorial/naming-collisions-and-an-introduction-to-namespaces/"
+      >2.9 -- Naming collisions and an introduction to namespaces</a
+    >) are not preprocessor directives (and thus are not processed by the
+    preprocessor). So while the term <code>directive</code>
+    <em>usually</em> means a <code>preprocessor directive</code>, this is not
+    always the case.
+  </p>
+</div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  #Include
+</p>
+<p>
+  You’ve already seen the <em>#include</em> directive in action (generally to
+  #include &lt;iostream&gt;). When you <em>#include</em> a file, the
+  preprocessor replaces the #include directive with the contents of the included
+  file. The included contents are then preprocessed (which may result in
+  additional #includes being preprocessed recursively), then the rest of the
+  file is preprocessed.
+</p>
+<p>Consider the following program:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-80-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-80-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-81-close">{</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Hello, world!\n"</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-81-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  When the preprocessor runs on this program, the preprocessor will replace
+  <code>#include &lt;iostream&gt;</code> with the contents of the file named
+  “iostream” and then preprocess the included content and the rest of the file.
+</p>
+<p>
+  Since <em>#include</em> is almost exclusively used to include header files,
+  we’ll discuss <em>#include</em> in more detail in the next lesson (when we
+  discuss header files).
+</p>
+<div class="code-block code-block-3" style="margin: 8px 0; clear: both"></div>
+<div class="cpp-note cpp-lightbluebackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Key insight</p>
+  <p>
+    Each translation unit typically consists of a single code (.cpp) file and
+    all header files it #includes (applied recursively, since header files can
+    #include other header files).
+  </p>
+</div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Macro defines
+</p>
+<p>
+  The <em>#define</em> directive can be used to create a macro. In C++, a
+  <strong>macro</strong> is a rule that defines how input text is converted into
+  replacement output text.
+</p>
+<p>
+  There are two basic types of macros: <em>object-like macros</em>, and
+  <em>function-like macros</em>.
+</p>
+<p>
+  <em>Function-like macros</em> act like functions, and serve a similar purpose.
+  Their use is generally considered unsafe, and almost anything they can do can
+  be done by a normal function.
+</p>
+<p><em>Object-like macros</em> can be defined in one of two ways:</p>
+<pre>
+#define IDENTIFIER
+#define IDENTIFIER substitution_text
+</pre>
+<p>
+  The top definition has no substitution text, whereas the bottom one does.
+  Because these are preprocessor directives (not statements), note that neither
+  form ends with a semicolon.
+</p>
+<div class="code-block code-block-4" style="margin: 8px 0; clear: both"></div>
+<p>
+  The identifier for a macro uses the same naming rules as normal identifiers:
+  they can use letters, numbers, and underscores, cannot start with a number,
+  and should not start with an underscore. By convention, macro names are
+  typically all uppercase, separated by underscores.
+</p>
+<div class="cpp-note cpp-lightgreenbackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Best practice</p>
+  <p>
+    Macro names should be written in all uppercase letters, with words separated
+    by underscores.
+  </p>
+</div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Object-like macros with substitution text
+</p>
+<p>
+  When the preprocessor encounters this directive, an association is made
+  between the macro identifier and <em>substitution_text</em>. All further
+  occurrences of the macro identifier (outside of use in other preprocessor
+  commands) are replaced by the <em>substitution_text</em>.
+</p>
+<p>Consider the following program:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">MY_NAME</span> <span class="token string">"Alex"</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-82-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-82-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-83-close">{</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"My name is: "</span> <span class="token operator">&lt;&lt;</span> MY_NAME <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-83-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>The preprocessor converts the above into the following:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token comment">// The contents of iostream are inserted here</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-84-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-84-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-85-close">{</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"My name is: "</span> <span class="token operator">&lt;&lt;</span> <span class="token string">"Alex"</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-85-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>Which, when run, prints the output <code>My name is: Alex</code>.</p>
+<div class="code-block code-block-5" style="margin: 8px 0; clear: both"></div>
+<p>
+  Object-like macros with substitution text were used (in C) as a way to assign
+  names to literals. This is no longer necessary, as better methods are
+  available in C++ (see
+  <a
+    href="https://www.learncpp.com/cpp-tutorial/sharing-global-constants-across-multiple-files-using-inline-variables/"
+    >7.10 -- Sharing global constants across multiple files (using inline
+    variables)</a
+  >). Object-like macros with substitution text are now mostly seen in legacy
+  code, and we recommend avoiding them whenever possible.
+</p>
+<div class="cpp-note cpp-lightgreenbackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Best practice</p>
+  <p>
+    Avoid macros with substitution text unless no viable alternatives exist.
+  </p>
+</div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Object-like macros without substitution text
+</p>
+<p>
+  <em>Object-like macros</em> can also be defined without substitution text.
+</p>
+<p>For example:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">USE_YEN</span></span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  Macros of this form work like you might expect: most further occurrences of
+  the identifier is removed and replaced by nothing!
+</p>
+<p>
+  This might seem pretty useless, and it <em>is useless</em> for doing text
+  substitution. However, that’s not what this form of the directive is generally
+  used for. We’ll discuss the uses of this form in just a moment.
+</p>
+<div class="code-block code-block-6" style="margin: 8px 0; clear: both"></div>
+<p>
+  Unlike object-like macros with substitution text, macros of this form are
+  generally considered acceptable to use.
+</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Conditional compilation
+</p>
+<p>
+  The <em>conditional compilation</em> preprocessor directives allow you to
+  specify under what conditions something will or won’t compile. There are quite
+  a few different conditional compilation directives, but we’ll only cover a few
+  that are used the most often: <em>#ifdef</em>, <em>#ifndef</em>, and
+  <em>#endif</em>.
+</p>
+<p>
+  The <em>#ifdef</em> preprocessor directive allows the preprocessor to check
+  whether an identifier has been previously defined via #define. If so, the code
+  between the <em>#ifdef</em> and matching <em>#endif</em> is compiled. If not,
+  the code is ignored.
+</p>
+<p>Consider the following program:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">PRINT_JOE</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-86-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-86-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-87-close">{</span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">ifdef</span> <span class="token expression">PRINT_JOE</span></span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Joe\n"</span><span class="token punctuation">;</span> <span class="token comment">// will be compiled since PRINT_JOE is defined</span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">endif</span></span>
+
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">ifdef</span> <span class="token expression">PRINT_BOB</span></span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Bob\n"</span><span class="token punctuation">;</span> <span class="token comment">// will be excluded since PRINT_BOB is not defined</span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">endif</span></span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-87-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  Because PRINT_JOE has been #defined, the line
+  <code>std::cout &lt;&lt; "Joe\n"</code> will be compiled. Because PRINT_BOB
+  has not been #defined, the line <code>std::cout &lt;&lt; "Bob\n"</code> will
+  be ignored.
+</p>
+<p>
+  <em>#ifndef</em> is the opposite of <em>#ifdef</em>, in that it allows you to
+  check whether an identifier has <em>NOT</em> been <em>#define</em>d yet.
+</p>
+<div class="code-block code-block-7" style="margin: 8px 0; clear: both"></div>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-88-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-88-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-89-close">{</span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">ifndef</span> <span class="token expression">PRINT_BOB</span></span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Bob\n"</span><span class="token punctuation">;</span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">endif</span></span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-89-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>This program prints “Bob”, because PRINT_BOB was never <em>#define</em>d.</p>
+<p>
+  In place of <code>#ifdef PRINT_BOB</code> and <code>#ifndef PRINT_BOB</code>,
+  you’ll also see <code>#if defined(PRINT_BOB)</code> and
+  <code>#if !defined(PRINT_BOB)</code>. These do the same, but use a slightly
+  more C++-style syntax.
+</p>
+<p>
+  You can see a practical use of this feature in lesson
+  <a
+    href="https://www.learncpp.com/cpp-tutorial/what-language-standard-is-my-compiler-using/"
+    >0.13 -- What language standard is my compiler using?</a
+  >.
+</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  <a name="if0"></a>#if 0
+  <a href="#if0"><i class="fa fa-link" style="font-size: 0.8em"></i></a>
+</p>
+<p>
+  One more common use of conditional compilation involves using
+  <em>#if 0</em> to exclude a block of code from being compiled (as if it were
+  inside a comment block):
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-90-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-90-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-91-close">{</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Joe\n"</span><span class="token punctuation">;</span>
+
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">if</span> <span class="token expression"><span class="token number">0</span> </span><span class="token comment">// Don't compile anything starting here</span></span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Bob\n"</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Steve\n"</span><span class="token punctuation">;</span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">endif</span> <span class="token comment">// until this point</span></span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-91-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  The above code only prints “Joe”, because “Bob” and “Steve” are excluded from
+  compilation by the <em>#if 0</em> preprocessor directive.
+</p>
+<div class="code-block code-block-8" style="margin: 8px 0; clear: both"></div>
+<p>
+  This provides a convenient way to “comment out” code that contains multi-line
+  comments (which can’t be commented out using another multi-line comment due to
+  multi-line comments being non-nestable):
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-92-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-92-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-93-close">{</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Joe\n"</span><span class="token punctuation">;</span>
+
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">if</span> <span class="token expression"><span class="token number">0</span> </span><span class="token comment">// Don't compile anything starting here</span></span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Bob\n"</span><span class="token punctuation">;</span>
+    <span class="token comment">/* Some
+     * multi-line
+     * comment here
+     */</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Steve\n"</span><span class="token punctuation">;</span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">endif</span> <span class="token comment">// until this point</span></span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-93-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  To temporarily re-enable code that has been wrapped in an <code>#if 0</code>,
+  you can change the <code>#if 0</code> to <code>#if 1</code>:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-94-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-94-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-95-close">{</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Joe\n"</span><span class="token punctuation">;</span>
+
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">if</span> <span class="token expression"><span class="token number">1</span> </span><span class="token comment">// always true, so the following code will be compiled</span></span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Bob\n"</span><span class="token punctuation">;</span>
+    <span class="token comment">/* Some
+     * multi-line
+     * comment here
+     */</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Steve\n"</span><span class="token punctuation">;</span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">endif</span></span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-95-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Macro substitution within other preprocessor commands
+</p>
+<p>Now you might be wondering, given the following code:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">PRINT_JOE</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-96-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-96-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-97-close">{</span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">ifdef</span> <span class="token expression">PRINT_JOE</span></span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Joe\n"</span><span class="token punctuation">;</span> <span class="token comment">// will be compiled since PRINT_JOE is defined</span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">endif</span></span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-97-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  Since we defined <em>PRINT_JOE</em> to be nothing, how come the preprocessor
+  didn’t replace <em>PRINT_JOE</em> in <em>#ifdef PRINT_JOE</em> with nothing
+  and exclude the output statement from compilation?
+</p>
+<p>
+  In most cases, macro substitution does not occur when a macro identifier is
+  used within another preprocessor command.
+</p>
+<div class="cpp-note cpp-lightgraybackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">As an aside…</p>
+  <p>
+    There is at least one exception to this rule: most forms of
+    <code>#if</code> and <code>#elif</code> do macro substitution within the
+    preprocessor command.
+  </p>
+</div>
+<p>As another example:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">FOO</span> <span class="token expression"><span class="token number">9</span> </span><span class="token comment">// Here's a macro substitution</span></span>
+
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">ifdef</span> <span class="token expression">FOO </span><span class="token comment">// This FOO does not get replaced with 9 because it’s part of another preprocessor directive</span></span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> FOO <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span> <span class="token comment">// This FOO gets replaced with 9 because it's part of the normal code</span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">endif</span></span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  The scope of #defines
+</p>
+<p>
+  Directives are resolved before compilation, from top to bottom on a
+  file-by-file basis.
+</p>
+<p>Consider the following program:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-void">void</span> <span class="token function">foo</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-98-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-98-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-100-close">{</span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">MY_NAME</span> <span class="token string">"Alex"</span></span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-100-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-99-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-99-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-101-close">{</span>
+	std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"My name is: "</span> <span class="token operator">&lt;&lt;</span> MY_NAME <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+	<span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-101-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  Even though it looks like <em>#define MY_NAME “Alex”</em> is defined inside
+  function <em>foo</em>, the preprocessor doesn’t understand C++ concepts like
+  functions. Therefore, this program behaves identically to one where
+  <em>#define MY_NAME “Alex”</em> was defined either before or immediately after
+  function <em>foo</em>. To avoid confusion, you’ll generally want to #define
+  identifiers outside of functions.
+</p>
+<p>
+  Because an #include directive replaces the #include directive with the content
+  of the included file, an #include can copy directives from the included file
+  into the current file. These directives will then be processed in order.
+</p>
+<p>
+  For example, the following also behaves identically to the prior examples:
+</p>
+<p>Alex.h:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">MY_NAME</span> <span class="token string">"Alex"</span></span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>main.cpp:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">"Alex.h"</span> <span class="token comment">// copies #define MY_NAME from Alex.h here</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-102-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-102-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-103-close">{</span>
+	std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"My name is: "</span> <span class="token operator">&lt;&lt;</span> MY_NAME <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span> <span class="token comment">// preprocessor replaces MY_NAME with "Alex"</span>
+
+	<span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-103-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  Once the preprocessor has finished, all defined identifiers from that file are
+  discarded. This means that directives are only valid from the point of
+  definition to the end of the file in which they are defined. Directives
+  defined in one file do not have any impact on other files (unless they are
+  #included into another file). For example:
+</p>
+<p>function.cpp:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-void">void</span> <span class="token function">doSomething</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-104-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-104-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-105-close">{</span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">ifdef</span> <span class="token expression">PRINT</span></span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Printing!\n"</span><span class="token punctuation">;</span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">endif</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">ifndef</span> <span class="token expression">PRINT</span></span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Not printing!\n"</span><span class="token punctuation">;</span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">endif</span></span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-105-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>main.cpp:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-void">void</span> <span class="token function">doSomething</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-106-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-106-open">)</span><span class="token punctuation">;</span> <span class="token comment">// forward declaration for function doSomething()</span>
+
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">PRINT</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-107-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-107-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-109-close">{</span>
+    <span class="token function">doSomething</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-108-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-108-open">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-109-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>The above program will print:</p>
+<pre>
+Not printing!
+</pre>
+<p>
+  Even though PRINT was defined in <em>main.cpp</em>, that doesn’t have any
+  impact on any of the code in <em>function.cpp</em> (PRINT is only #defined
+  from the point of definition to the end of main.cpp). This will be of
+  consequence when we discuss header guards in a future lesson.
+</p>
+<div class="prevnext">
+  <div class="prevnext-inline">
+    <a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/header-files/"
+      ><div class="nav-button nav-button-next">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-right" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Next lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">2.11</span>Header files
+          </div>
+        </div>
+      </div></a
+    ><a class="nav-link" href="/"
+      ><div class="nav-button nav-button-index">
+        <div class="nav-button-icon">
+          <i class="fa fa-home" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Back to table of contents</div>
+        </div>
+      </div></a
+    ><a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/naming-collisions-and-an-introduction-to-namespaces/"
+      ><div class="nav-button nav-button-prev">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-left" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Previous lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">2.9</span>Naming collisions
+            and an introduction to namespaces
+          </div>
+        </div>
+      </div></a
+    >
+  </div>
+</div>
+<div class="code-block code-block-10" style="margin: 8px 0; clear: both"></div>

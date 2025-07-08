@@ -1,0 +1,725 @@
+<div
+  class="code-block code-block-1"
+  style="margin: 8px 8px 8px 0; float: left"
+></div>
+<p>
+  Consider the case where you need to write some code to perform some discrete
+  task, like reading input from the user, or outputting something to a file, or
+  calculating a particular value. When implementing this code, you essentially
+  have two options:
+</p>
+<ol start="1">
+  <li>
+    Write the code as part of an existing function (called writing code
+    “in-place” or “inline”).
+  </li>
+  <li>
+    Create a new function (and possibly sub-functions) to handle the task.
+  </li>
+</ol>
+<p>
+  Putting the code in a new function provides many potential benefits, as small
+  functions:
+</p>
+<ul>
+  <li>
+    Are easier to read and understand in the context of the overall program.
+  </li>
+  <li>Are easier to reuse, as functions are naturally modular.</li>
+  <li>
+    Are easier to update, as the code only needs to be modified in one place.
+  </li>
+</ul>
+<p>
+  However, one downside of using a new function is that every time a function is
+  called, there is a certain amount of performance overhead that occurs.
+  Consider the following example:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">min</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-119-close">(</span><span class="token keyword keyword-int">int</span> x<span class="token punctuation">,</span> <span class="token keyword keyword-int">int</span> y<span class="token punctuation brace-round brace-close brace-level-1" id="pair-119-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-124-close">{</span>
+    <span class="token keyword keyword-return">return</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-120-close">(</span>x <span class="token operator">&lt;</span> y<span class="token punctuation brace-round brace-close brace-level-2" id="pair-120-open">)</span> <span class="token operator">?</span> x <span class="token operator">:</span> y<span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-124-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-121-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-121-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-125-close">{</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token function">min</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-122-close">(</span><span class="token number">5</span><span class="token punctuation">,</span> <span class="token number">6</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-122-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token function">min</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-123-close">(</span><span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-123-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-125-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  When a call to <code>min()</code> is encountered, the CPU must store the
+  address of the current instruction it is executing (so it knows where to
+  return to later) along with the values of various CPU registers (so they can
+  be restored upon returning). Then parameters <code>x</code> and
+  <code>y</code> must be instantiated and then initialized. Then the execution
+  path has to jump to the code in the <code>min()</code> function. When the
+  function ends, the program has to jump back to the location of the function
+  call, and the return value has to be copied so it can be output. This has to
+  be done for each function call.<br />All of the extra work that must happen to
+  setup, facilitate, and/or cleanup after some task (in this case, making a
+  function call) is called <strong>overhead</strong>.
+</p>
+<p>
+  For functions that are large and/or perform complex tasks, the overhead of the
+  function call is typically insignificant compared to the amount of time the
+  function takes to run. However, for small functions (such as
+  <code>min()</code> above), the overhead costs can be larger than the time
+  needed to actually execute the function’s code! In cases where a small
+  function is called often, using a function can result in a significant
+  performance penalty over writing the same code in-place.
+</p>
+<div class="code-block code-block-2" style="margin: 8px 0; clear: both"></div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Inline expansion
+</p>
+<p>
+  Fortunately, the C++ compiler has a trick that it can use to avoid such
+  overhead cost: <strong>Inline expansion</strong> is a process where a function
+  call is replaced by the code from the called function’s definition.
+</p>
+<p>
+  For example, if the compiler expanded the <code>min()</code> calls in the
+  above example, the resulting code would look like this:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-126-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-126-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-131-close">{</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-128-close">(</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-127-close">(</span><span class="token number">5</span> <span class="token operator">&lt;</span> <span class="token number">6</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-127-open">)</span> <span class="token operator">?</span> <span class="token number">5</span> <span class="token operator">:</span> <span class="token number">6</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-128-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-130-close">(</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-129-close">(</span><span class="token number">3</span> <span class="token operator">&lt;</span> <span class="token number">2</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-129-open">)</span> <span class="token operator">?</span> <span class="token number">3</span> <span class="token operator">:</span> <span class="token number">2</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-130-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-131-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  Note that the two calls to function <code>min()</code> have been replaced by
+  the code in the body of the <code>min()</code> function (with the value of the
+  arguments substituted for the parameters). This allows us to avoid the
+  overhead of those calls, while preserving the results of the code.
+</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  The performance of inline code
+</p>
+<p>
+  Beyond removing the cost of function call, inline expansion can also allow the
+  compiler to optimize the resulting code more efficiently -- for example,
+  because the expression <code>((5 &lt; 6) ? 5 : 6)</code> is now a constant
+  expression, the compiler could further optimize the first statement in
+  <code>main()</code> to <code>std::cout &lt;&lt; 5 &lt;&lt; '\n';</code>.
+</p>
+<div class="code-block code-block-3" style="margin: 8px 0; clear: both"></div>
+<p>
+  However, inline expansion has its own potential cost: if the body of the
+  function being expanded takes more instructions than the function call being
+  replaced, then each inline expansion will cause the executable to grow larger.
+  Larger executables tend to be slower (due to not fitting as well in memory
+  caches).
+</p>
+<p>
+  The decision about whether a function would benefit from being made inline
+  (because removal of the function call overhead outweighs the cost of a larger
+  executable) is not straightforward. Inline expansion could result in
+  performance improvements, performance reductions, or no change to performance
+  at all, depending on the relative cost of a function call, the size of the
+  function, and what other optimizations can be performed.
+</p>
+<p>
+  Inline expansion is best suited to simple, short functions (e.g. no more than
+  a few statements), especially cases where a single function call can be
+  executed more than once (e.g. function calls inside a loop).
+</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  When inline expansion occurs
+</p>
+<p>
+  Every function falls into one of two categories, where calls to the function:
+</p>
+<ul>
+  <li>May be expanded (most functions are in this category).</li>
+  <li>Can’t be expanded.</li>
+</ul>
+<p>
+  Most functions fall into the “may” category: their function calls can be
+  expanded if and when it is beneficial to do so. For functions in this
+  category, a modern compiler will assess each function and each function call
+  to make a determination about whether that particular function call would
+  benefit from inline expansion. A compiler might decide to expand none, some,
+  or all of the function calls to a given function.
+</p>
+<div class="code-block code-block-4" style="margin: 8px 0; clear: both"></div>
+<div class="cpp-note cpp-lightbluebackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Tip</p>
+  <p>
+    Modern optimizing compilers make the decision about when functions should be
+    expanded inline.
+  </p>
+</div>
+<p>
+  The most common kind of function that can’t be expanded inline is a function
+  whose definition is in another translation unit. Since the compiler can’t see
+  the definition for such a function, it doesn’t know what to replace the
+  function call with!
+</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  The inline keyword, historically
+</p>
+<p>
+  Historically, compilers either didn’t have the capability to determine whether
+  inline expansion would be beneficial, or were not very good at it. For this
+  reason, C++ provided the keyword <code>inline</code>, which was originally
+  intended to be used as a hint to the compiler that a function would (probably)
+  benefit from being expanded inline.
+</p>
+<p>
+  A function that is declared using the <code>inline</code> keyword is called an
+  <strong>inline function</strong>.
+</p>
+<p>Here’s an example of using the <code>inline</code> keyword:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-inline">inline</span> <span class="token keyword keyword-int">int</span> <span class="token function">min</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-132-close">(</span><span class="token keyword keyword-int">int</span> x<span class="token punctuation">,</span> <span class="token keyword keyword-int">int</span> y<span class="token punctuation brace-round brace-close brace-level-1" id="pair-132-open">)</span> <span class="token comment">// inline keyword means this function is an inline function</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-137-close">{</span>
+    <span class="token keyword keyword-return">return</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-133-close">(</span>x <span class="token operator">&lt;</span> y<span class="token punctuation brace-round brace-close brace-level-2" id="pair-133-open">)</span> <span class="token operator">?</span> x <span class="token operator">:</span> y<span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-137-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-134-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-134-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-138-close">{</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token function">min</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-135-close">(</span><span class="token number">5</span><span class="token punctuation">,</span> <span class="token number">6</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-135-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token function">min</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-136-close">(</span><span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-136-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-138-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  However, in modern C++, the <code>inline</code> keyword is no longer used to
+  request that a function be expanded inline. There are quite a few reasons for
+  this:
+</p>
+<div class="code-block code-block-5" style="margin: 8px 0; clear: both"></div>
+<ul>
+  <li>
+    Using <code>inline</code> to request inline expansion is a form of premature
+    optimization, and misuse could actually harm performance.
+  </li>
+  <li>
+    The <code>inline</code> keyword is just a hint to help the compiler
+    determine where to perform inline expansion. The compiler is completely free
+    to ignore the request, and it may very well do so. The compiler is also free
+    to perform inline expansion of functions that do not use the
+    <code>inline</code> keyword as part of its normal set of optimizations.
+  </li>
+  <li>
+    The <code>inline</code> keyword is defined at the wrong level of
+    granularity. We use the <code>inline</code> keyword on a function
+    definition, but inline expansion is actually determined per function call.
+    It may be beneficial to expand some function calls and detrimental to expand
+    others, and there is no syntax to influence this.
+  </li>
+</ul>
+<p>
+  Modern optimizing compilers are typically good at determining which function
+  calls should be made inline -- better than humans in most cases. As a result,
+  the compiler will likely ignore or devalue any use of <code>inline</code> to
+  request inline expansion for your functions.
+</p>
+<div class="cpp-note cpp-lightgreenbackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Best practice</p>
+  <p>
+    Do not use the <code>inline</code> keyword to request inline expansion for
+    your functions.
+  </p>
+</div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  The inline keyword, modernly
+</p>
+<p>
+  In previous chapters, we mentioned that you should not implement functions
+  (with external linkage) in header files, because when those headers are
+  included into multiple .cpp files, the function definition will be copied into
+  multiple .cpp files. These files will then be compiled, and the linker will
+  throw an error because it will note that you’ve defined the same function more
+  than once, which is a violation of the one-definition rule.
+</p>
+<p>
+  In modern C++, the term <code>inline</code> has evolved to mean “multiple
+  definitions are allowed”. Thus, an inline function is one that is allowed to
+  be defined in multiple translation units (without violating the ODR).
+</p>
+<p>Inline functions have two primary requirements:</p>
+<div class="code-block code-block-6" style="margin: 8px 0; clear: both"></div>
+<ul>
+  <li>
+    The compiler needs to be able to see the full definition of an inline
+    function in each translation unit where the function is used (a forward
+    declaration will not suffice on its own). Only one such definition can occur
+    per translation unit, otherwise a compilation error will occur.
+  </li>
+  <li>
+    The definition can occur after the point of use if a forward declaration is
+    also provided. However, the compiler will likely not be able to perform
+    inline expansion until it has seen the definition (so any uses between the
+    declaration and definition will probably not be candidates for inline
+    expansion).
+  </li>
+  <li>
+    Every definition for an inline function (with external linkage, which
+    functions have by default) must be identical, otherwise undefined behavior
+    will result.
+  </li>
+</ul>
+<div class="cpp-note cpp-lightpurplebackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Rule</p>
+  <p>
+    The compiler needs to be able to see the full definition of an inline
+    function wherever it is used, and all definitions for an inline function
+    (with external linkage) must be identical (or undefined behavior will
+    result).
+  </p>
+</div>
+<div class="cpp-note cpp-lightgraybackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Related content</p>
+  <p>
+    We cover internal linkage in lesson
+    <a href="https://www.learncpp.com/cpp-tutorial/internal-linkage/"
+      >7.6 -- Internal linkage</a
+    >
+    and external linkage in lesson
+    <a
+      href="https://www.learncpp.com/cpp-tutorial/external-linkage-and-variable-forward-declarations/"
+      >7.7 -- External linkage and variable forward declarations</a
+    >.
+  </p>
+</div>
+<p>
+  The linker will consolidate all inline function definitions for an identifier
+  into a single definition (thus still meeting the requirements of the one
+  definition rule).
+</p>
+<p>Here’s an example:</p>
+<p>main.cpp:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-double">double</span> <span class="token function">circumference</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-139-close">(</span><span class="token keyword keyword-double">double</span> radius<span class="token punctuation brace-round brace-close brace-level-1" id="pair-139-open">)</span><span class="token punctuation">;</span> <span class="token comment">// forward declaration</span>
+
+<span class="token keyword keyword-inline">inline</span> <span class="token keyword keyword-double">double</span> <span class="token function">pi</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-140-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-140-open">)</span> <span class="token punctuation brace-curly brace-open brace-level-1" id="pair-144-close">{</span> <span class="token keyword keyword-return">return</span> <span class="token number">3.14159</span><span class="token punctuation">;</span> <span class="token punctuation brace-curly brace-close brace-level-1" id="pair-144-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-141-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-141-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-145-close">{</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token function">pi</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-142-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-142-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token function">circumference</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-143-close">(</span><span class="token number">2.0</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-143-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-145-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>math.cpp</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-inline">inline</span> <span class="token keyword keyword-double">double</span> <span class="token function">pi</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-146-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-146-open">)</span> <span class="token punctuation brace-curly brace-open brace-level-1" id="pair-149-close">{</span> <span class="token keyword keyword-return">return</span> <span class="token number">3.14159</span><span class="token punctuation">;</span> <span class="token punctuation brace-curly brace-close brace-level-1" id="pair-149-open">}</span>
+
+<span class="token keyword keyword-double">double</span> <span class="token function">circumference</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-147-close">(</span><span class="token keyword keyword-double">double</span> radius<span class="token punctuation brace-round brace-close brace-level-1" id="pair-147-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-150-close">{</span>
+    <span class="token keyword keyword-return">return</span> <span class="token number">2.0</span> <span class="token operator">*</span> <span class="token function">pi</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-148-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-148-open">)</span> <span class="token operator">*</span> radius<span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-150-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  Notice that both files have a definition for function <code>pi()</code> --
+  however, because this function has been marked as <code>inline</code>, this is
+  acceptable, and the linker will de-duplicate them. If you remove the
+  <code>inline</code> keyword from both definitions of <code>pi()</code>, you’ll
+  get an ODR violation (as duplicate definitions for non-inline functions are
+  disallowed).
+</p>
+<div class="cpp-note cpp-lightgraybackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Optional reading</p>
+  <p>
+    While the historic use of inline (to perform inline expansion) and the
+    modern use of inline (to allow multiple definitions) may seem a bit
+    unrelated, they are highly interconnected.
+  </p>
+  <p>
+    Historically, let’s say we had some trivial function that is a great
+    candidate for inline expansion, so we mark it as <code>inline</code>. In
+    order to actually perform inline expansion of a function call, the compiler
+    must be able to see the full definition of this function in each translation
+    unit where the function is used -- otherwise it wouldn’t know what to
+    replace each function call with. A function defined in another translation
+    unit can’t be inline expanded in the current translation unit being
+    compiled.
+  </p>
+  <p>
+    It’s common for trivial inline functions to be needed in multiple
+    translation units. But as soon as we copy the function definition into each
+    translation unit (per the prior requirement), this ends up violating the
+    ODR’s requirement that a function only have a single definition per program.
+    The best solution to this issue was simply to make inline functions exempt
+    from the ODR requirement that there only be a single definition per program.
+  </p>
+  <p>
+    So historically, we used <code>inline</code> to request inline expansion,
+    and the ODR-exemption was a detail that was required to make such functions
+    inline expandable across multiple translation units. Modernly, we use
+    <code>inline</code> for the ODR-exemption, and let the compiler handle the
+    inline expansion stuff. The mechanics of how inline functions work hasn’t
+    changed, our focus has.
+  </p>
+  <p>
+    You might be wondering why inline functions were allowed to be ODR-exempt
+    but non-inline functions still must adhere to this part of the ODR. With
+    non-inline functions, we expect a function to be defined exactly once (in a
+    single translation unit). If the linker runs across multiple definitions of
+    a non-inline function, it assumes this is due to a naming conflict between
+    two independently defined functions. And any call to a non-inline function
+    with more than one definition would lead to potential ambiguity about which
+    definition is the correct one to call. But with inline functions, all
+    definitions are assumed to be for the same inline function, so the function
+    calls within that translation unit can be expanded inline. And if a function
+    call isn’t expanded inline, there is no ambiguity about which of multiple
+    definitions is the correct one for the call to match with -- any of them are
+    fine!
+  </p>
+</div>
+<p>
+  Inline functions are typically defined in header files, where they can be
+  #included into the top of any code file that needs to see the full definition
+  of the identifier. This ensures that all inline definitions for an identifier
+  are identical.
+</p>
+<p>pi.h:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">ifndef</span> <span class="token expression">PI_H</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">PI_H</span></span>
+
+<span class="token keyword keyword-inline">inline</span> <span class="token keyword keyword-double">double</span> <span class="token function">pi</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-151-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-151-open">)</span> <span class="token punctuation brace-curly brace-open brace-level-1" id="pair-152-close">{</span> <span class="token keyword keyword-return">return</span> <span class="token number">3.14159</span><span class="token punctuation">;</span> <span class="token punctuation brace-curly brace-close brace-level-1" id="pair-152-open">}</span>
+
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">endif</span></span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>main.cpp:</p>
+<div class="code-block code-block-7" style="margin: 8px 0; clear: both"></div>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">"pi.h"</span> <span class="token comment">// will include a copy of pi() here</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-double">double</span> <span class="token function">circumference</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-153-close">(</span><span class="token keyword keyword-double">double</span> radius<span class="token punctuation brace-round brace-close brace-level-1" id="pair-153-open">)</span><span class="token punctuation">;</span> <span class="token comment">// forward declaration</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-154-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-154-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-157-close">{</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token function">pi</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-155-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-155-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token function">circumference</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-156-close">(</span><span class="token number">2.0</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-156-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-157-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>math.cpp</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">"pi.h"</span> <span class="token comment">// will include a copy of pi() here</span></span>
+
+<span class="token keyword keyword-double">double</span> <span class="token function">circumference</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-158-close">(</span><span class="token keyword keyword-double">double</span> radius<span class="token punctuation brace-round brace-close brace-level-1" id="pair-158-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-160-close">{</span>
+    <span class="token keyword keyword-return">return</span> <span class="token number">2.0</span> <span class="token operator">*</span> <span class="token function">pi</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-159-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-159-open">)</span> <span class="token operator">*</span> radius<span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-160-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  This is particularly useful for <strong>header-only libraries</strong>, which
+  are one or more header files that implement some capability (no .cpp files are
+  included). Header-only libraries are popular because there are no source files
+  that need to be added to a project to use them and nothing that needs to be
+  linked. You simply #include the header-only library and then can use it.
+</p>
+<div class="cpp-note cpp-lightgraybackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Related content</p>
+  <p>
+    We show a practical example where inline is used for a random number
+    generation header-only library in lesson
+    <a
+      href="https://www.learncpp.com/cpp-tutorial/global-random-numbers-random-h/"
+      >8.15 -- Global random numbers (Random.h)</a
+    >.
+  </p>
+</div>
+<div class="cpp-note cpp-lightgraybackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">For advanced readers</p>
+  <p>The following functions are implicitly inline:</p>
+  <ul>
+    <li>
+      Functions defined inside a class, struct, or union type definition (<a
+        href="https://www.learncpp.com/cpp-tutorial/member-functions/"
+        >14.3 -- Member functions</a
+      >).
+    </li>
+    <li>
+      Constexpr / consteval functions (<a
+        href="https://www.learncpp.com/cpp-tutorial/constexpr-functions/"
+        >F.1 -- Constexpr functions</a
+      >).
+    </li>
+    <li>
+      Functions implicitly instantiated from function templates (<a
+        href="https://www.learncpp.com/cpp-tutorial/function-template-instantiation/"
+        >11.7 -- Function template instantiation</a
+      >).
+    </li>
+  </ul>
+</div>
+<p>
+  For the most part, you should not mark your functions or variables as inline
+  unless you are defining them in a header file (and they are not already
+  implicitly inline).
+</p>
+<div class="cpp-note cpp-lightgreenbackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Best practice</p>
+  <p>
+    Avoid the use of the <code>inline</code> keyword unless you have a specific,
+    compelling reason to do so (e.g. you’re defining those functions or
+    variables in a header file).
+  </p>
+</div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Why not make all functions inline and defined in a header file?
+</p>
+<p>Mainly because doing so can increase your compile times significantly.</p>
+<div class="code-block code-block-8" style="margin: 8px 0; clear: both"></div>
+<p>
+  When a header containing an inline function is #included into a source file,
+  that function definition will be compiled as part of that translation unit. An
+  inline function #included into 6 translation units will have its definition
+  compiled 6 times (before the linker deduplicates the definitions). Conversely,
+  a function defined in a source file will have its definition compiled only
+  once, no matter how many translation units its forward declaration is included
+  into.
+</p>
+<p>
+  Second, if a function defined in a source file changes, only that single
+  source file needs to be recompiled. When an inline function in a header file
+  changes, every code file that includes that header (either directly or via
+  another header) needs to recompiled. On large projects, this can cause a
+  cascade of recompilation and have a drastic impact.
+</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Inline variables
+  <span class="cpp-section-pill cpp-section-standard">C++17</span>
+</p>
+<p>
+  In the above example, <code>pi()</code> was written as a function that returns
+  a constant value. It would be more staightforward if <code>pi</code> were
+  implemented as a (const) variable instead. However, prior to C++17, there were
+  some obstacles and inefficiencies in doing so.
+</p>
+<p>
+  C++17 introduces <strong>inline variables</strong>, which are variables that
+  are allowed to be defined in multiple files. Inline variables work similarly
+  to inline functions, and have the same requirements (the compiler must be able
+  to see an identical full definition everywhere the variable is used).
+</p>
+<div class="cpp-note cpp-lightgraybackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">For advanced readers</p>
+  <p>The following variables are implicitly inline:</p>
+  <ul>
+    <li>
+      Static constexpr data members
+      <a href="https://www.learncpp.com/cpp-tutorial/static-member-variables/"
+        >15.6 -- Static member variables</a
+      >.
+    </li>
+  </ul>
+  <p>
+    Unlike constexpr functions, constexpr variables are not inline by default
+    (excepting those noted above)!
+  </p>
+</div>
+<p>
+  We’ll illustrate a common use for inline variables in lesson
+  <a
+    href="https://www.learncpp.com/cpp-tutorial/sharing-global-constants-across-multiple-files-using-inline-variables/"
+    >7.10 -- Sharing global constants across multiple files (using inline
+    variables)</a
+  >.
+</p>
+<div class="prevnext">
+  <div class="prevnext-inline">
+    <a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/sharing-global-constants-across-multiple-files-using-inline-variables/"
+      ><div class="nav-button nav-button-next">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-right" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Next lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">7.10</span>Sharing global
+            constants across multiple files (using inline variables)
+          </div>
+        </div>
+      </div></a
+    ><a class="nav-link" href="/"
+      ><div class="nav-button nav-button-index">
+        <div class="nav-button-icon">
+          <i class="fa fa-home" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Back to table of contents</div>
+        </div>
+      </div></a
+    ><a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/why-non-const-global-variables-are-evil/"
+      ><div class="nav-button nav-button-prev">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-left" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Previous lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">7.8</span>Why (non-const)
+            global variables are evil
+          </div>
+        </div>
+      </div></a
+    >
+  </div>
+</div>
+<div class="code-block code-block-10" style="margin: 8px 0; clear: both"></div>

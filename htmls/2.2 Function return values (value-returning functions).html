@@ -1,0 +1,1110 @@
+<div
+  class="code-block code-block-1"
+  style="margin: 8px 8px 8px 0; float: left"
+></div>
+<p>Consider the following program:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-216-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-216-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-218-close">{</span>
+	<span class="token comment">// get a value from the user</span>
+	std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Enter an integer: "</span><span class="token punctuation">;</span>
+	<span class="token keyword keyword-int">int</span> num<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-217-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-217-open">}</span><span class="token punctuation">;</span>
+	std<span class="token double-colon punctuation">::</span>cin <span class="token operator">&gt;&gt;</span> num<span class="token punctuation">;</span>
+
+	<span class="token comment">// print the value doubled</span>
+	std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> num <span class="token operator">&lt;&lt;</span> <span class="token string">" doubled is: "</span> <span class="token operator">&lt;&lt;</span> num <span class="token operator">*</span> <span class="token number">2</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+	<span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-218-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  This program is composed of two conceptual parts: First, we get a value from
+  the user. Then we tell the user what double that value is.
+</p>
+<p>
+  Although this program is trivial enough that we don’t need to break it into
+  multiple functions, what if we wanted to? Getting an integer value from the
+  user is a well-defined job that we want our program to do, so it would make a
+  good candidate for a function.
+</p>
+<p>So let’s write a program to do this:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token comment">// This program doesn't work</span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-void">void</span> <span class="token function">getValueFromUser</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-219-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-219-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-223-close">{</span>
+ 	std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Enter an integer: "</span><span class="token punctuation">;</span>
+	<span class="token keyword keyword-int">int</span> input<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-222-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-222-open">}</span><span class="token punctuation">;</span>
+	std<span class="token double-colon punctuation">::</span>cin <span class="token operator">&gt;&gt;</span> input<span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-223-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-220-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-220-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-225-close">{</span>
+	<span class="token function">getValueFromUser</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-221-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-221-open">)</span><span class="token punctuation">;</span> <span class="token comment">// Ask user for input</span>
+
+	<span class="token keyword keyword-int">int</span> num<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-224-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-224-open">}</span><span class="token punctuation">;</span> <span class="token comment">// How do we get the value from getValueFromUser() and use it to initialize this variable?</span>
+
+	std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> num <span class="token operator">&lt;&lt;</span> <span class="token string">" doubled is: "</span> <span class="token operator">&lt;&lt;</span> num <span class="token operator">*</span> <span class="token number">2</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+	<span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-225-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  While this program is a good attempt at a solution, it doesn’t quite work.
+</p>
+<p>
+  When function <code>getValueFromUser</code> is called, the user is asked to
+  enter an integer as expected. But the value they enter is lost when
+  <code>getValueFromUser</code> terminates and control returns to
+  <code>main</code>. Variable <code>num</code> never gets initialized with the
+  value the user entered, and so the program always prints the answer
+  <code>0</code>.
+</p>
+<div class="code-block code-block-2" style="margin: 8px 0; clear: both"></div>
+<p>
+  What we’re missing is some way for <code>getValueFromUser</code> to return the
+  value the user entered back to <code>main</code> so that <code>main</code> can
+  make use of that data.
+</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Return values
+</p>
+<p>
+  When you write a user-defined function, you get to determine whether your
+  function will return a value back to the caller or not. To return a value back
+  to the caller, two things are needed.
+</p>
+<p>
+  First, your function has to indicate what type of value will be returned. This
+  is done by setting the function’s <strong>return type</strong>, which is the
+  type that is defined before the function’s name. In the example above,
+  function <code>getValueFromUser</code> has a return type of
+  <code>void</code> (meaning no value will be returned to the caller), and
+  function <code>main</code> has a return type of <code>int</code> (meaning a
+  value of type <code>int</code> will be returned to the caller). Note that this
+  doesn’t determine what specific value is returned -- it only determines what
+  <em>type</em> of value will be returned.
+</p>
+<div class="cpp-note cpp-lightgraybackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Related content</p>
+  <p>
+    We explore functions that return <code>void</code> further in the next
+    lesson (<a
+      href="https://www.learncpp.com/cpp-tutorial/void-functions-non-value-returning-functions/"
+      >2.3 -- Void functions (non-value returning functions)</a
+    >).
+  </p>
+</div>
+<p>
+  Second, inside the function that will return a value, we use a
+  <strong>return statement</strong> to indicate the specific value being
+  returned to the caller. The return statement consists of the
+  <code>return</code> keyword, followed by an expression (sometimes called the
+  <strong>return expression</strong>), ending with a semicolon.
+</p>
+<p>When the return statement is executed:</p>
+<div class="code-block code-block-3" style="margin: 8px 0; clear: both"></div>
+<ul>
+  <li>The return expression is evaluated to produce a value.</li>
+  <li>
+    The value produced by the return expression is copied back to the caller.
+    This copy is called the <strong>return value</strong> of the function.
+  </li>
+  <li>The function exits, and control returns to the caller.</li>
+</ul>
+<p>
+  The process of returning a copied value back to the caller is named
+  <strong>return by value</strong>.
+</p>
+<div class="cpp-note cpp-lightgraybackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Nomenclature</p>
+  <p>
+    The return expression produces the value to be returned. The return value is
+    a copy of that value.
+  </p>
+</div>
+<p>A value-returning function will return a value each time it is called.</p>
+<p>
+  Let’s take a look at a simple function that returns an integer value, and a
+  sample program that calls it:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token comment">// int is the return type</span>
+<span class="token comment">// A return type of int means the function will return some integer value to the caller (the specific value is not specified here)</span>
+<span class="token keyword keyword-int">int</span> <span class="token function">returnFive</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-226-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-226-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-231-close">{</span>
+    <span class="token comment">// the return statement provides the value that will be returned</span>
+    <span class="token keyword keyword-return">return</span> <span class="token number">5</span><span class="token punctuation">;</span> <span class="token comment">// return the value 5 back to the caller</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-231-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-227-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-227-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-232-close">{</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token function">returnFive</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-228-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-228-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span> <span class="token comment">// prints 5</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token function">returnFive</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-229-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-229-open">)</span> <span class="token operator">+</span> <span class="token number">2</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span> <span class="token comment">// prints 7</span>
+
+    <span class="token function">returnFive</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-230-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-230-open">)</span><span class="token punctuation">;</span> <span class="token comment">// okay: the value 5 is returned, but is ignored since main() doesn't do anything with it</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-232-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 32px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>When run, this program prints:</p>
+<pre>
+5
+7
+</pre>
+<p>
+  Execution starts at the top of <code>main</code>. In the first statement, the
+  function call to <code>returnFive()</code> is evaluated, which results in
+  function <code>returnFive()</code> being called. The return expression
+  <code>5</code> is evaluated to produce the value <code>5</code>, which is
+  returned back to the caller and printed to the console via
+  <code>std::cout</code>.
+</p>
+<div class="code-block code-block-4" style="margin: 8px 0; clear: both"></div>
+<p>
+  In the second function call, the function call to <code>returnFive</code> is
+  evaluated, which results in function <code>returnFive</code> being called
+  again. Function <code>returnFive</code> returns the value of
+  <code>5</code> back to the caller. The expression <code>5 + 2</code> is
+  evaluated to produce the result <code>7</code>, which is then printed to the
+  console via <code>std::cout</code>.
+</p>
+<p>
+  In the third statement, function <code>returnFive</code> is called again,
+  resulting in the value <code>5</code> being returned back to the caller.
+  However, function <code>main</code> does nothing with the return value, so
+  nothing further happens (the return value is ignored).
+</p>
+<p>
+  Note: Return values will not be printed unless the caller sends them to the
+  console via <code>std::cout</code>. In the last case above, the return value
+  is not sent to <code>std::cout</code>, so nothing is printed.
+</p>
+<div class="cpp-note cpp-lightbluebackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Tip</p>
+  <p>
+    When a called function returns a value, the caller may decide to use that
+    value in an expression or statement (e.g. by using it to initialize a
+    variable, or sending it to <code>std::cout</code>) or ignore it (by doing
+    nothing else). If the caller ignores the return value, it is discarded
+    (nothing is done with it).
+  </p>
+</div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Fixing our challenge program
+</p>
+<p>
+  With this in mind, we can fix the program we presented at the top of the
+  lesson:
+</p>
+<div class="code-block code-block-5" style="margin: 8px 0; clear: both"></div>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">getValueFromUser</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-233-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-233-open">)</span> <span class="token comment">// this function now returns an integer value</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-237-close">{</span>
+ 	std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Enter an integer: "</span><span class="token punctuation">;</span>
+	<span class="token keyword keyword-int">int</span> input<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-236-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-236-open">}</span><span class="token punctuation">;</span>
+	std<span class="token double-colon punctuation">::</span>cin <span class="token operator">&gt;&gt;</span> input<span class="token punctuation">;</span>
+
+	<span class="token keyword keyword-return">return</span> input<span class="token punctuation">;</span> <span class="token comment">// return the value the user entered back to the caller</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-237-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-234-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-234-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-239-close">{</span>
+	<span class="token keyword keyword-int">int</span> num <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-238-close">{</span> <span class="token function">getValueFromUser</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-235-close">(</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-235-open">)</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-238-open">}</span><span class="token punctuation">;</span> <span class="token comment">// initialize num with the return value of getValueFromUser()</span>
+
+	std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> num <span class="token operator">&lt;&lt;</span> <span class="token string">" doubled is: "</span> <span class="token operator">&lt;&lt;</span> num <span class="token operator">*</span> <span class="token number">2</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+	<span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-239-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  When this program executes, the first statement in <code>main</code> will
+  create an <code>int</code> variable named <code>num</code>. When the program
+  goes to initialize <code>num</code>, it will see that there is a function call
+  to <code>getValueFromUser()</code>, so it will go execute that function.
+  Function <code>getValueFromUser</code>, asks the user to enter a value, and
+  then it returns that value back to the caller (<code>main()</code>). This
+  return value is used as the initialization value for variable
+  <code>num</code>. <code>num</code> can then be used as many times as needed
+  within <code>main()</code>.
+</p>
+<div class="cpp-note cpp-lightbluebackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Tip</p>
+  <p>
+    If you need to use the return value of a function call more than once,
+    initialize a variable with the return value, and then use that variable as
+    many times as needed.
+  </p>
+</div>
+<p>
+  Compile this program yourself and run it a few times to prove to yourself that
+  it works.
+</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Revisiting main()
+</p>
+<p>
+  You now have the conceptual tools to understand how the
+  <code>main()</code> function actually works. When the program is executed, the
+  operating system makes a function call to <code>main()</code>. Execution then
+  jumps to the top of <code>main()</code>. The statements in
+  <code>main()</code> are executed sequentially. Finally,
+  <code>main()</code> returns an integer value (usually <code>0</code>), and
+  your program terminates.
+</p>
+<p>In C++, there are two special requirements for <code>main()</code>:</p>
+<ul>
+  <li><code>main()</code> is required to return an <code>int</code>.</li>
+  <li>Explicit function calls to <code>main()</code> are disallowed.</li>
+</ul>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-void">void</span> <span class="token function">foo</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-240-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-240-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-244-close">{</span>
+    <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-241-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-241-open">)</span><span class="token punctuation">;</span> <span class="token comment">// Compile error: main not allowed to be called explicitly</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-244-open">}</span>
+
+<span class="token keyword keyword-void">void</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-242-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-242-open">)</span> <span class="token comment">// Compile error: main not allowed to have non-int return type</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-245-close">{</span>
+    <span class="token function">foo</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-243-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-243-open">)</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-245-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<div class="cpp-note cpp-lightbluebackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Key insight</p>
+  <p>
+    C does allow <code>main()</code> to be called explicitly, so some C++
+    compilers will allow this for compatibility reasons.
+  </p>
+</div>
+<p>
+  For now, you should also define your <code>main()</code> function at the
+  bottom of your code file, below other functions, and avoid calling it
+  explicitly.
+</p>
+<div class="code-block code-block-6" style="margin: 8px 0; clear: both"></div>
+<div class="cpp-note cpp-lightgraybackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">For advanced readers</p>
+  <p>
+    It is a common misconception that <code>main</code> is always the first
+    function that executes.
+  </p>
+  <p>
+    Global variables are initialized prior to the execution of
+    <code>main</code>. If the initializer for such a variable invokes a
+    function, then that function will execute prior to <code>main</code>. We
+    discuss global variables in lesson
+    <a
+      href="https://www.learncpp.com/cpp-tutorial/introduction-to-global-variables/"
+      >7.4 -- Introduction to global variables</a
+    >.
+  </p>
+</div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Status codes
+</p>
+<p>
+  You may be wondering why we return 0 from <code>main()</code>, and when we
+  might return something else.
+</p>
+<p>
+  The return value from <code>main()</code> is sometimes called a
+  <strong>status code</strong> (or less commonly, an <strong>exit code</strong>,
+  or rarely a <strong>return code</strong>). The status code is used to signal
+  whether your program was successful or not.
+</p>
+<p>
+  By convention, a status code of <code>0</code> means the program ran normally
+  (meaning the program executed and behaved as expected).
+</p>
+<div class="cpp-note cpp-lightgreenbackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Best practice</p>
+  <p>
+    Your <code>main</code> function should return the value <code>0</code> if
+    the program ran normally.
+  </p>
+</div>
+<p>
+  A non-zero status code is often used to indicate some kind of failure (and
+  while this works fine on most operating systems, strictly speaking, it’s not
+  guaranteed to be portable).
+</p>
+<div class="code-block code-block-7" style="margin: 8px 0; clear: both"></div>
+<div class="cpp-note cpp-lightgraybackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">For advanced readers</p>
+  <p>
+    The C++ standard only defines the meaning of 3 status codes: <code>0</code>,
+    <code>EXIT_SUCCESS</code>, and <code>EXIT_FAILURE</code>. <code>0</code> and
+    <code>EXIT_SUCCESS</code> both mean the program executed successfully.
+    <code>EXIT_FAILURE</code> means the program did not execute successfully.
+  </p>
+  <p>
+    <code>EXIT_SUCCESS</code> and <code>EXIT_FAILURE</code> are preprocessor
+    macros defined in the &lt;cstdlib&gt; header:
+  </p>
+  <div class="code-toolbar">
+    <pre
+      class="line-numbers language-cpp"
+      tabindex="0"
+    ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;cstdlib&gt;</span> <span class="token comment">// for EXIT_SUCCESS and EXIT_FAILURE</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-246-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-246-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-247-close">{</span>
+    <span class="token keyword keyword-return">return</span> EXIT_SUCCESS<span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-247-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+    <div class="toolbar">
+      <div class="toolbar-item">
+        <button
+          class="copy-to-clipboard-button"
+          type="button"
+          data-copy-state="copy"
+        >
+          <span>Copy</span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <p>
+    If you want to maximize portability, you should only use <code>0</code> or
+    <code>EXIT_SUCCESS</code> to indicate a successful termination, or
+    <code>EXIT_FAILURE</code> to indicate an unsuccessful termination.
+  </p>
+  <p>
+    We cover the preprocessor and preprocessor macros in lesson
+    <a
+      href="https://www.learncpp.com/cpp-tutorial/introduction-to-the-preprocessor/"
+      >2.10 -- Introduction to the preprocessor</a
+    >.
+  </p>
+</div>
+<div class="cpp-note cpp-lightgraybackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">As an aside…</p>
+  <p>
+    The status code is passed back to the operating system. The OS will
+    typically make the status code available to whichever program launched the
+    program returning the status code. This provides a crude mechanism for any
+    program launching another program to determine whether the launched program
+    ran successfully or not.
+  </p>
+</div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  A value-returning function that does not return a value will produce undefined
+  behavior
+</p>
+<p>
+  A function that returns a value is called a
+  <strong>value-returning function</strong>. A function is value-returning if
+  the return type is anything other than <code>void</code>.
+</p>
+<p>
+  A value-returning function <em>must</em> return a value of that type (using a
+  return statement), otherwise undefined behavior will result.
+</p>
+<div class="cpp-note cpp-lightgraybackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Related content</p>
+  <p>
+    We discuss undefined behavior in lesson
+    <a
+      href="https://www.learncpp.com/cpp-tutorial/uninitialized-variables-and-undefined-behavior/"
+      >1.6 -- Uninitialized variables and undefined behavior</a
+    >.
+  </p>
+</div>
+<p>Here’s an example of a function that produces undefined behavior:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">getValueFromUserUB</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-248-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-248-open">)</span> <span class="token comment">// this function returns an integer value</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-252-close">{</span>
+ 	std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Enter an integer: "</span><span class="token punctuation">;</span>
+	<span class="token keyword keyword-int">int</span> input<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-251-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-251-open">}</span><span class="token punctuation">;</span>
+	std<span class="token double-colon punctuation">::</span>cin <span class="token operator">&gt;&gt;</span> input<span class="token punctuation">;</span>
+
+	<span class="token comment">// note: no return statement</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-252-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-249-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-249-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-254-close">{</span>
+	<span class="token keyword keyword-int">int</span> num <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-253-close">{</span> <span class="token function">getValueFromUserUB</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-250-close">(</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-250-open">)</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-253-open">}</span><span class="token punctuation">;</span> <span class="token comment">// initialize num with the return value of getValueFromUserUB()</span>
+
+	std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> num <span class="token operator">&lt;&lt;</span> <span class="token string">" doubled is: "</span> <span class="token operator">&lt;&lt;</span> num <span class="token operator">*</span> <span class="token number">2</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+	<span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-254-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  A modern compiler should generate a warning because
+  <code>getValueFromUserUB</code> is defined as returning an
+  <code>int</code> but no return statement is provided. Running such a program
+  would produce undefined behavior, because <code>getValueFromUserUB()</code> is
+  a value-returning function that does not return a value.
+</p>
+<div class="code-block code-block-8" style="margin: 8px 0; clear: both"></div>
+<p>
+  In most cases, compilers will detect if you’ve forgotten to return a value.
+  However, in some complicated cases, the compiler may not be able to properly
+  determine whether your function returns a value or not in all cases, so you
+  should not rely on this.
+</p>
+<div class="cpp-note cpp-lightgreenbackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Best practice</p>
+  <p>
+    Make sure your functions with non-void return types return a value in all
+    cases.
+  </p>
+  <p>
+    Failure to return a value from a value-returning function will cause
+    undefined behavior.
+  </p>
+</div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Function main will implicitly return 0 if no return statement is provided
+</p>
+<p>
+  The only exception to the rule that a value-returning function must return a
+  value via a return statement is for function <code>main()</code>. The function
+  <code>main()</code> will implicitly return the value <code>0</code> if no
+  return statement is provided. That said, it is best practice to explicitly
+  return a value from <code>main</code>, both to show your intent, and for
+  consistency with other functions (which will exhibit undefined behavior if a
+  return value is not specified).
+</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Functions can only return a single value
+</p>
+<p>
+  A value-returning function can only return a single value back to the caller
+  each time it is called.
+</p>
+<p>
+  Note that the value provided in a return statement doesn’t need to be literal
+  -- it can be the result of any valid expression, including a variable or even
+  a call to another function that returns a value. In the
+  <code>getValueFromUser()</code> example above, we returned a variable
+  <code>input</code>, which held the number the user input.
+</p>
+<p>
+  There are various ways to work around the limitation of functions only being
+  able to return a single value, which we’ll cover in future lessons.
+</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  The function author can decide what the return value means
+</p>
+<p>
+  The meaning of the value returned by a function is determined by the
+  function’s author. Some functions use return values as status codes, to
+  indicate whether they succeeded or failed. Other functions return a calculated
+  or selected value. Other functions return nothing (we’ll see examples of these
+  in the next lesson).
+</p>
+<p>
+  Because of the wide variety of possibilities here, it’s a good idea to
+  document your function with a comment indicating what the return values mean.
+  For example:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token comment">// Function asks user to enter a value</span>
+<span class="token comment">// Return value is the integer entered by the user from the keyboard</span>
+<span class="token keyword keyword-int">int</span> <span class="token function">getValueFromUser</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-255-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-255-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-257-close">{</span>
+ 	std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Enter an integer: "</span><span class="token punctuation">;</span>
+	<span class="token keyword keyword-int">int</span> input<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-256-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-256-open">}</span><span class="token punctuation">;</span>
+	std<span class="token double-colon punctuation">::</span>cin <span class="token operator">&gt;&gt;</span> input<span class="token punctuation">;</span>
+
+	<span class="token keyword keyword-return">return</span> input<span class="token punctuation">;</span> <span class="token comment">// return the value the user entered back to the caller</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-257-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Reusing functions
+</p>
+<p>
+  Now we can illustrate a good case for function reuse. Consider the following
+  program:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-258-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-258-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-261-close">{</span>
+	<span class="token keyword keyword-int">int</span> x<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-259-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-259-open">}</span><span class="token punctuation">;</span>
+	std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Enter an integer: "</span><span class="token punctuation">;</span>
+	std<span class="token double-colon punctuation">::</span>cin <span class="token operator">&gt;&gt;</span> x<span class="token punctuation">;</span>
+
+	<span class="token keyword keyword-int">int</span> y<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-260-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-260-open">}</span><span class="token punctuation">;</span>
+	std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Enter an integer: "</span><span class="token punctuation">;</span>
+	std<span class="token double-colon punctuation">::</span>cin <span class="token operator">&gt;&gt;</span> y<span class="token punctuation">;</span>
+
+	std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> x <span class="token operator">&lt;&lt;</span> <span class="token string">" + "</span> <span class="token operator">&lt;&lt;</span> y <span class="token operator">&lt;&lt;</span> <span class="token string">" = "</span> <span class="token operator">&lt;&lt;</span> x <span class="token operator">+</span> y <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+	<span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-261-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  While this program works, it’s a little redundant. In fact, this program
+  violates one of the central tenets of good programming:
+  <strong>Don’t Repeat Yourself</strong> (often abbreviated
+  <strong>DRY</strong>).
+</p>
+<p>
+  Why is repeated code bad? If we wanted to change the text “Enter an integer:”
+  to something else, we’d have to update it in two locations. And what if we
+  wanted to initialize 10 variables instead of 2? That would be a lot of
+  redundant code (making our programs longer and harder to understand), and a
+  lot of room for typos to creep in.
+</p>
+<p>
+  Let’s update this program to use our <code>getValueFromUser</code> function
+  that we developed above:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">getValueFromUser</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-262-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-262-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-267-close">{</span>
+ 	std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Enter an integer: "</span><span class="token punctuation">;</span>
+	<span class="token keyword keyword-int">int</span> input<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-266-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-266-open">}</span><span class="token punctuation">;</span>
+	std<span class="token double-colon punctuation">::</span>cin <span class="token operator">&gt;&gt;</span> input<span class="token punctuation">;</span>
+
+	<span class="token keyword keyword-return">return</span> input<span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-267-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-263-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-263-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-270-close">{</span>
+    <span class="token keyword keyword-int">int</span> x<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-268-close">{</span> <span class="token function">getValueFromUser</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-264-close">(</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-264-open">)</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-268-open">}</span><span class="token punctuation">;</span> <span class="token comment">// first call to getValueFromUser</span>
+    <span class="token keyword keyword-int">int</span> y<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-269-close">{</span> <span class="token function">getValueFromUser</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-265-close">(</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-265-open">)</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-269-open">}</span><span class="token punctuation">;</span> <span class="token comment">// second call to getValueFromUser</span>
+
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> x <span class="token operator">&lt;&lt;</span> <span class="token string">" + "</span> <span class="token operator">&lt;&lt;</span> y <span class="token operator">&lt;&lt;</span> <span class="token string">" = "</span> <span class="token operator">&lt;&lt;</span> x <span class="token operator">+</span> y <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-270-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>This program produces the following output:</p>
+<pre>
+Enter an integer: 5
+Enter an integer: 7
+5 + 7 = 12
+</pre>
+<p>
+  In this program, we call <code>getValueFromUser</code> twice, once to
+  initialize variable <code>x</code>, and once to initialize variable
+  <code>y</code>. That saves us from duplicating the code to get user input, and
+  reduces the odds of making a mistake. Once we know
+  <code>getValueFromUser</code> works, we can call it as many times as we
+  desire.
+</p>
+<p>
+  This is the essence of modular programming: the ability to write a function,
+  test it, ensure that it works, and then know that we can reuse it as many
+  times as we want and it will continue to work (so long as we don’t modify the
+  function -- at which point we’ll have to retest it).
+</p>
+<div class="cpp-note cpp-lightgreenbackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Best practice</p>
+  <p>
+    Follow DRY: “Don’t repeat yourself”. If you need to do something more than
+    once, consider how to modify your code to remove as much redundancy as
+    possible. Variables can be used to store the results of calculations that
+    need to be used more than once (so we don’t have to repeat the calculation).
+    Functions can be used to define a sequence of statements we want to execute
+    more than once. And loops (which we’ll cover in a later chapter) can be used
+    to execute a statement more than once.
+  </p>
+  <p>
+    Like all best practices, DRY is meant to be a guideline, not an absolute.
+    Reader Yariv has
+    <a
+      href="https://www.learncpp.com/cpp-tutorial/function-return-values-value-returning-functions/#comment-593257"
+      >noted</a
+    >
+    that DRY can harm overall comprehension when code is broken into pieces that
+    are too small.
+  </p>
+</div>
+<div class="cpp-note cpp-lightgraybackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">As an aside…</p>
+  <p>The (snarky) opposite of DRY is WET (“Write everything twice”).</p>
+</div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Conclusion
+</p>
+<p>
+  Return values provide a way for functions to return a single value back to the
+  function’s caller.
+</p>
+<p>Functions provide a way to minimize redundancy in our programs.</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Quiz time
+</p>
+<p class="cpp-quiz-question" style="clear: both">Question #1</p>
+<p>
+  Inspect (do not compile) each of the following programs. Determine what the
+  program will output, or whether the program will generate a compiler error.
+</p>
+<p>Assume you have “treat warnings as errors” turned off.</p>
+<p>1a)</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">return7</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-271-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-271-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-276-close">{</span>
+    <span class="token keyword keyword-return">return</span> <span class="token number">7</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-276-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">return9</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-272-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-272-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-277-close">{</span>
+    <span class="token keyword keyword-return">return</span> <span class="token number">9</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-277-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-273-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-273-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-278-close">{</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token function">return7</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-274-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-274-open">)</span> <span class="token operator">+</span> <span class="token function">return9</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-275-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-275-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-278-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  <a
+    class="solution_link_show"
+    href="javascript:void(0)"
+    onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_0'),this,'Show Solution','Hide Solution')"
+    >Show Solution</a
+  >
+</p>
+<div class="wpsolution" id="cpp_solution_id_0" style="display: none">
+  This program prints the number 16.
+</div>
+<p>1b)</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">return7</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-279-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-279-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-285-close">{</span>
+    <span class="token keyword keyword-return">return</span> <span class="token number">7</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-int">int</span> <span class="token function">return9</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-280-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-280-open">)</span>
+    <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-284-close">{</span>
+        <span class="token keyword keyword-return">return</span> <span class="token number">9</span><span class="token punctuation">;</span>
+    <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-284-open">}</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-285-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-281-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-281-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-286-close">{</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token function">return7</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-282-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-282-open">)</span> <span class="token operator">+</span> <span class="token function">return9</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-283-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-283-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-286-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  <a
+    class="solution_link_show"
+    href="javascript:void(0)"
+    onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_1'),this,'Show Solution','Hide Solution')"
+    >Show Solution</a
+  >
+</p>
+<div class="wpsolution" id="cpp_solution_id_1" style="display: none">
+  This program will not compile. Nested functions are not allowed.
+</div>
+<p>1c)</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">return7</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-287-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-287-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-292-close">{</span>
+    <span class="token keyword keyword-return">return</span> <span class="token number">7</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-292-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">return9</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-288-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-288-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-293-close">{</span>
+    <span class="token keyword keyword-return">return</span> <span class="token number">9</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-293-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-289-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-289-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-294-close">{</span>
+    <span class="token function">return7</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-290-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-290-open">)</span><span class="token punctuation">;</span>
+    <span class="token function">return9</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-291-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-291-open">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-294-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  <a
+    class="solution_link_show"
+    href="javascript:void(0)"
+    onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_2'),this,'Show Solution','Hide Solution')"
+    >Show Solution</a
+  >
+</p>
+<div class="wpsolution" id="cpp_solution_id_2" style="display: none">
+  This program compiles but does not produce any output. The return values from
+  the functions are not used for anything (and are thus discarded).
+</div>
+<p>1d)</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">getNumbers</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-295-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-295-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-299-close">{</span>
+    <span class="token keyword keyword-return">return</span> <span class="token number">5</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-return">return</span> <span class="token number">7</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-299-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-296-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-296-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-300-close">{</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token function">getNumbers</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-297-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-297-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token function">getNumbers</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-298-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-298-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-300-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  <a
+    class="solution_link_show"
+    href="javascript:void(0)"
+    onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_3'),this,'Show Solution','Hide Solution')"
+    >Show Solution</a
+  >
+</p>
+<div class="wpsolution" id="cpp_solution_id_3" style="display: none">
+  This program prints 5 twice (on separate lines). Both times when function
+  <code>getNumbers()</code> is called, the <code>return 5;</code> statement
+  executes, and the program returns the value 5 back to the caller. The
+  <code>return 7;</code> statement never executes.
+</div>
+<p>1e)</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token keyword keyword-return">return</span> <span class="token number">5</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-301-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-301-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-304-close">{</span>
+    <span class="token keyword keyword-return">return</span> <span class="token number">5</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-304-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-302-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-302-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-305-close">{</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token keyword keyword-return">return</span> <span class="token number">5</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-303-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-303-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-305-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  <a
+    class="solution_link_show"
+    href="javascript:void(0)"
+    onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_4'),this,'Show Solution','Hide Solution')"
+    >Show Solution</a
+  >
+</p>
+<div class="wpsolution" id="cpp_solution_id_4" style="display: none">
+  This program will not compile because the function has an invalid name. We
+  talked about naming rules in lesson
+  <a
+    href="https://www.learncpp.com/cpp-tutorial/keywords-and-naming-identifiers/#rules"
+    >1.7 -- Keywords and naming identifiers</a
+  >.
+</div>
+<p class="cpp-quiz-question cpp-topline" style="clear: both">Question #2</p>
+<p>What does “DRY” stand for, and why is it a useful practice to follow?</p>
+<p>
+  <a
+    class="solution_link_show"
+    href="javascript:void(0)"
+    onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_5'),this,'Show Solution','Hide Solution')"
+    >Show Solution</a
+  >
+</p>
+<div class="wpsolution" id="cpp_solution_id_5" style="display: none">
+  DRY stands for “Don’t Repeat Yourself”. It is a practice that involves writing
+  your code in such a way so as to minimize redundancy. This makes your programs
+  more concise, less error prone, and more maintainable.
+</div>
+<div class="prevnext">
+  <div class="prevnext-inline">
+    <a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/void-functions-non-value-returning-functions/"
+      ><div class="nav-button nav-button-next">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-right" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Next lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">2.3</span>Void functions
+            (non-value returning functions)
+          </div>
+        </div>
+      </div></a
+    ><a class="nav-link" href="/"
+      ><div class="nav-button nav-button-index">
+        <div class="nav-button-icon">
+          <i class="fa fa-home" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Back to table of contents</div>
+        </div>
+      </div></a
+    ><a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/introduction-to-functions/"
+      ><div class="nav-button nav-button-prev">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-left" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Previous lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">2.1</span>Introduction to
+            functions
+          </div>
+        </div>
+      </div></a
+    >
+  </div>
+</div>
+<div class="code-block code-block-10" style="margin: 8px 0; clear: both"></div>

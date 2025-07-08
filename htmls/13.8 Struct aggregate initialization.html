@@ -1,0 +1,1480 @@
+<div
+  class="code-block code-block-1"
+  style="margin: 8px 8px 8px 0; float: left"
+></div>
+<p>
+  In the previous lesson (<a
+    href="https://www.learncpp.com/cpp-tutorial/introduction-to-structs-members-and-member-selection/"
+    >13.7 -- Introduction to structs, members, and member selection</a
+  >), we talked about how to define structs, instantiate struct objects, and
+  access their members. In this lesson, we’ll discuss how structs are
+  initialized.
+</p>
+<p class="cpp-section cpp-topline" style="clear: both">
+  Data members are not initialized by default
+</p>
+<p>
+  Much like normal variables, data members are not initialized by default.
+  Consider the following struct:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-struct">struct</span> <span class="token class-name">Employee</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-1-close">{</span>
+    <span class="token keyword keyword-int">int</span> id<span class="token punctuation">;</span> <span class="token comment">// note: no initializer here</span>
+    <span class="token keyword keyword-int">int</span> age<span class="token punctuation">;</span>
+    <span class="token keyword keyword-double">double</span> wage<span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-1-open">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-0-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-0-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-2-close">{</span>
+    Employee joe<span class="token punctuation">;</span> <span class="token comment">// note: no initializer here either</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> joe<span class="token punctuation">.</span>id <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-2-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  Because we have not provided any initializers, when <code>joe</code> is
+  instantiated, <code>joe.id</code>, <code>joe.age</code>, and
+  <code>joe.wage</code> will all be uninitialized. We will then get undefined
+  behavior when we try to print the value of <code>joe.id</code>.
+</p>
+<p>
+  However, before we show you how to initialize a struct, let’s take a short
+  detour.
+</p>
+<div class="code-block code-block-2" style="margin: 8px 0; clear: both"></div>
+
+<p class="cpp-section cpp-topline" style="clear: both">
+  <a name="aggregate"></a>What is an aggregate?
+  <a href="#aggregate"><i class="fa fa-link" style="font-size: 0.8em"></i></a>
+</p>
+<div
+  class="google-auto-placed ap_container"
+  style="width: 100%; height: auto; clear: both; text-align: center"
+>
+  <ins
+    data-ad-format="auto"
+    class="adsbygoogle adsbygoogle-noablate"
+    data-ad-client="ca-pub-0588844875925051"
+    data-adsbygoogle-status="done"
+    style="
+      display: block;
+      margin: auto;
+      background-color: transparent;
+      height: 280px;
+    "
+    data-ad-status="unfilled"
+    ><div
+      id="aswift_5_host"
+      style="
+        border: none;
+        height: 280px;
+        width: 1027px;
+        margin: 0px;
+        padding: 0px;
+        position: relative;
+        visibility: visible;
+        background-color: transparent;
+        display: inline-block;
+        overflow: visible;
+      "
+    >
+      <iframe
+        id="aswift_5"
+        name="aswift_5"
+        browsingtopics="true"
+        style="
+          left: 0;
+          position: absolute;
+          top: 0;
+          border: 0;
+          width: 1027px;
+          height: 280px;
+          min-height: auto;
+          max-height: none;
+          min-width: auto;
+          max-width: none;
+        "
+        sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation"
+        width="1027"
+        height="280"
+        frameborder="0"
+        marginwidth="0"
+        marginheight="0"
+        vspace="0"
+        hspace="0"
+        allowtransparency="true"
+        scrolling="no"
+        allow="attribution-reporting; run-ad-auction"
+        src="https://googleads.g.doubleclick.net/pagead/ads?client=ca-pub-0588844875925051&amp;output=html&amp;h=280&amp;adk=1890673567&amp;adf=660362310&amp;w=1027&amp;abgtt=11&amp;fwrn=4&amp;fwrnh=100&amp;lmt=1747562820&amp;num_ads=1&amp;rafmt=1&amp;armr=3&amp;sem=mc&amp;pwprc=4633386603&amp;ad_type=text_image&amp;format=1027x280&amp;url=https%3A%2F%2Fwww.learncpp.com%2Fcpp-tutorial%2Fstruct-aggregate-initialization%2F&amp;fwr=0&amp;pra=3&amp;rh=200&amp;rw=1026&amp;rpe=1&amp;resp_fmts=3&amp;wgl=1&amp;fa=27&amp;uach=WyJXaW5kb3dzIiwiMTkuMC4wIiwieDg2IiwiIiwiMTM3LjAuNzE1MS4xMjIiLG51bGwsMCxudWxsLCI2NCIsW1siR29vZ2xlIENocm9tZSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJDaHJvbWl1bSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJOb3QvQSlCcmFuZCIsIjI0LjAuMC4wIl1dLDBd&amp;dt=1751962809023&amp;bpp=1&amp;bdt=787&amp;idt=-M&amp;shv=r20250702&amp;mjsv=m202507020101&amp;ptt=9&amp;saldr=aa&amp;abxe=1&amp;cookie=ID%3D05f6e82287d810b4%3AT%3D1751962604%3ART%3D1751962604%3AS%3DALNI_MaQYA0TSAU2k8xwY5tqlN0xFCcd6g&amp;gpic=UID%3D00001157d9e27d0a%3AT%3D1751962604%3ART%3D1751962604%3AS%3DALNI_MYgtHzQJAQQXY_151HTGSSfVxE8_A&amp;eo_id_str=ID%3D52c21936d98c6d2b%3AT%3D1751962604%3ART%3D1751962604%3AS%3DAA-AfjZsJ15yjdEPJ8d11hPojsJQ&amp;prev_fmts=0x0%2C336x280%2C160x600%2C160x600&amp;nras=2&amp;correlator=6791591035224&amp;frm=20&amp;pv=1&amp;u_tz=480&amp;u_his=2&amp;u_h=600&amp;u_w=800&amp;u_ah=600&amp;u_aw=800&amp;u_cd=24&amp;u_sd=1&amp;dmc=8&amp;adx=27&amp;ady=1023&amp;biw=1080&amp;bih=1024&amp;scr_x=0&amp;scr_y=0&amp;eid=31093233%2C95353387%2C95362655%2C95365226%2C95365234%2C95365699%2C95344788%2C95359265%2C95365121%2C95365797&amp;oid=2&amp;pvsid=5930607092988426&amp;tmod=1708485235&amp;uas=0&amp;nvt=1&amp;fc=1408&amp;brdim=10%2C10%2C10%2C10%2C800%2C0%2C780%2C580%2C1080%2C1024&amp;vis=1&amp;rsz=%7C%7Cs%7C&amp;abl=NS&amp;fu=128&amp;bc=31&amp;bz=0.72&amp;td=1&amp;tdf=2&amp;psd=W251bGwsbnVsbCxudWxsLDNd&amp;nt=1&amp;ifi=6&amp;uci=a!6&amp;fsb=1&amp;dtd=18"
+        data-google-container-id="a!6"
+        tabindex="0"
+        title="Advertisement"
+        aria-label="Advertisement"
+        data-load-complete="true"
+        data-google-query-id="CMug2YbqrI4DFSZZDwIdYs0rxg"
+      ></iframe></div
+  ></ins>
+</div>
+<p>
+  In general programming, an <strong>aggregate data type</strong> (also called
+  an <strong>aggregate</strong>) is any type that can contain multiple data
+  members. Some types of aggregates allow members to have different types (e.g.
+  structs), while others require that all members must be of a single type (e.g.
+  arrays).
+</p>
+<p>
+  In C++, the definition of an aggregate is narrower and quite a bit more
+  complicated.
+</p>
+<div class="cpp-note cpp-lightgraybackground">
+  <p class="cpp-note-title cpp-bottomline">Author’s note</p>
+  <p>
+    In this tutorial series, when we use the term “aggregate” (or
+    “non-aggregate”) we will mean the C++ definition of aggregate.
+  </p>
+</div>
+<div class="cpp-note cpp-lightgraybackground">
+  <p class="cpp-note-title cpp-bottomline">For advanced readers</p>
+  <p>
+    To simplify a bit, an aggregate in C++ is either a C-style array (<a
+      href="https://www.learncpp.com/cpp-tutorial/introduction-to-c-style-arrays/"
+      >17.7 -- Introduction to C-style arrays</a
+    >), or a class type (struct, class, or union) that has:
+  </p>
+  <ul>
+    <li>
+      No user-declared constructors (<a
+        href="https://www.learncpp.com/cpp-tutorial/introduction-to-constructors/"
+        >14.9 -- Introduction to constructors</a
+      >)
+    </li>
+    <li>
+      No private or protected non-static data members (<a
+        href="https://www.learncpp.com/cpp-tutorial/public-and-private-members-and-access-specifiers/"
+        >14.5 -- Public and private members and access specifiers</a
+      >)
+    </li>
+    <li>
+      No virtual functions (<a
+        href="https://www.learncpp.com/cpp-tutorial/virtual-functions/"
+        >25.2 -- Virtual functions and polymorphism</a
+      >)
+    </li>
+  </ul>
+  <p>
+    The popular type <code>std::array</code> (<a
+      href="https://www.learncpp.com/cpp-tutorial/introduction-to-stdarray/"
+      >17.1 -- Introduction to std::array</a
+    >) is also an aggregate.
+  </p>
+  <p>
+    You can find the precise definition of a C++ aggregate
+    <a
+      href="https://en.cppreference.com/w/cpp/language/aggregate_initialization"
+      >here</a
+    >.
+  </p>
+</div>
+<p>
+  The key thing to understand at this point is that structs with only data
+  members are aggregates.
+</p>
+<div
+  class="google-auto-placed ap_container"
+  style="width: 100%; height: auto; clear: both; text-align: center"
+>
+  <ins
+    data-ad-format="auto"
+    class="adsbygoogle adsbygoogle-noablate"
+    data-ad-client="ca-pub-0588844875925051"
+    data-adsbygoogle-status="done"
+    style="
+      display: block;
+      margin: auto;
+      background-color: transparent;
+      height: 0px;
+    "
+    data-ad-status="unfilled"
+    ><div
+      id="aswift_6_host"
+      style="
+        border: none;
+        height: 0px;
+        width: 1027px;
+        margin: 0px;
+        padding: 0px;
+        position: relative;
+        visibility: visible;
+        background-color: transparent;
+        display: inline-block;
+        overflow: hidden;
+        opacity: 0;
+      "
+    >
+      <iframe
+        id="aswift_6"
+        name="aswift_6"
+        browsingtopics="true"
+        style="
+          left: 0px;
+          position: absolute;
+          top: 0px;
+          border: 0px;
+          width: 1027px;
+          height: 0px;
+          min-height: auto;
+          max-height: none;
+          min-width: auto;
+          max-width: none;
+        "
+        sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation"
+        width="1027"
+        height="0"
+        frameborder="0"
+        marginwidth="0"
+        marginheight="0"
+        vspace="0"
+        hspace="0"
+        allowtransparency="true"
+        scrolling="no"
+        allow="attribution-reporting; run-ad-auction"
+        src="https://googleads.g.doubleclick.net/pagead/ads?client=ca-pub-0588844875925051&amp;output=html&amp;h=280&amp;adk=1890673567&amp;adf=2469000577&amp;w=1027&amp;abgtt=11&amp;fwrn=4&amp;fwrnh=100&amp;lmt=1747562820&amp;num_ads=1&amp;rafmt=1&amp;armr=3&amp;sem=mc&amp;pwprc=4633386603&amp;ad_type=text_image&amp;format=1027x280&amp;url=https%3A%2F%2Fwww.learncpp.com%2Fcpp-tutorial%2Fstruct-aggregate-initialization%2F&amp;fwr=0&amp;pra=3&amp;rh=200&amp;rw=1026&amp;rpe=1&amp;resp_fmts=3&amp;wgl=1&amp;fa=27&amp;uach=WyJXaW5kb3dzIiwiMTkuMC4wIiwieDg2IiwiIiwiMTM3LjAuNzE1MS4xMjIiLG51bGwsMCxudWxsLCI2NCIsW1siR29vZ2xlIENocm9tZSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJDaHJvbWl1bSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJOb3QvQSlCcmFuZCIsIjI0LjAuMC4wIl1dLDBd&amp;dt=1751962809023&amp;bpp=1&amp;bdt=787&amp;idt=-M&amp;shv=r20250702&amp;mjsv=m202507020101&amp;ptt=9&amp;saldr=aa&amp;abxe=1&amp;cookie=ID%3D05f6e82287d810b4%3AT%3D1751962604%3ART%3D1751962604%3AS%3DALNI_MaQYA0TSAU2k8xwY5tqlN0xFCcd6g&amp;gpic=UID%3D00001157d9e27d0a%3AT%3D1751962604%3ART%3D1751962604%3AS%3DALNI_MYgtHzQJAQQXY_151HTGSSfVxE8_A&amp;eo_id_str=ID%3D52c21936d98c6d2b%3AT%3D1751962604%3ART%3D1751962604%3AS%3DAA-AfjZsJ15yjdEPJ8d11hPojsJQ&amp;prev_fmts=0x0%2C336x280%2C160x600%2C160x600%2C1027x280&amp;nras=3&amp;correlator=6791591035224&amp;frm=20&amp;pv=1&amp;u_tz=480&amp;u_his=2&amp;u_h=600&amp;u_w=800&amp;u_ah=600&amp;u_aw=800&amp;u_cd=24&amp;u_sd=1&amp;dmc=8&amp;adx=27&amp;ady=1768&amp;biw=1080&amp;bih=1024&amp;scr_x=0&amp;scr_y=0&amp;eid=31093233%2C95353387%2C95362655%2C95365226%2C95365234%2C95365699%2C95344788%2C95359265%2C95365121%2C95365797&amp;oid=2&amp;pvsid=5930607092988426&amp;tmod=1708485235&amp;uas=0&amp;nvt=1&amp;fc=1408&amp;brdim=10%2C10%2C10%2C10%2C800%2C0%2C780%2C580%2C1080%2C1024&amp;vis=1&amp;rsz=%7C%7Cs%7C&amp;abl=NS&amp;fu=128&amp;bc=31&amp;bz=0.72&amp;td=1&amp;tdf=2&amp;psd=W251bGwsbnVsbCxudWxsLDNd&amp;nt=1&amp;ifi=7&amp;uci=a!7&amp;btvi=1&amp;fsb=1&amp;dtd=19"
+        data-google-container-id="a!7"
+        tabindex="0"
+        title="Advertisement"
+        aria-label="Advertisement"
+        data-load-complete="true"
+        data-google-query-id="CIGk2YbqrI4DFZxZDwIdu7YpNw"
+      ></iframe></div
+  ></ins>
+</div>
+<p class="cpp-section cpp-topline" style="clear: both">
+  Aggregate initialization of a struct
+</p>
+<p>
+  Because a normal variable can only hold a single value, we only need to
+  provide a single initializer:
+</p>
+<div class="code-block code-block-3" style="margin: 8px 0; clear: both"></div>
+
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-int">int</span> x <span class="token punctuation brace-curly brace-open brace-level-1" id="pair-3-close">{</span> <span class="token number">5</span> <span class="token punctuation brace-curly brace-close brace-level-1" id="pair-3-open">}</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>However, a struct can have multiple members:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-struct">struct</span> <span class="token class-name">Employee</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-7-close">{</span>
+    <span class="token keyword keyword-int">int</span> id <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-4-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-4-open">}</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-int">int</span> age <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-5-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-5-open">}</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-double">double</span> wage <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-6-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-6-open">}</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-7-open">}</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  When we define an object with a struct type, we need some way to initialize
+  multiple members at initialization time:
+</p>
+<div
+  class="google-auto-placed ap_container"
+  style="width: 100%; height: auto; clear: both; text-align: center"
+>
+  <ins
+    data-ad-format="auto"
+    class="adsbygoogle adsbygoogle-noablate"
+    data-ad-client="ca-pub-0588844875925051"
+    data-adsbygoogle-status="done"
+    style="
+      display: block;
+      margin: auto;
+      background-color: transparent;
+      height: 0px;
+    "
+    data-ad-status="unfilled"
+    ><div
+      id="aswift_7_host"
+      style="
+        border: none;
+        height: 0px;
+        width: 1027px;
+        margin: 0px;
+        padding: 0px;
+        position: relative;
+        visibility: visible;
+        background-color: transparent;
+        display: inline-block;
+        overflow: hidden;
+        opacity: 0;
+      "
+    >
+      <iframe
+        id="aswift_7"
+        name="aswift_7"
+        browsingtopics="true"
+        style="
+          left: 0px;
+          position: absolute;
+          top: 0px;
+          border: 0px;
+          width: 1027px;
+          height: 0px;
+          min-height: auto;
+          max-height: none;
+          min-width: auto;
+          max-width: none;
+        "
+        sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation"
+        width="1027"
+        height="0"
+        frameborder="0"
+        marginwidth="0"
+        marginheight="0"
+        vspace="0"
+        hspace="0"
+        allowtransparency="true"
+        scrolling="no"
+        allow="attribution-reporting; run-ad-auction"
+        src="https://googleads.g.doubleclick.net/pagead/ads?client=ca-pub-0588844875925051&amp;output=html&amp;h=280&amp;adk=1890673567&amp;adf=2409738404&amp;w=1027&amp;abgtt=11&amp;fwrn=4&amp;fwrnh=100&amp;lmt=1747562820&amp;num_ads=1&amp;rafmt=1&amp;armr=3&amp;sem=mc&amp;pwprc=4633386603&amp;ad_type=text_image&amp;format=1027x280&amp;url=https%3A%2F%2Fwww.learncpp.com%2Fcpp-tutorial%2Fstruct-aggregate-initialization%2F&amp;fwr=0&amp;pra=3&amp;rh=200&amp;rw=1026&amp;rpe=1&amp;resp_fmts=3&amp;wgl=1&amp;fa=27&amp;uach=WyJXaW5kb3dzIiwiMTkuMC4wIiwieDg2IiwiIiwiMTM3LjAuNzE1MS4xMjIiLG51bGwsMCxudWxsLCI2NCIsW1siR29vZ2xlIENocm9tZSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJDaHJvbWl1bSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJOb3QvQSlCcmFuZCIsIjI0LjAuMC4wIl1dLDBd&amp;dt=1751962809023&amp;bpp=1&amp;bdt=787&amp;idt=-M&amp;shv=r20250702&amp;mjsv=m202507020101&amp;ptt=9&amp;saldr=aa&amp;abxe=1&amp;cookie=ID%3D05f6e82287d810b4%3AT%3D1751962604%3ART%3D1751962604%3AS%3DALNI_MaQYA0TSAU2k8xwY5tqlN0xFCcd6g&amp;gpic=UID%3D00001157d9e27d0a%3AT%3D1751962604%3ART%3D1751962604%3AS%3DALNI_MYgtHzQJAQQXY_151HTGSSfVxE8_A&amp;eo_id_str=ID%3D52c21936d98c6d2b%3AT%3D1751962604%3ART%3D1751962604%3AS%3DAA-AfjZsJ15yjdEPJ8d11hPojsJQ&amp;prev_fmts=0x0%2C336x280%2C160x600%2C160x600%2C1027x280%2C1027x280&amp;nras=4&amp;correlator=6791591035224&amp;frm=20&amp;pv=1&amp;u_tz=480&amp;u_his=2&amp;u_h=600&amp;u_w=800&amp;u_ah=600&amp;u_aw=800&amp;u_cd=24&amp;u_sd=1&amp;dmc=8&amp;adx=27&amp;ady=2403&amp;biw=1080&amp;bih=1024&amp;scr_x=0&amp;scr_y=0&amp;eid=31093233%2C95353387%2C95362655%2C95365226%2C95365234%2C95365699%2C95344788%2C95359265%2C95365121%2C95365797&amp;oid=2&amp;pvsid=5930607092988426&amp;tmod=1708485235&amp;uas=0&amp;nvt=1&amp;fc=1408&amp;brdim=10%2C10%2C10%2C10%2C800%2C0%2C780%2C580%2C1080%2C1024&amp;vis=1&amp;rsz=%7C%7Cs%7C&amp;abl=NS&amp;fu=128&amp;bc=31&amp;bz=0.72&amp;td=1&amp;tdf=2&amp;psd=W251bGwsbnVsbCxudWxsLDNd&amp;nt=1&amp;ifi=8&amp;uci=a!8&amp;btvi=2&amp;fsb=1&amp;dtd=20"
+        data-google-container-id="a!8"
+        tabindex="0"
+        title="Advertisement"
+        aria-label="Advertisement"
+        data-load-complete="true"
+        data-google-query-id="CLHE2YbqrI4DFaJbDwId5tw5KA"
+      ></iframe></div
+  ></ins>
+</div>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp">Employee joe<span class="token punctuation">;</span> <span class="token comment">// how do we initialize joe.id, joe.age, and joe.wage?</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  Aggregates use a form of initialization called
+  <strong>aggregate initialization</strong>, which allows us to directly
+  initialize the members of aggregates. To do this, we provide an
+  <strong>initializer list</strong> as an initializer, which is just a braced
+  list of comma-separated values.
+</p>
+<p>There are 2 primary forms of aggregate initialization:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-struct">struct</span> <span class="token class-name">Employee</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-12-close">{</span>
+    <span class="token keyword keyword-int">int</span> id <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-9-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-9-open">}</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-int">int</span> age <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-10-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-10-open">}</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-double">double</span> wage <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-11-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-11-open">}</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-12-open">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-8-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-8-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-15-close">{</span>
+    Employee frank <span class="token operator">=</span> <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-13-close">{</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">32</span><span class="token punctuation">,</span> <span class="token number">60000.0</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-13-open">}</span><span class="token punctuation">;</span> <span class="token comment">// copy-list initialization using braced list</span>
+    Employee joe <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-14-close">{</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">28</span><span class="token punctuation">,</span> <span class="token number">45000.0</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-14-open">}</span><span class="token punctuation">;</span>     <span class="token comment">// list initialization using braced list (preferred)</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-15-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<div
+  class="google-auto-placed ap_container"
+  style="width: 100%; height: auto; clear: both; text-align: center"
+>
+  <ins
+    data-ad-format="auto"
+    class="adsbygoogle adsbygoogle-noablate"
+    data-ad-client="ca-pub-0588844875925051"
+    data-adsbygoogle-status="done"
+    style="
+      display: block;
+      margin: auto;
+      background-color: transparent;
+      height: 0px;
+    "
+    data-ad-status="unfilled"
+    ><div
+      id="aswift_8_host"
+      style="
+        border: none;
+        height: 0px;
+        width: 1027px;
+        margin: 0px;
+        padding: 0px;
+        position: relative;
+        visibility: visible;
+        background-color: transparent;
+        display: inline-block;
+        overflow: hidden;
+        opacity: 0;
+      "
+    >
+      <iframe
+        id="aswift_8"
+        name="aswift_8"
+        browsingtopics="true"
+        style="
+          left: 0px;
+          position: absolute;
+          top: 0px;
+          border: 0px;
+          width: 1027px;
+          height: 0px;
+          min-height: auto;
+          max-height: none;
+          min-width: auto;
+          max-width: none;
+        "
+        sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation"
+        width="1027"
+        height="0"
+        frameborder="0"
+        marginwidth="0"
+        marginheight="0"
+        vspace="0"
+        hspace="0"
+        allowtransparency="true"
+        scrolling="no"
+        allow="attribution-reporting; run-ad-auction"
+        src="https://googleads.g.doubleclick.net/pagead/ads?client=ca-pub-0588844875925051&amp;output=html&amp;h=280&amp;adk=1890673567&amp;adf=2553037056&amp;w=1027&amp;abgtt=11&amp;fwrn=4&amp;fwrnh=100&amp;lmt=1747562820&amp;num_ads=1&amp;rafmt=1&amp;armr=3&amp;sem=mc&amp;pwprc=4633386603&amp;ad_type=text_image&amp;format=1027x280&amp;url=https%3A%2F%2Fwww.learncpp.com%2Fcpp-tutorial%2Fstruct-aggregate-initialization%2F&amp;fwr=0&amp;pra=3&amp;rh=200&amp;rw=1026&amp;rpe=1&amp;resp_fmts=3&amp;wgl=1&amp;fa=27&amp;uach=WyJXaW5kb3dzIiwiMTkuMC4wIiwieDg2IiwiIiwiMTM3LjAuNzE1MS4xMjIiLG51bGwsMCxudWxsLCI2NCIsW1siR29vZ2xlIENocm9tZSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJDaHJvbWl1bSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJOb3QvQSlCcmFuZCIsIjI0LjAuMC4wIl1dLDBd&amp;dt=1751962809023&amp;bpp=1&amp;bdt=787&amp;idt=-M&amp;shv=r20250702&amp;mjsv=m202507020101&amp;ptt=9&amp;saldr=aa&amp;abxe=1&amp;cookie=ID%3D05f6e82287d810b4%3AT%3D1751962604%3ART%3D1751962604%3AS%3DALNI_MaQYA0TSAU2k8xwY5tqlN0xFCcd6g&amp;gpic=UID%3D00001157d9e27d0a%3AT%3D1751962604%3ART%3D1751962604%3AS%3DALNI_MYgtHzQJAQQXY_151HTGSSfVxE8_A&amp;eo_id_str=ID%3D52c21936d98c6d2b%3AT%3D1751962604%3ART%3D1751962604%3AS%3DAA-AfjZsJ15yjdEPJ8d11hPojsJQ&amp;prev_fmts=0x0%2C336x280%2C160x600%2C160x600%2C1027x280%2C1027x280%2C1027x280&amp;nras=5&amp;correlator=6791591035224&amp;frm=20&amp;pv=1&amp;u_tz=480&amp;u_his=2&amp;u_h=600&amp;u_w=800&amp;u_ah=600&amp;u_aw=800&amp;u_cd=24&amp;u_sd=1&amp;dmc=8&amp;adx=27&amp;ady=3112&amp;biw=1080&amp;bih=1024&amp;scr_x=0&amp;scr_y=0&amp;eid=31093233%2C95353387%2C95362655%2C95365226%2C95365234%2C95365699%2C95344788%2C95359265%2C95365121%2C95365797&amp;oid=2&amp;pvsid=5930607092988426&amp;tmod=1708485235&amp;uas=0&amp;nvt=1&amp;fc=1408&amp;brdim=10%2C10%2C10%2C10%2C800%2C0%2C780%2C580%2C1080%2C1024&amp;vis=1&amp;rsz=%7C%7Cs%7C&amp;abl=NS&amp;fu=128&amp;bc=31&amp;bz=0.72&amp;td=1&amp;tdf=2&amp;psd=W251bGwsbnVsbCxudWxsLDNd&amp;nt=1&amp;ifi=9&amp;uci=a!9&amp;btvi=3&amp;fsb=1&amp;dtd=21"
+        data-google-container-id="a!9"
+        tabindex="0"
+        title="Advertisement"
+        aria-label="Advertisement"
+        data-load-complete="true"
+        data-google-query-id="COS52YbqrI4DFRNcDwIdFA0Tjg"
+      ></iframe></div
+  ></ins>
+</div>
+<p>
+  Each of these initialization forms does a
+  <strong>memberwise initialization</strong>, which means each member in the
+  struct is initialized in the order of declaration. Thus,
+  <code>Employee joe { 2, 28, 45000.0 };</code> first initializes
+  <code>joe.id</code> with value <code>2</code>, then <code>joe.age</code> with
+  value <code>28</code>, and <code>joe.wage</code> with value
+  <code>45000.0</code> last.
+</p>
+<div class="code-block code-block-4" style="margin: 8px 0; clear: both"></div>
+
+<div class="cpp-note cpp-lightgreenbackground">
+  <p class="cpp-note-title cpp-bottomline">Best practice</p>
+  <p>Prefer the (non-copy) braced list form when initializing aggregates.</p>
+</div>
+<p>
+  In C++20, we can also initialize (some) aggregates using a parenthesized list
+  of values:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp">Employee <span class="token function">robert</span> <span class="token punctuation brace-round brace-open brace-level-1" id="pair-16-close">(</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">45</span><span class="token punctuation">,</span> <span class="token number">62500.0</span> <span class="token punctuation brace-round brace-close brace-level-1" id="pair-16-open">)</span><span class="token punctuation">;</span>  <span class="token comment">// direct initialization using parenthesized list (C++20)</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  We recommend avoiding this last form as much as possible, as it doesn’t
+  currently work with aggregates that utilize brace elision (notably
+  <code>std::array</code>).
+</p>
+<p class="cpp-section cpp-topline" style="clear: both">
+  Missing initializers in an initializer list
+</p>
+<div
+  class="google-auto-placed ap_container"
+  style="width: 100%; height: auto; clear: both; text-align: center"
+>
+  <ins
+    data-ad-format="auto"
+    class="adsbygoogle adsbygoogle-noablate"
+    data-ad-client="ca-pub-0588844875925051"
+    data-adsbygoogle-status="done"
+    style="
+      display: block;
+      margin: auto;
+      background-color: transparent;
+      height: 0px;
+    "
+    data-ad-status="unfilled"
+    ><div
+      id="aswift_9_host"
+      style="
+        border: none;
+        height: 0px;
+        width: 1027px;
+        margin: 0px;
+        padding: 0px;
+        position: relative;
+        visibility: visible;
+        background-color: transparent;
+        display: inline-block;
+        overflow: hidden;
+        opacity: 0;
+      "
+    >
+      <iframe
+        id="aswift_9"
+        name="aswift_9"
+        browsingtopics="true"
+        style="
+          left: 0px;
+          position: absolute;
+          top: 0px;
+          border: 0px;
+          width: 1027px;
+          height: 0px;
+          min-height: auto;
+          max-height: none;
+          min-width: auto;
+          max-width: none;
+        "
+        sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation"
+        width="1027"
+        height="0"
+        frameborder="0"
+        marginwidth="0"
+        marginheight="0"
+        vspace="0"
+        hspace="0"
+        allowtransparency="true"
+        scrolling="no"
+        allow="attribution-reporting; run-ad-auction"
+        src="https://googleads.g.doubleclick.net/pagead/ads?client=ca-pub-0588844875925051&amp;output=html&amp;h=280&amp;adk=1890673567&amp;adf=1090429970&amp;w=1027&amp;abgtt=11&amp;fwrn=4&amp;fwrnh=100&amp;lmt=1747562820&amp;num_ads=1&amp;rafmt=1&amp;armr=3&amp;sem=mc&amp;pwprc=4633386603&amp;ad_type=text_image&amp;format=1027x280&amp;url=https%3A%2F%2Fwww.learncpp.com%2Fcpp-tutorial%2Fstruct-aggregate-initialization%2F&amp;fwr=0&amp;pra=3&amp;rh=200&amp;rw=1026&amp;rpe=1&amp;resp_fmts=3&amp;wgl=1&amp;fa=27&amp;uach=WyJXaW5kb3dzIiwiMTkuMC4wIiwieDg2IiwiIiwiMTM3LjAuNzE1MS4xMjIiLG51bGwsMCxudWxsLCI2NCIsW1siR29vZ2xlIENocm9tZSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJDaHJvbWl1bSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJOb3QvQSlCcmFuZCIsIjI0LjAuMC4wIl1dLDBd&amp;dt=1751962809023&amp;bpp=1&amp;bdt=787&amp;idt=0&amp;shv=r20250702&amp;mjsv=m202507020101&amp;ptt=9&amp;saldr=aa&amp;abxe=1&amp;cookie=ID%3D05f6e82287d810b4%3AT%3D1751962604%3ART%3D1751962604%3AS%3DALNI_MaQYA0TSAU2k8xwY5tqlN0xFCcd6g&amp;gpic=UID%3D00001157d9e27d0a%3AT%3D1751962604%3ART%3D1751962604%3AS%3DALNI_MYgtHzQJAQQXY_151HTGSSfVxE8_A&amp;eo_id_str=ID%3D52c21936d98c6d2b%3AT%3D1751962604%3ART%3D1751962604%3AS%3DAA-AfjZsJ15yjdEPJ8d11hPojsJQ&amp;prev_fmts=0x0%2C336x280%2C160x600%2C160x600%2C1027x280%2C1027x280%2C1027x280%2C1027x280&amp;nras=6&amp;correlator=6791591035224&amp;frm=20&amp;pv=1&amp;u_tz=480&amp;u_his=2&amp;u_h=600&amp;u_w=800&amp;u_ah=600&amp;u_aw=800&amp;u_cd=24&amp;u_sd=1&amp;dmc=8&amp;adx=27&amp;ady=3731&amp;biw=1080&amp;bih=1024&amp;scr_x=0&amp;scr_y=0&amp;eid=31093233%2C95353387%2C95362655%2C95365226%2C95365234%2C95365699%2C95344788%2C95359265%2C95365121%2C95365797&amp;oid=2&amp;pvsid=5930607092988426&amp;tmod=1708485235&amp;uas=0&amp;nvt=1&amp;fc=1408&amp;brdim=10%2C10%2C10%2C10%2C800%2C0%2C780%2C580%2C1080%2C1024&amp;vis=1&amp;rsz=%7C%7Cs%7C&amp;abl=NS&amp;fu=128&amp;bc=31&amp;bz=0.72&amp;td=1&amp;tdf=2&amp;psd=W251bGwsbnVsbCxudWxsLDNd&amp;nt=1&amp;ifi=10&amp;uci=a!a&amp;btvi=4&amp;fsb=1&amp;dtd=22"
+        data-google-container-id="a!a"
+        tabindex="0"
+        title="Advertisement"
+        aria-label="Advertisement"
+        data-load-complete="true"
+        data-google-query-id="CILP2YbqrI4DFUdXDwIdVlo8XQ"
+      ></iframe></div
+  ></ins>
+</div>
+<p>
+  If an aggregate is initialized but the number of initialization values is
+  fewer than the number of members, then each member without an explicit
+  initializer is initialized as follows:
+</p>
+<ul>
+  <li>If the member has a default member initializer, that is used.</li>
+  <li>
+    Otherwise, the member is copy-initialized from an empty initializer list. In
+    most cases, this will perform value-initialization on those members (on
+    class types, this will invoke the default constructor even if a list
+    constructor exist).
+  </li>
+</ul>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-struct">struct</span> <span class="token class-name">Employee</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-21-close">{</span>
+    <span class="token keyword keyword-int">int</span> id <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-18-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-18-open">}</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-int">int</span> age <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-19-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-19-open">}</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-double">double</span> wage <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-20-close">{</span> <span class="token number">76000.0</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-20-open">}</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-double">double</span> whatever<span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-21-open">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-17-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-17-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-23-close">{</span>
+    Employee joe <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-22-close">{</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">28</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-22-open">}</span><span class="token punctuation">;</span> <span class="token comment">// joe.whatever will be value-initialized to 0.0</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-23-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<div
+  class="google-auto-placed ap_container"
+  style="width: 100%; height: auto; clear: both; text-align: center"
+>
+  <ins
+    data-ad-format="auto"
+    class="adsbygoogle adsbygoogle-noablate"
+    data-ad-client="ca-pub-0588844875925051"
+    data-adsbygoogle-status="done"
+    style="
+      display: block;
+      margin: auto;
+      background-color: transparent;
+      height: 0px;
+    "
+    data-ad-status="unfilled"
+    ><div
+      id="aswift_10_host"
+      style="
+        border: none;
+        height: 0px;
+        width: 1027px;
+        margin: 0px;
+        padding: 0px;
+        position: relative;
+        visibility: visible;
+        background-color: transparent;
+        display: inline-block;
+        overflow: hidden;
+        opacity: 0;
+      "
+    >
+      <iframe
+        id="aswift_10"
+        name="aswift_10"
+        browsingtopics="true"
+        style="
+          left: 0px;
+          position: absolute;
+          top: 0px;
+          border: 0px;
+          width: 1027px;
+          height: 0px;
+          min-height: auto;
+          max-height: none;
+          min-width: auto;
+          max-width: none;
+        "
+        sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation"
+        width="1027"
+        height="0"
+        frameborder="0"
+        marginwidth="0"
+        marginheight="0"
+        vspace="0"
+        hspace="0"
+        allowtransparency="true"
+        scrolling="no"
+        allow="attribution-reporting; run-ad-auction"
+        src="https://googleads.g.doubleclick.net/pagead/ads?client=ca-pub-0588844875925051&amp;output=html&amp;h=280&amp;adk=1890673567&amp;adf=1771372437&amp;w=1027&amp;abgtt=11&amp;fwrn=4&amp;fwrnh=100&amp;lmt=1747562820&amp;num_ads=1&amp;rafmt=1&amp;armr=3&amp;sem=mc&amp;pwprc=4633386603&amp;ad_type=text_image&amp;format=1027x280&amp;url=https%3A%2F%2Fwww.learncpp.com%2Fcpp-tutorial%2Fstruct-aggregate-initialization%2F&amp;fwr=0&amp;pra=3&amp;rh=200&amp;rw=1026&amp;rpe=1&amp;resp_fmts=3&amp;wgl=1&amp;fa=27&amp;uach=WyJXaW5kb3dzIiwiMTkuMC4wIiwieDg2IiwiIiwiMTM3LjAuNzE1MS4xMjIiLG51bGwsMCxudWxsLCI2NCIsW1siR29vZ2xlIENocm9tZSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJDaHJvbWl1bSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJOb3QvQSlCcmFuZCIsIjI0LjAuMC4wIl1dLDBd&amp;dt=1751962809025&amp;bpp=1&amp;bdt=789&amp;idt=1&amp;shv=r20250702&amp;mjsv=m202507020101&amp;ptt=9&amp;saldr=aa&amp;abxe=1&amp;cookie=ID%3D05f6e82287d810b4%3AT%3D1751962604%3ART%3D1751962604%3AS%3DALNI_MaQYA0TSAU2k8xwY5tqlN0xFCcd6g&amp;gpic=UID%3D00001157d9e27d0a%3AT%3D1751962604%3ART%3D1751962604%3AS%3DALNI_MYgtHzQJAQQXY_151HTGSSfVxE8_A&amp;eo_id_str=ID%3D52c21936d98c6d2b%3AT%3D1751962604%3ART%3D1751962604%3AS%3DAA-AfjZsJ15yjdEPJ8d11hPojsJQ&amp;prev_fmts=0x0%2C336x280%2C160x600%2C160x600%2C1027x280%2C1027x280%2C1027x280%2C1027x280%2C1027x280&amp;nras=7&amp;correlator=6791591035224&amp;frm=20&amp;pv=1&amp;u_tz=480&amp;u_his=2&amp;u_h=600&amp;u_w=800&amp;u_ah=600&amp;u_aw=800&amp;u_cd=24&amp;u_sd=1&amp;dmc=8&amp;adx=27&amp;ady=3293&amp;biw=1080&amp;bih=1024&amp;scr_x=0&amp;scr_y=0&amp;eid=31093233%2C95353387%2C95362655%2C95365226%2C95365234%2C95365699%2C95344788%2C95359265%2C95365121%2C95365797&amp;oid=2&amp;pvsid=5930607092988426&amp;tmod=1708485235&amp;uas=0&amp;nvt=1&amp;fc=1408&amp;brdim=10%2C10%2C10%2C10%2C800%2C0%2C780%2C580%2C1080%2C1024&amp;vis=1&amp;rsz=%7C%7Cs%7C&amp;abl=NS&amp;fu=128&amp;bc=31&amp;bz=0.72&amp;td=1&amp;tdf=2&amp;psd=W251bGwsbnVsbCxudWxsLDNd&amp;nt=1&amp;ifi=11&amp;uci=a!b&amp;btvi=5&amp;fsb=1&amp;dtd=578"
+        data-google-container-id="a!b"
+        tabindex="0"
+        title="Advertisement"
+        aria-label="Advertisement"
+        data-load-complete="true"
+        data-google-query-id="CK_Z-4bqrI4DFfNkDwId7U0FdA"
+      ></iframe></div
+  ></ins>
+</div>
+<p>
+  In the above example, <code>joe.id</code> will be initialized with value
+  <code>2</code> and <code>joe.age</code> will be initialized with value
+  <code>28</code>. Because <code>joe.wage</code> wasn’t given an explicit
+  initializer but has a default member initializer, <code>joe.wage</code> will
+  be initialized to <code>76000.0</code>. And finally, because
+  <code>joe.whatever</code> wasn’t given an explicit initializer,
+  <code>joe.whatever</code> is value-initialized to <code>0.0</code>.
+</p>
+<div class="code-block code-block-5" style="margin: 8px 0; clear: both"></div>
+
+<div class="cpp-note cpp-lightbluebackground">
+  <p class="cpp-note-title cpp-bottomline">Tip</p>
+  <p>
+    This means we can generally use an empty initialization list to
+    value-initialize all members of the struct:
+  </p>
+  <div class="code-toolbar">
+    <pre
+      class="line-numbers language-cpp"
+      tabindex="0"
+    ><code class="match-braces language-cpp">Employee joe <span class="token punctuation brace-curly brace-open brace-level-1" id="pair-24-close">{</span><span class="token punctuation brace-curly brace-close brace-level-1" id="pair-24-open">}</span><span class="token punctuation">;</span> <span class="token comment">// value-initialize all members</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+    <div class="toolbar">
+      <div class="toolbar-item">
+        <button
+          class="copy-to-clipboard-button"
+          type="button"
+          data-copy-state="copy"
+        >
+          <span>Copy</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<p class="cpp-section cpp-topline" style="clear: both">
+  Overloading <code>operator&lt;&lt;</code> to print a struct
+</p>
+<p>
+  In lesson
+  <a
+    href="https://www.learncpp.com/cpp-tutorial/introduction-to-overloading-the-i-o-operators/"
+    >13.5 -- Introduction to overloading the I/O operators</a
+  >, we showed how to overload <code>operator&lt;&lt;</code> to print an
+  enumeration. It’s also useful to overload <code>operator&lt;&lt;</code> for
+  structs.
+</p>
+<div
+  class="google-auto-placed ap_container"
+  style="width: 100%; height: auto; clear: both; text-align: center"
+>
+  <ins
+    data-ad-format="auto"
+    class="adsbygoogle adsbygoogle-noablate"
+    data-ad-client="ca-pub-0588844875925051"
+    data-adsbygoogle-status="done"
+    style="
+      display: block;
+      margin: auto;
+      background-color: transparent;
+      height: 0px;
+    "
+    data-ad-status="unfilled"
+    ><div
+      id="aswift_11_host"
+      style="
+        border: none;
+        height: 0px;
+        width: 1027px;
+        margin: 0px;
+        padding: 0px;
+        position: relative;
+        visibility: visible;
+        background-color: transparent;
+        display: inline-block;
+        overflow: hidden;
+        opacity: 0;
+      "
+    >
+      <iframe
+        id="aswift_11"
+        name="aswift_11"
+        browsingtopics="true"
+        style="
+          left: 0px;
+          position: absolute;
+          top: 0px;
+          border: 0px;
+          width: 1027px;
+          height: 0px;
+          min-height: auto;
+          max-height: none;
+          min-width: auto;
+          max-width: none;
+        "
+        sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation"
+        width="1027"
+        height="0"
+        frameborder="0"
+        marginwidth="0"
+        marginheight="0"
+        vspace="0"
+        hspace="0"
+        allowtransparency="true"
+        scrolling="no"
+        allow="attribution-reporting; run-ad-auction"
+        src="https://googleads.g.doubleclick.net/pagead/ads?client=ca-pub-0588844875925051&amp;output=html&amp;h=280&amp;adk=1890673567&amp;adf=3775745928&amp;w=1027&amp;abgtt=11&amp;fwrn=4&amp;fwrnh=100&amp;lmt=1747562820&amp;num_ads=1&amp;rafmt=1&amp;armr=3&amp;sem=mc&amp;pwprc=4633386603&amp;ad_type=text_image&amp;format=1027x280&amp;url=https%3A%2F%2Fwww.learncpp.com%2Fcpp-tutorial%2Fstruct-aggregate-initialization%2F&amp;fwr=0&amp;pra=3&amp;rh=200&amp;rw=1026&amp;rpe=1&amp;resp_fmts=3&amp;wgl=1&amp;fa=27&amp;uach=WyJXaW5kb3dzIiwiMTkuMC4wIiwieDg2IiwiIiwiMTM3LjAuNzE1MS4xMjIiLG51bGwsMCxudWxsLCI2NCIsW1siR29vZ2xlIENocm9tZSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJDaHJvbWl1bSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJOb3QvQSlCcmFuZCIsIjI0LjAuMC4wIl1dLDBd&amp;dt=1751962809027&amp;bpp=1&amp;bdt=791&amp;idt=1&amp;shv=r20250702&amp;mjsv=m202507020101&amp;ptt=9&amp;saldr=aa&amp;abxe=1&amp;cookie=ID%3D05f6e82287d810b4%3AT%3D1751962604%3ART%3D1751962604%3AS%3DALNI_MaQYA0TSAU2k8xwY5tqlN0xFCcd6g&amp;gpic=UID%3D00001157d9e27d0a%3AT%3D1751962604%3ART%3D1751962604%3AS%3DALNI_MYgtHzQJAQQXY_151HTGSSfVxE8_A&amp;eo_id_str=ID%3D52c21936d98c6d2b%3AT%3D1751962604%3ART%3D1751962604%3AS%3DAA-AfjZsJ15yjdEPJ8d11hPojsJQ&amp;prev_fmts=0x0%2C336x280%2C160x600%2C160x600%2C1027x280%2C1027x280%2C1027x280%2C1027x280%2C1027x280%2C1027x280&amp;nras=8&amp;correlator=6791591035224&amp;frm=20&amp;pv=1&amp;u_tz=480&amp;u_his=2&amp;u_h=600&amp;u_w=800&amp;u_ah=600&amp;u_aw=800&amp;u_cd=24&amp;u_sd=1&amp;dmc=8&amp;adx=27&amp;ady=3923&amp;biw=1080&amp;bih=1024&amp;scr_x=0&amp;scr_y=0&amp;eid=31093233%2C95353387%2C95362655%2C95365226%2C95365234%2C95365699%2C95344788%2C95359265%2C95365121%2C95365797&amp;oid=2&amp;pvsid=5930607092988426&amp;tmod=1708485235&amp;uas=0&amp;nvt=1&amp;fc=1408&amp;brdim=10%2C10%2C10%2C10%2C800%2C0%2C780%2C580%2C1080%2C1024&amp;vis=1&amp;rsz=%7C%7Cs%7C&amp;abl=NS&amp;fu=128&amp;bc=31&amp;bz=0.72&amp;td=1&amp;tdf=2&amp;psd=W251bGwsbnVsbCxudWxsLDNd&amp;nt=1&amp;ifi=12&amp;uci=a!c&amp;btvi=6&amp;fsb=1&amp;dtd=581"
+        data-google-container-id="a!c"
+        tabindex="0"
+        title="Advertisement"
+        aria-label="Advertisement"
+        data-load-complete="true"
+        data-google-query-id="CJTn-4bqrI4DFY1ZDwIdnLcinQ"
+      ></iframe></div
+  ></ins>
+</div>
+<p>
+  Here’s the same example as in the previous section, now with an overloaded
+  <code>operator&lt;&lt;</code>:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-struct">struct</span> <span class="token class-name">Employee</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-30-close">{</span>
+    <span class="token keyword keyword-int">int</span> id <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-27-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-27-open">}</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-int">int</span> age <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-28-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-28-open">}</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-double">double</span> wage <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-29-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-29-open">}</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-30-open">}</span><span class="token punctuation">;</span>
+
+std<span class="token double-colon punctuation">::</span>ostream<span class="token operator">&amp;</span> <span class="token keyword keyword-operator">operator</span><span class="token operator">&lt;&lt;</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-25-close">(</span>std<span class="token double-colon punctuation">::</span>ostream<span class="token operator">&amp;</span> out<span class="token punctuation">,</span> <span class="token keyword keyword-const">const</span> Employee<span class="token operator">&amp;</span> e<span class="token punctuation brace-round brace-close brace-level-1" id="pair-25-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-31-close">{</span>
+    out <span class="token operator">&lt;&lt;</span> e<span class="token punctuation">.</span>id <span class="token operator">&lt;&lt;</span> <span class="token string">' '</span> <span class="token operator">&lt;&lt;</span> e<span class="token punctuation">.</span>age <span class="token operator">&lt;&lt;</span> <span class="token string">' '</span> <span class="token operator">&lt;&lt;</span> e<span class="token punctuation">.</span>wage<span class="token punctuation">;</span>
+    <span class="token keyword keyword-return">return</span> out<span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-31-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-26-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-26-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-33-close">{</span>
+    Employee joe <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-32-close">{</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">28</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-32-open">}</span><span class="token punctuation">;</span> <span class="token comment">// joe.wage will be value-initialized to 0.0</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> joe <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-33-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<div
+  class="google-auto-placed ap_container"
+  style="width: 100%; height: auto; clear: both; text-align: center"
+>
+  <ins
+    data-ad-format="auto"
+    class="adsbygoogle adsbygoogle-noablate"
+    data-ad-client="ca-pub-0588844875925051"
+    data-adsbygoogle-status="done"
+    style="
+      display: block;
+      margin: auto;
+      background-color: transparent;
+      height: 0px;
+    "
+    data-ad-status="unfilled"
+    ><div
+      id="aswift_12_host"
+      style="
+        border: none;
+        height: 0px;
+        width: 1027px;
+        margin: 0px;
+        padding: 0px;
+        position: relative;
+        visibility: visible;
+        background-color: transparent;
+        display: inline-block;
+        overflow: hidden;
+        opacity: 0;
+      "
+    >
+      <iframe
+        id="aswift_12"
+        name="aswift_12"
+        browsingtopics="true"
+        style="
+          left: 0px;
+          position: absolute;
+          top: 0px;
+          border: 0px;
+          width: 1027px;
+          height: 0px;
+          min-height: auto;
+          max-height: none;
+          min-width: auto;
+          max-width: none;
+        "
+        sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation"
+        width="1027"
+        height="0"
+        frameborder="0"
+        marginwidth="0"
+        marginheight="0"
+        vspace="0"
+        hspace="0"
+        allowtransparency="true"
+        scrolling="no"
+        allow="attribution-reporting; run-ad-auction"
+        src="https://googleads.g.doubleclick.net/pagead/ads?client=ca-pub-0588844875925051&amp;output=html&amp;h=280&amp;adk=1890673567&amp;adf=71863692&amp;w=1027&amp;abgtt=11&amp;fwrn=4&amp;fwrnh=100&amp;lmt=1747562820&amp;num_ads=1&amp;rafmt=1&amp;armr=3&amp;sem=mc&amp;pwprc=4633386603&amp;ad_type=text_image&amp;format=1027x280&amp;url=https%3A%2F%2Fwww.learncpp.com%2Fcpp-tutorial%2Fstruct-aggregate-initialization%2F&amp;fwr=0&amp;pra=3&amp;rh=200&amp;rw=1026&amp;rpe=1&amp;resp_fmts=3&amp;wgl=1&amp;fa=27&amp;uach=WyJXaW5kb3dzIiwiMTkuMC4wIiwieDg2IiwiIiwiMTM3LjAuNzE1MS4xMjIiLG51bGwsMCxudWxsLCI2NCIsW1siR29vZ2xlIENocm9tZSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJDaHJvbWl1bSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJOb3QvQSlCcmFuZCIsIjI0LjAuMC4wIl1dLDBd&amp;dt=1751962809030&amp;bpp=1&amp;bdt=794&amp;idt=0&amp;shv=r20250702&amp;mjsv=m202507020101&amp;ptt=9&amp;saldr=aa&amp;abxe=1&amp;cookie=ID%3D05f6e82287d810b4%3AT%3D1751962604%3ART%3D1751962604%3AS%3DALNI_MaQYA0TSAU2k8xwY5tqlN0xFCcd6g&amp;gpic=UID%3D00001157d9e27d0a%3AT%3D1751962604%3ART%3D1751962604%3AS%3DALNI_MYgtHzQJAQQXY_151HTGSSfVxE8_A&amp;eo_id_str=ID%3D52c21936d98c6d2b%3AT%3D1751962604%3ART%3D1751962604%3AS%3DAA-AfjZsJ15yjdEPJ8d11hPojsJQ&amp;prev_fmts=0x0%2C336x280%2C160x600%2C160x600%2C1027x280%2C1027x280%2C1027x280%2C1027x280%2C1027x280%2C1027x280%2C1027x280&amp;nras=9&amp;correlator=6791591035224&amp;frm=20&amp;pv=1&amp;u_tz=480&amp;u_his=2&amp;u_h=600&amp;u_w=800&amp;u_ah=600&amp;u_aw=800&amp;u_cd=24&amp;u_sd=1&amp;dmc=8&amp;adx=27&amp;ady=4077&amp;biw=1080&amp;bih=1024&amp;scr_x=0&amp;scr_y=0&amp;eid=31093233%2C95353387%2C95362655%2C95365226%2C95365234%2C95365699%2C95344788%2C95359265%2C95365121%2C95365797&amp;oid=2&amp;pvsid=5930607092988426&amp;tmod=1708485235&amp;uas=0&amp;nvt=1&amp;fc=1408&amp;brdim=10%2C10%2C10%2C10%2C800%2C0%2C780%2C580%2C1080%2C1024&amp;vis=1&amp;rsz=%7C%7Cs%7C&amp;abl=NS&amp;fu=128&amp;bc=31&amp;bz=0.72&amp;td=1&amp;tdf=2&amp;psd=W251bGwsbnVsbCxudWxsLDNd&amp;nt=1&amp;ifi=13&amp;uci=a!d&amp;btvi=7&amp;fsb=1&amp;dtd=863"
+        data-google-container-id="a!d"
+        tabindex="0"
+        title="Advertisement"
+        aria-label="Advertisement"
+        data-load-complete="true"
+        data-google-query-id="CPqjjYfqrI4DFYBbDwIdSMwpdQ"
+      ></iframe></div
+  ></ins>
+</div>
+<p>This prints:</p>
+<pre>
+2 28 0
+</pre>
+<p>
+  We can see that <code>joe.wage</code> was indeed value-initialized to
+  <code>0.0</code> (which prints as <code>0</code>).
+</p>
+<div class="code-block code-block-6" style="margin: 8px 0; clear: both"></div>
+
+<p>
+  Unlike an enumeration, a struct can hold multiple values. How you format the
+  output (e.g. to separate the values) is entirely up to you.
+</p>
+<p>
+  The three values output by our overloaded <code>operator&lt;&lt;</code> above
+  aren’t intuitive, as there is no indication of what these values mean. Let’s
+  do the same example, but update our output function to be a bit more
+  descriptive:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-struct">struct</span> <span class="token class-name">Employee</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-39-close">{</span>
+    <span class="token keyword keyword-int">int</span> id <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-36-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-36-open">}</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-int">int</span> age <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-37-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-37-open">}</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-double">double</span> wage <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-38-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-38-open">}</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-39-open">}</span><span class="token punctuation">;</span>
+
+std<span class="token double-colon punctuation">::</span>ostream<span class="token operator">&amp;</span> <span class="token keyword keyword-operator">operator</span><span class="token operator">&lt;&lt;</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-34-close">(</span>std<span class="token double-colon punctuation">::</span>ostream<span class="token operator">&amp;</span> out<span class="token punctuation">,</span> <span class="token keyword keyword-const">const</span> Employee<span class="token operator">&amp;</span> e<span class="token punctuation brace-round brace-close brace-level-1" id="pair-34-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-40-close">{</span>
+    out <span class="token operator">&lt;&lt;</span> <span class="token string">"id: "</span> <span class="token operator">&lt;&lt;</span> e<span class="token punctuation">.</span>id <span class="token operator">&lt;&lt;</span> <span class="token string">" age: "</span> <span class="token operator">&lt;&lt;</span> e<span class="token punctuation">.</span>age <span class="token operator">&lt;&lt;</span> <span class="token string">" wage: "</span> <span class="token operator">&lt;&lt;</span> e<span class="token punctuation">.</span>wage<span class="token punctuation">;</span>
+    <span class="token keyword keyword-return">return</span> out<span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-40-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-35-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-35-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-42-close">{</span>
+    Employee joe <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-41-close">{</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">28</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-41-open">}</span><span class="token punctuation">;</span> <span class="token comment">// joe.wage will be value-initialized to 0.0</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> joe <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-42-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<div
+  class="google-auto-placed ap_container"
+  style="width: 100%; height: auto; clear: both; text-align: center"
+>
+  <ins
+    data-ad-format="auto"
+    class="adsbygoogle adsbygoogle-noablate"
+    data-ad-client="ca-pub-0588844875925051"
+    data-adsbygoogle-status="done"
+    style="
+      display: block;
+      margin: auto;
+      background-color: transparent;
+      height: 280px;
+    "
+    ><div
+      id="aswift_13_host"
+      style="
+        border: none;
+        height: 280px;
+        width: 1027px;
+        margin: 0px;
+        padding: 0px;
+        position: relative;
+        visibility: visible;
+        background-color: transparent;
+        display: inline-block;
+      "
+    ></div
+  ></ins>
+</div>
+<p>This now prints:</p>
+<pre>
+id: 2 age: 28 wage: 0
+</pre>
+<p>That’s a little easier to understand.</p>
+<p class="cpp-section cpp-topline" style="clear: both">Const structs</p>
+<p>
+  Variables of a struct type can be const (or constexpr), and just like all
+  const variables, they must be initialized.
+</p>
+<div class="code-block code-block-7" style="margin: 8px 0; clear: both"></div>
+
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-struct">struct</span> <span class="token class-name">Rectangle</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-46-close">{</span>
+    <span class="token keyword keyword-double">double</span> length <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-44-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-44-open">}</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-double">double</span> width <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-45-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-45-open">}</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-46-open">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-43-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-43-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-49-close">{</span>
+    <span class="token keyword keyword-const">const</span> Rectangle unit <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-47-close">{</span> <span class="token number">1.0</span><span class="token punctuation">,</span> <span class="token number">1.0</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-47-open">}</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-const">const</span> Rectangle zero <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-48-close">{</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-48-open">}</span><span class="token punctuation">;</span> <span class="token comment">// value-initialize all members</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-49-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p class="cpp-section cpp-topline" style="clear: both">
+  Designated initializers
+  <span class="cpp-section-pill cpp-section-standard">C++20</span>
+</p>
+<p>
+  When initializing a struct from a list of values, the initializers are applied
+  to the members in order of declaration.
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-struct">struct</span> <span class="token class-name">Foo</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-53-close">{</span>
+    <span class="token keyword keyword-int">int</span> a <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-51-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-51-open">}</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-int">int</span> c <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-52-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-52-open">}</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-53-open">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-50-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-50-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-55-close">{</span>
+    Foo f <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-54-close">{</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">3</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-54-open">}</span><span class="token punctuation">;</span> <span class="token comment">// f.a = 1, f.c = 3</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-55-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  Now consider what would happen if you were to update this struct definition to
+  add a new member that is not the last member:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-struct">struct</span> <span class="token class-name">Foo</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-60-close">{</span>
+    <span class="token keyword keyword-int">int</span> a <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-57-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-57-open">}</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-int">int</span> b <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-58-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-58-open">}</span><span class="token punctuation">;</span> <span class="token comment">// just added</span>
+    <span class="token keyword keyword-int">int</span> c <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-59-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-59-open">}</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-60-open">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-56-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-56-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-62-close">{</span>
+    Foo f <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-61-close">{</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">3</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-61-open">}</span><span class="token punctuation">;</span> <span class="token comment">// now, f.a = 1, f.b = 3, f.c = 0</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-62-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  Now all your initialization values have shifted, and worse, the compiler may
+  not detect this as an error (after all, the syntax is still valid).
+</p>
+<p>
+  To help avoid this, C++20 adds a new way to initialize struct members called
+  <strong>designated initializers</strong>. Designated initializers allow you to
+  explicitly define which initialization values map to which members. The
+  members can be initialized using list or copy initialization, and must be
+  initialized in the same order in which they are declared in the struct,
+  otherwise a warning or error will result. Members not designated an
+  initializer will be value initialized.
+</p>
+<div class="code-block code-block-8" style="margin: 8px 0; clear: both"></div>
+
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-struct">struct</span> <span class="token class-name">Foo</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-67-close">{</span>
+    <span class="token keyword keyword-int">int</span> a<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-64-close">{</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-64-open">}</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-int">int</span> b<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-65-close">{</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-65-open">}</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-int">int</span> c<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-66-close">{</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-66-open">}</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-67-open">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-63-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-63-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-75-close">{</span>
+    Foo f1<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-70-close">{</span> <span class="token punctuation">.</span>a<span class="token punctuation brace-curly brace-open brace-level-3" id="pair-68-close">{</span> <span class="token number">1</span> <span class="token punctuation brace-curly brace-close brace-level-3" id="pair-68-open">}</span><span class="token punctuation">,</span> <span class="token punctuation">.</span>c<span class="token punctuation brace-curly brace-open brace-level-3" id="pair-69-close">{</span> <span class="token number">3</span> <span class="token punctuation brace-curly brace-close brace-level-3" id="pair-69-open">}</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-70-open">}</span><span class="token punctuation">;</span> <span class="token comment">// ok: f1.a = 1, f1.b = 0 (value initialized), f1.c = 3</span>
+    Foo f2<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-71-close">{</span> <span class="token punctuation">.</span>a <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token punctuation">.</span>c <span class="token operator">=</span> <span class="token number">3</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-71-open">}</span><span class="token punctuation">;</span>   <span class="token comment">// ok: f2.a = 1, f2.b = 0 (value initialized), f2.c = 3</span>
+    Foo f3<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-74-close">{</span> <span class="token punctuation">.</span>b<span class="token punctuation brace-curly brace-open brace-level-3" id="pair-72-close">{</span> <span class="token number">2</span> <span class="token punctuation brace-curly brace-close brace-level-3" id="pair-72-open">}</span><span class="token punctuation">,</span> <span class="token punctuation">.</span>a<span class="token punctuation brace-curly brace-open brace-level-3" id="pair-73-close">{</span> <span class="token number">1</span> <span class="token punctuation brace-curly brace-close brace-level-3" id="pair-73-open">}</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-74-open">}</span><span class="token punctuation">;</span> <span class="token comment">// error: initialization order does not match order of declaration in struct</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-75-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<div class="cpp-note cpp-lightyellowbackground">
+  <p class="cpp-note-title cpp-bottomline">For Clang users</p>
+  <p>
+    When doing designated initializers of single values using braces, Clang
+    improperly issues warning “braces around scalar initializer”. Hopefully this
+    will be fixed soon.
+  </p>
+</div>
+<p>
+  Designated initializers are nice because they provide some level of
+  self-documentation and help ensure you don’t inadvertently mix up the order of
+  your initialization values. However, designated initializers also clutter up
+  the initializer list significantly, so we won’t recommend their use as a best
+  practice at this time.
+</p>
+<p>
+  Also, because there’s no enforcement that designated initializers are being
+  used consistently everywhere an aggregate is initialized, it’s a good idea to
+  avoid adding new members to the middle of an existing aggregate definition, to
+  avoid the risk of initializer shifting.
+</p>
+<div class="cpp-note cpp-lightgreenbackground">
+  <p class="cpp-note-title cpp-bottomline">Best practice</p>
+  <p>
+    When adding a new member to an aggregate, it’s safest to add it to the
+    bottom of the definition list so the initializers for other members don’t
+    shift.
+  </p>
+</div>
+<p class="cpp-section cpp-topline" style="clear: both">
+  Assignment with an initializer list
+</p>
+<p>
+  As shown in the prior lesson, we can assign values to members of structs
+  individually:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-struct">struct</span> <span class="token class-name">Employee</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-80-close">{</span>
+    <span class="token keyword keyword-int">int</span> id <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-77-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-77-open">}</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-int">int</span> age <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-78-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-78-open">}</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-double">double</span> wage <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-79-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-79-open">}</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-80-open">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-76-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-76-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-82-close">{</span>
+    Employee joe <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-81-close">{</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">32</span><span class="token punctuation">,</span> <span class="token number">60000.0</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-81-open">}</span><span class="token punctuation">;</span>
+
+    joe<span class="token punctuation">.</span>age  <span class="token operator">=</span> <span class="token number">33</span><span class="token punctuation">;</span>      <span class="token comment">// Joe had a birthday</span>
+    joe<span class="token punctuation">.</span>wage <span class="token operator">=</span> <span class="token number">66000.0</span><span class="token punctuation">;</span> <span class="token comment">// and got a raise</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-82-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  This is fine for single members, but not great when we want to update many
+  members. Similar to initializing a struct with an initializer list, you can
+  also assign values to structs using an initializer list (which does memberwise
+  assignment):
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-struct">struct</span> <span class="token class-name">Employee</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-87-close">{</span>
+    <span class="token keyword keyword-int">int</span> id <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-84-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-84-open">}</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-int">int</span> age <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-85-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-85-open">}</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-double">double</span> wage <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-86-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-86-open">}</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-87-open">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-83-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-83-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-90-close">{</span>
+    Employee joe <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-88-close">{</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">32</span><span class="token punctuation">,</span> <span class="token number">60000.0</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-88-open">}</span><span class="token punctuation">;</span>
+    joe <span class="token operator">=</span> <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-89-close">{</span> joe<span class="token punctuation">.</span>id<span class="token punctuation">,</span> <span class="token number">33</span><span class="token punctuation">,</span> <span class="token number">66000.0</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-89-open">}</span><span class="token punctuation">;</span> <span class="token comment">// Joe had a birthday and got a raise</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-90-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  Note that because we didn’t want to change <code>joe.id</code>, we needed to
+  provide the current value for <code>joe.id</code> in our list as a
+  placeholder, so that memberwise assignment could assign <code>joe.id</code> to
+  <code>joe.id</code>. This is a bit ugly.
+</p>
+<p class="cpp-section cpp-topline" style="clear: both">
+  Assignment with designated initializers
+  <span class="cpp-section-pill cpp-section-standard">C++20</span>
+</p>
+<p>Designated initializers can also be used in a list assignment:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-struct">struct</span> <span class="token class-name">Employee</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-95-close">{</span>
+    <span class="token keyword keyword-int">int</span> id <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-92-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-92-open">}</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-int">int</span> age <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-93-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-93-open">}</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-double">double</span> wage <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-94-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-94-open">}</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-95-open">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-91-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-91-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-98-close">{</span>
+    Employee joe <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-96-close">{</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">32</span><span class="token punctuation">,</span> <span class="token number">60000.0</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-96-open">}</span><span class="token punctuation">;</span>
+    joe <span class="token operator">=</span> <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-97-close">{</span> <span class="token punctuation">.</span>id <span class="token operator">=</span> joe<span class="token punctuation">.</span>id<span class="token punctuation">,</span> <span class="token punctuation">.</span>age <span class="token operator">=</span> <span class="token number">33</span><span class="token punctuation">,</span> <span class="token punctuation">.</span>wage <span class="token operator">=</span> <span class="token number">66000.0</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-97-open">}</span><span class="token punctuation">;</span> <span class="token comment">// Joe had a birthday and got a raise</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-98-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  Any members that aren’t designated in such an assignment will be assigned the
+  value that would be used for value initialization. If we hadn’t have specified
+  a designated initializer for <code>joe.id</code>, <code>joe.id</code> would
+  have been assigned the value 0.
+</p>
+<p class="cpp-section cpp-topline" style="clear: both">
+  Initializing a struct with another struct of the same type
+</p>
+<p>A struct may also be initialized using another struct of the same type:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-struct">struct</span> <span class="token class-name">Foo</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-105-close">{</span>
+    <span class="token keyword keyword-int">int</span> a<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-102-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-102-open">}</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-int">int</span> b<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-103-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-103-open">}</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-int">int</span> c<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-104-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-104-open">}</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-105-open">}</span><span class="token punctuation">;</span>
+
+std<span class="token double-colon punctuation">::</span>ostream<span class="token operator">&amp;</span> <span class="token keyword keyword-operator">operator</span><span class="token operator">&lt;&lt;</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-99-close">(</span>std<span class="token double-colon punctuation">::</span>ostream<span class="token operator">&amp;</span> out<span class="token punctuation">,</span> <span class="token keyword keyword-const">const</span> Foo<span class="token operator">&amp;</span> f<span class="token punctuation brace-round brace-close brace-level-1" id="pair-99-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-106-close">{</span>
+    out <span class="token operator">&lt;&lt;</span> f<span class="token punctuation">.</span>a <span class="token operator">&lt;&lt;</span> <span class="token string">' '</span> <span class="token operator">&lt;&lt;</span> f<span class="token punctuation">.</span>b <span class="token operator">&lt;&lt;</span> <span class="token string">' '</span> <span class="token operator">&lt;&lt;</span> f<span class="token punctuation">.</span>c<span class="token punctuation">;</span>
+    <span class="token keyword keyword-return">return</span> out<span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-106-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-100-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-100-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-109-close">{</span>
+    Foo foo <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-107-close">{</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-107-open">}</span><span class="token punctuation">;</span>
+
+    Foo x <span class="token operator">=</span> foo<span class="token punctuation">;</span> <span class="token comment">// copy-initialization</span>
+    Foo <span class="token function">y</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-101-close">(</span>foo<span class="token punctuation brace-round brace-close brace-level-2" id="pair-101-open">)</span><span class="token punctuation">;</span>  <span class="token comment">// direct-initialization</span>
+    Foo z <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-108-close">{</span>foo<span class="token punctuation brace-curly brace-close brace-level-2" id="pair-108-open">}</span><span class="token punctuation">;</span> <span class="token comment">// direct-list-initialization</span>
+
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> x <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> y <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> z <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-109-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>The above prints:</p>
+<pre>
+1 2 3
+1 2 3
+1 2 3
+</pre>
+<p>
+  Note that this uses the standard forms of initialization that we’re familiar
+  with (copy, direct, or direct-list-initialization) rather than aggregate
+  initialization.
+</p>
+<p>
+  This is most commonly seen when initializing a struct with the return value of
+  a function that returns a struct of the same type. We cover this in more
+  detail in lesson
+  <a href="https://www.learncpp.com/cpp-tutorial/passing-and-returning-structs/"
+    >13.10 -- Passing and returning structs</a
+  >.
+</p>
+<div class="prevnext">
+  <div class="prevnext-inline">
+    <a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/default-member-initialization/"
+    >
+      <div class="nav-button nav-button-next">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-right" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Next lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">13.9</span>Default member
+            initialization
+          </div>
+        </div>
+      </div></a
+    >
+    <a class="nav-link" href="/">
+      <div class="nav-button nav-button-index">
+        <div class="nav-button-icon">
+          <i class="fa fa-home" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Back to table of contents</div>
+        </div>
+      </div></a
+    >
+    <a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/introduction-to-structs-members-and-member-selection/"
+    >
+      <div class="nav-button nav-button-prev">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-left" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Previous lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">13.7</span>Introduction to
+            structs, members, and member selection
+          </div>
+        </div>
+      </div></a
+    >
+  </div>
+</div>
+<div class="code-block code-block-10" style="margin: 8px 0; clear: both"></div>

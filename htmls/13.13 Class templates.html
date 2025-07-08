@@ -1,0 +1,1425 @@
+<div
+  class="code-block code-block-1"
+  style="margin: 8px 8px 8px 0; float: left"
+></div>
+<p>
+  In lesson
+  <a href="https://www.learncpp.com/cpp-tutorial/function-templates/"
+    >11.6 -- Function templates</a
+  >, we introduced the challenge of having to create a separate (overloaded)
+  function for each different set of types we want to work with:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token comment">// function to calculate the greater of two int values</span>
+<span class="token keyword keyword-int">int</span> <span class="token function">max</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-0-close">(</span><span class="token keyword keyword-int">int</span> x<span class="token punctuation">,</span> <span class="token keyword keyword-int">int</span> y<span class="token punctuation brace-round brace-close brace-level-1" id="pair-0-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-7-close">{</span>
+    <span class="token keyword keyword-return">return</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-1-close">(</span>x <span class="token operator">&lt;</span> y<span class="token punctuation brace-round brace-close brace-level-2" id="pair-1-open">)</span> <span class="token operator">?</span> y <span class="token operator">:</span> x<span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-7-open">}</span>
+
+<span class="token comment">// almost identical function to calculate the greater of two double values</span>
+<span class="token comment">// the only difference is the type information</span>
+<span class="token keyword keyword-double">double</span> <span class="token function">max</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-2-close">(</span><span class="token keyword keyword-double">double</span> x<span class="token punctuation">,</span> <span class="token keyword keyword-double">double</span> y<span class="token punctuation brace-round brace-close brace-level-1" id="pair-2-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-8-close">{</span>
+    <span class="token keyword keyword-return">return</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-3-close">(</span>x <span class="token operator">&lt;</span> y<span class="token punctuation brace-round brace-close brace-level-2" id="pair-3-open">)</span> <span class="token operator">?</span> y <span class="token operator">:</span> x<span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-8-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-4-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-4-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-9-close">{</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token function">max</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-5-close">(</span><span class="token number">5</span><span class="token punctuation">,</span> <span class="token number">6</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-5-open">)</span><span class="token punctuation">;</span>     <span class="token comment">// calls max(int, int)</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token function">max</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-6-close">(</span><span class="token number">1.2</span><span class="token punctuation">,</span> <span class="token number">3.4</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-6-open">)</span><span class="token punctuation">;</span> <span class="token comment">// calls max(double, double)</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-9-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  The solution to this was to create a function template that the compiler can
+  use to instantiate normal functions for whichever set of types we need:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token comment">// a single function template for max</span>
+<span class="token keyword keyword-template">template</span> <span class="token operator">&lt;</span><span class="token keyword keyword-typename">typename</span> <span class="token class-name">T</span><span class="token operator">&gt;</span>
+T <span class="token function">max</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-10-close">(</span>T x<span class="token punctuation">,</span> T y<span class="token punctuation brace-round brace-close brace-level-1" id="pair-10-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-15-close">{</span>
+    <span class="token keyword keyword-return">return</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-11-close">(</span>x <span class="token operator">&lt;</span> y<span class="token punctuation brace-round brace-close brace-level-2" id="pair-11-open">)</span> <span class="token operator">?</span> y <span class="token operator">:</span> x<span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-15-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-12-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-12-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-16-close">{</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token function">max</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-13-close">(</span><span class="token number">5</span><span class="token punctuation">,</span> <span class="token number">6</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-13-open">)</span><span class="token punctuation">;</span>     <span class="token comment">// instantiates and calls max&lt;int&gt;(int, int)</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token function">max</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-14-close">(</span><span class="token number">1.2</span><span class="token punctuation">,</span> <span class="token number">3.4</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-14-open">)</span><span class="token punctuation">;</span> <span class="token comment">// instantiates and calls max&lt;double&gt;(double, double)</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-16-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<div class="cpp-note cpp-lightgraybackground">
+  <p class="cpp-note-title cpp-bottomline">Related content</p>
+  <p>
+    We cover how function template instantiation works in lesson
+    <a
+      href="https://www.learncpp.com/cpp-tutorial/function-template-instantiation/"
+      >11.7 -- Function template instantiation</a
+    >.
+  </p>
+</div>
+<p class="cpp-section cpp-topline" style="clear: both">
+  Aggregate types have similar challenges
+</p>
+<div
+  class="google-auto-placed ap_container"
+  style="width: 100%; height: auto; clear: both; text-align: center"
+>
+  <ins
+    data-ad-format="auto"
+    class="adsbygoogle adsbygoogle-noablate"
+    data-ad-client="ca-pub-0588844875925051"
+    data-adsbygoogle-status="done"
+    style="
+      display: block;
+      margin: auto;
+      background-color: transparent;
+      height: 0px;
+    "
+    data-ad-status="unfilled"
+    ><div
+      id="aswift_5_host"
+      style="
+        border: none;
+        height: 0px;
+        width: 1027px;
+        margin: 0px;
+        padding: 0px;
+        position: relative;
+        visibility: visible;
+        background-color: transparent;
+        display: inline-block;
+        overflow: hidden;
+        opacity: 0;
+      "
+    >
+      <iframe
+        id="aswift_5"
+        name="aswift_5"
+        browsingtopics="true"
+        style="
+          left: 0px;
+          position: absolute;
+          top: 0px;
+          border: 0px;
+          width: 1027px;
+          height: 0px;
+          min-height: auto;
+          max-height: none;
+          min-width: auto;
+          max-width: none;
+        "
+        sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation"
+        width="1027"
+        height="0"
+        frameborder="0"
+        marginwidth="0"
+        marginheight="0"
+        vspace="0"
+        hspace="0"
+        allowtransparency="true"
+        scrolling="no"
+        allow="attribution-reporting; run-ad-auction"
+        src="https://googleads.g.doubleclick.net/pagead/ads?client=ca-pub-0588844875925051&amp;output=html&amp;h=280&amp;adk=3680473673&amp;adf=3414914695&amp;w=1027&amp;abgtt=11&amp;fwrn=4&amp;fwrnh=100&amp;lmt=1751027764&amp;num_ads=1&amp;rafmt=1&amp;armr=3&amp;sem=mc&amp;pwprc=4633386603&amp;ad_type=text_image&amp;format=1027x280&amp;url=https%3A%2F%2Fwww.learncpp.com%2Fcpp-tutorial%2Fclass-templates%2F&amp;fwr=0&amp;pra=3&amp;rh=200&amp;rw=1026&amp;rpe=1&amp;resp_fmts=3&amp;wgl=1&amp;fa=27&amp;uach=WyJXaW5kb3dzIiwiMTkuMC4wIiwieDg2IiwiIiwiMTM3LjAuNzE1MS4xMjIiLG51bGwsMCxudWxsLCI2NCIsW1siR29vZ2xlIENocm9tZSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJDaHJvbWl1bSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJOb3QvQSlCcmFuZCIsIjI0LjAuMC4wIl1dLDBd&amp;dt=1751962835806&amp;bpp=2&amp;bdt=1161&amp;idt=-M&amp;shv=r20250702&amp;mjsv=m202507020101&amp;ptt=9&amp;saldr=aa&amp;abxe=1&amp;cookie=ID%3D05f6e82287d810b4%3AT%3D1751962604%3ART%3D1751962604%3AS%3DALNI_MaQYA0TSAU2k8xwY5tqlN0xFCcd6g&amp;gpic=UID%3D00001157d9e27d0a%3AT%3D1751962604%3ART%3D1751962604%3AS%3DALNI_MYgtHzQJAQQXY_151HTGSSfVxE8_A&amp;eo_id_str=ID%3D52c21936d98c6d2b%3AT%3D1751962604%3ART%3D1751962604%3AS%3DAA-AfjZsJ15yjdEPJ8d11hPojsJQ&amp;prev_fmts=0x0%2C336x280%2C160x600%2C160x600&amp;nras=2&amp;correlator=3721011639715&amp;frm=20&amp;pv=1&amp;u_tz=480&amp;u_his=2&amp;u_h=600&amp;u_w=800&amp;u_ah=600&amp;u_aw=800&amp;u_cd=24&amp;u_sd=1&amp;dmc=8&amp;adx=27&amp;ady=1412&amp;biw=1080&amp;bih=1024&amp;scr_x=0&amp;scr_y=0&amp;eid=31093234%2C95353386%2C95362655%2C95365226%2C95365235%2C95365109%2C95359266%2C95365119%2C95365797&amp;oid=2&amp;pvsid=3286122920147080&amp;tmod=1708485235&amp;uas=0&amp;nvt=1&amp;fc=1408&amp;brdim=10%2C10%2C10%2C10%2C800%2C0%2C780%2C580%2C1080%2C1024&amp;vis=1&amp;rsz=%7C%7Cs%7C&amp;abl=NS&amp;fu=128&amp;bc=31&amp;bz=0.72&amp;td=1&amp;tdf=2&amp;psd=W251bGwsbnVsbCxudWxsLDNd&amp;nt=1&amp;ifi=6&amp;uci=a!6&amp;btvi=1&amp;fsb=1&amp;dtd=22"
+        data-google-container-id="a!6"
+        tabindex="0"
+        title="Advertisement"
+        aria-label="Advertisement"
+        data-load-complete="true"
+        data-google-query-id="CNSQvJPqrI4DFQeJ6QUdPxcTDQ"
+      ></iframe></div
+  ></ins>
+</div>
+<p>
+  We run into similar challenges with aggregate types (both
+  structs/classes/unions and arrays).
+</p>
+<p>
+  For example, let’s say we’re writing a program where we need to work with
+  pairs of <code>int</code> values, and need to determine which of the two
+  numbers is larger. We might write a program like this:
+</p>
+<div class="code-block code-block-2" style="margin: 8px 0; clear: both"></div>
+
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-struct">struct</span> <span class="token class-name">Pair</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-23-close">{</span>
+    <span class="token keyword keyword-int">int</span> first<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-21-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-21-open">}</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-int">int</span> second<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-22-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-22-open">}</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-23-open">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword keyword-constexpr">constexpr</span> <span class="token keyword keyword-int">int</span> <span class="token function">max</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-17-close">(</span>Pair p<span class="token punctuation brace-round brace-close brace-level-1" id="pair-17-open">)</span> <span class="token comment">// pass by value because Pair is small</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-24-close">{</span>
+    <span class="token keyword keyword-return">return</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-18-close">(</span>p<span class="token punctuation">.</span>first <span class="token operator">&lt;</span> p<span class="token punctuation">.</span>second <span class="token operator">?</span> p<span class="token punctuation">.</span>second <span class="token operator">:</span> p<span class="token punctuation">.</span>first<span class="token punctuation brace-round brace-close brace-level-2" id="pair-18-open">)</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-24-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-19-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-19-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-26-close">{</span>
+    Pair p1<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-25-close">{</span> <span class="token number">5</span><span class="token punctuation">,</span> <span class="token number">6</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-25-open">}</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token function">max</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-20-close">(</span>p1<span class="token punctuation brace-round brace-close brace-level-2" id="pair-20-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">" is larger\n"</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-26-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  Later, we discover that we also need pairs of <code>double</code> values. So
+  we update our program to the following:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-struct">struct</span> <span class="token class-name">Pair</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-36-close">{</span>
+    <span class="token keyword keyword-int">int</span> first<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-34-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-34-open">}</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-int">int</span> second<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-35-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-35-open">}</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-36-open">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword keyword-struct">struct</span> <span class="token class-name">Pair</span> <span class="token comment">// compile error: erroneous redefinition of Pair</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-39-close">{</span>
+    <span class="token keyword keyword-double">double</span> first<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-37-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-37-open">}</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-double">double</span> second<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-38-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-38-open">}</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-39-open">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword keyword-constexpr">constexpr</span> <span class="token keyword keyword-int">int</span> <span class="token function">max</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-27-close">(</span>Pair p<span class="token punctuation brace-round brace-close brace-level-1" id="pair-27-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-40-close">{</span>
+    <span class="token keyword keyword-return">return</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-28-close">(</span>p<span class="token punctuation">.</span>first <span class="token operator">&lt;</span> p<span class="token punctuation">.</span>second <span class="token operator">?</span> p<span class="token punctuation">.</span>second <span class="token operator">:</span> p<span class="token punctuation">.</span>first<span class="token punctuation brace-round brace-close brace-level-2" id="pair-28-open">)</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-40-open">}</span>
+
+<span class="token keyword keyword-constexpr">constexpr</span> <span class="token keyword keyword-double">double</span> <span class="token function">max</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-29-close">(</span>Pair p<span class="token punctuation brace-round brace-close brace-level-1" id="pair-29-open">)</span> <span class="token comment">// compile error: overloaded function differs only by return type</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-41-close">{</span>
+    <span class="token keyword keyword-return">return</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-30-close">(</span>p<span class="token punctuation">.</span>first <span class="token operator">&lt;</span> p<span class="token punctuation">.</span>second <span class="token operator">?</span> p<span class="token punctuation">.</span>second <span class="token operator">:</span> p<span class="token punctuation">.</span>first<span class="token punctuation brace-round brace-close brace-level-2" id="pair-30-open">)</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-41-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-31-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-31-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-44-close">{</span>
+    Pair p1<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-42-close">{</span> <span class="token number">5</span><span class="token punctuation">,</span> <span class="token number">6</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-42-open">}</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token function">max</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-32-close">(</span>p1<span class="token punctuation brace-round brace-close brace-level-2" id="pair-32-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">" is larger\n"</span><span class="token punctuation">;</span>
+
+    Pair p2<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-43-close">{</span> <span class="token number">1.2</span><span class="token punctuation">,</span> <span class="token number">3.4</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-43-open">}</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token function">max</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-33-close">(</span>p2<span class="token punctuation brace-round brace-close brace-level-2" id="pair-33-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">" is larger\n"</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-44-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  Unfortunately, this program won’t compile, and has a number of problems that
+  need to be addressed.
+</p>
+<div
+  class="google-auto-placed ap_container"
+  style="width: 100%; height: auto; clear: both; text-align: center"
+>
+  <ins
+    data-ad-format="auto"
+    class="adsbygoogle adsbygoogle-noablate"
+    data-ad-client="ca-pub-0588844875925051"
+    data-adsbygoogle-status="done"
+    style="
+      display: block;
+      margin: auto;
+      background-color: transparent;
+      height: 0px;
+    "
+    ><div
+      id="aswift_6_host"
+      style="
+        border: none;
+        height: 0px;
+        width: 1027px;
+        margin: 0px;
+        padding: 0px;
+        position: relative;
+        visibility: visible;
+        background-color: transparent;
+        display: inline-block;
+        overflow: hidden;
+        opacity: 0;
+      "
+    >
+      <iframe
+        id="aswift_6"
+        name="aswift_6"
+        browsingtopics="true"
+        style="
+          left: 0px;
+          position: absolute;
+          top: 0px;
+          border: 0px;
+          width: 1027px;
+          height: 0px;
+          min-height: auto;
+          max-height: none;
+          min-width: auto;
+          max-width: none;
+        "
+        sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation"
+        width="1027"
+        height="0"
+        frameborder="0"
+        marginwidth="0"
+        marginheight="0"
+        vspace="0"
+        hspace="0"
+        allowtransparency="true"
+        scrolling="no"
+        allow="attribution-reporting; run-ad-auction"
+        src="https://googleads.g.doubleclick.net/pagead/ads?client=ca-pub-0588844875925051&amp;output=html&amp;h=280&amp;adk=3680473673&amp;adf=1441652019&amp;w=1027&amp;abgtt=11&amp;fwrn=4&amp;fwrnh=100&amp;lmt=1751027764&amp;num_ads=1&amp;rafmt=1&amp;armr=3&amp;sem=mc&amp;pwprc=4633386603&amp;ad_type=text_image&amp;format=1027x280&amp;url=https%3A%2F%2Fwww.learncpp.com%2Fcpp-tutorial%2Fclass-templates%2F&amp;fwr=0&amp;pra=3&amp;rh=200&amp;rw=1026&amp;rpe=1&amp;resp_fmts=3&amp;wgl=1&amp;fa=27&amp;uach=WyJXaW5kb3dzIiwiMTkuMC4wIiwieDg2IiwiIiwiMTM3LjAuNzE1MS4xMjIiLG51bGwsMCxudWxsLCI2NCIsW1siR29vZ2xlIENocm9tZSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJDaHJvbWl1bSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJOb3QvQSlCcmFuZCIsIjI0LjAuMC4wIl1dLDBd&amp;dt=1751962835806&amp;bpp=1&amp;bdt=1161&amp;idt=-M&amp;shv=r20250702&amp;mjsv=m202507020101&amp;ptt=9&amp;saldr=aa&amp;abxe=1&amp;cookie=ID%3D05f6e82287d810b4%3AT%3D1751962604%3ART%3D1751962604%3AS%3DALNI_MaQYA0TSAU2k8xwY5tqlN0xFCcd6g&amp;gpic=UID%3D00001157d9e27d0a%3AT%3D1751962604%3ART%3D1751962604%3AS%3DALNI_MYgtHzQJAQQXY_151HTGSSfVxE8_A&amp;eo_id_str=ID%3D52c21936d98c6d2b%3AT%3D1751962604%3ART%3D1751962604%3AS%3DAA-AfjZsJ15yjdEPJ8d11hPojsJQ&amp;prev_fmts=0x0%2C336x280%2C160x600%2C160x600%2C1027x280&amp;nras=3&amp;correlator=3721011639715&amp;frm=20&amp;pv=1&amp;u_tz=480&amp;u_his=2&amp;u_h=600&amp;u_w=800&amp;u_ah=600&amp;u_aw=800&amp;u_cd=24&amp;u_sd=1&amp;dmc=8&amp;adx=27&amp;ady=2809&amp;biw=1080&amp;bih=1024&amp;scr_x=0&amp;scr_y=0&amp;eid=31093234%2C95353386%2C95362655%2C95365226%2C95365235%2C95365109%2C95359266%2C95365119%2C95365797&amp;oid=2&amp;pvsid=3286122920147080&amp;tmod=1708485235&amp;uas=0&amp;nvt=1&amp;fc=1408&amp;brdim=10%2C10%2C10%2C10%2C800%2C0%2C780%2C580%2C1080%2C1024&amp;vis=1&amp;rsz=%7C%7Cs%7C&amp;abl=NS&amp;fu=128&amp;bc=31&amp;bz=0.72&amp;td=1&amp;tdf=2&amp;psd=W251bGwsbnVsbCxudWxsLDNd&amp;nt=1&amp;ifi=7&amp;uci=a!7&amp;btvi=2&amp;fsb=1&amp;dtd=23"
+        data-google-container-id="a!7"
+        tabindex="0"
+        title="Advertisement"
+        aria-label="Advertisement"
+        data-load-complete="true"
+        data-google-query-id="CN6kvJPqrI4DFXSH6QUdvVwHhw"
+      ></iframe></div
+  ></ins>
+</div>
+<p>
+  First, unlike functions, type definitions can’t be overloaded. The compiler
+  will treat double second definition of <code>Pair</code> as an erroneous
+  redeclaration of the first definition of <code>Pair</code>. Second, although
+  functions can be overloaded, our <code>max(Pair)</code> functions only differ
+  by return type, and overloaded functions can’t be differentiated solely by
+  return type. Third, there is a lot of redundancy here. Each
+  <code>Pair</code> struct is identical (except for the data type) and same with
+  our <code>max(Pair)</code> functions (except for the return type).
+</p>
+<p>
+  We could solve the first two issues by giving our <code>Pair</code> structs
+  different names (e.g. <code>PairInt</code> and <code>PairDouble</code>). But
+  then we both have to remember our naming scheme, and essentially clone a bunch
+  of code for each additional pair type we want, which doesn’t solve the
+  redundancy problem.
+</p>
+<p>Fortunately, we can do better.</p>
+<div class="code-block code-block-3" style="margin: 8px 0; clear: both"></div>
+
+<div class="cpp-note cpp-lightgraybackground">
+  <p class="cpp-note-title cpp-bottomline">Author’s note</p>
+  <p>
+    Before proceeding, please review lessons
+    <a href="https://www.learncpp.com/cpp-tutorial/function-templates/"
+      >11.6 -- Function templates</a
+    >
+    and
+    <a
+      href="https://www.learncpp.com/cpp-tutorial/function-template-instantiation/"
+      >11.7 -- Function template instantiation</a
+    >
+    if you’re hazy on how function templates, template types, or function
+    template instantiation works.
+  </p>
+</div>
+<p class="cpp-section cpp-topline" style="clear: both">Class templates</p>
+<div
+  class="google-auto-placed ap_container"
+  style="width: 100%; height: auto; clear: both; text-align: center"
+>
+  <ins
+    data-ad-format="auto"
+    class="adsbygoogle adsbygoogle-noablate"
+    data-ad-client="ca-pub-0588844875925051"
+    data-adsbygoogle-status="done"
+    style="
+      display: block;
+      margin: auto;
+      background-color: transparent;
+      height: 0px;
+    "
+    ><div
+      id="aswift_7_host"
+      style="
+        border: none;
+        height: 0px;
+        width: 1027px;
+        margin: 0px;
+        padding: 0px;
+        position: relative;
+        visibility: visible;
+        background-color: transparent;
+        display: inline-block;
+        overflow: hidden;
+        opacity: 0;
+      "
+    >
+      <iframe
+        id="aswift_7"
+        name="aswift_7"
+        browsingtopics="true"
+        style="
+          left: 0px;
+          position: absolute;
+          top: 0px;
+          border: 0px;
+          width: 1027px;
+          height: 0px;
+          min-height: auto;
+          max-height: none;
+          min-width: auto;
+          max-width: none;
+        "
+        sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation"
+        width="1027"
+        height="0"
+        frameborder="0"
+        marginwidth="0"
+        marginheight="0"
+        vspace="0"
+        hspace="0"
+        allowtransparency="true"
+        scrolling="no"
+        allow="attribution-reporting; run-ad-auction"
+        src="https://googleads.g.doubleclick.net/pagead/ads?client=ca-pub-0588844875925051&amp;output=html&amp;h=280&amp;adk=3680473673&amp;adf=779406494&amp;w=1027&amp;abgtt=11&amp;fwrn=4&amp;fwrnh=100&amp;lmt=1751027764&amp;num_ads=1&amp;rafmt=1&amp;armr=3&amp;sem=mc&amp;pwprc=4633386603&amp;ad_type=text_image&amp;format=1027x280&amp;url=https%3A%2F%2Fwww.learncpp.com%2Fcpp-tutorial%2Fclass-templates%2F&amp;fwr=0&amp;pra=3&amp;rh=200&amp;rw=1026&amp;rpe=1&amp;resp_fmts=3&amp;wgl=1&amp;fa=27&amp;uach=WyJXaW5kb3dzIiwiMTkuMC4wIiwieDg2IiwiIiwiMTM3LjAuNzE1MS4xMjIiLG51bGwsMCxudWxsLCI2NCIsW1siR29vZ2xlIENocm9tZSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJDaHJvbWl1bSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJOb3QvQSlCcmFuZCIsIjI0LjAuMC4wIl1dLDBd&amp;dt=1751962835806&amp;bpp=1&amp;bdt=1160&amp;idt=0&amp;shv=r20250702&amp;mjsv=m202507020101&amp;ptt=9&amp;saldr=aa&amp;abxe=1&amp;cookie=ID%3D05f6e82287d810b4%3AT%3D1751962604%3ART%3D1751962604%3AS%3DALNI_MaQYA0TSAU2k8xwY5tqlN0xFCcd6g&amp;gpic=UID%3D00001157d9e27d0a%3AT%3D1751962604%3ART%3D1751962604%3AS%3DALNI_MYgtHzQJAQQXY_151HTGSSfVxE8_A&amp;eo_id_str=ID%3D52c21936d98c6d2b%3AT%3D1751962604%3ART%3D1751962604%3AS%3DAA-AfjZsJ15yjdEPJ8d11hPojsJQ&amp;prev_fmts=0x0%2C336x280%2C160x600%2C160x600%2C1027x280%2C1027x280&amp;nras=4&amp;correlator=3721011639715&amp;frm=20&amp;pv=1&amp;u_tz=480&amp;u_his=2&amp;u_h=600&amp;u_w=800&amp;u_ah=600&amp;u_aw=800&amp;u_cd=24&amp;u_sd=1&amp;dmc=8&amp;adx=27&amp;ady=3451&amp;biw=1080&amp;bih=1024&amp;scr_x=0&amp;scr_y=0&amp;eid=31093234%2C95353386%2C95362655%2C95365226%2C95365235%2C95365109%2C95359266%2C95365119%2C95365797&amp;oid=2&amp;pvsid=3286122920147080&amp;tmod=1708485235&amp;uas=0&amp;nvt=1&amp;fc=1408&amp;brdim=10%2C10%2C10%2C10%2C800%2C0%2C780%2C580%2C1080%2C1024&amp;vis=1&amp;rsz=%7C%7Cs%7C&amp;abl=NS&amp;fu=128&amp;bc=31&amp;bz=0.72&amp;td=1&amp;tdf=2&amp;psd=W251bGwsbnVsbCxudWxsLDNd&amp;nt=1&amp;ifi=8&amp;uci=a!8&amp;btvi=3&amp;fsb=1&amp;dtd=23"
+        data-google-container-id="a!8"
+        tabindex="0"
+        title="Advertisement"
+        aria-label="Advertisement"
+        data-load-complete="true"
+        data-google-query-id="CNGgvJPqrI4DFR-R6QUd14kyUg"
+      ></iframe></div
+  ></ins>
+</div>
+<p>
+  Much like a function template is a template definition for instantiating
+  functions, a <strong>class template</strong> is a template definition for
+  instantiating class types.
+</p>
+<div class="cpp-note cpp-lightgraybackground">
+  <p class="cpp-note-title cpp-bottomline">A reminder</p>
+  <p>
+    A “class type” is a struct, class, or union type. Although we’ll be
+    demonstrating “class templates” on structs for simplicity, everything here
+    applies equally well to classes.
+  </p>
+</div>
+<p>As a reminder, here’s our <code>int</code> pair struct definition:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-struct">struct</span> <span class="token class-name">Pair</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-47-close">{</span>
+    <span class="token keyword keyword-int">int</span> first<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-45-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-45-open">}</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-int">int</span> second<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-46-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-46-open">}</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-47-open">}</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>Let’s rewrite our pair class as a class template:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-template">template</span> <span class="token operator">&lt;</span><span class="token keyword keyword-typename">typename</span> <span class="token class-name">T</span><span class="token operator">&gt;</span>
+<span class="token keyword keyword-struct">struct</span> <span class="token class-name">Pair</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-51-close">{</span>
+    T first<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-49-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-49-open">}</span><span class="token punctuation">;</span>
+    T second<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-50-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-50-open">}</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-51-open">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-48-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-48-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-55-close">{</span>
+    Pair<span class="token operator">&lt;</span><span class="token keyword keyword-int">int</span><span class="token operator">&gt;</span> p1<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-52-close">{</span> <span class="token number">5</span><span class="token punctuation">,</span> <span class="token number">6</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-52-open">}</span><span class="token punctuation">;</span>        <span class="token comment">// instantiates Pair&lt;int&gt; and creates object p1</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> p1<span class="token punctuation">.</span>first <span class="token operator">&lt;&lt;</span> <span class="token string">' '</span> <span class="token operator">&lt;&lt;</span> p1<span class="token punctuation">.</span>second <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+    Pair<span class="token operator">&lt;</span><span class="token keyword keyword-double">double</span><span class="token operator">&gt;</span> p2<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-53-close">{</span> <span class="token number">1.2</span><span class="token punctuation">,</span> <span class="token number">3.4</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-53-open">}</span><span class="token punctuation">;</span> <span class="token comment">// instantiates Pair&lt;double&gt; and creates object p2</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> p2<span class="token punctuation">.</span>first <span class="token operator">&lt;&lt;</span> <span class="token string">' '</span> <span class="token operator">&lt;&lt;</span> p2<span class="token punctuation">.</span>second <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+    Pair<span class="token operator">&lt;</span><span class="token keyword keyword-double">double</span><span class="token operator">&gt;</span> p3<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-54-close">{</span> <span class="token number">7.8</span><span class="token punctuation">,</span> <span class="token number">9.0</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-54-open">}</span><span class="token punctuation">;</span> <span class="token comment">// creates object p3 using prior definition for Pair&lt;double&gt;</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> p3<span class="token punctuation">.</span>first <span class="token operator">&lt;&lt;</span> <span class="token string">' '</span> <span class="token operator">&lt;&lt;</span> p3<span class="token punctuation">.</span>second <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-55-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  Just like with function templates, we start a class template definition with a
+  template parameter declaration. We begin with the
+  <code>template</code> keyword. Next, we specify all of the template types that
+  our class template will use inside angled brackets (&lt;&gt;). For each
+  template type that we need, we use the keyword
+  <code>typename</code> (preferred) or <code>class</code> (not preferred),
+  followed by the name of the template type (e.g. <code>T</code>). In this case,
+  since both of our members will be the same type, we only need one template
+  type.
+</p>
+<div
+  class="google-auto-placed ap_container"
+  style="width: 100%; height: auto; clear: both; text-align: center"
+>
+  <ins
+    data-ad-format="auto"
+    class="adsbygoogle adsbygoogle-noablate"
+    data-ad-client="ca-pub-0588844875925051"
+    data-adsbygoogle-status="done"
+    style="
+      display: block;
+      margin: auto;
+      background-color: transparent;
+      height: 0px;
+    "
+    ><div
+      id="aswift_8_host"
+      style="
+        border: none;
+        height: 0px;
+        width: 1027px;
+        margin: 0px;
+        padding: 0px;
+        position: relative;
+        visibility: visible;
+        background-color: transparent;
+        display: inline-block;
+        overflow: hidden;
+        opacity: 0;
+      "
+    >
+      <iframe
+        id="aswift_8"
+        name="aswift_8"
+        browsingtopics="true"
+        style="
+          left: 0px;
+          position: absolute;
+          top: 0px;
+          border: 0px;
+          width: 1027px;
+          height: 0px;
+          min-height: auto;
+          max-height: none;
+          min-width: auto;
+          max-width: none;
+        "
+        sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation"
+        width="1027"
+        height="0"
+        frameborder="0"
+        marginwidth="0"
+        marginheight="0"
+        vspace="0"
+        hspace="0"
+        allowtransparency="true"
+        scrolling="no"
+        allow="attribution-reporting; run-ad-auction"
+        src="https://googleads.g.doubleclick.net/pagead/ads?client=ca-pub-0588844875925051&amp;output=html&amp;h=280&amp;adk=3680473673&amp;adf=3560911407&amp;w=1027&amp;abgtt=11&amp;fwrn=4&amp;fwrnh=100&amp;lmt=1751027764&amp;num_ads=1&amp;rafmt=1&amp;armr=3&amp;sem=mc&amp;pwprc=4633386603&amp;ad_type=text_image&amp;format=1027x280&amp;url=https%3A%2F%2Fwww.learncpp.com%2Fcpp-tutorial%2Fclass-templates%2F&amp;fwr=0&amp;pra=3&amp;rh=200&amp;rw=1026&amp;rpe=1&amp;resp_fmts=3&amp;wgl=1&amp;fa=27&amp;uach=WyJXaW5kb3dzIiwiMTkuMC4wIiwieDg2IiwiIiwiMTM3LjAuNzE1MS4xMjIiLG51bGwsMCxudWxsLCI2NCIsW1siR29vZ2xlIENocm9tZSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJDaHJvbWl1bSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJOb3QvQSlCcmFuZCIsIjI0LjAuMC4wIl1dLDBd&amp;dt=1751962835808&amp;bpp=1&amp;bdt=1163&amp;idt=1&amp;shv=r20250702&amp;mjsv=m202507020101&amp;ptt=9&amp;saldr=aa&amp;abxe=1&amp;cookie=ID%3D05f6e82287d810b4%3AT%3D1751962604%3ART%3D1751962604%3AS%3DALNI_MaQYA0TSAU2k8xwY5tqlN0xFCcd6g&amp;gpic=UID%3D00001157d9e27d0a%3AT%3D1751962604%3ART%3D1751962604%3AS%3DALNI_MYgtHzQJAQQXY_151HTGSSfVxE8_A&amp;eo_id_str=ID%3D52c21936d98c6d2b%3AT%3D1751962604%3ART%3D1751962604%3AS%3DAA-AfjZsJ15yjdEPJ8d11hPojsJQ&amp;prev_fmts=0x0%2C336x280%2C160x600%2C160x600%2C1027x280%2C1027x280%2C1027x280&amp;nras=5&amp;correlator=3721011639715&amp;frm=20&amp;pv=1&amp;u_tz=480&amp;u_his=2&amp;u_h=600&amp;u_w=800&amp;u_ah=600&amp;u_aw=800&amp;u_cd=24&amp;u_sd=1&amp;dmc=8&amp;adx=27&amp;ady=4018&amp;biw=1080&amp;bih=1024&amp;scr_x=0&amp;scr_y=0&amp;eid=31093234%2C95353386%2C95362655%2C95365226%2C95365235%2C95365109%2C95359266%2C95365119%2C95365797&amp;oid=2&amp;pvsid=3286122920147080&amp;tmod=1708485235&amp;uas=0&amp;nvt=1&amp;fc=1408&amp;brdim=10%2C10%2C10%2C10%2C800%2C0%2C780%2C580%2C1080%2C1024&amp;vis=1&amp;rsz=%7C%7Cs%7C&amp;abl=NS&amp;fu=128&amp;bc=31&amp;bz=0.72&amp;td=1&amp;tdf=2&amp;psd=W251bGwsbnVsbCxudWxsLDNd&amp;nt=1&amp;ifi=9&amp;uci=a!9&amp;btvi=4&amp;fsb=1&amp;dtd=158"
+        data-google-container-id="a!9"
+        tabindex="0"
+        title="Advertisement"
+        aria-label="Advertisement"
+        data-load-complete="true"
+        data-google-query-id="CPTMxJPqrI4DFdut6QUdgDQseg"
+      ></iframe></div
+  ></ins>
+</div>
+<p>
+  Next, we define our struct like usual, except we can use our template type
+  (<code>T</code>) wherever we want a templated type that will be replaced with
+  a real type later. That’s it! We’re done with the class template definition.
+</p>
+<div class="code-block code-block-4" style="margin: 8px 0; clear: both"></div>
+
+<p>
+  Inside main, we can instantiate <code>Pair</code> objects using whatever types
+  we desire. First, we instantiate an object of type
+  <code>Pair&lt;int&gt;</code>. Because a type definition for
+  <code>Pair&lt;int&gt;</code> doesn’t exist yet, the compiler uses the class
+  template to instantiate a struct type definition named
+  <code>Pair&lt;int&gt;</code>, where all occurrences of template type
+  <code>T</code> are replaced by type <code>int</code>.
+</p>
+<p>
+  Next, we instantiate an object of type <code>Pair&lt;double&gt;</code>, which
+  instantiates a struct type definition named
+  <code>Pair&lt;double&gt;</code> where <code>T</code> is replaced by
+  <code>double</code>. For <code>p3</code>, <code>Pair&lt;double&gt;</code> has
+  already been instantiated, so the compiler will use the prior type definition.
+</p>
+<p>
+  Here’s the same example as above, showing what the compiler actually compiles
+  after all template instantiations are done:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token comment">// A declaration for our Pair class template</span>
+<span class="token comment">// (we don't need the definition any more since it's not used)</span>
+<span class="token keyword keyword-template">template</span> <span class="token operator">&lt;</span><span class="token keyword keyword-typename">typename</span> <span class="token class-name">T</span><span class="token operator">&gt;</span>
+<span class="token keyword keyword-struct">struct</span> <span class="token class-name">Pair</span><span class="token punctuation">;</span>
+
+<span class="token comment">// Explicitly define what Pair&lt;int&gt; looks like</span>
+<span class="token keyword keyword-template">template</span> <span class="token operator">&lt;</span><span class="token operator">&gt;</span> <span class="token comment">// tells the compiler this is a template type with no template parameters</span>
+<span class="token keyword keyword-struct">struct</span> <span class="token class-name">Pair</span><span class="token operator">&lt;</span><span class="token keyword keyword-int">int</span><span class="token operator">&gt;</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-59-close">{</span>
+    <span class="token keyword keyword-int">int</span> first<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-57-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-57-open">}</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-int">int</span> second<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-58-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-58-open">}</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-59-open">}</span><span class="token punctuation">;</span>
+
+<span class="token comment">// Explicitly define what Pair&lt;double&gt; looks like</span>
+<span class="token keyword keyword-template">template</span> <span class="token operator">&lt;</span><span class="token operator">&gt;</span> <span class="token comment">// tells the compiler this is a template type with no template parameters</span>
+<span class="token keyword keyword-struct">struct</span> <span class="token class-name">Pair</span><span class="token operator">&lt;</span><span class="token keyword keyword-double">double</span><span class="token operator">&gt;</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-62-close">{</span>
+    <span class="token keyword keyword-double">double</span> first<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-60-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-60-open">}</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-double">double</span> second<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-61-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-61-open">}</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-62-open">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-56-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-56-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-66-close">{</span>
+    Pair<span class="token operator">&lt;</span><span class="token keyword keyword-int">int</span><span class="token operator">&gt;</span> p1<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-63-close">{</span> <span class="token number">5</span><span class="token punctuation">,</span> <span class="token number">6</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-63-open">}</span><span class="token punctuation">;</span>        <span class="token comment">// instantiates Pair&lt;int&gt; and creates object p1</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> p1<span class="token punctuation">.</span>first <span class="token operator">&lt;&lt;</span> <span class="token string">' '</span> <span class="token operator">&lt;&lt;</span> p1<span class="token punctuation">.</span>second <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+    Pair<span class="token operator">&lt;</span><span class="token keyword keyword-double">double</span><span class="token operator">&gt;</span> p2<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-64-close">{</span> <span class="token number">1.2</span><span class="token punctuation">,</span> <span class="token number">3.4</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-64-open">}</span><span class="token punctuation">;</span> <span class="token comment">// instantiates Pair&lt;double&gt; and creates object p2</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> p2<span class="token punctuation">.</span>first <span class="token operator">&lt;&lt;</span> <span class="token string">' '</span> <span class="token operator">&lt;&lt;</span> p2<span class="token punctuation">.</span>second <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+    Pair<span class="token operator">&lt;</span><span class="token keyword keyword-double">double</span><span class="token operator">&gt;</span> p3<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-65-close">{</span> <span class="token number">7.8</span><span class="token punctuation">,</span> <span class="token number">9.0</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-65-open">}</span><span class="token punctuation">;</span> <span class="token comment">// creates object p3 using prior definition for Pair&lt;double&gt;</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> p3<span class="token punctuation">.</span>first <span class="token operator">&lt;&lt;</span> <span class="token string">' '</span> <span class="token operator">&lt;&lt;</span> p3<span class="token punctuation">.</span>second <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-66-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>You can compile this example directly and see that it works as expected!</p>
+<div class="cpp-note cpp-lightgraybackground">
+  <p class="cpp-note-title cpp-bottomline">For advanced readers</p>
+  <p>
+    The above example makes use of a feature called class template
+    specialization (covered in future lesson
+    <a
+      href="https://www.learncpp.com/cpp-tutorial/class-template-specialization/"
+      >26.4 -- Class template specialization</a
+    >). Knowledge of how this feature works is not required at this point.
+  </p>
+</div>
+<p class="cpp-section cpp-topline" style="clear: both">
+  Using our class template in a function
+</p>
+<div
+  class="google-auto-placed ap_container"
+  style="width: 100%; height: auto; clear: both; text-align: center"
+>
+  <ins
+    data-ad-format="auto"
+    class="adsbygoogle adsbygoogle-noablate"
+    data-ad-client="ca-pub-0588844875925051"
+    data-adsbygoogle-status="done"
+    style="
+      display: block;
+      margin: auto;
+      background-color: transparent;
+      height: 280px;
+    "
+    ><div
+      id="aswift_9_host"
+      style="
+        border: none;
+        height: 280px;
+        width: 1027px;
+        margin: 0px;
+        padding: 0px;
+        position: relative;
+        visibility: visible;
+        background-color: transparent;
+        display: inline-block;
+      "
+    ></div
+  ></ins>
+</div>
+<div class="code-block code-block-5" style="margin: 8px 0; clear: both"></div>
+
+<p>
+  Now let’s return to the challenge of making our <code>max()</code> function
+  work with different types. Because the compiler treats
+  <code>Pair&lt;int&gt;</code> and <code>Pair&lt;double&gt;</code> as separate
+  types, we could use overloaded functions that are differentiated by parameter
+  type:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-constexpr">constexpr</span> <span class="token keyword keyword-int">int</span> <span class="token function">max</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-67-close">(</span>Pair<span class="token operator">&lt;</span><span class="token keyword keyword-int">int</span><span class="token operator">&gt;</span> p<span class="token punctuation brace-round brace-close brace-level-1" id="pair-67-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-71-close">{</span>
+    <span class="token keyword keyword-return">return</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-68-close">(</span>p<span class="token punctuation">.</span>first <span class="token operator">&lt;</span> p<span class="token punctuation">.</span>second <span class="token operator">?</span> p<span class="token punctuation">.</span>second <span class="token operator">:</span> p<span class="token punctuation">.</span>first<span class="token punctuation brace-round brace-close brace-level-2" id="pair-68-open">)</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-71-open">}</span>
+
+<span class="token keyword keyword-constexpr">constexpr</span> <span class="token keyword keyword-double">double</span> <span class="token function">max</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-69-close">(</span>Pair<span class="token operator">&lt;</span><span class="token keyword keyword-double">double</span><span class="token operator">&gt;</span> p<span class="token punctuation brace-round brace-close brace-level-1" id="pair-69-open">)</span> <span class="token comment">// okay: overloaded function differentiated by parameter type</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-72-close">{</span>
+    <span class="token keyword keyword-return">return</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-70-close">(</span>p<span class="token punctuation">.</span>first <span class="token operator">&lt;</span> p<span class="token punctuation">.</span>second <span class="token operator">?</span> p<span class="token punctuation">.</span>second <span class="token operator">:</span> p<span class="token punctuation">.</span>first<span class="token punctuation brace-round brace-close brace-level-2" id="pair-70-open">)</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-72-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  While this compiles, it doesn’t solve the redundancy problem. What we really
+  want is a function that can take a pair of any type. In other words, we want a
+  function that takes a parameter of type <code>Pair&lt;T&gt;</code>, where T is
+  a template type parameter. And that means we need a function template for this
+  job!
+</p>
+<p>
+  Here’s a full example, with <code>max()</code> being implemented as a function
+  template:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-template">template</span> <span class="token operator">&lt;</span><span class="token keyword keyword-typename">typename</span> <span class="token class-name">T</span><span class="token operator">&gt;</span>
+<span class="token keyword keyword-struct">struct</span> <span class="token class-name">Pair</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-80-close">{</span>
+    T first<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-78-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-78-open">}</span><span class="token punctuation">;</span>
+    T second<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-79-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-79-open">}</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-80-open">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword keyword-template">template</span> <span class="token operator">&lt;</span><span class="token keyword keyword-typename">typename</span> <span class="token class-name">T</span><span class="token operator">&gt;</span>
+<span class="token keyword keyword-constexpr">constexpr</span> T <span class="token function">max</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-73-close">(</span>Pair<span class="token operator">&lt;</span>T<span class="token operator">&gt;</span> p<span class="token punctuation brace-round brace-close brace-level-1" id="pair-73-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-81-close">{</span>
+    <span class="token keyword keyword-return">return</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-74-close">(</span>p<span class="token punctuation">.</span>first <span class="token operator">&lt;</span> p<span class="token punctuation">.</span>second <span class="token operator">?</span> p<span class="token punctuation">.</span>second <span class="token operator">:</span> p<span class="token punctuation">.</span>first<span class="token punctuation brace-round brace-close brace-level-2" id="pair-74-open">)</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-81-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-75-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-75-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-84-close">{</span>
+    Pair<span class="token operator">&lt;</span><span class="token keyword keyword-int">int</span><span class="token operator">&gt;</span> p1<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-82-close">{</span> <span class="token number">5</span><span class="token punctuation">,</span> <span class="token number">6</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-82-open">}</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token generic-function"><span class="token function">max</span><span class="token generic class-name"><span class="token operator">&lt;</span><span class="token keyword keyword-int">int</span><span class="token operator">&gt;</span></span></span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-76-close">(</span>p1<span class="token punctuation brace-round brace-close brace-level-2" id="pair-76-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">" is larger\n"</span><span class="token punctuation">;</span> <span class="token comment">// explicit call to max&lt;int&gt;</span>
+
+    Pair<span class="token operator">&lt;</span><span class="token keyword keyword-double">double</span><span class="token operator">&gt;</span> p2<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-83-close">{</span> <span class="token number">1.2</span><span class="token punctuation">,</span> <span class="token number">3.4</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-83-open">}</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token function">max</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-77-close">(</span>p2<span class="token punctuation brace-round brace-close brace-level-2" id="pair-77-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">" is larger\n"</span><span class="token punctuation">;</span> <span class="token comment">// call to max&lt;double&gt; using template argument deduction (prefer this)</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-84-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  The <code>max()</code> function template is pretty straightforward. Because we
+  want to pass in a <code>Pair&lt;T&gt;</code>, we need the compiler to
+  understand what <code>T</code> is. Therefore, we need to start our function
+  with a template parameter declaration that defines template type T. We can
+  then use <code>T</code> as both our return type, and as the template type for
+  <code>Pair&lt;T&gt;</code>.
+</p>
+<div
+  class="google-auto-placed ap_container"
+  style="width: 100%; height: auto; clear: both; text-align: center"
+>
+  <ins
+    data-ad-format="auto"
+    class="adsbygoogle adsbygoogle-noablate"
+    data-ad-client="ca-pub-0588844875925051"
+    data-adsbygoogle-status="done"
+    style="
+      display: block;
+      margin: auto;
+      background-color: transparent;
+      height: 280px;
+    "
+    ><div
+      id="aswift_10_host"
+      style="
+        border: none;
+        height: 280px;
+        width: 1027px;
+        margin: 0px;
+        padding: 0px;
+        position: relative;
+        visibility: visible;
+        background-color: transparent;
+        display: inline-block;
+      "
+    ></div
+  ></ins>
+</div>
+<p>
+  When the <code>max()</code> function is called with a
+  <code>Pair&lt;int&gt;</code> argument, the compiler will instantiate the
+  function <code>int max&lt;int&gt;(Pair&lt;int&gt;)</code> from the function
+  template, where template type <code>T</code> is replaced with
+  <code>int</code>. The following snippet shows what the compiler actually
+  instantiates in such a case:
+</p>
+<div class="code-block code-block-6" style="margin: 8px 0; clear: both"></div>
+
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-template">template</span> <span class="token operator">&lt;</span><span class="token operator">&gt;</span>
+<span class="token keyword keyword-constexpr">constexpr</span> <span class="token keyword keyword-int">int</span> <span class="token function">max</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-85-close">(</span>Pair<span class="token operator">&lt;</span><span class="token keyword keyword-int">int</span><span class="token operator">&gt;</span> p<span class="token punctuation brace-round brace-close brace-level-1" id="pair-85-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-87-close">{</span>
+    <span class="token keyword keyword-return">return</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-86-close">(</span>p<span class="token punctuation">.</span>first <span class="token operator">&lt;</span> p<span class="token punctuation">.</span>second <span class="token operator">?</span> p<span class="token punctuation">.</span>second <span class="token operator">:</span> p<span class="token punctuation">.</span>first<span class="token punctuation brace-round brace-close brace-level-2" id="pair-86-open">)</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-87-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  As with all calls to a function template, we can either be explicit about the
+  template type argument (e.g. <code>max&lt;int&gt;(p1)</code>) or we can be
+  implicit (e.g. <code>max(p2)</code>) and let the compiler use template
+  argument deduction to determine what the template type argument should be.
+</p>
+<p class="cpp-section cpp-topline" style="clear: both">
+  Class templates with template type and non-template type members
+</p>
+<p>
+  Class templates can have some members using a template type and other members
+  using a normal (non-template) type. For example:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-template">template</span> <span class="token operator">&lt;</span><span class="token keyword keyword-typename">typename</span> <span class="token class-name">T</span><span class="token operator">&gt;</span>
+<span class="token keyword keyword-struct">struct</span> <span class="token class-name">Foo</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-90-close">{</span>
+    T first<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-88-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-88-open">}</span><span class="token punctuation">;</span>    <span class="token comment">// first will have whatever type T is replaced with</span>
+    <span class="token keyword keyword-int">int</span> second<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-89-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-89-open">}</span><span class="token punctuation">;</span> <span class="token comment">// second will always have type int, regardless of what type T is</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-90-open">}</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  This works exactly like you’d expect: <code>first</code> will be whatever the
+  template type <code>T</code> is, and <code>second</code> will always be an
+  <code>int</code>.
+</p>
+<div
+  class="google-auto-placed ap_container"
+  style="width: 100%; height: auto; clear: both; text-align: center"
+>
+  <ins
+    data-ad-format="auto"
+    class="adsbygoogle adsbygoogle-noablate"
+    data-ad-client="ca-pub-0588844875925051"
+    data-adsbygoogle-status="done"
+    style="
+      display: block;
+      margin: auto;
+      background-color: transparent;
+      height: 280px;
+    "
+    ><div
+      id="aswift_11_host"
+      style="
+        border: none;
+        height: 280px;
+        width: 1027px;
+        margin: 0px;
+        padding: 0px;
+        position: relative;
+        visibility: visible;
+        background-color: transparent;
+        display: inline-block;
+      "
+    ></div
+  ></ins>
+</div>
+<p class="cpp-section cpp-topline" style="clear: both">
+  Class templates with multiple template types
+</p>
+<div class="code-block code-block-7" style="margin: 8px 0; clear: both"></div>
+
+<p>
+  Class templates can also have multiple template types. For example, if we
+  wanted the two members of our <code>Pair</code> class to be able to have
+  different types, we can define our <code>Pair</code> class template with two
+  template types:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-template">template</span> <span class="token operator">&lt;</span><span class="token keyword keyword-typename">typename</span> <span class="token class-name">T</span><span class="token punctuation">,</span> <span class="token keyword keyword-typename">typename</span> <span class="token class-name">U</span><span class="token operator">&gt;</span>
+<span class="token keyword keyword-struct">struct</span> <span class="token class-name">Pair</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-96-close">{</span>
+    T first<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-94-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-94-open">}</span><span class="token punctuation">;</span>
+    U second<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-95-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-95-open">}</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-96-open">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword keyword-template">template</span> <span class="token operator">&lt;</span><span class="token keyword keyword-typename">typename</span> <span class="token class-name">T</span><span class="token punctuation">,</span> <span class="token keyword keyword-typename">typename</span> <span class="token class-name">U</span><span class="token operator">&gt;</span>
+<span class="token keyword keyword-void">void</span> <span class="token function">print</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-91-close">(</span>Pair<span class="token operator">&lt;</span>T<span class="token punctuation">,</span> U<span class="token operator">&gt;</span> p<span class="token punctuation brace-round brace-close brace-level-1" id="pair-91-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-97-close">{</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">'['</span> <span class="token operator">&lt;&lt;</span> p<span class="token punctuation">.</span>first <span class="token operator">&lt;&lt;</span> <span class="token string">", "</span> <span class="token operator">&lt;&lt;</span> p<span class="token punctuation">.</span>second <span class="token operator">&lt;&lt;</span> <span class="token string">']'</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-97-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-92-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-92-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-101-close">{</span>
+    Pair<span class="token operator">&lt;</span><span class="token keyword keyword-int">int</span><span class="token punctuation">,</span> <span class="token keyword keyword-double">double</span><span class="token operator">&gt;</span> p1<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-98-close">{</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2.3</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-98-open">}</span><span class="token punctuation">;</span> <span class="token comment">// a pair holding an int and a double</span>
+    Pair<span class="token operator">&lt;</span><span class="token keyword keyword-double">double</span><span class="token punctuation">,</span> <span class="token keyword keyword-int">int</span><span class="token operator">&gt;</span> p2<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-99-close">{</span> <span class="token number">4.5</span><span class="token punctuation">,</span> <span class="token number">6</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-99-open">}</span><span class="token punctuation">;</span> <span class="token comment">// a pair holding a double and an int</span>
+    Pair<span class="token operator">&lt;</span><span class="token keyword keyword-int">int</span><span class="token punctuation">,</span> <span class="token keyword keyword-int">int</span><span class="token operator">&gt;</span> p3<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-100-close">{</span> <span class="token number">7</span><span class="token punctuation">,</span> <span class="token number">8</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-100-open">}</span><span class="token punctuation">;</span>      <span class="token comment">// a pair holding two ints</span>
+
+    <span class="token function">print</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-93-close">(</span>p2<span class="token punctuation brace-round brace-close brace-level-2" id="pair-93-open">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-101-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  To define multiple template types, in our template parameter declaration, we
+  separate each of our desired template types with a comma. In the above example
+  we define two different template types, one named <code>T</code>, and one
+  named <code>U</code>. The actual template type arguments for
+  <code>T</code> and <code>U</code> can be different (as in the case of
+  <code>p1</code> and <code>p2</code> above) or the same (as in the case of
+  <code>p3</code>).
+</p>
+<div
+  class="google-auto-placed ap_container"
+  style="width: 100%; height: auto; clear: both; text-align: center"
+>
+  <ins
+    data-ad-format="auto"
+    class="adsbygoogle adsbygoogle-noablate"
+    data-ad-client="ca-pub-0588844875925051"
+    data-adsbygoogle-status="done"
+    style="
+      display: block;
+      margin: auto;
+      background-color: transparent;
+      height: 280px;
+    "
+    ><div
+      id="aswift_12_host"
+      style="
+        border: none;
+        height: 280px;
+        width: 1027px;
+        margin: 0px;
+        padding: 0px;
+        position: relative;
+        visibility: visible;
+        background-color: transparent;
+        display: inline-block;
+      "
+    ></div
+  ></ins>
+</div>
+<p class="cpp-section cpp-topline" style="clear: both">
+  Making a function template work with more than one class type
+</p>
+<p>
+  Consider the <code>print()</code> function template from the above example:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-template">template</span> <span class="token operator">&lt;</span><span class="token keyword keyword-typename">typename</span> <span class="token class-name">T</span><span class="token punctuation">,</span> <span class="token keyword keyword-typename">typename</span> <span class="token class-name">U</span><span class="token operator">&gt;</span>
+<span class="token keyword keyword-void">void</span> <span class="token function">print</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-102-close">(</span>Pair<span class="token operator">&lt;</span>T<span class="token punctuation">,</span> U<span class="token operator">&gt;</span> p<span class="token punctuation brace-round brace-close brace-level-1" id="pair-102-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-103-close">{</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">'['</span> <span class="token operator">&lt;&lt;</span> p<span class="token punctuation">.</span>first <span class="token operator">&lt;&lt;</span> <span class="token string">", "</span> <span class="token operator">&lt;&lt;</span> p<span class="token punctuation">.</span>second <span class="token operator">&lt;&lt;</span> <span class="token string">']'</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-103-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  Because we’ve explicitly defined the function parameter as a
+  <code>Pair&lt;T, U&gt;</code>, only arguments of type
+  <code>Pair&lt;T, U&gt;</code> (or those that can be converted to a
+  <code>Pair&lt;T, U&gt;</code>) will match. This is ideal if we only want to be
+  able to call our function with a <code>Pair&lt;T, U&gt;</code> argument.
+</p>
+<div class="code-block code-block-8" style="margin: 8px 0; clear: both"></div>
+
+<p>
+  In some cases, we may write function templates that we want to use with any
+  type that will successfully compile. To do that, we simply use a type template
+  parameter as the function parameter instead.
+</p>
+<p>For example:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-template">template</span> <span class="token operator">&lt;</span><span class="token keyword keyword-typename">typename</span> <span class="token class-name">T</span><span class="token punctuation">,</span> <span class="token keyword keyword-typename">typename</span> <span class="token class-name">U</span><span class="token operator">&gt;</span>
+<span class="token keyword keyword-struct">struct</span> <span class="token class-name">Pair</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-110-close">{</span>
+    T first<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-108-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-108-open">}</span><span class="token punctuation">;</span>
+    U second<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-109-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-109-open">}</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-110-open">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword keyword-struct">struct</span> <span class="token class-name">Point</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-113-close">{</span>
+    <span class="token keyword keyword-int">int</span> first<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-111-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-111-open">}</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-int">int</span> second<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-112-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-112-open">}</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-113-open">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword keyword-template">template</span> <span class="token operator">&lt;</span><span class="token keyword keyword-typename">typename</span> <span class="token class-name">T</span><span class="token operator">&gt;</span>
+<span class="token keyword keyword-void">void</span> <span class="token function">print</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-104-close">(</span>T p<span class="token punctuation brace-round brace-close brace-level-1" id="pair-104-open">)</span> <span class="token comment">// type template parameter will match anything</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-114-close">{</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">'['</span> <span class="token operator">&lt;&lt;</span> p<span class="token punctuation">.</span>first <span class="token operator">&lt;&lt;</span> <span class="token string">", "</span> <span class="token operator">&lt;&lt;</span> p<span class="token punctuation">.</span>second <span class="token operator">&lt;&lt;</span> <span class="token string">']'</span><span class="token punctuation">;</span> <span class="token comment">// will only compile if type has first and second members</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-114-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-105-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-105-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-117-close">{</span>
+    Pair<span class="token operator">&lt;</span><span class="token keyword keyword-double">double</span><span class="token punctuation">,</span> <span class="token keyword keyword-int">int</span><span class="token operator">&gt;</span> p1<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-115-close">{</span> <span class="token number">4.5</span><span class="token punctuation">,</span> <span class="token number">6</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-115-open">}</span><span class="token punctuation">;</span>
+    <span class="token function">print</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-106-close">(</span>p1<span class="token punctuation brace-round brace-close brace-level-2" id="pair-106-open">)</span><span class="token punctuation">;</span> <span class="token comment">// matches print(Pair&lt;double, int&gt;)</span>
+
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+    Point p2 <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-116-close">{</span> <span class="token number">7</span><span class="token punctuation">,</span> <span class="token number">8</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-116-open">}</span><span class="token punctuation">;</span>
+    <span class="token function">print</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-107-close">(</span>p2<span class="token punctuation brace-round brace-close brace-level-2" id="pair-107-open">)</span><span class="token punctuation">;</span> <span class="token comment">// matches print(Point)</span>
+
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-117-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  In the above example, we’ve rewritten <code>print()</code> so that it has only
+  a single type template parameter (<code>T</code>), which will match any type.
+  The body of the function will compile successfully for any class type that has
+  a <code>first</code> and <code>second</code> member. We demonstrate this by
+  calling <code>print()</code> with an object of type
+  <code>Pair&lt;double, int&gt;</code>, and then again with an object of type
+  <code>Point</code>.
+</p>
+<div
+  class="google-auto-placed ap_container"
+  style="width: 100%; height: auto; clear: both; text-align: center"
+>
+  <ins
+    data-ad-format="auto"
+    class="adsbygoogle adsbygoogle-noablate"
+    data-ad-client="ca-pub-0588844875925051"
+    data-adsbygoogle-status="done"
+    style="
+      display: block;
+      margin: auto;
+      background-color: transparent;
+      height: 280px;
+    "
+    ><div
+      id="aswift_13_host"
+      style="
+        border: none;
+        height: 280px;
+        width: 1027px;
+        margin: 0px;
+        padding: 0px;
+        position: relative;
+        visibility: visible;
+        background-color: transparent;
+        display: inline-block;
+      "
+    ></div
+  ></ins>
+</div>
+<p>
+  There is one case that can be misleading. Consider the following version of
+  <code>print()</code>:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-template">template</span> <span class="token operator">&lt;</span><span class="token keyword keyword-typename">typename</span> <span class="token class-name">T</span><span class="token punctuation">,</span> <span class="token keyword keyword-typename">typename</span> <span class="token class-name">U</span><span class="token operator">&gt;</span>
+<span class="token keyword keyword-struct">struct</span> <span class="token class-name">Pair</span> <span class="token comment">// defines a class type named Pair</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-121-close">{</span>
+    T first<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-119-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-119-open">}</span><span class="token punctuation">;</span>
+    U second<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-120-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-120-open">}</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-121-open">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword keyword-template">template</span> <span class="token operator">&lt;</span><span class="token keyword keyword-typename">typename</span> <span class="token class-name">Pair</span><span class="token operator">&gt;</span> <span class="token comment">// defines a type template parameter named Pair (shadows Pair class type)</span>
+<span class="token keyword keyword-void">void</span> <span class="token function">print</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-118-close">(</span>Pair p<span class="token punctuation brace-round brace-close brace-level-1" id="pair-118-open">)</span>       <span class="token comment">// this refers to template parameter Pair, not class type Pair</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-122-close">{</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">'['</span> <span class="token operator">&lt;&lt;</span> p<span class="token punctuation">.</span>first <span class="token operator">&lt;&lt;</span> <span class="token string">", "</span> <span class="token operator">&lt;&lt;</span> p<span class="token punctuation">.</span>second <span class="token operator">&lt;&lt;</span> <span class="token string">']'</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-122-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  You might expect that this function will only match when called with a
+  <code>Pair</code> class type argument. But this version of
+  <code>print()</code> is functionally identically to the prior version where
+  the template parameter was named <code>T</code>, and will match with
+  <em>any</em> type. The issue here is that when we define <code>Pair</code> as
+  a type template parameter, it shadows other uses of the name
+  <code>Pair</code> within the global scope. So within the function template,
+  <code>Pair </code> refers to the template parameter <code>Pair</code>, not the
+  class type <code>Pair</code>. And since a type template parameter will match
+  to any type, this <code>Pair</code> matches to any argument type, not just
+  those of class type <code>Pair</code>!
+</p>
+<p>
+  This is a good reason to stick to simple template parameter names, such a
+  <code>T</code>, <code>U</code>, <code>N</code>, as they are less likely to
+  shadow a class type name.
+</p>
+<p class="cpp-section cpp-topline" style="clear: both">std::pair</p>
+<p>
+  Because working with pairs of data is common, the C++ standard library
+  contains a class template named <code>std::pair</code> (in the
+  <code>&lt;utility&gt;</code> header) that is defined identically to the
+  <code>Pair</code> class template with multiple template types in the preceding
+  section. In fact, we can swap out the <code>pair</code> struct we developed
+  for <code>std::pair</code>:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;utility&gt;</span></span>
+
+<span class="token keyword keyword-template">template</span> <span class="token operator">&lt;</span><span class="token keyword keyword-typename">typename</span> <span class="token class-name">T</span><span class="token punctuation">,</span> <span class="token keyword keyword-typename">typename</span> <span class="token class-name">U</span><span class="token operator">&gt;</span>
+<span class="token keyword keyword-void">void</span> <span class="token function">print</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-123-close">(</span>std<span class="token double-colon punctuation">::</span>pair<span class="token operator">&lt;</span>T<span class="token punctuation">,</span> U<span class="token operator">&gt;</span> p<span class="token punctuation brace-round brace-close brace-level-1" id="pair-123-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-126-close">{</span>
+    <span class="token comment">// the members of std::pair have predefined names `first` and `second`</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">'['</span> <span class="token operator">&lt;&lt;</span> p<span class="token punctuation">.</span>first <span class="token operator">&lt;&lt;</span> <span class="token string">", "</span> <span class="token operator">&lt;&lt;</span> p<span class="token punctuation">.</span>second <span class="token operator">&lt;&lt;</span> <span class="token string">']'</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-126-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-124-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-124-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-130-close">{</span>
+    std<span class="token double-colon punctuation">::</span>pair<span class="token operator">&lt;</span><span class="token keyword keyword-int">int</span><span class="token punctuation">,</span> <span class="token keyword keyword-double">double</span><span class="token operator">&gt;</span> p1<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-127-close">{</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2.3</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-127-open">}</span><span class="token punctuation">;</span> <span class="token comment">// a pair holding an int and a double</span>
+    std<span class="token double-colon punctuation">::</span>pair<span class="token operator">&lt;</span><span class="token keyword keyword-double">double</span><span class="token punctuation">,</span> <span class="token keyword keyword-int">int</span><span class="token operator">&gt;</span> p2<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-128-close">{</span> <span class="token number">4.5</span><span class="token punctuation">,</span> <span class="token number">6</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-128-open">}</span><span class="token punctuation">;</span> <span class="token comment">// a pair holding a double and an int</span>
+    std<span class="token double-colon punctuation">::</span>pair<span class="token operator">&lt;</span><span class="token keyword keyword-int">int</span><span class="token punctuation">,</span> <span class="token keyword keyword-int">int</span><span class="token operator">&gt;</span> p3<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-129-close">{</span> <span class="token number">7</span><span class="token punctuation">,</span> <span class="token number">8</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-129-open">}</span><span class="token punctuation">;</span>      <span class="token comment">// a pair holding two ints</span>
+
+    <span class="token function">print</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-125-close">(</span>p2<span class="token punctuation brace-round brace-close brace-level-2" id="pair-125-open">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-130-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  We developed our own <code>Pair</code> class in this lesson to show how things
+  work, but in real code, you should favor <code>std::pair</code> over writing
+  your own.
+</p>
+<p class="cpp-section cpp-topline" style="clear: both">
+  Using class templates in multiple files
+</p>
+<p>
+  Just like function templates, class templates are typically defined in header
+  files so they can be included into any code file that needs them. Both
+  template definitions and type definitions are exempt from the one-definition
+  rule, so this won’t cause problems:
+</p>
+<p>pair.h:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">ifndef</span> <span class="token expression">PAIR_H</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">PAIR_H</span></span>
+
+<span class="token keyword keyword-template">template</span> <span class="token operator">&lt;</span><span class="token keyword keyword-typename">typename</span> <span class="token class-name">T</span><span class="token operator">&gt;</span>
+<span class="token keyword keyword-struct">struct</span> <span class="token class-name">Pair</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-135-close">{</span>
+    T first<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-133-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-133-open">}</span><span class="token punctuation">;</span>
+    T second<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-134-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-134-open">}</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-135-open">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword keyword-template">template</span> <span class="token operator">&lt;</span><span class="token keyword keyword-typename">typename</span> <span class="token class-name">T</span><span class="token operator">&gt;</span>
+<span class="token keyword keyword-constexpr">constexpr</span> T <span class="token function">max</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-131-close">(</span>Pair<span class="token operator">&lt;</span>T<span class="token operator">&gt;</span> p<span class="token punctuation brace-round brace-close brace-level-1" id="pair-131-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-136-close">{</span>
+    <span class="token keyword keyword-return">return</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-132-close">(</span>p<span class="token punctuation">.</span>first <span class="token operator">&lt;</span> p<span class="token punctuation">.</span>second <span class="token operator">?</span> p<span class="token punctuation">.</span>second <span class="token operator">:</span> p<span class="token punctuation">.</span>first<span class="token punctuation brace-round brace-close brace-level-2" id="pair-132-open">)</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-136-open">}</span>
+
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">endif</span></span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>foo.cpp:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">"pair.h"</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-void">void</span> <span class="token function">foo</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-137-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-137-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-140-close">{</span>
+    Pair<span class="token operator">&lt;</span><span class="token keyword keyword-int">int</span><span class="token operator">&gt;</span> p1<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-139-close">{</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-139-open">}</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token function">max</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-138-close">(</span>p1<span class="token punctuation brace-round brace-close brace-level-2" id="pair-138-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">" is larger\n"</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-140-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>main.cpp:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">"pair.h"</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-void">void</span> <span class="token function">foo</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-141-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-141-open">)</span><span class="token punctuation">;</span> <span class="token comment">// forward declaration for function foo()</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-142-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-142-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-146-close">{</span>
+    Pair<span class="token operator">&lt;</span><span class="token keyword keyword-double">double</span><span class="token operator">&gt;</span> p2 <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-145-close">{</span> <span class="token number">3.4</span><span class="token punctuation">,</span> <span class="token number">5.6</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-145-open">}</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token function">max</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-143-close">(</span>p2<span class="token punctuation brace-round brace-close brace-level-2" id="pair-143-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">" is larger\n"</span><span class="token punctuation">;</span>
+
+    <span class="token function">foo</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-144-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-144-open">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-146-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<div class="prevnext">
+  <div class="prevnext-inline">
+    <a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/class-template-argument-deduction-ctad-and-deduction-guides/"
+    >
+      <div class="nav-button nav-button-next">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-right" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Next lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">13.14</span>Class template
+            argument deduction (CTAD) and deduction guides
+          </div>
+        </div>
+      </div></a
+    >
+    <a class="nav-link" href="/">
+      <div class="nav-button nav-button-index">
+        <div class="nav-button-icon">
+          <i class="fa fa-home" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Back to table of contents</div>
+        </div>
+      </div></a
+    >
+    <a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/member-selection-with-pointers-and-references/"
+    >
+      <div class="nav-button nav-button-prev">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-left" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Previous lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">13.12</span>Member selection
+            with pointers and references
+          </div>
+        </div>
+      </div></a
+    >
+  </div>
+</div>
+<div class="code-block code-block-10" style="margin: 8px 0; clear: both"></div>

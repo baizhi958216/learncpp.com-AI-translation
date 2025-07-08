@@ -1,0 +1,735 @@
+<div
+  class="code-block code-block-1"
+  style="margin: 8px 8px 8px 0; float: left"
+></div>
+<div class="cpp-note cpp-lightgraybackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Author’s note</p>
+  <p>This lesson is optional.</p>
+  <p>
+    Future lessons reference hexadecimal numbers, so you should at least have a
+    passing familiarity with the concept before proceeding.
+  </p>
+</div>
+<p>
+  In everyday life, we count using <strong>decimal</strong> numbers, where each
+  numerical digit can be 0, 1, 2, 3, 4, 5, 6, 7, 8, or 9. Decimal is also called
+  “base 10”, because there are 10 possible digits (0 through 9). In this system,
+  we count like this: 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, … By default,
+  numbers in C++ programs are assumed to be decimal.
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-int">int</span> x <span class="token punctuation brace-curly brace-open brace-level-1" id="pair-68-close">{</span> <span class="token number">12</span> <span class="token punctuation brace-curly brace-close brace-level-1" id="pair-68-open">}</span><span class="token punctuation">;</span> <span class="token comment">// 12 is assumed to be a decimal number</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  In <strong>binary</strong>, there are only 2 digits: 0 and 1, so it is called
+  “base 2”. In binary, we count like this: 0, 1, 10, 11, 100, 101, 110, 111, …
+  To make them easier to read, longer binary numbers are often space-separated
+  into groups of 4 digits (e.g. 1101 0100).
+</p>
+<p>
+  Decimal and binary are two examples of <strong>numeral systems</strong>, which
+  is a fancy name for a collection of symbols (e.g. digits) used to represent
+  numbers. There are 4 main numeral systems available in C++. In order of
+  popularity, these are: decimal (base 10), binary (base 2), hexadecimal (base
+  16), and octal (base 8).
+</p>
+<div class="cpp-note cpp-lightgraybackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Nomenclature</p>
+  <p>
+    In both decimal and binary, the numbers <code>0</code> and
+    <code>1</code> have the same meaning. In both systems, we call these numbers
+    “zero” and “one”.
+  </p>
+  <p>
+    But what about the number <code>10</code>? <code>10</code> is the number
+    that occurs after the last single-digit number in the number system. In
+    decimal, <code>10</code> is equal to nine plus one. We call this number
+    “ten”.
+  </p>
+  <p>
+    In binary, <code>10</code> uses the same digits, but is equal to one plus
+    one (the equivalent of two in decimal). It would be confusing to call binary
+    <code>10</code> “ten”, because “ten” is nine plus one, and this
+    <code>10</code> is one plus one.
+  </p>
+  <p>
+    Because of this, the names “ten”, “eleven”, “twelve”, etc… are typically
+    reserved for decimal numbers. In non-decimal number systems, we prefer to
+    call those numbers one-zero, one-one, one-two, etc… Binary 101 isn’t “one
+    hundred and one”, it’s “one-zero-one”.
+  </p>
+</div>
+<p class="cpp-section" data-ezoic-video-excluded="1">
+  Octal and hexadecimal literals
+</p>
+<p>
+  <strong>Octal</strong> is base 8 -- that is, the only digits available are: 0,
+  1, 2, 3, 4, 5, 6, and 7. In Octal, we count like this: 0, 1, 2, 3, 4, 5, 6, 7,
+  10, 11, 12, … (note: no 8 and 9, so we skip from 7 to 10).
+</p>
+<div class="cpp-table-wrapper" data-ezoic-video-excluded="1">
+  <p></p>
+  <p></p>
+  <table class="cpp-table" data-ezoic-video-excluded="1">
+    <tbody>
+      <tr>
+        <td>Decimal</td>
+        <td>0</td>
+        <td>1</td>
+        <td>2</td>
+        <td>3</td>
+        <td>4</td>
+        <td>5</td>
+        <td>6</td>
+        <td>7</td>
+        <td>8</td>
+        <td>9</td>
+        <td>10</td>
+        <td>11</td>
+      </tr>
+      <tr>
+        <td>Octal</td>
+        <td>0</td>
+        <td>1</td>
+        <td>2</td>
+        <td>3</td>
+        <td>4</td>
+        <td>5</td>
+        <td>6</td>
+        <td>7</td>
+        <td>10</td>
+        <td>11</td>
+        <td>12</td>
+        <td>13</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<p>To use an octal literal, prefix your literal with a 0 (zero):</p>
+<div class="code-block code-block-2" style="margin: 8px 0; clear: both"></div>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-69-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-69-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-71-close">{</span>
+    <span class="token keyword keyword-int">int</span> x<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-70-close">{</span> <span class="token number">012</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-70-open">}</span><span class="token punctuation">;</span> <span class="token comment">// 0 before the number means this is octal</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> x <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-71-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>This program prints:</p>
+<pre>
+10
+</pre>
+<p>
+  Why 10 instead of 12? Because numbers are output in decimal by default, and 12
+  octal = 10 decimal.
+</p>
+<p>Octal is hardly ever used, and we recommend you avoid it.</p>
+<p>
+  <strong>Hexadecimal</strong> is base 16. In hexadecimal, we count like this:
+  0, 1, 2, 3, 4, 5, 6, 7, 8, 9, A, B, C, D, E, F, 10, 11, 12, …
+</p>
+<div class="cpp-table-wrapper" data-ezoic-video-excluded="1">
+  <p></p>
+  <p></p>
+  <table class="cpp-table" data-ezoic-video-excluded="1">
+    <tbody>
+      <tr>
+        <td>Decimal</td>
+        <td>0</td>
+        <td>1</td>
+        <td>2</td>
+        <td>3</td>
+        <td>4</td>
+        <td>5</td>
+        <td>6</td>
+        <td>7</td>
+        <td>8</td>
+        <td>9</td>
+        <td>10</td>
+        <td>11</td>
+        <td>12</td>
+        <td>13</td>
+        <td>14</td>
+        <td>15</td>
+        <td>16</td>
+        <td>17</td>
+      </tr>
+      <tr>
+        <td>Hexadecimal</td>
+        <td>0</td>
+        <td>1</td>
+        <td>2</td>
+        <td>3</td>
+        <td>4</td>
+        <td>5</td>
+        <td>6</td>
+        <td>7</td>
+        <td>8</td>
+        <td>9</td>
+        <td>A</td>
+        <td>B</td>
+        <td>C</td>
+        <td>D</td>
+        <td>E</td>
+        <td>F</td>
+        <td>10</td>
+        <td>11</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<p>You can also use lower case letters (though upper case is more common).</p>
+<p>To use a hexadecimal literal, prefix your literal with <code>0x</code>:</p>
+<div class="code-block code-block-3" style="margin: 8px 0; clear: both"></div>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-72-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-72-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-74-close">{</span>
+    <span class="token keyword keyword-int">int</span> x<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-73-close">{</span> <span class="token number">0xF</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-73-open">}</span><span class="token punctuation">;</span> <span class="token comment">// 0x before the number means this is hexadecimal</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> x <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-74-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>This program prints:</p>
+<pre>
+15
+</pre>
+<p>
+  You can also use a <code>0X</code> prefix, but <code>0x</code> is conventional
+  because its easier to read.
+</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Numeral systems tables
+</p>
+<p>
+  Here are the four numeral systems lined up, to make it easier to see how each
+  progresses:
+</p>
+<pre>
+Decimal         0     1     2     3     4     5     6     7     8     9    10    11    12    13    14    15
+Binary          0     1    10    11   100   101   110   111  1000  1001  1010  1011  1100  1101  1110  1111
+Octal           0     1     2     3     4     5     6     7    10    11    12    13    14    15    16    17
+Hexadecimal     0     1     2     3     4     5     6     7     8     9     A     B     C     D     E     F
+
+Decimal        16    17    18    19    20    21    22    23    24    25    26    27    28    29    30    31
+Binary      10000 10001 10010 10011 10100 10101 10110 10111 11000 11001 11010 11011 11100 11101 11110 11111
+Octal          20    21    22    23    24    25    26    27    30    31    32    33    34    35    36    37
+Hexadecimal    10    11    12    13    14    15    16    17    18    19    1A    1B    1C    1D    1E    1F
+
+</pre>
+<p>
+  Each of these rows contains the same pattern: The rightmost digit is
+  incremented from 0 to (base-1). When the digit reaches (base), it is reset to
+  0 and the digit to the left is incremented by 1. If this left digit reaches
+  (base), it is reset to 0 and the digit to the left of that one is incremented
+  by 1. And so on…
+</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Using hexadecimal to represent binary
+</p>
+<p>
+  Because there are 16 different values for a hexadecimal digit, we can say that
+  a single hexadecimal digit encompasses 4 bits. Consequently, a pair of
+  hexadecimal digits can be used to exactly represent a full byte.
+</p>
+<div class="code-block code-block-4" style="margin: 8px 0; clear: both"></div>
+<div class="cpp-table-wrapper" data-ezoic-video-excluded="1">
+  <p></p>
+  <p></p>
+  <table class="cpp-table" data-ezoic-video-excluded="1">
+    <tbody>
+      <tr>
+        <td>Hexadecimal</td>
+        <td>0</td>
+        <td>1</td>
+        <td>2</td>
+        <td>3</td>
+        <td>4</td>
+        <td>5</td>
+        <td>6</td>
+        <td>7</td>
+        <td>8</td>
+        <td>9</td>
+        <td>A</td>
+        <td>B</td>
+        <td>C</td>
+        <td>D</td>
+        <td>E</td>
+        <td>F</td>
+      </tr>
+      <tr>
+        <td>Binary</td>
+        <td>0000</td>
+        <td>0001</td>
+        <td>0010</td>
+        <td>0011</td>
+        <td>0100</td>
+        <td>0101</td>
+        <td>0110</td>
+        <td>0111</td>
+        <td>1000</td>
+        <td>1001</td>
+        <td>1010</td>
+        <td>1011</td>
+        <td>1100</td>
+        <td>1101</td>
+        <td>1110</td>
+        <td>1111</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<p>
+  Consider a 32-bit integer with binary value 0011 1010 0111 1111 1001 1000 0010
+  0110. Because of the length and repetition of digits, that’s not easy to read.
+  In hexadecimal, this same value would be: 3A7F 9826, which is much more
+  concise. For this reason, hexadecimal values are often used to represent
+  memory addresses or raw data in memory (whose type isn’t known).
+</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Binary literals
+</p>
+<p>
+  Prior to C++14, there is no support for binary literals. However, hexadecimal
+  literals provide us with a useful workaround (that you may still see in
+  existing code bases):
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-75-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-75-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-77-close">{</span>
+    <span class="token keyword keyword-int">int</span> bin<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-76-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-76-open">}</span><span class="token punctuation">;</span>    <span class="token comment">// assume 16-bit ints</span>
+    bin <span class="token operator">=</span> <span class="token number">0x0001</span><span class="token punctuation">;</span> <span class="token comment">// assign binary 0000 0000 0000 0001 to the variable</span>
+    bin <span class="token operator">=</span> <span class="token number">0x0002</span><span class="token punctuation">;</span> <span class="token comment">// assign binary 0000 0000 0000 0010 to the variable</span>
+    bin <span class="token operator">=</span> <span class="token number">0x0004</span><span class="token punctuation">;</span> <span class="token comment">// assign binary 0000 0000 0000 0100 to the variable</span>
+    bin <span class="token operator">=</span> <span class="token number">0x0008</span><span class="token punctuation">;</span> <span class="token comment">// assign binary 0000 0000 0000 1000 to the variable</span>
+    bin <span class="token operator">=</span> <span class="token number">0x0010</span><span class="token punctuation">;</span> <span class="token comment">// assign binary 0000 0000 0001 0000 to the variable</span>
+    bin <span class="token operator">=</span> <span class="token number">0x0020</span><span class="token punctuation">;</span> <span class="token comment">// assign binary 0000 0000 0010 0000 to the variable</span>
+    bin <span class="token operator">=</span> <span class="token number">0x0040</span><span class="token punctuation">;</span> <span class="token comment">// assign binary 0000 0000 0100 0000 to the variable</span>
+    bin <span class="token operator">=</span> <span class="token number">0x0080</span><span class="token punctuation">;</span> <span class="token comment">// assign binary 0000 0000 1000 0000 to the variable</span>
+    bin <span class="token operator">=</span> <span class="token number">0x00FF</span><span class="token punctuation">;</span> <span class="token comment">// assign binary 0000 0000 1111 1111 to the variable</span>
+    bin <span class="token operator">=</span> <span class="token number">0x00B3</span><span class="token punctuation">;</span> <span class="token comment">// assign binary 0000 0000 1011 0011 to the variable</span>
+    bin <span class="token operator">=</span> <span class="token number">0xF770</span><span class="token punctuation">;</span> <span class="token comment">// assign binary 1111 0111 0111 0000 to the variable</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-77-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>In C++14 onward, we can use binary literals by using the 0b prefix:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-78-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-78-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-80-close">{</span>
+    <span class="token keyword keyword-int">int</span> bin<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-79-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-79-open">}</span><span class="token punctuation">;</span>        <span class="token comment">// assume 16-bit ints</span>
+    bin <span class="token operator">=</span> <span class="token number">0b1</span><span class="token punctuation">;</span>        <span class="token comment">// assign binary 0000 0000 0000 0001 to the variable</span>
+    bin <span class="token operator">=</span> <span class="token number">0b11</span><span class="token punctuation">;</span>       <span class="token comment">// assign binary 0000 0000 0000 0011 to the variable</span>
+    bin <span class="token operator">=</span> <span class="token number">0b1010</span><span class="token punctuation">;</span>     <span class="token comment">// assign binary 0000 0000 0000 1010 to the variable</span>
+    bin <span class="token operator">=</span> <span class="token number">0b11110000</span><span class="token punctuation">;</span> <span class="token comment">// assign binary 0000 0000 1111 0000 to the variable</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-80-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Digit separators
+</p>
+<p>
+  Because long literals can be hard to read, C++14 also adds the ability to use
+  a quotation mark (‘) as a digit separator.
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-81-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-81-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-84-close">{</span>
+    <span class="token keyword keyword-int">int</span> bin <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-82-close">{</span> <span class="token number">0b1011'0010</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-82-open">}</span><span class="token punctuation">;</span>  <span class="token comment">// assign binary 1011 0010 to the variable</span>
+    <span class="token keyword keyword-long">long</span> value <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-83-close">{</span> <span class="token number">2'132'673'462</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-83-open">}</span><span class="token punctuation">;</span> <span class="token comment">// much easier to read than 2132673462</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-84-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  Also note that the separator can not occur before the first digit of the
+  value:
+</p>
+<div class="code-block code-block-5" style="margin: 8px 0; clear: both"></div>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-int">int</span> bin <span class="token punctuation brace-curly brace-open brace-level-1" id="pair-85-close">{</span> <span class="token number">0b'1011'0010</span> <span class="token punctuation brace-curly brace-close brace-level-1" id="pair-85-open">}</span><span class="token punctuation">;</span>  <span class="token comment">// error: ' used before first digit of value</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  Digit separators are purely visual and do not impact the literal value in any
+  way.
+</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Outputting values in decimal, octal, or hexadecimal
+</p>
+<p>
+  By default, C++ outputs values in decimal. However, you can change the output
+  format via use of the <code>std::dec</code>, <code>std::oct</code>, and
+  <code>std::hex</code> I/O manipulators:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-86-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-86-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-88-close">{</span>
+    <span class="token keyword keyword-int">int</span> x <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-87-close">{</span> <span class="token number">12</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-87-open">}</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> x <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span> <span class="token comment">// decimal (by default)</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> std<span class="token double-colon punctuation">::</span>hex <span class="token operator">&lt;&lt;</span> x <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span> <span class="token comment">// hexadecimal</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> x <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span> <span class="token comment">// now hexadecimal</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> std<span class="token double-colon punctuation">::</span>oct <span class="token operator">&lt;&lt;</span> x <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span> <span class="token comment">// octal</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> std<span class="token double-colon punctuation">::</span>dec <span class="token operator">&lt;&lt;</span> x <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span> <span class="token comment">// return to decimal</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> x <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span> <span class="token comment">// decimal</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-88-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>This prints:</p>
+<pre>
+12
+c
+c
+14
+12
+12
+</pre>
+<p>
+  Note that once applied, the I/O manipulator remains set for future output
+  until it is changed again.
+</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Outputting values in binary
+</p>
+<p>
+  Outputting values in binary is a little harder, as
+  <code>std::cout</code> doesn’t come with this capability built-in.
+  Fortunately, the C++ standard library includes a type called
+  <code>std::bitset</code> that will do this for us (in the &lt;bitset&gt;
+  header).
+</p>
+<div class="code-block code-block-6" style="margin: 8px 0; clear: both"></div>
+<p>
+  To use <code>std::bitset</code>, we can define a
+  <code>std::bitset</code> variable and tell <code>std::bitset</code> how many
+  bits we want to store. The number of bits must be a compile-time constant.
+  <code>std::bitset</code> can be initialized with an integral value (in any
+  format, including decimal, octal, hex, or binary).
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;bitset&gt;</span> <span class="token comment">// for std::bitset</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-89-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-89-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-93-close">{</span>
+	<span class="token comment">// std::bitset&lt;8&gt; means we want to store 8 bits</span>
+	std<span class="token double-colon punctuation">::</span>bitset<span class="token operator">&lt;</span><span class="token number">8</span><span class="token operator">&gt;</span> bin1<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-90-close">{</span> <span class="token number">0b1100'0101</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-90-open">}</span><span class="token punctuation">;</span> <span class="token comment">// binary literal for binary 1100 0101</span>
+	std<span class="token double-colon punctuation">::</span>bitset<span class="token operator">&lt;</span><span class="token number">8</span><span class="token operator">&gt;</span> bin2<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-91-close">{</span> <span class="token number">0xC5</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-91-open">}</span><span class="token punctuation">;</span> <span class="token comment">// hexadecimal literal for binary 1100 0101</span>
+
+	std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> bin1 <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span> <span class="token operator">&lt;&lt;</span> bin2 <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+	std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> std<span class="token double-colon punctuation">::</span>bitset<span class="token operator">&lt;</span><span class="token number">4</span><span class="token operator">&gt;</span><span class="token punctuation brace-curly brace-open brace-level-2" id="pair-92-close">{</span> <span class="token number">0b1010</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-92-open">}</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span> <span class="token comment">// create a temporary std::bitset and print it</span>
+
+	<span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-93-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>This prints:</p>
+<pre>
+11000101
+11000101
+1010
+</pre>
+<p>In the above code, this line:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp">std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> std<span class="token double-colon punctuation">::</span>bitset<span class="token operator">&lt;</span><span class="token number">4</span><span class="token operator">&gt;</span><span class="token punctuation brace-curly brace-open brace-level-1" id="pair-94-close">{</span> <span class="token number">0b1010</span> <span class="token punctuation brace-curly brace-close brace-level-1" id="pair-94-open">}</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span> <span class="token comment">// create a temporary std::bitset and print it</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  creates a temporary (unnamed) <code>std::bitset</code> object with 4 bits,
+  initializes it with binary literal <code>0b1010</code>, prints the value in
+  binary, and then discards the temporary object.
+</p>
+<div class="cpp-note cpp-lightgraybackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Related content</p>
+  <p>
+    We cover std::bitset in more detail in lesson
+    <a
+      href="https://www.learncpp.com/cpp-tutorial/bit-flags-and-bit-manipulation-via-stdbitset/"
+      >O.1 -- Bit flags and bit manipulation via std::bitset</a
+    >.
+  </p>
+</div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Outputting values in binary using the Format / Print Library
+  <span class="cpp-section-pill cpp-section-advanced">Advanced</span>
+</p>
+<p>
+  In C++20 and C++23, we have better options for printing binary via the new
+  Format Library (C++20) and Print Library (C++23):
+</p>
+<div class="code-block code-block-7" style="margin: 8px 0; clear: both"></div>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;format&gt;</span> <span class="token comment">// C++20</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;print&gt;</span> <span class="token comment">// C++23</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-95-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-95-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-99-close">{</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> std<span class="token double-colon punctuation">::</span><span class="token function">format</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-96-close">(</span><span class="token string">"{:b}\n"</span><span class="token punctuation">,</span> <span class="token number">0b1010</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-96-open">)</span><span class="token punctuation">;</span>  <span class="token comment">// C++20, {:b} formats the argument as binary digits</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> std<span class="token double-colon punctuation">::</span><span class="token function">format</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-97-close">(</span><span class="token string">"{:#b}\n"</span><span class="token punctuation">,</span> <span class="token number">0b1010</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-97-open">)</span><span class="token punctuation">;</span> <span class="token comment">// C++20, {:#b} formats the argument as 0b-prefixed binary digits</span>
+
+    std<span class="token double-colon punctuation">::</span><span class="token function">println</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-98-close">(</span><span class="token string">"{:b} {:#b}"</span><span class="token punctuation">,</span> <span class="token number">0b1010</span><span class="token punctuation">,</span> <span class="token number">0b1010</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-98-open">)</span><span class="token punctuation">;</span>  <span class="token comment">// C++23, format/print two arguments (same as above) and a newline</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-99-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>This prints:</p>
+<pre>
+1010
+0b1010
+1010 0b1010
+</pre>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Quiz time
+</p>
+<p class="cpp-quiz-question" style="clear: both">Question #1</p>
+<p>Using the tables above, what is 32 in binary and hexadecimal?</p>
+<p>
+  <a
+    class="solution_link_show"
+    href="javascript:void(0)"
+    onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_0'),this,'Show Solution','Hide Solution')"
+    >Show Solution</a
+  >
+</p>
+<div class="wpsolution" id="cpp_solution_id_0" style="display: none">
+  <p>Binary: 10 0000<br />Hex: 20</p>
+</div>
+<div class="prevnext">
+  <div class="prevnext-inline">
+    <a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/the-as-if-rule-and-compile-time-optimization/"
+      ><div class="nav-button nav-button-next">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-right" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Next lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">5.4</span>The as-if rule and
+            compile-time optimization
+          </div>
+        </div>
+      </div></a
+    ><a class="nav-link" href="/"
+      ><div class="nav-button nav-button-index">
+        <div class="nav-button-icon">
+          <i class="fa fa-home" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Back to table of contents</div>
+        </div>
+      </div></a
+    ><a class="nav-link" href="https://www.learncpp.com/cpp-tutorial/literals/"
+      ><div class="nav-button nav-button-prev">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-left" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Previous lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">5.2</span>Literals
+          </div>
+        </div>
+      </div></a
+    >
+  </div>
+</div>
+<div class="code-block code-block-10" style="margin: 8px 0; clear: both"></div>

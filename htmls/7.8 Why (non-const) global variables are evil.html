@@ -1,0 +1,692 @@
+<div
+  class="code-block code-block-1"
+  style="margin: 8px 8px 8px 0; float: left"
+></div>
+<p>
+  If you were to ask a veteran programmer for <em>one</em> piece of advice on
+  good programming practices, after some thought, the most likely answer would
+  be, “Avoid global variables!”. And with good reason: global variables are one
+  of the most historically abused concepts in the language. Although they may
+  seem harmless in small academic programs, they are often problematic in larger
+  ones.
+</p>
+<p>
+  New programmers are often tempted to use lots of global variables, because
+  they are easy to work with, especially when many calls to different functions
+  are involved (passing data through function parameters is a pain). However,
+  this is generally a bad idea. Many developers believe non-const global
+  variables should be avoided completely!
+</p>
+<p>
+  But before we go into why, we should make a clarification. When developers
+  tell you that global variables are evil, they’re usually not talking about
+  <em>all</em> global variables. They’re mostly talking about non-const global
+  variables.
+</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Why (non-const) global variables are evil
+</p>
+<p>
+  By far the biggest reason non-const global variables are dangerous is because
+  their values can be changed by <em>any</em> function that is called, and there
+  is no easy way for the programmer to know that this will happen. Consider the
+  following program:
+</p>
+<div class="code-block code-block-2" style="margin: 8px 0; clear: both"></div>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> g_mode<span class="token punctuation">;</span> <span class="token comment">// declare global variable (will be zero-initialized by default)</span>
+
+<span class="token keyword keyword-void">void</span> <span class="token function">doSomething</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-124-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-124-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-128-close">{</span>
+    g_mode <span class="token operator">=</span> <span class="token number">2</span><span class="token punctuation">;</span> <span class="token comment">// set the global g_mode variable to 2</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-128-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-125-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-125-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-131-close">{</span>
+    g_mode <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span> <span class="token comment">// note: this sets the global g_mode variable to 1.  It does not declare a local g_mode variable!</span>
+
+    <span class="token function">doSomething</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-126-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-126-open">)</span><span class="token punctuation">;</span>
+
+    <span class="token comment">// Programmer still expects g_mode to be 1</span>
+    <span class="token comment">// But doSomething changed it to 2!</span>
+
+    <span class="token keyword keyword-if">if</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-127-close">(</span>g_mode <span class="token operator">==</span> <span class="token number">1</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-127-open">)</span>
+    <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-129-close">{</span>
+        std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"No threat detected.\n"</span><span class="token punctuation">;</span>
+    <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-129-open">}</span>
+    <span class="token keyword keyword-else">else</span>
+    <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-130-close">{</span>
+        std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Launching nuclear missiles...\n"</span><span class="token punctuation">;</span>
+    <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-130-open">}</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-131-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  Note that the programmer set variable <code>g_mode</code> to <em>1</em>, and
+  then called <code>doSomething()</code>. Unless the programmer had explicit
+  knowledge that <code>doSomething()</code> was going to change the value of
+  <code>g_mode</code>, he or she was probably not expecting
+  <code>doSomething()</code> to change the value! Consequently, the rest of
+  <code>main()</code> doesn’t work like the programmer expects (and the world is
+  obliterated).
+</p>
+<p>
+  In short, global variables make the program’s state unpredictable. Every
+  function call becomes potentially dangerous, and the programmer has no easy
+  way of knowing which ones are dangerous and which ones aren’t! Local variables
+  are much safer because other functions can not affect them directly.
+</p>
+<p>There are plenty of other good reasons not to use non-const globals.</p>
+<p>
+  With global variables, it’s not uncommon to find a piece of code that looks
+  like this:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-void">void</span> <span class="token function">someFunction</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-132-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-132-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-135-close">{</span>
+    <span class="token comment">// useful code</span>
+
+    <span class="token keyword keyword-if">if</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-133-close">(</span>g_mode <span class="token operator">==</span> <span class="token number">4</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-133-open">)</span>
+    <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-134-close">{</span>
+        <span class="token comment">// do something good</span>
+    <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-134-open">}</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-135-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  After debugging, you determine that your program isn’t working correctly
+  because <code>g_mode</code> has value <code>3</code>, not <em>4</em>. How do
+  you fix it? Now you need to find all of the places <code>g_mode</code> could
+  possibly be set to <code>3</code>, and trace through how it got set in the
+  first place. It’s possible this may be in a totally unrelated piece of code!
+</p>
+<div class="code-block code-block-3" style="margin: 8px 0; clear: both"></div>
+<p>
+  One of the key reasons to declare local variables as close to where they are
+  used as possible is because doing so minimizes the amount of code you need to
+  look through to understand what the variable does. Global variables are at the
+  opposite end of the spectrum -- because they can be accessed anywhere, you
+  might have to look through the entire program to understand their usage. In
+  small programs, this might not be an issue. In large ones, it will be.
+</p>
+<p>
+  For example, you might find <code>g_mode</code> is referenced 442 times in
+  your program. Unless <code>g_mode</code> is well documented, you’ll
+  potentially have to look through every use of <code>g_mode</code> to
+  understand how it’s being used in different cases, what its valid values are,
+  and what its overall function is.
+</p>
+<p>
+  Global variables also make your program less modular and less flexible. A
+  function that utilizes nothing but its parameters and has no side effects is
+  perfectly modular. Modularity helps both in understanding what a program does,
+  as well as with reusability. Global variables reduce modularity significantly.
+</p>
+<p>
+  In particular, avoid using global variables for important “decision-point”
+  variables (e.g. variables you’d use in a conditional statement, like variable
+  <code>g_mode</code> in the example above). Your program isn’t likely to break
+  if a global variable holding an informational value changes (e.g. like the
+  user’s name). It is much more likely to break if you change a global variable
+  that impacts <em>how</em> your program actually functions.
+</p>
+<div class="cpp-note cpp-lightgreenbackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Best practice</p>
+  <p>Use local variables instead of global variables whenever possible.</p>
+</div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  The initialization order problem of global variables
+</p>
+<div class="code-block code-block-4" style="margin: 8px 0; clear: both"></div>
+<p>
+  Initialization of static variables (which includes global variables) happens
+  as part of program startup, before execution of the
+  <code>main</code> function. This proceeds in two phases.
+</p>
+<p>
+  The first phase is called <strong>static initialization</strong>. Static
+  initialization proceeds in two phases:
+</p>
+<ul>
+  <li>
+    Global variables with constexpr initializers (including literals) are
+    initialized to those values. This is called
+    <strong>constant initialization</strong>.
+  </li>
+  <li>
+    Global variables without initializers are zero-initialized.
+    Zero-initialization is considered to be a form of static-initialization
+    since <code>0</code> is a constexpr value.
+  </li>
+</ul>
+<p>
+  The second phase is called <strong>dynamic initialization</strong>. This phase
+  is more complex and nuanced, but the gist of it is that global variables with
+  non-constexpr initializers are initialized.
+</p>
+<p>Here’s an example of a non-constexpr initializer:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-int">int</span> <span class="token function">init</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-136-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-136-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-138-close">{</span>
+    <span class="token keyword keyword-return">return</span> <span class="token number">5</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-138-open">}</span>
+
+<span class="token keyword keyword-int">int</span> g_something<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-139-close">{</span> <span class="token function">init</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-137-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-137-open">)</span> <span class="token punctuation brace-curly brace-close brace-level-1" id="pair-139-open">}</span><span class="token punctuation">;</span> <span class="token comment">// non-constexpr initialization</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  Within a single file, for each phase, global variables are generally
+  initialized in order of definition (there are a few exceptions to this rule
+  for the dynamic initialization phase). Given this, you need to be careful not
+  to have variables dependent on the initialization value of other variables
+  that won’t be initialized until later. For example:
+</p>
+<div class="code-block code-block-5" style="margin: 8px 0; clear: both"></div>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">initX</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-140-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-140-open">)</span><span class="token punctuation">;</span>  <span class="token comment">// forward declaration</span>
+<span class="token keyword keyword-int">int</span> <span class="token function">initY</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-141-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-141-open">)</span><span class="token punctuation">;</span>  <span class="token comment">// forward declaration</span>
+
+<span class="token keyword keyword-int">int</span> g_x<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-147-close">{</span> <span class="token function">initX</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-142-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-142-open">)</span> <span class="token punctuation brace-curly brace-close brace-level-1" id="pair-147-open">}</span><span class="token punctuation">;</span> <span class="token comment">// g_x is initialized first</span>
+<span class="token keyword keyword-int">int</span> g_y<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-148-close">{</span> <span class="token function">initY</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-143-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-143-open">)</span> <span class="token punctuation brace-curly brace-close brace-level-1" id="pair-148-open">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">initX</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-144-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-144-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-149-close">{</span>
+    <span class="token keyword keyword-return">return</span> g_y<span class="token punctuation">;</span> <span class="token comment">// g_y isn't initialized when this is called</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-149-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">initY</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-145-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-145-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-150-close">{</span>
+    <span class="token keyword keyword-return">return</span> <span class="token number">5</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-150-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-146-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-146-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-151-close">{</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> g_x <span class="token operator">&lt;&lt;</span> <span class="token string">' '</span> <span class="token operator">&lt;&lt;</span> g_y <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-151-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>This prints:</p>
+<pre>
+0 5
+</pre>
+<p>
+  Much more of a problem, the order in which static objects are initialized
+  across different translation units is ambiguous.
+</p>
+<p>
+  Given two files, <em>a.cpp</em> and <em>b.cpp</em>, either could have its
+  global variables initialized first. If some variable with static duration in
+  <em>a.cpp</em> is initialized with a static duration variable defined in
+  <em>b.cpp</em>, there’s a 50% chance that the variable in <em>b.cpp</em> won’t
+  be initialized yet.
+</p>
+<div class="cpp-note cpp-lightgraybackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Nomenclature</p>
+  <p>
+    The ambiguity in the order that objects with static storage duration in
+    different translation units are initialized is often called the
+    <a href="https://en.cppreference.com/w/cpp/language/siof"
+      >static initialization order fiasco</a
+    >.
+  </p>
+</div>
+<div class="cpp-note cpp-lightredbackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Warning</p>
+  <p>
+    Avoid initializing objects with static duration using other objects with
+    static duration from a different translation unit.
+  </p>
+  <p>
+    Dynamic initialization of global variables is also susceptible to
+    initialization order issues and should be avoided whenever possible.
+  </p>
+</div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  So what are very good reasons to use non-const global variables?
+</p>
+<p>
+  There aren’t many. In most cases, using local variables and passing them as
+  arguments to other functions is preferable. But in some cases, judicious use
+  of non-const global variables <em>can</em> actually reduce program complexity,
+  and in these rare cases, their use may be better than the alternatives.
+</p>
+<p>
+  A good example is a log file, where you can dump error or debug information.
+  It probably makes sense to define this as a global, because you’re likely to
+  only have one such log in a program and it will likely be used everywhere in
+  your program. Another good example would be a random number generator (we show
+  an example of this in lesson
+  <a
+    href="https://www.learncpp.com/cpp-tutorial/global-random-numbers-random-h/"
+    >8.15 -- Global random numbers (Random.h)</a
+  >).
+</p>
+<div class="code-block code-block-6" style="margin: 8px 0; clear: both"></div>
+<p>
+  For what it’s worth, the std::cout and std::cin objects are implemented as
+  global variables (inside the <em>std</em> namespace).
+</p>
+<p>
+  As a rule of thumb, any use of a global variable should meet at least the
+  following two criteria: There should only ever be one of the thing the
+  variable represents in your program, and its use should be ubiquitous
+  throughout your program.
+</p>
+<p>
+  Many new programmers make the mistake of thinking that something can be
+  implemented as a global because only one is needed <em>right now</em>. For
+  example, you might think that because you’re implementing a single player
+  game, you only need one player. But what happens later when you want to add a
+  multiplayer mode (versus or hotseat)?
+</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Protecting yourself from global destruction
+</p>
+<p>
+  If you do find a good use for a non-const global variable, a few useful bits
+  of advice will minimize the amount of trouble you can get into. This advice
+  isn’t only for non-const global variables, but can help with all global
+  variables.
+</p>
+<div class="code-block code-block-7" style="margin: 8px 0; clear: both"></div>
+<p>
+  First, prefix all non-namespaced global variables with “g” or “g_”, or better
+  yet, put them in a namespace (discussed in lesson
+  <a
+    href="https://www.learncpp.com/cpp-tutorial/user-defined-namespaces-and-the-scope-resolution-operator/"
+    >7.2 -- User-defined namespaces and the scope resolution operator</a
+  >), to reduce the chance of naming collisions.
+</p>
+<p>For example, instead of:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-constexpr">constexpr</span> <span class="token keyword keyword-double">double</span> gravity <span class="token punctuation brace-curly brace-open brace-level-1" id="pair-153-close">{</span> <span class="token number">9.8</span> <span class="token punctuation brace-curly brace-close brace-level-1" id="pair-153-open">}</span><span class="token punctuation">;</span> <span class="token comment">// risk of collision with some other global variable named gravity</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-152-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-152-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-154-close">{</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> gravity <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span> <span class="token comment">// unclear if this is a local or global variable from the name</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-154-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>Do this:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-namespace">namespace</span> constants
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-157-close">{</span>
+    <span class="token keyword keyword-constexpr">constexpr</span> <span class="token keyword keyword-double">double</span> gravity <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-156-close">{</span> <span class="token number">9.8</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-156-open">}</span><span class="token punctuation">;</span> <span class="token comment">// will not collide with other global variables named gravity</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-157-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-155-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-155-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-158-close">{</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> constants<span class="token double-colon punctuation">::</span>gravity <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span> <span class="token comment">// clear this is a global variable (since namespaces are global)</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-158-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  Second, instead of allowing direct access to the global variable, it’s a
+  better practice to “encapsulate” the variable. Make sure the variable can only
+  be accessed from within the file it’s declared in, e.g. by making the variable
+  static or const, then provide external global “access functions” to work with
+  the variable. These functions can ensure proper usage is maintained (e.g. do
+  input validation, range checking, etc…). Also, if you ever decide to change
+  the underlying implementation (e.g. move from one database to another), you
+  only have to update the access functions instead of every piece of code that
+  uses the global variable directly.
+</p>
+<p>For example, instead of this:</p>
+<p>constants.cpp:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-namespace">namespace</span> constants
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-160-close">{</span>
+    <span class="token keyword keyword-extern">extern</span> <span class="token keyword keyword-const">const</span> <span class="token keyword keyword-double">double</span> gravity <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-159-close">{</span> <span class="token number">9.8</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-159-open">}</span><span class="token punctuation">;</span> <span class="token comment">// has external linkage, can be accessed by other files</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-160-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>main.cpp:</p>
+<div class="code-block code-block-8" style="margin: 8px 0; clear: both"></div>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-namespace">namespace</span> constants
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-162-close">{</span>
+    <span class="token keyword keyword-extern">extern</span> <span class="token keyword keyword-const">const</span> <span class="token keyword keyword-double">double</span> gravity<span class="token punctuation">;</span> <span class="token comment">// forward declaration</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-162-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-161-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-161-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-163-close">{</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> constants<span class="token double-colon punctuation">::</span>gravity <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span> <span class="token comment">// direct access to global variable</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-163-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>Do this:</p>
+<p>contants.cpp:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-namespace">namespace</span> constants
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-166-close">{</span>
+    <span class="token keyword keyword-constexpr">constexpr</span> <span class="token keyword keyword-double">double</span> gravity <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-165-close">{</span> <span class="token number">9.8</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-165-open">}</span><span class="token punctuation">;</span> <span class="token comment">// has internal linkage, is accessible only within this file</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-166-open">}</span>
+
+<span class="token keyword keyword-double">double</span> <span class="token function">getGravity</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-164-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-164-open">)</span> <span class="token comment">// has external linkage, can be accessed by other files</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-167-close">{</span>
+    <span class="token comment">// We could add logic here if needed later</span>
+    <span class="token comment">// or change the implementation transparently to the callers</span>
+    <span class="token keyword keyword-return">return</span> constants<span class="token double-colon punctuation">::</span>gravity<span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-167-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>main.cpp:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-double">double</span> <span class="token function">getGravity</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-168-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-168-open">)</span><span class="token punctuation">;</span> <span class="token comment">// forward declaration</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-169-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-169-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-171-close">{</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token function">getGravity</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-170-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-170-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-171-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<div class="cpp-note cpp-lightgraybackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">A reminder</p>
+  <p>
+    Global <code>const</code> variables have internal linkage by default,
+    <code>gravity</code> doesn’t need to be <code>static</code>.
+  </p>
+</div>
+<p>
+  Third, when writing an otherwise standalone function that uses the global
+  variable, don’t use the variable directly in your function body. Pass it in as
+  an argument instead. That way, if your function ever needs to use a different
+  value for some circumstance, you can simply vary the argument. This helps
+  maintain modularity.
+</p>
+<p>Instead of:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-namespace">namespace</span> constants
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-176-close">{</span>
+    <span class="token keyword keyword-constexpr">constexpr</span> <span class="token keyword keyword-double">double</span> gravity <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-175-close">{</span> <span class="token number">9.8</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-175-open">}</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-176-open">}</span>
+
+<span class="token comment">// This function is only useful for calculating your instant velocity based on the global gravity</span>
+<span class="token keyword keyword-double">double</span> <span class="token function">instantVelocity</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-172-close">(</span><span class="token keyword keyword-int">int</span> time<span class="token punctuation brace-round brace-close brace-level-1" id="pair-172-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-177-close">{</span>
+    <span class="token keyword keyword-return">return</span> constants<span class="token double-colon punctuation">::</span>gravity <span class="token operator">*</span> time<span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-177-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-173-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-173-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-178-close">{</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token function">instantVelocity</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-174-close">(</span><span class="token number">5</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-174-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-178-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>Do this:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-namespace">namespace</span> constants
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-183-close">{</span>
+    <span class="token keyword keyword-constexpr">constexpr</span> <span class="token keyword keyword-double">double</span> gravity <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-182-close">{</span> <span class="token number">9.8</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-182-open">}</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-183-open">}</span>
+
+<span class="token comment">// This function can calculate the instant velocity for any gravity value (more useful)</span>
+<span class="token keyword keyword-double">double</span> <span class="token function">instantVelocity</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-179-close">(</span><span class="token keyword keyword-int">int</span> time<span class="token punctuation">,</span> <span class="token keyword keyword-double">double</span> gravity<span class="token punctuation brace-round brace-close brace-level-1" id="pair-179-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-184-close">{</span>
+    <span class="token keyword keyword-return">return</span> gravity <span class="token operator">*</span> time<span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-184-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-180-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-180-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-185-close">{</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token function">instantVelocity</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-181-close">(</span><span class="token number">5</span><span class="token punctuation">,</span> constants<span class="token double-colon punctuation">::</span>gravity<span class="token punctuation brace-round brace-close brace-level-2" id="pair-181-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span> <span class="token comment">// pass our constant to the function as a parameter</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-185-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  A C++ joke
+</p>
+<p>What’s the best naming prefix for a global variable?</p>
+<p>Answer: //</p>
+<p>This joke is worth all the comments.</p>
+<div class="prevnext">
+  <div class="prevnext-inline">
+    <a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/inline-functions-and-variables/"
+      ><div class="nav-button nav-button-next">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-right" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Next lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">7.9</span>Inline functions
+            and variables
+          </div>
+        </div>
+      </div></a
+    ><a class="nav-link" href="/"
+      ><div class="nav-button nav-button-index">
+        <div class="nav-button-icon">
+          <i class="fa fa-home" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Back to table of contents</div>
+        </div>
+      </div></a
+    ><a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/external-linkage-and-variable-forward-declarations/"
+      ><div class="nav-button nav-button-prev">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-left" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Previous lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">7.7</span>External linkage
+            and variable forward declarations
+          </div>
+        </div>
+      </div></a
+    >
+  </div>
+</div>
+<div class="code-block code-block-10" style="margin: 8px 0; clear: both"></div>

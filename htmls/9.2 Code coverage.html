@@ -1,0 +1,468 @@
+<div
+  class="code-block code-block-1"
+  style="margin: 8px 8px 8px 0; float: left"
+></div>
+<p>
+  In the previous lesson
+  <a
+    href="https://www.learncpp.com/cpp-tutorial/introduction-to-testing-your-code/"
+    >9.1 -- Introduction to testing your code</a
+  >, we discussed how to write and preserve simple tests. In this lesson, we’ll
+  talk about what kind of tests are useful to write to ensure your code is
+  correct.
+</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Code coverage
+</p>
+<p>
+  The term <strong>code coverage</strong> is used to describe how much of the
+  source code of a program is executed while testing. There are many different
+  metrics used for code coverage. We’ll cover a few of the more useful and
+  popular ones in the following sections.
+</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Statement coverage
+</p>
+<p>
+  The term <strong>statement coverage</strong> refers to the percentage of
+  statements in your code that have been exercised by your testing routines.
+</p>
+<p>Consider the following function:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-int">int</span> <span class="token function">foo</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-0-close">(</span><span class="token keyword keyword-int">int</span> x<span class="token punctuation">,</span> <span class="token keyword keyword-int">int</span> y<span class="token punctuation brace-round brace-close brace-level-1" id="pair-0-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-4-close">{</span>
+    <span class="token keyword keyword-int">int</span> z<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-2-close">{</span> y <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-2-open">}</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-if">if</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-1-close">(</span>x <span class="token operator">&gt;</span> y<span class="token punctuation brace-round brace-close brace-level-2" id="pair-1-open">)</span>
+    <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-3-close">{</span>
+        z <span class="token operator">=</span> x<span class="token punctuation">;</span>
+    <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-3-open">}</span>
+    <span class="token keyword keyword-return">return</span> z<span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-4-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  Calling this function as <code>foo(1, 0)</code> will give you complete
+  statement coverage for this function, as every statement in the function will
+  execute.
+</p>
+<p>For our <code>isLowerVowel()</code> function:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-bool">bool</span> <span class="token function">isLowerVowel</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-5-close">(</span><span class="token keyword keyword-char">char</span> c<span class="token punctuation brace-round brace-close brace-level-1" id="pair-5-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-8-close">{</span>
+    <span class="token keyword keyword-switch">switch</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-6-close">(</span>c<span class="token punctuation brace-round brace-close brace-level-2" id="pair-6-open">)</span> <span class="token comment">// statement 1</span>
+    <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-7-close">{</span>
+    <span class="token keyword keyword-case">case</span> <span class="token string">'a'</span><span class="token operator">:</span>
+    <span class="token keyword keyword-case">case</span> <span class="token string">'e'</span><span class="token operator">:</span>
+    <span class="token keyword keyword-case">case</span> <span class="token string">'i'</span><span class="token operator">:</span>
+    <span class="token keyword keyword-case">case</span> <span class="token string">'o'</span><span class="token operator">:</span>
+    <span class="token keyword keyword-case">case</span> <span class="token string">'u'</span><span class="token operator">:</span>
+        <span class="token keyword keyword-return">return</span> <span class="token boolean">true</span><span class="token punctuation">;</span> <span class="token comment">// statement 2</span>
+    <span class="token keyword keyword-default">default</span><span class="token operator">:</span>
+        <span class="token keyword keyword-return">return</span> <span class="token boolean">false</span><span class="token punctuation">;</span> <span class="token comment">// statement 3</span>
+    <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-7-open">}</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-8-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  This function will require two calls to test all of the statements, as there
+  is no way to reach statement 2 and 3 in the same function call.
+</p>
+<div class="code-block code-block-2" style="margin: 8px 0; clear: both"></div>
+
+<p>
+  While aiming for 100% statement coverage is good, it’s often not enough to
+  ensure correctness.
+</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Branch coverage
+</p>
+<p>
+  <strong>Branch coverage</strong> refers to the percentage of branches that
+  have been executed, each possible branch counted separately. An
+  <code>if statement</code> has two branches -- a branch that executes when the
+  condition is <code>true</code>, and a branch that executes when the condition
+  is <code>false</code> (even if there is no corresponding
+  <code>else statement</code> to execute). A switch statement can have many
+  branches.
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-int">int</span> <span class="token function">foo</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-9-close">(</span><span class="token keyword keyword-int">int</span> x<span class="token punctuation">,</span> <span class="token keyword keyword-int">int</span> y<span class="token punctuation brace-round brace-close brace-level-1" id="pair-9-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-13-close">{</span>
+    <span class="token keyword keyword-int">int</span> z<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-11-close">{</span> y <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-11-open">}</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-if">if</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-10-close">(</span>x <span class="token operator">&gt;</span> y<span class="token punctuation brace-round brace-close brace-level-2" id="pair-10-open">)</span>
+    <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-12-close">{</span>
+        z <span class="token operator">=</span> x<span class="token punctuation">;</span>
+    <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-12-open">}</span>
+    <span class="token keyword keyword-return">return</span> z<span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-13-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  The previous call to foo(1, 0) gave us 100% statement coverage and exercised
+  the use case where <code>x &gt; y</code>, but that only gives us 50% branch
+  coverage. We need one more call, to <code>foo(0, 1)</code>, to test the use
+  case where the <code>if statement</code> does not execute.
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-bool">bool</span> <span class="token function">isLowerVowel</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-14-close">(</span><span class="token keyword keyword-char">char</span> c<span class="token punctuation brace-round brace-close brace-level-1" id="pair-14-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-17-close">{</span>
+    <span class="token keyword keyword-switch">switch</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-15-close">(</span>c<span class="token punctuation brace-round brace-close brace-level-2" id="pair-15-open">)</span>
+    <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-16-close">{</span>
+    <span class="token keyword keyword-case">case</span> <span class="token string">'a'</span><span class="token operator">:</span>
+    <span class="token keyword keyword-case">case</span> <span class="token string">'e'</span><span class="token operator">:</span>
+    <span class="token keyword keyword-case">case</span> <span class="token string">'i'</span><span class="token operator">:</span>
+    <span class="token keyword keyword-case">case</span> <span class="token string">'o'</span><span class="token operator">:</span>
+    <span class="token keyword keyword-case">case</span> <span class="token string">'u'</span><span class="token operator">:</span>
+        <span class="token keyword keyword-return">return</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-default">default</span><span class="token operator">:</span>
+        <span class="token keyword keyword-return">return</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+    <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-16-open">}</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-17-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  In the isLowerVowel() function, two calls will be needed to give you 100%
+  branch coverage: one (such as <code>isLowerVowel('a')</code>) to test the
+  first cases, and another (such as <code>isLowerVowel('q')</code>) to test the
+  default case. Multiple cases that feed into the same body don’t need to be
+  tested separately -- if one works, they all should.
+</p>
+<p>Now consider the following function:</p>
+<div class="code-block code-block-3" style="margin: 8px 0; clear: both"></div>
+
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-void">void</span> <span class="token function">compare</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-18-close">(</span><span class="token keyword keyword-int">int</span> x<span class="token punctuation">,</span> <span class="token keyword keyword-int">int</span> y<span class="token punctuation brace-round brace-close brace-level-1" id="pair-18-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-21-close">{</span>
+	<span class="token keyword keyword-if">if</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-19-close">(</span>x <span class="token operator">&gt;</span> y<span class="token punctuation brace-round brace-close brace-level-2" id="pair-19-open">)</span>
+		std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> x <span class="token operator">&lt;&lt;</span> <span class="token string">" is greater than "</span> <span class="token operator">&lt;&lt;</span> y <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span> <span class="token comment">// case 1</span>
+	<span class="token keyword keyword-else">else</span> <span class="token keyword keyword-if">if</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-20-close">(</span>x <span class="token operator">&lt;</span> y<span class="token punctuation brace-round brace-close brace-level-2" id="pair-20-open">)</span>
+		std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> x <span class="token operator">&lt;&lt;</span> <span class="token string">" is less than "</span> <span class="token operator">&lt;&lt;</span> y <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span> <span class="token comment">// case 2</span>
+	<span class="token keyword keyword-else">else</span>
+		std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> x <span class="token operator">&lt;&lt;</span> <span class="token string">" is equal to "</span> <span class="token operator">&lt;&lt;</span> y <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span> <span class="token comment">// case 3</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-21-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  3 calls are needed to get 100% branch coverage here:
+  <code>compare(1, 0)</code> tests the positive use case for the first
+  <code>if statement</code>. <code>compare(0, 1)</code> tests the negative use
+  case for the first <code>if statement</code> and the positive use case for the
+  second <code>if statement</code>. <code>compare(0, 0)</code> tests the
+  negative use case for the first and second <code>if statement</code> and
+  executes the <code>else statement</code>. Thus, we can say this function is
+  reliably tested with 3 calls (which is slightly better than 18 quintillion).
+</p>
+<div class="cpp-note cpp-lightgreenbackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Best practice</p>
+  <p>Aim for 100% branch coverage of your code.</p>
+</div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Loop coverage
+</p>
+<p>
+  <strong>Loop coverage</strong> (informally called
+  <strong>the 0, 1, 2 test</strong>) says that if you have a loop in your code,
+  you should ensure it works properly when it iterates 0 times, 1 time, and 2
+  times. If it works correctly for the 2-iteration case, it should work
+  correctly for all iterations greater than 2. These three tests therefore cover
+  all possibilities (since a loop can’t execute a negative number of times).
+</p>
+<p>Consider:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-void">void</span> <span class="token function">spam</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-22-close">(</span><span class="token keyword keyword-int">int</span> timesToPrint<span class="token punctuation brace-round brace-close brace-level-1" id="pair-22-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-25-close">{</span>
+    <span class="token keyword keyword-for">for</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-23-close">(</span><span class="token keyword keyword-int">int</span> count<span class="token punctuation brace-curly brace-open brace-level-3" id="pair-24-close">{</span> <span class="token number">0</span> <span class="token punctuation brace-curly brace-close brace-level-3" id="pair-24-open">}</span><span class="token punctuation">;</span> count <span class="token operator">&lt;</span> timesToPrint<span class="token punctuation">;</span> <span class="token operator">++</span>count<span class="token punctuation brace-round brace-close brace-level-2" id="pair-23-open">)</span>
+         std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Spam! "</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-25-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  To test the loop within this function properly, you should call it three
+  times: <code>spam(0)</code> to test the zero-iteration case,
+  <code>spam(1)</code> to test the one-iteration case, and
+  <code>spam(2)</code> to test the two-iteration case. If
+  <code>spam(2)</code> works, then <code>spam(n)</code> should work, where
+  <code>n &gt; 2</code>.
+</p>
+<div class="cpp-note cpp-lightgreenbackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Best practice</p>
+  <p>
+    Use the <code>0, 1, 2 test</code> to ensure your loops work correctly with
+    different number of iterations.
+  </p>
+</div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Testing different categories of input
+</p>
+<p>
+  When writing functions that accept parameters, or when accepting user input,
+  consider what happens with different categories of input. In this context,
+  we’re using the term “category” to mean a set of inputs that have similar
+  characteristics.
+</p>
+<div class="code-block code-block-4" style="margin: 8px 0; clear: both"></div>
+
+<p>
+  For example, if I wrote a function to produce the square root of an integer,
+  what values would it make sense to test it with? You’d probably start with
+  some normal value, like <code>4</code>. But it would also be a good idea to
+  test with <code>0</code>, and a negative number.
+</p>
+<p>Here are some basic guidelines for category testing:</p>
+<p>
+  For integers, make sure you’ve considered how your function handles negative
+  values, zero, and positive values. You should also check for overflow if
+  that’s relevant.
+</p>
+<p>
+  For floating point numbers, make sure you’ve considered how your function
+  handles values that have precision issues (values that are slightly larger or
+  smaller than expected). Good <code>double</code> type values to test with are
+  <code>0.1</code> and <code>-0.1</code> (to test numbers that are slightly
+  larger than expected) and <code>0.7</code> and <code>-0.7</code> (to test
+  numbers that are slightly smaller than expected).
+</p>
+<p>
+  For strings, make sure you’ve considered how your function handles an empty
+  string, an alphanumeric string, strings that have whitespace (leading,
+  trailing, and inner), and strings that are all whitespace.
+</p>
+<div class="code-block code-block-5" style="margin: 8px 0; clear: both"></div>
+
+<p>
+  If your function takes a pointer, don’t forget to test <code>nullptr</code> as
+  well (don’t worry if this doesn’t make sense, we haven’t covered it yet).
+</p>
+<div class="cpp-note cpp-lightgreenbackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Best practice</p>
+  <p>
+    Test different categories of input values to make sure your unit handles
+    them properly.
+  </p>
+</div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Quiz time
+</p>
+<div class="quiz" style="clear: both">
+  <p class="quiz-header">Question #1</p>
+  <p>What is branch coverage?</p>
+  <p>
+    <a
+      class="solution_link_show"
+      href="javascript:void(0)"
+      onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_0'), this, 'Show Solution', 'Hide Solution')"
+      >Show Solution</a
+    >
+  </p>
+  <div class="wpsolution" id="cpp_solution_id_0" style="display: none">
+    Branch coverage is the percentage of branches that have been executed, with
+    the affirmative case and negative case counting separately.
+  </div>
+  <p></p>
+</div>
+<div class="quiz" style="clear: both">
+  <p class="quiz-header">Question #2</p>
+  <p>
+    How many tests would the following function need to minimally validate that
+    it works?
+  </p>
+  <div class="code-toolbar">
+    <pre
+      class="line-numbers language-cpp"
+      tabindex="0"
+    ><code class="match-braces language-cpp"><span class="token keyword keyword-bool">bool</span> <span class="token function">isLowerVowel</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-26-close">(</span><span class="token keyword keyword-char">char</span> c<span class="token punctuation">,</span> <span class="token keyword keyword-bool">bool</span> yIsVowel<span class="token punctuation brace-round brace-close brace-level-1" id="pair-26-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-29-close">{</span>
+    <span class="token keyword keyword-switch">switch</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-27-close">(</span>c<span class="token punctuation brace-round brace-close brace-level-2" id="pair-27-open">)</span>
+    <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-28-close">{</span>
+    <span class="token keyword keyword-case">case</span> <span class="token string">'a'</span><span class="token operator">:</span>
+    <span class="token keyword keyword-case">case</span> <span class="token string">'e'</span><span class="token operator">:</span>
+    <span class="token keyword keyword-case">case</span> <span class="token string">'i'</span><span class="token operator">:</span>
+    <span class="token keyword keyword-case">case</span> <span class="token string">'o'</span><span class="token operator">:</span>
+    <span class="token keyword keyword-case">case</span> <span class="token string">'u'</span><span class="token operator">:</span>
+        <span class="token keyword keyword-return">return</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-case">case</span> <span class="token string">'y'</span><span class="token operator">:</span>
+        <span class="token keyword keyword-return">return</span> yIsVowel<span class="token punctuation">;</span>
+    <span class="token keyword keyword-default">default</span><span class="token operator">:</span>
+        <span class="token keyword keyword-return">return</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+    <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-28-open">}</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-29-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+    <div class="toolbar">
+      <div class="toolbar-item">
+        <button
+          class="copy-to-clipboard-button"
+          type="button"
+          data-copy-state="copy"
+        >
+          <span>Copy</span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <p>
+    <a
+      class="solution_link_show"
+      href="javascript:void(0)"
+      onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_1'), this, 'Show Solution', 'Hide Solution')"
+      >Show Solution</a
+    >
+  </p>
+  <div class="wpsolution" id="cpp_solution_id_1" style="display: none">
+    4 tests. One to test the a/e/i/o/u case. One to test the default case. One
+    to test <code>isLowerVowel('y', true)</code>. And one to test
+    <code>isLowerVowel('y', false)</code>.
+  </div>
+  <p></p>
+</div>
+<div class="prevnext">
+  <div class="prevnext-inline">
+    <a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/common-semantic-errors-in-c/"
+    >
+      <div class="nav-button nav-button-next">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-right" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Next lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">9.3</span>Common semantic
+            errors in C++
+          </div>
+        </div>
+      </div></a
+    >
+    <a class="nav-link" href="/">
+      <div class="nav-button nav-button-index">
+        <div class="nav-button-icon">
+          <i class="fa fa-home" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Back to table of contents</div>
+        </div>
+      </div></a
+    >
+    <a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/introduction-to-testing-your-code/"
+    >
+      <div class="nav-button nav-button-prev">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-left" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Previous lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">9.1</span>Introduction to
+            testing your code
+          </div>
+        </div>
+      </div></a
+    >
+  </div>
+</div>
+<div class="code-block code-block-10" style="margin: 8px 0; clear: both"></div>

@@ -1,0 +1,435 @@
+<div
+  class="code-block code-block-1"
+  style="margin: 8px 8px 8px 0; float: left"
+></div>
+<p>
+  In this section, we’ll address some of the common issues that new programmers
+  seem to run across with fairly high probability. This is not meant to be a
+  comprehensive list of compilation or execution problems, but rather a
+  pragmatic list of solutions to very basic issues. If you have any suggestions
+  for other issues that might be added to this list, post them in the comments
+  section below.
+</p>
+<p block=""></p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  General run-time issues
+</p>
+<div class="cpp-note cpp-lightbluebackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">
+    Q: When executing a program, the console window blinks and then closes
+    immediately.
+  </p>
+  <p>
+    First, add or ensure the following lines are near the top of your program
+    (Visual Studio users, make sure these lines appear after #include “pch.h” or
+    #include “stdafx.h”, if those exist):
+  </p>
+  <div class="code-toolbar">
+    <pre
+      class="line-numbers language-cpp"
+      tabindex="0"
+    ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;limits&gt;</span></span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+    <div class="toolbar">
+      <div class="toolbar-item">
+        <button
+          class="copy-to-clipboard-button"
+          type="button"
+          data-copy-state="copy"
+        >
+          <span>Copy</span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <p>
+    Second, add the following code at the end of your main() function (right
+    before the return statement):
+  </p>
+  <div class="code-toolbar">
+    <pre
+      class="line-numbers language-cpp"
+      tabindex="0"
+    ><code class="match-braces language-cpp">std<span class="token double-colon punctuation">::</span>cin<span class="token punctuation">.</span><span class="token function">clear</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-8-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-8-open">)</span><span class="token punctuation">;</span> <span class="token comment">// reset any error flags</span>
+std<span class="token double-colon punctuation">::</span>cin<span class="token punctuation">.</span><span class="token function">ignore</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-10-close">(</span>std<span class="token double-colon punctuation">::</span><span class="token class-name">numeric_limits</span><span class="token operator">&lt;</span>std<span class="token double-colon punctuation">::</span>streamsize<span class="token operator">&gt;</span><span class="token double-colon punctuation">::</span><span class="token function">max</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-9-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-9-open">)</span><span class="token punctuation">,</span> <span class="token string">'\n'</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-10-open">)</span><span class="token punctuation">;</span> <span class="token comment">// ignore any characters in the input buffer until we find an enter character</span>
+std<span class="token double-colon punctuation">::</span>cin<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-11-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-11-open">)</span><span class="token punctuation">;</span> <span class="token comment">// get one more char from the user</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 32px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+    <div class="toolbar">
+      <div class="toolbar-item">
+        <button
+          class="copy-to-clipboard-button"
+          type="button"
+          data-copy-state="copy"
+        >
+          <span>Copy</span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <p>
+    This will cause your program to wait for the user to press a key before
+    continuing, which will give you time to examine your program’s output before
+    your operating system closes the console window.
+  </p>
+  <p>
+    Other solutions, such as the commonly suggested system(“pause”) solution may
+    only work on certain operating systems and should be avoided.
+  </p>
+  <p>
+    Older versions of Visual Studio may not pause when the program is run in
+    <em>Start With Debugging (F5)</em> mode. Try running in
+    <em>Start Without Debugging (Ctrl-F5)</em> mode.
+  </p>
+</div>
+<div class="cpp-note cpp-lightbluebackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">
+    Q: I ran my program and get a window but no output.
+  </p>
+  <p>
+    Your virus scanner or anti-malware may be blocking execution. Try disabling
+    it temporarily and see if that’s the issue.
+  </p>
+</div>
+<div class="cpp-note cpp-lightbluebackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">
+    Q: My program compiles but it isn’t working correctly. What do I do?
+  </p>
+  <p>
+    Debug it! There are tips on how to diagnose and debug your programs later in
+    chapter 3.
+  </p>
+</div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  General compile-time issues
+</p>
+<div class="cpp-note cpp-lightbluebackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">
+    Q: When I compile my program, I get an error about unresolved external
+    symbol _main or _WinMain@16
+  </p>
+  <p>
+    This means your compiler can’t find your main() function. All programs must
+    include a main() function.
+  </p>
+  <p>
+    There are a few things to check:<br />a) Does your code include a function
+    named main?<br />b) Is main spelled correctly?<br />c) When you compile your
+    program, do you see the file that contains function main() get compiled? If
+    not, either move the main() function to one that is, or add the file to your
+    project (see lesson
+    <a
+      href="https://www.learncpp.com/cpp-tutorial/programs-with-multiple-code-files/"
+      >2.8 -- Programs with multiple code files</a
+    >
+    for more information about how to do this).<br />d) Did you create a console
+    project? Try creating a new console project.
+  </p>
+</div>
+<div class="cpp-note cpp-lightbluebackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">
+    Q: When I compile my program, I get an error that main is already defined,
+    or about multiple definitions for main
+  </p>
+  <p>
+    A C++ program is only allowed to have a single function named
+    <code>main</code>. Your C++ program has more than one. Examine the files in
+    your project and delete all <code>main</code> functions except one.
+  </p>
+</div>
+<div class="cpp-note cpp-lightbluebackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">
+    Q: I’m trying to use C++11/14/17/XX functionality and it doesn’t work
+  </p>
+  <p>
+    If your compiler is old, it may not support these more recent additions to
+    the language. In that case, upgrade your compiler.
+  </p>
+  <p>
+    For modern IDEs/compilers, your compiler may be defaulting to an older
+    language standard. We cover how to change your language standard in lesson
+    <a
+      href="https://www.learncpp.com/cpp-tutorial/configuring-your-compiler-choosing-a-language-standard/"
+      >0.12 -- Configuring your compiler: Choosing a language standard</a
+    >.
+  </p>
+</div>
+<div class="cpp-note cpp-lightbluebackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">
+    Q: When I compile my program, I get an error that it cannot open the .exe
+    for writing
+  </p>
+  <p>
+    This means the linker is trying to create your executable, but it can’t.
+    This can happen for quite a few reasons:
+  </p>
+  <ul>
+    <li>
+      Most commonly, the .exe is currently running. A running executable can’t
+      be replaced while it is running. Close the running .exe and recompile.
+    </li>
+    <li>
+      Your antivirus or malware protection is preventing the executable from
+      being created or replaced.
+    </li>
+    <li>
+      The .exe already exists and is currently locked for some other reason. Try
+      rebooting (to force any locks to be released), then recompile.
+    </li>
+  </ul>
+  <p>In Visual Studio, this is error LNK1168.</p>
+</div>
+<div class="cpp-note cpp-lightbluebackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">
+    Q: When trying to use cin, cout, or endl, the compiler says cin, cout, or
+    endl is an ‘undeclared identifier’
+  </p>
+  <p>
+    First, make sure you have included the following line near the top of your
+    file:
+  </p>
+  <div class="code-toolbar">
+    <pre
+      class="line-numbers language-cpp"
+      tabindex="0"
+    ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+    <div class="toolbar">
+      <div class="toolbar-item">
+        <button
+          class="copy-to-clipboard-button"
+          type="button"
+          data-copy-state="copy"
+        >
+          <span>Copy</span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <p>
+    Second, make sure each use of cin, cout, and endl are prefixed by “std::”.
+    For example:
+  </p>
+  <div class="code-toolbar">
+    <pre
+      class="line-numbers language-cpp"
+      tabindex="0"
+    ><code class="match-braces language-cpp">std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Broccoli"</span> <span class="token operator">&lt;&lt;</span> std<span class="token double-colon punctuation">::</span>endl<span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+    <div class="toolbar">
+      <div class="toolbar-item">
+        <button
+          class="copy-to-clipboard-button"
+          type="button"
+          data-copy-state="copy"
+        >
+          <span>Copy</span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <p>
+    If this doesn’t fix your issue, then it may be that your compiler is out of
+    date, or the install is corrupted. Try reinstalling and/or upgrading to the
+    latest version of your compiler.
+  </p>
+</div>
+<div class="cpp-note cpp-lightbluebackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">
+    Q: When trying to use endl to end a printed line, the compiler says end1 is
+    an ‘undeclared identifier’
+  </p>
+  <p>
+    Make sure you do not mistake the letter l (lower case L) in endl for the
+    number 1. endl is all letters. Make sure your editor is using a font that
+    makes clear the differences between the letter lower case L, upper case i,
+    and the number 1. Also the letter capital o and the number zero can easily
+    be confused in many non-programming fonts.
+  </p>
+</div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Visual Studio issues
+</p>
+<div class="cpp-note cpp-lightbluebackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">
+    Q: When compiling with Microsoft Visual C++, you get a C1010 fatal error,
+    with an error message like "c:\vcprojects\test.cpp(263) :fatal error C1010:
+    unexpected end of file while looking for precompiled header directive"
+  </p>
+  <p>
+    This error occurs when the Microsoft Visual C++ compiler is set to use
+    precompiled headers but one (or more) of your C++ code files does not
+    #include “stdafx.h” or #include “pch.h” as the first line of the code file.
+  </p>
+  <p>
+    Our suggested fix is to turn off precompiled headers, which we show how to
+    do in lesson
+    <a
+      href="https://www.learncpp.com/cpp-tutorial/compiling-your-first-program/"
+      >0.7 -- Compiling your first program</a
+    >.
+  </p>
+  <p>
+    If you would like to keep precompiled headers turned on, to fix this
+    problem, simply locate the file(s) producing the error (in the above error,
+    test.cpp is the culprit), and add the following line at the very top of the
+    file(s):
+  </p>
+  <div class="code-toolbar">
+    <pre
+      class="line-numbers language-cpp"
+      tabindex="0"
+    ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">"pch.h"</span></span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+    <div class="toolbar">
+      <div class="toolbar-item">
+        <button
+          class="copy-to-clipboard-button"
+          type="button"
+          data-copy-state="copy"
+        >
+          <span>Copy</span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <p>
+    Older versions of Visual Studio use “stdafx.h” instead of “pch.h”, so if
+    pch.h doesn’t resolve the issue, try stdafx.h.
+  </p>
+  <p>
+    Note that for programs with multiple files, every C++ code file needs to
+    start with this line.
+  </p>
+</div>
+<div class="cpp-note cpp-lightbluebackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">
+    Q: Visual Studio gives an error like: "1MSVCRTD.lib(exe_winmain.obj) : error
+    LNK2022: unresolved external symbol _WinMain@16 referenced in function "int
+    __cdecl invoke_main(void)" (?invoke_main@@YAHXZ)"
+  </p>
+  <p>
+    You’ve likely created a Windows graphical application rather than a console
+    application. Recreate your project, and make sure to create it as a Windows
+    (or Win32) <em>Console</em> project.
+  </p>
+</div>
+<div class="cpp-note cpp-lightbluebackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">
+    Q: When I compile my program, I get a warning about "Cannot find or open the
+    PDB file"
+  </p>
+  <p>
+    This is a warning, not an error, so it shouldn’t impact your program.
+    However, it is annoying. To fix it, go into the Debug menu -&gt; Options and
+    Settings -&gt; Symbols, and check “Microsoft Symbol Server”.
+  </p>
+</div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Something else
+</p>
+<div class="cpp-note cpp-lightbluebackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">
+    Q: I have some other problem that I can’t figure out. How can I get an
+    answer quickly?
+  </p>
+  <p>
+    As you progress through the material, you’ll undoubtedly have questions or
+    run into unexpected problems. What to do next depends on your problem. But
+    in general, there are a few things you can try.
+  </p>
+  <p>
+    First, <strong>ask a search engine</strong>. Find a good way to phrase your
+    question and do a search. If you are searching an error message, paste in
+    the exact error message using quotes (exclude any filenames or line
+    numbers). Odds are someone has already asked the same question and there is
+    an answer waiting for you.
+  </p>
+  <p>
+    Second, <strong>ask an AI</strong> like
+    <a href="https://www.bing.com/chat">ChatGPT via Bing</a>. Start your
+    question with “In C++,” to get a C++ specific answer. Some ideas for things
+    you can ask for:
+  </p>
+  <ul>
+    <li>
+      An explanation of some concept (e.g. “In C++, what is a local variable?”).
+    </li>
+    <li>
+      The difference between two things (e.g. “In C++, what is the difference
+      between a pointer and a reference?”)
+    </li>
+    <li>
+      A demonstration of a concept (e.g. “In C++, write a short program that
+      adds two numbers”)
+    </li>
+  </ul>
+  <p>
+    Note that AIs may return inaccurate or outdated information, and the
+    programs they write will probably not follow modern best practices.
+  </p>
+  <p>
+    If the above fails, <strong>ask on a Q&amp;A board</strong>. There are
+    websites designed for programming questions and answers, like
+    <a href="https://www.stackoverflow.com">Stack Overflow</a>. Try posting your
+    question there. Remember to be thorough about what your problem is, and
+    include all relevant information like what OS you’re on and what IDE you’re
+    using.
+  </p>
+</div>
+<div class="prevnext">
+  <div class="prevnext-inline">
+    <a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/configuring-your-compiler-build-configurations/"
+      ><div class="nav-button nav-button-next">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-right" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Next lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">0.9</span>Configuring your
+            compiler: Build configurations
+          </div>
+        </div>
+      </div></a
+    ><a class="nav-link" href="/"
+      ><div class="nav-button nav-button-index">
+        <div class="nav-button-icon">
+          <i class="fa fa-home" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Back to table of contents</div>
+        </div>
+      </div></a
+    ><a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/compiling-your-first-program/"
+      ><div class="nav-button nav-button-prev">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-left" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Previous lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">0.7</span>Compiling your
+            first program
+          </div>
+        </div>
+      </div></a
+    >
+  </div>
+</div>
+<div class="code-block code-block-10" style="margin: 8px 0; clear: both"></div>

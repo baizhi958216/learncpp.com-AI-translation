@@ -1,0 +1,182 @@
+<div class="filtered"></div>
+<hr>
+<p>Code::Blocks 20.03 ships with an outdated version of MinGW that only supports C++17 (currently one version back from
+    the latest version of C++). If you want to use the latest version of C++ (C++20), you will need to update MinGW. To
+    do so, follow this procedure:</p>
+<ol start="1">
+    <li>Install Code::Blocks as per the above.</li>
+    <li>Close Code::Blocks if it is open.</li>
+    <li>Open Windows File Explorer (Keyboard shortcut <em>Win-E</em>).</li>
+    <li>Navigate to your Code::Blocks install directory (probably C:\Program Files (x86)\CodeBlocks).</li>
+    <li>Rename the “MinGW” directory to “MinGW.bak” (in case something goes wrong).</li>
+    <li>Open a browser and navigate to <a href="https://winlibs.com/">https://winlibs.com/</a>.</li>
+    <li>Download an updated version of MinGW-w64. You probably want the one under <em>Release Versions -&gt; UCRT
+            Runtime -&gt; LATEST -&gt; Win64 -&gt; without LLVM/Clang/LLD/LLDB -&gt; Zip archive</em>.</li>
+    <li>Extract the “mingw64” folder to your Code::blocks install directory.</li>
+    <li>Rename “mingw64” to “MinGW”.</li>
+</ol>
+<p>Once you have confirmed the updated compiler works, you can delete the old folder (“MinGW.bak”).</p>
+</div>
+<div class="cpp-note cpp-lightyellowbackground" data-ezoic-video-excluded="1">
+    <p class="cpp-note-title cpp-bottomline">For Linux users</p>
+    <p>Some Linux installations may be missing dependencies needed to run or compile programs with Code::Blocks.</p>
+    <p>Debian-based Linux users (such as those on Mint or Ubuntu) may need to install the <em>build-essential</em>
+        package. To do so from the terminal command line, type: <code>sudo apt-get install build-essential</code>.</p>
+    <p>Arch Linux users may need to install the <em>base-devel</em> package.</p>
+    <p>Users on other Linux variants will need to determine what their equivalent package manager and packages are.</p>
+</div>
+<p>When you launch Code::Blocks for the first time, you may get a <em>Compilers auto-detection</em> dialog. If you do,
+    make sure <em>GNU GCC Compiler</em> is set as the default compiler and then select the <em>OK</em> button.</p>
+<div class="cpp-image-wrapper"><img
+        src="https://www.learncpp.com/images/CppTutorial/Chapter0/CompilersAutoDetection-min.png"
+        alt="Compilers Auto Detection dialog"></div>
+<div class="cpp-note cpp-lightbluebackground" data-ezoic-video-excluded="1">
+    <p class="cpp-note-title cpp-bottomline">Q: What do I do if I get a "Can’t find compiler executable in your
+        configured search paths for GNU GCC Compiler" error?</p>
+    <p>Try the following:</p>
+    <ol start="1">
+        <li>If you’re on Windows, make sure you’ve downloaded the version of Code::Blocks WITH MinGW. It’s the one with
+            “mingw” in the name.</li>
+        <li>Try going to settings, compiler, and choose “reset to defaults”.</li>
+        <li>Try going to settings, compiler, toolchain executables tab, and make sure “Compiler’s installation
+            directory” is set to the MinGW directory (e.g. C:\Program Files (x86)\CodeBlocks\MinGW).</li>
+        <li>Try doing a full uninstall, then reinstall.</li>
+        <li><a href="http://wiki.codeblocks.org/index.php/Installing_a_supported_compiler">Try a different compiler.</a>
+        </li>
+    </ol>
+</div>
+<p class="cpp-section cpp-topline" style="clear:both" data-ezoic-video-excluded="1">Visual Studio Code (for experienced
+    Linux, macOS, or Windows users)</p>
+<p>Visual Studio Code (also called “VS Code”, not to be confused with the similarly named “Visual Studio Community”) is
+    a code editor that is a popular choice with experienced developers because it is fast, flexible, open source, works
+    for multiple programming languages, and is available for many different platforms.</p>
+<p>The downside is that VS Code is much harder to configure correctly than other choices on this list (and on Windows,
+    harder to install as well). Before proceeding, we recommend reading through the installation and configuration
+    documents linked below to ensure you understand and are comfortable with the steps involved.</p>
+<div class="cpp-note cpp-lightredbackground" data-ezoic-video-excluded="1">
+    <p class="cpp-note-title cpp-bottomline">Warning</p>
+    <p>This tutorial series does not have complete instructions for VS Code.</p>
+    <p>Visual Studio Code is <em>not</em> a good option for C++ beginners, and readers have reported many different
+        challenges getting Visual Studio Code installed and configured correctly for C++.</p>
+    <p>Please do not choose this option unless you are already familiar with Visual Studio Code from prior use, or have
+        experience debugging configuration issues.</p>
+    <p>We cannot provide installation or configuration support for Visual Studio Code on this site.</p>
+</div>
+<p>A tip o’ the hat to user glibg10b for providing an initial draft of VS Code instructions across multiple articles.
+</p>
+<div class="code-block code-block-3" style="margin:8px 0;clear:both"></div>
+<div class="cpp-note cpp-lightyellowbackground" data-ezoic-video-excluded="1">
+    <p class="cpp-note-title cpp-bottomline">For Linux users</p>
+    <p>VS Code should be downloaded using your distribution’s package manager. The <a
+            href="https://code.visualstudio.com/docs/setup/linux">VS Code instructions for linux</a> cover how to do
+        this for various Linux distributions.</p>
+    <p>Once VS Code is installed, follow the <a href="https://code.visualstudio.com/docs/cpp/config-linux">instructions
+            on how to configure C++ for linux</a>.</p>
+</div>
+<div class="cpp-note cpp-lightyellowbackground" data-ezoic-video-excluded="1">
+    <p class="cpp-note-title cpp-bottomline">For Mac users</p>
+    <p>The <a href="https://code.visualstudio.com/docs/setup/mac">VS Code instructions for Mac</a> detail how to install
+        and setup VS Code for macOS.</p>
+    <p>Once VS Code is installed, follow the <a
+            href="https://code.visualstudio.com/docs/cpp/config-clang-mac">instructions on how to configure C++ for
+            Mac</a>.</p>
+</div>
+<div class="cpp-note cpp-lightyellowbackground" data-ezoic-video-excluded="1">
+    <p class="cpp-note-title cpp-bottomline">For Windows users</p>
+    <p>The <a href="https://code.visualstudio.com/docs/setup/windows">VS Code instructions for Windows</a> detail how to
+        install and setup VS Code for Windows.</p>
+    <p>Once VS Code is installed, follow the <a href="https://code.visualstudio.com/docs/cpp/config-mingw">instructions
+            on how to configure C++ for Windows</a>.</p>
+</div>
+<p class="cpp-section cpp-topline" style="clear:both" data-ezoic-video-excluded="1">Other macOS IDEs</p>
+<p>Other popular Mac choices include <a href="https://developer.apple.com/xcode/">Xcode</a> (if it is available to you)
+    and the <a href="https://www.eclipse.org/">Eclipse</a> code editor. Eclipse is not set up to use C++ by default, and
+    you will need to install the optional C++ components.</p>
+<p class="cpp-section cpp-topline" style="clear:both" data-ezoic-video-excluded="1">Other compilers or platforms</p>
+<div class="cpp-note cpp-lightbluebackground" data-ezoic-video-excluded="1">
+    <p class="cpp-note-title cpp-bottomline">Q: Can I use a web-based compiler?</p>
+    <p>Yes, for some things. While your IDE is downloading (or if you’re not sure you want to commit to installing one
+        yet), you can continue this tutorial using a web-based compiler. We recommend one of the following:</p>
+    <ul>
+        <li><a href="https://www.tutorialspoint.com/compile_cpp_online.php">TutorialsPoint</a></li>
+        <li><a href="https://wandbox.org/">Wandbox</a> (can choose different versions of GCC or Clang)</li>
+        <li><a href="https://godbolt.org/">Godbolt</a> (can see assembly)</li>
+    </ul>
+    <p>Web-based compilers are fine for dabbling and simple exercises. However, they are generally quite limited in
+        functionality -- many won’t allow you to create multiple files or effectively debug your programs, and most
+        don’t support interactive input. You’ll want to migrate to a full IDE when you can.</p>
+</div>
+<div class="cpp-note cpp-lightbluebackground" data-ezoic-video-excluded="1">
+    <p class="cpp-note-title cpp-bottomline">Q: Can I use a command-line compiler (e.g. g++ on Linux)?</p>
+    <p>Yes, but we don’t recommend it for beginners. You’ll need to find your own editor and look up how to use it
+        elsewhere. Learning to use a command line debugger is not as easy as an integrated debugger, and will make
+        debugging your programs more difficult.</p>
+</div>
+<div class="cpp-note cpp-lightbluebackground" data-ezoic-video-excluded="1">
+    <p class="cpp-note-title cpp-bottomline">Q: Can I use other code editors or IDEs, such as Eclipse, Sublime, or
+        Notepad++?</p>
+    <p>Yes, but we don’t recommend it for beginners. There are many great code editors and IDEs that can be configured
+        to support a wide variety of languages, and allow you to mix and match plugins to customize your experience
+        however you like. However, many of these editors and IDEs require additional configuration to compile C++
+        programs, and there’s a lot that can go wrong during that process. For beginners, we recommend something that
+        works out of the box, so you can spend more time learning to code and less time trying to figure out why your
+        code editor isn’t working properly with your compiler or debugger.</p>
+</div>
+<p class="cpp-section cpp-topline" style="clear:both" data-ezoic-video-excluded="1">IDEs to avoid</p>
+<p>You should avoid the following IDEs altogether because they do not support at least C++11, do not support C++ at all,
+    or are no longer actively supported or maintained:</p>
+<ul>
+    <li>Borland Turbo C++ -- does not support C++11</li>
+    <li>Visual Studio for Mac -- does not support C++. (Note: this is a different product than VS Code).</li>
+    <li>Dev C++ -- not actively supported</li>
+</ul>
+<p>There is no good reason to use an outdated or unsupported compiler when lightweight, free alternatives that support
+    modern C++ exist.</p>
+<p class="cpp-section cpp-topline" style="clear:both" data-ezoic-video-excluded="1">When things go wrong (a.k.a. when
+    IDE stands for “I don’t even…”)</p>
+<div class="code-block code-block-4" style="margin:8px 0;clear:both"></div>
+<p>IDE installations seem to cause their fair share of problems. Installation might fail outright (or installation might
+    work but the IDE will have problems when you try to use it due to a configuration issue). If you encounter such
+    issues, try uninstalling the IDE (assuming it installed in the first place), reboot your machine, disable your
+    antivirus or anti-malware temporarily, and try the installation again.</p>
+<p>If you’re still encountering issues at this point, you have two options. The easier option is to try a different IDE.
+    The other option is to fix the problem. Unfortunately, the causes of installation and configuration errors are
+    varied and specific to the IDE software itself, and we’re unable to effectively advise on how to resolve such
+    issues. In this case, we recommend copying the error message or problem you are having into your favorite search
+    engine (such as Google or Duck Duck Go) and trying to find a forum post elsewhere from some poor soul who has
+    inevitably encountered the same issue. Often there will be suggestions on things you can try to remedy the issue.
+</p>
+<p class="cpp-section cpp-topline" style="clear:both" data-ezoic-video-excluded="1">Moving on</p>
+<p>Once your IDE is installed (which can be one of the hardest steps if things don’t go as expected), or if you’re
+    temporarily proceeding with a web-based compiler, you are ready to write your first program!</p>
+<div class="prevnext">
+    <div class="prevnext-inline"><a class="nav-link"
+            href="https://www.learncpp.com/cpp-tutorial/compiling-your-first-program/">
+            <div class="nav-button nav-button-next">
+                <div class="nav-button-icon"><i class="fa fa-chevron-circle-right" aria-hidden="true"></i></div>
+                <div class="nav-button-text">
+                    <div class="nav-button-title">Next lesson</div>
+                    <div class="nav-button-lesson"><span class="nav-button-lesson-number">0.7</span>Compiling your first
+                        program</div>
+                </div>
+            </div>
+        </a><a class="nav-link" href="/">
+            <div class="nav-button nav-button-index">
+                <div class="nav-button-icon"><i class="fa fa-home" aria-hidden="true"></i></div>
+                <div class="nav-button-text">
+                    <div class="nav-button-title">Back to table of contents</div>
+                </div>
+            </div>
+        </a><a class="nav-link"
+            href="https://www.learncpp.com/cpp-tutorial/introduction-to-the-compiler-linker-and-libraries/">
+            <div class="nav-button nav-button-prev">
+                <div class="nav-button-icon"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i></div>
+                <div class="nav-button-text">
+                    <div class="nav-button-title">Previous lesson</div>
+                    <div class="nav-button-lesson"><span class="nav-button-lesson-number">0.5</span>Introduction to the
+                        compiler, linker, and libraries</div>
+                </div>
+            </div>
+        </a></div>
+</div>
+<div class="code-block code-block-10" style="margin:8px 0;clear:both"></div>

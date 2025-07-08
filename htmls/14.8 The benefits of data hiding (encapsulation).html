@@ -1,0 +1,1642 @@
+<div
+  class="code-block code-block-1"
+  style="margin: 8px 8px 8px 0; float: left"
+></div>
+<p>
+  In a previous lesson (<a
+    href="https://www.learncpp.com/cpp-tutorial/public-and-private-members-and-access-specifiers/"
+    >14.5 -- Public and private members and access specifiers</a
+  >), we mentioned that the member variables of a class are typically made
+  private. Programmers who are learning about classes for the first time often
+  have a hard time understanding why you’d want to do this. After all, making
+  your variables private means they can’t be accessed by the public. At best,
+  this makes for more work when writing your classes. At worst, it may seem
+  completely pointless (especially if we’re providing public access functions to
+  the private member data).
+</p>
+<p>
+  The answer to this question is so foundational that we’re going to spend an
+  entire lesson on the topic!
+</p>
+<p>Let’s start with an analogy.</p>
+<p>
+  In modern life, we have access to many mechanical or electronic devices. You
+  turn your TV on/off with a remote control. You make your car move forward by
+  pressing the gas pedal. You turn on your lights by flipping a switch. All of
+  these devices have something in common: They provide a simple user interface
+  (a set of buttons, a pedal, a switch, etc…) that allows you to perform key
+  actions.
+</p>
+<p>
+  How these devices actually operate is hidden away from you. When you press the
+  button on your remote control, you don’t need to know how the remote is
+  communicating with your TV. When you press the gas pedal on your car, you
+  don’t need to know how the combustion engine makes the wheels turn. When you
+  take a picture, you don’t need to know how the sensors gather light and turn
+  that light into a pixelated image.
+</p>
+<div class="code-block code-block-2" style="margin: 8px 0; clear: both"></div>
+
+<p>
+  This separation of interface and implementation is extremely useful because it
+  allows us to use objects without having to understand how they work --
+  instead, we only have to understand how to interact with them. This vastly
+  reduces the complexity of using these objects, and increases the number of
+  objects we’re capable of interacting with.
+</p>
+<p class="cpp-section cpp-topline" style="clear: both">
+  Implementation and interfaces in class types
+</p>
+<p>
+  For similar reasons, the separation of interface and implementation is useful
+  in programming. But first, let’s define what we mean by interface and
+  implementation with regards to class types.
+</p>
+<p>
+  The <strong>interface</strong> of a class type (also called a
+  <strong>class interface</strong>) defines how a user of the class type will
+  interact with objects of the class type. Because only public members can be
+  accessed from outside of the class type, the public members of a class type
+  form its interface. For this reason, an interface composed of public members
+  is sometimes called a <strong>public interface</strong>.
+</p>
+<p>
+  An interface is an implicit contract between the author of a class and the
+  user of a class. If an existing interface is ever changed, any code that uses
+  it may break. Therefore, it is important to ensure the interfaces for our
+  class types are well-designed and stable (don’t change much).
+</p>
+<div
+  class="google-auto-placed ap_container"
+  style="width: 100%; height: auto; clear: both; text-align: center"
+>
+  <ins
+    data-ad-format="auto"
+    class="adsbygoogle adsbygoogle-noablate"
+    data-ad-client="ca-pub-0588844875925051"
+    data-adsbygoogle-status="done"
+    style="
+      display: block;
+      margin: auto;
+      background-color: transparent;
+      height: 280px;
+    "
+    data-ad-status="unfilled"
+    ><div
+      id="aswift_5_host"
+      style="
+        border: none;
+        height: 280px;
+        width: 1027px;
+        margin: 0px;
+        padding: 0px;
+        position: relative;
+        visibility: visible;
+        background-color: transparent;
+        display: inline-block;
+        overflow: visible;
+      "
+    >
+      <iframe
+        id="aswift_5"
+        name="aswift_5"
+        browsingtopics="true"
+        style="
+          left: 0;
+          position: absolute;
+          top: 0;
+          border: 0;
+          width: 1027px;
+          height: 280px;
+          min-height: auto;
+          max-height: none;
+          min-width: auto;
+          max-width: none;
+        "
+        sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation"
+        width="1027"
+        height="280"
+        frameborder="0"
+        marginwidth="0"
+        marginheight="0"
+        vspace="0"
+        hspace="0"
+        allowtransparency="true"
+        scrolling="no"
+        allow="attribution-reporting; run-ad-auction"
+        src="https://googleads.g.doubleclick.net/pagead/ads?client=ca-pub-0588844875925051&amp;output=html&amp;h=280&amp;adk=2195196278&amp;adf=3619790847&amp;w=1027&amp;abgtt=11&amp;fwrn=4&amp;fwrnh=100&amp;lmt=1751962938&amp;num_ads=1&amp;rafmt=1&amp;armr=3&amp;sem=mc&amp;pwprc=4633386603&amp;ad_type=text_image&amp;format=1027x280&amp;url=https%3A%2F%2Fwww.learncpp.com%2Fcpp-tutorial%2Fthe-benefits-of-data-hiding-encapsulation%2F&amp;fwr=0&amp;pra=3&amp;rh=200&amp;rw=1026&amp;rpe=1&amp;resp_fmts=3&amp;wgl=1&amp;fa=27&amp;uach=WyJXaW5kb3dzIiwiMTkuMC4wIiwieDg2IiwiIiwiMTM3LjAuNzE1MS4xMjIiLG51bGwsMCxudWxsLCI2NCIsW1siR29vZ2xlIENocm9tZSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJDaHJvbWl1bSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJOb3QvQSlCcmFuZCIsIjI0LjAuMC4wIl1dLDBd&amp;dt=1751962938152&amp;bpp=1&amp;bdt=801&amp;idt=-M&amp;shv=r20250702&amp;mjsv=m202507020101&amp;ptt=9&amp;saldr=aa&amp;abxe=1&amp;cookie=ID%3D05f6e82287d810b4%3AT%3D1751962604%3ART%3D1751962911%3AS%3DALNI_MaQYA0TSAU2k8xwY5tqlN0xFCcd6g&amp;gpic=UID%3D00001157d9e27d0a%3AT%3D1751962604%3ART%3D1751962911%3AS%3DALNI_MYgtHzQJAQQXY_151HTGSSfVxE8_A&amp;eo_id_str=ID%3D52c21936d98c6d2b%3AT%3D1751962604%3ART%3D1751962911%3AS%3DAA-AfjZsJ15yjdEPJ8d11hPojsJQ&amp;prev_fmts=0x0%2C336x280%2C160x600%2C160x600&amp;nras=2&amp;correlator=2022583367508&amp;frm=20&amp;pv=1&amp;u_tz=480&amp;u_his=2&amp;u_h=600&amp;u_w=800&amp;u_ah=600&amp;u_aw=800&amp;u_cd=24&amp;u_sd=1&amp;dmc=8&amp;adx=27&amp;ady=896&amp;biw=1080&amp;bih=1024&amp;scr_x=0&amp;scr_y=0&amp;eid=31093233%2C95332925%2C95353386%2C95362655%2C95365226%2C95365234%2C95352053%2C95359265%2C95365115%2C95365798&amp;oid=2&amp;pvsid=6013376072656762&amp;tmod=1708485235&amp;uas=0&amp;nvt=1&amp;fc=1408&amp;brdim=10%2C10%2C10%2C10%2C800%2C0%2C780%2C580%2C1080%2C1024&amp;vis=1&amp;rsz=%7C%7Cs%7C&amp;abl=NS&amp;fu=128&amp;bc=31&amp;bz=0.72&amp;td=1&amp;tdf=2&amp;psd=W251bGwsbnVsbCxudWxsLDNd&amp;nt=1&amp;ifi=6&amp;uci=a!6&amp;fsb=1&amp;dtd=20"
+        data-google-container-id="a!6"
+        tabindex="0"
+        title="Advertisement"
+        aria-label="Advertisement"
+        data-load-complete="true"
+        data-google-query-id="CKz0osTqrI4DFRKV6QUdMnkJyA"
+      ></iframe></div
+  ></ins>
+</div>
+<div class="code-block code-block-3" style="margin: 8px 0; clear: both"></div>
+
+<p>
+  The <strong>implementation</strong> of a class type consists of the code that
+  actually makes the class behave as intended. This includes both the member
+  variables that store data, and the bodies of the member functions that contain
+  the program logic and manipulate the member variables.
+</p>
+<p class="cpp-section cpp-topline" style="clear: both">Data hiding</p>
+<p>
+  In programming, <strong>data hiding</strong> (also called
+  <strong>information hiding</strong> or <strong>data abstraction</strong>) is a
+  technique used to enforce the separation of interface and implementation by
+  hiding (making inaccessible) the implementation of a program-defined data type
+  from users.
+</p>
+<p>
+  Implementing data hiding in a C++ class type is simple. First, we ensure the
+  data members of the class type are private (so that the user can not directly
+  access them). The statements inside the bodies of member functions are already
+  not directly accessible to users, so we don’t need to do anything else there.
+  Next, we ensure the member functions are public, so that the user can call
+  them.
+</p>
+<div
+  class="google-auto-placed ap_container"
+  style="width: 100%; height: auto; clear: both; text-align: center"
+>
+  <ins
+    data-ad-format="auto"
+    class="adsbygoogle adsbygoogle-noablate"
+    data-ad-client="ca-pub-0588844875925051"
+    data-adsbygoogle-status="done"
+    style="
+      display: block;
+      margin: auto;
+      background-color: transparent;
+      height: 0px;
+    "
+    data-ad-status="unfilled"
+    ><div
+      id="aswift_6_host"
+      style="
+        border: none;
+        height: 0px;
+        width: 1027px;
+        margin: 0px;
+        padding: 0px;
+        position: relative;
+        visibility: visible;
+        background-color: transparent;
+        display: inline-block;
+        overflow: hidden;
+        opacity: 0;
+      "
+    >
+      <iframe
+        id="aswift_6"
+        name="aswift_6"
+        browsingtopics="true"
+        style="
+          left: 0px;
+          position: absolute;
+          top: 0px;
+          border: 0px;
+          width: 1027px;
+          height: 0px;
+          min-height: auto;
+          max-height: none;
+          min-width: auto;
+          max-width: none;
+        "
+        sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation"
+        width="1027"
+        height="0"
+        frameborder="0"
+        marginwidth="0"
+        marginheight="0"
+        vspace="0"
+        hspace="0"
+        allowtransparency="true"
+        scrolling="no"
+        allow="attribution-reporting; run-ad-auction"
+        src="https://googleads.g.doubleclick.net/pagead/ads?client=ca-pub-0588844875925051&amp;output=html&amp;h=280&amp;adk=2195196278&amp;adf=632350761&amp;w=1027&amp;abgtt=11&amp;fwrn=4&amp;fwrnh=100&amp;lmt=1751962938&amp;num_ads=1&amp;rafmt=1&amp;armr=3&amp;sem=mc&amp;pwprc=4633386603&amp;ad_type=text_image&amp;format=1027x280&amp;url=https%3A%2F%2Fwww.learncpp.com%2Fcpp-tutorial%2Fthe-benefits-of-data-hiding-encapsulation%2F&amp;fwr=0&amp;pra=3&amp;rh=200&amp;rw=1026&amp;rpe=1&amp;resp_fmts=3&amp;wgl=1&amp;fa=27&amp;uach=WyJXaW5kb3dzIiwiMTkuMC4wIiwieDg2IiwiIiwiMTM3LjAuNzE1MS4xMjIiLG51bGwsMCxudWxsLCI2NCIsW1siR29vZ2xlIENocm9tZSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJDaHJvbWl1bSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJOb3QvQSlCcmFuZCIsIjI0LjAuMC4wIl1dLDBd&amp;dt=1751962938152&amp;bpp=1&amp;bdt=801&amp;idt=-M&amp;shv=r20250702&amp;mjsv=m202507020101&amp;ptt=9&amp;saldr=aa&amp;abxe=1&amp;cookie=ID%3D05f6e82287d810b4%3AT%3D1751962604%3ART%3D1751962911%3AS%3DALNI_MaQYA0TSAU2k8xwY5tqlN0xFCcd6g&amp;gpic=UID%3D00001157d9e27d0a%3AT%3D1751962604%3ART%3D1751962911%3AS%3DALNI_MYgtHzQJAQQXY_151HTGSSfVxE8_A&amp;eo_id_str=ID%3D52c21936d98c6d2b%3AT%3D1751962604%3ART%3D1751962911%3AS%3DAA-AfjZsJ15yjdEPJ8d11hPojsJQ&amp;prev_fmts=0x0%2C336x280%2C160x600%2C160x600%2C1027x280&amp;nras=3&amp;correlator=2022583367508&amp;frm=20&amp;pv=1&amp;u_tz=480&amp;u_his=2&amp;u_h=600&amp;u_w=800&amp;u_ah=600&amp;u_aw=800&amp;u_cd=24&amp;u_sd=1&amp;dmc=8&amp;adx=27&amp;ady=1420&amp;biw=1080&amp;bih=1024&amp;scr_x=0&amp;scr_y=0&amp;eid=31093233%2C95332925%2C95353386%2C95362655%2C95365226%2C95365234%2C95352053%2C95359265%2C95365115%2C95365798&amp;oid=2&amp;pvsid=6013376072656762&amp;tmod=1708485235&amp;uas=0&amp;nvt=1&amp;fc=1408&amp;brdim=10%2C10%2C10%2C10%2C800%2C0%2C780%2C580%2C1080%2C1024&amp;vis=1&amp;rsz=%7C%7Cs%7C&amp;abl=NS&amp;fu=128&amp;bc=31&amp;bz=0.72&amp;td=1&amp;tdf=2&amp;psd=W251bGwsbnVsbCxudWxsLDNd&amp;nt=1&amp;ifi=7&amp;uci=a!7&amp;btvi=1&amp;fsb=1&amp;dtd=21"
+        data-google-container-id="a!7"
+        tabindex="0"
+        title="Advertisement"
+        aria-label="Advertisement"
+        data-load-complete="true"
+        data-google-query-id="CPHqosTqrI4DFZOg6QUdDYg3Ow"
+      ></iframe></div
+  ></ins>
+</div>
+<p>
+  By following these rules, we force the user of a class type to manipulate
+  objects using the public interface, and prevent them from directly accessing
+  implementation details.
+</p>
+<p>
+  Classes defined in C++ should use data hiding. And in fact, all of the classes
+  provided by the standard library do just that. Structs, on the other hand,
+  should not use data hiding, as having non-public members prevents them from
+  being treated as aggregates.
+</p>
+<div class="code-block code-block-4" style="margin: 8px 0; clear: both"></div>
+
+<p>
+  Defining classes this way requires a bit of extra work for the class author.
+  And requiring users of the class to use the public interface may seem more
+  burdensome than providing public access to the member variables directly. But
+  doing so provides a large number of useful benefits that help encourage class
+  reusability and maintainability. We’ll spend the rest of the lesson discussing
+  these benefits.
+</p>
+<div class="cpp-note cpp-lightgraybackground" style="height: auto !important">
+  <p class="cpp-note-title cpp-bottomline">Nomenclature</p>
+  <div
+    class="google-auto-placed ap_container"
+    style="width: 100%; height: auto; clear: both; text-align: center"
+  >
+    <ins
+      data-ad-format="auto"
+      class="adsbygoogle adsbygoogle-noablate"
+      data-ad-client="ca-pub-0588844875925051"
+      data-adsbygoogle-status="done"
+      style="
+        display: block;
+        margin: auto;
+        background-color: transparent;
+        height: 0px;
+      "
+      data-ad-status="unfilled"
+      ><div
+        id="aswift_7_host"
+        style="
+          border: none;
+          height: 0px;
+          width: 995px;
+          margin: 0px;
+          padding: 0px;
+          position: relative;
+          visibility: visible;
+          background-color: transparent;
+          display: inline-block;
+          overflow: hidden;
+          opacity: 0;
+        "
+      >
+        <iframe
+          id="aswift_7"
+          name="aswift_7"
+          browsingtopics="true"
+          style="
+            left: 0px;
+            position: absolute;
+            top: 0px;
+            border: 0px;
+            width: 995px;
+            height: 0px;
+            min-height: auto;
+            max-height: none;
+            min-width: auto;
+            max-width: none;
+          "
+          sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation"
+          width="995"
+          height="0"
+          frameborder="0"
+          marginwidth="0"
+          marginheight="0"
+          vspace="0"
+          hspace="0"
+          allowtransparency="true"
+          scrolling="no"
+          allow="attribution-reporting; run-ad-auction"
+          src="https://googleads.g.doubleclick.net/pagead/ads?client=ca-pub-0588844875925051&amp;output=html&amp;h=280&amp;adk=503888142&amp;adf=529988139&amp;w=995&amp;abgtt=11&amp;fwrn=4&amp;fwrnh=100&amp;lmt=1751962938&amp;num_ads=1&amp;rafmt=1&amp;armr=3&amp;sem=mc&amp;pwprc=4633386603&amp;ad_type=text_image&amp;format=995x280&amp;url=https%3A%2F%2Fwww.learncpp.com%2Fcpp-tutorial%2Fthe-benefits-of-data-hiding-encapsulation%2F&amp;fwr=0&amp;pra=3&amp;rh=200&amp;rw=994&amp;rpe=1&amp;resp_fmts=3&amp;wgl=1&amp;fa=27&amp;uach=WyJXaW5kb3dzIiwiMTkuMC4wIiwieDg2IiwiIiwiMTM3LjAuNzE1MS4xMjIiLG51bGwsMCxudWxsLCI2NCIsW1siR29vZ2xlIENocm9tZSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJDaHJvbWl1bSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJOb3QvQSlCcmFuZCIsIjI0LjAuMC4wIl1dLDBd&amp;dt=1751962938152&amp;bpp=1&amp;bdt=801&amp;idt=-M&amp;shv=r20250702&amp;mjsv=m202507020101&amp;ptt=9&amp;saldr=aa&amp;abxe=1&amp;cookie=ID%3D05f6e82287d810b4%3AT%3D1751962604%3ART%3D1751962911%3AS%3DALNI_MaQYA0TSAU2k8xwY5tqlN0xFCcd6g&amp;gpic=UID%3D00001157d9e27d0a%3AT%3D1751962604%3ART%3D1751962911%3AS%3DALNI_MYgtHzQJAQQXY_151HTGSSfVxE8_A&amp;eo_id_str=ID%3D52c21936d98c6d2b%3AT%3D1751962604%3ART%3D1751962911%3AS%3DAA-AfjZsJ15yjdEPJ8d11hPojsJQ&amp;prev_fmts=0x0%2C336x280%2C160x600%2C160x600%2C1027x280%2C1027x280&amp;nras=4&amp;correlator=2022583367508&amp;frm=20&amp;pv=1&amp;u_tz=480&amp;u_his=2&amp;u_h=600&amp;u_w=800&amp;u_ah=600&amp;u_aw=800&amp;u_cd=24&amp;u_sd=1&amp;dmc=8&amp;adx=43&amp;ady=1935&amp;biw=1080&amp;bih=1024&amp;scr_x=0&amp;scr_y=0&amp;eid=31093233%2C95332925%2C95353386%2C95362655%2C95365226%2C95365234%2C95352053%2C95359265%2C95365115%2C95365798&amp;oid=2&amp;pvsid=6013376072656762&amp;tmod=1708485235&amp;uas=0&amp;nvt=1&amp;fc=1408&amp;brdim=10%2C10%2C10%2C10%2C800%2C0%2C780%2C580%2C1080%2C1024&amp;vis=1&amp;rsz=%7C%7Cs%7C&amp;abl=NS&amp;fu=128&amp;bc=31&amp;bz=0.72&amp;td=1&amp;tdf=2&amp;psd=W251bGwsbnVsbCxudWxsLDNd&amp;nt=1&amp;ifi=8&amp;uci=a!8&amp;btvi=2&amp;fsb=1&amp;dtd=22"
+          data-google-container-id="a!8"
+          tabindex="0"
+          title="Advertisement"
+          aria-label="Advertisement"
+          data-load-complete="true"
+          data-google-query-id="CIKIo8TqrI4DFdyI6QUd_0Q2Sw"
+        ></iframe></div
+    ></ins>
+  </div>
+  <p>
+    In programming, the term <strong>encapsulation</strong> typically refers to
+    one of two things:
+  </p>
+  <ul>
+    <li>The enclosing of one or more items within a container of some kind.</li>
+    <li>
+      The bundling of data and functions for operating on instances of that
+      data.
+    </li>
+  </ul>
+  <p>
+    In C++, a class type that has data and a public interface for creating and
+    manipulating objects of that class is encapsulated. Because encapsulation is
+    a prerequisite for data hiding, and because data hiding is such an important
+    technique, conventionally the term encapsulation often includes data hiding
+    as well.
+  </p>
+  <p>
+    In this tutorial series, we’ll assume all encapsulated classes implement
+    data hiding.
+  </p>
+</div>
+<p class="cpp-section cpp-topline" style="clear: both">
+  Data hiding make classes easier to use, and reduces complexity
+</p>
+<div
+  class="google-auto-placed ap_container"
+  style="width: 100%; height: auto; clear: both; text-align: center"
+>
+  <ins
+    data-ad-format="auto"
+    class="adsbygoogle adsbygoogle-noablate"
+    data-ad-client="ca-pub-0588844875925051"
+    data-adsbygoogle-status="done"
+    style="
+      display: block;
+      margin: auto;
+      background-color: transparent;
+      height: 0px;
+    "
+    data-ad-status="unfilled"
+    ><div
+      id="aswift_8_host"
+      style="
+        border: none;
+        height: 0px;
+        width: 1027px;
+        margin: 0px;
+        padding: 0px;
+        position: relative;
+        visibility: visible;
+        background-color: transparent;
+        display: inline-block;
+        overflow: hidden;
+        opacity: 0;
+      "
+    >
+      <iframe
+        id="aswift_8"
+        name="aswift_8"
+        browsingtopics="true"
+        style="
+          left: 0px;
+          position: absolute;
+          top: 0px;
+          border: 0px;
+          width: 1027px;
+          height: 0px;
+          min-height: auto;
+          max-height: none;
+          min-width: auto;
+          max-width: none;
+        "
+        sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation"
+        width="1027"
+        height="0"
+        frameborder="0"
+        marginwidth="0"
+        marginheight="0"
+        vspace="0"
+        hspace="0"
+        allowtransparency="true"
+        scrolling="no"
+        allow="attribution-reporting; run-ad-auction"
+        src="https://googleads.g.doubleclick.net/pagead/ads?client=ca-pub-0588844875925051&amp;output=html&amp;h=280&amp;adk=2195196278&amp;adf=1857175867&amp;w=1027&amp;abgtt=11&amp;fwrn=4&amp;fwrnh=100&amp;lmt=1751962938&amp;num_ads=1&amp;rafmt=1&amp;armr=3&amp;sem=mc&amp;pwprc=4633386603&amp;ad_type=text_image&amp;format=1027x280&amp;url=https%3A%2F%2Fwww.learncpp.com%2Fcpp-tutorial%2Fthe-benefits-of-data-hiding-encapsulation%2F&amp;fwr=0&amp;pra=3&amp;rh=200&amp;rw=1026&amp;rpe=1&amp;resp_fmts=3&amp;wgl=1&amp;fa=27&amp;uach=WyJXaW5kb3dzIiwiMTkuMC4wIiwieDg2IiwiIiwiMTM3LjAuNzE1MS4xMjIiLG51bGwsMCxudWxsLCI2NCIsW1siR29vZ2xlIENocm9tZSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJDaHJvbWl1bSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJOb3QvQSlCcmFuZCIsIjI0LjAuMC4wIl1dLDBd&amp;dt=1751962938152&amp;bpp=1&amp;bdt=801&amp;idt=-M&amp;shv=r20250702&amp;mjsv=m202507020101&amp;ptt=9&amp;saldr=aa&amp;abxe=1&amp;cookie=ID%3D05f6e82287d810b4%3AT%3D1751962604%3ART%3D1751962911%3AS%3DALNI_MaQYA0TSAU2k8xwY5tqlN0xFCcd6g&amp;gpic=UID%3D00001157d9e27d0a%3AT%3D1751962604%3ART%3D1751962911%3AS%3DALNI_MYgtHzQJAQQXY_151HTGSSfVxE8_A&amp;eo_id_str=ID%3D52c21936d98c6d2b%3AT%3D1751962604%3ART%3D1751962911%3AS%3DAA-AfjZsJ15yjdEPJ8d11hPojsJQ&amp;prev_fmts=0x0%2C336x280%2C160x600%2C160x600%2C1027x280%2C1027x280%2C995x280&amp;nras=5&amp;correlator=2022583367508&amp;frm=20&amp;pv=1&amp;u_tz=480&amp;u_his=2&amp;u_h=600&amp;u_w=800&amp;u_ah=600&amp;u_aw=800&amp;u_cd=24&amp;u_sd=1&amp;dmc=8&amp;adx=27&amp;ady=2458&amp;biw=1080&amp;bih=1024&amp;scr_x=0&amp;scr_y=0&amp;eid=31093233%2C95332925%2C95353386%2C95362655%2C95365226%2C95365234%2C95352053%2C95359265%2C95365115%2C95365798&amp;oid=2&amp;pvsid=6013376072656762&amp;tmod=1708485235&amp;uas=0&amp;nvt=1&amp;fc=1408&amp;brdim=10%2C10%2C10%2C10%2C800%2C0%2C780%2C580%2C1080%2C1024&amp;vis=1&amp;rsz=%7C%7Cs%7C&amp;abl=NS&amp;fu=128&amp;bc=31&amp;bz=0.72&amp;td=1&amp;tdf=2&amp;psd=W251bGwsbnVsbCxudWxsLDNd&amp;nt=1&amp;ifi=9&amp;uci=a!9&amp;btvi=3&amp;fsb=1&amp;dtd=23"
+        data-google-container-id="a!9"
+        tabindex="0"
+        title="Advertisement"
+        aria-label="Advertisement"
+        data-load-complete="true"
+        data-google-query-id="CLudo8TqrI4DFQ-G6QUdY3AjlQ"
+      ></iframe></div
+  ></ins>
+</div>
+<p>
+  To use an encapsulated class, you don’t need to know how it is implemented.
+  You only need to understand its interface: what member functions are publicly
+  available, what arguments they take, and what values they return.
+</p>
+<p>For example:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;string_view&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-0-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-0-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-3-close">{</span>
+    std<span class="token double-colon punctuation">::</span>string_view sv<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-2-close">{</span> <span class="token string">"Hello, world!"</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-2-open">}</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> sv<span class="token punctuation">.</span><span class="token function">length</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-1-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-1-open">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-3-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  In this short program, the details of how <code>std::string_view</code> is
+  implemented is not exposed to us. We don’t get to see how many data members a
+  <code>std::string_view</code> has, what they are named, or what type they are.
+  We don’t know how the <code>length()</code> member function is returning the
+  length of the string being viewed.
+</p>
+<div
+  class="google-auto-placed ap_container"
+  style="width: 100%; height: auto; clear: both; text-align: center"
+>
+  <ins
+    data-ad-format="auto"
+    class="adsbygoogle adsbygoogle-noablate"
+    data-ad-client="ca-pub-0588844875925051"
+    data-adsbygoogle-status="done"
+    style="
+      display: block;
+      margin: auto;
+      background-color: transparent;
+      height: 0px;
+    "
+    data-ad-status="unfilled"
+    ><div
+      id="aswift_9_host"
+      style="
+        border: none;
+        height: 0px;
+        width: 1027px;
+        margin: 0px;
+        padding: 0px;
+        position: relative;
+        visibility: visible;
+        background-color: transparent;
+        display: inline-block;
+        overflow: hidden;
+        opacity: 0;
+      "
+    >
+      <iframe
+        id="aswift_9"
+        name="aswift_9"
+        browsingtopics="true"
+        style="
+          left: 0px;
+          position: absolute;
+          top: 0px;
+          border: 0px;
+          width: 1027px;
+          height: 0px;
+          min-height: auto;
+          max-height: none;
+          min-width: auto;
+          max-width: none;
+        "
+        sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation"
+        width="1027"
+        height="0"
+        frameborder="0"
+        marginwidth="0"
+        marginheight="0"
+        vspace="0"
+        hspace="0"
+        allowtransparency="true"
+        scrolling="no"
+        allow="attribution-reporting; run-ad-auction"
+        src="https://googleads.g.doubleclick.net/pagead/ads?client=ca-pub-0588844875925051&amp;output=html&amp;h=280&amp;adk=2195196278&amp;adf=4048117406&amp;w=1027&amp;abgtt=11&amp;fwrn=4&amp;fwrnh=100&amp;lmt=1751962938&amp;num_ads=1&amp;rafmt=1&amp;armr=3&amp;sem=mc&amp;pwprc=4633386603&amp;ad_type=text_image&amp;format=1027x280&amp;url=https%3A%2F%2Fwww.learncpp.com%2Fcpp-tutorial%2Fthe-benefits-of-data-hiding-encapsulation%2F&amp;fwr=0&amp;pra=3&amp;rh=200&amp;rw=1026&amp;rpe=1&amp;resp_fmts=3&amp;wgl=1&amp;fa=27&amp;uach=WyJXaW5kb3dzIiwiMTkuMC4wIiwieDg2IiwiIiwiMTM3LjAuNzE1MS4xMjIiLG51bGwsMCxudWxsLCI2NCIsW1siR29vZ2xlIENocm9tZSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJDaHJvbWl1bSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJOb3QvQSlCcmFuZCIsIjI0LjAuMC4wIl1dLDBd&amp;dt=1751962938152&amp;bpp=1&amp;bdt=800&amp;idt=-M&amp;shv=r20250702&amp;mjsv=m202507020101&amp;ptt=9&amp;saldr=aa&amp;abxe=1&amp;cookie=ID%3D05f6e82287d810b4%3AT%3D1751962604%3ART%3D1751962911%3AS%3DALNI_MaQYA0TSAU2k8xwY5tqlN0xFCcd6g&amp;gpic=UID%3D00001157d9e27d0a%3AT%3D1751962604%3ART%3D1751962911%3AS%3DALNI_MYgtHzQJAQQXY_151HTGSSfVxE8_A&amp;eo_id_str=ID%3D52c21936d98c6d2b%3AT%3D1751962604%3ART%3D1751962911%3AS%3DAA-AfjZsJ15yjdEPJ8d11hPojsJQ&amp;prev_fmts=0x0%2C336x280%2C160x600%2C160x600%2C1027x280%2C1027x280%2C995x280%2C1027x280&amp;nras=6&amp;correlator=2022583367508&amp;frm=20&amp;pv=1&amp;u_tz=480&amp;u_his=2&amp;u_h=600&amp;u_w=800&amp;u_ah=600&amp;u_aw=800&amp;u_cd=24&amp;u_sd=1&amp;dmc=8&amp;adx=27&amp;ady=3113&amp;biw=1080&amp;bih=1024&amp;scr_x=0&amp;scr_y=0&amp;eid=31093233%2C95332925%2C95353386%2C95362655%2C95365226%2C95365234%2C95352053%2C95359265%2C95365115%2C95365798&amp;oid=2&amp;pvsid=6013376072656762&amp;tmod=1708485235&amp;uas=0&amp;nvt=1&amp;fc=1408&amp;brdim=10%2C10%2C10%2C10%2C800%2C0%2C780%2C580%2C1080%2C1024&amp;vis=1&amp;rsz=%7C%7Cs%7C&amp;abl=NS&amp;cms=2&amp;fu=128&amp;bc=31&amp;bz=0.72&amp;td=1&amp;tdf=2&amp;psd=W251bGwsbnVsbCxudWxsLDNd&amp;nt=1&amp;ifi=10&amp;uci=a!a&amp;btvi=4&amp;fsb=1&amp;dtd=24"
+        data-google-container-id="a!a"
+        tabindex="0"
+        title="Advertisement"
+        aria-label="Advertisement"
+        data-load-complete="true"
+        data-google-query-id="CLOJo8TqrI4DFf-L6QUd_oMyJQ"
+      ></iframe></div
+  ></ins>
+</div>
+<p>
+  And the great part is, we don’t have to know! The program just works. All we
+  need to know is how to initialize an object of type
+  <code>std::string_view</code>, and what the <code>length()</code> member
+  function returns.
+</p>
+<div class="code-block code-block-5" style="margin: 8px 0; clear: both"></div>
+
+<p>
+  Not having to care about these details dramatically reduces the complexity of
+  your programs, which in turn reduces mistakes. More than any other reason,
+  this is the key advantage of encapsulation.
+</p>
+<p>
+  Imagine how much more complicated C++ would be if you had to understand how
+  <code>std::string</code>, <code>std::vector</code>, or
+  <code>std::cout</code> were implemented in order to use them!
+</p>
+<p class="cpp-section cpp-topline" style="clear: both">
+  Data hiding allows us to maintain invariants
+</p>
+<div
+  class="google-auto-placed ap_container"
+  style="width: 100%; height: auto; clear: both; text-align: center"
+>
+  <ins
+    data-ad-format="auto"
+    class="adsbygoogle adsbygoogle-noablate"
+    data-ad-client="ca-pub-0588844875925051"
+    data-adsbygoogle-status="done"
+    style="
+      display: block;
+      margin: auto;
+      background-color: transparent;
+      height: 0px;
+    "
+    data-ad-status="unfilled"
+    ><div
+      id="aswift_10_host"
+      style="
+        border: none;
+        height: 0px;
+        width: 1027px;
+        margin: 0px;
+        padding: 0px;
+        position: relative;
+        visibility: visible;
+        background-color: transparent;
+        display: inline-block;
+        overflow: hidden;
+        opacity: 0;
+      "
+    >
+      <iframe
+        id="aswift_10"
+        name="aswift_10"
+        browsingtopics="true"
+        style="
+          left: 0px;
+          position: absolute;
+          top: 0px;
+          border: 0px;
+          width: 1027px;
+          height: 0px;
+          min-height: auto;
+          max-height: none;
+          min-width: auto;
+          max-width: none;
+        "
+        sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation"
+        width="1027"
+        height="0"
+        frameborder="0"
+        marginwidth="0"
+        marginheight="0"
+        vspace="0"
+        hspace="0"
+        allowtransparency="true"
+        scrolling="no"
+        allow="attribution-reporting; run-ad-auction"
+        src="https://googleads.g.doubleclick.net/pagead/ads?client=ca-pub-0588844875925051&amp;output=html&amp;h=280&amp;adk=2195196278&amp;adf=1619212733&amp;w=1027&amp;abgtt=11&amp;fwrn=4&amp;fwrnh=100&amp;lmt=1751962938&amp;num_ads=1&amp;rafmt=1&amp;armr=3&amp;sem=mc&amp;pwprc=4633386603&amp;ad_type=text_image&amp;format=1027x280&amp;url=https%3A%2F%2Fwww.learncpp.com%2Fcpp-tutorial%2Fthe-benefits-of-data-hiding-encapsulation%2F&amp;fwr=0&amp;pra=3&amp;rh=200&amp;rw=1026&amp;rpe=1&amp;resp_fmts=3&amp;wgl=1&amp;fa=27&amp;uach=WyJXaW5kb3dzIiwiMTkuMC4wIiwieDg2IiwiIiwiMTM3LjAuNzE1MS4xMjIiLG51bGwsMCxudWxsLCI2NCIsW1siR29vZ2xlIENocm9tZSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJDaHJvbWl1bSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJOb3QvQSlCcmFuZCIsIjI0LjAuMC4wIl1dLDBd&amp;dt=1751962938152&amp;bpp=1&amp;bdt=800&amp;idt=0&amp;shv=r20250702&amp;mjsv=m202507020101&amp;ptt=9&amp;saldr=aa&amp;abxe=1&amp;cookie=ID%3D05f6e82287d810b4%3AT%3D1751962604%3ART%3D1751962911%3AS%3DALNI_MaQYA0TSAU2k8xwY5tqlN0xFCcd6g&amp;gpic=UID%3D00001157d9e27d0a%3AT%3D1751962604%3ART%3D1751962911%3AS%3DALNI_MYgtHzQJAQQXY_151HTGSSfVxE8_A&amp;eo_id_str=ID%3D52c21936d98c6d2b%3AT%3D1751962604%3ART%3D1751962911%3AS%3DAA-AfjZsJ15yjdEPJ8d11hPojsJQ&amp;prev_fmts=0x0%2C336x280%2C160x600%2C160x600%2C1027x280%2C1027x280%2C995x280%2C1027x280%2C1027x280&amp;nras=7&amp;correlator=2022583367508&amp;frm=20&amp;pv=1&amp;u_tz=480&amp;u_his=2&amp;u_h=600&amp;u_w=800&amp;u_ah=600&amp;u_aw=800&amp;u_cd=24&amp;u_sd=1&amp;dmc=8&amp;adx=27&amp;ady=3610&amp;biw=1080&amp;bih=1024&amp;scr_x=0&amp;scr_y=0&amp;eid=31093233%2C95332925%2C95353386%2C95362655%2C95365226%2C95365234%2C95352053%2C95359265%2C95365115%2C95365798&amp;oid=2&amp;pvsid=6013376072656762&amp;tmod=1708485235&amp;uas=0&amp;nvt=1&amp;fc=1408&amp;brdim=10%2C10%2C10%2C10%2C800%2C0%2C780%2C580%2C1080%2C1024&amp;vis=1&amp;rsz=%7C%7Cs%7C&amp;abl=NS&amp;fu=128&amp;bc=31&amp;bz=0.72&amp;td=1&amp;tdf=2&amp;psd=W251bGwsbnVsbCxudWxsLDNd&amp;nt=1&amp;ifi=11&amp;uci=a!b&amp;btvi=5&amp;fsb=1&amp;dtd=25"
+        data-google-container-id="a!b"
+        tabindex="0"
+        title="Advertisement"
+        aria-label="Advertisement"
+        data-load-complete="true"
+        data-google-query-id="CJzKo8TqrI4DFdmJ6QUd5OksSg"
+      ></iframe></div
+  ></ins>
+</div>
+<p>
+  Back in the introductory lesson on classes (<a
+    href="https://www.learncpp.com/cpp-tutorial/introduction-to-classes/"
+    >14.2 -- Introduction to classes</a
+  >), we introduced the concept of <em>class invariants</em>, which are
+  conditions that must be true throughout the lifetime of an object in order for
+  the object to stay in a valid state.
+</p>
+<p>Consider the following program:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;string&gt;</span></span>
+
+<span class="token keyword keyword-struct">struct</span> <span class="token class-name">Employee</span> <span class="token comment">// members are public by default</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-11-close">{</span>
+    std<span class="token double-colon punctuation">::</span>string name<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-8-close">{</span> <span class="token string">"John"</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-8-open">}</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-char">char</span> firstInitial<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-9-close">{</span> <span class="token string">'J'</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-9-open">}</span><span class="token punctuation">;</span> <span class="token comment">// should match first initial of name</span>
+
+    <span class="token keyword keyword-void">void</span> <span class="token function">print</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-4-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-4-open">)</span> <span class="token keyword keyword-const">const</span>
+    <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-10-close">{</span>
+        std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Employee "</span> <span class="token operator">&lt;&lt;</span> name <span class="token operator">&lt;&lt;</span> <span class="token string">" has first initial "</span> <span class="token operator">&lt;&lt;</span> firstInitial <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+    <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-10-open">}</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-11-open">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-5-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-5-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-13-close">{</span>
+    Employee e<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-12-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-12-open">}</span><span class="token punctuation">;</span> <span class="token comment">// defaults to "John" and 'J'</span>
+    e<span class="token punctuation">.</span><span class="token function">print</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-6-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-6-open">)</span><span class="token punctuation">;</span>
+
+    e<span class="token punctuation">.</span>name <span class="token operator">=</span> <span class="token string">"Mark"</span><span class="token punctuation">;</span> <span class="token comment">// change employee's name to "Mark"</span>
+    e<span class="token punctuation">.</span><span class="token function">print</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-7-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-7-open">)</span><span class="token punctuation">;</span> <span class="token comment">// prints wrong initial</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-13-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>This program prints:</p>
+<div
+  class="google-auto-placed ap_container"
+  style="width: 100%; height: auto; clear: both; text-align: center"
+>
+  <ins
+    data-ad-format="auto"
+    class="adsbygoogle adsbygoogle-noablate"
+    data-ad-client="ca-pub-0588844875925051"
+    data-adsbygoogle-status="done"
+    style="
+      display: block;
+      margin: auto;
+      background-color: transparent;
+      height: 0px;
+    "
+    data-ad-status="unfilled"
+    ><div
+      id="aswift_11_host"
+      style="
+        border: none;
+        height: 0px;
+        width: 1027px;
+        margin: 0px;
+        padding: 0px;
+        position: relative;
+        visibility: visible;
+        background-color: transparent;
+        display: inline-block;
+        overflow: hidden;
+        opacity: 0;
+      "
+    >
+      <iframe
+        id="aswift_11"
+        name="aswift_11"
+        browsingtopics="true"
+        style="
+          left: 0px;
+          position: absolute;
+          top: 0px;
+          border: 0px;
+          width: 1027px;
+          height: 0px;
+          min-height: auto;
+          max-height: none;
+          min-width: auto;
+          max-width: none;
+        "
+        sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation"
+        width="1027"
+        height="0"
+        frameborder="0"
+        marginwidth="0"
+        marginheight="0"
+        vspace="0"
+        hspace="0"
+        allowtransparency="true"
+        scrolling="no"
+        allow="attribution-reporting; run-ad-auction"
+        src="https://googleads.g.doubleclick.net/pagead/ads?client=ca-pub-0588844875925051&amp;output=html&amp;h=280&amp;adk=2195196278&amp;adf=3777564238&amp;w=1027&amp;abgtt=11&amp;fwrn=4&amp;fwrnh=100&amp;lmt=1751962938&amp;num_ads=1&amp;rafmt=1&amp;armr=3&amp;sem=mc&amp;pwprc=4633386603&amp;ad_type=text_image&amp;format=1027x280&amp;url=https%3A%2F%2Fwww.learncpp.com%2Fcpp-tutorial%2Fthe-benefits-of-data-hiding-encapsulation%2F&amp;fwr=0&amp;pra=3&amp;rh=200&amp;rw=1026&amp;rpe=1&amp;resp_fmts=3&amp;wgl=1&amp;fa=27&amp;uach=WyJXaW5kb3dzIiwiMTkuMC4wIiwieDg2IiwiIiwiMTM3LjAuNzE1MS4xMjIiLG51bGwsMCxudWxsLCI2NCIsW1siR29vZ2xlIENocm9tZSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJDaHJvbWl1bSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJOb3QvQSlCcmFuZCIsIjI0LjAuMC4wIl1dLDBd&amp;dt=1751962938155&amp;bpp=1&amp;bdt=804&amp;idt=1&amp;shv=r20250702&amp;mjsv=m202507020101&amp;ptt=9&amp;saldr=aa&amp;abxe=1&amp;cookie=ID%3D05f6e82287d810b4%3AT%3D1751962604%3ART%3D1751962911%3AS%3DALNI_MaQYA0TSAU2k8xwY5tqlN0xFCcd6g&amp;gpic=UID%3D00001157d9e27d0a%3AT%3D1751962604%3ART%3D1751962911%3AS%3DALNI_MYgtHzQJAQQXY_151HTGSSfVxE8_A&amp;eo_id_str=ID%3D52c21936d98c6d2b%3AT%3D1751962604%3ART%3D1751962911%3AS%3DAA-AfjZsJ15yjdEPJ8d11hPojsJQ&amp;prev_fmts=0x0%2C336x280%2C160x600%2C160x600%2C1027x280%2C1027x280%2C995x280%2C1027x280%2C1027x280%2C1027x280&amp;nras=8&amp;correlator=2022583367508&amp;frm=20&amp;pv=1&amp;u_tz=480&amp;u_his=2&amp;u_h=600&amp;u_w=800&amp;u_ah=600&amp;u_aw=800&amp;u_cd=24&amp;u_sd=1&amp;dmc=8&amp;adx=27&amp;ady=3325&amp;biw=1080&amp;bih=1024&amp;scr_x=0&amp;scr_y=0&amp;eid=31093233%2C95332925%2C95353386%2C95362655%2C95365226%2C95365234%2C95352053%2C95359265%2C95365115%2C95365798&amp;oid=2&amp;pvsid=6013376072656762&amp;tmod=1708485235&amp;uas=0&amp;nvt=1&amp;fc=1408&amp;brdim=10%2C10%2C10%2C10%2C800%2C0%2C780%2C580%2C1080%2C1024&amp;vis=1&amp;rsz=%7C%7Cs%7C&amp;abl=NS&amp;fu=128&amp;bc=31&amp;bz=0.72&amp;td=1&amp;tdf=2&amp;psd=W251bGwsbnVsbCxudWxsLDNd&amp;nt=1&amp;ifi=12&amp;uci=a!c&amp;btvi=6&amp;fsb=1&amp;dtd=277"
+        data-google-container-id="a!c"
+        tabindex="0"
+        title="Advertisement"
+        aria-label="Advertisement"
+        data-load-complete="true"
+        data-google-query-id="CLLlssTqrI4DFQiG6QUdHJQJiA"
+      ></iframe></div
+  ></ins>
+</div>
+<pre>
+John has first initial J
+Mark has first initial J
+</pre>
+<p>
+  Our <code>Employee</code> struct has a class invariant that
+  <code>firstInitial</code> should always equal the first character of
+  <code>name</code>. If this is ever untrue, then the
+  <code>print()</code> function will malfunction.
+</p>
+<div class="code-block code-block-6" style="margin: 8px 0; clear: both"></div>
+
+<p>
+  Because the <code>name</code> member is public, the code in
+  <code>main()</code> is able to set <code>e.name</code> to <code>"Mark"</code>,
+  and the <code>firstInitial</code> member is not updated. Our invariant is
+  broken, and our second call to <code>print()</code> doesn’t work as expected.
+</p>
+<div
+  class="google-auto-placed ap_container"
+  style="width: 100%; height: auto; clear: both; text-align: center"
+>
+  <ins
+    data-ad-format="auto"
+    class="adsbygoogle adsbygoogle-noablate"
+    data-ad-client="ca-pub-0588844875925051"
+    data-adsbygoogle-status="done"
+    style="
+      display: block;
+      margin: auto;
+      background-color: transparent;
+      height: 0px;
+    "
+    data-ad-status="unfilled"
+    ><div
+      id="aswift_12_host"
+      style="
+        border: none;
+        height: 0px;
+        width: 1027px;
+        margin: 0px;
+        padding: 0px;
+        position: relative;
+        visibility: visible;
+        background-color: transparent;
+        display: inline-block;
+        overflow: hidden;
+        opacity: 0;
+      "
+    >
+      <iframe
+        id="aswift_12"
+        name="aswift_12"
+        browsingtopics="true"
+        style="
+          left: 0px;
+          position: absolute;
+          top: 0px;
+          border: 0px;
+          width: 1027px;
+          height: 0px;
+          min-height: auto;
+          max-height: none;
+          min-width: auto;
+          max-width: none;
+        "
+        sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation"
+        width="1027"
+        height="0"
+        frameborder="0"
+        marginwidth="0"
+        marginheight="0"
+        vspace="0"
+        hspace="0"
+        allowtransparency="true"
+        scrolling="no"
+        allow="attribution-reporting; run-ad-auction"
+        src="https://googleads.g.doubleclick.net/pagead/ads?client=ca-pub-0588844875925051&amp;output=html&amp;h=280&amp;adk=2195196278&amp;adf=2016089175&amp;w=1027&amp;abgtt=11&amp;fwrn=4&amp;fwrnh=100&amp;lmt=1751962938&amp;num_ads=1&amp;rafmt=1&amp;armr=3&amp;sem=mc&amp;pwprc=4633386603&amp;ad_type=text_image&amp;format=1027x280&amp;url=https%3A%2F%2Fwww.learncpp.com%2Fcpp-tutorial%2Fthe-benefits-of-data-hiding-encapsulation%2F&amp;fwr=0&amp;pra=3&amp;rh=200&amp;rw=1026&amp;rpe=1&amp;resp_fmts=3&amp;wgl=1&amp;fa=27&amp;uach=WyJXaW5kb3dzIiwiMTkuMC4wIiwieDg2IiwiIiwiMTM3LjAuNzE1MS4xMjIiLG51bGwsMCxudWxsLCI2NCIsW1siR29vZ2xlIENocm9tZSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJDaHJvbWl1bSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJOb3QvQSlCcmFuZCIsIjI0LjAuMC4wIl1dLDBd&amp;dt=1751962938158&amp;bpp=1&amp;bdt=807&amp;idt=1&amp;shv=r20250702&amp;mjsv=m202507020101&amp;ptt=9&amp;saldr=aa&amp;abxe=1&amp;cookie=ID%3D05f6e82287d810b4%3AT%3D1751962604%3ART%3D1751962911%3AS%3DALNI_MaQYA0TSAU2k8xwY5tqlN0xFCcd6g&amp;gpic=UID%3D00001157d9e27d0a%3AT%3D1751962604%3ART%3D1751962911%3AS%3DALNI_MYgtHzQJAQQXY_151HTGSSfVxE8_A&amp;eo_id_str=ID%3D52c21936d98c6d2b%3AT%3D1751962604%3ART%3D1751962911%3AS%3DAA-AfjZsJ15yjdEPJ8d11hPojsJQ&amp;prev_fmts=0x0%2C336x280%2C160x600%2C160x600%2C1027x280%2C1027x280%2C995x280%2C1027x280%2C1027x280%2C1027x280%2C1027x280&amp;nras=9&amp;correlator=2022583367508&amp;frm=20&amp;pv=1&amp;u_tz=480&amp;u_his=2&amp;u_h=600&amp;u_w=800&amp;u_ah=600&amp;u_aw=800&amp;u_cd=24&amp;u_sd=1&amp;dmc=8&amp;adx=27&amp;ady=3803&amp;biw=1080&amp;bih=1024&amp;scr_x=0&amp;scr_y=0&amp;eid=31093233%2C95332925%2C95353386%2C95362655%2C95365226%2C95365234%2C95352053%2C95359265%2C95365115%2C95365798&amp;oid=2&amp;pvsid=6013376072656762&amp;tmod=1708485235&amp;uas=0&amp;nvt=1&amp;fc=1408&amp;brdim=10%2C10%2C10%2C10%2C800%2C0%2C780%2C580%2C1080%2C1024&amp;vis=1&amp;rsz=%7C%7Cs%7C&amp;abl=NS&amp;fu=128&amp;bc=31&amp;bz=0.72&amp;td=1&amp;tdf=2&amp;psd=W251bGwsbnVsbCxudWxsLDNd&amp;nt=1&amp;ifi=13&amp;uci=a!d&amp;btvi=7&amp;fsb=1&amp;dtd=281"
+        data-google-container-id="a!d"
+        tabindex="0"
+        title="Advertisement"
+        aria-label="Advertisement"
+        data-load-complete="true"
+        data-google-query-id="CI6ks8TqrI4DFV6G6QUdOoUH2w"
+      ></iframe></div
+  ></ins>
+</div>
+<p>
+  When we give users direct access to the implementation of a class, they become
+  responsible for maintaining all invariants -- which they may not do (either
+  correctly, or at all). Putting this burden on the user adds a lot of
+  complexity.
+</p>
+<p>
+  Let’s rewrite this program, making our member variables private, and exposing
+  a member function to set the name of an Employee:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;string&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;string_view&gt;</span></span>
+
+<span class="token keyword keyword-class">class</span> <span class="token class-name">Employee</span> <span class="token comment">// members are private by default</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-26-close">{</span>
+    std<span class="token double-colon punctuation">::</span>string m_name<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-22-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-22-open">}</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-char">char</span> m_firstInitial<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-23-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-23-open">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword keyword-public">public</span><span class="token operator">:</span>
+    <span class="token keyword keyword-void">void</span> <span class="token function">setName</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-14-close">(</span>std<span class="token double-colon punctuation">::</span>string_view name<span class="token punctuation brace-round brace-close brace-level-2" id="pair-14-open">)</span>
+    <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-24-close">{</span>
+        m_name <span class="token operator">=</span> name<span class="token punctuation">;</span>
+        m_firstInitial <span class="token operator">=</span> name<span class="token punctuation">.</span><span class="token function">front</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-15-close">(</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-15-open">)</span><span class="token punctuation">;</span> <span class="token comment">// use std::string::front() to get first letter of `name`</span>
+    <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-24-open">}</span>
+
+    <span class="token keyword keyword-void">void</span> <span class="token function">print</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-16-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-16-open">)</span> <span class="token keyword keyword-const">const</span>
+    <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-25-close">{</span>
+        std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Employee "</span> <span class="token operator">&lt;&lt;</span> m_name <span class="token operator">&lt;&lt;</span> <span class="token string">" has first initial "</span> <span class="token operator">&lt;&lt;</span> m_firstInitial <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+    <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-25-open">}</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-26-open">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-17-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-17-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-28-close">{</span>
+    Employee e<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-27-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-27-open">}</span><span class="token punctuation">;</span>
+    e<span class="token punctuation">.</span><span class="token function">setName</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-18-close">(</span><span class="token string">"John"</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-18-open">)</span><span class="token punctuation">;</span>
+    e<span class="token punctuation">.</span><span class="token function">print</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-19-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-19-open">)</span><span class="token punctuation">;</span>
+
+    e<span class="token punctuation">.</span><span class="token function">setName</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-20-close">(</span><span class="token string">"Mark"</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-20-open">)</span><span class="token punctuation">;</span>
+    e<span class="token punctuation">.</span><span class="token function">print</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-21-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-21-open">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-28-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>This program now works as expected:</p>
+<div
+  class="google-auto-placed ap_container"
+  style="width: 100%; height: auto; clear: both; text-align: center"
+>
+  <ins
+    data-ad-format="auto"
+    class="adsbygoogle adsbygoogle-noablate"
+    data-ad-client="ca-pub-0588844875925051"
+    data-adsbygoogle-status="done"
+    style="
+      display: block;
+      margin: auto;
+      background-color: transparent;
+      height: 0px;
+    "
+    ><div
+      id="aswift_13_host"
+      style="
+        border: none;
+        height: 0px;
+        width: 1027px;
+        margin: 0px;
+        padding: 0px;
+        position: relative;
+        visibility: visible;
+        background-color: transparent;
+        display: inline-block;
+        overflow: hidden;
+        opacity: 0;
+      "
+    >
+      <iframe
+        id="aswift_13"
+        name="aswift_13"
+        browsingtopics="true"
+        style="
+          left: 0px;
+          position: absolute;
+          top: 0px;
+          border: 0px;
+          width: 1027px;
+          height: 0px;
+          min-height: auto;
+          max-height: none;
+          min-width: auto;
+          max-width: none;
+        "
+        sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation"
+        width="1027"
+        height="0"
+        frameborder="0"
+        marginwidth="0"
+        marginheight="0"
+        vspace="0"
+        hspace="0"
+        allowtransparency="true"
+        scrolling="no"
+        allow="attribution-reporting; run-ad-auction"
+        src="https://googleads.g.doubleclick.net/pagead/ads?client=ca-pub-0588844875925051&amp;output=html&amp;h=280&amp;adk=2195196278&amp;adf=3213859271&amp;w=1027&amp;abgtt=11&amp;fwrn=4&amp;fwrnh=100&amp;lmt=1751962938&amp;num_ads=1&amp;rafmt=1&amp;armr=3&amp;sem=mc&amp;pwprc=4633386603&amp;ad_type=text_image&amp;format=1027x280&amp;url=https%3A%2F%2Fwww.learncpp.com%2Fcpp-tutorial%2Fthe-benefits-of-data-hiding-encapsulation%2F&amp;fwr=0&amp;pra=3&amp;rh=200&amp;rw=1026&amp;rpe=1&amp;resp_fmts=3&amp;wgl=1&amp;fa=27&amp;uach=WyJXaW5kb3dzIiwiMTkuMC4wIiwieDg2IiwiIiwiMTM3LjAuNzE1MS4xMjIiLG51bGwsMCxudWxsLCI2NCIsW1siR29vZ2xlIENocm9tZSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJDaHJvbWl1bSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJOb3QvQSlCcmFuZCIsIjI0LjAuMC4wIl1dLDBd&amp;dt=1751962938161&amp;bpp=1&amp;bdt=810&amp;idt=1&amp;shv=r20250702&amp;mjsv=m202507020101&amp;ptt=9&amp;saldr=aa&amp;abxe=1&amp;cookie=ID%3D05f6e82287d810b4%3AT%3D1751962604%3ART%3D1751962911%3AS%3DALNI_MaQYA0TSAU2k8xwY5tqlN0xFCcd6g&amp;gpic=UID%3D00001157d9e27d0a%3AT%3D1751962604%3ART%3D1751962911%3AS%3DALNI_MYgtHzQJAQQXY_151HTGSSfVxE8_A&amp;eo_id_str=ID%3D52c21936d98c6d2b%3AT%3D1751962604%3ART%3D1751962911%3AS%3DAA-AfjZsJ15yjdEPJ8d11hPojsJQ&amp;prev_fmts=0x0%2C336x280%2C160x600%2C160x600%2C1027x280%2C1027x280%2C995x280%2C1027x280%2C1027x280%2C1027x280%2C1027x280%2C1027x280&amp;nras=10&amp;correlator=2022583367508&amp;frm=20&amp;pv=1&amp;u_tz=480&amp;u_his=2&amp;u_h=600&amp;u_w=800&amp;u_ah=600&amp;u_aw=800&amp;u_cd=24&amp;u_sd=1&amp;dmc=8&amp;adx=27&amp;ady=3942&amp;biw=1080&amp;bih=1024&amp;scr_x=0&amp;scr_y=0&amp;eid=31093233%2C95332925%2C95353386%2C95362655%2C95365226%2C95365234%2C95352053%2C95359265%2C95365115%2C95365798&amp;oid=2&amp;pvsid=6013376072656762&amp;tmod=1708485235&amp;uas=0&amp;nvt=1&amp;fc=1408&amp;brdim=10%2C10%2C10%2C10%2C800%2C0%2C780%2C580%2C1080%2C1024&amp;vis=1&amp;rsz=%7C%7Cs%7C&amp;abl=NS&amp;fu=128&amp;bc=31&amp;bz=0.72&amp;td=1&amp;tdf=2&amp;psd=W251bGwsbnVsbCxudWxsLDNd&amp;nt=1&amp;ifi=14&amp;uci=a!e&amp;btvi=8&amp;fsb=1&amp;dtd=536"
+        data-google-container-id="a!e"
+        tabindex="0"
+        title="Advertisement"
+        aria-label="Advertisement"
+        data-load-complete="true"
+        data-google-query-id="CJHdwsTqrI4DFcqL6QUdyCgm1w"
+      ></iframe></div
+  ></ins>
+</div>
+<pre>
+John has first initial J
+Mark has first initial M
+</pre>
+<p>
+  The only change from the user’s perspective is that instead of assigning
+  <code>name</code> a value directly, they’re calling member function
+  <code>setName()</code>, which does the job of setting both
+  <code>m_name</code> and <code>m_firstInitial</code>. The user is absolved of
+  the burden of having to maintain this invariant!
+</p>
+<div class="code-block code-block-7" style="margin: 8px 0; clear: both"></div>
+
+<p class="cpp-section cpp-topline" style="clear: both">
+  Data hiding allows us to do better error detection (and handling)
+</p>
+<p>
+  In the above program, the invariant that <code>m_firstInitial</code> must
+  match the first character of <code>m_name</code> exists because
+  <code>m_firstInitial</code> exists independently of <code>m_name</code>. We
+  can remove this particular invariant by replacing data member
+  <code>m_firstInitial</code> with a member function that returns the first
+  initial:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;string&gt;</span></span>
+
+<span class="token keyword keyword-class">class</span> <span class="token class-name">Employee</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-41-close">{</span>
+    std<span class="token double-colon punctuation">::</span>string m_name<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-37-close">{</span> <span class="token string">"John"</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-37-open">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword keyword-public">public</span><span class="token operator">:</span>
+    <span class="token keyword keyword-void">void</span> <span class="token function">setName</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-29-close">(</span>std<span class="token double-colon punctuation">::</span>string_view name<span class="token punctuation brace-round brace-close brace-level-2" id="pair-29-open">)</span>
+    <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-38-close">{</span>
+        m_name <span class="token operator">=</span> name<span class="token punctuation">;</span>
+    <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-38-open">}</span>
+
+    <span class="token comment">// use std::string::front() to get first letter of `m_name`</span>
+    <span class="token keyword keyword-char">char</span> <span class="token function">firstInitial</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-30-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-30-open">)</span> <span class="token keyword keyword-const">const</span> <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-39-close">{</span> <span class="token keyword keyword-return">return</span> m_name<span class="token punctuation">.</span><span class="token function">front</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-31-close">(</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-31-open">)</span><span class="token punctuation">;</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-39-open">}</span>
+
+    <span class="token keyword keyword-void">void</span> <span class="token function">print</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-32-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-32-open">)</span> <span class="token keyword keyword-const">const</span>
+    <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-40-close">{</span>
+        std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Employee "</span> <span class="token operator">&lt;&lt;</span> m_name <span class="token operator">&lt;&lt;</span> <span class="token string">" has first initial "</span> <span class="token operator">&lt;&lt;</span> <span class="token function">firstInitial</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-33-close">(</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-33-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+    <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-40-open">}</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-41-open">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-34-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-34-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-43-close">{</span>
+    Employee e<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-42-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-42-open">}</span><span class="token punctuation">;</span> <span class="token comment">// defaults to "John"</span>
+    e<span class="token punctuation">.</span><span class="token function">setName</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-35-close">(</span><span class="token string">"Mark"</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-35-open">)</span><span class="token punctuation">;</span>
+    e<span class="token punctuation">.</span><span class="token function">print</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-36-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-36-open">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-43-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  However, this program has another class invariant. Take a moment and see if
+  you can determine what it is. We’ll wait here and watch this dry paint…
+</p>
+<p>
+  The answer is that <code>m_name</code> shouldn’t be an empty string (because
+  every <code>Employee</code> should have a name). If <code>m_name</code> is set
+  to an empty string, nothing bad will happen immediately. But if
+  <code>firstInitial()</code> is then called, the <code>front()</code> member of
+  <code>std::string</code> will try to get the first letter of the empty string,
+  and that leads to undefined behavior.
+</p>
+<p>Ideally, we’d like to prevent <code>m_name</code> from ever being empty.</p>
+<div class="code-block code-block-8" style="margin: 8px 0; clear: both"></div>
+
+<p>
+  If the user had public access to the <code>m_name</code> member, they could
+  just set <code>m_name = ""</code>, and there’s nothing we can do to prevent
+  that from happening.
+</p>
+<p>
+  However, because we’re forcing the user to set <code>m_name</code> through the
+  public interface function <code>setName()</code>, we can have
+  <code>setName()</code> validate that the user has passed in a valid name. If
+  the name is non-empty, then we can assign it to <code>m_name</code>. If the
+  name is an empty string, we can do any number of things in response:
+</p>
+<ul>
+  <li>Ignore the request to set the name to “” and return to the caller.</li>
+  <li>Assert out.</li>
+  <li>Throw an exception.</li>
+  <li>Do the hokey pokey. Wait, not this one.</li>
+</ul>
+<p>
+  The point here is that we can detect the misuse, and then handle it however we
+  think is most appropriate. How we best handle such cases effectively is a
+  topic for another day.
+</p>
+<p class="cpp-section cpp-topline" style="clear: both">
+  Data hiding makes it possible to change implementation details without
+  breaking existing programs
+</p>
+<p>Consider this simple example:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-struct">struct</span> <span class="token class-name">Something</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-48-close">{</span>
+    <span class="token keyword keyword-int">int</span> value1 <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-45-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-45-open">}</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-int">int</span> value2 <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-46-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-46-open">}</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-int">int</span> value3 <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-47-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-47-open">}</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-48-open">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-44-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-44-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-49-close">{</span>
+    Something something<span class="token punctuation">;</span>
+    something<span class="token punctuation">.</span>value1 <span class="token operator">=</span> <span class="token number">5</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> something<span class="token punctuation">.</span>value1 <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-49-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  While this program works fine, what would happen if we decided to change the
+  implementation details of the class, like this?
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-struct">struct</span> <span class="token class-name">Something</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-53-close">{</span>
+    <span class="token keyword keyword-int">int</span> value<span class="token punctuation brace-square brace-open brace-level-2" id="pair-51-close">[</span><span class="token number">3</span><span class="token punctuation brace-square brace-close brace-level-2" id="pair-51-open">]</span> <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-52-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-52-open">}</span><span class="token punctuation">;</span> <span class="token comment">// uses an array of 3 values</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-53-open">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-50-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-50-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-54-close">{</span>
+    Something something<span class="token punctuation">;</span>
+    something<span class="token punctuation">.</span>value1 <span class="token operator">=</span> <span class="token number">5</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> something<span class="token punctuation">.</span>value1 <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-54-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  We haven’t covered arrays yet, but don’t worry about that. The point here is
+  that this program no longer compiles because the member named
+  <code>value1</code> no longer exists, and a statement in
+  <code>main()</code> is still using that identifier.
+</p>
+<p>
+  Data hiding gives us the ability to change how classes are implemented without
+  breaking the programs that use them.
+</p>
+<p>
+  Here is the encapsulated version of the original version of this class that
+  uses functions to access <code>m_value1</code>:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-class">class</span> <span class="token class-name">Something</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-65-close">{</span>
+<span class="token keyword keyword-private">private</span><span class="token operator">:</span>
+    <span class="token keyword keyword-int">int</span> m_value1 <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-60-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-60-open">}</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-int">int</span> m_value2 <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-61-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-61-open">}</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-int">int</span> m_value3 <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-62-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-62-open">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword keyword-public">public</span><span class="token operator">:</span>
+    <span class="token keyword keyword-void">void</span> <span class="token function">setValue1</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-55-close">(</span><span class="token keyword keyword-int">int</span> value<span class="token punctuation brace-round brace-close brace-level-2" id="pair-55-open">)</span> <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-63-close">{</span> m_value1 <span class="token operator">=</span> value<span class="token punctuation">;</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-63-open">}</span>
+    <span class="token keyword keyword-int">int</span> <span class="token function">getValue1</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-56-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-56-open">)</span> <span class="token keyword keyword-const">const</span> <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-64-close">{</span> <span class="token keyword keyword-return">return</span> m_value1<span class="token punctuation">;</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-64-open">}</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-65-open">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-57-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-57-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-66-close">{</span>
+    Something something<span class="token punctuation">;</span>
+    something<span class="token punctuation">.</span><span class="token function">setValue1</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-58-close">(</span><span class="token number">5</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-58-open">)</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> something<span class="token punctuation">.</span><span class="token function">getValue1</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-59-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-59-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-66-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>Now, let’s change the class’s implementation back to an array:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-class">class</span> <span class="token class-name">Something</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-77-close">{</span>
+<span class="token keyword keyword-private">private</span><span class="token operator">:</span>
+    <span class="token keyword keyword-int">int</span> m_value<span class="token punctuation brace-square brace-open brace-level-2" id="pair-72-close">[</span><span class="token number">3</span><span class="token punctuation brace-square brace-close brace-level-2" id="pair-72-open">]</span><span class="token punctuation">;</span> <span class="token comment">// note: we changed the implementation of this class!</span>
+
+<span class="token keyword keyword-public">public</span><span class="token operator">:</span>
+    <span class="token comment">// We have to update any member functions to reflect the new implementation</span>
+    <span class="token keyword keyword-void">void</span> <span class="token function">setValue1</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-67-close">(</span><span class="token keyword keyword-int">int</span> value<span class="token punctuation brace-round brace-close brace-level-2" id="pair-67-open">)</span> <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-75-close">{</span> m_value<span class="token punctuation brace-square brace-open brace-level-3" id="pair-73-close">[</span><span class="token number">0</span><span class="token punctuation brace-square brace-close brace-level-3" id="pair-73-open">]</span> <span class="token operator">=</span> value<span class="token punctuation">;</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-75-open">}</span>
+    <span class="token keyword keyword-int">int</span> <span class="token function">getValue1</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-68-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-68-open">)</span> <span class="token keyword keyword-const">const</span> <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-76-close">{</span> <span class="token keyword keyword-return">return</span> m_value<span class="token punctuation brace-square brace-open brace-level-3" id="pair-74-close">[</span><span class="token number">0</span><span class="token punctuation brace-square brace-close brace-level-3" id="pair-74-open">]</span><span class="token punctuation">;</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-76-open">}</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-77-open">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-69-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-69-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-78-close">{</span>
+    <span class="token comment">// But our programs that use the class do not need to be updated!</span>
+    Something something<span class="token punctuation">;</span>
+    something<span class="token punctuation">.</span><span class="token function">setValue1</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-70-close">(</span><span class="token number">5</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-70-open">)</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> something<span class="token punctuation">.</span><span class="token function">getValue1</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-71-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-71-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-78-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  Because we did not change the public interface of the class, our program that
+  uses that interface did not need to change at all, and still functions
+  identically.
+</p>
+<p>
+  Analogously, if gnomes snuck into your house at night and replaced the
+  internals of your TV remote with a different (but compatible) technology, you
+  probably wouldn’t even notice!
+</p>
+<p class="cpp-section cpp-topline" style="clear: both">
+  Classes with interfaces are easier to debug
+</p>
+<p>
+  And finally, encapsulation can help you debug a program when something goes
+  wrong. Often when a program does not work correctly, it is because one of our
+  member variables has been given an incorrect value. If everyone is able to set
+  the member variable directly, tracking down which piece of code actually
+  modified the member variable to the wrong value can be difficult. This can
+  involve breakpointing every statement that modifies the member variable -- and
+  there can be lots of them.
+</p>
+<p>
+  However, if a member can only be changed through a single member function,
+  then you can simply breakpoint that single function and watch as each caller
+  changes the value. This can make it much easier to determine who the culprit
+  is.
+</p>
+<p class="cpp-section cpp-topline" style="clear: both">
+  <a name="prefer-non-member-functions"></a>Prefer non-member functions to
+  member functions
+  <a href="#prefer-non-member-functions"
+    ><i class="fa fa-link" style="font-size: 0.8em"></i
+  ></a>
+</p>
+<p>
+  In C++, if a function can be reasonably implemented as a non-member function,
+  prefer to implement it as a non-member function instead of as a member
+  function.
+</p>
+<p>This has numerous benefits:</p>
+<ul>
+  <li>
+    Non-member functions are not part of the interface of your class. Thus, the
+    interface of your class will be smaller and more straightforward, making the
+    class easier to understand.
+  </li>
+  <li>
+    Non-member functions enforce encapsulation, as such functions must work
+    through the public interface of the class. There is no temptation to access
+    the implementation directly just because it is convenient.
+  </li>
+  <li>
+    Non-member functions do not need to be considered when making changes to the
+    implementation of a class (so long as the interface doesn’t change in an
+    incompatible way).
+  </li>
+  <li>Non-member functions tend to be easier to debug.</li>
+  <li>
+    Non-member functions containing application specific data and logic can be
+    separated from the reusable portions of the class.
+  </li>
+</ul>
+<p>
+  If you have prior experience with a modern OOP language (like Java or C#),
+  this practice might come as a surprise. Those languages use a different
+  conceptual model, where the class is the center of the universe, and
+  everything resolves around it. Accordingly, these languages put member
+  functions at the forefront (and in fact, Java and C# don’t even support
+  non-member functions).
+</p>
+<div class="cpp-note cpp-lightgreenbackground">
+  <p class="cpp-note-title cpp-bottomline">Best practice</p>
+  <p>
+    Prefer implementing functions as non-members when possible (especially
+    functions that contain application specific data or logic).
+  </p>
+</div>
+<div class="cpp-note cpp-lightbluebackground">
+  <p class="cpp-note-title cpp-bottomline">Tip</p>
+  <p>
+    Here’s a simplified guide on when to make a function a member vs a
+    non-member:
+  </p>
+  <ul>
+    <li>
+      Use a member function when you have to. C++ requires that certain kinds of
+      functions be defined as members. We’ll see one example in the next lesson,
+      when we talk about constructors. Others include destructors, virtual
+      functions, and certain operators.
+    </li>
+    <li>
+      Prefer a member function when the function needs access to private (or
+      protected) data that should not be exposed.
+    </li>
+    <li>
+      Prefer a non-member function otherwise (especially for functions that do
+      not modify the state of the object).
+    </li>
+  </ul>
+  <p>
+    There are exceptions to the latter two -- we’ll introduce some of these as
+    we discuss the topics they’re associated with.
+  </p>
+  <p>
+    One common but challenging case occurs when preferring a non-member function
+    requires the addition of access functions to facilitate. In this case,
+    you’ll need to consider the tradeoffs.
+  </p>
+  <ul>
+    <li>
+      Adding access functions means creating one or two new member functions
+      (getter and possibly setter), increasing the size and complexity of the
+      classes interface. This may not be worth it unless you can use these new
+      access functions in multiple places.
+    </li>
+    <li>
+      Do not add access functions to data that should not be directly accessible
+      (e.g. because it’s internal state) or that would allow the user to violate
+      a class invariant.
+    </li>
+  </ul>
+</div>
+<div class="cpp-note cpp-lightgraybackground">
+  <p class="cpp-note-title cpp-bottomline">Related content</p>
+  <p>
+    The article
+    <a
+      href="https://embeddedartistry.com/fieldatlas/how-non-member-functions-improve-encapsulation/"
+      >How Non-Member Functions Improve Encapsulation</a
+    >
+    by Scott Meyers explores the idea of preferring non-member functions in
+    further detail.
+  </p>
+</div>
+<p>
+  Let’s illustrate this with three similar examples, in order from worst to
+  best:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;string&gt;</span></span>
+
+<span class="token keyword keyword-class">class</span> <span class="token class-name">Yogurt</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-89-close">{</span>
+    std<span class="token double-colon punctuation">::</span>string m_flavor<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-85-close">{</span> <span class="token string">"vanilla"</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-85-open">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword keyword-public">public</span><span class="token operator">:</span>
+    <span class="token keyword keyword-void">void</span> <span class="token function">setFlavor</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-79-close">(</span>std<span class="token double-colon punctuation">::</span>string_view flavor<span class="token punctuation brace-round brace-close brace-level-2" id="pair-79-open">)</span>
+    <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-86-close">{</span>
+        m_flavor <span class="token operator">=</span> flavor<span class="token punctuation">;</span>
+    <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-86-open">}</span>
+
+    <span class="token keyword keyword-const">const</span> std<span class="token double-colon punctuation">::</span>string<span class="token operator">&amp;</span> <span class="token function">getFlavor</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-80-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-80-open">)</span> <span class="token keyword keyword-const">const</span> <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-87-close">{</span> <span class="token keyword keyword-return">return</span> m_flavor<span class="token punctuation">;</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-87-open">}</span>
+
+    <span class="token comment">// Worst: member function print() uses direct access to m_flavor when getter exists</span>
+    <span class="token keyword keyword-void">void</span> <span class="token function">print</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-81-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-81-open">)</span> <span class="token keyword keyword-const">const</span>
+    <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-88-close">{</span>
+        std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"The yogurt has flavor "</span> <span class="token operator">&lt;&lt;</span> m_flavor <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+    <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-88-open">}</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-89-open">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-82-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-82-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-91-close">{</span>
+    Yogurt y<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-90-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-90-open">}</span><span class="token punctuation">;</span>
+    y<span class="token punctuation">.</span><span class="token function">setFlavor</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-83-close">(</span><span class="token string">"cherry"</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-83-open">)</span><span class="token punctuation">;</span>
+    y<span class="token punctuation">.</span><span class="token function">print</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-84-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-84-open">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-91-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  The above is the worst version. The <code>print()</code> member function
+  directly accesses <code>m_flavor</code> when a getter for the flavor already
+  exists. If the class implementation is ever updated, <code>print()</code> will
+  also probably need to be modified. The string printed by
+  <code>print()</code> is application-specific (another application using this
+  class may want to print something else, which will require cloning or
+  modifying the class).
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;string&gt;</span></span>
+
+<span class="token keyword keyword-class">class</span> <span class="token class-name">Yogurt</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-103-close">{</span>
+    std<span class="token double-colon punctuation">::</span>string m_flavor<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-99-close">{</span> <span class="token string">"vanilla"</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-99-open">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword keyword-public">public</span><span class="token operator">:</span>
+    <span class="token keyword keyword-void">void</span> <span class="token function">setFlavor</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-92-close">(</span>std<span class="token double-colon punctuation">::</span>string_view flavor<span class="token punctuation brace-round brace-close brace-level-2" id="pair-92-open">)</span>
+    <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-100-close">{</span>
+        m_flavor <span class="token operator">=</span> flavor<span class="token punctuation">;</span>
+    <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-100-open">}</span>
+
+    <span class="token keyword keyword-const">const</span> std<span class="token double-colon punctuation">::</span>string<span class="token operator">&amp;</span> <span class="token function">getFlavor</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-93-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-93-open">)</span> <span class="token keyword keyword-const">const</span> <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-101-close">{</span> <span class="token keyword keyword-return">return</span> m_flavor<span class="token punctuation">;</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-101-open">}</span>
+
+    <span class="token comment">// Better: member function print() has no direct access to members</span>
+    <span class="token keyword keyword-void">void</span> <span class="token function">print</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-94-close">(</span>std<span class="token double-colon punctuation">::</span>string_view prefix<span class="token punctuation brace-round brace-close brace-level-2" id="pair-94-open">)</span> <span class="token keyword keyword-const">const</span>
+    <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-102-close">{</span>
+        std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> prefix <span class="token operator">&lt;&lt;</span> <span class="token string">' '</span> <span class="token operator">&lt;&lt;</span> <span class="token function">getFlavor</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-95-close">(</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-95-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+    <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-102-open">}</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-103-open">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-96-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-96-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-105-close">{</span>
+    Yogurt y<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-104-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-104-open">}</span><span class="token punctuation">;</span>
+    y<span class="token punctuation">.</span><span class="token function">setFlavor</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-97-close">(</span><span class="token string">"cherry"</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-97-open">)</span><span class="token punctuation">;</span>
+    y<span class="token punctuation">.</span><span class="token function">print</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-98-close">(</span><span class="token string">"The yogurt has flavor"</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-98-open">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-105-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  The above version is better, but still not great. <code>print()</code> is
+  still a member function, but at least it now does not directly access any data
+  members. If the class implementation is ever updated,
+  <code>print()</code> will need to be evaluated to determine whether it needs
+  an update (but it will not). The prefix for the <code>print()</code> function
+  is now parameterized, which allows us to move the prefix into non-member
+  function <code>main()</code>. But the function still imposes constraints on
+  how things are printed (e.g. it always prints as prefix, space, flavor,
+  newline). If that does not meet the needs of a given application, another
+  function will need to be added.
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;string&gt;</span></span>
+
+<span class="token keyword keyword-class">class</span> <span class="token class-name">Yogurt</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-116-close">{</span>
+    std<span class="token double-colon punctuation">::</span>string m_flavor<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-113-close">{</span> <span class="token string">"vanilla"</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-113-open">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword keyword-public">public</span><span class="token operator">:</span>
+    <span class="token keyword keyword-void">void</span> <span class="token function">setFlavor</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-106-close">(</span>std<span class="token double-colon punctuation">::</span>string_view flavor<span class="token punctuation brace-round brace-close brace-level-2" id="pair-106-open">)</span>
+    <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-114-close">{</span>
+        m_flavor <span class="token operator">=</span> flavor<span class="token punctuation">;</span>
+    <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-114-open">}</span>
+
+    <span class="token keyword keyword-const">const</span> std<span class="token double-colon punctuation">::</span>string<span class="token operator">&amp;</span> <span class="token function">getFlavor</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-107-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-107-open">)</span> <span class="token keyword keyword-const">const</span> <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-115-close">{</span> <span class="token keyword keyword-return">return</span> m_flavor<span class="token punctuation">;</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-115-open">}</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-116-open">}</span><span class="token punctuation">;</span>
+
+<span class="token comment">// Best: non-member function print() is not part of the class interface</span>
+<span class="token keyword keyword-void">void</span> <span class="token function">print</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-108-close">(</span><span class="token keyword keyword-const">const</span> Yogurt<span class="token operator">&amp;</span> y<span class="token punctuation brace-round brace-close brace-level-1" id="pair-108-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-117-close">{</span>
+        std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"The yogurt has flavor "</span> <span class="token operator">&lt;&lt;</span> y<span class="token punctuation">.</span><span class="token function">getFlavor</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-109-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-109-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-117-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-110-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-110-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-119-close">{</span>
+    Yogurt y<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-118-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-118-open">}</span><span class="token punctuation">;</span>
+    y<span class="token punctuation">.</span><span class="token function">setFlavor</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-111-close">(</span><span class="token string">"cherry"</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-111-open">)</span><span class="token punctuation">;</span>
+    <span class="token function">print</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-112-close">(</span>y<span class="token punctuation brace-round brace-close brace-level-2" id="pair-112-open">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-119-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  The above version is the best. <code>print()</code> is now a non-member
+  function. It does not directly access any members. If the class implementation
+  ever changes, <code>print()</code> will not need to be evaluated at all.
+  Additionally, each application can provide it’s own
+  <code>print()</code> function that prints exactly how that application wants
+  to.
+</p>
+<p class="cpp-section cpp-topline" style="clear: both">
+  The order of class member declaration
+</p>
+<p>
+  When writing code outside of a class, we are required to declare variables and
+  functions before we can use them. However, inside a class, this limitation
+  does not exist. As noted in lesson
+  <a href="https://www.learncpp.com/cpp-tutorial/member-functions/"
+    >14.3 -- Member functions</a
+  >, we can order our members in any order we like.
+</p>
+<p>So how should we order them?</p>
+<p>There are two schools of thought here:</p>
+<ul>
+  <li>
+    List your private members first, and then list your public member functions.
+    This follows the traditional style of declare-before-use. Anybody looking at
+    your class code will see how you’ve defined your data members before they
+    are used, which can make reading through and understanding implementation
+    details easier.
+  </li>
+  <li>
+    List your public members first, and put your private members down at the
+    bottom. Because someone who uses your class is interested in the public
+    interface, putting your public members first makes the information they need
+    up top, and puts the implementation details (which are least important)
+    last.
+  </li>
+</ul>
+<p>
+  In modern C++, the second method (public members go first) is more commonly
+  recommended, especially for code that will be shared with other developers.
+</p>
+<div class="cpp-note cpp-lightgreenbackground">
+  <p class="cpp-note-title cpp-bottomline">Best practice</p>
+  <p>
+    Declare public members first, protected members next, and private members
+    last. This spotlights the public interface and de-emphasizes implementation
+    details.
+  </p>
+</div>
+<div class="cpp-note cpp-lightgraybackground">
+  <p class="cpp-note-title cpp-bottomline">Author’s note</p>
+  <p>
+    The majority of examples on this site use the opposite declaration order
+    from what is recommended. This is partly historic, but we also find this
+    order is more intuitive when learning language mechanics, where we’re
+    focused on implementation details and dissecting how things work.
+  </p>
+</div>
+<div class="cpp-note cpp-lightgraybackground">
+  <p class="cpp-note-title cpp-bottomline">For advanced readers</p>
+  <p>
+    The following order is recommended by the
+    <a
+      href="https://google.github.io/styleguide/cppguide.html#Declaration_Order"
+      >Google C++ style guide</a
+    >:
+  </p>
+  <ul>
+    <li>
+      Types and type aliases (typedef, using, enum, nested structs and classes,
+      and friend types)
+    </li>
+    <li>Static constants</li>
+    <li>Factory functions</li>
+    <li>Constructors and assignment operators</li>
+    <li>Destructor</li>
+    <li>
+      All other functions (static and non-static member functions, and friend
+      functions)
+    </li>
+    <li>Data members (static and non-static)</li>
+  </ul>
+</div>
+<div class="prevnext">
+  <div class="prevnext-inline">
+    <a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/introduction-to-constructors/"
+    >
+      <div class="nav-button nav-button-next">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-right" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Next lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">14.9</span>Introduction to
+            constructors
+          </div>
+        </div>
+      </div></a
+    >
+    <a class="nav-link" href="/">
+      <div class="nav-button nav-button-index">
+        <div class="nav-button-icon">
+          <i class="fa fa-home" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Back to table of contents</div>
+        </div>
+      </div></a
+    >
+    <a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/member-functions-returning-references-to-data-members/"
+    >
+      <div class="nav-button nav-button-prev">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-left" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Previous lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">14.7</span>Member functions
+            returning references to data members
+          </div>
+        </div>
+      </div></a
+    >
+  </div>
+</div>
+<div class="code-block code-block-10" style="margin: 8px 0; clear: both"></div>

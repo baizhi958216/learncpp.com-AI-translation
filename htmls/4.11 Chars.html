@@ -1,0 +1,904 @@
+<div class="code-block code-block-1" style="margin:8px 8px 8px 0;float:left"></div>
+<p>To this point, the fundamental data types we’ve looked at have been used to hold numbers (integers and floating
+    points) or true/false values (Booleans). But what if we want to store letters or punctuation?</p>
+<div class="code-toolbar">
+    <pre class="line-numbers language-cpp"
+        tabindex="0"><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-129-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-129-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-130-close">{</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Would you like a burrito? (y/n)"</span><span class="token punctuation">;</span>
+
+    <span class="token comment">// We want the user to enter a 'y' or 'n' character</span>
+    <span class="token comment">// How do we do this?</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-130-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+    <div class="toolbar">
+        <div class="toolbar-item"><button class="copy-to-clipboard-button" type="button"
+                data-copy-state="copy"><span>Copy</span></button></div>
+    </div>
+</div>
+<p>The <strong>char</strong> data type was designed to hold a single <code>character</code>. A
+    <strong>character</strong> can be a single letter, number, symbol, or whitespace.</p>
+<p>The char data type is an integral type, meaning the underlying value is stored as an integer. Similar to how a
+    Boolean value <code>0</code> is interpreted as <code>false</code> and non-zero is interpreted as <code>true</code>,
+    the integer stored by a <code>char</code> variable are intepreted as an <code>ASCII character</code>.</p>
+<p><strong>ASCII</strong> stands for American Standard Code for Information Interchange, and it defines a particular way
+    to represent English characters (plus a few other symbols) as numbers between 0 and 127 (called an <strong>ASCII
+        code</strong> or <strong>code point</strong>). For example, ASCII code 97 is interpreted as the character ‘a’.
+</p>
+<p>Character literals are always placed between single quotes (e.g. ‘g’, ‘1’, ‘ ‘).</p>
+<div class="code-block code-block-2" style="margin:8px 0;clear:both"></div>
+<p style="clear:both">Here’s a full table of ASCII characters:</p>
+<p></p>
+<div class="cpp-table-wrapper" data-ezoic-video-excluded="1">
+    <p></p>
+    <p></p>
+    <table class="cpp-table" data-ezoic-video-excluded="1">
+        <tbody>
+            <tr>
+                <th>Code</th>
+                <th>Symbol</th>
+                <th>Code</th>
+                <th>Symbol</th>
+                <th>Code</th>
+                <th>Symbol</th>
+                <th>Code</th>
+                <th>Symbol</th>
+            </tr>
+            <tr>
+                <td style="background-color:#ccc">0</td>
+                <td>NUL (null)</td>
+                <td style="background-color:#ccc">32</td>
+                <td>(space)</td>
+                <td style="background-color:#ccc">64</td>
+                <td>@</td>
+                <td style="background-color:#ccc">96</td>
+                <td>`</td>
+            </tr>
+            <tr>
+                <td style="background-color:#ccc" "="">1</td><td>SOH (start of header)</td><td style="
+                    background-color:#ccc">33</td>
+                <td>!</td>
+                <td style="background-color:#ccc">65</td>
+                <td>A</td>
+                <td style="background-color:#ccc">97</td>
+                <td>a</td>
+            </tr>
+            <tr>
+                <td style="background-color:#ccc">2</td>
+                <td>STX (start of text)</td>
+                <td style="background-color:#ccc">34</td>
+                <td>”</td>
+                <td style="background-color:#ccc">66</td>
+                <td>B</td>
+                <td style="background-color:#ccc">98</td>
+                <td>b</td>
+            </tr>
+            <tr>
+                <td style="background-color:#ccc">3</td>
+                <td>ETX (end of text)</td>
+                <td style="background-color:#ccc">35</td>
+                <td>#</td>
+                <td style="background-color:#ccc">67</td>
+                <td>C</td>
+                <td style="background-color:#ccc">99</td>
+                <td>c</td>
+            </tr>
+            <tr>
+                <td style="background-color:#ccc">4</td>
+                <td>EOT (end of transmission)</td>
+                <td style="background-color:#ccc">36</td>
+                <td>$</td>
+                <td style="background-color:#ccc">68</td>
+                <td>D</td>
+                <td style="background-color:#ccc">100</td>
+                <td>d</td>
+            </tr>
+            <tr>
+                <td style="background-color:#ccc">5</td>
+                <td>ENQ (enquiry)</td>
+                <td style="background-color:#ccc">37</td>
+                <td>%</td>
+                <td style="background-color:#ccc">69</td>
+                <td>E</td>
+                <td style="background-color:#ccc">101</td>
+                <td>e</td>
+            </tr>
+            <tr>
+                <td style="background-color:#ccc">6</td>
+                <td>ACK (acknowledge)</td>
+                <td style="background-color:#ccc">38</td>
+                <td>&amp;</td>
+                <td style="background-color:#ccc">70</td>
+                <td>F</td>
+                <td style="background-color:#ccc">102</td>
+                <td>f</td>
+            </tr>
+            <tr>
+                <td style="background-color:#ccc">7</td>
+                <td>BEL (bell)</td>
+                <td style="background-color:#ccc">39</td>
+                <td>’</td>
+                <td style="background-color:#ccc">71</td>
+                <td>G</td>
+                <td style="background-color:#ccc">103</td>
+                <td>g</td>
+            </tr>
+            <tr>
+                <td style="background-color:#ccc">8</td>
+                <td>BS (backspace)</td>
+                <td style="background-color:#ccc">40</td>
+                <td>(</td>
+                <td style="background-color:#ccc">72</td>
+                <td>H</td>
+                <td style="background-color:#ccc">104</td>
+                <td>h</td>
+            </tr>
+            <tr>
+                <td style="background-color:#ccc">9</td>
+                <td>HT (horizontal tab)</td>
+                <td style="background-color:#ccc">41</td>
+                <td>)</td>
+                <td style="background-color:#ccc">73</td>
+                <td>I</td>
+                <td style="background-color:#ccc">105</td>
+                <td>i</td>
+            </tr>
+            <tr>
+                <td style="background-color:#ccc">10</td>
+                <td>LF (line feed/new line)</td>
+                <td style="background-color:#ccc">42</td>
+                <td>*</td>
+                <td style="background-color:#ccc">74</td>
+                <td>J</td>
+                <td style="background-color:#ccc">106</td>
+                <td>j</td>
+            </tr>
+            <tr>
+                <td style="background-color:#ccc">11</td>
+                <td>VT (vertical tab)</td>
+                <td style="background-color:#ccc">43</td>
+                <td>+</td>
+                <td style="background-color:#ccc">75</td>
+                <td>K</td>
+                <td style="background-color:#ccc">107</td>
+                <td>k</td>
+            </tr>
+            <tr>
+                <td style="background-color:#ccc">12</td>
+                <td>FF (form feed / new page)</td>
+                <td style="background-color:#ccc">44</td>
+                <td>,</td>
+                <td style="background-color:#ccc">76</td>
+                <td>L</td>
+                <td style="background-color:#ccc">108</td>
+                <td>l</td>
+            </tr>
+            <tr>
+                <td style="background-color:#ccc">13</td>
+                <td>CR (carriage return)</td>
+                <td style="background-color:#ccc">45</td>
+                <td>-</td>
+                <td style="background-color:#ccc">77</td>
+                <td>M</td>
+                <td style="background-color:#ccc">109</td>
+                <td>m</td>
+            </tr>
+            <tr>
+                <td style="background-color:#ccc">14</td>
+                <td>SO (shift out)</td>
+                <td style="background-color:#ccc">46</td>
+                <td>.</td>
+                <td style="background-color:#ccc">78</td>
+                <td>N</td>
+                <td style="background-color:#ccc">110</td>
+                <td>n</td>
+            </tr>
+            <tr>
+                <td style="background-color:#ccc">15</td>
+                <td>SI (shift in)</td>
+                <td style="background-color:#ccc">47</td>
+                <td>/</td>
+                <td style="background-color:#ccc">79</td>
+                <td>O</td>
+                <td style="background-color:#ccc">111</td>
+                <td>o</td>
+            </tr>
+            <tr>
+                <td style="background-color:#ccc">16</td>
+                <td>DLE (data link escape)</td>
+                <td style="background-color:#ccc">48</td>
+                <td>0</td>
+                <td style="background-color:#ccc">80</td>
+                <td>P</td>
+                <td style="background-color:#ccc">112</td>
+                <td>p</td>
+            </tr>
+            <tr>
+                <td style="background-color:#ccc">17</td>
+                <td>DC1 (data control 1)</td>
+                <td style="background-color:#ccc">49</td>
+                <td>1</td>
+                <td style="background-color:#ccc">81</td>
+                <td>Q</td>
+                <td style="background-color:#ccc">113</td>
+                <td>q</td>
+            </tr>
+            <tr>
+                <td style="background-color:#ccc">18</td>
+                <td>DC2 (data control 2)</td>
+                <td style="background-color:#ccc">50</td>
+                <td>2</td>
+                <td style="background-color:#ccc">82</td>
+                <td>R</td>
+                <td style="background-color:#ccc">114</td>
+                <td>r</td>
+            </tr>
+            <tr>
+                <td style="background-color:#ccc">19</td>
+                <td>DC3 (data control 3)</td>
+                <td style="background-color:#ccc">51</td>
+                <td>3</td>
+                <td style="background-color:#ccc">83</td>
+                <td>S</td>
+                <td style="background-color:#ccc">115</td>
+                <td>s</td>
+            </tr>
+            <tr>
+                <td style="background-color:#ccc">20</td>
+                <td>DC4 (data control 4)</td>
+                <td style="background-color:#ccc">52</td>
+                <td>4</td>
+                <td style="background-color:#ccc">84</td>
+                <td>T</td>
+                <td style="background-color:#ccc">116</td>
+                <td>t</td>
+            </tr>
+            <tr>
+                <td style="background-color:#ccc">21</td>
+                <td>NAK (negative acknowledge)</td>
+                <td style="background-color:#ccc">53</td>
+                <td>5</td>
+                <td style="background-color:#ccc">85</td>
+                <td>U</td>
+                <td style="background-color:#ccc">117</td>
+                <td>u</td>
+            </tr>
+            <tr>
+                <td style="background-color:#ccc">22</td>
+                <td>SYN (synchronous idle)</td>
+                <td style="background-color:#ccc">54</td>
+                <td>6</td>
+                <td style="background-color:#ccc">86</td>
+                <td>V</td>
+                <td style="background-color:#ccc">118</td>
+                <td>v</td>
+            </tr>
+            <tr>
+                <td style="background-color:#ccc">23</td>
+                <td>ETB (end of transmission block)</td>
+                <td style="background-color:#ccc">55</td>
+                <td>7</td>
+                <td style="background-color:#ccc">87</td>
+                <td>W</td>
+                <td style="background-color:#ccc">119</td>
+                <td>w</td>
+            </tr>
+            <tr>
+                <td style="background-color:#ccc">24</td>
+                <td>CAN (cancel)</td>
+                <td style="background-color:#ccc">56</td>
+                <td>8</td>
+                <td style="background-color:#ccc">88</td>
+                <td>X</td>
+                <td style="background-color:#ccc">120</td>
+                <td>x</td>
+            </tr>
+            <tr>
+                <td style="background-color:#ccc">25</td>
+                <td>EM (end of medium)</td>
+                <td style="background-color:#ccc">57</td>
+                <td>9</td>
+                <td style="background-color:#ccc">89</td>
+                <td>Y</td>
+                <td style="background-color:#ccc">121</td>
+                <td>y</td>
+            </tr>
+            <tr>
+                <td style="background-color:#ccc">26</td>
+                <td>SUB (substitute)</td>
+                <td style="background-color:#ccc">58</td>
+                <td>:</td>
+                <td style="background-color:#ccc">90</td>
+                <td>Z</td>
+                <td style="background-color:#ccc">122</td>
+                <td>z</td>
+            </tr>
+            <tr>
+                <td style="background-color:#ccc">27</td>
+                <td>ESC (escape)</td>
+                <td style="background-color:#ccc">59</td>
+                <td>;</td>
+                <td style="background-color:#ccc">91</td>
+                <td>[</td>
+                <td style="background-color:#ccc">123</td>
+                <td>{</td>
+            </tr>
+            <tr>
+                <td style="background-color:#ccc">28</td>
+                <td>FS (file separator)</td>
+                <td style="background-color:#ccc">60</td>
+                <td>&lt;</td>
+                <td style="background-color:#ccc">92</td>
+                <td>\</td>
+                <td style="background-color:#ccc">124</td>
+                <td>|</td>
+            </tr>
+            <tr>
+                <td style="background-color:#ccc">29</td>
+                <td>GS (group separator)</td>
+                <td style="background-color:#ccc">61</td>
+                <td>=</td>
+                <td style="background-color:#ccc">93</td>
+                <td>]</td>
+                <td style="background-color:#ccc">125</td>
+                <td>}</td>
+            </tr>
+            <tr>
+                <td style="background-color:#ccc">30</td>
+                <td>RS (record separator)</td>
+                <td style="background-color:#ccc">62</td>
+                <td>&gt;</td>
+                <td style="background-color:#ccc">94</td>
+                <td>^</td>
+                <td style="background-color:#ccc">126</td>
+                <td>~</td>
+            </tr>
+            <tr>
+                <td style="background-color:#ccc">31</td>
+                <td>US (unit separator)</td>
+                <td style="background-color:#ccc">63</td>
+                <td>?</td>
+                <td style="background-color:#ccc">95</td>
+                <td>_</td>
+                <td style="background-color:#ccc">127</td>
+                <td>DEL (delete)</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<p>Codes 0-31 and 127 are called the unprintable chars. These codes were designed to control peripheral devices such as
+    printers (e.g. by instructing the printer how to move the print head). Most of these are obsolete now. If you try to
+    print these chars, the results are dependent upon your OS (you may get some emoji-like characters).</p>
+<p>Codes 32-126 are called the printable characters, and they represent the letters, number characters, and punctuation
+    that most computers use to display basic English text.</p>
+<p>If you try to print a character whose value is outside the range of ASCII, the results are also dependent upon your
+    OS.</p>
+<p class="cpp-section cpp-topline" style="clear:both" data-ezoic-video-excluded="1">Initializing chars</p>
+<p>You can initialize char variables using character literals:</p>
+<div class="code-block code-block-3" style="margin:8px 0;clear:both"></div>
+<div class="code-toolbar">
+    <pre class="line-numbers language-cpp"
+        tabindex="0"><code class="match-braces language-cpp"><span class="token keyword keyword-char">char</span> ch2<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-131-close">{</span> <span class="token string">'a'</span> <span class="token punctuation brace-curly brace-close brace-level-1" id="pair-131-open">}</span><span class="token punctuation">;</span> <span class="token comment">// initialize with code point for 'a' (stored as integer 97) (preferred)</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+    <div class="toolbar">
+        <div class="toolbar-item"><button class="copy-to-clipboard-button" type="button"
+                data-copy-state="copy"><span>Copy</span></button></div>
+    </div>
+</div>
+<p>You can initialize chars with integers as well, but this should be avoided if possible</p>
+<div class="code-toolbar">
+    <pre class="line-numbers language-cpp"
+        tabindex="0"><code class="match-braces language-cpp"><span class="token keyword keyword-char">char</span> ch1<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-132-close">{</span> <span class="token number">97</span> <span class="token punctuation brace-curly brace-close brace-level-1" id="pair-132-open">}</span><span class="token punctuation">;</span> <span class="token comment">// initialize with integer 97 ('a') (not preferred)</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+    <div class="toolbar">
+        <div class="toolbar-item"><button class="copy-to-clipboard-button" type="button"
+                data-copy-state="copy"><span>Copy</span></button></div>
+    </div>
+</div>
+<div class="cpp-note cpp-lightredbackground" data-ezoic-video-excluded="1">
+    <p class="cpp-note-title cpp-bottomline">Warning</p>
+    <p>Be careful not to mix up character numbers with integer numbers. The following two initializations are not the
+        same:</p>
+    <div class="code-toolbar">
+        <pre class="line-numbers language-cpp"
+            tabindex="0"><code class="match-braces language-cpp"><span class="token keyword keyword-char">char</span> ch<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-133-close">{</span><span class="token number">5</span><span class="token punctuation brace-curly brace-close brace-level-1" id="pair-133-open">}</span><span class="token punctuation">;</span> <span class="token comment">// initialize with integer 5 (stored as integer 5)</span>
+<span class="token keyword keyword-char">char</span> ch<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-134-close">{</span><span class="token string">'5'</span><span class="token punctuation brace-curly brace-close brace-level-1" id="pair-134-open">}</span><span class="token punctuation">;</span> <span class="token comment">// initialize with code point for '5' (stored as integer 53)</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+        <div class="toolbar">
+            <div class="toolbar-item"><button class="copy-to-clipboard-button" type="button"
+                    data-copy-state="copy"><span>Copy</span></button></div>
+        </div>
+    </div>
+    <p>Character numbers are intended to be used when we want to represent numbers as text, rather than as numbers to
+        apply mathematical operations to.</p>
+</div>
+<p class="cpp-section cpp-topline" style="clear:both" data-ezoic-video-excluded="1">Printing chars</p>
+<p>When using std::cout to print a char, std::cout outputs the char variable as an ASCII character:</p>
+<div class="code-toolbar">
+    <pre class="line-numbers language-cpp"
+        tabindex="0"><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-135-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-135-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-138-close">{</span>
+    <span class="token keyword keyword-char">char</span> ch1<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-136-close">{</span> <span class="token string">'a'</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-136-open">}</span><span class="token punctuation">;</span> <span class="token comment">// (preferred)</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> ch1<span class="token punctuation">;</span> <span class="token comment">// cout prints character 'a'</span>
+
+    <span class="token keyword keyword-char">char</span> ch2<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-137-close">{</span> <span class="token number">98</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-137-open">}</span><span class="token punctuation">;</span> <span class="token comment">// code point for 'b' (not preferred)</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> ch2<span class="token punctuation">;</span> <span class="token comment">// cout prints a character ('b')</span>
+
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-138-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+    <div class="toolbar">
+        <div class="toolbar-item"><button class="copy-to-clipboard-button" type="button"
+                data-copy-state="copy"><span>Copy</span></button></div>
+    </div>
+</div>
+<p>This produces the result:</p>
+<pre>ab
+</pre>
+<p>We can also output char literals directly:</p>
+<div class="code-toolbar">
+    <pre class="line-numbers language-cpp"
+        tabindex="0"><code class="match-braces language-cpp">std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">'c'</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+    <div class="toolbar">
+        <div class="toolbar-item"><button class="copy-to-clipboard-button" type="button"
+                data-copy-state="copy"><span>Copy</span></button></div>
+    </div>
+</div>
+<p>This produces the result:</p>
+<pre>c
+</pre>
+<p class="cpp-section cpp-topline" style="clear:both" data-ezoic-video-excluded="1">Inputting chars</p>
+<p>The following program asks the user to input a character, then prints out the character:</p>
+<div class="code-toolbar">
+    <pre class="line-numbers language-cpp"
+        tabindex="0"><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-139-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-139-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-141-close">{</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Input a keyboard character: "</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-char">char</span> ch<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-140-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-140-open">}</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>cin <span class="token operator">&gt;&gt;</span> ch<span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"You entered: "</span> <span class="token operator">&lt;&lt;</span> ch <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-141-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+    <div class="toolbar">
+        <div class="toolbar-item"><button class="copy-to-clipboard-button" type="button"
+                data-copy-state="copy"><span>Copy</span></button></div>
+    </div>
+</div>
+<p>Here’s the output from one run:</p>
+<div class="code-block code-block-4" style="margin:8px 0;clear:both"></div>
+<pre>Input a keyboard character: q
+You entered: q
+</pre>
+<p>Note that std::cin will let you enter multiple characters. However, variable <em>ch</em> can only hold 1 character.
+    Consequently, only the first input character is extracted into variable <em>ch</em>. The rest of the user input is
+    left in the input buffer that std::cin uses, and can be extracted with subsequent calls to std::cin.</p>
+<p>You can see this behavior in the following example:</p>
+<div class="code-toolbar">
+    <pre class="line-numbers language-cpp"
+        tabindex="0"><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-142-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-142-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-144-close">{</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Input a keyboard character: "</span><span class="token punctuation">;</span> <span class="token comment">// assume the user enters "abcd" (without quotes)</span>
+
+    <span class="token keyword keyword-char">char</span> ch<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-143-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-143-open">}</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>cin <span class="token operator">&gt;&gt;</span> ch<span class="token punctuation">;</span> <span class="token comment">// ch = 'a', "bcd" is left queued.</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"You entered: "</span> <span class="token operator">&lt;&lt;</span> ch <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+    <span class="token comment">// Note: The following cin doesn't ask the user for input, it grabs queued input!</span>
+    std<span class="token double-colon punctuation">::</span>cin <span class="token operator">&gt;&gt;</span> ch<span class="token punctuation">;</span> <span class="token comment">// ch = 'b', "cd" is left queued.</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"You entered: "</span> <span class="token operator">&lt;&lt;</span> ch <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-144-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+    <div class="toolbar">
+        <div class="toolbar-item"><button class="copy-to-clipboard-button" type="button"
+                data-copy-state="copy"><span>Copy</span></button></div>
+    </div>
+</div>
+<pre>Input a keyboard character: abcd
+You entered: a
+You entered: b
+</pre>
+<p>If you want to read in more than one char at a time (e.g. to read in a name, word, or sentence), you’ll want to use a
+    string instead of a char. A string is a collection of sequential characters (and thus, a string can hold multiple
+    symbols). We discuss this in upcoming lesson (<a
+        href="https://www.learncpp.com/cpp-tutorial/introduction-to-stdstring/">5.7 -- Introduction to std::string</a>).
+</p>
+<p class="cpp-section cpp-topline" style="clear:both" data-ezoic-video-excluded="1">Extracting whitespace characters</p>
+<p>Because extracting input ignores leading whitespace, this can lead to unexpected results when trying to extract
+    whitespace characters to a char variable:</p>
+<div class="code-toolbar">
+    <pre class="line-numbers language-cpp"
+        tabindex="0"><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-145-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-145-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-147-close">{</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Input a keyboard character: "</span><span class="token punctuation">;</span> <span class="token comment">// assume the user enters "a b" (without quotes)</span>
+
+    <span class="token keyword keyword-char">char</span> ch<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-146-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-146-open">}</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>cin <span class="token operator">&gt;&gt;</span> ch<span class="token punctuation">;</span> <span class="token comment">// extracts a, leaves " b\n" in stream</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"You entered: "</span> <span class="token operator">&lt;&lt;</span> ch <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+    std<span class="token double-colon punctuation">::</span>cin <span class="token operator">&gt;&gt;</span> ch<span class="token punctuation">;</span> <span class="token comment">// skips leading whitespace (the space), extracts b, leaves "\n" in stream</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"You entered: "</span> <span class="token operator">&lt;&lt;</span> ch <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-147-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+    <div class="toolbar">
+        <div class="toolbar-item"><button class="copy-to-clipboard-button" type="button"
+                data-copy-state="copy"><span>Copy</span></button></div>
+    </div>
+</div>
+<pre>Input a keyboard character: a b
+You entered: a
+You entered: b
+</pre>
+<p>In the above example, we may have expected to extract the space, but because leading whitespace is skipped, we
+    extracted the <code>b</code> character instead.</p>
+<div class="code-block code-block-5" style="margin:8px 0;clear:both"></div>
+<p>One simple way to address this is to use the <code>std::cin.get()</code> function to perform the extraction instead,
+    as this function does not ignore leading whitespace:</p>
+<div class="code-toolbar">
+    <pre class="line-numbers language-cpp"
+        tabindex="0"><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-148-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-148-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-152-close">{</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Input a keyboard character: "</span><span class="token punctuation">;</span> <span class="token comment">// assume the user enters "a b" (without quotes)</span>
+
+    <span class="token keyword keyword-char">char</span> ch<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-151-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-151-open">}</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>cin<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-149-close">(</span>ch<span class="token punctuation brace-round brace-close brace-level-2" id="pair-149-open">)</span><span class="token punctuation">;</span> <span class="token comment">// extracts a, leaves " b\n" in stream</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"You entered: "</span> <span class="token operator">&lt;&lt;</span> ch <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+    std<span class="token double-colon punctuation">::</span>cin<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-150-close">(</span>ch<span class="token punctuation brace-round brace-close brace-level-2" id="pair-150-open">)</span><span class="token punctuation">;</span> <span class="token comment">// extracts space, leaves "b\n" in stream</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"You entered: "</span> <span class="token operator">&lt;&lt;</span> ch <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-152-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+    <div class="toolbar">
+        <div class="toolbar-item"><button class="copy-to-clipboard-button" type="button"
+                data-copy-state="copy"><span>Copy</span></button></div>
+    </div>
+</div>
+<pre>Input a keyboard character: a b
+You entered: a
+You entered:  
+</pre>
+<p class="cpp-section cpp-topline" style="clear:both" data-ezoic-video-excluded="1">Char size, range, and default sign
+</p>
+<p>Char is defined by C++ to always be 1 byte in size. By default, a char may be signed or unsigned (though it’s usually
+    signed). If you’re using chars to hold ASCII characters, you don’t need to specify a sign (since both signed and
+    unsigned chars can hold values between 0 and 127).</p>
+<p>If you’re using a char to hold small integers (something you should not do unless you’re explicitly optimizing for
+    space), you should always specify whether it is signed or unsigned. A signed char can hold a number between -128 and
+    127. An unsigned char can hold a number between 0 and 255.</p>
+<p class="cpp-section cpp-topline" style="clear:both" data-ezoic-video-excluded="1">Escape sequences</p>
+<p>There are some sequences of characters in C++ that have special meaning. These characters are called <strong>escape
+        sequences</strong>. An escape sequence starts with a ‘\’ (backslash) character, and then a following letter or
+    number.</p>
+<div class="code-block code-block-6" style="margin:8px 0;clear:both"></div>
+<p>You’ve already seen the most common escape sequence: <code>'\n'</code>, which can be used to print a newline:</p>
+<div class="code-toolbar">
+    <pre class="line-numbers language-cpp"
+        tabindex="0"><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-153-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-153-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-155-close">{</span>
+    <span class="token keyword keyword-int">int</span> x <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-154-close">{</span> <span class="token number">5</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-154-open">}</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"The value of x is: "</span> <span class="token operator">&lt;&lt;</span> x <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span> <span class="token comment">// standalone \n goes in single quotes</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"First line\nSecond line\n"</span><span class="token punctuation">;</span>        <span class="token comment">// \n can be embedded in double quotes</span>
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-155-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+    <div class="toolbar">
+        <div class="toolbar-item"><button class="copy-to-clipboard-button" type="button"
+                data-copy-state="copy"><span>Copy</span></button></div>
+    </div>
+</div>
+<p>This outputs:</p>
+<pre>The value of x is: 5
+First line
+Second line
+</pre>
+<p>Another commonly used escape sequence is <code>'\t'</code>, which embeds a horizontal tab:</p>
+<div class="code-toolbar">
+    <pre class="line-numbers language-cpp"
+        tabindex="0"><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-156-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-156-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-157-close">{</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"First part\tSecond part"</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-157-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+    <div class="toolbar">
+        <div class="toolbar-item"><button class="copy-to-clipboard-button" type="button"
+                data-copy-state="copy"><span>Copy</span></button></div>
+    </div>
+</div>
+<p>Which outputs:</p>
+<pre>First part	Second part
+</pre>
+<p>Three other notable escape sequences are:<br>\’ prints a single quote<br>\” prints a double quote<br>\\ prints a
+    backslash</p>
+<p>Here’s a table of all of the escape sequences:</p>
+<div class="cpp-table-wrapper" data-ezoic-video-excluded="1">
+    <p></p>
+    <p></p>
+    <table class="cpp-table" data-ezoic-video-excluded="1">
+        <tbody>
+            <tr>
+                <th>Name</th>
+                <th>Symbol</th>
+                <th>Meaning</th>
+            </tr>
+            <tr>
+                <td>Alert</td>
+                <td>\a</td>
+                <td>Makes an alert, such as a beep</td>
+            </tr>
+            <tr>
+                <td>Backspace</td>
+                <td>\b</td>
+                <td>Moves the cursor back one space</td>
+            </tr>
+            <tr>
+                <td>Formfeed</td>
+                <td>\f</td>
+                <td>Moves the cursor to next logical page</td>
+            </tr>
+            <tr>
+                <td>Newline</td>
+                <td>\n</td>
+                <td>Moves cursor to next line</td>
+            </tr>
+            <tr>
+                <td>Carriage return</td>
+                <td>\r</td>
+                <td>Moves cursor to beginning of line</td>
+            </tr>
+            <tr>
+                <td>Horizontal tab</td>
+                <td>\t</td>
+                <td>Prints a horizontal tab</td>
+            </tr>
+            <tr>
+                <td>Vertical tab</td>
+                <td>\v</td>
+                <td>Prints a vertical tab</td>
+            </tr>
+            <tr>
+                <td>Single quote</td>
+                <td>\’</td>
+                <td>Prints a single quote</td>
+            </tr>
+            <tr>
+                <td>Double quote</td>
+                <td>\”</td>
+                <td>Prints a double quote</td>
+            </tr>
+            <tr>
+                <td>Backslash</td>
+                <td>\\</td>
+                <td>Prints a backslash.</td>
+            </tr>
+            <tr>
+                <td>Question mark</td>
+                <td>\?</td>
+                <td>Prints a question mark.<br>No longer relevant. You can use question marks unescaped.</td>
+            </tr>
+            <tr>
+                <td>Octal number</td>
+                <td>\(number)</td>
+                <td>Translates into char represented by octal<p></p>
+                </td>
+            </tr>
+            <tr>
+                <td>Hex number</td>
+                <td>\x(number)</td>
+                <td>Translates into char represented by hex number</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<p>Here are some examples:</p>
+<div class="code-block code-block-7" style="margin:8px 0;clear:both"></div>
+<div class="code-toolbar">
+    <pre class="line-numbers language-cpp"
+        tabindex="0"><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-158-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-158-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-159-close">{</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"\"This is quoted text\"\n"</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"This string contains a single backslash \\\n"</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"6F in hex is char '\x6F'\n"</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-159-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+    <div class="toolbar">
+        <div class="toolbar-item"><button class="copy-to-clipboard-button" type="button"
+                data-copy-state="copy"><span>Copy</span></button></div>
+    </div>
+</div>
+<p>Prints:</p>
+<pre>"This is quoted text"
+This string contains a single backslash \
+6F in hex is char 'o'
+</pre>
+<div class="cpp-note cpp-lightredbackground" data-ezoic-video-excluded="1">
+    <p class="cpp-note-title cpp-bottomline">Warning</p>
+    <p>Escape sequences start with a backslash (\), not a forward slash (/). If you use a forward slash by accident, it
+        may still compile, but will not yield the desired result.</p>
+</div>
+<p class="cpp-section cpp-topline" style="clear:both" data-ezoic-video-excluded="1">Newline (\n) vs. std::endl</p>
+<p>We cover this topic in lesson <a
+        href="https://www.learncpp.com/cpp-tutorial/introduction-to-iostream-cout-cin-and-endl/">1.5 -- Introduction to
+        iostream: cout, cin, and endl</a>.</p>
+<p class="cpp-section cpp-topline" style="clear:both" data-ezoic-video-excluded="1">What’s the difference between
+    putting symbols in single and double quotes?</p>
+<p>Text between single quotes is treated as a <code>char</code> literal, which represents a single character. For
+    example, <code>'a'</code> represents the character <code>a</code>, <code>'+'</code> represents the character for the
+    plus symbol, <code>'5'</code> represents the character <code>5</code> (not the number 5), and <code>'\n'</code>
+    represents the newline character.</p>
+<p>Text between double quotes (e.g. “Hello, world!”) is treated as a C-style string literal, which can contain multiple
+    characters. We discuss strings in lesson <a href="https://www.learncpp.com/cpp-tutorial/literals/">5.2 --
+        Literals</a>.</p>
+<div class="code-block code-block-8" style="margin:8px 0;clear:both"></div>
+<div class="cpp-note cpp-lightgreenbackground" data-ezoic-video-excluded="1">
+    <p class="cpp-note-title cpp-bottomline">Best practice</p>
+    <p>Single characters should usually be single-quoted, not double-quoted (e.g. <code>'t'</code> or <code>'\n'</code>,
+        not <code>"t"</code> or <code>"\n"</code>). One possible exception occurs when doing output, where it can be
+        preferential to double quote everything for consistency (see lesson <a
+            href="https://www.learncpp.com/cpp-tutorial/introduction-to-iostream-cout-cin-and-endl/">1.5 -- Introduction
+            to iostream: cout, cin, and endl</a>).</p>
+</div>
+<p class="cpp-section cpp-topline" style="clear:both" data-ezoic-video-excluded="1">Avoid multicharacter literals</p>
+<p>For backwards compatibility reasons, many C++ compilers support <strong>multicharacter literals</strong>, which are
+    char literals that contain multiple characters (e.g. <code>'56'</code>). If supported, these have an
+    implementation-defined value (meaning it varies depending on the compiler). Because they are not part of the C++
+    standard, and their value is not strictly defined, multicharacter literals should be avoided.</p>
+<div class="cpp-note cpp-lightgreenbackground" data-ezoic-video-excluded="1">
+    <p class="cpp-note-title cpp-bottomline">Best practice</p>
+    <p>Avoid multicharacter literals (e.g. <code>'56'</code>).</p>
+</div>
+<p>Multicharacter literal support often causes problems for new programmers when the forget whether escape sequences use
+    forward slashes or backslashes:</p>
+<div class="code-toolbar">
+    <pre class="line-numbers language-cpp"
+        tabindex="0"><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">add</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-160-close">(</span><span class="token keyword keyword-int">int</span> x<span class="token punctuation">,</span> <span class="token keyword keyword-int">int</span> y<span class="token punctuation brace-round brace-close brace-level-1" id="pair-160-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-163-close">{</span>
+	<span class="token keyword keyword-return">return</span> x <span class="token operator">+</span> y<span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-163-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-161-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-161-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-164-close">{</span>
+	std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token function">add</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-162-close">(</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-162-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'/n'</span><span class="token punctuation">;</span> <span class="token comment">// we used a forward slash instead of a backslash here</span>
+
+	<span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-164-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+    <div class="toolbar">
+        <div class="toolbar-item"><button class="copy-to-clipboard-button" type="button"
+                data-copy-state="copy"><span>Copy</span></button></div>
+    </div>
+</div>
+<p>The programmer expects this program to print the value <code>3</code> and a newline. But instead, on the author’s
+    machine, it outputs the following:</p>
+<pre>312142
+</pre>
+<p>The issue here is that the programmer accidentally used <code>'/n'</code> (a multicharacter literal consisting of a
+    forward slash and an <code>'n'</code> character) instead of <code>'\n'</code> (the escape sequence for a newline).
+    The program first prints <code>3</code> (the result of <code>add(1, 2)</code>) correctly. But then it prints the
+    value of multicharacter literal <code>'/n'</code>, which on the author’s machine had the implementation-defined
+    value <code>12142</code>.</p>
+<div class="cpp-note cpp-lightredbackground" data-ezoic-video-excluded="1">
+    <p class="cpp-note-title cpp-bottomline">Warning</p>
+    <p>Make sure that your newlines are using escape sequence <code>'\n'</code> , not multicharacter literal
+        <code>'/n'</code>.</p>
+</div>
+<div class="cpp-note cpp-lightbluebackground" data-ezoic-video-excluded="1">
+    <p class="cpp-note-title cpp-bottomline">Key insight</p>
+    <p>Note that if we’d double-quoted the output <code>"/n"</code>, the program would have printed <code>3/n</code>,
+        which is still wrong, but much less confusing.</p>
+</div>
+<p>Here’s another example. Let’s start with the following:</p>
+<div class="code-toolbar">
+    <pre class="line-numbers language-cpp"
+        tabindex="0"><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-165-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-165-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-167-close">{</span>
+    <span class="token keyword keyword-int">int</span> x <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-166-close">{</span> <span class="token number">5</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-166-open">}</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"The value of x is "</span> <span class="token operator">&lt;&lt;</span> x <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-167-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+    <div class="toolbar">
+        <div class="toolbar-item"><button class="copy-to-clipboard-button" type="button"
+                data-copy-state="copy"><span>Copy</span></button></div>
+    </div>
+</div>
+<p>This program outputs exactly as you expect:</p>
+<pre>The value of x is 5
+</pre>
+<p>But this output isn’t nearly exciting enough, so we decide to add an exclamation point before the newline:</p>
+<div class="code-toolbar">
+    <pre class="line-numbers language-cpp"
+        tabindex="0"><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-168-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-168-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-170-close">{</span>
+    <span class="token keyword keyword-int">int</span> x <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-169-close">{</span> <span class="token number">5</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-169-open">}</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"The value of x is "</span> <span class="token operator">&lt;&lt;</span> x <span class="token operator">&lt;&lt;</span> <span class="token string">'!\n'</span><span class="token punctuation">;</span> <span class="token comment">// added exclamation point</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-170-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+    <div class="toolbar">
+        <div class="toolbar-item"><button class="copy-to-clipboard-button" type="button"
+                data-copy-state="copy"><span>Copy</span></button></div>
+    </div>
+</div>
+<p>While we expect this to output the following:</p>
+<pre>The value of x is 5!
+</pre>
+<p>Because <code>'!\n'</code> is a multicharacter literal, on the author’s machine, this actually printed:</p>
+<pre>The value of x is 58458
+</pre>
+<p>This is not only incorrect, it can be hard to debug because you are likely to assume that <code>x</code> has the
+    wrong value.</p>
+<p>Using double quotes when outputting character literals (instead of single quotes) either makes these kind of issues
+    easier to discover or avoids them entirely.</p>
+<p class="cpp-section cpp-topline" style="clear:both" data-ezoic-video-excluded="1">What about the other char types,
+    <code>wchar_t</code>, <code>char8_t</code>, <code>char16_t</code>, and <code>char32_t</code>?</p>
+<p>Much like ASCII maps the integers 0-127 to American English characters, other character encoding standards exist to
+    map integers (of varying sizes) to characters in other languages. The most well-known mapping outside of ASCII is
+    the Unicode standard, which maps over 144,000 integers to characters in many different languages. Because Unicode
+    contains so many code points, a single Unicode code point needs 32-bits to represent a character (called UTF-32).
+    However, Unicode characters can also be encoded using multiple 16-bit or 8-bit characters (called UTF-16 and UTF-8
+    respectively).</p>
+<p><code>char16_t</code> and <code>char32_t</code> were added to C++11 to provide explicit support for 16-bit and 32-bit
+    Unicode characters. These char types have the same size as <code>std::uint_least16_t</code> and
+    <code>std::uint_least32_t</code> respectively (but are distinct types). <code>char8_t</code> was added in C++20 to
+    provide support for 8-bit Unicode (UTF-8). It is a distinct type that uses the same representation as
+    <code>unsigned char</code>.</p>
+<p>You won’t need to use <code>char8_t</code>, <code>char16_t</code>, or <code>char32_t</code> unless you’re planning on
+    making your program Unicode compatible. <code>wchar_t</code> should be avoided in almost all cases (except when
+    interfacing with the Windows API), as its size is implementation-defined.</p>
+<p>Unicode and localization are generally outside the scope of these tutorials, so we won’t cover it further. In the
+    meantime, you should only use ASCII characters when working with characters (and strings). Using characters from
+    other character sets may cause your characters to display incorrectly.</p>
+<div class="prevnext">
+    <div class="prevnext-inline"><a class="nav-link"
+            href="https://www.learncpp.com/cpp-tutorial/introduction-to-type-conversion-and-static_cast/">
+            <div class="nav-button nav-button-next">
+                <div class="nav-button-icon"><i class="fa fa-chevron-circle-right" aria-hidden="true"></i></div>
+                <div class="nav-button-text">
+                    <div class="nav-button-title">Next lesson</div>
+                    <div class="nav-button-lesson"><span class="nav-button-lesson-number">4.12</span>Introduction to
+                        type conversion and static_cast</div>
+                </div>
+            </div>
+        </a><a class="nav-link" href="/">
+            <div class="nav-button nav-button-index">
+                <div class="nav-button-icon"><i class="fa fa-home" aria-hidden="true"></i></div>
+                <div class="nav-button-text">
+                    <div class="nav-button-title">Back to table of contents</div>
+                </div>
+            </div>
+        </a><a class="nav-link" href="https://www.learncpp.com/cpp-tutorial/introduction-to-if-statements/">
+            <div class="nav-button nav-button-prev">
+                <div class="nav-button-icon"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i></div>
+                <div class="nav-button-text">
+                    <div class="nav-button-title">Previous lesson</div>
+                    <div class="nav-button-lesson"><span class="nav-button-lesson-number">4.10</span>Introduction to if
+                        statements</div>
+                </div>
+            </div>
+        </a></div>
+</div>
+<div class="code-block code-block-10" style="margin:8px 0;clear:both"></div>

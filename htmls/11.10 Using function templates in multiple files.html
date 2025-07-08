@@ -1,0 +1,352 @@
+<div
+  class="code-block code-block-1"
+  style="margin: 8px 8px 8px 0; float: left"
+></div>
+<p>Consider the following program, which doesn’t work correctly:</p>
+<p>main.cpp:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-template">template</span> <span class="token operator">&lt;</span><span class="token keyword keyword-typename">typename</span> <span class="token class-name">T</span><span class="token operator">&gt;</span>
+T <span class="token function">addOne</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-0-close">(</span>T x<span class="token punctuation brace-round brace-close brace-level-1" id="pair-0-open">)</span><span class="token punctuation">;</span> <span class="token comment">// function template forward declaration</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-1-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-1-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-4-close">{</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token function">addOne</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-2-close">(</span><span class="token number">1</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-2-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token function">addOne</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-3-close">(</span><span class="token number">2.3</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-3-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-4-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>add.cpp:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-template">template</span> <span class="token operator">&lt;</span><span class="token keyword keyword-typename">typename</span> <span class="token class-name">T</span><span class="token operator">&gt;</span>
+T <span class="token function">addOne</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-5-close">(</span>T x<span class="token punctuation brace-round brace-close brace-level-1" id="pair-5-open">)</span> <span class="token comment">// function template definition</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-6-close">{</span>
+    <span class="token keyword keyword-return">return</span> x <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-6-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  If <code>addOne</code> were a non-template function, this program would work
+  fine: In <em>main.cpp</em>, the compiler would be satisfied with the forward
+  declaration of <code>addOne</code>, and the linker would connect the call to
+  <code>addOne()</code> in <em>main.cpp</em> to the function definition in
+  <em>add.cpp</em>.
+</p>
+<p>
+  But because <code>addOne</code> is a template, this program doesn’t work, and
+  we get a linker error:
+</p>
+<pre>
+1&gt;Project6.obj : error LNK2019: unresolved external symbol "int __cdecl addOne&lt;int&gt;(int)" (??$addOne@H@@YAHH@Z) referenced in function _main
+1&gt;Project6.obj : error LNK2019: unresolved external symbol "double __cdecl addOne&lt;double&gt;(double)" (??$addOne@N@@YANN@Z) referenced in function _main
+</pre>
+<p>
+  In <em>main.cpp</em>, we call <code>addOne&lt;int&gt;</code> and
+  <code>addOne&lt;double&gt;</code>. However, since the compiler can’t see the
+  definition for function template <code>addOne</code>, it can’t instantiate
+  those functions inside <em>main.cpp</em>. It does see the forward declaration
+  for <code>addOne</code> though, and will assume those functions exist
+  elsewhere and will be linked in later.
+</p>
+<p>
+  When the compiler goes to compile <em>add.cpp</em>, it will see the definition
+  for function template <code>addOne</code>. However, there are no uses of this
+  template in <em>add.cpp</em>, so the compiler will not instantiate anything.
+  The end result is that the linker is unable to connect the calls to
+  <code>addOne&lt;int&gt;</code> and <code>addOne&lt;double&gt;</code> in
+  <em>main.cpp</em> to the actual functions, because those functions were never
+  instantiated.
+</p>
+<div class="code-block code-block-2" style="margin: 8px 0; clear: both"></div>
+
+<div class="cpp-note cpp-lightgraybackground">
+  <p class="cpp-note-title cpp-bottomline">As an aside…</p>
+  <p>
+    If <em>add.cpp</em> had instantiated those functions, the program would have
+    compiled and linked just fine. But such solutions are fragile and should be
+    avoided: if the code in <em>add.cpp</em> was later changed so those
+    functions are no longer instantiated, the program would again fail to link.
+    Or if <em>main.cpp</em> called a different version of
+    <code>addOne</code> (such as <code>addOne&lt;float&gt;</code>) that was not
+    instantiated in <em>add.cpp</em>, we run into the same problem.
+  </p>
+</div>
+<p>
+  The most conventional way to address this issue is to put all your template
+  code in a header (.h) file instead of a source (.cpp) file:
+</p>
+<p>add.h:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">ifndef</span> <span class="token expression">ADD_H</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">ADD_H</span></span>
+
+<span class="token keyword keyword-template">template</span> <span class="token operator">&lt;</span><span class="token keyword keyword-typename">typename</span> <span class="token class-name">T</span><span class="token operator">&gt;</span>
+T <span class="token function">addOne</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-7-close">(</span>T x<span class="token punctuation brace-round brace-close brace-level-1" id="pair-7-open">)</span> <span class="token comment">// function template definition</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-8-close">{</span>
+    <span class="token keyword keyword-return">return</span> x <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-8-open">}</span>
+
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">endif</span></span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>main.cpp:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">"add.h"</span> <span class="token comment">// import the function template definition</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-9-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-9-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-12-close">{</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token function">addOne</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-10-close">(</span><span class="token number">1</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-10-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token function">addOne</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-11-close">(</span><span class="token number">2.3</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-11-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-12-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  That way, any files that need access to the template can #include the relevant
+  header, and the template definition will be copied by the preprocessor into
+  the source file. The compiler will then be able to instantiate any functions
+  that are needed.
+</p>
+<p>
+  You may be wondering why this doesn’t cause a violation of the one-definition
+  rule (ODR). The ODR says that types, templates, inline functions, and inline
+  variables are allowed to have identical definitions in different files. So
+  there is no problem if the template definition is copied into multiple files
+  (as long as each definition is identical).
+</p>
+<div class="cpp-note cpp-lightgraybackground">
+  <p class="cpp-note-title cpp-bottomline">Related content</p>
+  <p>
+    We covered the ODR in lesson
+    <a href="https://www.learncpp.com/cpp-tutorial/forward-declarations/#ODR"
+      >2.7 -- Forward declarations and definitions</a
+    >.
+  </p>
+</div>
+<p>
+  But what about the instantiated functions themselves? If a function is
+  instantiated in multiple files, how does that not cause a violation of the
+  ODR? The answer is that functions implicitly instantiated from templates are
+  implicitly inline. And as you know, inline functions can be defined in
+  multiple files, so long as the definition is identical in each.
+</p>
+<div class="code-block code-block-3" style="margin: 8px 0; clear: both"></div>
+
+<div class="cpp-note cpp-lightbluebackground">
+  <p class="cpp-note-title cpp-bottomline">Key insight</p>
+  <p>
+    Template definitions are exempt from the part of the one-definition rule
+    that requires only one definition per program, so it is not a problem to
+    have the same template definition #included into multiple source files. And
+    functions implicitly instantiated from function templates are implicitly
+    inline, so they can be defined in multiple files, so long as each definition
+    is identical.
+  </p>
+  <p>
+    The templates themselves are not inline, as the concept of inline only
+    applies to variables and functions.
+  </p>
+</div>
+<p>
+  Here’s another example of a function template being placed in a header file,
+  so it can be included into multiple source files:
+</p>
+<p>max.h:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">ifndef</span> <span class="token expression">MAX_H</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">MAX_H</span></span>
+
+<span class="token keyword keyword-template">template</span> <span class="token operator">&lt;</span><span class="token keyword keyword-typename">typename</span> <span class="token class-name">T</span><span class="token operator">&gt;</span>
+T <span class="token function">max</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-13-close">(</span>T x<span class="token punctuation">,</span> T y<span class="token punctuation brace-round brace-close brace-level-1" id="pair-13-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-15-close">{</span>
+    <span class="token keyword keyword-return">return</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-14-close">(</span>x <span class="token operator">&lt;</span> y<span class="token punctuation brace-round brace-close brace-level-2" id="pair-14-open">)</span> <span class="token operator">?</span> y <span class="token operator">:</span> x<span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-15-open">}</span>
+
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">endif</span></span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>foo.cpp:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">"max.h"</span> <span class="token comment">// import template definition for max&lt;T&gt;(T, T)</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-void">void</span> <span class="token function">foo</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-16-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-16-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-18-close">{</span>
+	std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token function">max</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-17-close">(</span><span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-17-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-18-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>main.cpp:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">"max.h"</span> <span class="token comment">// import template definition for max&lt;T&gt;(T, T)</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-void">void</span> <span class="token function">foo</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-19-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-19-open">)</span><span class="token punctuation">;</span> <span class="token comment">// forward declaration for function foo</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-20-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-20-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-23-close">{</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token function">max</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-21-close">(</span><span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-21-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+    <span class="token function">foo</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-22-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-22-open">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-23-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  In the above example, both main.cpp and foo.cpp
+  <code>#include "max.h"</code> so the code in both files can make use of the
+  <code>max&lt;T&gt;(T, T)</code> function template.
+</p>
+<div class="cpp-note cpp-lightgreenbackground">
+  <p class="cpp-note-title cpp-bottomline">Best practice</p>
+  <p>
+    Templates that are needed in multiple files should be defined in a header
+    file, and then #included wherever needed. This allows the compiler to see
+    the full template definition and instantiate the template when needed.
+  </p>
+</div>
+<div class="prevnext">
+  <div class="prevnext-inline">
+    <a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/chapter-11-summary-and-quiz/"
+    >
+      <div class="nav-button nav-button-next">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-right" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Next lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">11.x</span>Chapter 11 summary
+            and quiz
+          </div>
+        </div>
+      </div></a
+    >
+    <a class="nav-link" href="/">
+      <div class="nav-button nav-button-index">
+        <div class="nav-button-icon">
+          <i class="fa fa-home" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Back to table of contents</div>
+        </div>
+      </div></a
+    >
+    <a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/non-type-template-parameters/"
+    >
+      <div class="nav-button nav-button-prev">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-left" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Previous lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">11.9</span>Non-type template
+            parameters
+          </div>
+        </div>
+      </div></a
+    >
+  </div>
+</div>
+<div class="code-block code-block-10" style="margin: 8px 0; clear: both"></div>

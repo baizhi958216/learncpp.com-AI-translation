@@ -1,0 +1,598 @@
+<div
+  class="code-block code-block-1"
+  style="margin: 8px 8px 8px 0; float: left"
+></div>
+<p class="cpp-section" data-ezoic-video-excluded="1">Keywords</p>
+<p>
+  C++ reserves a set of 92 words (as of C++23) for its own use. These words are
+  called <strong>keywords</strong> (or reserved words), and each of these
+  keywords has a special meaning within the C++ language.
+</p>
+<p>Here is a list of all the C++ keywords (through C++23):</p>
+<p style="clear: both"></p>
+<p></p>
+<div id="wid" style="border-style: solid; border-width: 1px; padding: 4px">
+  <ul style="list-style: none; margin: 0">
+    <li>alignas</li>
+    <li>alignof</li>
+    <li>and</li>
+    <li>and_eq</li>
+    <li>asm</li>
+    <li>auto</li>
+    <li>bitand</li>
+    <li>bitor</li>
+    <li>bool</li>
+    <li>break</li>
+    <li>case</li>
+    <li>catch</li>
+    <li>char</li>
+    <li>char8_t (since C++20)</li>
+    <li>char16_t</li>
+    <li>char32_t</li>
+    <li>class</li>
+    <li>compl</li>
+    <li>concept (since C++20)</li>
+    <li>const</li>
+    <li>consteval (since C++20)</li>
+    <li>constexpr</li>
+    <li>constinit (since C++20)</li>
+    <li>const_cast</li>
+    <li>continue</li>
+    <li>co_await (since C++20)</li>
+    <li>co_return (since C++20)</li>
+    <li>co_yield (since C++20)</li>
+    <li>decltype</li>
+    <li>default</li>
+    <li>delete</li>
+    <li>do</li>
+    <li>double</li>
+    <li>dynamic_cast</li>
+    <li>else</li>
+    <li>enum</li>
+    <li>explicit</li>
+    <li>export</li>
+    <li>extern</li>
+    <li>false</li>
+    <li>float</li>
+    <li>for</li>
+    <li>friend</li>
+    <li>goto</li>
+    <li>if</li>
+    <li>inline</li>
+    <li>int</li>
+    <li>long</li>
+    <li>mutable</li>
+    <li>namespace</li>
+    <li>new</li>
+    <li>noexcept</li>
+    <li>not</li>
+    <li>not_eq</li>
+    <li>nullptr</li>
+    <li>operator</li>
+    <li>or</li>
+    <li>or_eq</li>
+    <li>private</li>
+    <li>protected</li>
+    <li>public</li>
+    <li>register</li>
+    <li>reinterpret_cast</li>
+    <li>requires (since C++20)</li>
+    <li>return</li>
+    <li>short</li>
+    <li>signed</li>
+    <li>sizeof</li>
+    <li>static</li>
+    <li>static_assert</li>
+    <li>static_cast</li>
+    <li>struct</li>
+    <li>switch</li>
+    <li>template</li>
+    <li>this</li>
+    <li>thread_local</li>
+    <li>throw</li>
+    <li>true</li>
+    <li>try</li>
+    <li>typedef</li>
+    <li>typeid</li>
+    <li>typename</li>
+    <li>union</li>
+    <li>unsigned</li>
+    <li>using</li>
+    <li>virtual</li>
+    <li>void</li>
+    <li>volatile</li>
+    <li>wchar_t</li>
+    <li>while</li>
+    <li>xor</li>
+    <li>xor_eq</li>
+  </ul>
+</div>
+<p>
+  The keywords marked (C++20) were added in C++20. If your compiler is not C++20
+  compliant (or does have C++20 functionality, but it’s turned off by default),
+  these keywords may not be functional.
+</p>
+<p>
+  C++ also defines special identifiers: <em>override</em>, <em>final</em>,
+  <em>import</em>, and <em>module</em>. These have a specific meaning when used
+  in certain contexts but are not reserved otherwise.
+</p>
+<p>
+  You have already run across some of these keywords, including <em>int</em> and
+  <em>return</em>. Along with a set of operators, these keywords and special
+  identifiers define the entire language of C++ (preprocessor commands
+  excluded). Because keywords and special identifiers have special meaning, your
+  IDEs will likely change the text color of these words to make them stand out
+  from other identifiers.
+</p>
+<div class="code-block code-block-2" style="margin: 8px 0; clear: both"></div>
+<p>
+  By the time you are done with this tutorial series, you will understand what
+  almost all of these words do!
+</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  <a name="rules"></a>Identifier naming rules
+  <a href="#rules"><i class="fa fa-link" style="font-size: 0.8em"></i></a>
+</p>
+<p>
+  As a reminder, the name of a variable (or function, type, or other kind of
+  item) is called an identifier. C++ gives you a lot of flexibility to name
+  identifiers as you wish. However, there are a few rules that must be followed
+  when naming identifiers:
+</p>
+<ul>
+  <li>The identifier can not be a keyword. Keywords are reserved.</li>
+  <li>
+    The identifier can only be composed of letters (lower or upper case),
+    numbers, and the underscore character. That means the name can not contain
+    symbols (except the underscore) nor whitespace (spaces or tabs).
+  </li>
+  <li>
+    The identifier must begin with a letter (lower or upper case) or an
+    underscore. It can not start with a number.
+  </li>
+  <li>
+    C++ is case sensitive, and thus distinguishes between lower and upper case
+    letters. <code>nvalue</code> is different than <code>nValue</code> is
+    different than <code>NVALUE</code>.
+  </li>
+</ul>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Identifier naming best practices
+</p>
+<p>
+  Now that you know how you <em>can</em> name a variable, let’s talk about how
+  you <em>should</em> name a variable (or function).
+</p>
+<ol start="1">
+  <li>
+    It is conventional in C++ that variable names should begin with a lowercase
+    letter. If the variable name is a single word or acronym, the whole thing
+    should be written in lowercase letters.
+  </li>
+</ol>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-int">int</span> value<span class="token punctuation">;</span> <span class="token comment">// conventional</span>
+
+<span class="token keyword keyword-int">int</span> Value<span class="token punctuation">;</span> <span class="token comment">// unconventional (should start with lower case letter)</span>
+<span class="token keyword keyword-int">int</span> VALUE<span class="token punctuation">;</span> <span class="token comment">// unconventional (should start with lower case letter and be in all lower case)</span>
+<span class="token keyword keyword-int">int</span> VaLuE<span class="token punctuation">;</span> <span class="token comment">// unconventional (see your psychiatrist) ;)</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  Most often, function names are also started with a lowercase letter (though
+  there’s some disagreement on this point). We’ll follow this convention, since
+  function <em>main</em> (which all programs must have) starts with a lowercase
+  letter, as do all of the functions in the C++ standard library.
+</p>
+<div class="code-block code-block-3" style="margin: 8px 0; clear: both"></div>
+<p>
+  Identifier names that start with a capital letter are typically used for
+  user-defined types (such as structs, classes, and enumerations, all of which
+  we will cover later).
+</p>
+<p>
+  If the variable or function name is multi-word, there are two common
+  conventions: words separated by underscores (sometimes called snake_case), or
+  intercapped (sometimes called camelCase, since the capital letters stick up
+  like the humps on a camel).
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-int">int</span> my_variable_name<span class="token punctuation">;</span>   <span class="token comment">// conventional (separated by underscores/snake_case)</span>
+<span class="token keyword keyword-int">int</span> <span class="token function">my_function_name</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-10-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-10-open">)</span><span class="token punctuation">;</span> <span class="token comment">// conventional (separated by underscores/snake_case)</span>
+
+<span class="token keyword keyword-int">int</span> myVariableName<span class="token punctuation">;</span>     <span class="token comment">// conventional (intercapped/camelCase)</span>
+<span class="token keyword keyword-int">int</span> <span class="token function">myFunctionName</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-11-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-11-open">)</span><span class="token punctuation">;</span>   <span class="token comment">// conventional (intercapped/camelCase)</span>
+
+<span class="token keyword keyword-int">int</span> my variable name<span class="token punctuation">;</span>   <span class="token comment">// invalid (whitespace not allowed)</span>
+<span class="token keyword keyword-int">int</span> my function <span class="token function">name</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-12-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-12-open">)</span><span class="token punctuation">;</span> <span class="token comment">// invalid (whitespace not allowed)</span>
+
+<span class="token keyword keyword-int">int</span> MyVariableName<span class="token punctuation">;</span>     <span class="token comment">// unconventional (should start with lower case letter)</span>
+<span class="token keyword keyword-int">int</span> <span class="token function">MyFunctionName</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-13-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-13-open">)</span><span class="token punctuation">;</span>   <span class="token comment">// unconventional (should start with lower case letter)</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  In this tutorial, we will typically use the intercapped approach because it’s
+  easier to read (it’s easy to mistake an underscore for a space in dense blocks
+  of code). But it’s common to see either -- the C++ standard library uses the
+  underscore method for both variables and functions. Sometimes you’ll see a mix
+  of the two: underscores used for variables and intercaps used for functions.
+</p>
+<p>
+  It’s worth noting that if you’re working in someone else’s code, it’s
+  generally considered better to match the style of the code you are working in
+  than to rigidly follow the naming conventions laid out above.
+</p>
+<div class="cpp-note cpp-lightgreenbackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Best practice</p>
+  <p>
+    When working in an existing program, use the conventions of that program
+    (even if they don’t conform to modern best practices). Use modern best
+    practices when you’re writing new programs.
+  </p>
+</div>
+<ol start="2">
+  <li>
+    Avoid naming your identifiers starting with an underscore. Although
+    syntactically legal, these names are typically reserved for OS, library,
+    and/or compiler use.
+  </li>
+  <li>
+    The name of your identifiers should make clear what the value they are
+    holding means (particularly if the units aren’t obvious). Identifiers should
+    be named in a way that would help someone who has no idea what your code
+    does be able to figure it out as quickly as possible. In 3 months, when you
+    look at your program again, you’ll have forgotten how it works, and you’ll
+    thank yourself for picking variable names that make sense.
+  </li>
+</ol>
+<p>
+  However, giving a trivial identifier an overly-complex name impedes overall
+  understanding of what the program is doing almost as much as giving a
+  non-trivial identifier an inadequate name. A good rule of thumb is to make the
+  length of an identifier proportional to how specific and accessible the
+  identifier is. This means:
+</p>
+<div class="code-block code-block-4" style="margin: 8px 0; clear: both"></div>
+<ul>
+  <li>
+    An identifier that exists for only a few statements (e.g. in the body of a
+    short function) can have a shorter name.
+  </li>
+  <li>
+    An identifier that is accessible from anywhere might benefit from a longer
+    name.
+  </li>
+  <li>
+    An identifier that represents a non-specific number (e.g. anything the user
+    provides) can have a shorter name.
+  </li>
+  <li>
+    An identifier that represents a specific value (e.g. the length of an inseam
+    in millimeters) should have a longer name.
+  </li>
+</ul>
+<div class="cpp-table-wrapper" data-ezoic-video-excluded="1">
+  <p></p>
+  <p></p>
+  <table class="cpp-table" data-ezoic-video-excluded="1">
+    <tbody>
+      <tr>
+        <td>int ccount</td>
+        <td>Bad</td>
+        <td>What does the c before “count” stand for?</td>
+      </tr>
+      <tr>
+        <td>int customerCount</td>
+        <td>Good</td>
+        <td>Clear what we’re counting</td>
+      </tr>
+      <tr>
+        <td>int i</td>
+        <td>Either</td>
+        <td>Okay if use is trivial, bad otherwise</td>
+      </tr>
+      <tr>
+        <td>int index</td>
+        <td>Either</td>
+        <td>Okay if obvious what we’re indexing</td>
+      </tr>
+      <tr>
+        <td>int totalScore</td>
+        <td>Either</td>
+        <td>
+          Okay if there’s only one thing being scored, otherwise too ambiguous
+        </td>
+      </tr>
+      <tr>
+        <td>int _count</td>
+        <td>Bad</td>
+        <td>Do not start names with underscore</td>
+      </tr>
+      <tr>
+        <td>int count</td>
+        <td>Either</td>
+        <td>Okay if obvious what we’re counting</td>
+      </tr>
+      <tr>
+        <td>int data</td>
+        <td>Bad</td>
+        <td>What kind of data?</td>
+      </tr>
+      <tr>
+        <td>int time</td>
+        <td>Bad</td>
+        <td>Is this in seconds, minutes, or hours?</td>
+      </tr>
+      <tr>
+        <td>int minutesElapsed</td>
+        <td>Either</td>
+        <td>Okay if obvious what this is elapsed from</td>
+      </tr>
+      <tr>
+        <td>int x1, x2</td>
+        <td>Either</td>
+        <td>Okay if use is trivial, bad otherwise</td>
+      </tr>
+      <tr>
+        <td>int userinput1, userinput2</td>
+        <td>Bad</td>
+        <td>Hard to differentiate between the two due to long name</td>
+      </tr>
+      <tr>
+        <td>int numApples</td>
+        <td>Good</td>
+        <td>Descriptive</td>
+      </tr>
+      <tr>
+        <td>int monstersKilled</td>
+        <td>Good</td>
+        <td>Descriptive</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<ol start="4">
+  <li>
+    Avoid abbreviations, except when they are common and unambiguous (e.g.
+    <code>num</code>, <code>cm</code>, <code>idx</code>).
+  </li>
+</ol>
+<div class="cpp-note cpp-lightbluebackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Key insight</p>
+  <p>
+    Code is read more often than it is written, so any time saved while writing
+    the code is time that every reader, including future you, will waste while
+    reading it. If you’re looking to write code faster, use your editor’s
+    auto-complete feature.
+  </p>
+</div>
+<ol start="5">
+  <li>
+    For variable declarations, it can be useful to use a comment to describe
+    what a variable is going to be used for, or to explain anything else that
+    might not be obvious. For example, say we’ve declared a variable that is
+    supposed to store the number of characters in a piece of text. Does the text
+    “Hello World!” have 10, 11, 12 characters? It depends on whether we’re
+    including whitespace or punctuation. Rather than naming the variable
+    <code>numCharsIncludingWhitespaceAndPunctuation</code>, which is rather
+    lengthy, a well placed comment on or above the declaration line should help
+    the user figure it out:
+  </li>
+</ol>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token comment">// a count of the number of chars in a piece of text, including whitespace and punctuation</span>
+<span class="token keyword keyword-int">int</span> numChars <span class="token punctuation brace-curly brace-open brace-level-1" id="pair-14-close">{</span><span class="token punctuation brace-curly brace-close brace-level-1" id="pair-14-open">}</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Quiz time
+</p>
+<div class="quiz" style="clear: both">
+  <p class="quiz-header">Question #1</p>
+  <p>
+    Based on how you <em>should</em> name a variable, indicate whether each
+    variable name is conventional (follows best practices), unconventional
+    (compiler will accept but does not follow best practices), or invalid (will
+    not compile), and why.
+  </p>
+  <p>int sum {};</p>
+  <p>
+    (Assume it’s obvious what we’re summing)<br /><a
+      class="solution_link_show"
+      href="javascript:void(0)"
+      onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_0'),this,'Show Solution','Hide Solution')"
+      >Show Solution</a
+    >
+  </p>
+  <div class="wpsolution" id="cpp_solution_id_0" style="display: none">
+    <p>Conventional.</p>
+  </div>
+  <p>
+    int _apples {};<br /><a
+      class="solution_link_show"
+      href="javascript:void(0)"
+      onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_1'),this,'Show Solution','Hide Solution')"
+      >Show Solution</a
+    >
+  </p>
+  <div class="wpsolution" id="cpp_solution_id_1" style="display: none">
+    <p>Unconventional -- variable names should not start with an underscore.</p>
+  </div>
+  <p>
+    int VALUE {};<br /><a
+      class="solution_link_show"
+      href="javascript:void(0)"
+      onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_2'),this,'Show Solution','Hide Solution')"
+      >Show Solution</a
+    >
+  </p>
+  <div class="wpsolution" id="cpp_solution_id_2" style="display: none">
+    <p>Unconventional -- single word names should be in all lower case.</p>
+  </div>
+  <p>
+    int my variable name {};<br /><a
+      class="solution_link_show"
+      href="javascript:void(0)"
+      onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_3'),this,'Show Solution','Hide Solution')"
+      >Show Solution</a
+    >
+  </p>
+  <div class="wpsolution" id="cpp_solution_id_3" style="display: none">
+    <p>Invalid -- variable names can not contain spaces.</p>
+  </div>
+  <p>
+    int TotalCustomers {};<br /><a
+      class="solution_link_show"
+      href="javascript:void(0)"
+      onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_4'),this,'Show Solution','Hide Solution')"
+      >Show Solution</a
+    >
+  </p>
+  <div class="wpsolution" id="cpp_solution_id_4" style="display: none">
+    <p>
+      Unconventional -- variable names should start with a lower case letter.
+    </p>
+  </div>
+  <p>
+    int void {};<br /><a
+      class="solution_link_show"
+      href="javascript:void(0)"
+      onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_5'),this,'Show Solution','Hide Solution')"
+      >Show Solution</a
+    >
+  </p>
+  <div class="wpsolution" id="cpp_solution_id_5" style="display: none">
+    <p>Invalid -- void is a keyword.</p>
+  </div>
+  <p>
+    int numFruit {};<br /><a
+      class="solution_link_show"
+      href="javascript:void(0)"
+      onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_6'),this,'Show Solution','Hide Solution')"
+      >Show Solution</a
+    >
+  </p>
+  <div class="wpsolution" id="cpp_solution_id_6" style="display: none">
+    <p>Conventional.</p>
+  </div>
+  <p>
+    int 3some {};<br /><a
+      class="solution_link_show"
+      href="javascript:void(0)"
+      onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_7'),this,'Show Solution','Hide Solution')"
+      >Show Solution</a
+    >
+  </p>
+  <div class="wpsolution" id="cpp_solution_id_7" style="display: none">
+    <p>Invalid -- variable names can not start with a number.</p>
+  </div>
+  <p>
+    int meters_of_pipe {};<br /><a
+      class="solution_link_show"
+      href="javascript:void(0)"
+      onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_8'),this,'Show Solution','Hide Solution')"
+      >Show Solution</a
+    >
+  </p>
+  <div class="wpsolution" id="cpp_solution_id_8" style="display: none">
+    <p>Conventional.</p>
+  </div>
+  <p></p>
+</div>
+<div class="prevnext">
+  <div class="prevnext-inline">
+    <a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/whitespace-and-basic-formatting/"
+      ><div class="nav-button nav-button-next">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-right" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Next lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">1.8</span>Whitespace and
+            basic formatting
+          </div>
+        </div>
+      </div></a
+    ><a class="nav-link" href="/"
+      ><div class="nav-button nav-button-index">
+        <div class="nav-button-icon">
+          <i class="fa fa-home" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Back to table of contents</div>
+        </div>
+      </div></a
+    ><a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/uninitialized-variables-and-undefined-behavior/"
+      ><div class="nav-button nav-button-prev">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-left" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Previous lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">1.6</span>Uninitialized
+            variables and undefined behavior
+          </div>
+        </div>
+      </div></a
+    >
+  </div>
+</div>
+<div class="code-block code-block-10" style="margin: 8px 0; clear: both"></div>

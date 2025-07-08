@@ -1,0 +1,243 @@
+<div
+  class="code-block code-block-1"
+  style="margin: 8px 8px 8px 0; float: left"
+></div>
+<p>
+  Modern debuggers contain one more debugging information window that can be
+  very useful in debugging your program, and that is the call stack window.
+</p>
+<p>
+  When your program calls a function, you already know that it bookmarks the
+  current location, makes the function call, and then returns. How does it know
+  where to return to? The answer is that it keeps track in the call stack.
+</p>
+<p>
+  The <strong>call stack</strong> is a list of all the active functions that
+  have been called to get to the current point of execution. The call stack
+  includes an entry for each function called, as well as which line of code will
+  be returned to when the function returns. Whenever a new function is called,
+  that function is added to the top of the call stack. When the current function
+  returns to the caller, it is removed from the top of the call stack, and
+  control returns to the function just below it.
+</p>
+<p>
+  The <strong>call stack window</strong> is a debugger window that shows the
+  current call stack. If you don’t see the call stack window, you will need to
+  tell the IDE to show it.
+</p>
+<div class="cpp-note cpp-lightyellowbackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">For Visual Studio users</p>
+  <p>
+    In Visual Studio, the call stack window can be found via
+    <em>Debug menu &gt; Windows &gt; Call Stack</em>. Note that you have to be
+    in a debug session to activate this window.
+  </p>
+</div>
+<div class="cpp-note cpp-lightyellowbackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">For Code::Blocks users</p>
+  <p>
+    In Code::Blocks, the call stack window can be found via
+    <em>Debug menu &gt; Debugging windows &gt; Call stack</em>.
+  </p>
+</div>
+<div class="cpp-note cpp-lightyellowbackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">For VS Code users</p>
+  <p>
+    In VS Code, the call stack window appears in debug mode, docked on the left.
+  </p>
+</div>
+<p>Let’s take a look at the call stack using a sample program:</p>
+<div class="code-block code-block-2" style="margin: 8px 0; clear: both"></div>
+
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-void">void</span> <span class="token function">a</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-18-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-18-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-24-close">{</span>
+	std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"a() called\n"</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-24-open">}</span>
+
+<span class="token keyword keyword-void">void</span> <span class="token function">b</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-19-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-19-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-25-close">{</span>
+	std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"b() called\n"</span><span class="token punctuation">;</span>
+	<span class="token function">a</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-20-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-20-open">)</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-25-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-21-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-21-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-26-close">{</span>
+	<span class="token function">a</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-22-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-22-open">)</span><span class="token punctuation">;</span>
+	<span class="token function">b</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-23-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-23-open">)</span><span class="token punctuation">;</span>
+
+	<span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-26-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  Put breakpoints on lines 5 and 10 of this program, and then start debugging
+  mode. Because function <em>a</em> is called first, the breakpoint on line 5
+  will be hit first.
+</p>
+<p>At this point, you should see something like this:</p>
+<div class="cpp-image-wrapper">
+  <img
+    src="https://www.learncpp.com/images/CppTutorial/Chapter3/VS-CallStack1-min.png"
+    alt=""
+  />
+</div>
+<p>Your IDE may exhibit some differences:</p>
+<ul>
+  <li>The format of your function names and line numbers may be different</li>
+  <li>Your line numbers may be slightly different (off by 1)</li>
+  <li>
+    Instead of <em>[External Code]</em> you may see a bunch of other crazily
+    named functions.
+  </li>
+</ul>
+<p>These differences are inconsequential.</p>
+<p>
+  What’s relevant here is the top two lines. From the bottom up, we can see that
+  function <em>main</em> was called first, and then that function <em>a</em> was
+  called next.
+</p>
+<div class="code-block code-block-3" style="margin: 8px 0; clear: both"></div>
+
+<p>
+  The <em>line 5</em> next to function <em>a</em> shows us where the current
+  point of execution is (which matches the execution marker in the code window).
+  The <em>line 17</em> on the second line indicates the line that will be
+  returned to when control returns to function <em>main</em>.
+</p>
+<div class="cpp-note cpp-lightbluebackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Tip</p>
+  <p>
+    The line numbers after the function names show the next line to be executed
+    in each function.
+  </p>
+  <p>
+    Since the top entry on the call stack represents the currently executing
+    function, the line number here shows the next line that will execute when
+    execution resumes. The remaining entries in the call stack represent
+    functions that will be returned to at some point, so the line number for
+    these represent the next statement that will execute after the function is
+    returned to.
+  </p>
+</div>
+<p>
+  Now, choose the <em>continue</em> debug command to advance execution to the
+  next breakpoint, which will be on line 10. The call stack should update to
+  reflect the new situation:
+</p>
+<div class="cpp-image-wrapper">
+  <img
+    src="https://www.learncpp.com/images/CppTutorial/Chapter3/VS-CallStack2-min.png"
+    alt=""
+  />
+</div>
+<p>
+  You’ll notice that function <em>b</em> is now the top line of the call stack,
+  reflecting the fact that function <em>b</em> is the function that is actively
+  being executed. Note that function <em>a</em> is no longer represented on the
+  call stack. This is because function <em>a</em> was removed from the call
+  stack when it returned.
+</p>
+<p>
+  Choose the <em>continue</em> debug command one more time, and we’ll hit the
+  breakpoint on line 5 again (because function <em>b</em> calls function
+  <em>a</em>). The call stack will look like this:
+</p>
+<div class="cpp-image-wrapper">
+  <img
+    src="https://www.learncpp.com/images/CppTutorial/Chapter3/VS-CallStack3-min.png"
+    alt=""
+  />
+</div>
+<p>
+  There are now three functions on the call stack: (from bottom to top)
+  <em>main</em>, which called function <em>b</em>, which called function
+  <em>a</em>.
+</p>
+<div class="code-block code-block-4" style="margin: 8px 0; clear: both"></div>
+
+<p>
+  The call stack is useful in conjunction with breakpoints, when your breakpoint
+  is hit and you want to know what functions were called to get to that specific
+  point in the code.
+</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Conclusion
+</p>
+<p>
+  Congratulations, you now know the basics of using an integrated debugger!
+  Using stepping, breakpoints, watches, and the call stack window, you now have
+  the fundamentals to be able to debug almost any problem. Like many things,
+  becoming good at using a debugger takes some practice and some trial and
+  error. But again, we’ll reiterate the point that the time devoted to learning
+  how to use an integrated debugger effectively will be repaid many times over
+  in time saved debugging your programs!
+</p>
+<div class="prevnext">
+  <div class="prevnext-inline">
+    <a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/finding-issues-before-they-become-problems/"
+    >
+      <div class="nav-button nav-button-next">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-right" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Next lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">3.10</span>Finding issues
+            before they become problems
+          </div>
+        </div>
+      </div></a
+    >
+    <a class="nav-link" href="/">
+      <div class="nav-button nav-button-index">
+        <div class="nav-button-icon">
+          <i class="fa fa-home" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Back to table of contents</div>
+        </div>
+      </div></a
+    >
+    <a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/using-an-integrated-debugger-watching-variables/"
+    >
+      <div class="nav-button nav-button-prev">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-left" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Previous lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">3.8</span>Using an integrated
+            debugger: Watching variables
+          </div>
+        </div>
+      </div></a
+    >
+  </div>
+</div>
+<div class="code-block code-block-10" style="margin: 8px 0; clear: both"></div>

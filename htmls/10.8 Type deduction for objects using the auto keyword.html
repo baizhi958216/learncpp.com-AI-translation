@@ -1,0 +1,696 @@
+<div
+  class="code-block code-block-1"
+  style="margin: 8px 8px 8px 0; float: left"
+></div>
+<p>There’s a subtle redundancy lurking in this simple variable definition:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-double">double</span> d<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-140-close">{</span> <span class="token number">5.0</span> <span class="token punctuation brace-curly brace-close brace-level-1" id="pair-140-open">}</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  In C++, we are required to provide an explicit type for all objects. Thus,
+  we’ve specified that variable <code>d</code> is of type double.
+</p>
+<p>
+  However, the literal value <code>5.0</code> used to initialize
+  <code>d</code> also has type double (implicitly determined via the format of
+  the literal).
+</p>
+<div class="cpp-note cpp-lightgraybackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Related content</p>
+  <p>
+    We discuss how literal types are determined in lesson
+    <a href="https://www.learncpp.com/cpp-tutorial/literals/">5.2 -- Literals</a
+    >.
+  </p>
+</div>
+<p>
+  In cases where we want a variable and its initializer to have the same type,
+  we’re effectively providing the same type information twice.
+</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Type deduction for initialized variables
+</p>
+<div class="code-block code-block-2" style="margin: 8px 0; clear: both"></div>
+<p>
+  <strong>Type deduction</strong> (also sometimes called
+  <strong>type inference</strong>) is a feature that allows the compiler to
+  deduce the type of an object from the object’s initializer. When defining a
+  variable, type deduction can be invoked by using the <code>auto</code> keyword
+  can be used in place of the variable’s type:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-141-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-141-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-145-close">{</span>
+    <span class="token keyword keyword-auto">auto</span> d <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-142-close">{</span> <span class="token number">5.0</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-142-open">}</span><span class="token punctuation">;</span> <span class="token comment">// 5.0 is a double literal, so d will be deduced as a double</span>
+    <span class="token keyword keyword-auto">auto</span> i <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-143-close">{</span> <span class="token number">1</span> <span class="token operator">+</span> <span class="token number">2</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-143-open">}</span><span class="token punctuation">;</span> <span class="token comment">// 1 + 2 evaluates to an int, so i will be deduced as an int</span>
+    <span class="token keyword keyword-auto">auto</span> x <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-144-close">{</span> i <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-144-open">}</span><span class="token punctuation">;</span> <span class="token comment">// i is an int, so x will be deduced as an int</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-145-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  In the first case, because <code>5.0</code> is a double literal, the compiler
+  will deduce that variable <code>d</code> should be of type
+  <code>double</code>. In the second case, the expression
+  <code>1 + 2</code> yields an int result, so variable <code>i</code> will be of
+  type <code>int</code>. In the third case, <code>i</code> was previously
+  deduced to be of type <code>int</code>, so <code>x</code> will also be deduced
+  to be of type <code>int</code>.
+</p>
+<div class="cpp-note cpp-lightredbackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Warning</p>
+  <p>
+    Prior to C++17, <code>auto d{ 5.0 };</code> would deduce <code>d</code> to
+    be of type <code>std::initializer_list&lt;double&gt;</code> rather than
+    <code>double</code>. This was fixed in C++17, and many compilers (such as
+    gcc and Clang) have back-ported this change to previous language standards.
+  </p>
+  <p>
+    If you are using C++14 or older, and the above example doesn’t compile on
+    your compiler, use copy initialization with <code>auto</code> instead (<code
+      >auto d = 5.0</code
+    >).
+  </p>
+</div>
+<p>
+  Because function calls are valid expressions, we can even use type deduction
+  when our initializer is a non-void function call:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-int">int</span> <span class="token function">add</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-146-close">(</span><span class="token keyword keyword-int">int</span> x<span class="token punctuation">,</span> <span class="token keyword keyword-int">int</span> y<span class="token punctuation brace-round brace-close brace-level-1" id="pair-146-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-149-close">{</span>
+    <span class="token keyword keyword-return">return</span> x <span class="token operator">+</span> y<span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-149-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-147-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-147-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-151-close">{</span>
+    <span class="token keyword keyword-auto">auto</span> sum <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-150-close">{</span> <span class="token function">add</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-148-close">(</span><span class="token number">5</span><span class="token punctuation">,</span> <span class="token number">6</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-148-open">)</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-150-open">}</span><span class="token punctuation">;</span> <span class="token comment">// add() returns an int, so sum's type will be deduced as an int</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-151-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  The <code>add()</code> function returns an <code>int</code> value, so the
+  compiler will deduce that variable <code>sum</code> should have type
+  <code>int</code>.
+</p>
+<p>
+  Literal suffixes can be used in combination with type deduction to specify a
+  particular type:
+</p>
+<div class="code-block code-block-3" style="margin: 8px 0; clear: both"></div>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-152-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-152-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-155-close">{</span>
+    <span class="token keyword keyword-auto">auto</span> a <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-153-close">{</span> <span class="token number">1.23f</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-153-open">}</span><span class="token punctuation">;</span> <span class="token comment">// f suffix causes a to be deduced to float</span>
+    <span class="token keyword keyword-auto">auto</span> b <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-154-close">{</span> <span class="token number">5u</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-154-open">}</span><span class="token punctuation">;</span>    <span class="token comment">// u suffix causes b to be deduced to unsigned int</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-155-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  Variables using type deduction may also use other specifiers/qualifiers, such
+  as <code>const</code> or <code>constexpr</code>:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-156-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-156-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-160-close">{</span>
+    <span class="token keyword keyword-int">int</span> a <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-157-close">{</span> <span class="token number">5</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-157-open">}</span><span class="token punctuation">;</span>            <span class="token comment">// a is an int</span>
+
+    <span class="token keyword keyword-const">const</span> <span class="token keyword keyword-auto">auto</span> b <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-158-close">{</span> <span class="token number">5</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-158-open">}</span><span class="token punctuation">;</span>     <span class="token comment">// b is a const int</span>
+    <span class="token keyword keyword-constexpr">constexpr</span> <span class="token keyword keyword-auto">auto</span> c <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-159-close">{</span> <span class="token number">5</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-159-open">}</span><span class="token punctuation">;</span> <span class="token comment">// c is a constexpr int</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-160-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Type deduction must have something to deduce from
+</p>
+<p>
+  Type deduction will not work for objects that either do not have initializers
+  or have empty initializers. It also will not work when the initializer has
+  type <code>void</code> (or any other incomplete type). Thus, the following is
+  not valid:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-void">void</span> <span class="token function">foo</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-161-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-161-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-164-close">{</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-164-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-162-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-162-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-167-close">{</span>
+    <span class="token keyword keyword-auto">auto</span> a<span class="token punctuation">;</span>           <span class="token comment">// The compiler is unable to deduce the type of a</span>
+    <span class="token keyword keyword-auto">auto</span> b <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-165-close">{</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-165-open">}</span><span class="token punctuation">;</span>       <span class="token comment">// The compiler is unable to deduce the type of b</span>
+    <span class="token keyword keyword-auto">auto</span> c <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-166-close">{</span> <span class="token function">foo</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-163-close">(</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-163-open">)</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-166-open">}</span><span class="token punctuation">;</span> <span class="token comment">// Invalid: c can't have type incomplete type void</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-167-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  Although using type deduction for fundamental data types only saves a few (if
+  any) keystrokes, in future lessons we will see examples where the types get
+  complex and lengthy (and in some cases, can be hard to figure out). In those
+  cases, using <code>auto</code> can save a lot of typing (and typos).
+</p>
+<div class="cpp-note cpp-lightgraybackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Related content</p>
+  <p>
+    The type deduction rules for pointers and references are a bit more complex.
+    We discuss these in
+    <a
+      href="https://www.learncpp.com/cpp-tutorial/type-deduction-with-pointers-references-and-const/"
+      >12.14 -- Type deduction with pointers, references, and const</a
+    >.
+  </p>
+</div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Type deduction drops <code>const</code> from the deduced type
+</p>
+<div class="code-block code-block-4" style="margin: 8px 0; clear: both"></div>
+<p>
+  In most cases, type deduction will drop the <code>const</code> from deduced
+  types. For example:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-168-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-168-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-171-close">{</span>
+    <span class="token keyword keyword-const">const</span> <span class="token keyword keyword-int">int</span> a <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-169-close">{</span> <span class="token number">5</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-169-open">}</span><span class="token punctuation">;</span> <span class="token comment">// a has type const int</span>
+    <span class="token keyword keyword-auto">auto</span> b <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-170-close">{</span> a <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-170-open">}</span><span class="token punctuation">;</span>      <span class="token comment">// b has type int (const dropped)</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-171-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  In the above example, <code>a</code> has type <code>const int</code>, but when
+  deducing a type for variable <code>b</code> using <code>a</code> as the
+  initializer, type deduction deduces the type as <code>int</code>, not
+  <code>const int</code>.
+</p>
+<p>
+  If you want a deduced type to be const, you must supply the
+  <code>const</code> yourself as part of the definition:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-172-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-172-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-175-close">{</span>
+    <span class="token keyword keyword-const">const</span> <span class="token keyword keyword-int">int</span> a <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-173-close">{</span> <span class="token number">5</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-173-open">}</span><span class="token punctuation">;</span>  <span class="token comment">// a has type const int</span>
+    <span class="token keyword keyword-const">const</span> <span class="token keyword keyword-auto">auto</span> b <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-174-close">{</span> a <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-174-open">}</span><span class="token punctuation">;</span> <span class="token comment">// b has type const int (const dropped but reapplied)</span>
+
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-175-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  In this example, the type deduced from <code>a</code> will be
+  <code>int</code> (the <code>const</code> is dropped), but because we’ve
+  re-added a <code>const</code> qualifier during the definition of variable
+  <code>b</code>, variable <code>b</code> will have type <code>const int</code>.
+</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Type deduction for string literals
+</p>
+<div class="code-block code-block-5" style="margin: 8px 0; clear: both"></div>
+<p>
+  For historical reasons, string literals in C++ have a strange type. Therefore,
+  the following probably won’t work as expected:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-auto">auto</span> s <span class="token punctuation brace-curly brace-open brace-level-1" id="pair-176-close">{</span> <span class="token string">"Hello, world"</span> <span class="token punctuation brace-curly brace-close brace-level-1" id="pair-176-open">}</span><span class="token punctuation">;</span> <span class="token comment">// s will be type const char*, not std::string</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  If you want the type deduced from a string literal to be
+  <code>std::string</code> or <code>std::string_view</code>, you’ll need to use
+  the <code>s</code> or <code>sv</code> literal suffixes (introduced in lessons
+  <a href="https://www.learncpp.com/cpp-tutorial/introduction-to-stdstring/"
+    >5.7 -- Introduction to std::string</a
+  >
+  and
+  <a
+    href="https://www.learncpp.com/cpp-tutorial/introduction-to-stdstring_view/"
+    >5.8 -- Introduction to std::string_view</a
+  >):
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;string&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;string_view&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-177-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-177-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-180-close">{</span>
+    <span class="token keyword keyword-using">using</span> <span class="token keyword keyword-namespace">namespace</span> std<span class="token double-colon punctuation">::</span>literals<span class="token punctuation">;</span> <span class="token comment">// easiest way to access the s and sv suffixes</span>
+
+    <span class="token keyword keyword-auto">auto</span> s1 <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-178-close">{</span> <span class="token string">"goo"</span>s <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-178-open">}</span><span class="token punctuation">;</span>  <span class="token comment">// "goo"s is a std::string literal, so s1 will be deduced as a std::string</span>
+    <span class="token keyword keyword-auto">auto</span> s2 <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-179-close">{</span> <span class="token string">"moo"</span>sv <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-179-open">}</span><span class="token punctuation">;</span> <span class="token comment">// "moo"sv is a std::string_view literal, so s2 will be deduced as a std::string_view</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-180-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>But in such cases, it may be better to not use type deduction.</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Type deduction and constexpr
+</p>
+<p>
+  Because <code>constexpr</code> is not part of the type system, it cannot be
+  deduced as part of type deduction. However, a <code>constexpr</code> variable
+  is implicitly const, and this const will be dropped during type deduction (and
+  can be readded if desired):
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-181-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-181-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-186-close">{</span>
+    <span class="token keyword keyword-constexpr">constexpr</span> <span class="token keyword keyword-double">double</span> a <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-182-close">{</span> <span class="token number">3.4</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-182-open">}</span><span class="token punctuation">;</span>  <span class="token comment">// a has type const double (constexpr not part of type, const is implicit)</span>
+
+    <span class="token keyword keyword-auto">auto</span> b <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-183-close">{</span> a <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-183-open">}</span><span class="token punctuation">;</span>                <span class="token comment">// b has type double (const dropped)</span>
+    <span class="token keyword keyword-const">const</span> <span class="token keyword keyword-auto">auto</span> c <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-184-close">{</span> a <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-184-open">}</span><span class="token punctuation">;</span>          <span class="token comment">// c has type const double (const dropped but reapplied)</span>
+    <span class="token keyword keyword-constexpr">constexpr</span> <span class="token keyword keyword-auto">auto</span> d <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-185-close">{</span> a <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-185-open">}</span><span class="token punctuation">;</span>      <span class="token comment">// d has type const double (const dropped but implicitly reapplied by constexpr)</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-186-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Type deduction benefits and downsides
+</p>
+<div class="code-block code-block-6" style="margin: 8px 0; clear: both"></div>
+<p>
+  Type deduction is not only convenient, but also has a number of other
+  benefits.
+</p>
+<p>
+  First, if two or more variables are defined on sequential lines, the names of
+  the variables will be lined up, helping to increase readability:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token comment">// harder to read</span>
+<span class="token keyword keyword-int">int</span> a <span class="token punctuation brace-curly brace-open brace-level-1" id="pair-187-close">{</span> <span class="token number">5</span> <span class="token punctuation brace-curly brace-close brace-level-1" id="pair-187-open">}</span><span class="token punctuation">;</span>
+<span class="token keyword keyword-double">double</span> b <span class="token punctuation brace-curly brace-open brace-level-1" id="pair-188-close">{</span> <span class="token number">6.7</span> <span class="token punctuation brace-curly brace-close brace-level-1" id="pair-188-open">}</span><span class="token punctuation">;</span>
+
+<span class="token comment">// easier to read</span>
+<span class="token keyword keyword-auto">auto</span> c <span class="token punctuation brace-curly brace-open brace-level-1" id="pair-189-close">{</span> <span class="token number">5</span> <span class="token punctuation brace-curly brace-close brace-level-1" id="pair-189-open">}</span><span class="token punctuation">;</span>
+<span class="token keyword keyword-auto">auto</span> d <span class="token punctuation brace-curly brace-open brace-level-1" id="pair-190-close">{</span> <span class="token number">6.7</span> <span class="token punctuation brace-curly brace-close brace-level-1" id="pair-190-open">}</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  Second, type deduction only works on variables that have initializers, so if
+  you are in the habit of using type deduction, it can help avoid
+  unintentionally uninitialized variables:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-int">int</span> x<span class="token punctuation">;</span> <span class="token comment">// oops, we forgot to initialize x, but the compiler may not complain</span>
+<span class="token keyword keyword-auto">auto</span> y<span class="token punctuation">;</span> <span class="token comment">// the compiler will error out because it can't deduce a type for y</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  Third, you are guaranteed that there will be no unintended
+  performance-impacting conversions:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp">std<span class="token double-colon punctuation">::</span>string_view <span class="token function">getString</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-191-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-191-open">)</span><span class="token punctuation">;</span>   <span class="token comment">// some function that returns a std::string_view</span>
+
+std<span class="token double-colon punctuation">::</span>string s1 <span class="token punctuation brace-curly brace-open brace-level-1" id="pair-194-close">{</span> <span class="token function">getString</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-192-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-192-open">)</span> <span class="token punctuation brace-curly brace-close brace-level-1" id="pair-194-open">}</span><span class="token punctuation">;</span> <span class="token comment">// bad: expensive conversion from std::string_view to std::string (assuming you didn't want this)</span>
+<span class="token keyword keyword-auto">auto</span> s2 <span class="token punctuation brace-curly brace-open brace-level-1" id="pair-195-close">{</span> <span class="token function">getString</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-193-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-193-open">)</span> <span class="token punctuation brace-curly brace-close brace-level-1" id="pair-195-open">}</span><span class="token punctuation">;</span>        <span class="token comment">// good: no conversion required</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 32px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>Type deduction also has a few downsides.</p>
+<div class="code-block code-block-7" style="margin: 8px 0; clear: both"></div>
+<p>
+  First, type deduction obscures an object’s type information in the code.
+  Although a good IDE should be able to show you the deduced type (e.g. when
+  hovering a variable), it’s still a bit easier to make type-based mistakes when
+  using type deduction.
+</p>
+<p>For example:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-auto">auto</span> y <span class="token punctuation brace-curly brace-open brace-level-1" id="pair-196-close">{</span> <span class="token number">5</span> <span class="token punctuation brace-curly brace-close brace-level-1" id="pair-196-open">}</span><span class="token punctuation">;</span> <span class="token comment">// oops, we wanted a double here but we accidentally provided an int literal</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  In the above code, if we’d explicitly specified <code>y</code> as type double,
+  <code>y</code> would have been a double even though we accidentally provided
+  an int literal initializer. With type deduction, <code>y</code> will be
+  deduced to be of type int.
+</p>
+<p>Here’s another example:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-197-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-197-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-200-close">{</span>
+     <span class="token keyword keyword-auto">auto</span> x <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-198-close">{</span> <span class="token number">3</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-198-open">}</span><span class="token punctuation">;</span>
+     <span class="token keyword keyword-auto">auto</span> y <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-199-close">{</span> <span class="token number">2</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-199-open">}</span><span class="token punctuation">;</span>
+
+     std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> x <span class="token operator">/</span> y <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span> <span class="token comment">// oops, we wanted floating point division here</span>
+
+     <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-200-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  In this example, it’s less clear that we’re getting an integer division rather
+  than a floating-point division.
+</p>
+<p>
+  Similar cases occur when a variable is <code>unsigned</code>. Since we don’t
+  want to mix signed and unsigned values, explicitly knowing that a variable has
+  an unsigned type is generally something that shouldn’t be obscured.
+</p>
+<p>
+  Second, if the type of an initializer changes, the type of a variable using
+  type deduction will also change, perhaps unexpectedly. Consider:
+</p>
+<div class="code-block code-block-8" style="margin: 8px 0; clear: both"></div>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-auto">auto</span> sum <span class="token punctuation brace-curly brace-open brace-level-1" id="pair-202-close">{</span> <span class="token function">add</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-201-close">(</span><span class="token number">5</span><span class="token punctuation">,</span> <span class="token number">6</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-201-open">)</span> <span class="token operator">+</span> gravity <span class="token punctuation brace-curly brace-close brace-level-1" id="pair-202-open">}</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  If the return type of <code>add</code> changes from int to double, or
+  <code>gravity</code> changes from int to double, <code>sum</code> will also
+  change type from int to double.
+</p>
+<p>
+  Overall, the modern consensus is that type deduction is generally safe to use
+  for objects, and that doing so can help make your code more readable by
+  de-emphasizing type information so the logic of your code stands out better.
+</p>
+<div class="cpp-note cpp-lightgreenbackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Best practice</p>
+  <p>
+    Use type deduction for your variables when the type of the object doesn’t
+    matter.
+  </p>
+  <p>
+    Favor an explicit type when you require a specific type that differs from
+    the type of the initializer, or when your object is used in a context where
+    making the type obvious is useful.
+  </p>
+</div>
+<div class="cpp-note cpp-lightgraybackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Author’s note</p>
+  <p>
+    In future lessons, we’ll continue to use explicit types instead of type
+    deduction when we feel showing the type information is helpful to
+    understanding a concept or example.
+  </p>
+</div>
+<div class="prevnext">
+  <div class="prevnext-inline">
+    <a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/type-deduction-for-functions/"
+      ><div class="nav-button nav-button-next">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-right" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Next lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">10.9</span>Type deduction for
+            functions
+          </div>
+        </div>
+      </div></a
+    ><a class="nav-link" href="/"
+      ><div class="nav-button nav-button-index">
+        <div class="nav-button-icon">
+          <i class="fa fa-home" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Back to table of contents</div>
+        </div>
+      </div></a
+    ><a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/typedefs-and-type-aliases/"
+      ><div class="nav-button nav-button-prev">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-left" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Previous lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">10.7</span>Typedefs and type
+            aliases
+          </div>
+        </div>
+      </div></a
+    >
+  </div>
+</div>
+<div class="code-block code-block-10" style="margin: 8px 0; clear: both"></div>

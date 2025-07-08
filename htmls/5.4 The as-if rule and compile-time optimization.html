@@ -1,0 +1,739 @@
+<div
+  class="code-block code-block-1"
+  style="margin: 8px 8px 8px 0; float: left"
+></div>
+<p class="cpp-section" data-ezoic-video-excluded="1">
+  Introduction to optimization
+</p>
+<p>
+  In programming, <strong>optimization</strong> is the process of modifying
+  software to make it work more efficiently (e.g. to run faster, or use fewer
+  resources). Optimization can have a huge impact on the overall performance
+  level of an application.
+</p>
+<p>
+  Some types of optimization are typically done by hand. A program called a
+  <strong>profiler</strong> can be used to see how long various parts of the
+  program are taking to run, and which are impacting overall performance. The
+  programmer can then look for ways to alleviate those performance issues.
+  Because hand-optimization is slow, programmers typically focuses on making
+  high-level improvements that will have a large impact (such as choosing more
+  performant algorithms, optimizing data storage and access, reducing resource
+  utilization, parallelizing tasks, etc…)
+</p>
+<p>
+  Other kinds of optimization can be performed automatically. A program that
+  optimizes another program is called an <strong>optimizer</strong>. Optimizers
+  typically work at a low-level, looking for ways to improve statements or
+  expressions by rewriting, reordering, or eliminating them. For example, when
+  you write <code>i = i * 2;</code>, the optimizer might rewrite this as
+  <code>i *= 2;</code>, <code>i += i;</code>, or <code>i &lt;&lt;= 1;</code>.
+  For integral values, all of these produce the same result, but one might be
+  faster than the others on a given architecture. A programmer would probably
+  not know which is the most performant choice (and the answer might vary based
+  on architecture), but an optimizer for a given system would. Individual
+  low-level optimizations may only yield small performance gains, but their
+  cumulative effect can result in a significant performance improvement overall.
+</p>
+<p>
+  Modern C++ compilers are optimizing compilers, meaning they are capable of
+  automatically optimizing your programs as part of the compilation process.
+  Just like the preprocessor, these optimizations do not modify your source code
+  files -- rather, they are applied transparently as part of the compilation
+  process.
+</p>
+<div class="cpp-note cpp-lightbluebackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Key insight</p>
+  <p>
+    Optimizing compilers allow programmers to focus on writing code that is
+    readable and maintainable without sacrificing performance.
+  </p>
+</div>
+<p>
+  Because optimization involves some tradeoffs (we’ll discuss this at the bottom
+  of the lesson), compilers typically support multiple optimization levels that
+  determine whether they optimize, how aggressively they optimize, and what kind
+  of optimizations they prioritize (e.g. speed vs size).
+</p>
+<div class="code-block code-block-2" style="margin: 8px 0; clear: both"></div>
+<p>
+  Most compilers default to no optimization, so if you’re using a command-line
+  compiler, you’ll need to enable optimization yourself. If you’re using an IDE,
+  the IDE will likely automatically configure release builds to enable
+  optimization and debug builds to disable optimization.
+</p>
+<div class="cpp-note cpp-lightyellowbackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">For gcc and Clang users</p>
+  <p>
+    See
+    <a
+      href="https://www.learncpp.com/cpp-tutorial/configuring-your-compiler-build-configurations/"
+      >0.9 -- Configuring your compiler: Build configurations</a
+    >
+    for information on how to enable optimization.
+  </p>
+</div>
+<p class="cpp-section" data-ezoic-video-excluded="1">The as-if rule</p>
+<p>
+  In C++, compilers are given a lot of leeway to optimize programs. The
+  <strong>as-if rule</strong> says that the compiler can modify a program
+  however it likes in order to produce more optimized code, so long as those
+  modifications do not affect a program’s “observable behavior”.
+</p>
+<div class="cpp-note cpp-lightgraybackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">For advanced readers</p>
+  <p>
+    There is one notable exception to the as-if rule: unnecessary calls to a
+    copy (or move) constructor can be elided (omitted) even if those
+    constructors have observable behavior. We cover this topic in lesson
+    <a
+      href="https://www.learncpp.com/cpp-tutorial/class-initialization-and-copy-elision/"
+      >14.15 -- Class initialization and copy elision</a
+    >.
+  </p>
+</div>
+<p>
+  Modern compilers employ a variety of different techniques in order to optimize
+  a program effectively. Which techniques can be applied depends on the program
+  and the quality of the compiler and optimizer.
+</p>
+<div class="cpp-note cpp-lightgraybackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Related content</p>
+  <p>
+    <a
+      href="https://en.wikipedia.org/wiki/Optimizing_compiler#Specific_techniques"
+      >Wikipedia</a
+    >
+    has list of specific techniques that compilers use.
+  </p>
+</div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  An optimization opportunity
+</p>
+<p>Consider the following short program:</p>
+<div class="code-block code-block-3" style="margin: 8px 0; clear: both"></div>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-122-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-122-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-124-close">{</span>
+	<span class="token keyword keyword-int">int</span> x <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-123-close">{</span> <span class="token number">3</span> <span class="token operator">+</span> <span class="token number">4</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-123-open">}</span><span class="token punctuation">;</span>
+	std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> x <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+	<span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-124-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>The output is straightforward:</p>
+<pre>
+7
+</pre>
+<p>However, there’s an interesting optimization possibility hidden within.</p>
+<p>
+  If this program were compiled exactly as it was written (with no
+  optimizations), the compiler would generate an executable that calculates the
+  result of <code>3 + 4</code> at runtime (when the program is run). If the
+  program were executed a million times, <code>3 + 4</code> would be evaluated a
+  million times, and the resulting value of <code>7</code> produced a million
+  times.
+</p>
+<p>
+  Because the result of <code>3 + 4</code> never changes (it is always
+  <code>7</code>), re-calculating this result every time the program is run is
+  wasteful.
+</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Compile-time evaluation
+</p>
+<p>
+  Modern C++ compilers are capable of fully or partially evaluating certain
+  expressions at compile-time (rather than at runtime). When the compiler fully
+  or partially evaluates an expression at compile-time, this is called
+  <strong>compile-time evaluation</strong>.
+</p>
+<div class="code-block code-block-4" style="margin: 8px 0; clear: both"></div>
+<div class="cpp-note cpp-lightbluebackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Key insight</p>
+  <p>
+    Compile-time evaluation allows the compiler to do work at compile-time that
+    would otherwise be done at runtime. Because such expressions no longer need
+    to be evaluated at runtime, the resulting executables are faster and smaller
+    (at the cost of slightly slower compilation times).
+  </p>
+</div>
+<p>
+  For illustrative purposes, in this lesson we will look at some simple
+  optimization techniques that make use of compile-time evaluation. Then, we’ll
+  continue our discussion of compile-time evaluation in subsequent lessons.
+</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Constant folding
+</p>
+<p>
+  One of the original forms of compile-time evaluation is called “constant
+  folding”. <strong>Constant folding</strong> is an optimization technique where
+  the compiler replaces expressions that have literal operands with the result
+  of the expression. Using constant folding, the compiler would recognize that
+  the expression <code>3 + 4</code> has constant operands, and then replace the
+  expression with the result <code>7</code>.
+</p>
+<p>The result would be equivalent to the following:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-125-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-125-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-127-close">{</span>
+	<span class="token keyword keyword-int">int</span> x <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-126-close">{</span> <span class="token number">7</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-126-open">}</span><span class="token punctuation">;</span>
+	std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> x <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+	<span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-127-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  This program produces the same output (<code>7</code>) as the prior version,
+  but the resulting executable no longer needs to spend CPU cycles calculating
+  <code>3 + 4</code> at runtime!
+</p>
+<p>
+  Constant folding can also be applied to subexpressions, even when the full
+  expression must execute at runtime.
+</p>
+<div class="code-block code-block-5" style="margin: 8px 0; clear: both"></div>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-128-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-128-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-129-close">{</span>
+	std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token number">3</span> <span class="token operator">+</span> <span class="token number">4</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+	<span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-129-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  In the above example, <code>3 + 4</code> is a subexpression of the full
+  expression <code>std::cout &lt;&lt; 3 + 4 &lt;&lt; '\n';</code>. The compiler
+  can optimize this to <code>std::cout &lt;&lt; 7 &lt;&lt; '\n';</code>.
+</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Constant propagation
+</p>
+<p>The following program contains another optimization opportunity:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-130-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-130-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-132-close">{</span>
+	<span class="token keyword keyword-int">int</span> x <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-131-close">{</span> <span class="token number">7</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-131-open">}</span><span class="token punctuation">;</span>
+	std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> x <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+	<span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-132-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  When <code>x</code> is initialized, the value <code>7</code> will be stored in
+  the memory allocated for <code>x</code>. Then on the next line, the program
+  will go out to memory again to fetch the value <code>7</code> so it can be
+  printed. This requires two memory access operations (one to store the value,
+  and one to fetch it).
+</p>
+<p>
+  <strong>Constant propagation</strong> is an optimization technique where the
+  compiler replaces variables known to have constant values with their values.
+  Using constant propagation, the compiler would realize that
+  <code>x</code> always has the constant value <code>7</code>, and replace any
+  use of variable <code>x</code> with the value <code>7</code>.
+</p>
+<p>The result would be equivalent to the following:</p>
+<div class="code-block code-block-6" style="margin: 8px 0; clear: both"></div>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-133-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-133-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-135-close">{</span>
+	<span class="token keyword keyword-int">int</span> x <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-134-close">{</span> <span class="token number">7</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-134-open">}</span><span class="token punctuation">;</span>
+	std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token number">7</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+	<span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-135-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  This removes the need for the program to go out to memory to fetch the value
+  of <code>x</code>.
+</p>
+<p>
+  Constant propagation may produce a result that can then be optimized by
+  constant folding:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-136-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-136-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-139-close">{</span>
+	<span class="token keyword keyword-int">int</span> x <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-137-close">{</span> <span class="token number">7</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-137-open">}</span><span class="token punctuation">;</span>
+	<span class="token keyword keyword-int">int</span> y <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-138-close">{</span> <span class="token number">3</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-138-open">}</span><span class="token punctuation">;</span>
+	std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> x <span class="token operator">+</span> y <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+	<span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-139-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  In this example, constant propagation would transform <code>x + y</code> into
+  <code>7 + 3</code>, which can then be constant folded into the value
+  <code>10</code>.
+</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Dead code elimination
+</p>
+<p>
+  <strong>Dead code elimination</strong> is an optimization technique where the
+  compiler removes code that may be executed but has no effect on the program’s
+  behavior.
+</p>
+<p>Back to a prior example:</p>
+<div class="code-block code-block-7" style="margin: 8px 0; clear: both"></div>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-140-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-140-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-142-close">{</span>
+	<span class="token keyword keyword-int">int</span> x <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-141-close">{</span> <span class="token number">7</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-141-open">}</span><span class="token punctuation">;</span>
+	std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token number">7</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+	<span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-142-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  In this program, variable <code>x</code> is defined and initialized, but it is
+  never used anywhere, so it has no effect on the program’s behavior. Dead code
+  elimination would remove the definition of <code>x</code>.
+</p>
+<p>The result would be equivalent to the following:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-143-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-143-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-144-close">{</span>
+	std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token number">7</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+	<span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-144-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  When a variable is removed from a program because it is no longer needed, we
+  say the variable has been <strong>optimized out</strong> (or
+  <strong>optimized away</strong>).
+</p>
+<p>
+  Compared to the original version, this optimized version no longer requires
+  runtime calculation expression <code>3 + 4</code>, nor does it require two
+  memory access operations (one to initialize variable <code>x</code> and one to
+  read the value from <code>x</code>). This means the program will be both
+  smaller and faster.
+</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Const variables are easier to optimize
+</p>
+<div class="code-block code-block-8" style="margin: 8px 0; clear: both"></div>
+<p>
+  In some cases, there are simple things we can do to help the compiler optimize
+  more effectively.
+</p>
+<p>
+  Constant propagation can be challenging for the compiler. In the section on
+  constant propagation, we offered this example:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-145-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-145-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-147-close">{</span>
+	<span class="token keyword keyword-int">int</span> x <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-146-close">{</span> <span class="token number">7</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-146-open">}</span><span class="token punctuation">;</span>
+	std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> x <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+	<span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-147-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  Since <code>x</code> is defined as a non-const variable, in order to apply
+  this optimization, the compiler must realize that the value of
+  <code>x</code> actually doesn’t change (even though it could). Whether the
+  compiler is capable of doing so comes down to how complex the program is and
+  how sophisticated the compiler’s optimization routines are.
+</p>
+<p>
+  We can help the compiler optimize more effectively by using constant variables
+  wherever possible. For example:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-148-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-148-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-150-close">{</span>
+	<span class="token keyword keyword-const">const</span> <span class="token keyword keyword-int">int</span> x <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-149-close">{</span> <span class="token number">7</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-149-open">}</span><span class="token punctuation">;</span> <span class="token comment">// x is now const</span>
+	std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> x <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+	<span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-150-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  Because <code>x</code> is now const, the compiler has a guarantee that
+  <code>x</code> can’t be changed after initialization. This makes it more
+  likely the compiler will apply constant propagation, and then optimize the
+  variable out entirely.
+</p>
+<div class="cpp-note cpp-lightbluebackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Key insight</p>
+  <p>Using const variables can help the compiler optimize more effectively.</p>
+</div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Optimization can make programs harder to debug
+</p>
+<p>
+  If optimization makes our programs faster, why isn’t it turned on by default?
+</p>
+<p>
+  When the compiler optimizes a program, the result is that variables,
+  expressions, statements, and function calls may be rearranged, modified,
+  replaced, or removed entirely. Such changes can make it hard to debug a
+  program effectively.
+</p>
+<p>
+  At runtime, it can be hard to debug compiled code that no longer correlates
+  very well with the original source code. For example, if you try to watch a
+  variable that has been optimized out, the debugger won’t be able to locate the
+  variable. If you try to step into a function that has been optimized away, the
+  debugger will simply skip over it. So if you are debugging your code and the
+  debugger is behaving strangely, this is the most likely reason.
+</p>
+<p>
+  At compile-time, we have little visibility and few tools to help us understand
+  what the compiler is even doing. If a variable or expression is replaced with
+  a value, and that value is wrong, how do we even go about debugging the issue?
+  This is an ongoing challenge.
+</p>
+<p>
+  To help minimize such issues, debug builds will typically leave optimizations
+  turned off, so that the compiled code will more closely match the source code.
+</p>
+<div class="cpp-note cpp-lightgraybackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Author’s note</p>
+  <p>
+    Compile-time debugging is an underdeveloped area. As of C++23, there are a
+    number of papers under consideration for future language standards (such as
+    <a
+      href="https://www.open-std.org/jtc1/sc22/wg21/docs/papers/2023/p2758r1.html"
+      >this one</a
+    >) that (if approved) will add capabilities to the language that will help.
+  </p>
+</div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Nomenclature: Compile-time constants vs runtime constants
+</p>
+<p>Constants in C++ are sometimes divided into two informal categories.</p>
+<p>
+  A <strong>compile-time constant</strong> is a constant whose value is known at
+  compile-time. Examples include:
+</p>
+<ul>
+  <li>Literals.</li>
+  <li>Constant objects whose initializers are compile-time constants.</li>
+</ul>
+<p>
+  A <strong>runtime constant</strong> is a constant whose value is determined in
+  a runtime context. Examples include:
+</p>
+<ul>
+  <li>Constant function parameters.</li>
+  <li>
+    Constant objects whose initializers are non-constants or runtime constants.
+  </li>
+</ul>
+<p>For example:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">five</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-151-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-151-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-172-close">{</span>
+    <span class="token keyword keyword-return">return</span> <span class="token number">5</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-172-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">pass</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-152-close">(</span><span class="token keyword keyword-const">const</span> <span class="token keyword keyword-int">int</span> x<span class="token punctuation brace-round brace-close brace-level-1" id="pair-152-open">)</span> <span class="token comment">// x is a runtime constant</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-173-close">{</span>
+    <span class="token keyword keyword-return">return</span> x<span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-173-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-153-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-153-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-182-close">{</span>
+    <span class="token comment">// The following are non-constants:</span>
+    <span class="token punctuation brace-square brace-open brace-level-2" id="pair-157-close">[</span><span class="token punctuation brace-square brace-open brace-level-3" id="pair-156-close">[</span>maybe_unused<span class="token punctuation brace-square brace-close brace-level-3" id="pair-156-open">]</span><span class="token punctuation brace-square brace-close brace-level-2" id="pair-157-open">]</span> <span class="token keyword keyword-int">int</span> a <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-174-close">{</span> <span class="token number">5</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-174-open">}</span><span class="token punctuation">;</span>
+
+    <span class="token comment">// The following are compile-time constants:</span>
+    <span class="token punctuation brace-square brace-open brace-level-2" id="pair-159-close">[</span><span class="token punctuation brace-square brace-open brace-level-3" id="pair-158-close">[</span>maybe_unused<span class="token punctuation brace-square brace-close brace-level-3" id="pair-158-open">]</span><span class="token punctuation brace-square brace-close brace-level-2" id="pair-159-open">]</span> <span class="token keyword keyword-const">const</span> <span class="token keyword keyword-int">int</span> b <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-175-close">{</span> <span class="token number">5</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-175-open">}</span><span class="token punctuation">;</span>
+    <span class="token punctuation brace-square brace-open brace-level-2" id="pair-161-close">[</span><span class="token punctuation brace-square brace-open brace-level-3" id="pair-160-close">[</span>maybe_unused<span class="token punctuation brace-square brace-close brace-level-3" id="pair-160-open">]</span><span class="token punctuation brace-square brace-close brace-level-2" id="pair-161-open">]</span> <span class="token keyword keyword-const">const</span> <span class="token keyword keyword-double">double</span> c <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-176-close">{</span> <span class="token number">1.2</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-176-open">}</span><span class="token punctuation">;</span>
+    <span class="token punctuation brace-square brace-open brace-level-2" id="pair-163-close">[</span><span class="token punctuation brace-square brace-open brace-level-3" id="pair-162-close">[</span>maybe_unused<span class="token punctuation brace-square brace-close brace-level-3" id="pair-162-open">]</span><span class="token punctuation brace-square brace-close brace-level-2" id="pair-163-open">]</span> <span class="token keyword keyword-const">const</span> <span class="token keyword keyword-int">int</span> d <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-177-close">{</span> b <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-177-open">}</span><span class="token punctuation">;</span>       <span class="token comment">// b is a compile-time constant</span>
+
+    <span class="token comment">// The following are runtime constants:</span>
+    <span class="token punctuation brace-square brace-open brace-level-2" id="pair-165-close">[</span><span class="token punctuation brace-square brace-open brace-level-3" id="pair-164-close">[</span>maybe_unused<span class="token punctuation brace-square brace-close brace-level-3" id="pair-164-open">]</span><span class="token punctuation brace-square brace-close brace-level-2" id="pair-165-open">]</span> <span class="token keyword keyword-const">const</span> <span class="token keyword keyword-int">int</span> e <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-178-close">{</span> a <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-178-open">}</span><span class="token punctuation">;</span>       <span class="token comment">// a is non-const</span>
+    <span class="token punctuation brace-square brace-open brace-level-2" id="pair-167-close">[</span><span class="token punctuation brace-square brace-open brace-level-3" id="pair-166-close">[</span>maybe_unused<span class="token punctuation brace-square brace-close brace-level-3" id="pair-166-open">]</span><span class="token punctuation brace-square brace-close brace-level-2" id="pair-167-open">]</span> <span class="token keyword keyword-const">const</span> <span class="token keyword keyword-int">int</span> f <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-179-close">{</span> e <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-179-open">}</span><span class="token punctuation">;</span>       <span class="token comment">// e is a runtime constant</span>
+    <span class="token punctuation brace-square brace-open brace-level-2" id="pair-169-close">[</span><span class="token punctuation brace-square brace-open brace-level-3" id="pair-168-close">[</span>maybe_unused<span class="token punctuation brace-square brace-close brace-level-3" id="pair-168-open">]</span><span class="token punctuation brace-square brace-close brace-level-2" id="pair-169-open">]</span> <span class="token keyword keyword-const">const</span> <span class="token keyword keyword-int">int</span> g <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-180-close">{</span> <span class="token function">five</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-154-close">(</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-154-open">)</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-180-open">}</span><span class="token punctuation">;</span>  <span class="token comment">// return value isn't known until runtime</span>
+    <span class="token punctuation brace-square brace-open brace-level-2" id="pair-171-close">[</span><span class="token punctuation brace-square brace-open brace-level-3" id="pair-170-close">[</span>maybe_unused<span class="token punctuation brace-square brace-close brace-level-3" id="pair-170-open">]</span><span class="token punctuation brace-square brace-close brace-level-2" id="pair-171-open">]</span> <span class="token keyword keyword-const">const</span> <span class="token keyword keyword-int">int</span> h <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-181-close">{</span> <span class="token function">pass</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-155-close">(</span><span class="token number">5</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-155-open">)</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-181-open">}</span><span class="token punctuation">;</span> <span class="token comment">// return value isn't known until runtime</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-182-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  Although you will encounter these terms out in the wild, in C++ these
+  definitions are not all that useful:
+</p>
+<ul>
+  <li>
+    Some runtime constants (and even non-constants) can be evaluated at
+    compile-time for optimization purposes (under the as-if rule).
+  </li>
+  <li>
+    Some compile-time constants (e.g. <code>const double d { 1.2 };</code>)
+    cannot be used in compile-time features (as defined by the language
+    standard). We’ll discuss this more in lesson
+    <a href="https://www.learncpp.com/cpp-tutorial/constant-expressions/"
+      >5.5 -- Constant expressions</a
+    >.
+  </li>
+</ul>
+<p>
+  For this reason, we recommend avoiding these terms. We’ll discuss the
+  nomenclature that you should use instead in the next lesson.
+</p>
+<div class="cpp-note cpp-lightgraybackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Author’s note</p>
+  <p>We are in the process of phasing these terms out of future articles.</p>
+</div>
+<div class="prevnext">
+  <div class="prevnext-inline">
+    <a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/constant-expressions/"
+      ><div class="nav-button nav-button-next">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-right" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Next lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">5.5</span>Constant
+            expressions
+          </div>
+        </div>
+      </div></a
+    ><a class="nav-link" href="/"
+      ><div class="nav-button nav-button-index">
+        <div class="nav-button-icon">
+          <i class="fa fa-home" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Back to table of contents</div>
+        </div>
+      </div></a
+    ><a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/numeral-systems-decimal-binary-hexadecimal-and-octal/"
+      ><div class="nav-button nav-button-prev">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-left" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Previous lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">5.3</span>Numeral systems
+            (decimal, binary, hexadecimal, and octal)
+          </div>
+        </div>
+      </div></a
+    >
+  </div>
+</div>
+<div class="code-block code-block-10" style="margin: 8px 0; clear: both"></div>

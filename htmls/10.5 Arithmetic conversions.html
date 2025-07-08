@@ -1,0 +1,432 @@
+<div
+  class="code-block code-block-1"
+  style="margin: 8px 8px 8px 0; float: left"
+></div>
+<p>
+  In lesson
+  <a
+    href="https://www.learncpp.com/cpp-tutorial/operator-precedence-and-associativity/"
+    >6.1 -- Operator precedence and associativity</a
+  >, we discussed how expressions are evaluated according to the precedence and
+  associativity of their operators.
+</p>
+<p>Consider the following expression:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-int">int</span> x <span class="token punctuation brace-curly brace-open brace-level-1" id="pair-52-close">{</span> <span class="token number">2</span> <span class="token operator">+</span> <span class="token number">3</span> <span class="token punctuation brace-curly brace-close brace-level-1" id="pair-52-open">}</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  Binary <code>operator+</code> is given two operands, both of type
+  <code>int</code>. Because both operands are of the same type, that type will
+  be used to perform the calculation, and the value returned will also be of
+  this same type. Thus, <code>2 + 3</code> will evaluate to
+  <code>int</code> value <code>5</code>.
+</p>
+<p>
+  But what happens when the operands of a binary operator are of different
+  types?
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token operator">?</span><span class="token operator">?</span><span class="token operator">?</span> y <span class="token punctuation brace-curly brace-open brace-level-1" id="pair-53-close">{</span> <span class="token number">2</span> <span class="token operator">+</span> <span class="token number">3.5</span> <span class="token punctuation brace-curly brace-close brace-level-1" id="pair-53-open">}</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  In this case, <code>operator+</code> is being given one operand of type
+  <code>int</code> and another of type <code>double</code>. Should the result of
+  the operator be returned as an <code>int</code>, a <code>double</code>, or
+  possibly something else altogether?
+</p>
+<p>
+  In C++, certain operators require that their operands be of the same type. If
+  one of these operators is invoked with operands of different types, one or
+  both of the operands will be implicitly converted to matching types using a
+  set of rules called the <strong>usual arithmetic conversions</strong>. The
+  matching type produced as a result of the usual arithmetic conversion rules is
+  called the <strong>common type</strong> of the operands.
+</p>
+<div class="code-block code-block-2" style="margin: 8px 0; clear: both"></div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  The operators that require operands of the same type
+</p>
+<p>The following operators require their operands to be of the same type:</p>
+<ul>
+  <li>The binary arithmetic operators: +, -, *, /, %</li>
+  <li>The binary relational operators: &lt;, &gt;, &lt;=, &gt;=, ==, !=</li>
+  <li>The binary bitwise arithmetic operators: &amp;, ^, |</li>
+  <li>
+    The conditional operator ?: (excluding the condition, which is expected to
+    be of type <code>bool</code>)
+  </li>
+</ul>
+<div class="cpp-note cpp-lightgraybackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">For advanced readers</p>
+  <p>
+    Overloaded operators are not subject to the usual arithmetic conversion
+    rules.
+  </p>
+</div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  The usual arithmetic conversion rules
+</p>
+<p>
+  The usual arithmetic conversion rules are somewhat complex, so we’ll simplify
+  a bit. The compiler has a ranked list of types that looks something like this:
+</p>
+<ul>
+  <li>long double (highest rank)</li>
+  <li>double</li>
+  <li>float</li>
+  <li>long long</li>
+  <li>long</li>
+  <li>int (lowest rank)</li>
+</ul>
+<p>The following rules are applied to find a matching type:</p>
+<div class="code-block code-block-3" style="margin: 8px 0; clear: both"></div>
+<p>Step 1:</p>
+<ul>
+  <li>
+    If one operand is an integral type and the other a floating point type, the
+    integral operand is converted to the type of the floating point operand (no
+    integral promotion takes place).
+  </li>
+  <li>
+    Otherwise, any integral operands are numerically promoted (see
+    <a
+      href="https://www.learncpp.com/cpp-tutorial/floating-point-and-integral-promotion/"
+      >10.2 -- Floating-point and integral promotion</a
+    >).
+  </li>
+</ul>
+<p>Step 2:</p>
+<ul>
+  <li>
+    After promotion, if one operand is signed and the other unsigned, special
+    rules apply (see below)
+  </li>
+  <li>
+    Otherwise, the operand with lower rank is converted to the type of the
+    operand with higher rank.
+  </li>
+</ul>
+<div class="cpp-note cpp-lightgraybackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">For advanced readers</p>
+  <p>The special matching rules for integral operands with different signs:</p>
+  <ul>
+    <li>
+      If the rank of the unsigned operand is greater than or equal to the rank
+      of the signed operand, the signed operand is converted to the type of the
+      unsigned operand.
+    </li>
+    <li>
+      If the type of the signed operand can represent all the values of the type
+      of the unsigned operand, the type of the unsigned operand is converted to
+      the type of the signed operand.
+    </li>
+    <li>
+      Otherwise both operands are converted to the corresponding unsigned type
+      of the signed operand.
+    </li>
+  </ul>
+</div>
+<div class="cpp-note cpp-lightgraybackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Related content</p>
+  <p>
+    You can find the full rules for the usual arithmetic conversions
+    <a
+      href="https://en.cppreference.com/w/cpp/language/usual_arithmetic_conversions"
+      >here</a
+    >.
+  </p>
+</div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Some examples
+</p>
+<p>
+  In the following examples, we’ll use the <code>typeid</code> operator
+  (included in the &lt;typeinfo&gt; header), to show the resulting type of an
+  expression.
+</p>
+<p>First, let’s add an <code>int</code> and a <code>double</code>:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;typeinfo&gt;</span> <span class="token comment">// for typeid()</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-54-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-54-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-63-close">{</span>
+    <span class="token keyword keyword-int">int</span> i<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-61-close">{</span> <span class="token number">2</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-61-open">}</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token keyword keyword-typeid">typeid</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-55-close">(</span>i<span class="token punctuation brace-round brace-close brace-level-2" id="pair-55-open">)</span><span class="token punctuation">.</span><span class="token function">name</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-56-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-56-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span> <span class="token comment">// show us the name of the type for i</span>
+
+    <span class="token keyword keyword-double">double</span> d<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-62-close">{</span> <span class="token number">3.5</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-62-open">}</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token keyword keyword-typeid">typeid</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-57-close">(</span>d<span class="token punctuation brace-round brace-close brace-level-2" id="pair-57-open">)</span><span class="token punctuation">.</span><span class="token function">name</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-58-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-58-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span> <span class="token comment">// show us the name of the type for d</span>
+
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token keyword keyword-typeid">typeid</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-59-close">(</span>i <span class="token operator">+</span> d<span class="token punctuation brace-round brace-close brace-level-2" id="pair-59-open">)</span><span class="token punctuation">.</span><span class="token function">name</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-60-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-60-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">' '</span> <span class="token operator">&lt;&lt;</span> i <span class="token operator">+</span> d <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span> <span class="token comment">// show us the type of i + d</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-63-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  In this case, the <code>double</code> operand has the highest priority, so the
+  lower priority operand (of type <code>int</code>) is type converted to
+  <code>double</code> value <code>2.0</code>. Then <code>double</code> values
+  <code>2.0</code> and <code>3.5</code> are added to produce
+  <code>double</code> result <code>5.5</code>.
+</p>
+<p>On the author’s machine, this prints:</p>
+<div class="code-block code-block-4" style="margin: 8px 0; clear: both"></div>
+<pre>
+int
+double
+double 5.5
+</pre>
+<p>
+  Note that your compiler may display something slightly different, as the names
+  output by <code>typeid.name()</code> are implementation-specific.
+</p>
+<p>Now let’s add two values of type <code>short</code>:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;typeinfo&gt;</span> <span class="token comment">// for typeid()</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-64-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-64-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-69-close">{</span>
+    <span class="token keyword keyword-short">short</span> a<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-67-close">{</span> <span class="token number">4</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-67-open">}</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-short">short</span> b<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-68-close">{</span> <span class="token number">5</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-68-open">}</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token keyword keyword-typeid">typeid</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-65-close">(</span>a <span class="token operator">+</span> b<span class="token punctuation brace-round brace-close brace-level-2" id="pair-65-open">)</span><span class="token punctuation">.</span><span class="token function">name</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-66-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-66-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">' '</span> <span class="token operator">&lt;&lt;</span> a <span class="token operator">+</span> b <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span> <span class="token comment">// show us the type of a + b</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-69-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  Because neither operand appears on the priority list, both operands undergo
+  integral promotion to type <code>int</code>. The result of adding two
+  <code>ints</code> is an <code>int</code>, as you would expect:
+</p>
+<pre>
+int 9
+</pre>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Signed and unsigned issues
+</p>
+<p>
+  This prioritization hierarchy and conversion rules can cause some problematic
+  issues when mixing signed and unsigned values. For example, take a look at the
+  following code:
+</p>
+<div class="code-block code-block-5" style="margin: 8px 0; clear: both"></div>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;typeinfo&gt;</span> <span class="token comment">// for typeid()</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-70-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-70-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-73-close">{</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token keyword keyword-typeid">typeid</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-71-close">(</span><span class="token number">5u</span><span class="token operator">-</span><span class="token number">10</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-71-open">)</span><span class="token punctuation">.</span><span class="token function">name</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-72-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-72-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">' '</span> <span class="token operator">&lt;&lt;</span> <span class="token number">5u</span> <span class="token operator">-</span> <span class="token number">10</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span> <span class="token comment">// 5u means treat 5 as an unsigned integer</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-73-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  You might expect the expression <code>5u - 10</code> to evaluate to
+  <code>-5</code> since <code>5 - 10</code> = <code>-5</code>. But here’s what
+  actually results:
+</p>
+<pre>
+unsigned int 4294967291
+</pre>
+<p>
+  Due to the conversion rules, the <code>int</code> operand is converted to an
+  <code>unsigned int</code>. And since the value <code>-5</code> is out of range
+  of an <code>unsigned int</code>, we get a result we don’t expect.
+</p>
+<p>Here’s another example showing a counterintuitive result:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-74-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-74-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-76-close">{</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> std<span class="token double-colon punctuation">::</span>boolalpha <span class="token operator">&lt;&lt;</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-75-close">(</span><span class="token operator">-</span><span class="token number">3</span> <span class="token operator">&lt;</span> <span class="token number">5u</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-75-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-76-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  While it’s clear to us that <code>5</code> is greater than <code>-3</code>,
+  when this expression evaluates, <code>-3</code> is converted to a large
+  <code>unsigned int</code> that is larger than <code>5</code>. Thus, the above
+  prints <code>false</code> rather than the expected result of
+  <code>true</code>.
+</p>
+<p>
+  This is one of the primary reasons to avoid unsigned integers -- when you mix
+  them with signed integers in arithmetic expressions, you’re at risk for
+  unexpected results. And the compiler probably won’t even issue a warning.
+</p>
+<div class="code-block code-block-6" style="margin: 8px 0; clear: both"></div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  <code>std::common_type</code> and <code>std::common_type_t</code>
+</p>
+<p>
+  In future lessons, we’ll encounter cases where it is useful to know what the
+  common type of two type is. <code>std::common_type</code> and the useful type
+  alias <code>std::common_type_t</code> (both defined in the &lt;type_traits&gt;
+  header) can be used for just this purpose.
+</p>
+<p>
+  For example, <code>std::common_type_t&lt;int, double&gt;</code> returns the
+  common type of <code>int</code> and <code>double</code>, and
+  <code>std::common_type_t&lt;unsigned int, long&gt;</code> returns the common
+  type of <code>unsigned int</code> and <code>long</code>.
+</p>
+<p>
+  We’ll show an example where this is useful in lesson
+  <a
+    href="https://www.learncpp.com/cpp-tutorial/function-templates-with-multiple-template-types/"
+    >11.8 -- Function templates with multiple template types</a
+  >.
+</p>
+<div class="prevnext">
+  <div class="prevnext-inline">
+    <a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/explicit-type-conversion-casting-and-static-cast/"
+      ><div class="nav-button nav-button-next">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-right" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Next lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">10.6</span>Explicit type
+            conversion (casting) and static_cast
+          </div>
+        </div>
+      </div></a
+    ><a class="nav-link" href="/"
+      ><div class="nav-button nav-button-index">
+        <div class="nav-button-icon">
+          <i class="fa fa-home" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Back to table of contents</div>
+        </div>
+      </div></a
+    ><a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/narrowing-conversions-list-initialization-and-constexpr-initializers/"
+      ><div class="nav-button nav-button-prev">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-left" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Previous lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">10.4</span>Narrowing
+            conversions, list initialization, and constexpr initializers
+          </div>
+        </div>
+      </div></a
+    >
+  </div>
+</div>
+<div class="code-block code-block-10" style="margin: 8px 0; clear: both"></div>

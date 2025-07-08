@@ -1,0 +1,426 @@
+<div
+  class="code-block code-block-1"
+  style="margin: 8px 8px 8px 0; float: left"
+></div>
+<p>
+  In the previous lessons (<a
+    href="https://www.learncpp.com/cpp-tutorial/using-an-integrated-debugger-stepping/"
+    >3.6 -- Using an integrated debugger: Stepping</a
+  >
+  and
+  <a
+    href="https://www.learncpp.com/cpp-tutorial/using-an-integrated-debugger-running-and-breakpoints/"
+    >3.7 -- Using an integrated debugger: Running and breakpoints</a
+  >), you learned how to use the debugger to watch the path of execution through
+  your program. However, stepping through a program is only half of what makes
+  the debugger useful. The debugger also lets you examine the value of variables
+  as you step through your code, all without having to modify your code.
+</p>
+<p>
+  As per previous lessons, our examples here will use Visual Studio -- if you
+  are using a different IDE/debugger, the commands may have slightly different
+  names or be located in different locations.
+</p>
+<div class="cpp-note cpp-lightredbackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Warning</p>
+  <p>
+    In case you are returning, make sure your project is compiled using a debug
+    build configuration (see
+    <a
+      href="https://www.learncpp.com/cpp-tutorial/configuring-your-compiler-build-configurations/"
+      >0.9 -- Configuring your compiler: Build configurations</a
+    >
+    for more information). If you’re compiling your project using a release
+    configuration instead, the functionality of the debugger may not work
+    correctly.
+  </p>
+</div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Watching variables
+</p>
+<p>
+  <strong>Watching a variable</strong> is the process of inspecting the value of
+  a variable while the program is executing in debug mode. Most debuggers
+  provide several ways to do this.
+</p>
+<p>Let’s take a look at a sample program:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-6-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-6-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-8-close">{</span>
+	<span class="token keyword keyword-int">int</span> x<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-7-close">{</span> <span class="token number">1</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-7-open">}</span><span class="token punctuation">;</span>
+	std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> x <span class="token operator">&lt;&lt;</span> <span class="token string">' '</span><span class="token punctuation">;</span>
+
+	x <span class="token operator">=</span> x <span class="token operator">+</span> <span class="token number">2</span><span class="token punctuation">;</span>
+	std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> x <span class="token operator">&lt;&lt;</span> <span class="token string">' '</span><span class="token punctuation">;</span>
+
+	x <span class="token operator">=</span> x <span class="token operator">+</span> <span class="token number">3</span><span class="token punctuation">;</span>
+	std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> x <span class="token operator">&lt;&lt;</span> <span class="token string">' '</span><span class="token punctuation">;</span>
+
+	<span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-8-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  This is a pretty straightforward sample program -- it prints the numbers 1, 3,
+  and 6.
+</p>
+<div class="code-block code-block-2" style="margin: 8px 0; clear: both"></div>
+<p>First, <em>run to cursor</em> to line 6.</p>
+<div class="cpp-image-wrapper">
+  <img
+    src="https://www.learncpp.com/images/CppTutorial/Chapter3/VS-Watch1-min.png"
+    alt=""
+  />
+</div>
+<p>
+  At this point, the variable x has already been created and initialized with
+  the value 1, so when we examine the value of x, we should expect to see the
+  value 1.
+</p>
+<p>
+  The easiest way to examine the value of a simple variable like x is to hover
+  your mouse over the variable x. Some modern debuggers support this method of
+  inspecting simple variables, and it is the most straightforward way to do so.
+</p>
+<div class="cpp-note cpp-lightyellowbackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">For Code::Blocks users</p>
+  <p>
+    If you’re using Code::Blocks, this option is (inexplicably) off by default.
+    Let’s turn it on. First, go to <em>Settings menu &gt; Debugger…</em>. Then
+    under the <em>GDB/CDB debugger node</em>, select the
+    <em>Default</em> profile. Finally, check the box labeled
+    <em>Evaluate expression under cursor</em>.
+  </p>
+  <div class="cpp-image-wrapper">
+    <img
+      src="https://www.learncpp.com/images/CppTutorial/Chapter3/CB-EvaluateExpression-min.png"
+      alt=""
+    />
+  </div>
+</div>
+<p>
+  Hover your mouse cursor over variable x on line 6, and you should see
+  something like this:
+</p>
+<div class="cpp-image-wrapper">
+  <img
+    src="https://www.learncpp.com/images/CppTutorial/Chapter3/VS-Watch2-min.png"
+    alt=""
+  />
+</div>
+<p>
+  Note that you can hover over any variable x, not just the one on the current
+  line. For example, if we hover over the x on line 12, we’ll see the same
+  value:
+</p>
+<div class="code-block code-block-3" style="margin: 8px 0; clear: both"></div>
+<div class="cpp-image-wrapper">
+  <img
+    src="https://www.learncpp.com/images/CppTutorial/Chapter3/VS-Watch3-min.png"
+    alt=""
+  />
+</div>
+<p>
+  If you’re using Visual Studio, you can also use QuickWatch. Highlight the
+  variable name x with your mouse, and then choose “QuickWatch” from the
+  right-click menu.
+</p>
+<div class="cpp-image-wrapper">
+  <img
+    src="https://www.learncpp.com/images/CppTutorial/Chapter3/VS-QuickWatch1-min.png"
+    alt=""
+  />
+</div>
+<p>
+  This will pull up a subwindow containing the current value of the variable:
+</p>
+<div class="cpp-image-wrapper">
+  <img
+    src="https://www.learncpp.com/images/CppTutorial/Chapter3/VS-QuickWatch2-min.png"
+    alt=""
+  />
+</div>
+<p>Go ahead and close QuickWatch if you opened it.</p>
+<p>
+  Now let’s watch this variable change as we step through the program. Either
+  choose <em>step over</em> twice, or <em>run to cursor</em> to line 9. The
+  variable x should now have value <em>3</em>. Inspect it and make sure that it
+  does!
+</p>
+<div class="cpp-image-wrapper">
+  <img
+    src="https://www.learncpp.com/images/CppTutorial/Chapter3/VS-Watch4-min.png"
+    alt=""
+  />
+</div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  The watch window
+</p>
+<p>
+  Using the mouse hover or QuickWatch methods to inspect variables is fine if
+  you want to know the value of a variable at a particular point in time, but
+  it’s not particularly well suited to watching the value of a variable change
+  as you run the code because you continually have to rehover/reselect the
+  variable.
+</p>
+<div class="code-block code-block-4" style="margin: 8px 0; clear: both"></div>
+<p>
+  In order to address this issue, all modern integrated debuggers provide
+  another feature, called a watch window. The <strong>watch window</strong> is a
+  window where you can add variables you would like to continually inspect, and
+  these variables will be updated as you step through your program. The watch
+  window may already be on your screen when you enter debug mode, but if it is
+  not, you can bring it up through your IDE’s window commands (these are
+  typically found in a View or Debug menu).
+</p>
+<div class="cpp-note cpp-lightyellowbackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">For Visual Studio users</p>
+  <p>
+    In Visual Studio, the watch window can be found at
+    <em>Debug menu &gt; Windows &gt; Watch &gt; Watch 1</em>. Do note that you
+    have to be in debug mode for this option to be enabled, so
+    <em>step into</em> your program first.
+  </p>
+  <p>
+    Where this window appears (docked left, right, or bottom) may vary. You can
+    change where it is docked by dragging the <em>Watch 1</em> tab to a
+    different side of the application window.
+  </p>
+</div>
+<div class="cpp-note cpp-lightyellowbackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">For Code::Blocks users</p>
+  <p>
+    In Code::Blocks, the watch window can be found at
+    <em>Debug menu &gt; Debugging windows &gt; Watches</em>. This window will
+    likely appear as a separate window. You can dock it into your main window by
+    dragging it over.
+  </p>
+</div>
+<div class="cpp-note cpp-lightyellowbackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">For VS Code users</p>
+  <p>
+    In VS Code, the watch window appears in debug mode, docked on the left above
+    the call stack.
+  </p>
+</div>
+<p>You should now see something like this:</p>
+<div class="cpp-image-wrapper">
+  <img
+    src="https://www.learncpp.com/images/CppTutorial/Chapter3/VS-Watch5-min.png"
+    alt=""
+  />
+</div>
+<p>The watches window may or may not contain anything in it already.</p>
+<p>
+  There are typically two different ways to add variables to the watch window:
+</p>
+<ol>
+  <li>
+    Pull up the watch window, and type in the name of the variable you would
+    like to watch in the leftmost column of the watch window.
+  </li>
+  <li>
+    In the code window, right click on the variable you’d like to watch, and
+    choose <em>Add Watch</em> (Visual Studio) or <em>Watch x</em> (replace x
+    with the variable’s name) (Code::Blocks).
+  </li>
+</ol>
+<p>
+  If you’re not already in a debugging session with the execution marker on line
+  9 of your program, start a new debugging session and <em>run to cursor</em> to
+  line 9.
+</p>
+<div class="code-block code-block-5" style="margin: 8px 0; clear: both"></div>
+<p>
+  Now, go ahead and add the variable “x” to your watch list. You should now see
+  this:
+</p>
+<div class="cpp-image-wrapper">
+  <img
+    src="https://www.learncpp.com/images/CppTutorial/Chapter3/VS-Watch6-min.png"
+    alt=""
+  />
+</div>
+<p>
+  Now <em>step over</em> twice, or <em>run to cursor</em> to line 12, and you
+  should see the value of <em>x</em> change from <em>3</em> to <em>6</em>.
+</p>
+<p>
+  Variables that go out of scope (e.g. a local variable inside a function that
+  has already returned to the caller) will stay in your watch window, but will
+  generally either be marked as “not available”, or may show the last known
+  value but grayed out. If the variable returns to scope (e.g. the function is
+  called again), its value will begin showing again. Therefore, it’s fine to
+  leave variables in the watch window, even if they’re out of scope.
+</p>
+<p>
+  Using watches is the best way to watch the value of a variable change over
+  time as you step through your program.
+</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Setting a breakpoint on watched variables
+</p>
+<div class="code-block code-block-6" style="margin: 8px 0; clear: both"></div>
+<p>
+  Some debuggers will allow you to set a breakpoint on a watched variable rather
+  than a line. This will cause the program to stop execution whenever the value
+  of that variable changes.
+</p>
+<p>
+  For example, setting such a breakpoint on variable <code>x</code> in the above
+  program will cause the debugger to stop after executing lines 8 and 11 (which
+  is where the value of <code>x</code> is changed).
+</p>
+<div class="cpp-note cpp-lightyellowbackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">For Visual Studio users</p>
+  <p>
+    In Visual Studio, make sure your variable is being watched. Next,
+    <em>step into</em> your program and go to the watch window. Right click on
+    the variable and select “Break when value changes”.
+  </p>
+  <p>
+    You will need to re-enable “Break when value changes” each time you start a
+    debugging session.
+  </p>
+</div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  The watch window can evaluate expressions too
+</p>
+<p>
+  The watch window will also allow you to evaluate simple expressions. If you
+  haven’t already, <em>run to cursor</em> to line 12. Then try entering
+  <em>x + 2</em> into the watch window and see what happens (it should evaluate
+  to 8).
+</p>
+<p>
+  You can also highlight an expression in your code and then inspect the value
+  of that expression via hover or by adding it to the watch window via the
+  right-click context menu.
+</p>
+<div class="code-block code-block-7" style="margin: 8px 0; clear: both"></div>
+<div class="cpp-note cpp-lightredbackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Warning</p>
+  <p>
+    Identifiers in watched expressions will evaluate to their current values. If
+    you want to know what value an expression in your code is actually
+    evaluating to, <em>run to cursor</em> to it first, so that all identifiers
+    have the correct values.
+  </p>
+</div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Local watches
+</p>
+<p>
+  Because inspecting the value of local variables inside a function is common
+  while debugging, many debuggers will offer some way to quickly watch the value
+  of <em>all</em> local variables in scope.
+</p>
+<div class="cpp-note cpp-lightyellowbackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">For Visual Studio users</p>
+  <p>
+    In Visual Studio, you can see the value of all local variables in the
+    <em>Locals</em> window, which can be found at
+    <em>Debug menu &gt; Windows &gt; Locals</em>. Note that you have to be in a
+    debug session to activate this window.
+  </p>
+</div>
+<div class="cpp-note cpp-lightyellowbackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">For Code::Blocks users</p>
+  <p>
+    In Code::Blocks, this is integrated into the <em>Watch</em> window, under
+    the <em>Locals</em> node. If you don’t see any, there either aren’t any, or
+    you need to uncollapse the node.
+  </p>
+</div>
+<div class="cpp-note cpp-lightyellowbackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">For VS Code users</p>
+  <p>
+    In VS Code, the value of local variables can be found in the
+    <em>VARIABLES</em> section that appears docked to the left in debug mode.
+    You may need to uncollapse the <em>Locals</em> node.
+  </p>
+</div>
+<p>
+  If you’re just looking to watch the value of a local variable, check the
+  <em>locals</em> window first. It should already be there.
+</p>
+<div class="prevnext">
+  <div class="prevnext-inline">
+    <a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/using-an-integrated-debugger-the-call-stack/"
+      ><div class="nav-button nav-button-next">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-right" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Next lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">3.9</span>Using an integrated
+            debugger: The call stack
+          </div>
+        </div>
+      </div></a
+    ><a class="nav-link" href="/"
+      ><div class="nav-button nav-button-index">
+        <div class="nav-button-icon">
+          <i class="fa fa-home" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Back to table of contents</div>
+        </div>
+      </div></a
+    ><a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/using-an-integrated-debugger-running-and-breakpoints/"
+      ><div class="nav-button nav-button-prev">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-left" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Previous lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">3.7</span>Using an integrated
+            debugger: Running and breakpoints
+          </div>
+        </div>
+      </div></a
+    >
+  </div>
+</div>
+<div class="code-block code-block-10" style="margin: 8px 0; clear: both"></div>

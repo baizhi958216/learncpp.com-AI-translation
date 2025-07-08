@@ -1,0 +1,274 @@
+<div
+  class="code-block code-block-1"
+  style="margin: 8px 8px 8px 0; float: left"
+></div>
+<p>
+  In the last chapter, we discussed object composition, where complex classes
+  are constructed from simpler classes and types. Object composition is perfect
+  for building new objects that have a “has-a” relationship with their parts.
+  However, object composition is just one of the two major ways that C++ lets
+  you construct complex classes. The second way is through inheritance, which
+  models an “is-a” relationship between two objects.
+</p>
+<p>
+  Unlike object composition, which involves creating new objects by combining
+  and connecting other objects, inheritance involves creating new objects by
+  directly acquiring the attributes and behaviors of other objects and then
+  extending or specializing them. Like object composition, inheritance is
+  everywhere in real life. When you were conceived, you inherited your parents
+  genes, and acquired physical attributes from both of them -- but then you
+  added your own personality on top. Technological products (computers, cell
+  phones, etc…) inherit features from their predecessors (often used for
+  backwards compatibility). For example, the Intel Pentium processor inherited
+  many of the features defined by the Intel 486 processor, which itself
+  inherited features from earlier processors. C++ inherited many features from
+  C, the language upon which it is based, and C inherited many of its features
+  from the programming languages that came before it.
+</p>
+<p>
+  Consider apples and bananas. Although apples and bananas are different fruits,
+  both have in common that they <em>are</em> fruits. And because apples and
+  bananas are fruits, simple logic tells us that anything that is true of fruits
+  is also true of apples and bananas. For example, all fruits have a name, a
+  color, and a size. Therefore, apples and bananas also have a name, a color,
+  and a size. We can say that apples and bananas inherit (acquire) all of the
+  properties of fruit because they <em>are</em> fruit. We also know that fruit
+  undergoes a ripening process, by which it becomes edible. Because apples and
+  bananas are fruit, we also know that apples and bananas will inherit the
+  behavior of ripening.
+</p>
+<p>
+  Put into a diagram, the relationship between apples, bananas, and fruit might
+  look something like this:
+</p>
+<p>
+  <img
+    src="http://learncpp.com/images/CppTutorial/Section11/FruitInheritance.gif"
+  />
+</p>
+<p>This diagram defines a hierarchy.</p>
+<div class="code-block code-block-2" style="margin: 8px 0; clear: both"></div>
+
+<p><strong>Hierarchies</strong></p>
+<p>
+  A hierarchy is a diagram that shows how various objects are related. Most
+  hierarchies either show a progression over time (386 -&gt; 486 -&gt; Pentium),
+  or categorize things in a way that moves from general to specific (fruit -&gt;
+  apple -&gt; honeycrisp). If you’ve ever taken biology, the famous domain,
+  kingdom, phylum, class, order, family, genus, and species ordering defines a
+  hierarchy (from general to specific).
+</p>
+<p>
+  Here’s another example of a hierarchy: a square is a rectangle, which is a
+  quadrilateral, which is a shape. A right triangle is a triangle, which is also
+  a shape. Put into a hierarchy diagram, that would look like this:
+</p>
+<div
+  class="google-auto-placed ap_container"
+  style="width: 100%; height: auto; clear: both; text-align: center"
+>
+  <ins
+    data-ad-format="auto"
+    class="adsbygoogle adsbygoogle-noablate"
+    data-ad-client="ca-pub-0588844875925051"
+    data-adsbygoogle-status="done"
+    style="
+      display: block;
+      margin: auto;
+      background-color: transparent;
+      height: 280px;
+    "
+    data-ad-status="unfilled"
+    ><div
+      id="aswift_5_host"
+      style="
+        border: none;
+        height: 280px;
+        width: 1027px;
+        margin: 0px;
+        padding: 0px;
+        position: relative;
+        visibility: visible;
+        background-color: transparent;
+        display: inline-block;
+        overflow: visible;
+      "
+    >
+      <iframe
+        id="aswift_5"
+        name="aswift_5"
+        browsingtopics="true"
+        style="
+          left: 0;
+          position: absolute;
+          top: 0;
+          border: 0;
+          width: 1027px;
+          height: 280px;
+          min-height: auto;
+          max-height: none;
+          min-width: auto;
+          max-width: none;
+        "
+        sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation"
+        width="1027"
+        height="280"
+        frameborder="0"
+        marginwidth="0"
+        marginheight="0"
+        vspace="0"
+        hspace="0"
+        allowtransparency="true"
+        scrolling="no"
+        allow="attribution-reporting; run-ad-auction"
+        src="https://googleads.g.doubleclick.net/pagead/ads?client=ca-pub-0588844875925051&amp;output=html&amp;h=280&amp;adk=3302021348&amp;adf=959892735&amp;w=1027&amp;abgtt=11&amp;fwrn=4&amp;fwrnh=100&amp;lmt=1751044484&amp;num_ads=1&amp;rafmt=1&amp;armr=3&amp;sem=mc&amp;pwprc=4633386603&amp;ad_type=text_image&amp;format=1027x280&amp;url=https%3A%2F%2Fwww.learncpp.com%2Fcpp-tutorial%2Fintroduction-to-inheritance%2F&amp;fwr=0&amp;pra=3&amp;rh=200&amp;rw=1026&amp;rpe=1&amp;resp_fmts=3&amp;wgl=1&amp;fa=27&amp;uach=WyJXaW5kb3dzIiwiMTkuMC4wIiwieDg2IiwiIiwiMTM3LjAuNzE1MS4xMjIiLG51bGwsMCxudWxsLCI2NCIsW1siR29vZ2xlIENocm9tZSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJDaHJvbWl1bSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJOb3QvQSlCcmFuZCIsIjI0LjAuMC4wIl1dLDBd&amp;dt=1751963472351&amp;bpp=1&amp;bdt=612&amp;idt=1&amp;shv=r20250702&amp;mjsv=m202507020101&amp;ptt=9&amp;saldr=aa&amp;abxe=1&amp;cookie=ID%3D05f6e82287d810b4%3AT%3D1751962604%3ART%3D1751963214%3AS%3DALNI_MaQYA0TSAU2k8xwY5tqlN0xFCcd6g&amp;gpic=UID%3D00001157d9e27d0a%3AT%3D1751962604%3ART%3D1751963214%3AS%3DALNI_MYgtHzQJAQQXY_151HTGSSfVxE8_A&amp;eo_id_str=ID%3D52c21936d98c6d2b%3AT%3D1751962604%3ART%3D1751963214%3AS%3DAA-AfjZsJ15yjdEPJ8d11hPojsJQ&amp;prev_fmts=0x0%2C336x280%2C336x280%2C160x600%2C160x600&amp;nras=2&amp;correlator=5213821421319&amp;frm=20&amp;pv=1&amp;u_tz=480&amp;u_his=2&amp;u_h=600&amp;u_w=800&amp;u_ah=600&amp;u_aw=800&amp;u_cd=24&amp;u_sd=1&amp;dmc=8&amp;adx=27&amp;ady=914&amp;biw=1080&amp;bih=1024&amp;scr_x=0&amp;scr_y=0&amp;eid=31093232%2C42532523%2C95353387%2C95362655%2C95365225%2C95365235%2C95365113%2C95359266%2C95365121%2C95365797&amp;oid=2&amp;pvsid=5965366139353348&amp;tmod=1708485235&amp;uas=0&amp;nvt=1&amp;fc=1408&amp;brdim=10%2C10%2C10%2C10%2C800%2C0%2C780%2C580%2C1080%2C1024&amp;vis=1&amp;rsz=%7C%7Cs%7C&amp;abl=NS&amp;fu=128&amp;bc=31&amp;bz=0.72&amp;td=1&amp;tdf=2&amp;psd=W251bGwsbnVsbCxudWxsLDNd&amp;nt=1&amp;ifi=6&amp;uci=a!6&amp;fsb=1&amp;dtd=5"
+        data-google-container-id="a!6"
+        tabindex="0"
+        title="Advertisement"
+        aria-label="Advertisement"
+        data-load-complete="true"
+        data-google-query-id="COXg_sLsrI4DFZ5gDwIdkaEWDw"
+      ></iframe></div
+  ></ins>
+</div>
+<p>
+  <img
+    src="http://learncpp.com/images/CppTutorial/Section11/ShapesInheritance.gif"
+  />
+</p>
+<p>
+  This diagram goes from general (top) to specific (bottom), with each item in
+  the hierarchy inheriting the properties and behaviors of the item above it.
+</p>
+<p><strong>A look ahead</strong></p>
+<p>
+  In this chapter, we’ll explore the basics of how inheritance works in C++.
+</p>
+<p>
+  Next chapter, we’ll explore how inheritance enables polymorphism (one of
+  object-oriented programming’s big buzzwords) through virtual functions.
+</p>
+<div class="code-block code-block-3" style="margin: 8px 0; clear: both"></div>
+
+<p>
+  As we progress, we’ll also talk about inheritance’s key benefits, as well as
+  some of the downsides.
+</p>
+<div class="prevnext">
+  <div class="prevnext-inline">
+    <a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/basic-inheritance-in-c/"
+    >
+      <div class="nav-button nav-button-next">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-right" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Next lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">24.2</span>Basic inheritance
+            in C++
+          </div>
+        </div>
+      </div></a
+    >
+    <a class="nav-link" href="/">
+      <div class="nav-button nav-button-index">
+        <div class="nav-button-icon">
+          <i class="fa fa-home" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Back to table of contents</div>
+        </div>
+      </div></a
+    >
+    <a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/chapter-23-summary-and-quiz/"
+    >
+      <div class="nav-button nav-button-prev">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-left" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Previous lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">23.x</span>Chapter 23 summary
+            and quiz
+          </div>
+        </div>
+      </div></a
+    >
+  </div>
+</div>
+<div
+  class="google-auto-placed"
+  style="width: 100%; height: auto; clear: both; text-align: center"
+>
+  <ins
+    data-ad-format="auto"
+    class="adsbygoogle adsbygoogle-noablate"
+    data-ad-client="ca-pub-0588844875925051"
+    data-adsbygoogle-status="done"
+    style="
+      display: block;
+      margin: 8px auto 14px;
+      background-color: transparent;
+      height: 0px;
+    "
+    data-ad-status="unfilled"
+    ><div
+      id="aswift_6_host"
+      style="
+        border: none;
+        height: 0px;
+        width: 1027px;
+        margin: 0px;
+        padding: 0px;
+        position: relative;
+        visibility: visible;
+        background-color: transparent;
+        display: inline-block;
+        overflow: hidden;
+        opacity: 0;
+      "
+    >
+      <iframe
+        id="aswift_6"
+        name="aswift_6"
+        browsingtopics="true"
+        style="
+          left: 0px;
+          position: absolute;
+          top: 0px;
+          border: 0px;
+          width: 1027px;
+          height: 0px;
+          min-height: auto;
+          max-height: none;
+          min-width: auto;
+          max-width: none;
+        "
+        sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation"
+        width="1027"
+        height="0"
+        frameborder="0"
+        marginwidth="0"
+        marginheight="0"
+        vspace="0"
+        hspace="0"
+        allowtransparency="true"
+        scrolling="no"
+        allow="attribution-reporting; run-ad-auction"
+        src="https://googleads.g.doubleclick.net/pagead/ads?client=ca-pub-0588844875925051&amp;output=html&amp;h=280&amp;adk=2531067832&amp;adf=37531104&amp;pi=t.aa~a.1825356541~rp.1&amp;w=1027&amp;abgtt=11&amp;fwrn=4&amp;fwrnh=100&amp;lmt=1751044484&amp;rafmt=1&amp;to=qs&amp;pwprc=4633386603&amp;format=1027x280&amp;url=https%3A%2F%2Fwww.learncpp.com%2Fcpp-tutorial%2Fintroduction-to-inheritance%2F&amp;fwr=0&amp;pra=3&amp;rpe=1&amp;resp_fmts=3&amp;wgl=1&amp;fa=40&amp;uach=WyJXaW5kb3dzIiwiMTkuMC4wIiwieDg2IiwiIiwiMTM3LjAuNzE1MS4xMjIiLG51bGwsMCxudWxsLCI2NCIsW1siR29vZ2xlIENocm9tZSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJDaHJvbWl1bSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJOb3QvQSlCcmFuZCIsIjI0LjAuMC4wIl1dLDBd&amp;dt=1751963472380&amp;bpp=1&amp;bdt=642&amp;idt=-M&amp;shv=r20250702&amp;mjsv=m202507020101&amp;ptt=9&amp;saldr=aa&amp;abxe=1&amp;cookie=ID%3D05f6e82287d810b4%3AT%3D1751962604%3ART%3D1751963214%3AS%3DALNI_MaQYA0TSAU2k8xwY5tqlN0xFCcd6g&amp;gpic=UID%3D00001157d9e27d0a%3AT%3D1751962604%3ART%3D1751963214%3AS%3DALNI_MYgtHzQJAQQXY_151HTGSSfVxE8_A&amp;eo_id_str=ID%3D52c21936d98c6d2b%3AT%3D1751962604%3ART%3D1751963214%3AS%3DAA-AfjZsJ15yjdEPJ8d11hPojsJQ&amp;prev_fmts=0x0%2C336x280%2C336x280%2C160x600%2C160x600%2C1027x280&amp;nras=3&amp;correlator=5213821421319&amp;frm=20&amp;pv=1&amp;u_tz=480&amp;u_his=2&amp;u_h=600&amp;u_w=800&amp;u_ah=600&amp;u_aw=800&amp;u_cd=24&amp;u_sd=1&amp;dmc=8&amp;adx=27&amp;ady=1651&amp;biw=1080&amp;bih=1024&amp;scr_x=0&amp;scr_y=0&amp;eid=31093232%2C42532523%2C95353387%2C95362655%2C95365225%2C95365235%2C95365113%2C95359266%2C95365121%2C95365797&amp;oid=2&amp;pvsid=5965366139353348&amp;tmod=1708485235&amp;uas=0&amp;nvt=1&amp;fc=1920&amp;brdim=10%2C10%2C10%2C10%2C800%2C0%2C780%2C580%2C1080%2C1024&amp;vis=1&amp;rsz=%7C%7Cs%7C&amp;abl=NS&amp;fu=128&amp;bc=31&amp;bz=0.72&amp;td=1&amp;tdf=2&amp;psd=W251bGwsbnVsbCxudWxsLDNd&amp;nt=1&amp;ifi=7&amp;uci=a!7&amp;btvi=2&amp;fsb=1&amp;dtd=6"
+        data-google-container-id="a!7"
+        tabindex="0"
+        title="Advertisement"
+        aria-label="Advertisement"
+        data-load-complete="true"
+        data-google-query-id="CKHEgMPsrI4DFfJeDwIdvsgAqw"
+      ></iframe></div
+  ></ins>
+</div>
+<div class="code-block code-block-10" style="margin: 8px 0; clear: both"></div>

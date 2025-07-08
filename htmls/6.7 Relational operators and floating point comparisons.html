@@ -1,0 +1,991 @@
+<div
+  class="code-block code-block-1"
+  style="margin: 8px 8px 8px 0; float: left"
+></div>
+<p>
+  <strong>Relational operators</strong> are operators that let you compare two
+  values. There are 6 relational operators:
+</p>
+<p style="clear: both"></p>
+<p></p>
+<div class="cpp-table-wrapper" data-ezoic-video-excluded="1">
+  <p></p>
+  <p></p>
+  <table class="cpp-table" data-ezoic-video-excluded="1">
+    <tbody>
+      <tr>
+        <th>Operator</th>
+        <th>Symbol</th>
+        <th>Form</th>
+        <th>Operation</th>
+      </tr>
+      <tr>
+        <td>Greater than</td>
+        <td>&gt;</td>
+        <td>x &gt; y</td>
+        <td>true if x is greater than y, false otherwise</td>
+      </tr>
+      <tr>
+        <td>Less than</td>
+        <td>&lt;</td>
+        <td>x &lt; y</td>
+        <td>true if x is less than y, false otherwise</td>
+      </tr>
+      <tr>
+        <td>Greater than or equals</td>
+        <td>&gt;=</td>
+        <td>x &gt;= y</td>
+        <td>true if x is greater than or equal to y, false otherwise</td>
+      </tr>
+      <tr>
+        <td>Less than or equals</td>
+        <td>&lt;=</td>
+        <td>x &lt;= y</td>
+        <td>true if x is less than or equal to y, false otherwise</td>
+      </tr>
+      <tr>
+        <td>Equality</td>
+        <td>==</td>
+        <td>x == y</td>
+        <td>true if x equals y, false otherwise</td>
+      </tr>
+      <tr>
+        <td>Inequality</td>
+        <td>!=</td>
+        <td>x != y</td>
+        <td>true if x does not equal y, false otherwise</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<p>
+  You have already seen how most of these work, and they are pretty intuitive.
+  Each of these operators evaluates to the boolean value true (1), or false (0).
+</p>
+<p>Here’s some sample code using these operators with integers:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-288-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-288-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-297-close">{</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Enter an integer: "</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-int">int</span> x<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-295-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-295-open">}</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>cin <span class="token operator">&gt;&gt;</span> x<span class="token punctuation">;</span>
+
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Enter another integer: "</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-int">int</span> y<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-296-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-296-open">}</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>cin <span class="token operator">&gt;&gt;</span> y<span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-if">if</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-289-close">(</span>x <span class="token operator">==</span> y<span class="token punctuation brace-round brace-close brace-level-2" id="pair-289-open">)</span>
+        std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> x <span class="token operator">&lt;&lt;</span> <span class="token string">" equals "</span> <span class="token operator">&lt;&lt;</span> y <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-if">if</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-290-close">(</span>x <span class="token operator">!=</span> y<span class="token punctuation brace-round brace-close brace-level-2" id="pair-290-open">)</span>
+        std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> x <span class="token operator">&lt;&lt;</span> <span class="token string">" does not equal "</span> <span class="token operator">&lt;&lt;</span> y <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-if">if</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-291-close">(</span>x <span class="token operator">&gt;</span> y<span class="token punctuation brace-round brace-close brace-level-2" id="pair-291-open">)</span>
+        std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> x <span class="token operator">&lt;&lt;</span> <span class="token string">" is greater than "</span> <span class="token operator">&lt;&lt;</span> y <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-if">if</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-292-close">(</span>x <span class="token operator">&lt;</span> y<span class="token punctuation brace-round brace-close brace-level-2" id="pair-292-open">)</span>
+        std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> x <span class="token operator">&lt;&lt;</span> <span class="token string">" is less than "</span> <span class="token operator">&lt;&lt;</span> y <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-if">if</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-293-close">(</span>x <span class="token operator">&gt;=</span> y<span class="token punctuation brace-round brace-close brace-level-2" id="pair-293-open">)</span>
+        std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> x <span class="token operator">&lt;&lt;</span> <span class="token string">" is greater than or equal to "</span> <span class="token operator">&lt;&lt;</span> y <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-if">if</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-294-close">(</span>x <span class="token operator">&lt;=</span> y<span class="token punctuation brace-round brace-close brace-level-2" id="pair-294-open">)</span>
+        std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> x <span class="token operator">&lt;&lt;</span> <span class="token string">" is less than or equal to "</span> <span class="token operator">&lt;&lt;</span> y <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-297-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>And the results from a sample run:</p>
+<pre>
+Enter an integer: 4
+Enter another integer: 5
+4 does not equal 5
+4 is less than 5
+4 is less than or equal to 5
+</pre>
+<p>
+  These operators are extremely straightforward to use when comparing integers.
+</p>
+<div class="code-block code-block-2" style="margin: 8px 0; clear: both"></div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Boolean conditional values
+</p>
+<p>
+  By default, conditions in an <em>if statement</em> or
+  <em>conditional operator</em> (and a few other places) evaluate as Boolean
+  values.
+</p>
+<p>Many new programmers will write statements like this one:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-if">if</span> <span class="token punctuation brace-round brace-open brace-level-1" id="pair-298-close">(</span>b1 <span class="token operator">==</span> <span class="token boolean">true</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-298-open">)</span> <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  This is redundant, as the <code>== true</code> doesn’t actually add any value
+  to the condition. Instead, we should write:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-if">if</span> <span class="token punctuation brace-round brace-open brace-level-1" id="pair-299-close">(</span>b1<span class="token punctuation brace-round brace-close brace-level-1" id="pair-299-open">)</span> <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>Similarly, the following:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-if">if</span> <span class="token punctuation brace-round brace-open brace-level-1" id="pair-300-close">(</span>b1 <span class="token operator">==</span> <span class="token boolean">false</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-300-open">)</span> <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>is better written as:</p>
+<div class="code-block code-block-3" style="margin: 8px 0; clear: both"></div>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-if">if</span> <span class="token punctuation brace-round brace-open brace-level-1" id="pair-301-close">(</span><span class="token operator">!</span>b1<span class="token punctuation brace-round brace-close brace-level-1" id="pair-301-open">)</span> <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<div class="cpp-note cpp-lightgreenbackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Best practice</p>
+  <p>
+    Don’t add unnecessary == or != to conditions. It makes them harder to read
+    without offering any additional value.
+  </p>
+</div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Comparison of calculated floating point values can be problematic
+</p>
+<p>Consider the following program:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-302-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-302-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-308-close">{</span>
+    <span class="token keyword keyword-constexpr">constexpr</span> <span class="token keyword keyword-double">double</span> d1<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-306-close">{</span> <span class="token number">100.0</span> <span class="token operator">-</span> <span class="token number">99.99</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-306-open">}</span><span class="token punctuation">;</span> <span class="token comment">// should equal 0.01 mathematically</span>
+    <span class="token keyword keyword-constexpr">constexpr</span> <span class="token keyword keyword-double">double</span> d2<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-307-close">{</span> <span class="token number">10.0</span> <span class="token operator">-</span> <span class="token number">9.99</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-307-open">}</span><span class="token punctuation">;</span> <span class="token comment">// should equal 0.01 mathematically</span>
+
+    <span class="token keyword keyword-if">if</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-303-close">(</span>d1 <span class="token operator">==</span> d2<span class="token punctuation brace-round brace-close brace-level-2" id="pair-303-open">)</span>
+        std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"d1 == d2"</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-else">else</span> <span class="token keyword keyword-if">if</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-304-close">(</span>d1 <span class="token operator">&gt;</span> d2<span class="token punctuation brace-round brace-close brace-level-2" id="pair-304-open">)</span>
+        std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"d1 &gt; d2"</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-else">else</span> <span class="token keyword keyword-if">if</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-305-close">(</span>d1 <span class="token operator">&lt;</span> d2<span class="token punctuation brace-round brace-close brace-level-2" id="pair-305-open">)</span>
+        std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"d1 &lt; d2"</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-308-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  Variables d1 and d2 should both have value <em>0.01</em>. But this program
+  prints an unexpected result:
+</p>
+<pre>
+d1 &gt; d2
+</pre>
+<p>
+  If you inspect the value of d1 and d2 in a debugger, you’d likely see that d1
+  = 0.010000000000005116 and d2 = 0.0099999999999997868. Both numbers are close
+  to 0.01, but d1 is greater than, and d2 is less than.
+</p>
+<p>
+  Comparing floating point values using any of the relational operators can be
+  dangerous. This is because floating point values are not precise, and small
+  rounding errors in the floating point operands may cause them to be slightly
+  smaller or slightly larger than expected. And this can throw off the
+  relational operators.
+</p>
+<div class="cpp-note cpp-lightgraybackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Related content</p>
+  <p>
+    We discussed rounding errors in lesson
+    <a href="https://www.learncpp.com/cpp-tutorial/floating-point-numbers/"
+      >4.8 -- Floating point numbers</a
+    >.
+  </p>
+</div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Floating point less-than and greater-than
+</p>
+<div class="code-block code-block-4" style="margin: 8px 0; clear: both"></div>
+<p>
+  When the less-than (&lt;), greater-than (&gt;), less-than-equals (&lt;=), and
+  greater-than-equals (&gt;=) operators are used with floating point values,
+  they will produce a reliable answer in most cases (when the value of the
+  operands is not similar). However, if the operands are almost identical, these
+  operators should be considered unreliable. For example,
+  <code>d1 &gt; d2</code> happens to produce <code>true</code> in the above
+  example, but could have just as easily produced <code>false</code> if the
+  numerical errors had gone a different direction.
+</p>
+<p>
+  If the consequence of getting a wrong answer when the operands are similar is
+  acceptable, then using these operators can be acceptable. This is an
+  application-specific decision.
+</p>
+<p>
+  For example, consider a game (such as Space Invaders) where you want to
+  determine whether two moving objects (such as a missile and an alien)
+  intersect. If the objects are still far apart, these operators will return the
+  correct answer. If the two objects are extremely close together, you might get
+  an answer either way. In such cases, the wrong answer probably wouldn’t even
+  be noticed (it would just look like a near miss, or near hit) and the game
+  would continue.
+</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Floating point equality and inequality
+</p>
+<p>
+  The equality operators (== and !=) are much more troublesome. Consider
+  operator==, which returns true only if its operands are exactly equal. Because
+  even the smallest rounding error will cause two floating point numbers to not
+  be equal, operator== is at high risk for returning false when a true might be
+  expected. Operator!= has the same kind of problem.
+</p>
+<div class="code-block code-block-5" style="margin: 8px 0; clear: both"></div>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-309-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-309-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-311-close">{</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> std<span class="token double-colon punctuation">::</span>boolalpha <span class="token operator">&lt;&lt;</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-310-close">(</span><span class="token number">0.3</span> <span class="token operator">==</span> <span class="token number">0.2</span> <span class="token operator">+</span> <span class="token number">0.1</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-310-open">)</span><span class="token punctuation">;</span> <span class="token comment">// prints false</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-311-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  For this reason, use of these operators with floating point operands should
+  generally be avoided.
+</p>
+<div class="cpp-note cpp-lightredbackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Warning</p>
+  <p>
+    Avoid using operator== and operator!= to compare floating point values if
+    there is any chance those values have been calculated.
+  </p>
+</div>
+<p>
+  There is one notable exception case to the above: It is safe to compare a
+  floating point literal with a variable of the same type that has been
+  initialized with a literal of the same type, so long as the number of
+  significant digits in each literal does not exceed the minimum precision for
+  that type. Float has a minimum precision of 6 significant digits, and double
+  has a minimum precision of 15 significant digits.
+</p>
+<p>
+  We cover the precision for the different types in lesson
+  <a href="https://www.learncpp.com/cpp-tutorial/floating-point-numbers/"
+    >4.8 -- Floating point numbers</a
+  >.
+</p>
+<p>
+  For example, you may occasionally see a function that returns a floating point
+  literal (typically <code>0.0</code>, or sometimes <code>1.0</code>). In such
+  cases, it is safe to do a direct comparison against the same literal value of
+  the same type:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-if">if</span> <span class="token punctuation brace-round brace-open brace-level-1" id="pair-313-close">(</span><span class="token function">someFcn</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-312-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-312-open">)</span> <span class="token operator">==</span> <span class="token number">0.0</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-313-open">)</span> <span class="token comment">// okay if someFcn() returns 0.0 as a literal only</span>
+    <span class="token comment">// do something</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  Instead of a literal, we can also compare a const or constexpr floating point
+  variable that was initialized with a literal value:
+</p>
+<div class="code-block code-block-6" style="margin: 8px 0; clear: both"></div>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-constexpr">constexpr</span> <span class="token keyword keyword-double">double</span> gravity <span class="token punctuation brace-curly brace-open brace-level-1" id="pair-315-close">{</span> <span class="token number">9.8</span> <span class="token punctuation brace-curly brace-close brace-level-1" id="pair-315-open">}</span><span class="token punctuation">;</span>
+<span class="token keyword keyword-if">if</span> <span class="token punctuation brace-round brace-open brace-level-1" id="pair-314-close">(</span>gravity <span class="token operator">==</span> <span class="token number">9.8</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-314-open">)</span> <span class="token comment">// okay if gravity was initialized with a literal</span>
+    <span class="token comment">// we're on earth</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  It is mostly not safe to compare floating point literals of different types.
+  For example, comparing <code>9.8f</code> to <code>9.8</code> will return
+  false.
+</p>
+<div class="cpp-note cpp-lightbluebackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Tip</p>
+  <p>
+    It is safe to compare a floating point literal with a variable of the same
+    type that has been initialized with a literal of the same type, so long as
+    the number of significant digits in each literal does not exceed the minimum
+    precision for that type. Float has a minimum precision of 6 significant
+    digits, and double has a minimum precision of 15 significant digits.
+  </p>
+  <p>
+    It is generally not safe to compare floating point literals of different
+    types.
+  </p>
+</div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Comparing floating point numbers (advanced / optional reading)
+</p>
+<p>
+  So how can we reasonably compare two floating point operands to see if they
+  are equal?
+</p>
+<p>
+  The most common method of doing floating point equality involves using a
+  function that looks to see if two numbers are <em>almost</em> the same. If
+  they are “close enough”, then we call them equal. The value used to represent
+  “close enough” is traditionally called <strong>epsilon</strong>. Epsilon is
+  generally defined as a small positive number (e.g. 0.00000001, sometimes
+  written 1e-8).
+</p>
+<p>
+  New developers often try to write their own “close enough” function like this:
+</p>
+<div class="code-block code-block-7" style="margin: 8px 0; clear: both"></div>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;cmath&gt;</span> <span class="token comment">// for std::abs()</span></span>
+
+<span class="token comment">// absEpsilon is an absolute value</span>
+<span class="token keyword keyword-bool">bool</span> <span class="token function">approximatelyEqualAbs</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-316-close">(</span><span class="token keyword keyword-double">double</span> a<span class="token punctuation">,</span> <span class="token keyword keyword-double">double</span> b<span class="token punctuation">,</span> <span class="token keyword keyword-double">double</span> absEpsilon<span class="token punctuation brace-round brace-close brace-level-1" id="pair-316-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-318-close">{</span>
+    <span class="token comment">// if the distance between a and b is less than or equal to absEpsilon, then a and b are "close enough"</span>
+    <span class="token keyword keyword-return">return</span> std<span class="token double-colon punctuation">::</span><span class="token function">abs</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-317-close">(</span>a <span class="token operator">-</span> b<span class="token punctuation brace-round brace-close brace-level-2" id="pair-317-open">)</span> <span class="token operator">&lt;=</span> absEpsilon<span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-318-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  std::abs() is a function in the &lt;cmath&gt; header that returns the absolute
+  value of its argument. So <code>std::abs(a - b) &lt;= absEpsilon</code> checks
+  if the distance between <em>a</em> and <em>b</em> is less than or equal to
+  whatever epsilon value representing “close enough” was passed in. If
+  <em>a</em> and <em>b</em> are close enough, the function returns true to
+  indicate they’re equal. Otherwise, it returns false.
+</p>
+<p>
+  While this function can work, it’s not great. An epsilon of
+  <em>0.00001</em> is good for inputs around <em>1.0</em>, too big for inputs
+  around <em>0.0000001</em>, and too small for inputs like <em>10,000</em>.
+</p>
+<div class="cpp-note cpp-lightgraybackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">As an aside…</p>
+  <p>
+    If we say any number that is within 0.00001 of another number should be
+    treated as the same number, then:
+  </p>
+  <ul>
+    <li>
+      1 and 1.0001 would be different, but 1 and 1.00001 would be the same.
+      That’s not unreasonable.
+    </li>
+    <li>
+      0.0000001 and 0.00001 would be the same. That doesn’t seem good, as those
+      numbers are two orders of magnitude apart.
+    </li>
+    <li>
+      10000 and 10000.0001 would be different. That also doesn’t seem good, as
+      those numbers are barely different given the magnitude of the number.
+    </li>
+  </ul>
+</div>
+<p>
+  This means every time we call this function, we have to pick an epsilon that’s
+  appropriate for our inputs. If we know we’re going to have to scale epsilon in
+  proportion to the magnitude of our inputs, we might as well modify the
+  function to do that for us.
+</p>
+<p>
+  <a href="https://en.wikipedia.org/wiki/Donald_Knuth">Donald Knuth</a>, a
+  famous computer scientist, suggested the following method in his book “The Art
+  of Computer Programming, Volume II: Seminumerical Algorithms (Addison-Wesley,
+  1969)”:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;algorithm&gt;</span> <span class="token comment">// for std::max</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;cmath&gt;</span>     <span class="token comment">// for std::abs</span></span>
+
+<span class="token comment">// Return true if the difference between a and b is within epsilon percent of the larger of a and b</span>
+<span class="token keyword keyword-bool">bool</span> <span class="token function">approximatelyEqualRel</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-319-close">(</span><span class="token keyword keyword-double">double</span> a<span class="token punctuation">,</span> <span class="token keyword keyword-double">double</span> b<span class="token punctuation">,</span> <span class="token keyword keyword-double">double</span> relEpsilon<span class="token punctuation brace-round brace-close brace-level-1" id="pair-319-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-326-close">{</span>
+	<span class="token keyword keyword-return">return</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-325-close">(</span>std<span class="token double-colon punctuation">::</span><span class="token function">abs</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-320-close">(</span>a <span class="token operator">-</span> b<span class="token punctuation brace-round brace-close brace-level-3" id="pair-320-open">)</span> <span class="token operator">&lt;=</span> <span class="token punctuation brace-round brace-open brace-level-3" id="pair-324-close">(</span>std<span class="token double-colon punctuation">::</span><span class="token function">max</span><span class="token punctuation brace-round brace-open brace-level-4" id="pair-323-close">(</span>std<span class="token double-colon punctuation">::</span><span class="token function">abs</span><span class="token punctuation brace-round brace-open brace-level-5" id="pair-321-close">(</span>a<span class="token punctuation brace-round brace-close brace-level-5" id="pair-321-open">)</span><span class="token punctuation">,</span> std<span class="token double-colon punctuation">::</span><span class="token function">abs</span><span class="token punctuation brace-round brace-open brace-level-5" id="pair-322-close">(</span>b<span class="token punctuation brace-round brace-close brace-level-5" id="pair-322-open">)</span><span class="token punctuation brace-round brace-close brace-level-4" id="pair-323-open">)</span> <span class="token operator">*</span> relEpsilon<span class="token punctuation brace-round brace-close brace-level-3" id="pair-324-open">)</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-325-open">)</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-326-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  In this case, instead of epsilon being an absolute number, epsilon is now
+  relative to the magnitude of <em>a</em> or <em>b</em>.
+</p>
+<div class="code-block code-block-8" style="margin: 8px 0; clear: both"></div>
+<p>
+  Let’s examine in more detail how this crazy looking function works. On the
+  left side of the &lt;= operator, <code>std::abs(a - b)</code> tells us the
+  distance between <em>a</em> and <em>b</em> as a positive number.
+</p>
+<p>
+  On the right side of the &lt;= operator, we need to calculate the largest
+  value of “close enough” we’re willing to accept. To do this, the algorithm
+  chooses the larger of <em>a</em> and <em>b</em> (as a rough indicator of the
+  overall magnitude of the numbers), and then multiplies it by relEpsilon. In
+  this function, relEpsilon represents a percentage. For example, if we want to
+  say “close enough” means <em>a</em> and <em>b</em> are within 1% of the larger
+  of <em>a</em> and <em>b</em>, we pass in an relEpsilon of 0.01 (1% = 1/100 =
+  0.01). The value for relEpsilon can be adjusted to whatever is most
+  appropriate for the circumstances (e.g. an epsilon of 0.002 means within
+  0.2%).
+</p>
+<p>
+  To do inequality (!=) instead of equality, simply call this function and use
+  the logical NOT operator (!) to flip the result:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-if">if</span> <span class="token punctuation brace-round brace-open brace-level-1" id="pair-328-close">(</span><span class="token operator">!</span><span class="token function">approximatelyEqualRel</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-327-close">(</span>a<span class="token punctuation">,</span> b<span class="token punctuation">,</span> <span class="token number">0.001</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-327-open">)</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-328-open">)</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> a <span class="token operator">&lt;&lt;</span> <span class="token string">" is not equal to "</span> <span class="token operator">&lt;&lt;</span> b <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  Note that while the approximatelyEqualRel() function will work for most cases,
+  it is not perfect, especially as the numbers approach zero:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;algorithm&gt;</span> <span class="token comment">// for std::max</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;cmath&gt;</span>     <span class="token comment">// for std::abs</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token comment">// Return true if the difference between a and b is within epsilon percent of the larger of a and b</span>
+<span class="token keyword keyword-bool">bool</span> <span class="token function">approximatelyEqualRel</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-329-close">(</span><span class="token keyword keyword-double">double</span> a<span class="token punctuation">,</span> <span class="token keyword keyword-double">double</span> b<span class="token punctuation">,</span> <span class="token keyword keyword-double">double</span> relEpsilon<span class="token punctuation brace-round brace-close brace-level-1" id="pair-329-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-339-close">{</span>
+	<span class="token keyword keyword-return">return</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-335-close">(</span>std<span class="token double-colon punctuation">::</span><span class="token function">abs</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-330-close">(</span>a <span class="token operator">-</span> b<span class="token punctuation brace-round brace-close brace-level-3" id="pair-330-open">)</span> <span class="token operator">&lt;=</span> <span class="token punctuation brace-round brace-open brace-level-3" id="pair-334-close">(</span>std<span class="token double-colon punctuation">::</span><span class="token function">max</span><span class="token punctuation brace-round brace-open brace-level-4" id="pair-333-close">(</span>std<span class="token double-colon punctuation">::</span><span class="token function">abs</span><span class="token punctuation brace-round brace-open brace-level-5" id="pair-331-close">(</span>a<span class="token punctuation brace-round brace-close brace-level-5" id="pair-331-open">)</span><span class="token punctuation">,</span> std<span class="token double-colon punctuation">::</span><span class="token function">abs</span><span class="token punctuation brace-round brace-open brace-level-5" id="pair-332-close">(</span>b<span class="token punctuation brace-round brace-close brace-level-5" id="pair-332-open">)</span><span class="token punctuation brace-round brace-close brace-level-4" id="pair-333-open">)</span> <span class="token operator">*</span> relEpsilon<span class="token punctuation brace-round brace-close brace-level-3" id="pair-334-open">)</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-335-open">)</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-339-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-336-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-336-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-343-close">{</span>
+    <span class="token comment">// a is really close to 1.0, but has rounding errors</span>
+    <span class="token keyword keyword-constexpr">constexpr</span> <span class="token keyword keyword-double">double</span> a<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-340-close">{</span> <span class="token number">0.1</span> <span class="token operator">+</span> <span class="token number">0.1</span> <span class="token operator">+</span> <span class="token number">0.1</span> <span class="token operator">+</span> <span class="token number">0.1</span> <span class="token operator">+</span> <span class="token number">0.1</span> <span class="token operator">+</span> <span class="token number">0.1</span> <span class="token operator">+</span> <span class="token number">0.1</span> <span class="token operator">+</span> <span class="token number">0.1</span> <span class="token operator">+</span> <span class="token number">0.1</span> <span class="token operator">+</span> <span class="token number">0.1</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-340-open">}</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-constexpr">constexpr</span> <span class="token keyword keyword-double">double</span> relEps <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-341-close">{</span> <span class="token number">1e-8</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-341-open">}</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-constexpr">constexpr</span> <span class="token keyword keyword-double">double</span> absEps <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-342-close">{</span> <span class="token number">1e-12</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-342-open">}</span><span class="token punctuation">;</span>
+
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> std<span class="token double-colon punctuation">::</span>boolalpha<span class="token punctuation">;</span> <span class="token comment">// print true or false instead of 1 or 0</span>
+
+    <span class="token comment">// First, let's compare a (almost 1.0) to 1.0.</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token function">approximatelyEqualRel</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-337-close">(</span>a<span class="token punctuation">,</span> <span class="token number">1.0</span><span class="token punctuation">,</span> relEps<span class="token punctuation brace-round brace-close brace-level-2" id="pair-337-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+    <span class="token comment">// Second, let's compare a-1.0 (almost 0.0) to 0.0</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token function">approximatelyEqualRel</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-338-close">(</span>a<span class="token operator">-</span><span class="token number">1.0</span><span class="token punctuation">,</span> <span class="token number">0.0</span><span class="token punctuation">,</span> relEps<span class="token punctuation brace-round brace-close brace-level-2" id="pair-338-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-343-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>Perhaps surprisingly, this returns:</p>
+<pre>
+true
+false
+</pre>
+<p>
+  The second call didn’t perform as expected. The math simply breaks down close
+  to zero.
+</p>
+<p>
+  One way to avoid this is to use both an absolute epsilon (as we did in the
+  first approach) and a relative epsilon (as we did in Knuth’s approach):
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token comment">// Return true if the difference between a and b is less than or equal to absEpsilon, or within relEpsilon percent of the larger of a and b</span>
+<span class="token keyword keyword-bool">bool</span> <span class="token function">approximatelyEqualAbsRel</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-344-close">(</span><span class="token keyword keyword-double">double</span> a<span class="token punctuation">,</span> <span class="token keyword keyword-double">double</span> b<span class="token punctuation">,</span> <span class="token keyword keyword-double">double</span> absEpsilon<span class="token punctuation">,</span> <span class="token keyword keyword-double">double</span> relEpsilon<span class="token punctuation brace-round brace-close brace-level-1" id="pair-344-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-348-close">{</span>
+    <span class="token comment">// Check if the numbers are really close -- needed when comparing numbers near zero.</span>
+    <span class="token keyword keyword-if">if</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-346-close">(</span>std<span class="token double-colon punctuation">::</span><span class="token function">abs</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-345-close">(</span>a <span class="token operator">-</span> b<span class="token punctuation brace-round brace-close brace-level-3" id="pair-345-open">)</span> <span class="token operator">&lt;=</span> absEpsilon<span class="token punctuation brace-round brace-close brace-level-2" id="pair-346-open">)</span>
+        <span class="token keyword keyword-return">return</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+
+    <span class="token comment">// Otherwise fall back to Knuth's algorithm</span>
+    <span class="token keyword keyword-return">return</span> <span class="token function">approximatelyEqualRel</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-347-close">(</span>a<span class="token punctuation">,</span> b<span class="token punctuation">,</span> relEpsilon<span class="token punctuation brace-round brace-close brace-level-2" id="pair-347-open">)</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-348-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 32px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  In this algorithm, we first check if <em>a</em> and <em>b</em> are close
+  together in absolute terms, which handles the case where <em>a</em> and
+  <em>b</em> are both close to zero. The <em>absEpsilon</em> parameter should be
+  set to something very small (e.g. 1e-12). If that fails, then we fall back to
+  Knuth’s algorithm, using the relative epsilon.
+</p>
+<p>Here’s our previous code testing both algorithms:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;algorithm&gt;</span> <span class="token comment">// for std::max</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;cmath&gt;</span>     <span class="token comment">// for std::abs</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token comment">// Return true if the difference between a and b is within epsilon percent of the larger of a and b</span>
+<span class="token keyword keyword-bool">bool</span> <span class="token function">approximatelyEqualRel</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-349-close">(</span><span class="token keyword keyword-double">double</span> a<span class="token punctuation">,</span> <span class="token keyword keyword-double">double</span> b<span class="token punctuation">,</span> <span class="token keyword keyword-double">double</span> relEpsilon<span class="token punctuation brace-round brace-close brace-level-1" id="pair-349-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-365-close">{</span>
+	<span class="token keyword keyword-return">return</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-355-close">(</span>std<span class="token double-colon punctuation">::</span><span class="token function">abs</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-350-close">(</span>a <span class="token operator">-</span> b<span class="token punctuation brace-round brace-close brace-level-3" id="pair-350-open">)</span> <span class="token operator">&lt;=</span> <span class="token punctuation brace-round brace-open brace-level-3" id="pair-354-close">(</span>std<span class="token double-colon punctuation">::</span><span class="token function">max</span><span class="token punctuation brace-round brace-open brace-level-4" id="pair-353-close">(</span>std<span class="token double-colon punctuation">::</span><span class="token function">abs</span><span class="token punctuation brace-round brace-open brace-level-5" id="pair-351-close">(</span>a<span class="token punctuation brace-round brace-close brace-level-5" id="pair-351-open">)</span><span class="token punctuation">,</span> std<span class="token double-colon punctuation">::</span><span class="token function">abs</span><span class="token punctuation brace-round brace-open brace-level-5" id="pair-352-close">(</span>b<span class="token punctuation brace-round brace-close brace-level-5" id="pair-352-open">)</span><span class="token punctuation brace-round brace-close brace-level-4" id="pair-353-open">)</span> <span class="token operator">*</span> relEpsilon<span class="token punctuation brace-round brace-close brace-level-3" id="pair-354-open">)</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-355-open">)</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-365-open">}</span>
+
+<span class="token comment">// Return true if the difference between a and b is less than or equal to absEpsilon, or within relEpsilon percent of the larger of a and b</span>
+<span class="token keyword keyword-bool">bool</span> <span class="token function">approximatelyEqualAbsRel</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-356-close">(</span><span class="token keyword keyword-double">double</span> a<span class="token punctuation">,</span> <span class="token keyword keyword-double">double</span> b<span class="token punctuation">,</span> <span class="token keyword keyword-double">double</span> absEpsilon<span class="token punctuation">,</span> <span class="token keyword keyword-double">double</span> relEpsilon<span class="token punctuation brace-round brace-close brace-level-1" id="pair-356-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-366-close">{</span>
+    <span class="token comment">// Check if the numbers are really close -- needed when comparing numbers near zero.</span>
+    <span class="token keyword keyword-if">if</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-358-close">(</span>std<span class="token double-colon punctuation">::</span><span class="token function">abs</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-357-close">(</span>a <span class="token operator">-</span> b<span class="token punctuation brace-round brace-close brace-level-3" id="pair-357-open">)</span> <span class="token operator">&lt;=</span> absEpsilon<span class="token punctuation brace-round brace-close brace-level-2" id="pair-358-open">)</span>
+        <span class="token keyword keyword-return">return</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+
+    <span class="token comment">// Otherwise fall back to Knuth's algorithm</span>
+    <span class="token keyword keyword-return">return</span> <span class="token function">approximatelyEqualRel</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-359-close">(</span>a<span class="token punctuation">,</span> b<span class="token punctuation">,</span> relEpsilon<span class="token punctuation brace-round brace-close brace-level-2" id="pair-359-open">)</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-366-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-360-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-360-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-370-close">{</span>
+    <span class="token comment">// a is really close to 1.0, but has rounding errors</span>
+    <span class="token keyword keyword-constexpr">constexpr</span> <span class="token keyword keyword-double">double</span> a<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-367-close">{</span> <span class="token number">0.1</span> <span class="token operator">+</span> <span class="token number">0.1</span> <span class="token operator">+</span> <span class="token number">0.1</span> <span class="token operator">+</span> <span class="token number">0.1</span> <span class="token operator">+</span> <span class="token number">0.1</span> <span class="token operator">+</span> <span class="token number">0.1</span> <span class="token operator">+</span> <span class="token number">0.1</span> <span class="token operator">+</span> <span class="token number">0.1</span> <span class="token operator">+</span> <span class="token number">0.1</span> <span class="token operator">+</span> <span class="token number">0.1</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-367-open">}</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-constexpr">constexpr</span> <span class="token keyword keyword-double">double</span> relEps <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-368-close">{</span> <span class="token number">1e-8</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-368-open">}</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-constexpr">constexpr</span> <span class="token keyword keyword-double">double</span> absEps <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-369-close">{</span> <span class="token number">1e-12</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-369-open">}</span><span class="token punctuation">;</span>
+
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> std<span class="token double-colon punctuation">::</span>boolalpha<span class="token punctuation">;</span> <span class="token comment">// print true or false instead of 1 or 0</span>
+
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token function">approximatelyEqualRel</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-361-close">(</span>a<span class="token punctuation">,</span> <span class="token number">1.0</span><span class="token punctuation">,</span> relEps<span class="token punctuation brace-round brace-close brace-level-2" id="pair-361-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>     <span class="token comment">// compare "almost 1.0" to 1.0</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token function">approximatelyEqualRel</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-362-close">(</span>a<span class="token operator">-</span><span class="token number">1.0</span><span class="token punctuation">,</span> <span class="token number">0.0</span><span class="token punctuation">,</span> relEps<span class="token punctuation brace-round brace-close brace-level-2" id="pair-362-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span> <span class="token comment">// compare "almost 0.0" to 0.0</span>
+
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token function">approximatelyEqualAbsRel</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-363-close">(</span>a<span class="token punctuation">,</span> <span class="token number">1.0</span><span class="token punctuation">,</span> absEps<span class="token punctuation">,</span> relEps<span class="token punctuation brace-round brace-close brace-level-2" id="pair-363-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>     <span class="token comment">// compare "almost 1.0" to 1.0</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token function">approximatelyEqualAbsRel</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-364-close">(</span>a<span class="token operator">-</span><span class="token number">1.0</span><span class="token punctuation">,</span> <span class="token number">0.0</span><span class="token punctuation">,</span> absEps<span class="token punctuation">,</span> relEps<span class="token punctuation brace-round brace-close brace-level-2" id="pair-364-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span> <span class="token comment">// compare "almost 0.0" to 0.0</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-370-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 32px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<pre>
+true
+false
+true
+true
+</pre>
+<p>
+  You can see that approximatelyEqualAbsRel() handles the small inputs
+  correctly.
+</p>
+<p>
+  Comparison of floating point numbers is a difficult topic, and there’s no “one
+  size fits all” algorithm that works for every case. However, the
+  approximatelyEqualAbsRel() function with an absEpsilon of 1e-12 and a
+  relEpsilon of 1e-8 should be good enough to handle most cases you’ll
+  encounter.
+</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Making the <code>approximatelyEqual</code> functions constexpr
+  <span class="cpp-section-pill cpp-section-advanced">Advanced</span>
+</p>
+<p>
+  In C++23, the two <code>approximatelyEqual</code> functions can be made
+  constexpr by adding the <code>constexpr</code> keyword:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token comment">// C++23 version</span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;algorithm&gt;</span> <span class="token comment">// for std::max</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;cmath&gt;</span>     <span class="token comment">// for std::abs (constexpr in C++23)</span></span>
+
+<span class="token comment">// Return true if the difference between a and b is within epsilon percent of the larger of a and b</span>
+<span class="token keyword keyword-constexpr">constexpr</span> <span class="token keyword keyword-bool">bool</span> <span class="token function">approximatelyEqualRel</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-371-close">(</span><span class="token keyword keyword-double">double</span> a<span class="token punctuation">,</span> <span class="token keyword keyword-double">double</span> b<span class="token punctuation">,</span> <span class="token keyword keyword-double">double</span> relEpsilon<span class="token punctuation brace-round brace-close brace-level-1" id="pair-371-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-382-close">{</span>
+	<span class="token keyword keyword-return">return</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-377-close">(</span>std<span class="token double-colon punctuation">::</span><span class="token function">abs</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-372-close">(</span>a <span class="token operator">-</span> b<span class="token punctuation brace-round brace-close brace-level-3" id="pair-372-open">)</span> <span class="token operator">&lt;=</span> <span class="token punctuation brace-round brace-open brace-level-3" id="pair-376-close">(</span>std<span class="token double-colon punctuation">::</span><span class="token function">max</span><span class="token punctuation brace-round brace-open brace-level-4" id="pair-375-close">(</span>std<span class="token double-colon punctuation">::</span><span class="token function">abs</span><span class="token punctuation brace-round brace-open brace-level-5" id="pair-373-close">(</span>a<span class="token punctuation brace-round brace-close brace-level-5" id="pair-373-open">)</span><span class="token punctuation">,</span> std<span class="token double-colon punctuation">::</span><span class="token function">abs</span><span class="token punctuation brace-round brace-open brace-level-5" id="pair-374-close">(</span>b<span class="token punctuation brace-round brace-close brace-level-5" id="pair-374-open">)</span><span class="token punctuation brace-round brace-close brace-level-4" id="pair-375-open">)</span> <span class="token operator">*</span> relEpsilon<span class="token punctuation brace-round brace-close brace-level-3" id="pair-376-open">)</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-377-open">)</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-382-open">}</span>
+
+<span class="token comment">// Return true if the difference between a and b is less than or equal to absEpsilon, or within relEpsilon percent of the larger of a and b</span>
+<span class="token keyword keyword-constexpr">constexpr</span> <span class="token keyword keyword-bool">bool</span> <span class="token function">approximatelyEqualAbsRel</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-378-close">(</span><span class="token keyword keyword-double">double</span> a<span class="token punctuation">,</span> <span class="token keyword keyword-double">double</span> b<span class="token punctuation">,</span> <span class="token keyword keyword-double">double</span> absEpsilon<span class="token punctuation">,</span> <span class="token keyword keyword-double">double</span> relEpsilon<span class="token punctuation brace-round brace-close brace-level-1" id="pair-378-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-383-close">{</span>
+    <span class="token comment">// Check if the numbers are really close -- needed when comparing numbers near zero.</span>
+    <span class="token keyword keyword-if">if</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-380-close">(</span>std<span class="token double-colon punctuation">::</span><span class="token function">abs</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-379-close">(</span>a <span class="token operator">-</span> b<span class="token punctuation brace-round brace-close brace-level-3" id="pair-379-open">)</span> <span class="token operator">&lt;=</span> absEpsilon<span class="token punctuation brace-round brace-close brace-level-2" id="pair-380-open">)</span>
+        <span class="token keyword keyword-return">return</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+
+    <span class="token comment">// Otherwise fall back to Knuth's algorithm</span>
+    <span class="token keyword keyword-return">return</span> <span class="token function">approximatelyEqualRel</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-381-close">(</span>a<span class="token punctuation">,</span> b<span class="token punctuation">,</span> relEpsilon<span class="token punctuation brace-round brace-close brace-level-2" id="pair-381-open">)</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-383-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 32px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<div class="cpp-note cpp-lightgraybackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Related content</p>
+  <p>
+    We cover constexpr functions in lesson
+    <a href="https://www.learncpp.com/cpp-tutorial/constexpr-functions/"
+      >F.1 -- Constexpr functions</a
+    >.
+  </p>
+</div>
+<p>
+  However, prior to C++23, we run into an issue. If these constexpr function are
+  called in a constant expression, they will fail:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-384-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-384-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-390-close">{</span>
+    <span class="token comment">// a is really close to 1.0, but has rounding errors</span>
+    <span class="token keyword keyword-constexpr">constexpr</span> <span class="token keyword keyword-double">double</span> a<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-386-close">{</span> <span class="token number">0.1</span> <span class="token operator">+</span> <span class="token number">0.1</span> <span class="token operator">+</span> <span class="token number">0.1</span> <span class="token operator">+</span> <span class="token number">0.1</span> <span class="token operator">+</span> <span class="token number">0.1</span> <span class="token operator">+</span> <span class="token number">0.1</span> <span class="token operator">+</span> <span class="token number">0.1</span> <span class="token operator">+</span> <span class="token number">0.1</span> <span class="token operator">+</span> <span class="token number">0.1</span> <span class="token operator">+</span> <span class="token number">0.1</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-386-open">}</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-constexpr">constexpr</span> <span class="token keyword keyword-double">double</span> relEps <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-387-close">{</span> <span class="token number">1e-8</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-387-open">}</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-constexpr">constexpr</span> <span class="token keyword keyword-double">double</span> absEps <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-388-close">{</span> <span class="token number">1e-12</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-388-open">}</span><span class="token punctuation">;</span>
+
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> std<span class="token double-colon punctuation">::</span>boolalpha<span class="token punctuation">;</span> <span class="token comment">// print true or false instead of 1 or 0</span>
+
+    <span class="token keyword keyword-constexpr">constexpr</span> <span class="token keyword keyword-bool">bool</span> same <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-389-close">{</span> <span class="token function">approximatelyEqualAbsRel</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-385-close">(</span>a<span class="token punctuation">,</span> <span class="token number">1.0</span><span class="token punctuation">,</span> absEps<span class="token punctuation">,</span> relEps<span class="token punctuation brace-round brace-close brace-level-3" id="pair-385-open">)</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-389-open">}</span><span class="token punctuation">;</span> <span class="token comment">// compile error: must be initialized by a constant expression</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> same <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-390-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 32px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  This is because a constexpr function that is used in a constant expression
+  can’t call a non-constexpr function, and <code>std::abs</code> wasn’t made
+  constexpr until C++23.
+</p>
+<p>
+  This is easy to fix though -- we can just ditch <code>std::abs</code> for our
+  own constexpr absolute value implementation.
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token comment">// C++14/17/20 version</span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;algorithm&gt;</span> <span class="token comment">// for std::max</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token comment">// Our own constexpr implementation of std::abs (for use in C++14/17/20)</span>
+<span class="token comment">// In C++23, use std::abs</span>
+<span class="token comment">// constAbs() can be called like a normal function, but can handle different types of values (e.g. int, double, etc...)</span>
+<span class="token keyword keyword-template">template</span> <span class="token operator">&lt;</span><span class="token keyword keyword-typename">typename</span> <span class="token class-name">T</span><span class="token operator">&gt;</span>
+<span class="token keyword keyword-constexpr">constexpr</span> T <span class="token function">constAbs</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-391-close">(</span>T x<span class="token punctuation brace-round brace-close brace-level-1" id="pair-391-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-406-close">{</span>
+    <span class="token keyword keyword-return">return</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-392-close">(</span>x <span class="token operator">&lt;</span> <span class="token number">0</span> <span class="token operator">?</span> <span class="token operator">-</span>x <span class="token operator">:</span> x<span class="token punctuation brace-round brace-close brace-level-2" id="pair-392-open">)</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-406-open">}</span>
+
+<span class="token comment">// Return true if the difference between a and b is within epsilon percent of the larger of a and b</span>
+<span class="token keyword keyword-constexpr">constexpr</span> <span class="token keyword keyword-bool">bool</span> <span class="token function">approximatelyEqualRel</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-393-close">(</span><span class="token keyword keyword-double">double</span> a<span class="token punctuation">,</span> <span class="token keyword keyword-double">double</span> b<span class="token punctuation">,</span> <span class="token keyword keyword-double">double</span> relEpsilon<span class="token punctuation brace-round brace-close brace-level-1" id="pair-393-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-407-close">{</span>
+    <span class="token keyword keyword-return">return</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-399-close">(</span><span class="token function">constAbs</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-394-close">(</span>a <span class="token operator">-</span> b<span class="token punctuation brace-round brace-close brace-level-3" id="pair-394-open">)</span> <span class="token operator">&lt;=</span> <span class="token punctuation brace-round brace-open brace-level-3" id="pair-398-close">(</span>std<span class="token double-colon punctuation">::</span><span class="token function">max</span><span class="token punctuation brace-round brace-open brace-level-4" id="pair-397-close">(</span><span class="token function">constAbs</span><span class="token punctuation brace-round brace-open brace-level-5" id="pair-395-close">(</span>a<span class="token punctuation brace-round brace-close brace-level-5" id="pair-395-open">)</span><span class="token punctuation">,</span> <span class="token function">constAbs</span><span class="token punctuation brace-round brace-open brace-level-5" id="pair-396-close">(</span>b<span class="token punctuation brace-round brace-close brace-level-5" id="pair-396-open">)</span><span class="token punctuation brace-round brace-close brace-level-4" id="pair-397-open">)</span> <span class="token operator">*</span> relEpsilon<span class="token punctuation brace-round brace-close brace-level-3" id="pair-398-open">)</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-399-open">)</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-407-open">}</span>
+
+<span class="token comment">// Return true if the difference between a and b is less than or equal to absEpsilon, or within relEpsilon percent of the larger of a and b</span>
+<span class="token keyword keyword-constexpr">constexpr</span> <span class="token keyword keyword-bool">bool</span> <span class="token function">approximatelyEqualAbsRel</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-400-close">(</span><span class="token keyword keyword-double">double</span> a<span class="token punctuation">,</span> <span class="token keyword keyword-double">double</span> b<span class="token punctuation">,</span> <span class="token keyword keyword-double">double</span> absEpsilon<span class="token punctuation">,</span> <span class="token keyword keyword-double">double</span> relEpsilon<span class="token punctuation brace-round brace-close brace-level-1" id="pair-400-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-408-close">{</span>
+    <span class="token comment">// Check if the numbers are really close -- needed when comparing numbers near zero.</span>
+    <span class="token keyword keyword-if">if</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-402-close">(</span><span class="token function">constAbs</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-401-close">(</span>a <span class="token operator">-</span> b<span class="token punctuation brace-round brace-close brace-level-3" id="pair-401-open">)</span> <span class="token operator">&lt;=</span> absEpsilon<span class="token punctuation brace-round brace-close brace-level-2" id="pair-402-open">)</span>
+        <span class="token keyword keyword-return">return</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+
+    <span class="token comment">// Otherwise fall back to Knuth's algorithm</span>
+    <span class="token keyword keyword-return">return</span> <span class="token function">approximatelyEqualRel</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-403-close">(</span>a<span class="token punctuation">,</span> b<span class="token punctuation">,</span> relEpsilon<span class="token punctuation brace-round brace-close brace-level-2" id="pair-403-open">)</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-408-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-404-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-404-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-413-close">{</span>
+    <span class="token comment">// a is really close to 1.0, but has rounding errors</span>
+    <span class="token keyword keyword-constexpr">constexpr</span> <span class="token keyword keyword-double">double</span> a<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-409-close">{</span> <span class="token number">0.1</span> <span class="token operator">+</span> <span class="token number">0.1</span> <span class="token operator">+</span> <span class="token number">0.1</span> <span class="token operator">+</span> <span class="token number">0.1</span> <span class="token operator">+</span> <span class="token number">0.1</span> <span class="token operator">+</span> <span class="token number">0.1</span> <span class="token operator">+</span> <span class="token number">0.1</span> <span class="token operator">+</span> <span class="token number">0.1</span> <span class="token operator">+</span> <span class="token number">0.1</span> <span class="token operator">+</span> <span class="token number">0.1</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-409-open">}</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-constexpr">constexpr</span> <span class="token keyword keyword-double">double</span> relEps <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-410-close">{</span> <span class="token number">1e-8</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-410-open">}</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-constexpr">constexpr</span> <span class="token keyword keyword-double">double</span> absEps <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-411-close">{</span> <span class="token number">1e-12</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-411-open">}</span><span class="token punctuation">;</span>
+
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> std<span class="token double-colon punctuation">::</span>boolalpha<span class="token punctuation">;</span> <span class="token comment">// print true or false instead of 1 or 0</span>
+
+    <span class="token keyword keyword-constexpr">constexpr</span> <span class="token keyword keyword-bool">bool</span> same <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-412-close">{</span> <span class="token function">approximatelyEqualAbsRel</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-405-close">(</span>a<span class="token punctuation">,</span> <span class="token number">1.0</span><span class="token punctuation">,</span> absEps<span class="token punctuation">,</span> relEps<span class="token punctuation brace-round brace-close brace-level-3" id="pair-405-open">)</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-412-open">}</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> same <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-413-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 32px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<div class="cpp-note cpp-lightgraybackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">For advanced readers</p>
+  <p>
+    The version of <code>constAbs()</code> above is a function template, which
+    allows us to write a single definition that can handle different types of
+    values. We cover function templates in lesson
+    <a href="https://www.learncpp.com/cpp-tutorial/function-templates/"
+      >11.6 -- Function templates</a
+    >.
+  </p>
+</div>
+<div class="prevnext">
+  <div class="prevnext-inline">
+    <a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/logical-operators/"
+      ><div class="nav-button nav-button-next">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-right" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Next lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">6.8</span>Logical operators
+          </div>
+        </div>
+      </div></a
+    ><a class="nav-link" href="/"
+      ><div class="nav-button nav-button-index">
+        <div class="nav-button-icon">
+          <i class="fa fa-home" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Back to table of contents</div>
+        </div>
+      </div></a
+    ><a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/the-conditional-operator/"
+      ><div class="nav-button nav-button-prev">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-left" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Previous lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">6.6</span>The conditional
+            operator
+          </div>
+        </div>
+      </div></a
+    >
+  </div>
+</div>
+<div class="code-block code-block-10" style="margin: 8px 0; clear: both"></div>

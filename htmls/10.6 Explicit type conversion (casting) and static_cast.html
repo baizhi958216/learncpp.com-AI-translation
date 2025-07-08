@@ -1,0 +1,816 @@
+<div
+  class="code-block code-block-1"
+  style="margin: 8px 8px 8px 0; float: left"
+></div>
+<p>
+  In lesson
+  <a href="https://www.learncpp.com/cpp-tutorial/implicit-type-conversion/"
+    >10.1 -- Implicit type conversion</a
+  >, we discussed that the compiler can use implicit type conversion to convert
+  a value from one data type to another. When you want to numerically promote a
+  value from one data type to a wider data type, using implicit type conversion
+  is fine.
+</p>
+<p>Many new C++ programmers try something like this:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-double">double</span> d <span class="token operator">=</span> <span class="token number">10</span> <span class="token operator">/</span> <span class="token number">4</span><span class="token punctuation">;</span> <span class="token comment">// does integer division, initializes d with value 2.0</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  Because <code>10</code> and <code>4</code> are both of type <code>int</code>,
+  integer division is performed, and the expression evaluates to
+  <code>int</code> value <code>2</code>. This value then undergoes numeric
+  conversion to <code>double</code> value <code>2.0</code> before being used to
+  initialize variable <code>d</code>. Most likely, this isn’t what was intended.
+</p>
+<p>
+  In the case where you are using literal operands, replacing one or both of the
+  integer literals with double literals will cause floating point division to
+  happen instead:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-double">double</span> d <span class="token operator">=</span> <span class="token number">10.0</span> <span class="token operator">/</span> <span class="token number">4.0</span><span class="token punctuation">;</span> <span class="token comment">// does floating point division, initializes d with value 2.5</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  But what if you are using variables instead of literals? Consider this case:
+</p>
+<div class="code-block code-block-2" style="margin: 8px 0; clear: both"></div>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-int">int</span> x <span class="token punctuation brace-curly brace-open brace-level-1" id="pair-96-close">{</span> <span class="token number">10</span> <span class="token punctuation brace-curly brace-close brace-level-1" id="pair-96-open">}</span><span class="token punctuation">;</span>
+<span class="token keyword keyword-int">int</span> y <span class="token punctuation brace-curly brace-open brace-level-1" id="pair-97-close">{</span> <span class="token number">4</span> <span class="token punctuation brace-curly brace-close brace-level-1" id="pair-97-open">}</span><span class="token punctuation">;</span>
+<span class="token keyword keyword-double">double</span> d <span class="token operator">=</span> x <span class="token operator">/</span> y<span class="token punctuation">;</span> <span class="token comment">// does integer division, initializes d with value 2.0</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  Because integer division is used here, variable <code>d</code> will end up
+  with the value of <code>2.0</code>. How do we tell the compiler that we want
+  to use floating point division instead of integer division in this case?
+  Literal suffixes can’t be used with variables. We need some way to convert one
+  (or both) of the variable operands to a floating point type, so that floating
+  point division will be used instead.
+</p>
+<p>
+  Fortunately, C++ comes with a number of different
+  <strong>type casting operators</strong> (more commonly called
+  <strong>casts</strong>) that can be used by the programmer to have the
+  compiler perform type conversion. Because casts are explicit requests by the
+  programmer, this form of type conversion is often called an
+  <strong>explicit type conversion</strong> (as opposed to implicit type
+  conversion, where the compiler performs a type conversion automatically).
+</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Type casting
+</p>
+<p>
+  C++ supports 5 different types of casts: <code>static_cast</code>,
+  <code>dynamic_cast</code>, <code>const_cast</code>,
+  <code>reinterpret_cast</code>, and C-style casts. The first four are sometimes
+  referred to as <strong>named casts</strong>.
+</p>
+<div class="cpp-note cpp-lightgraybackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">For advanced readers</p>
+  <div class="cpp-table-wrapper" data-ezoic-video-excluded="1">
+    <table class="cpp-table" data-ezoic-video-excluded="1">
+      <tbody>
+        <tr>
+          <th>Cast</th>
+          <th>Description</th>
+          <th>Safe?</th>
+        </tr>
+        <tr>
+          <td>static_cast</td>
+          <td>Performs compile-time type conversions between related types.</td>
+          <td>Yes</td>
+        </tr>
+        <tr>
+          <td>dynamic_cast</td>
+          <td>
+            Performs runtime type conversions on pointers or references in an
+            polymorphic (inheritance) hierarchy
+          </td>
+          <td>Yes</td>
+        </tr>
+        <tr>
+          <td>const_cast</td>
+          <td>Adds or removes const.</td>
+          <td>Only for adding const</td>
+        </tr>
+        <tr>
+          <td>reinterpret_cast</td>
+          <td>
+            Reinterprets the bit-level representation of one type as if it were
+            another type
+          </td>
+          <td>No</td>
+        </tr>
+        <tr>
+          <td>C-style casts</td>
+          <td>
+            Performs some combination of <code>static_cast</code>,
+            <code>const_cast</code>, or <code>reinterpret_cast</code>.
+          </td>
+          <td>No</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<p>
+  Each cast works the same way. As input, the cast takes an expression (that
+  evaluates to a value or an object), and a target type. As output, the cast
+  returns the result of the conversion.
+</p>
+<p>
+  Because they are the most commonly used casts, we’ll cover C-style casts and
+  <code>static_cast</code> in this lesson.
+</p>
+<div class="code-block code-block-3" style="margin: 8px 0; clear: both"></div>
+<div class="cpp-note cpp-lightgraybackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Related content</p>
+  <p>
+    We discuss <code>dynamic_cast</code> in lesson
+    <a href="https://www.learncpp.com/cpp-tutorial/dynamic-casting/"
+      >25.10 -- Dynamic casting</a
+    >, after we’ve covered other prerequisite topics.
+  </p>
+</div>
+<p>
+  <code>const_cast</code> and <code>reinterpret_cast</code> should generally be
+  avoided because they are only useful in rare cases and can be harmful if used
+  incorrectly.
+</p>
+<div class="cpp-note cpp-lightredbackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Warning</p>
+  <p>
+    Avoid <code>const_cast</code> and <code>reinterpret_cast</code> unless you
+    have a very good reason to use them.
+  </p>
+</div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  C-style cast
+</p>
+<p>
+  In standard C programming, casting is done via <code>operator()</code>, with
+  the name of the type to convert to placed inside the parentheses, and the
+  value to convert to placed immediately to the right of the closing
+  parenthesis. In C++, this type of cast is called a
+  <strong>C-style cast</strong>. You may still see these used in code that has
+  been converted from C.
+</p>
+<p>For example:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-98-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-98-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-102-close">{</span>
+    <span class="token keyword keyword-int">int</span> x <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-100-close">{</span> <span class="token number">10</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-100-open">}</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-int">int</span> y <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-101-close">{</span> <span class="token number">4</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-101-open">}</span><span class="token punctuation">;</span>
+
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-99-close">(</span><span class="token keyword keyword-double">double</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-99-open">)</span>x <span class="token operator">/</span> y <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span> <span class="token comment">// C-style cast of x to double</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-102-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  In the above program, we use a C-style cast to tell the compiler to convert
+  <code>x</code> to a <code>double</code>. Because the left operand of
+  <code>operator/</code> now evaluates to a floating point value, the right
+  operand will be converted to a floating point value as well, and the division
+  will be done using floating point division instead of integer division.
+</p>
+<p>
+  C++ also provides an alternative form of C-style cast known as a
+  <strong>function-style cast</strong>, which resembles a function call:
+</p>
+<div class="code-block code-block-4" style="margin: 8px 0; clear: both"></div>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp">std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token keyword keyword-double">double</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-103-close">(</span>x<span class="token punctuation brace-round brace-close brace-level-1" id="pair-103-open">)</span> <span class="token operator">/</span> y <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span> <span class="token comment">//  // function-style cast of x to double</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  The function-style cast makes it a bit easier to tell what is being converted
+  (as it looks like a standard function argument).
+</p>
+<p>
+  There are a couple of significant reasons that C-style casts are generally
+  avoided in modern C++.
+</p>
+<p>
+  First, although a C-style cast appears to be a single cast, it can actually
+  perform a variety of different conversions depending on how it is used. This
+  can include a static cast, a const cast, or a reinterpret cast (the latter two
+  of which we mentioned above you should avoid). A C-style cast does not make it
+  clear which cast(s) will actual be performed, which not only makes your code
+  that much harder to understand, but also opens the door for inadvertent misuse
+  (where you think you’re implementing a simple cast and you end up doing
+  something dangerous instead). Often this will end up producing an error that
+  isn’t discovered until runtime.
+</p>
+<p>
+  Also, because C-style casts are just a type name, parenthesis, and variable or
+  value, they are both difficult to identify (making your code harder to read)
+  and even more difficult to search for.
+</p>
+<p>
+  In contrast, the named casts are easy to spot and search for, make it clear
+  what they are doing, are limited in their abilities, and will produce a
+  compilation error if you try to misuse them.
+</p>
+<div class="cpp-note cpp-lightgreenbackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Best practice</p>
+  <p>Avoid using C-style casts.</p>
+</div>
+<div class="cpp-note cpp-lightgraybackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">For advanced readers</p>
+  <p>A C-style cast tries to perform the following C++ casts, in order:</p>
+  <ul>
+    <li><code>const_cast</code></li>
+    <li><code>static_cast</code></li>
+    <li><code>static_cast</code>, followed by <code>const_cast</code></li>
+    <li><code>reinterpret_cast</code></li>
+    <li><code>reinterpret_cast</code>, followed by <code>const_cast</code></li>
+  </ul>
+  <p>
+    There is one thing you can do with a C-style cast that you can’t do with C++
+    casts: C-style casts can convert a derived object to a base class that is
+    inaccessible (e.g. because it was privately inherited).
+  </p>
+</div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  <code>static_cast</code> should be used to cast most values
+</p>
+<div class="code-block code-block-5" style="margin: 8px 0; clear: both"></div>
+<p>
+  By far the most used cast in C++ is the <strong>static cast</strong> operator,
+  which is accessed via the <code>static_cast</code> keyword.
+  <code>static_cast</code> is used when we want to explicitly convert a value of
+  one type into a value of another type.
+</p>
+<p>
+  You’ve previously seen <code>static_cast</code> used to convert a
+  <code>char</code> into an <code>int</code> so that
+  <code>std::cout</code> prints it as an integer instead of a character:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-104-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-104-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-107-close">{</span>
+    <span class="token keyword keyword-char">char</span> c <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-106-close">{</span> <span class="token string">'a'</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-106-open">}</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token generic-function"><span class="token function">static_cast</span><span class="token generic class-name"><span class="token operator">&lt;</span><span class="token keyword keyword-int">int</span><span class="token operator">&gt;</span></span></span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-105-close">(</span>c<span class="token punctuation brace-round brace-close brace-level-2" id="pair-105-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span> <span class="token comment">// prints 97 rather than a</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-107-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  To perform a static cast, we start with the <code>static_cast</code> keyword,
+  and then place the type to convert to inside angled brackets. Then inside
+  parenthesis, we place the expression whose value will be converted. Note how
+  much the syntax looks like a function call to a function named
+  <code>static_cast&lt;type&gt;()</code> with the expression whose value will be
+  converted provided as an argument! Static casting a value to another type of
+  value returns a temporary object that has been direct-initialized with the
+  converted value.
+</p>
+<p>
+  Here’s how we’d use <code>static_cast</code> to solve the problem we
+  introduced in the introduction of this lesson:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-108-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-108-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-112-close">{</span>
+    <span class="token keyword keyword-int">int</span> x <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-110-close">{</span> <span class="token number">10</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-110-open">}</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-int">int</span> y <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-111-close">{</span> <span class="token number">4</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-111-open">}</span><span class="token punctuation">;</span>
+
+    <span class="token comment">// static cast x to a double so we get floating point division</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token generic-function"><span class="token function">static_cast</span><span class="token generic class-name"><span class="token operator">&lt;</span><span class="token keyword keyword-double">double</span><span class="token operator">&gt;</span></span></span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-109-close">(</span>x<span class="token punctuation brace-round brace-close brace-level-2" id="pair-109-open">)</span> <span class="token operator">/</span> y <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span> <span class="token comment">// prints 2.5</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-112-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  <code>static_cast&lt;double&gt;(x)</code> returns a temporary
+  <code>double</code> object containing the converted value <code>10.0</code>.
+  This temporary is then used as the left-operand of the floating point
+  division.
+</p>
+<div class="code-block code-block-6" style="margin: 8px 0; clear: both"></div>
+<p>There are two important properties of <code>static_cast</code>.</p>
+<p>
+  First, <code>static_cast</code> provides compile-time type checking. If we try
+  to convert a value to a type and the compiler doesn’t know how to perform that
+  conversion, we will get a compilation error.
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token comment">// a C-style string literal can't be converted to an int, so the following is an invalid conversion</span>
+<span class="token keyword keyword-int">int</span> x <span class="token punctuation brace-curly brace-open brace-level-1" id="pair-114-close">{</span> <span class="token generic-function"><span class="token function">static_cast</span><span class="token generic class-name"><span class="token operator">&lt;</span><span class="token keyword keyword-int">int</span><span class="token operator">&gt;</span></span></span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-113-close">(</span><span class="token string">"Hello"</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-113-open">)</span> <span class="token punctuation brace-curly brace-close brace-level-1" id="pair-114-open">}</span><span class="token punctuation">;</span> <span class="token comment">// invalid: will produce compilation error</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  Second, <code>static_cast</code> is (intentionally) less powerful than a
+  C-style cast, as it will prevent certain kinds of dangerous conversions (such
+  as those that require reinterpretation or discarding const).
+</p>
+<div class="cpp-note cpp-lightgreenbackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Best practice</p>
+  <p>
+    Favor <code>static_cast</code> when you need to convert a value from one
+    type to another type.
+  </p>
+</div>
+<div class="cpp-note cpp-lightgraybackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">For advanced readers</p>
+  <p>
+    Since static_cast uses direct initialization, any explicit constructors of
+    the target class type will be considered when initializing the temporary
+    object to be returned. We discuss explicit constructors in lesson
+    <a
+      href="https://www.learncpp.com/cpp-tutorial/converting-constructors-and-the-explicit-keyword/"
+      >14.16 -- Converting constructors and the explicit keyword</a
+    >.
+  </p>
+</div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Using <code>static_cast</code> to make narrowing conversions explicit
+</p>
+<p>
+  Compilers will often issue warnings when a potentially unsafe (narrowing)
+  implicit type conversion is performed. For example, consider the following
+  snippet:
+</p>
+<div class="code-block code-block-7" style="margin: 8px 0; clear: both"></div>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-int">int</span> i <span class="token punctuation brace-curly brace-open brace-level-1" id="pair-115-close">{</span> <span class="token number">48</span> <span class="token punctuation brace-curly brace-close brace-level-1" id="pair-115-open">}</span><span class="token punctuation">;</span>
+<span class="token keyword keyword-char">char</span> ch <span class="token operator">=</span> i<span class="token punctuation">;</span> <span class="token comment">// implicit narrowing conversion</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  Casting an <code>int</code> (2 or 4 bytes) to a <code>char</code> (1 byte) is
+  potentially unsafe (as the compiler can’t tell whether the integer value will
+  overflow the range of the <code>char</code> or not), and so the compiler will
+  typically print a warning. If we used list initialization, the compiler would
+  yield an error.
+</p>
+<p>
+  To get around this, we can use a static cast to explicitly convert our integer
+  to a <code>char</code>:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-int">int</span> i <span class="token punctuation brace-curly brace-open brace-level-1" id="pair-117-close">{</span> <span class="token number">48</span> <span class="token punctuation brace-curly brace-close brace-level-1" id="pair-117-open">}</span><span class="token punctuation">;</span>
+
+<span class="token comment">// explicit conversion from int to char, so that a char is assigned to variable ch</span>
+<span class="token keyword keyword-char">char</span> ch <span class="token punctuation brace-curly brace-open brace-level-1" id="pair-118-close">{</span> <span class="token generic-function"><span class="token function">static_cast</span><span class="token generic class-name"><span class="token operator">&lt;</span><span class="token keyword keyword-char">char</span><span class="token operator">&gt;</span></span></span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-116-close">(</span>i<span class="token punctuation brace-round brace-close brace-level-2" id="pair-116-open">)</span> <span class="token punctuation brace-curly brace-close brace-level-1" id="pair-118-open">}</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  When we do this, we’re explicitly telling the compiler that this conversion is
+  intended, and we accept responsibility for the consequences (e.g. overflowing
+  the range of a <code>char</code> if that happens). Since the output of this
+  static cast is of type <code>char</code>, the initialization of variable
+  <code>ch</code> doesn’t generate any type mismatches, and hence no warnings or
+  errors.
+</p>
+<p>
+  Here’s another example where the compiler will typically complain that
+  converting a <code>double</code> to an <code>int</code> may result in loss of
+  data:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-int">int</span> i <span class="token punctuation brace-curly brace-open brace-level-1" id="pair-119-close">{</span> <span class="token number">100</span> <span class="token punctuation brace-curly brace-close brace-level-1" id="pair-119-open">}</span><span class="token punctuation">;</span>
+i <span class="token operator">=</span> i <span class="token operator">/</span> <span class="token number">2.5</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>To tell the compiler that we explicitly mean to do this:</p>
+<div class="code-block code-block-8" style="margin: 8px 0; clear: both"></div>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-int">int</span> i <span class="token punctuation brace-curly brace-open brace-level-1" id="pair-121-close">{</span> <span class="token number">100</span> <span class="token punctuation brace-curly brace-close brace-level-1" id="pair-121-open">}</span><span class="token punctuation">;</span>
+i <span class="token operator">=</span> <span class="token generic-function"><span class="token function">static_cast</span><span class="token generic class-name"><span class="token operator">&lt;</span><span class="token keyword keyword-int">int</span><span class="token operator">&gt;</span></span></span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-120-close">(</span>i <span class="token operator">/</span> <span class="token number">2.5</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-120-open">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<div class="cpp-note cpp-lightgraybackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Related content</p>
+  <p>
+    We discuss more uses of static_cast in relation to class types in lesson
+    <a href="https://www.learncpp.com/cpp-tutorial/temporary-class-objects/"
+      >14.13 -- Temporary class objects</a
+    >.
+  </p>
+</div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Casting vs initializing a temporary object
+</p>
+<p>
+  Let’s say we have some variable <code>x</code> that we need to convert to an
+  <code>int</code>. There are two conventional ways we can do this:
+</p>
+<ol start="1">
+  <li>
+    <code>static_cast&lt;int&gt;(x)</code>, which returns a temporary
+    <code>int</code> object <em>direct-initialized</em> with <code>x</code>.
+  </li>
+  <li>
+    <code>int { x }</code>, which creates a temporary <code>int</code> object
+    <em>direct-list-initialized</em> with <code>x</code>.
+  </li>
+</ol>
+<p>
+  We should avoid <code>int ( x )</code>, which is a C-style cast. This will
+  return a temporary <code>int</code> direct-initialized with the value of
+  <code>x</code> (like we’d expect from the syntax), but it also has the other
+  downsides mentioned in the C-style cast section (like allowing the possibility
+  of performing a dangerous conversion).
+</p>
+<p>
+  There are (at least) three notable differences between the
+  <code>static_cast</code> and the direct-list-initialized temporary:
+</p>
+<ol start="1">
+  <li>
+    <code>int { x }</code> uses list initialization, which disallows narrowing
+    conversions. This is great when initializing a variable, because we rarely
+    intend to lose data in such cases. But when using a cast, it is presumed we
+    know what we’re doing, and if we want to do a cast that might lose some
+    data, we should be able to do that. The narrowing conversion restriction can
+    be an impediment in this case.
+  </li>
+</ol>
+<p>
+  Let’s show an example of this, including how it can lead to platform-specific
+  issues:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-122-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-122-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-126-close">{</span>
+    <span class="token keyword keyword-int">int</span> x <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-123-close">{</span> <span class="token number">10</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-123-open">}</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-int">int</span> y <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-124-close">{</span> <span class="token number">4</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-124-open">}</span><span class="token punctuation">;</span>
+
+    <span class="token comment">// We want to do floating point division, so one of the operands needs to be a floating point type</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token keyword keyword-double">double</span><span class="token punctuation brace-curly brace-open brace-level-2" id="pair-125-close">{</span>x<span class="token punctuation brace-curly brace-close brace-level-2" id="pair-125-open">}</span> <span class="token operator">/</span> y <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span> <span class="token comment">// okay if int is 32-bit, narrowing if x is 64-bit</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-126-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  In this example, we have decided to convert <code>x</code> to a
+  <code>double</code> so we can do floating-point division rather than integer
+  division. On a 32-bit architecture, this will work fine (because a
+  <code>double</code> can represent all the values that can be stored in a
+  32-bit <code>int</code>, so it isn’t a narrowing conversion). But on a 64-bit
+  architecture, this is not the case, so converting a 64-bit <code>int</code> to
+  a <code>double</code> is a narrowing conversion. And since list initialization
+  disallows narrowing conversions, this won’t compile on architectures where
+  <code>int</code> is 64-bits.
+</p>
+<ol start="2">
+  <li>
+    <code>static_cast</code> makes it clearer that we are intending to perform a
+    conversion. Although the <code>static_cast</code> is more verbose than the
+    direct-list-initialized alternative, in this case, that’s a good thing, as
+    it makes the conversion easier to spot and search for. That ultimately makes
+    your code safer and easier to understand.
+  </li>
+  <li>
+    Direct-list-initializion of a temporary only allows single-word type names.
+    Due to a weird syntax quirk, there are several places within C++ where only
+    single-word type names are allowed (the C++ standard calls these names
+    “simple type specifiers”). So while <code>int { x }</code> is a valid
+    conversion syntax, <code>unsigned int { x }</code> is not.
+  </li>
+</ol>
+<p>
+  You can see this for yourself in the following example, which produces a
+  compile error:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-127-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-127-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-130-close">{</span>
+    <span class="token keyword keyword-unsigned">unsigned</span> <span class="token keyword keyword-char">char</span> c <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-128-close">{</span> <span class="token string">'a'</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-128-open">}</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token keyword keyword-unsigned">unsigned</span> <span class="token keyword keyword-int">int</span> <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-129-close">{</span> c <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-129-open">}</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-130-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  There are simple ways to work around this, the easiest of which is to use a
+  single-word type alias:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-131-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-131-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-134-close">{</span>
+    <span class="token keyword keyword-unsigned">unsigned</span> <span class="token keyword keyword-char">char</span> c <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-132-close">{</span> <span class="token string">'a'</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-132-open">}</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-using">using</span> uint <span class="token operator">=</span> <span class="token keyword keyword-unsigned">unsigned</span> <span class="token keyword keyword-int">int</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> uint <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-133-close">{</span> c <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-133-open">}</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-134-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>But why go to the trouble when you can just <code>static_cast</code>?</p>
+<p>
+  For all these reasons, we generally prefer <code>static_cast</code> over
+  direct-list-initialization of a temporary.
+</p>
+<div class="cpp-note cpp-lightgreenbackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Best practice</p>
+  <p>
+    Prefer <code>static_cast</code> over initializing a temporary object when a
+    conversion is desired.
+  </p>
+</div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Quiz time
+</p>
+<p class="cpp-quiz-question" style="clear: both">Question #1</p>
+<p>What’s the difference between implicit and explicit type conversion?</p>
+<p>
+  <a
+    class="solution_link_show"
+    href="javascript:void(0)"
+    onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_0'),this,'Show Solution','Hide Solution')"
+    >Show Solution</a
+  >
+</p>
+<div class="wpsolution" id="cpp_solution_id_0" style="display: none">
+  <p>
+    Implicit type conversion is automatically performed whenever one data type
+    is expected, but a different data type is supplied.<br />Explicit type
+    conversion happens when the programmer uses a type cast to explicitly
+    convert a value from one type to another type.
+  </p>
+</div>
+<div class="prevnext">
+  <div class="prevnext-inline">
+    <a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/typedefs-and-type-aliases/"
+      ><div class="nav-button nav-button-next">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-right" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Next lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">10.7</span>Typedefs and type
+            aliases
+          </div>
+        </div>
+      </div></a
+    ><a class="nav-link" href="/"
+      ><div class="nav-button nav-button-index">
+        <div class="nav-button-icon">
+          <i class="fa fa-home" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Back to table of contents</div>
+        </div>
+      </div></a
+    ><a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/arithmetic-conversions/"
+      ><div class="nav-button nav-button-prev">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-left" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Previous lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">10.5</span>Arithmetic
+            conversions
+          </div>
+        </div>
+      </div></a
+    >
+  </div>
+</div>
+<div class="code-block code-block-10" style="margin: 8px 0; clear: both"></div>

@@ -1,0 +1,1086 @@
+<div
+  class="code-block code-block-1"
+  style="margin: 8px 8px 8px 0; float: left"
+></div>
+<p>Take a look at this seemingly innocent sample program:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-154-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-154-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-157-close">{</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"The sum of 3 and 4 is: "</span> <span class="token operator">&lt;&lt;</span> <span class="token function">add</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-155-close">(</span><span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-155-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-157-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">add</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-156-close">(</span><span class="token keyword keyword-int">int</span> x<span class="token punctuation">,</span> <span class="token keyword keyword-int">int</span> y<span class="token punctuation brace-round brace-close brace-level-1" id="pair-156-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-158-close">{</span>
+    <span class="token keyword keyword-return">return</span> x <span class="token operator">+</span> y<span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-158-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>You would expect this program to produce the result:</p>
+<pre>
+The sum of 3 and 4 is: 7
+</pre>
+<p>
+  But in fact, it doesn’t compile at all! Visual Studio produces the following
+  compile error:
+</p>
+<pre>
+add.cpp(5) : error C3861: 'add': identifier not found
+</pre>
+<p>
+  The reason this program doesn’t compile is because the compiler compiles the
+  contents of code files sequentially. When the compiler reaches the function
+  call <em>add()</em> on line 5 of <em>main</em>, it doesn’t know what
+  <em>add</em> is, because we haven’t defined <em>add</em> until line 9! That
+  produces the error, <em>identifier not found</em>.
+</p>
+<p>Older versions of Visual Studio would produce an additional error:</p>
+<div class="code-block code-block-2" style="margin: 8px 0; clear: both"></div>
+<pre>
+add.cpp(9) : error C2365: 'add'; : redefinition; previous definition was 'formerly unknown identifier'
+</pre>
+<p>
+  This is somewhat misleading, given that <em>add</em> wasn’t ever defined in
+  the first place. Despite this, it’s useful to generally note that it is fairly
+  common for a single error to produce many redundant or related errors or
+  warnings. It can sometimes be hard to tell whether any error or warning beyond
+  the first is a consequence of the first issue, or whether it is an independent
+  issue that needs to be resolved separately.
+</p>
+<div class="cpp-note cpp-lightgreenbackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Best practice</p>
+  <p>
+    When addressing compilation errors or warnings in your programs, resolve the
+    first issue listed and then compile again.
+  </p>
+</div>
+<p>
+  To fix this problem, we need to address the fact that the compiler doesn’t
+  know what add is. There are two common ways to address the issue.
+</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Option 1: Reorder the function definitions
+</p>
+<p>
+  One way to address the issue is to reorder the function definitions so
+  <em>add</em> is defined before <em>main</em>:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">add</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-159-close">(</span><span class="token keyword keyword-int">int</span> x<span class="token punctuation">,</span> <span class="token keyword keyword-int">int</span> y<span class="token punctuation brace-round brace-close brace-level-1" id="pair-159-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-162-close">{</span>
+    <span class="token keyword keyword-return">return</span> x <span class="token operator">+</span> y<span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-162-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-160-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-160-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-163-close">{</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"The sum of 3 and 4 is: "</span> <span class="token operator">&lt;&lt;</span> <span class="token function">add</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-161-close">(</span><span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-161-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-163-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  That way, by the time <em>main</em> calls <em>add</em>, the compiler will
+  already know what <em>add</em> is. Because this is such a simple program, this
+  change is relatively easy to do. However, in a larger program, it can be
+  tedious trying to figure out which functions call which other functions (and
+  in what order) so they can be declared sequentially.
+</p>
+<div class="code-block code-block-3" style="margin: 8px 0; clear: both"></div>
+<p>
+  Furthermore, this option is not always possible. Let’s say we’re writing a
+  program that has two functions <em>A</em> and <em>B</em>. If function
+  <em>A</em> calls function <em>B</em>, and function <em>B</em> calls function
+  <em>A</em>, then there’s no way to order the functions in a way that will make
+  the compiler happy. If you define <em>A</em> first, the compiler will complain
+  it doesn’t know what <em>B</em> is. If you define <em>B</em> first, the
+  compiler will complain that it doesn’t know what <em>A</em> is.
+</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Option 2: Use a forward declaration
+</p>
+<p>We can also fix this by using a forward declaration.</p>
+<p>
+  A <strong>forward declaration</strong> allows us to tell the compiler about
+  the existence of an identifier <em>before</em> actually defining the
+  identifier.
+</p>
+<p>
+  In the case of functions, this allows us to tell the compiler about the
+  existence of a function before we define the function’s body. This way, when
+  the compiler encounters a call to the function, it’ll understand that we’re
+  making a function call, and can check to ensure we’re calling the function
+  correctly, even if it doesn’t yet know how or where the function is defined.
+</p>
+<div class="code-block code-block-4" style="margin: 8px 0; clear: both"></div>
+<p>
+  To write a forward declaration for a function, we use a
+  <strong>function declaration</strong> statement (also called a
+  <strong>function prototype</strong>). The function declaration consists of the
+  function’s return type, name, and parameter types, terminated with a
+  semicolon. The names of the parameters can be optionally included. The
+  function body is not included in the declaration.
+</p>
+<p>Here’s a function declaration for the <em>add</em> function:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-int">int</span> <span class="token function">add</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-164-close">(</span><span class="token keyword keyword-int">int</span> x<span class="token punctuation">,</span> <span class="token keyword keyword-int">int</span> y<span class="token punctuation brace-round brace-close brace-level-1" id="pair-164-open">)</span><span class="token punctuation">;</span> <span class="token comment">// function declaration includes return type, name, parameters, and semicolon.  No function body!</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  Now, here’s our original program that didn’t compile, using a function
+  declaration as a forward declaration for function <em>add</em>:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">add</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-165-close">(</span><span class="token keyword keyword-int">int</span> x<span class="token punctuation">,</span> <span class="token keyword keyword-int">int</span> y<span class="token punctuation brace-round brace-close brace-level-1" id="pair-165-open">)</span><span class="token punctuation">;</span> <span class="token comment">// forward declaration of add() (using a function declaration)</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-166-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-166-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-169-close">{</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"The sum of 3 and 4 is: "</span> <span class="token operator">&lt;&lt;</span> <span class="token function">add</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-167-close">(</span><span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-167-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span> <span class="token comment">// this works because we forward declared add() above</span>
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-169-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">add</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-168-close">(</span><span class="token keyword keyword-int">int</span> x<span class="token punctuation">,</span> <span class="token keyword keyword-int">int</span> y<span class="token punctuation brace-round brace-close brace-level-1" id="pair-168-open">)</span> <span class="token comment">// even though the body of add() isn't defined until here</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-170-close">{</span>
+    <span class="token keyword keyword-return">return</span> x <span class="token operator">+</span> y<span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-170-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  Now when the compiler reaches the call to <em>add</em> in main, it will know
+  what <em>add</em> looks like (a function that takes two integer parameters and
+  returns an integer), and it won’t complain.
+</p>
+<p>
+  It is worth noting that function declarations do not need to specify the names
+  of the parameters (as they are not considered to be part of the function
+  declaration). In the above code, you can also forward declare your function
+  like this:
+</p>
+<div class="code-block code-block-5" style="margin: 8px 0; clear: both"></div>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-int">int</span> <span class="token function">add</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-171-close">(</span><span class="token keyword keyword-int">int</span><span class="token punctuation">,</span> <span class="token keyword keyword-int">int</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-171-open">)</span><span class="token punctuation">;</span> <span class="token comment">// valid function declaration</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  However, we prefer to name our parameters (using the same names as the actual
+  function). This allows you to understand what the function parameters are just
+  by looking at the declaration. For example, if you were to see the declaration
+  <code>void doSomething(int, int, int)</code>, you may think you remember what
+  each of the parameters represent, but you may also get it wrong.
+</p>
+<p>
+  Also many automated documentation generation tools will generate documentation
+  from the content of header files, which is where declarations are often
+  placed. We discuss header files and declarations in lesson
+  <a href="https://www.learncpp.com/cpp-tutorial/header-files/"
+    >2.11 -- Header files</a
+  >.
+</p>
+<div class="cpp-note cpp-lightgreenbackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Best practice</p>
+  <p>Keep the parameter names in your function declarations.</p>
+</div>
+<div class="cpp-note cpp-lightbluebackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Tip</p>
+  <p>
+    You can easily create function declarations by copy/pasting your function’s
+    header and adding a semicolon.
+  </p>
+</div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Why forward declarations?
+</p>
+<p>
+  You may be wondering why we would use a forward declaration if we could just
+  reorder the functions to make our programs work.
+</p>
+<p>
+  Most often, forward declarations are used to tell the compiler about the
+  existence of some function that has been defined in a different code file.
+  Reordering isn’t possible in this scenario because the caller and the callee
+  are in completely different files! We’ll discuss this in more detail in the
+  next lesson (<a
+    href="https://www.learncpp.com/cpp-tutorial/programs-with-multiple-code-files/"
+    >2.8 -- Programs with multiple code files</a
+  >).
+</p>
+<p>
+  Forward declarations can also be used to define our functions in an
+  order-agnostic manner. This allows us to define functions in whatever order
+  maximizes organization (e.g. by clustering related functions together) or
+  reader understanding.
+</p>
+<div class="code-block code-block-6" style="margin: 8px 0; clear: both"></div>
+<p>
+  Less often, there are times when we have two functions that call each other.
+  Reordering isn’t possible in this case either, as there is no way to reorder
+  the functions such that each is before the other. Forward declarations give us
+  a way to resolve such circular dependencies.
+</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Forgetting the function body
+</p>
+<p>
+  New programmers often wonder what happens if they forward declare a function
+  but do not define it.
+</p>
+<p>
+  The answer is: it depends. If a forward declaration is made, but the function
+  is never called, the program will compile and run fine. However, if a forward
+  declaration is made and the function is called, but the program never defines
+  the function, the program will compile okay, but the linker will complain that
+  it can’t resolve the function call.
+</p>
+<p>Consider the following program:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">add</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-172-close">(</span><span class="token keyword keyword-int">int</span> x<span class="token punctuation">,</span> <span class="token keyword keyword-int">int</span> y<span class="token punctuation brace-round brace-close brace-level-1" id="pair-172-open">)</span><span class="token punctuation">;</span> <span class="token comment">// forward declaration of add()</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-173-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-173-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-175-close">{</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"The sum of 3 and 4 is: "</span> <span class="token operator">&lt;&lt;</span> <span class="token function">add</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-174-close">(</span><span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-174-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-175-open">}</span>
+
+<span class="token comment">// note: No definition for function add</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  In this program, we forward declare <em>add</em>, and we call <em>add</em>,
+  but we never define <em>add</em> anywhere. When we try and compile this
+  program, Visual Studio produces the following message:
+</p>
+<pre>
+Compiling...
+add.cpp
+Linking...
+add.obj : error LNK2001: unresolved external symbol "int __cdecl add(int,int)" (?add@@YAHHH@Z)
+add.exe : fatal error LNK1120: 1 unresolved externals
+</pre>
+<p>
+  As you can see, the program compiled okay, but it failed at the link stage
+  because <em>int add(int, int)</em> was never defined.
+</p>
+<div class="code-block code-block-7" style="margin: 8px 0; clear: both"></div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Other types of forward declarations
+</p>
+<p>
+  Forward declarations are most often used with functions. However, forward
+  declarations can also be used with other identifiers in C++, such as variables
+  and types. Variables and types have a different syntax for forward
+  declaration, so we’ll cover these in future lessons.
+</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Declarations vs. definitions
+</p>
+<p>
+  In C++, you’ll frequently hear the words “declaration” and “definition” used,
+  and often interchangeably. What do they mean? You now have enough fundamental
+  knowledge to understand the difference between the two.
+</p>
+<p>
+  A <strong>declaration</strong> tells the <em>compiler</em> about the
+  <em>existence</em> of an identifier and its associated type information. Here
+  are some examples of declarations:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-int">int</span> <span class="token function">add</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-176-close">(</span><span class="token keyword keyword-int">int</span> x<span class="token punctuation">,</span> <span class="token keyword keyword-int">int</span> y<span class="token punctuation brace-round brace-close brace-level-1" id="pair-176-open">)</span><span class="token punctuation">;</span> <span class="token comment">// tells the compiler about a function named "add" that takes two int parameters and returns an int.  No body!</span>
+<span class="token keyword keyword-int">int</span> x<span class="token punctuation">;</span>                 <span class="token comment">// tells the compiler about an integer variable named x</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 32px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  A <strong>definition</strong> is a declaration that actually implements (for
+  functions and types) or instantiates (for variables) the identifier.
+</p>
+<div class="code-block code-block-8" style="margin: 8px 0; clear: both"></div>
+<p>Here are some examples of definitions:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token comment">// because this function has a body, it is an implementation of function add()</span>
+<span class="token keyword keyword-int">int</span> <span class="token function">add</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-177-close">(</span><span class="token keyword keyword-int">int</span> x<span class="token punctuation">,</span> <span class="token keyword keyword-int">int</span> y<span class="token punctuation brace-round brace-close brace-level-1" id="pair-177-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-179-close">{</span>
+    <span class="token keyword keyword-int">int</span> z<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-178-close">{</span> x <span class="token operator">+</span> y <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-178-open">}</span><span class="token punctuation">;</span>   <span class="token comment">// instantiates variable z</span>
+
+    <span class="token keyword keyword-return">return</span> z<span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-179-open">}</span>
+
+<span class="token keyword keyword-int">int</span> x<span class="token punctuation">;</span>                <span class="token comment">// instantiates variable x</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  In C++, all definitions are declarations. Therefore <code>int x;</code> is
+  both a definition and a declaration.
+</p>
+<p>
+  Conversely, not all declarations are definitions. Declarations that aren’t
+  definitions are called <strong>pure declarations</strong>. Types of pure
+  declarations include forward declarations for function, variables, and types.
+</p>
+<div class="cpp-note cpp-lightgraybackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Nomenclature</p>
+  <p>
+    In common language, the term “declaration” is typically used to mean “a pure
+    declaration”, and “definition” is used to mean “a definition that also
+    serves as a declaration”. Thus, we’d typically call <code>int x;</code> a
+    definition, even though it is both a definition and a declaration.
+  </p>
+</div>
+<p>
+  When the compiler encounters an identifier, it will check to ensure use of
+  that identifier is valid (e.g. that the identifier is in scope, that it is
+  used in a syntactically valid manner, etc…).
+</p>
+<p>
+  In most cases, a declaration is sufficient to allow the compiler to ensure an
+  identifier is being used properly. For example, when the compiler encounters
+  function call <code>add(5, 6)</code>, if it has already seen the declaration
+  for <code>add(int, int)</code>, then it can validate that <code>add</code> is
+  actually a function that takes two <code>int</code> parameters. It does not
+  need to have actually seen the definition for function <code>add</code> (which
+  may exist in some other file).
+</p>
+<p>
+  However, there are a few cases where the compiler must be able to see a full
+  definition in order to use an identifier (such as for template definitions and
+  type definitions, both of which we will discuss in future lessons).
+</p>
+<p>Here’s a summary table:</p>
+<div class="cpp-table-wrapper" data-ezoic-video-excluded="1">
+  <table class="cpp-table" data-ezoic-video-excluded="1">
+    <tbody>
+      <tr>
+        <th>Term</th>
+        <th>Technical Meaning</th>
+        <th>Examples</th>
+      </tr>
+      <tr>
+        <td>Declaration</td>
+        <td>
+          Tells compiler about an identifier and its associated type
+          information.
+        </td>
+        <td>
+          void foo(); // function forward declaration (no body)<br />void goo()
+          {}; // function definition (has body)<br />int x; // variable
+          definition
+        </td>
+      </tr>
+      <tr>
+        <td>Definition</td>
+        <td>
+          Implements a function or instantiates a variable.<br />Definitions are
+          also declarations.
+        </td>
+        <td>
+          void foo() { } // function definition (has body)<br />int x; //
+          variable definition
+        </td>
+      </tr>
+      <tr>
+        <td>Pure declaration</td>
+        <td>A declaration that isn’t a definition.</td>
+        <td>void foo(); // function forward declaration (no body)</td>
+      </tr>
+      <tr>
+        <td>Initialization</td>
+        <td>Provides an initial value for a defined object.</td>
+        <td>int x { 2 }; // x is initialized to value 2</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<p>
+  The term “declaration” is commonly used to mean “pure declaration”, and the
+  term “definition” used for anything that is both a definition and a
+  declaration. We use this common nomenclature in the example column comments.
+</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  <a name="ODR"></a>The one definition rule (ODR)
+  <a href="#ODR"><i class="fa fa-link" style="font-size: 0.8em"></i></a>
+</p>
+<p>
+  The <strong>one definition rule</strong> (or ODR for short) is a well-known
+  rule in C++. The ODR has three parts:
+</p>
+<ol start="1">
+  <li>
+    Within a <em>file</em>, each function, variable, type, or template in a
+    given scope can only have one definition. Definitions occurring in different
+    scopes (e.g. local variables defined inside different functions, or
+    functions defined inside different namespaces) do not violate this rule.
+  </li>
+  <li>
+    Within a <em>program</em>, each function or variable in a given scope can
+    only have one definition. This rule exists because programs can have more
+    than one file (we’ll cover this in the next lesson). Functions and variables
+    not visible to the linker are excluded from this rule (discussed further in
+    lesson
+    <a href="https://www.learncpp.com/cpp-tutorial/internal-linkage/"
+      >7.6 -- Internal linkage</a
+    >).
+  </li>
+  <li>
+    Types, templates, inline functions, and inline variables are allowed to have
+    duplicate definitions in different files, so long as each definition is
+    identical. We haven’t covered what most of these things are yet, so don’t
+    worry about this for now -- we’ll bring it back up when it’s relevant.
+  </li>
+</ol>
+<div class="cpp-note cpp-lightgraybackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Related content</p>
+  <p>We discuss ODR part 3 exemptions further in the following lessons:</p>
+  <ul>
+    <li>
+      Types (<a
+        href="https://www.learncpp.com/cpp-tutorial/introduction-to-program-defined-user-defined-types/"
+        >13.1 -- Introduction to program-defined (user-defined) types</a
+      >).
+    </li>
+    <li>
+      Function templates (<a
+        href="https://www.learncpp.com/cpp-tutorial/function-templates/"
+        >11.6 -- Function templates</a
+      >
+      and
+      <a
+        href="https://www.learncpp.com/cpp-tutorial/function-template-instantiation/"
+        >11.7 -- Function template instantiation</a
+      >).
+    </li>
+    <li>
+      Inline functions and variables (<a
+        href="https://www.learncpp.com/cpp-tutorial/inline-functions-and-variables/"
+        >7.9 -- Inline functions and variables</a
+      >).
+    </li>
+  </ul>
+</div>
+<p>
+  Violating part 1 of the ODR will cause the compiler to issue a redefinition
+  error. Violating ODR part 2 will cause the linker to issue a redefinition
+  error. Violating ODR part 3 will cause undefined behavior.
+</p>
+<p>Here’s an example of a violation of part 1:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-int">int</span> <span class="token function">add</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-180-close">(</span><span class="token keyword keyword-int">int</span> x<span class="token punctuation">,</span> <span class="token keyword keyword-int">int</span> y<span class="token punctuation brace-round brace-close brace-level-1" id="pair-180-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-183-close">{</span>
+     <span class="token keyword keyword-return">return</span> x <span class="token operator">+</span> y<span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-183-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">add</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-181-close">(</span><span class="token keyword keyword-int">int</span> x<span class="token punctuation">,</span> <span class="token keyword keyword-int">int</span> y<span class="token punctuation brace-round brace-close brace-level-1" id="pair-181-open">)</span> <span class="token comment">// violation of ODR, we've already defined function add(int, int)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-184-close">{</span>
+     <span class="token keyword keyword-return">return</span> x <span class="token operator">+</span> y<span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-184-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-182-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-182-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-187-close">{</span>
+    <span class="token keyword keyword-int">int</span> x<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-185-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-185-open">}</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-int">int</span> x<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-186-close">{</span> <span class="token number">5</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-186-open">}</span><span class="token punctuation">;</span> <span class="token comment">// violation of ODR, we've already defined x</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-187-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  In this example, function <code>add(int, int)</code> is defined twice (in the
+  global scope), and local variable <code>int x</code> is defined twice (in the
+  scope of <code>main()</code>). The Visual Studio compiler thus issues the
+  following compile errors:
+</p>
+<pre>
+project3.cpp(9): error C2084: function 'int add(int,int)' already has a body
+project3.cpp(3): note: see previous definition of 'add'
+project3.cpp(16): error C2086: 'int x': redefinition
+project3.cpp(15): note: see declaration of 'x'
+</pre>
+<p>
+  However, it is not a violation of ODR part 1 for <code>main()</code> to have a
+  local variable defined as <code>int x</code> and <code>add()</code> to also
+  have a function parameter defined as <code>int x</code>. These definitions
+  occur in different scopes (in the scope of each respective function), so they
+  are considered to be separate definitions for two distinct objects, not a
+  definition and redefinition of the same object.
+</p>
+<div class="cpp-note cpp-lightgraybackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">For advanced readers</p>
+  <p>
+    Functions that share an identifier but have different sets of parameters are
+    also considered to be distinct functions, so such definitions do not violate
+    the ODR. We discuss this further in lesson
+    <a
+      href="https://www.learncpp.com/cpp-tutorial/introduction-to-function-overloading/"
+      >11.1 -- Introduction to function overloading</a
+    >.
+  </p>
+</div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Quiz time
+</p>
+<p class="cpp-quiz-question" style="clear: both">Question #1</p>
+<p>What is a function prototype?</p>
+<p>
+  <a
+    class="solution_link_show"
+    href="javascript:void(0)"
+    onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_0'),this,'Show Solution','Hide Solution')"
+    >Show Solution</a
+  >
+</p>
+<div class="wpsolution" id="cpp_solution_id_0" style="display: none">
+  <p>
+    A function prototype is a declaration statement that includes a function’s
+    name, return type, parameter types, and optionally the parameter names. It
+    does not include the function body. It tells the compiler about the
+    existence of a function before it is defined.
+  </p>
+</div>
+<p class="cpp-quiz-question cpp-topline" style="clear: both">Question #2</p>
+<p>What is a forward declaration?</p>
+<p>
+  <a
+    class="solution_link_show"
+    href="javascript:void(0)"
+    onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_1'),this,'Show Solution','Hide Solution')"
+    >Show Solution</a
+  >
+</p>
+<div class="wpsolution" id="cpp_solution_id_1" style="display: none">
+  <p>
+    A forward declaration tells the compiler that an identifier exists before it
+    is actually defined.
+  </p>
+</div>
+<p class="cpp-quiz-question cpp-topline" style="clear: both">Question #3</p>
+<p>How do we declare a forward declaration for functions?</p>
+<p>
+  <a
+    class="solution_link_show"
+    href="javascript:void(0)"
+    onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_2'),this,'Show Solution','Hide Solution')"
+    >Show Solution</a
+  >
+</p>
+<div class="wpsolution" id="cpp_solution_id_2" style="display: none">
+  <p>
+    For functions, a function declaration/prototype serves as a forward
+    declaration.
+  </p>
+</div>
+<p class="cpp-quiz-question cpp-topline" style="clear: both">Question #4</p>
+<p>
+  Write the function declaration for this function (use the preferred form with
+  names):
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-int">int</span> <span class="token function">doMath</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-188-close">(</span><span class="token keyword keyword-int">int</span> first<span class="token punctuation">,</span> <span class="token keyword keyword-int">int</span> second<span class="token punctuation">,</span> <span class="token keyword keyword-int">int</span> third<span class="token punctuation">,</span> <span class="token keyword keyword-int">int</span> fourth<span class="token punctuation brace-round brace-close brace-level-1" id="pair-188-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-189-close">{</span>
+     <span class="token keyword keyword-return">return</span> first <span class="token operator">+</span> second <span class="token operator">*</span> third <span class="token operator">/</span> fourth<span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-189-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  <a
+    class="solution_link_show"
+    href="javascript:void(0)"
+    onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_3'),this,'Show Solution','Hide Solution')"
+    >Show Solution</a
+  >
+</p>
+<div class="wpsolution" id="cpp_solution_id_3" style="display: none">
+  <div class="code-toolbar">
+    <pre
+      class="line-numbers language-cpp"
+      tabindex="0"
+    ><code class="match-braces language-cpp"><span class="token comment">// Do not forget the semicolon at the end, since these are statements.</span>
+<span class="token keyword keyword-int">int</span> <span class="token function">doMath</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-190-close">(</span><span class="token keyword keyword-int">int</span> first<span class="token punctuation">,</span> <span class="token keyword keyword-int">int</span> second<span class="token punctuation">,</span> <span class="token keyword keyword-int">int</span> third<span class="token punctuation">,</span> <span class="token keyword keyword-int">int</span> fourth<span class="token punctuation brace-round brace-close brace-level-1" id="pair-190-open">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 0px;"></span><span style="height: 0px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+    <div class="toolbar">
+      <div class="toolbar-item">
+        <button
+          class="copy-to-clipboard-button"
+          type="button"
+          data-copy-state="copy"
+        >
+          <span>Copy</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<p class="cpp-quiz-question cpp-topline" style="clear: both">Question #5</p>
+<p>
+  For each of the following programs, state whether they fail to compile, fail
+  to link, or compile and link successfully. If you are not sure, try compiling
+  them!
+</p>
+<p>a)</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+<span class="token keyword keyword-int">int</span> <span class="token function">add</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-191-close">(</span><span class="token keyword keyword-int">int</span> x<span class="token punctuation">,</span> <span class="token keyword keyword-int">int</span> y<span class="token punctuation brace-round brace-close brace-level-1" id="pair-191-open">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-192-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-192-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-195-close">{</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"3 + 4 + 5 = "</span> <span class="token operator">&lt;&lt;</span> <span class="token function">add</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-193-close">(</span><span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-193-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-195-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">add</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-194-close">(</span><span class="token keyword keyword-int">int</span> x<span class="token punctuation">,</span> <span class="token keyword keyword-int">int</span> y<span class="token punctuation brace-round brace-close brace-level-1" id="pair-194-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-196-close">{</span>
+    <span class="token keyword keyword-return">return</span> x <span class="token operator">+</span> y<span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-196-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  <a
+    class="solution_link_show"
+    href="javascript:void(0)"
+    onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_4'),this,'Show Solution','Hide Solution')"
+    >Show Solution</a
+  >
+</p>
+<div class="wpsolution" id="cpp_solution_id_4" style="display: none">
+  Doesn’t compile. The compiler will complain that it can’t find a matching
+  <code>add()</code> function that takes 3 arguments. The forward declaration of
+  <code>add()</code> only has two parameters.
+</div>
+<p>b)</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+<span class="token keyword keyword-int">int</span> <span class="token function">add</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-197-close">(</span><span class="token keyword keyword-int">int</span> x<span class="token punctuation">,</span> <span class="token keyword keyword-int">int</span> y<span class="token punctuation brace-round brace-close brace-level-1" id="pair-197-open">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-198-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-198-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-201-close">{</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"3 + 4 + 5 = "</span> <span class="token operator">&lt;&lt;</span> <span class="token function">add</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-199-close">(</span><span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-199-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-201-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">add</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-200-close">(</span><span class="token keyword keyword-int">int</span> x<span class="token punctuation">,</span> <span class="token keyword keyword-int">int</span> y<span class="token punctuation">,</span> <span class="token keyword keyword-int">int</span> z<span class="token punctuation brace-round brace-close brace-level-1" id="pair-200-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-202-close">{</span>
+    <span class="token keyword keyword-return">return</span> x <span class="token operator">+</span> y <span class="token operator">+</span> z<span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-202-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  <a
+    class="solution_link_show"
+    href="javascript:void(0)"
+    onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_5'),this,'Show Solution','Hide Solution')"
+    >Show Solution</a
+  >
+</p>
+<div class="wpsolution" id="cpp_solution_id_5" style="display: none">
+  Doesn’t compile. The compiler will complain that it can’t find a matching
+  <code>add()</code> function that takes 3 arguments. The forward declaration of
+  <code>add()</code> only has two parameters, and the definition of function
+  <code>add()</code> that has 3 parameters hasn’t been seen yet.
+</div>
+<p>c)</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+<span class="token keyword keyword-int">int</span> <span class="token function">add</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-203-close">(</span><span class="token keyword keyword-int">int</span> x<span class="token punctuation">,</span> <span class="token keyword keyword-int">int</span> y<span class="token punctuation brace-round brace-close brace-level-1" id="pair-203-open">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-204-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-204-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-207-close">{</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"3 + 4 = "</span> <span class="token operator">&lt;&lt;</span> <span class="token function">add</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-205-close">(</span><span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-205-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-207-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">add</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-206-close">(</span><span class="token keyword keyword-int">int</span> x<span class="token punctuation">,</span> <span class="token keyword keyword-int">int</span> y<span class="token punctuation">,</span> <span class="token keyword keyword-int">int</span> z<span class="token punctuation brace-round brace-close brace-level-1" id="pair-206-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-208-close">{</span>
+    <span class="token keyword keyword-return">return</span> x <span class="token operator">+</span> y <span class="token operator">+</span> z<span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-208-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  <a
+    class="solution_link_show"
+    href="javascript:void(0)"
+    onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_6'),this,'Show Solution','Hide Solution')"
+    >Show Solution</a
+  >
+</p>
+<div class="wpsolution" id="cpp_solution_id_6" style="display: none">
+  Doesn’t link. The compiler will match the forward declaration of add to the
+  function call to add() in main(). However, no add() function that takes two
+  parameters was ever implemented (we only implemented one that took 3
+  parameters), so the linker will complain.
+</div>
+<p>d)</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+<span class="token keyword keyword-int">int</span> <span class="token function">add</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-209-close">(</span><span class="token keyword keyword-int">int</span> x<span class="token punctuation">,</span> <span class="token keyword keyword-int">int</span> y<span class="token punctuation">,</span> <span class="token keyword keyword-int">int</span> z<span class="token punctuation brace-round brace-close brace-level-1" id="pair-209-open">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-210-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-210-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-213-close">{</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"3 + 4 + 5 = "</span> <span class="token operator">&lt;&lt;</span> <span class="token function">add</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-211-close">(</span><span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-211-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-213-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">add</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-212-close">(</span><span class="token keyword keyword-int">int</span> z<span class="token punctuation">,</span> <span class="token keyword keyword-int">int</span> y<span class="token punctuation">,</span> <span class="token keyword keyword-int">int</span> x<span class="token punctuation brace-round brace-close brace-level-1" id="pair-212-open">)</span> <span class="token comment">// names don't match the declaration</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-214-close">{</span>
+    <span class="token keyword keyword-return">return</span> x <span class="token operator">+</span> y <span class="token operator">+</span> z<span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-214-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  <a
+    class="solution_link_show"
+    href="javascript:void(0)"
+    onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_7'),this,'Show Solution','Hide Solution')"
+    >Show Solution</a
+  >
+</p>
+<div class="wpsolution" id="cpp_solution_id_7" style="display: none">
+  Compiles and links. The types in the function call to add() matches the
+  forward declaration, and the definition of add() also matches. The fact that
+  the names don’t match the declaration doesn’t matter, as the names in a
+  declaration are optional (and if provided, ignored by the compiler).
+</div>
+<p>e)</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+<span class="token keyword keyword-int">int</span> <span class="token function">add</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-215-close">(</span><span class="token keyword keyword-int">int</span><span class="token punctuation">,</span> <span class="token keyword keyword-int">int</span><span class="token punctuation">,</span> <span class="token keyword keyword-int">int</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-215-open">)</span><span class="token punctuation">;</span> <span class="token comment">// no parameter names</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-216-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-216-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-219-close">{</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"3 + 4 + 5 = "</span> <span class="token operator">&lt;&lt;</span> <span class="token function">add</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-217-close">(</span><span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-217-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-219-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">add</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-218-close">(</span><span class="token keyword keyword-int">int</span> x<span class="token punctuation">,</span> <span class="token keyword keyword-int">int</span> y<span class="token punctuation">,</span> <span class="token keyword keyword-int">int</span> z<span class="token punctuation brace-round brace-close brace-level-1" id="pair-218-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-220-close">{</span>
+    <span class="token keyword keyword-return">return</span> x <span class="token operator">+</span> y <span class="token operator">+</span> z<span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-220-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  <a
+    class="solution_link_show"
+    href="javascript:void(0)"
+    onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_8'),this,'Show Solution','Hide Solution')"
+    >Show Solution</a
+  >
+</p>
+<div class="wpsolution" id="cpp_solution_id_8" style="display: none">
+  Compiles and links. This is the same as the prior case. Function declarations
+  do not need to specify the names of the parameters (even though we generally
+  prefer to include them).
+</div>
+<p>f)</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">add</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-221-close">(</span><span class="token keyword keyword-int">int</span> x<span class="token punctuation">,</span> <span class="token keyword keyword-int">int</span> y<span class="token punctuation brace-round brace-close brace-level-1" id="pair-221-open">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">add</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-222-close">(</span><span class="token keyword keyword-int">int</span> x<span class="token punctuation">,</span> <span class="token keyword keyword-int">int</span> y<span class="token punctuation">,</span> <span class="token keyword keyword-int">int</span> z<span class="token punctuation brace-round brace-close brace-level-1" id="pair-222-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-225-close">{</span>
+    <span class="token keyword keyword-return">return</span> x <span class="token operator">+</span> y <span class="token operator">+</span> z<span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-225-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-223-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-223-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-226-close">{</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"3 + 4 + 5 = "</span> <span class="token operator">&lt;&lt;</span> <span class="token function">add</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-224-close">(</span><span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-224-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-226-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  <a
+    class="solution_link_show"
+    href="javascript:void(0)"
+    onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_9'),this,'Show Solution','Hide Solution')"
+    >Show Solution</a
+  >
+</p>
+<div class="wpsolution" id="cpp_solution_id_9" style="display: none">
+  Compiles and links. The forward declaration of add() with two parameters is
+  not used.
+</div>
+<div class="prevnext">
+  <div class="prevnext-inline">
+    <a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/programs-with-multiple-code-files/"
+      ><div class="nav-button nav-button-next">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-right" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Next lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">2.8</span>Programs with
+            multiple code files
+          </div>
+        </div>
+      </div></a
+    ><a class="nav-link" href="/"
+      ><div class="nav-button nav-button-index">
+        <div class="nav-button-icon">
+          <i class="fa fa-home" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Back to table of contents</div>
+        </div>
+      </div></a
+    ><a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/why-functions-are-useful-and-how-to-use-them-effectively/"
+      ><div class="nav-button nav-button-prev">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-left" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Previous lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">2.6</span>Why functions are
+            useful, and how to use them effectively
+          </div>
+        </div>
+      </div></a
+    >
+  </div>
+</div>
+<div class="code-block code-block-10" style="margin: 8px 0; clear: both"></div>

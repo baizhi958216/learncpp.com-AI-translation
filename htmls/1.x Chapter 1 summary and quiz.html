@@ -1,0 +1,346 @@
+<div
+  class="code-block code-block-1"
+  style="margin: 8px 8px 8px 0; float: left"
+></div>
+<p class="cpp-section" data-ezoic-video-excluded="1">Chapter Review</p>
+<p>
+  A <strong>statement</strong> is a type of instruction that causes the program
+  to perform some action. Statements are often terminated by a semicolon.
+</p>
+<p>
+  A <strong>function</strong> is a collection of statements that execute
+  sequentially. Every C++ program must include a special function named
+  <em>main</em>. When you run your program, execution starts at the top of the
+  <em>main</em> function.
+</p>
+<p>
+  In programming, the name of a function (or object, type, template, etc…) is
+  called its <strong>identifier</strong>.
+</p>
+<p>
+  The rules that govern how elements of the C++ language are constructed is
+  called <strong>syntax</strong>. A <strong>syntax error</strong> occurs when
+  you violate the grammatical rules of the language.
+</p>
+<p>
+  <strong>Comments</strong> allow the programmer to leave notes in the code. C++
+  supports two types of comments. Line comments start with a <code>//</code> and
+  run to the end of the line. Block comments start with a <code>/*</code> and go
+  to the paired <code>*/</code> symbol. Don’t nest block comments.
+</p>
+<div class="code-block code-block-2" style="margin: 8px 0; clear: both"></div>
+<p>
+  You can use comments to temporarily disable lines or sections of code. This is
+  called commenting out your code.
+</p>
+<p>
+  <strong>Data</strong> is any information that can be moved, processed, or
+  stored by a computer. A single piece of data is called a
+  <strong>value</strong>. Common examples of values include letters (e.g.
+  <code>a</code>), numbers (e.g. <code>5</code>), and text (e.g.
+  <code>Hello</code>).
+</p>
+<p>
+  A variable is a named piece of memory that we can use to store values. In
+  order to create a variable, we use a statement called a
+  <strong>definition statement</strong>. When the program is run, each defined
+  variable is <strong>instantiated</strong>, which means it is assigned a memory
+  address.
+</p>
+<p>
+  A <strong>data type</strong> tells the compiler how to interpret a piece of
+  data into a meaningful value. An <strong>integer</strong> is a number that can
+  be written without a fractional component, such as 4, 27, 0, -2, or -12.
+</p>
+<p>
+  <strong>Copy assignment</strong> (via operator=) can be used to assign an
+  already created variable a value.
+</p>
+<div class="code-block code-block-3" style="margin: 8px 0; clear: both"></div>
+<p>
+  The process of specifying an initial value for an object is called
+  <strong>initialization</strong>, and the syntax used to initialize an object
+  is called an <strong>initializer</strong>.
+</p>
+<p>Simplified, C++ supports 6 basic types of initialization:</p>
+<div class="cpp-table-wrapper" data-ezoic-video-excluded="1">
+  <table class="cpp-table" data-ezoic-video-excluded="1">
+    <tbody>
+      <tr>
+        <th>Initialization Type</th>
+        <th>Example</th>
+        <th>Note</th>
+      </tr>
+      <tr>
+        <td>Default-initialization</td>
+        <td>int x;</td>
+        <td>In most cases, leaves variable with indeterminate value</td>
+      </tr>
+      <tr>
+        <td>Copy-initialization</td>
+        <td>int x = 5;</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Direct-initialization</td>
+        <td>int x ( 5 );</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Direct-list-initialization</td>
+        <td>int x { 5 };</td>
+        <td>Narrowing conversions disallowed</td>
+      </tr>
+      <tr>
+        <td>Copy-list-initialization</td>
+        <td>int x = { 5 };</td>
+        <td>Narrowing conversions disallowed</td>
+      </tr>
+      <tr>
+        <td>Value-initialization</td>
+        <td>int x {};</td>
+        <td>Usually performs zero-initialization</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<p>
+  Direct-initialization is sometimes called parenthesis-initialization, and
+  list-initialization (including value-initialization) is sometimes called
+  uniform -initialization or brace-initialization. You should prefer
+  brace-initialization over the other initialization forms, and prefer
+  initialization over assignment.
+</p>
+<p>
+  Although you can define multiple variables in a single statement, it’s better
+  to define and initialize each variable on its own line, in a separate
+  statement.
+</p>
+<p>
+  <strong>std::cout</strong> and <code>operator&lt;&lt;</code> allow us to
+  output the result of an expression to the console.
+</p>
+<p>
+  <strong>std::endl</strong> outputs a newline character, forcing the console
+  cursor to move to the next line, and flushes any pending output to the
+  console. The <code>'\n'</code> character also outputs a newline character, but
+  lets the system decide when to flush the output. Be careful not to use
+  <code>'/n'</code> (forward slash).
+</p>
+<div class="code-block code-block-4" style="margin: 8px 0; clear: both"></div>
+<p>
+  <strong>std::cin</strong> and <code>operator&gt;&gt;</code> allow us to get a
+  value from the keyboard.
+</p>
+<p>
+  A variable that has not been given a value is called an
+  <strong>uninitialized variable</strong>. Trying to get the value of an
+  uninitialized variable will result in <strong>undefined behavior</strong>,
+  which can manifest in any number of ways.
+</p>
+<p>
+  C++ reserves a set of names called <strong>keywords</strong>. These have
+  special meaning within the language and may not be used as variable names.
+</p>
+<p>
+  A <strong>literal constant</strong> is a fixed value inserted directly into
+  the source code. Examples are 5 and “Hello world!”.
+</p>
+<p>
+  An <strong>operation</strong> is a process involving zero or more input
+  values, called <strong>operands</strong>. The specific operation to be
+  performed is denoted by the provided <strong>operator</strong>. The result of
+  an operation produces an output value.
+</p>
+<div class="code-block code-block-5" style="margin: 8px 0; clear: both"></div>
+<p>
+  <strong>Unary</strong> operators take one operand.
+  <strong>Binary</strong> operators take two operands, often called left and
+  right. <strong>Ternary</strong> operators take three operands.
+  <strong>Nullary</strong> operators take zero operands.
+</p>
+<p>
+  An <strong>expression</strong> is a sequence of literals, variables,
+  operators, and function calls that are evaluated to produce a single output
+  value. The calculation of this output value is called
+  <strong>evaluation</strong>. The value produced is the
+  <strong>result</strong> of the expression.
+</p>
+<p>
+  An <strong>expression statement</strong> is an expression that has been turned
+  into a statement by placing a semicolon at the end of the expression.
+</p>
+<p>
+  When writing programs, add a few lines or a function, compile, resolve any
+  errors, and make sure it works. Don’t wait until you’ve written an entire
+  program before compiling it for the first time!
+</p>
+<p>
+  Focus on getting your code working. Once you are sure you are going to keep
+  some bit of code, then you can spend time removing (or commenting out)
+  temporary/debugging code, adding comments, handling error cases, formatting
+  your code, ensuring best practices are followed, removing redundant logic,
+  etc…
+</p>
+<div class="code-block code-block-6" style="margin: 8px 0; clear: both"></div>
+<p>
+  First-draft programs are often messy and imperfect. Most code requires cleanup
+  and refinement to get to great!
+</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Quiz time
+</p>
+<p class="cpp-quiz-question" style="clear: both">Question #1</p>
+<p>
+  What is the difference between initialization and assignment? How many times
+  can a variable be initialized or assigned a value?
+</p>
+<p>
+  <a
+    class="solution_link_show"
+    href="javascript:void(0)"
+    onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_0'),this,'Show Solution','Hide Solution')"
+    >Show Solution</a
+  >
+</p>
+<div class="wpsolution" id="cpp_solution_id_0" style="display: none">
+  Initialization provides a variable with an initial value (at the point of
+  creation). Assignment gives a variable a new value after the variable has
+  already been defined.
+  <p></p>
+  <p>
+    Since a variable is only created once, it can only be initialized once. A
+    variable can be assigned a value as many times as desired.
+  </p>
+</div>
+<p class="cpp-quiz-question cpp-topline" style="clear: both">Question #2</p>
+<p>
+  When does undefined behavior occur? What are the consequences of undefined
+  behavior?
+</p>
+<p>
+  <a
+    class="solution_link_show"
+    href="javascript:void(0)"
+    onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_1'),this,'Show Solution','Hide Solution')"
+    >Show Solution</a
+  >
+</p>
+<div class="wpsolution" id="cpp_solution_id_1" style="display: none">
+  Undefined behavior occurs when the programmer does something that is
+  ill-specified by the C++ language. The consequences could be almost anything,
+  from crashing to producing the wrong answer to working correctly anyway.
+</div>
+<p class="cpp-quiz-question cpp-topline" style="clear: both">Question #3</p>
+<p>
+  Write a program that asks the user to enter a number, and then enter a second
+  number. The program should tell the user what the result of adding and
+  subtracting the two numbers is.
+</p>
+<div class="code-block code-block-7" style="margin: 8px 0; clear: both"></div>
+<p>
+  The output of the program should match the following (assuming inputs of 6 and
+  4):
+</p>
+<pre>
+Enter an integer: 6
+Enter another integer: 4
+6 + 4 is 10.
+6 - 4 is 2.
+</pre>
+<p>
+  Hint: To print a period and a newline, use <code>".\n"</code>, not
+  <code>'.\n'</code>.
+</p>
+<p>
+  <a
+    class="solution_link_show"
+    href="javascript:void(0)"
+    onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_2'),this,'Show Solution','Hide Solution')"
+    >Show Solution</a
+  >
+</p>
+<div class="wpsolution" id="cpp_solution_id_2" style="display: none">
+  <div class="code-toolbar">
+    <pre
+      class="line-numbers language-cpp"
+      tabindex="0"
+    ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-28-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-28-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-31-close">{</span>
+	std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Enter an integer: "</span><span class="token punctuation">;</span>
+	<span class="token keyword keyword-int">int</span> x<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-29-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-29-open">}</span><span class="token punctuation">;</span>
+	std<span class="token double-colon punctuation">::</span>cin <span class="token operator">&gt;&gt;</span> x<span class="token punctuation">;</span>
+
+	std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Enter another integer: "</span><span class="token punctuation">;</span>
+	<span class="token keyword keyword-int">int</span> y<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-30-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-30-open">}</span><span class="token punctuation">;</span>
+	std<span class="token double-colon punctuation">::</span>cin <span class="token operator">&gt;&gt;</span> y<span class="token punctuation">;</span>
+
+	std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> x <span class="token operator">&lt;&lt;</span> <span class="token string">" + "</span> <span class="token operator">&lt;&lt;</span> y <span class="token operator">&lt;&lt;</span> <span class="token string">" is "</span> <span class="token operator">&lt;&lt;</span> x <span class="token operator">+</span> y <span class="token operator">&lt;&lt;</span> <span class="token string">".\n"</span><span class="token punctuation">;</span>
+	std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> x <span class="token operator">&lt;&lt;</span> <span class="token string">" - "</span> <span class="token operator">&lt;&lt;</span> y <span class="token operator">&lt;&lt;</span> <span class="token string">" is "</span> <span class="token operator">&lt;&lt;</span> x <span class="token operator">-</span> y <span class="token operator">&lt;&lt;</span> <span class="token string">".\n"</span><span class="token punctuation">;</span>
+
+	<span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-31-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+    <div class="toolbar">
+      <div class="toolbar-item">
+        <button
+          class="copy-to-clipboard-button"
+          type="button"
+          data-copy-state="copy"
+        >
+          <span>Copy</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="prevnext">
+  <div class="prevnext-inline">
+    <a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/introduction-to-functions/"
+      ><div class="nav-button nav-button-next">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-right" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Next lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">2.1</span>Introduction to
+            functions
+          </div>
+        </div>
+      </div></a
+    ><a class="nav-link" href="/"
+      ><div class="nav-button nav-button-index">
+        <div class="nav-button-icon">
+          <i class="fa fa-home" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Back to table of contents</div>
+        </div>
+      </div></a
+    ><a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/developing-your-first-program/"
+      ><div class="nav-button nav-button-prev">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-left" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Previous lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">1.11</span>Developing your
+            first program
+          </div>
+        </div>
+      </div></a
+    >
+  </div>
+</div>
+<div class="code-block code-block-10" style="margin: 8px 0; clear: both"></div>

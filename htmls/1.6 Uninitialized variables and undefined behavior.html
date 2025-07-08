@@ -1,0 +1,482 @@
+<div
+  class="code-block code-block-1"
+  style="margin: 8px 8px 8px 0; float: left"
+></div>
+<p class="cpp-section" data-ezoic-video-excluded="1">Uninitialized variables</p>
+<p>
+  Unlike some programming languages, C/C++ does not automatically initialize
+  most variables to a given value (such as zero). When a variable that is not
+  initialized is given a memory address to use to store data, the default value
+  of that variable is whatever (garbage) value happens to already be in that
+  memory address! A variable that has not been given a known value (through
+  initialization or assignment) is called an
+  <strong>uninitialized variable</strong>.
+</p>
+<div class="cpp-note cpp-lightgraybackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Nomenclature</p>
+  <p>
+    Many readers expect the terms “initialized” and “uninitialized” to be strict
+    opposites, but they aren’t quite! In common language, “initialized” means
+    the object was provided with an initial value at the point of definition.
+    “Uninitialized” means the object has not been given a known value yet
+    (through any means, including assignment). Therefore, an object that is not
+    initialized but is then assigned a value is no longer
+    <em>uninitialized</em> (because it has been given a known value).
+  </p>
+  <p>To recap:</p>
+  <ul>
+    <li>
+      Initialized = The object is given a known value at the point of
+      definition.
+    </li>
+    <li>
+      Assignment = The object is given a known value beyond the point of
+      definition.
+    </li>
+    <li>Uninitialized = The object has not been given a known value yet.</li>
+  </ul>
+  <p>Relatedly, consider this variable definition:</p>
+  <div class="code-toolbar">
+    <pre
+      class="line-numbers language-cpp"
+      tabindex="0"
+    ><code class="match-braces language-cpp"><span class="token keyword keyword-int">int</span> x<span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+    <div class="toolbar">
+      <div class="toolbar-item">
+        <button
+          class="copy-to-clipboard-button"
+          type="button"
+          data-copy-state="copy"
+        >
+          <span>Copy</span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <p>
+    In lesson
+    <a
+      href="https://www.learncpp.com/cpp-tutorial/variable-assignment-and-initialization/"
+      >1.4 -- Variable assignment and initialization</a
+    >, we noted that when no initializer is provided, the variable is
+    default-initialized. In most cases (such as this one),
+    default-initialization performs no actual initialization. Thus we’d say
+    <code>x</code> is uninitialized. We’re focused on the outcome (the object
+    has not been given a known value), not the process.
+  </p>
+</div>
+<div class="cpp-note cpp-lightgraybackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">As an aside…</p>
+  <p>
+    This lack of initialization is a performance optimization inherited from C,
+    back when computers were slow. Imagine a case where you were going to read
+    in 100,000 values from a file. In such case, you might create 100,000
+    variables, then fill them with data from the file.
+  </p>
+  <p>
+    If C++ initialized all of those variables with default values upon creation,
+    this would result in 100,000 initializations (which would be slow), and for
+    little benefit (since you’re overwriting those values anyway).
+  </p>
+  <p>
+    For now, you should always initialize your variables because the cost of
+    doing so is minuscule compared to the benefit. Once you are more comfortable
+    with the language, there may be certain cases where you omit the
+    initialization for optimization purposes. But this should always be done
+    selectively and intentionally.
+  </p>
+</div>
+<p>
+  Using the values of uninitialized variables can lead to unexpected results.
+  Consider the following short program:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-20-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-20-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-21-close">{</span>
+    <span class="token comment">// define an integer variable named x</span>
+    <span class="token keyword keyword-int">int</span> x<span class="token punctuation">;</span> <span class="token comment">// this variable is uninitialized because we haven't given it a value</span>
+
+    <span class="token comment">// print the value of x to the screen</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> x <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span> <span class="token comment">// who knows what we'll get, because x is uninitialized</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-21-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  In this case, the computer will assign some unused memory to <em>x</em>. It
+  will then send the value residing in that memory location to
+  <em>std::cout</em>, which will print the value (interpreted as an integer).
+  But what value will it print? The answer is “who knows!”, and the answer may
+  (or may not) change every time you run the program. When the author ran this
+  program in Visual Studio, <em>std::cout</em> printed the value
+  <code>7177728</code> one time, and <code>5277592</code> the next. Feel free to
+  compile and run the program yourself (your computer won’t explode).
+</p>
+<div class="cpp-note cpp-lightredbackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Warning</p>
+  <p>
+    Some compilers, such as Visual Studio, <em>will</em> initialize the contents
+    of memory to some preset value when you’re using a debug build
+    configuration. This will not happen when using a release build
+    configuration. Therefore, if you want to run the above program yourself,
+    make sure you’re using a <em>release build configuration</em> (see lesson
+    <a
+      href="https://www.learncpp.com/cpp-tutorial/configuring-your-compiler-build-configurations/"
+      >0.9 -- Configuring your compiler: Build configurations</a
+    >
+    for a reminder on how to do that).
+  </p>
+  <p>
+    For example, if you run the above program in a Visual Studio debug
+    configuration, it will consistently print -858993460, because that’s the
+    value (interpreted as an integer) that Visual Studio initializes memory with
+    in debug configurations.
+  </p>
+</div>
+<p>
+  Most modern compilers will attempt to detect if a variable is being used
+  without being given a value. If they are able to detect this, they will
+  generally issue a compile-time warning or error. For example, compiling the
+  above program on Visual Studio produced the following warning:
+</p>
+<p>
+  <code
+    >c:\VCprojects\test\test.cpp(11) : warning C4700: uninitialized local
+    variable 'x' used</code
+  >
+</p>
+<div class="code-block code-block-2" style="margin: 8px 0; clear: both"></div>
+<p>
+  If your compiler won’t let you compile and run the above program (e.g. because
+  it treats the issue as an error), here is a possible solution to get around
+  this issue:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-void">void</span> <span class="token function">doNothing</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-22-close">(</span><span class="token keyword keyword-int">int</span><span class="token operator">&amp;</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-22-open">)</span> <span class="token comment">// Don't worry about what &amp; is for now, we're just using it to trick the compiler into thinking variable x is used</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-25-close">{</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-25-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-23-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-23-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-26-close">{</span>
+    <span class="token comment">// define an integer variable named x</span>
+    <span class="token keyword keyword-int">int</span> x<span class="token punctuation">;</span> <span class="token comment">// this variable is uninitialized</span>
+
+    <span class="token function">doNothing</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-24-close">(</span>x<span class="token punctuation brace-round brace-close brace-level-2" id="pair-24-open">)</span><span class="token punctuation">;</span> <span class="token comment">// make the compiler think we're assigning a value to this variable</span>
+
+    <span class="token comment">// print the value of x to the screen (who knows what we'll get, because x is uninitialized)</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> x <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-26-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 32px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  Using uninitialized variables is one of the most common mistakes that novice
+  programmers make, and unfortunately, it can also be one of the most
+  challenging to debug (because the program may run fine anyway if the
+  uninitialized variable happened to get assigned to a spot of memory that had a
+  reasonable value in it, like 0).
+</p>
+<p>
+  This is the primary reason for the “always initialize your variables” best
+  practice.
+</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Undefined behavior
+</p>
+<p>
+  Using the value from an uninitialized variable is our first example of
+  undefined behavior. <strong>Undefined behavior</strong> (often abbreviated
+  <strong>UB</strong>) is the result of executing code whose behavior is not
+  well-defined by the C++ language. In this case, the C++ language doesn’t have
+  any rules determining what happens if you use the value of a variable that has
+  not been given a known value. Consequently, if you actually do this, undefined
+  behavior will result.
+</p>
+<p>
+  Code implementing undefined behavior may exhibit <em>any</em> of the following
+  symptoms:
+</p>
+<div class="code-block code-block-3" style="margin: 8px 0; clear: both"></div>
+<ul>
+  <li>Your program produces different results every time it is run.</li>
+  <li>Your program consistently produces the same incorrect result.</li>
+  <li>
+    Your program behaves inconsistently (sometimes produces the correct result,
+    sometimes not).
+  </li>
+  <li>
+    Your program seems like it’s working but produces incorrect results later in
+    the program.
+  </li>
+  <li>Your program crashes, either immediately or later.</li>
+  <li>Your program works on some compilers but not others.</li>
+  <li>
+    Your program works until you change some other seemingly unrelated code.
+  </li>
+</ul>
+<p>Or, your code may actually produce the correct behavior anyway.</p>
+<div class="cpp-note cpp-lightgraybackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Author’s note</p>
+  <p>
+    Undefined behavior is like a box of chocolates. You never know what you’re
+    going to get!
+  </p>
+</div>
+<p>
+  C++ contains many cases that can result in undefined behavior if you’re not
+  careful. We’ll point these out in future lessons whenever we encounter them.
+  Take note of where these cases are and make sure you avoid them.
+</p>
+<div class="cpp-note cpp-lightpurplebackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Rule</p>
+  <p>
+    Take care to avoid all situations that result in undefined behavior, such as
+    using uninitialized variables.
+  </p>
+</div>
+<div class="cpp-note cpp-lightgraybackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Author’s note</p>
+  <p>
+    One of the most common types of comment we get from readers says, “You said
+    I couldn’t do X, but I did it anyway and my program works! Why?”.
+  </p>
+  <p>
+    There are two common answers. The most common answer is that your program is
+    actually exhibiting undefined behavior, but that undefined behavior just
+    happens to be producing the result you wanted anyway… for now. Tomorrow (or
+    on another compiler or machine) it might not.
+  </p>
+  <p>
+    Alternatively, sometimes compiler authors take liberties with the language
+    requirements when those requirements may be more restrictive than needed.
+    For example, the standard may say, “you must do X before Y”, but a compiler
+    author may feel that’s unnecessary, and make Y work even if you don’t do X
+    first. This shouldn’t affect the operation of correctly written programs,
+    but may cause incorrectly written programs to work anyway. So an alternate
+    answer to the above question is that your compiler may simply be not
+    following the standard! It happens. You can avoid much of this by making
+    sure you’ve turned compiler extensions off, as described in lesson
+    <a
+      href="https://www.learncpp.com/cpp-tutorial/configuring-your-compiler-compiler-extensions/"
+      >0.10 -- Configuring your compiler: Compiler extensions</a
+    >.
+  </p>
+</div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Implementation-defined behavior and unspecified behavior
+</p>
+<p>
+  A specific compiler and the associated standard library it comes with are
+  called an <strong>implementation</strong> (as these are what actually
+  implements the C++ language). In some cases, the C++ language standard allows
+  the implementation to determine how some aspect of the language will behave,
+  so that the compiler can choose a behavior that is efficient for a given
+  platform. Behavior that is defined by the implementation is called
+  <strong>implementation-defined behavior</strong>. Implementation-defined
+  behavior must be documented and consistent for a given implementation.
+</p>
+<p>Let’s look at a simple example of implementation-defined behavior:</p>
+<div class="code-block code-block-4" style="margin: 8px 0; clear: both"></div>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-27-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-27-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-29-close">{</span>
+	std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token keyword keyword-sizeof">sizeof</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-28-close">(</span><span class="token keyword keyword-int">int</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-28-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span> <span class="token comment">// print how many bytes of memory an int value takes</span>
+
+	<span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-29-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  On most platforms, this will produce <code>4</code>, but on others it may
+  produce <code>2</code>.
+</p>
+<div class="cpp-note cpp-lightgraybackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Related content</p>
+  <p>
+    We discuss <code>sizeof()</code> in lesson
+    <a
+      href="https://www.learncpp.com/cpp-tutorial/object-sizes-and-the-sizeof-operator/"
+      >4.3 -- Object sizes and the sizeof operator</a
+    >.
+  </p>
+</div>
+<p>
+  <strong>Unspecified behavior</strong> is almost identical to
+  implementation-defined behavior in that the behavior is left up to the
+  implementation to define, but the implementation is not required to document
+  the behavior.
+</p>
+<p>
+  We generally want to avoid implementation-defined and unspecified behavior, as
+  it means our program may not work as expected if compiled on a different
+  compiler (or even on the same compiler if we change project settings that
+  affect how the implementation behaves!)
+</p>
+<div class="cpp-note cpp-lightgreenbackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Best practice</p>
+  <p>
+    Avoid implementation-defined and unspecified behavior whenever possible, as
+    they may cause your program to malfunction on other implementations.
+  </p>
+</div>
+<div class="cpp-note cpp-lightgraybackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Related content</p>
+  <p>
+    We show examples of unspecified behavior in lesson
+    <a
+      href="https://www.learncpp.com/cpp-tutorial/operator-precedence-and-associativity/#unspecified"
+      >6.1 -- Operator precedence and associativity</a
+    >.
+  </p>
+</div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Quiz time
+</p>
+<div class="quiz" style="clear: both">
+  <p class="quiz-header">Question #1</p>
+  <p>What is an uninitialized variable? Why should you avoid using them?</p>
+  <p>
+    <a
+      class="solution_link_show"
+      href="javascript:void(0)"
+      onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_0'),this,'Show Solution','Hide Solution')"
+      >Show Solution</a
+    >
+  </p>
+  <div class="wpsolution" id="cpp_solution_id_0" style="display: none">
+    <p>
+      An uninitialized variable is a variable that has not been given a value by
+      the program (generally through initialization or assignment). Using the
+      value stored in an uninitialized variable will result in undefined
+      behavior.
+    </p>
+  </div>
+  <p></p>
+</div>
+<div class="quiz" style="clear: both">
+  <p class="quiz-header">Question #2</p>
+  <p>
+    What is undefined behavior, and what can happen if you do something that
+    exhibits undefined behavior?
+  </p>
+  <p>
+    <a
+      class="solution_link_show"
+      href="javascript:void(0)"
+      onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_1'),this,'Show Solution','Hide Solution')"
+      >Show Solution</a
+    >
+  </p>
+  <div class="wpsolution" id="cpp_solution_id_1" style="display: none">
+    <p>
+      Undefined behavior is the result of executing code whose behavior is not
+      well defined by the language. The result can be almost anything, including
+      something that behaves correctly.
+    </p>
+  </div>
+  <p></p>
+</div>
+<div class="prevnext">
+  <div class="prevnext-inline">
+    <a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/keywords-and-naming-identifiers/"
+      ><div class="nav-button nav-button-next">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-right" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Next lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">1.7</span>Keywords and naming
+            identifiers
+          </div>
+        </div>
+      </div></a
+    ><a class="nav-link" href="/"
+      ><div class="nav-button nav-button-index">
+        <div class="nav-button-icon">
+          <i class="fa fa-home" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Back to table of contents</div>
+        </div>
+      </div></a
+    ><a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/introduction-to-iostream-cout-cin-and-endl/"
+      ><div class="nav-button nav-button-prev">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-left" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Previous lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">1.5</span>Introduction to
+            iostream: cout, cin, and endl
+          </div>
+        </div>
+      </div></a
+    >
+  </div>
+</div>
+<div class="code-block code-block-10" style="margin: 8px 0; clear: both"></div>

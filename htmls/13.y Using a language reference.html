@@ -1,0 +1,1307 @@
+<div
+  class="code-block code-block-1"
+  style="margin: 8px 8px 8px 0; float: left"
+></div>
+<p>
+  Depending on where you’re at in your journey with learning programming
+  languages (and specifically, C++), LearnCpp.com might be the only resource
+  you’re using to learn C++ or to look something up. LearnCpp.com is designed to
+  explain concepts in a beginner-friendly fashion, but it simply can’t cover
+  every aspect of the language. As you begin to explore outside the topics that
+  these tutorials cover, you’ll inevitably run into questions that these
+  tutorials don’t answer. In that case, you’ll need to leverage outside
+  resources.
+</p>
+<p>
+  One such resource is <a href="https://stackoverflow.com">Stack Overflow</a>,
+  where you can ask questions (or better, read the answer to the same question
+  someone before you asked). But sometimes a better first stop is a reference
+  guide. Unlike tutorials, which tend to focus on the most important topics and
+  use informal/common language to make learning easier, reference guides
+  describe C++ precisely using formal terminology. Because of this, reference
+  material tends to be comprehensive, accurate, and… hard to understand.
+</p>
+<p>
+  In this lesson, we’ll show how to use
+  <a href="https://cppreference.com">cppreference</a>, a popular standard
+  reference that we refer to throughout the lessons, by researching 3 examples.
+</p>
+<p class="cpp-section cpp-topline" style="clear: both">Overview</p>
+<p>
+  Cppreference greets you with an
+  <a href="https://en.cppreference.com/w/cpp">overview</a> of the core language
+  and libraries:
+</p>
+<div class="cpp-image-wrapper">
+  <img
+    src="https://www.learncpp.com/blog/wp-content/uploads/images/CppTutorial/cppreference/overview-min.png"
+    alt="cppreference overview"
+  />
+</div>
+<p>
+  From here, you can get to everything cppreference has to offer, but it’s
+  easier to use the search function, or a search engine. The overview is a great
+  place to visit once you’ve finished the tutorials on LearnCpp.com, to delve
+  deeper into the libraries, and to see what else the language has to offer that
+  you might not be aware of.
+</p>
+<div
+  class="google-auto-placed ap_container"
+  style="width: 100%; height: auto; clear: both; text-align: center"
+>
+  <ins
+    data-ad-format="auto"
+    class="adsbygoogle adsbygoogle-noablate"
+    data-ad-client="ca-pub-0588844875925051"
+    data-adsbygoogle-status="done"
+    style="
+      display: block;
+      margin: auto;
+      background-color: transparent;
+      height: 0px;
+    "
+    data-ad-status="unfilled"
+    ><div
+      id="aswift_5_host"
+      style="
+        border: none;
+        height: 0px;
+        width: 1027px;
+        margin: 0px;
+        padding: 0px;
+        position: relative;
+        visibility: visible;
+        background-color: transparent;
+        display: inline-block;
+        overflow: hidden;
+        opacity: 0;
+      "
+    >
+      <iframe
+        id="aswift_5"
+        name="aswift_5"
+        browsingtopics="true"
+        style="
+          left: 0px;
+          position: absolute;
+          top: 0px;
+          border: 0px;
+          width: 1027px;
+          height: 0px;
+          min-height: auto;
+          max-height: none;
+          min-width: auto;
+          max-width: none;
+        "
+        sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation"
+        width="1027"
+        height="0"
+        frameborder="0"
+        marginwidth="0"
+        marginheight="0"
+        vspace="0"
+        hspace="0"
+        allowtransparency="true"
+        scrolling="no"
+        allow="attribution-reporting; run-ad-auction"
+        src="https://googleads.g.doubleclick.net/pagead/ads?client=ca-pub-0588844875925051&amp;output=html&amp;h=280&amp;adk=2523179041&amp;adf=3577936285&amp;w=1027&amp;abgtt=11&amp;fwrn=4&amp;fwrnh=100&amp;lmt=1750527950&amp;num_ads=1&amp;rafmt=1&amp;armr=3&amp;sem=mc&amp;pwprc=4633386603&amp;ad_type=text_image&amp;format=1027x280&amp;url=https%3A%2F%2Fwww.learncpp.com%2Fcpp-tutorial%2Fusing-a-language-reference%2F&amp;fwr=0&amp;pra=3&amp;rh=200&amp;rw=1026&amp;rpe=1&amp;resp_fmts=3&amp;wgl=1&amp;fa=27&amp;uach=WyJXaW5kb3dzIiwiMTkuMC4wIiwieDg2IiwiIiwiMTM3LjAuNzE1MS4xMjIiLG51bGwsMCxudWxsLCI2NCIsW1siR29vZ2xlIENocm9tZSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJDaHJvbWl1bSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJOb3QvQSlCcmFuZCIsIjI0LjAuMC4wIl1dLDBd&amp;dt=1751962857476&amp;bpp=1&amp;bdt=2500&amp;idt=-M&amp;shv=r20250702&amp;mjsv=m202507020101&amp;ptt=9&amp;saldr=aa&amp;abxe=1&amp;cookie=ID%3D05f6e82287d810b4%3AT%3D1751962604%3ART%3D1751962604%3AS%3DALNI_MaQYA0TSAU2k8xwY5tqlN0xFCcd6g&amp;gpic=UID%3D00001157d9e27d0a%3AT%3D1751962604%3ART%3D1751962604%3AS%3DALNI_MYgtHzQJAQQXY_151HTGSSfVxE8_A&amp;eo_id_str=ID%3D52c21936d98c6d2b%3AT%3D1751962604%3ART%3D1751962604%3AS%3DAA-AfjZsJ15yjdEPJ8d11hPojsJQ&amp;prev_fmts=0x0%2C336x280%2C160x600%2C160x600&amp;nras=2&amp;correlator=6402717075900&amp;frm=20&amp;pv=1&amp;u_tz=480&amp;u_his=2&amp;u_h=600&amp;u_w=800&amp;u_ah=600&amp;u_aw=800&amp;u_cd=24&amp;u_sd=1&amp;dmc=8&amp;adx=27&amp;ady=1242&amp;biw=1080&amp;bih=1024&amp;scr_x=0&amp;scr_y=0&amp;eid=31093232%2C95353386%2C95362655%2C95365226%2C95365235%2C95365700%2C95344789%2C95359266%2C95365122%2C95365797&amp;oid=2&amp;pvsid=8219718934316159&amp;tmod=1708485235&amp;uas=0&amp;nvt=1&amp;fc=1408&amp;brdim=10%2C10%2C10%2C10%2C800%2C0%2C780%2C580%2C1080%2C1024&amp;vis=1&amp;rsz=%7C%7Cs%7C&amp;abl=NS&amp;fu=128&amp;bc=31&amp;bz=0.72&amp;td=1&amp;tdf=2&amp;psd=W251bGwsbnVsbCxudWxsLDNd&amp;nt=1&amp;ifi=6&amp;uci=a!6&amp;btvi=1&amp;fsb=1&amp;dtd=31"
+        data-google-container-id="a!6"
+        tabindex="0"
+        title="Advertisement"
+        aria-label="Advertisement"
+        data-load-complete="true"
+        data-google-query-id="COrD553qrI4DFVL0TAIdA9oDxg"
+      ></iframe></div
+  ></ins>
+</div>
+<div class="code-block code-block-2" style="margin: 8px 0; clear: both"></div>
+
+<p>
+  The upper half of the table shows features currently in the language, while
+  the bottom half shows technical specifications, which are features that may or
+  may not be added to C++ in a future version, or have already been partially
+  accepted into the language. This can be useful if you want to see what new
+  capabilities are coming soon.
+</p>
+<p>
+  Starting with C++11, cppreference marks all features with the language
+  standard version they’ve been added in. The standard version is the little
+  green number you can see next to some of the links in the above image.
+  Features without a version number have been available since C++98/03. The
+  version numbers are not only in the overview, but everywhere on cppreference,
+  letting you know exactly what you can or cannot use in a specific C++ version.
+</p>
+<div class="cpp-note cpp-lightredbackground">
+  <p class="cpp-note-title cpp-bottomline">Warning</p>
+  <p>
+    If you use a search engine and a technical specification has just been
+    accepted into the standard, you might get linked to a technical
+    specification rather than the official reference, which can differ.
+  </p>
+</div>
+<div class="cpp-note cpp-lightbluebackground">
+  <p class="cpp-note-title cpp-bottomline">Tip</p>
+  <p>
+    Cppreference is a reference for both C++ and C. Since C++ shares some
+    function names with C, you may find yourself in the C reference after
+    searching for something. The URL and the navigation bar at the top of
+    cppreference always show you if you’re browsing the C or C++ reference.
+  </p>
+</div>
+<p class="cpp-section cpp-topline" style="clear: both">std::string::length</p>
+<div
+  class="google-auto-placed ap_container"
+  style="width: 100%; height: auto; clear: both; text-align: center"
+>
+  <ins
+    data-ad-format="auto"
+    class="adsbygoogle adsbygoogle-noablate"
+    data-ad-client="ca-pub-0588844875925051"
+    data-adsbygoogle-status="done"
+    style="
+      display: block;
+      margin: auto;
+      background-color: transparent;
+      height: 0px;
+    "
+    data-ad-status="unfilled"
+    ><div
+      id="aswift_6_host"
+      style="
+        border: none;
+        height: 0px;
+        width: 1027px;
+        margin: 0px;
+        padding: 0px;
+        position: relative;
+        visibility: visible;
+        background-color: transparent;
+        display: inline-block;
+        overflow: hidden;
+        opacity: 0;
+      "
+    >
+      <iframe
+        id="aswift_6"
+        name="aswift_6"
+        browsingtopics="true"
+        style="
+          left: 0px;
+          position: absolute;
+          top: 0px;
+          border: 0px;
+          width: 1027px;
+          height: 0px;
+          min-height: auto;
+          max-height: none;
+          min-width: auto;
+          max-width: none;
+        "
+        sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation"
+        width="1027"
+        height="0"
+        frameborder="0"
+        marginwidth="0"
+        marginheight="0"
+        vspace="0"
+        hspace="0"
+        allowtransparency="true"
+        scrolling="no"
+        allow="attribution-reporting; run-ad-auction"
+        src="https://googleads.g.doubleclick.net/pagead/ads?client=ca-pub-0588844875925051&amp;output=html&amp;h=280&amp;adk=2523179041&amp;adf=1718817434&amp;w=1027&amp;abgtt=11&amp;fwrn=4&amp;fwrnh=100&amp;lmt=1750527950&amp;num_ads=1&amp;rafmt=1&amp;armr=3&amp;sem=mc&amp;pwprc=4633386603&amp;ad_type=text_image&amp;format=1027x280&amp;url=https%3A%2F%2Fwww.learncpp.com%2Fcpp-tutorial%2Fusing-a-language-reference%2F&amp;fwr=0&amp;pra=3&amp;rh=200&amp;rw=1026&amp;rpe=1&amp;resp_fmts=3&amp;wgl=1&amp;fa=27&amp;uach=WyJXaW5kb3dzIiwiMTkuMC4wIiwieDg2IiwiIiwiMTM3LjAuNzE1MS4xMjIiLG51bGwsMCxudWxsLCI2NCIsW1siR29vZ2xlIENocm9tZSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJDaHJvbWl1bSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJOb3QvQSlCcmFuZCIsIjI0LjAuMC4wIl1dLDBd&amp;dt=1751962857476&amp;bpp=1&amp;bdt=2500&amp;idt=-M&amp;shv=r20250702&amp;mjsv=m202507020101&amp;ptt=9&amp;saldr=aa&amp;abxe=1&amp;cookie=ID%3D05f6e82287d810b4%3AT%3D1751962604%3ART%3D1751962604%3AS%3DALNI_MaQYA0TSAU2k8xwY5tqlN0xFCcd6g&amp;gpic=UID%3D00001157d9e27d0a%3AT%3D1751962604%3ART%3D1751962604%3AS%3DALNI_MYgtHzQJAQQXY_151HTGSSfVxE8_A&amp;eo_id_str=ID%3D52c21936d98c6d2b%3AT%3D1751962604%3ART%3D1751962604%3AS%3DAA-AfjZsJ15yjdEPJ8d11hPojsJQ&amp;prev_fmts=0x0%2C336x280%2C160x600%2C160x600%2C1027x280&amp;nras=3&amp;correlator=6402717075900&amp;frm=20&amp;pv=1&amp;u_tz=480&amp;u_his=2&amp;u_h=600&amp;u_w=800&amp;u_ah=600&amp;u_aw=800&amp;u_cd=24&amp;u_sd=1&amp;dmc=8&amp;adx=27&amp;ady=1966&amp;biw=1080&amp;bih=1024&amp;scr_x=0&amp;scr_y=0&amp;eid=31093232%2C95353386%2C95362655%2C95365226%2C95365235%2C95365700%2C95344789%2C95359266%2C95365122%2C95365797&amp;oid=2&amp;pvsid=8219718934316159&amp;tmod=1708485235&amp;uas=0&amp;nvt=1&amp;fc=1408&amp;brdim=10%2C10%2C10%2C10%2C800%2C0%2C780%2C580%2C1080%2C1024&amp;vis=1&amp;rsz=%7C%7Cs%7C&amp;abl=NS&amp;fu=128&amp;bc=31&amp;bz=0.72&amp;td=1&amp;tdf=2&amp;psd=W251bGwsbnVsbCxudWxsLDNd&amp;nt=1&amp;ifi=7&amp;uci=a!7&amp;btvi=2&amp;fsb=1&amp;dtd=34"
+        data-google-container-id="a!7"
+        tabindex="0"
+        title="Advertisement"
+        aria-label="Advertisement"
+        data-load-complete="true"
+        data-google-query-id="CILU553qrI4DFbLIFgUd0voeug"
+      ></iframe></div
+  ></ins>
+</div>
+<p>
+  We’ll start by researching a function that you know from a previous lesson,
+  <code>std::string::length</code>, which returns the length of a string.
+</p>
+<p>
+  On the top right of cppreference, search for “string”. Doing so shows a long
+  list of types and functions, of which only the top is relevant for now.
+</p>
+<div class="cpp-image-wrapper">
+  <img
+    src="https://www.learncpp.com/blog/wp-content/uploads/images/CppTutorial/cppreference/string-search-ddg-min.png"
+    alt="string search"
+  />
+</div>
+<p>
+  We could have searched for “string length” right away, but for the purpose of
+  showing as much as possible in this lesson, we’re taking the long route.
+  Clicking on “Strings library” takes us to a page talking about the various
+  kinds of strings that C++ supports.
+</p>
+<div class="code-block code-block-3" style="margin: 8px 0; clear: both"></div>
+
+<div class="cpp-image-wrapper">
+  <img
+    src="https://www.learncpp.com/blog/wp-content/uploads/images/CppTutorial/cppreference/strings-lib-min.png"
+    alt="strings library page"
+  />
+</div>
+<p>
+  If we look under the “std::basic_string” section, we can see a list of
+  typedefs, and within that list is std::string.
+</p>
+<div
+  class="google-auto-placed ap_container"
+  style="width: 100%; height: auto; clear: both; text-align: center"
+>
+  <ins
+    data-ad-format="auto"
+    class="adsbygoogle adsbygoogle-noablate"
+    data-ad-client="ca-pub-0588844875925051"
+    data-adsbygoogle-status="done"
+    style="
+      display: block;
+      margin: auto;
+      background-color: transparent;
+      height: 0px;
+    "
+    data-ad-status="unfilled"
+    ><div
+      id="aswift_7_host"
+      style="
+        border: none;
+        height: 0px;
+        width: 1027px;
+        margin: 0px;
+        padding: 0px;
+        position: relative;
+        visibility: visible;
+        background-color: transparent;
+        display: inline-block;
+        overflow: hidden;
+        opacity: 0;
+      "
+    >
+      <iframe
+        id="aswift_7"
+        name="aswift_7"
+        browsingtopics="true"
+        style="
+          left: 0px;
+          position: absolute;
+          top: 0px;
+          border: 0px;
+          width: 1027px;
+          height: 0px;
+          min-height: auto;
+          max-height: none;
+          min-width: auto;
+          max-width: none;
+        "
+        sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation"
+        width="1027"
+        height="0"
+        frameborder="0"
+        marginwidth="0"
+        marginheight="0"
+        vspace="0"
+        hspace="0"
+        allowtransparency="true"
+        scrolling="no"
+        allow="attribution-reporting; run-ad-auction"
+        src="https://googleads.g.doubleclick.net/pagead/ads?client=ca-pub-0588844875925051&amp;output=html&amp;h=280&amp;adk=2523179041&amp;adf=287680029&amp;w=1027&amp;abgtt=11&amp;fwrn=4&amp;fwrnh=100&amp;lmt=1750527950&amp;num_ads=1&amp;rafmt=1&amp;armr=3&amp;sem=mc&amp;pwprc=4633386603&amp;ad_type=text_image&amp;format=1027x280&amp;url=https%3A%2F%2Fwww.learncpp.com%2Fcpp-tutorial%2Fusing-a-language-reference%2F&amp;fwr=0&amp;pra=3&amp;rh=200&amp;rw=1026&amp;rpe=1&amp;resp_fmts=3&amp;wgl=1&amp;fa=27&amp;uach=WyJXaW5kb3dzIiwiMTkuMC4wIiwieDg2IiwiIiwiMTM3LjAuNzE1MS4xMjIiLG51bGwsMCxudWxsLCI2NCIsW1siR29vZ2xlIENocm9tZSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJDaHJvbWl1bSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJOb3QvQSlCcmFuZCIsIjI0LjAuMC4wIl1dLDBd&amp;dt=1751962857476&amp;bpp=1&amp;bdt=2500&amp;idt=-M&amp;shv=r20250702&amp;mjsv=m202507020101&amp;ptt=9&amp;saldr=aa&amp;abxe=1&amp;cookie=ID%3D05f6e82287d810b4%3AT%3D1751962604%3ART%3D1751962604%3AS%3DALNI_MaQYA0TSAU2k8xwY5tqlN0xFCcd6g&amp;gpic=UID%3D00001157d9e27d0a%3AT%3D1751962604%3ART%3D1751962604%3AS%3DALNI_MYgtHzQJAQQXY_151HTGSSfVxE8_A&amp;eo_id_str=ID%3D52c21936d98c6d2b%3AT%3D1751962604%3ART%3D1751962604%3AS%3DAA-AfjZsJ15yjdEPJ8d11hPojsJQ&amp;prev_fmts=0x0%2C336x280%2C160x600%2C160x600%2C1027x280%2C1027x280&amp;nras=4&amp;correlator=6402717075900&amp;frm=20&amp;pv=1&amp;u_tz=480&amp;u_his=2&amp;u_h=600&amp;u_w=800&amp;u_ah=600&amp;u_aw=800&amp;u_cd=24&amp;u_sd=1&amp;dmc=8&amp;adx=27&amp;ady=3331&amp;biw=1080&amp;bih=1024&amp;scr_x=0&amp;scr_y=0&amp;eid=31093232%2C95353386%2C95362655%2C95365226%2C95365235%2C95365700%2C95344789%2C95359266%2C95365122%2C95365797&amp;oid=2&amp;pvsid=8219718934316159&amp;tmod=1708485235&amp;uas=0&amp;nvt=1&amp;fc=1408&amp;brdim=10%2C10%2C10%2C10%2C800%2C0%2C780%2C580%2C1080%2C1024&amp;vis=1&amp;rsz=%7C%7Cs%7C&amp;abl=NS&amp;fu=128&amp;bc=31&amp;bz=0.72&amp;td=1&amp;tdf=2&amp;psd=W251bGwsbnVsbCxudWxsLDNd&amp;nt=1&amp;ifi=8&amp;uci=a!8&amp;btvi=3&amp;fsb=1&amp;dtd=35"
+        data-google-container-id="a!8"
+        tabindex="0"
+        title="Advertisement"
+        aria-label="Advertisement"
+        data-google-query-id="CKDn553qrI4DFcfKFgUd17ctrg"
+        data-load-complete="true"
+      ></iframe></div
+  ></ins>
+</div>
+<p>
+  Clicking on “std::string” leads to the page for
+  <a href="https://en.cppreference.com/w/cpp/string/basic_string"
+    ><code>std::basic_string</code></a
+  >. There is no page for <code>std::string</code>, because
+  <code>std::string</code> is a <code>typedef</code> for
+  <code>std::basic_string&lt;char&gt;</code>, which again can be seen in the
+  <code>typedef</code> list:
+</p>
+<div class="cpp-image-wrapper">
+  <img
+    src="https://www.learncpp.com/blog/wp-content/uploads/images/CppTutorial/cppreference/typedef-min.png"
+    alt="typedef"
+  />
+</div>
+<p>
+  The <code>&lt;char&gt;</code> means that each character of the string is of
+  type <code>char</code>. You’ll note that C++ offers other strings that use
+  different character types. These can be useful when using Unicode instead of
+  ASCII.
+</p>
+<div
+  class="google-auto-placed ap_container"
+  style="width: 100%; height: auto; clear: both; text-align: center"
+>
+  <ins
+    data-ad-format="auto"
+    class="adsbygoogle adsbygoogle-noablate"
+    data-ad-client="ca-pub-0588844875925051"
+    data-adsbygoogle-status="done"
+    style="
+      display: block;
+      margin: auto;
+      background-color: transparent;
+      height: 0px;
+    "
+    data-ad-status="unfilled"
+    ><div
+      id="aswift_8_host"
+      style="
+        border: none;
+        height: 0px;
+        width: 1027px;
+        margin: 0px;
+        padding: 0px;
+        position: relative;
+        visibility: visible;
+        background-color: transparent;
+        display: inline-block;
+        overflow: hidden;
+        opacity: 0;
+      "
+    >
+      <iframe
+        id="aswift_8"
+        name="aswift_8"
+        browsingtopics="true"
+        style="
+          left: 0px;
+          position: absolute;
+          top: 0px;
+          border: 0px;
+          width: 1027px;
+          height: 0px;
+          min-height: auto;
+          max-height: none;
+          min-width: auto;
+          max-width: none;
+        "
+        sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation"
+        width="1027"
+        height="0"
+        frameborder="0"
+        marginwidth="0"
+        marginheight="0"
+        vspace="0"
+        hspace="0"
+        allowtransparency="true"
+        scrolling="no"
+        allow="attribution-reporting; run-ad-auction"
+        src="https://googleads.g.doubleclick.net/pagead/ads?client=ca-pub-0588844875925051&amp;output=html&amp;h=280&amp;adk=2523179041&amp;adf=3005714476&amp;w=1027&amp;abgtt=11&amp;fwrn=4&amp;fwrnh=100&amp;lmt=1750527950&amp;num_ads=1&amp;rafmt=1&amp;armr=3&amp;sem=mc&amp;pwprc=4633386603&amp;ad_type=text_image&amp;format=1027x280&amp;url=https%3A%2F%2Fwww.learncpp.com%2Fcpp-tutorial%2Fusing-a-language-reference%2F&amp;fwr=0&amp;pra=3&amp;rh=200&amp;rw=1026&amp;rpe=1&amp;resp_fmts=3&amp;wgl=1&amp;fa=27&amp;uach=WyJXaW5kb3dzIiwiMTkuMC4wIiwieDg2IiwiIiwiMTM3LjAuNzE1MS4xMjIiLG51bGwsMCxudWxsLCI2NCIsW1siR29vZ2xlIENocm9tZSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJDaHJvbWl1bSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJOb3QvQSlCcmFuZCIsIjI0LjAuMC4wIl1dLDBd&amp;dt=1751962857476&amp;bpp=1&amp;bdt=2500&amp;idt=1&amp;shv=r20250702&amp;mjsv=m202507020101&amp;ptt=9&amp;saldr=aa&amp;abxe=1&amp;cookie=ID%3D05f6e82287d810b4%3AT%3D1751962604%3ART%3D1751962604%3AS%3DALNI_MaQYA0TSAU2k8xwY5tqlN0xFCcd6g&amp;gpic=UID%3D00001157d9e27d0a%3AT%3D1751962604%3ART%3D1751962604%3AS%3DALNI_MYgtHzQJAQQXY_151HTGSSfVxE8_A&amp;eo_id_str=ID%3D52c21936d98c6d2b%3AT%3D1751962604%3ART%3D1751962604%3AS%3DAA-AfjZsJ15yjdEPJ8d11hPojsJQ&amp;prev_fmts=0x0%2C336x280%2C160x600%2C160x600%2C1027x280%2C1027x280%2C1027x280&amp;nras=5&amp;correlator=6402717075900&amp;frm=20&amp;pv=1&amp;u_tz=480&amp;u_his=2&amp;u_h=600&amp;u_w=800&amp;u_ah=600&amp;u_aw=800&amp;u_cd=24&amp;u_sd=1&amp;dmc=8&amp;adx=27&amp;ady=3971&amp;biw=1080&amp;bih=1024&amp;scr_x=0&amp;scr_y=0&amp;eid=31093232%2C95353386%2C95362655%2C95365226%2C95365235%2C95365700%2C95344789%2C95359266%2C95365122%2C95365797&amp;oid=2&amp;pvsid=8219718934316159&amp;tmod=1708485235&amp;uas=0&amp;nvt=1&amp;fc=1408&amp;brdim=10%2C10%2C10%2C10%2C800%2C0%2C780%2C580%2C1080%2C1024&amp;vis=1&amp;rsz=%7C%7Cs%7C&amp;abl=NS&amp;fu=128&amp;bc=31&amp;bz=0.72&amp;td=1&amp;tdf=2&amp;psd=W251bGwsbnVsbCxudWxsLDNd&amp;nt=1&amp;ifi=9&amp;uci=a!9&amp;btvi=4&amp;fsb=1&amp;dtd=36"
+        data-google-container-id="a!9"
+        tabindex="0"
+        title="Advertisement"
+        aria-label="Advertisement"
+        data-load-complete="true"
+        data-google-query-id="CLW16J3qrI4DFfHtFgUdPrsfsQ"
+      ></iframe></div
+  ></ins>
+</div>
+<p>
+  Further down the same page, there’s a
+  <a
+    href="https://en.cppreference.com/w/cpp/string/basic_string#Member_functions"
+    >list of member functions</a
+  >
+  (the behaviors that a type has). If you want to know what you can do with a
+  type, this list is very convenient. In this list, you’ll find a row for
+  <code>length</code> (and <code>size</code>).
+</p>
+<p>
+  Following the link brings us to the detailed function description of
+  <a href="https://en.cppreference.com/w/cpp/string/basic_string/size"
+    ><code>length</code> and <code>size</code></a
+  >, which both do the same thing.
+</p>
+<div class="code-block code-block-4" style="margin: 8px 0; clear: both"></div>
+
+<p>
+  The top of each page starts with a short summary of the feature and syntax,
+  overloads, or declarations:
+</p>
+<div class="cpp-image-wrapper">
+  <img
+    src="https://www.learncpp.com/blog/wp-content/uploads/images/CppTutorial/cppreference/string-length-overloads-min.png"
+    alt="string length overloads"
+  />
+</div>
+<p>
+  The title of the page shows the name of the class and function with all
+  template parameters. We can ignore this part. Below the title, we see all of
+  the different function overloads (different versions of the function that
+  share the same name) and which language standard they apply to.
+</p>
+<div
+  class="google-auto-placed ap_container"
+  style="width: 100%; height: auto; clear: both; text-align: center"
+>
+  <ins
+    data-ad-format="auto"
+    class="adsbygoogle adsbygoogle-noablate"
+    data-ad-client="ca-pub-0588844875925051"
+    data-adsbygoogle-status="done"
+    style="
+      display: block;
+      margin: auto;
+      background-color: transparent;
+      height: 0px;
+    "
+    data-ad-status="unfilled"
+    ><div
+      id="aswift_9_host"
+      style="
+        border: none;
+        height: 0px;
+        width: 1027px;
+        margin: 0px;
+        padding: 0px;
+        position: relative;
+        visibility: visible;
+        background-color: transparent;
+        display: inline-block;
+        overflow: hidden;
+        opacity: 0;
+      "
+    >
+      <iframe
+        id="aswift_9"
+        name="aswift_9"
+        browsingtopics="true"
+        style="
+          left: 0px;
+          position: absolute;
+          top: 0px;
+          border: 0px;
+          width: 1027px;
+          height: 0px;
+          min-height: auto;
+          max-height: none;
+          min-width: auto;
+          max-width: none;
+        "
+        sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation"
+        width="1027"
+        height="0"
+        frameborder="0"
+        marginwidth="0"
+        marginheight="0"
+        vspace="0"
+        hspace="0"
+        allowtransparency="true"
+        scrolling="no"
+        allow="attribution-reporting; run-ad-auction"
+        src="https://googleads.g.doubleclick.net/pagead/ads?client=ca-pub-0588844875925051&amp;output=html&amp;h=280&amp;adk=2523179041&amp;adf=2327331659&amp;w=1027&amp;abgtt=11&amp;fwrn=4&amp;fwrnh=100&amp;lmt=1750527950&amp;num_ads=1&amp;rafmt=1&amp;armr=3&amp;sem=mc&amp;pwprc=4633386603&amp;ad_type=text_image&amp;format=1027x280&amp;url=https%3A%2F%2Fwww.learncpp.com%2Fcpp-tutorial%2Fusing-a-language-reference%2F&amp;fwr=0&amp;pra=3&amp;rh=200&amp;rw=1026&amp;rpe=1&amp;resp_fmts=3&amp;wgl=1&amp;fa=27&amp;uach=WyJXaW5kb3dzIiwiMTkuMC4wIiwieDg2IiwiIiwiMTM3LjAuNzE1MS4xMjIiLG51bGwsMCxudWxsLCI2NCIsW1siR29vZ2xlIENocm9tZSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJDaHJvbWl1bSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJOb3QvQSlCcmFuZCIsIjI0LjAuMC4wIl1dLDBd&amp;dt=1751962857479&amp;bpp=1&amp;bdt=2503&amp;idt=0&amp;shv=r20250702&amp;mjsv=m202507020101&amp;ptt=9&amp;saldr=aa&amp;abxe=1&amp;cookie=ID%3D05f6e82287d810b4%3AT%3D1751962604%3ART%3D1751962604%3AS%3DALNI_MaQYA0TSAU2k8xwY5tqlN0xFCcd6g&amp;gpic=UID%3D00001157d9e27d0a%3AT%3D1751962604%3ART%3D1751962604%3AS%3DALNI_MYgtHzQJAQQXY_151HTGSSfVxE8_A&amp;eo_id_str=ID%3D52c21936d98c6d2b%3AT%3D1751962604%3ART%3D1751962604%3AS%3DAA-AfjZsJ15yjdEPJ8d11hPojsJQ&amp;prev_fmts=0x0%2C336x280%2C160x600%2C160x600%2C1027x280%2C1027x280%2C1027x280%2C1027x280&amp;nras=6&amp;correlator=6402717075900&amp;frm=20&amp;pv=1&amp;u_tz=480&amp;u_his=2&amp;u_h=600&amp;u_w=800&amp;u_ah=600&amp;u_aw=800&amp;u_cd=24&amp;u_sd=1&amp;dmc=8&amp;adx=27&amp;ady=3777&amp;biw=1080&amp;bih=1024&amp;scr_x=0&amp;scr_y=0&amp;eid=31093232%2C95353386%2C95362655%2C95365226%2C95365235%2C95365700%2C95344789%2C95359266%2C95365122%2C95365797&amp;oid=2&amp;pvsid=8219718934316159&amp;tmod=1708485235&amp;uas=0&amp;nvt=1&amp;fc=1408&amp;brdim=10%2C10%2C10%2C10%2C800%2C0%2C780%2C580%2C1080%2C1024&amp;vis=1&amp;rsz=%7C%7Cs%7C&amp;abl=NS&amp;fu=128&amp;bc=31&amp;bz=0.72&amp;td=1&amp;tdf=2&amp;psd=W251bGwsbnVsbCxudWxsLDNd&amp;nt=1&amp;ifi=10&amp;uci=a!a&amp;btvi=5&amp;fsb=1&amp;dtd=389"
+        data-google-container-id="a!a"
+        tabindex="0"
+        title="Advertisement"
+        aria-label="Advertisement"
+        data-load-complete="true"
+        data-google-query-id="CP-p_Z3qrI4DFSrIFgUdDjYuHw"
+      ></iframe></div
+  ></ins>
+</div>
+<p>
+  Below that, we can see the parameters that the function takes, and what the
+  return value means.
+</p>
+<p>
+  Because <code>std::string::length</code> is a simple function, there’s not a
+  lot of content on this page. Many pages show example uses of the feature
+  they’re documenting, as does this one:
+</p>
+<div class="cpp-image-wrapper">
+  <img
+    src="https://www.learncpp.com/blog/wp-content/uploads/images/CppTutorial/cppreference/string-length-example-min.png"
+    alt="string length example"
+  />
+</div>
+<p>
+  While you’re still learning C++, there will be features in the examples that
+  you haven’t seen before. If there are enough examples, you’re probably able to
+  understand a sufficient amount of it to get an idea of how the function is
+  used and what it does. If the example is too complicated, you can search for
+  an example somewhere else or read the reference of the parts you don’t
+  understand (you can click on functions and types in the examples to see what
+  they do).
+</p>
+<div class="code-block code-block-5" style="margin: 8px 0; clear: both"></div>
+
+<p>
+  Now we know what <code>std::string::length</code> does, but we knew that
+  before. Let’s have a look at something new!
+</p>
+<div
+  class="google-auto-placed ap_container"
+  style="width: 100%; height: auto; clear: both; text-align: center"
+>
+  <ins
+    data-ad-format="auto"
+    class="adsbygoogle adsbygoogle-noablate ezfound"
+    data-ad-client="ca-pub-0588844875925051"
+    data-adsbygoogle-status="done"
+    style="
+      display: block;
+      margin: auto;
+      background-color: transparent;
+      height: 280px;
+    "
+    ><div
+      id="aswift_10_host"
+      style="
+        border: none;
+        height: 280px;
+        width: 1027px;
+        margin: 0px;
+        padding: 0px;
+        position: relative;
+        visibility: visible;
+        background-color: transparent;
+        display: inline-block;
+      "
+    ></div
+  ></ins>
+</div>
+<p class="cpp-section cpp-topline" style="clear: both">std::cin.ignore</p>
+<p>
+  In lesson
+  <a
+    href="https://www.learncpp.com/cpp-tutorial/stdcin-and-handling-invalid-input/"
+    >9.5 -- std::cin and handling invalid input</a
+  >, we talked about <code>std::cin.ignore</code>, which is used to ignore
+  everything up to a line break. One of the parameters of this function is some
+  long and verbose value. What was that again? Can’t you just use a big number?
+  What does this argument do anyway? Let’s figure it out!
+</p>
+<p>
+  Typing “std::cin.ignore” into the cppreference search yields the following
+  results:
+</p>
+<div class="cpp-image-wrapper">
+  <img
+    src="https://www.learncpp.com/blog/wp-content/uploads/images/CppTutorial/cppreference/ignore-ddg-min.png"
+    alt="Search engine results"
+  />
+</div>
+<ul>
+  <li>
+    <code>std::cin, std::wcin </code> - We want <code>.ignore</code>, not plain
+    <code>std::cin</code>.
+  </li>
+  <li>
+    <code>std::basic_istream&lt;CharT,Traits&gt;::ignore</code> - Eew, what is
+    this? Let’s skip for now.
+  </li>
+  <li><code>std::ignore</code> - No, that’s not it.</li>
+  <li><code>std::basic_istream</code> - That’s not it either.</li>
+</ul>
+<p>
+  It’s not there, what now? Let’s go to
+  <a href="https://en.cppreference.com/w/cpp/io/cin"><code>std::cin</code></a>
+  and work our way from there. There’s nothing immediately obvious on that page.
+  On the top, we can see the declaration of <code>std::cin</code> and
+  <code>std::wcin</code>, and it tells us which header we need to include to use
+  <code>std::cin</code>:
+</p>
+<div class="cpp-image-wrapper">
+  <img
+    src="https://www.learncpp.com/blog/wp-content/uploads/images/CppTutorial/cppreference/cintop-min.png"
+    alt="Declaration"
+  />
+</div>
+<p>
+  We can see that <code>std::cin</code> is an object of type
+  <code>std::istream</code>. Let’s follow the link to
+  <a href="https://en.cppreference.com/w/cpp/io/basic_istream"
+    ><code>std::istream</code></a
+  >:
+</p>
+<div class="code-block code-block-6" style="margin: 8px 0; clear: both"></div>
+
+<div class="cpp-image-wrapper">
+  <img
+    src="https://www.learncpp.com/blog/wp-content/uploads/images/CppTutorial/cppreference/basic_istream-min.png"
+    alt="basic_istream"
+  />
+</div>
+<p>
+  Hold up! We’ve seen <code>std::basic_istream</code> before when we searched
+  for “std::cin.ignore” in our search engine. It turns out that
+  <code>istream</code> is a typedef name for <code>basic_istream</code>, so
+  maybe our search wasn’t so wrong after all.
+</p>
+<div
+  class="google-auto-placed ap_container"
+  style="width: 100%; height: auto; clear: both; text-align: center"
+>
+  <ins
+    data-ad-format="auto"
+    class="adsbygoogle adsbygoogle-noablate ezfound"
+    data-ad-client="ca-pub-0588844875925051"
+    data-adsbygoogle-status="done"
+    style="
+      display: block;
+      margin: auto;
+      background-color: transparent;
+      height: 280px;
+    "
+    ><div
+      id="aswift_11_host"
+      style="
+        border: none;
+        height: 280px;
+        width: 1027px;
+        margin: 0px;
+        padding: 0px;
+        position: relative;
+        visibility: visible;
+        background-color: transparent;
+        display: inline-block;
+      "
+    ></div
+  ></ins>
+</div>
+<p>Scrolling down on that page, we’re greeted with familiar functions:</p>
+<div class="cpp-image-wrapper">
+  <img
+    src="https://www.learncpp.com/blog/wp-content/uploads/images/CppTutorial/cppreference/members-min.png"
+    alt="Member functions"
+  />
+</div>
+<p>
+  We’ve used many of these functions already: <code>operator&gt;&gt;</code>,
+  <code>get</code>, <code>getline</code>, <code>ignore</code>. Scroll around on
+  that page to get an idea of what else there is in <code>std::cin</code>. Then
+  click
+  <a href="https://en.cppreference.com/w/cpp/io/basic_istream/ignore"
+    ><code>ignore</code></a
+  >, since that’s what we’re interested in.
+</p>
+<div class="cpp-image-wrapper">
+  <img
+    src="https://www.learncpp.com/blog/wp-content/uploads/images/CppTutorial/cppreference/ignore-top-min.png"
+    alt="ignore"
+  />
+</div>
+<p>
+  On the top of the page there’s the function signature and a description of
+  what the function and its two parameters do. The <code>=</code> signs after
+  the parameters indicate a <strong>default argument</strong> (we cover this in
+  lesson
+  <a href="https://www.learncpp.com/cpp-tutorial/default-arguments/"
+    >11.5 -- Default arguments</a
+  >). If we don’t provide an argument for a parameter that has a default value,
+  the default value is used.
+</p>
+<div
+  class="google-auto-placed ap_container"
+  style="width: 100%; height: auto; clear: both; text-align: center"
+>
+  <ins
+    data-ad-format="auto"
+    class="adsbygoogle adsbygoogle-noablate ezfound"
+    data-ad-client="ca-pub-0588844875925051"
+    data-adsbygoogle-status="done"
+    style="
+      display: block;
+      margin: auto;
+      background-color: transparent;
+      height: 280px;
+    "
+    ><div
+      id="aswift_12_host"
+      style="
+        border: none;
+        height: 280px;
+        width: 1027px;
+        margin: 0px;
+        padding: 0px;
+        position: relative;
+        visibility: visible;
+        background-color: transparent;
+        display: inline-block;
+      "
+    ></div
+  ></ins>
+</div>
+<p>
+  The first bullet point answers all of our questions. We can see that
+  <code>std::numeric_limits&lt;std::streamsize&gt;::max()</code> has special
+  meaning to <code>std::cin.ignore</code>, in that it disables the character
+  count check. This means <code>std::cin.ignore</code> will continue ignoring
+  characters until it finds the delimiter, or until it runs out of characters to
+  look at.
+</p>
+<div class="code-block code-block-7" style="margin: 8px 0; clear: both"></div>
+
+<p>
+  Many times, you don’t need to read the entire description of a function if you
+  already know it but forgot what the parameters or return value mean. In such
+  situations, reading the parameter or return value description suffices.
+</p>
+<div class="cpp-image-wrapper">
+  <img
+    src="https://www.learncpp.com/blog/wp-content/uploads/images/CppTutorial/cppreference/parameters-return-min.png"
+    alt="Parameters and return value"
+  />
+</div>
+<p>
+  The parameter description is brief. It doesn’t contain the special handling of
+  <code>std::numeric_limits&lt;std::streamsize&gt;::max()</code> or the other
+  stop conditions, but serves as a good reminder.
+</p>
+<div
+  class="google-auto-placed ap_container"
+  style="width: 100%; height: auto; clear: both; text-align: center"
+>
+  <ins
+    data-ad-format="auto"
+    class="adsbygoogle adsbygoogle-noablate ezfound"
+    data-ad-client="ca-pub-0588844875925051"
+    data-adsbygoogle-status="done"
+    style="
+      display: block;
+      margin: auto;
+      background-color: transparent;
+      height: 280px;
+    "
+    ><div
+      id="aswift_13_host"
+      style="
+        border: none;
+        height: 280px;
+        width: 1027px;
+        margin: 0px;
+        padding: 0px;
+        position: relative;
+        visibility: visible;
+        background-color: transparent;
+        display: inline-block;
+      "
+    ></div
+  ></ins>
+</div>
+<p class="cpp-section cpp-topline" style="clear: both">
+  A language grammar example
+</p>
+<p>
+  Alongside the standard library, cppreference also documents the language
+  grammar. Here’s a valid program:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">getUserInput</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-141-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-141-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-146-close">{</span>
+  <span class="token keyword keyword-int">int</span> i<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-145-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-145-open">}</span><span class="token punctuation">;</span>
+  std<span class="token double-colon punctuation">::</span>cin <span class="token operator">&gt;&gt;</span> i<span class="token punctuation">;</span>
+  <span class="token keyword keyword-return">return</span> i<span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-146-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-142-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-142-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-150-close">{</span>
+  std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"How many bananas did you eat today? \n"</span><span class="token punctuation">;</span>
+
+  <span class="token keyword keyword-if">if</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-144-close">(</span><span class="token keyword keyword-int">int</span> iBananasEaten<span class="token punctuation brace-curly brace-open brace-level-3" id="pair-147-close">{</span> <span class="token function">getUserInput</span><span class="token punctuation brace-round brace-open brace-level-4" id="pair-143-close">(</span><span class="token punctuation brace-round brace-close brace-level-4" id="pair-143-open">)</span> <span class="token punctuation brace-curly brace-close brace-level-3" id="pair-147-open">}</span><span class="token punctuation">;</span> iBananasEaten <span class="token operator">&lt;=</span> <span class="token number">2</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-144-open">)</span>
+  <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-148-close">{</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Yummy\n"</span><span class="token punctuation">;</span>
+  <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-148-open">}</span>
+  <span class="token keyword keyword-else">else</span>
+  <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-149-close">{</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> iBananasEaten <span class="token operator">&lt;&lt;</span> <span class="token string">" is a lot!\n"</span><span class="token punctuation">;</span>
+  <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-149-open">}</span>
+
+  <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-150-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  Why is there a variable definition inside the condition of the
+  <code>if-statement</code>? Let’s use cppreference to figure out what it does
+  by searching for “cppreference if statement” in our favorite search engine.
+  Doing so leads us to
+  <a href="https://en.cppreference.com/w/cpp/language/if">if statements</a>. At
+  the top, there’s a syntax reference.
+</p>
+<div class="cpp-image-wrapper">
+  <img
+    src="https://www.learncpp.com/blog/wp-content/uploads/images/CppTutorial/cppreference/syntax-min.png"
+    alt=""
+  />
+</div>
+<p>
+  Look at the syntax for the <code>if-statement</code>. If you remove all of the
+  optional parts, you get an <code>if-statement</code> that you already know.
+  Before the <code>condition</code>, there’s an optional
+  <code>init-statement</code>, that looks like what’s happening in the code
+  above.
+</p>
+<div class="code-block code-block-8" style="margin: 8px 0; clear: both"></div>
+
+<pre>
+if ( init-statement condition ) statement-true
+if ( init-statement condition ) statement-true else statement-false
+</pre>
+<p>
+  Below the syntax reference, there’s an explanation of each part of the syntax,
+  including the <code>init-statement</code>. It says that the
+  <code>init-statement</code> is typically a declaration of a variable with an
+  initializer.
+</p>
+<p>
+  Following the syntax is an explanation of <code>if-statements</code> and
+  simple examples:
+</p>
+<div class="cpp-image-wrapper">
+  <img
+    src="https://www.learncpp.com/blog/wp-content/uploads/images/CppTutorial/cppreference/explanation-min.png"
+    alt="Explanation on examples"
+  />
+</div>
+<p>
+  We already know how <code>if-statements</code> work, and the examples don’t
+  include an <code>init-statement</code>, so we scroll down a little to find a
+  section dedicated to <code>if-statements</code> with initializers:
+</p>
+<div class="cpp-image-wrapper">
+  <img
+    src="https://www.learncpp.com/blog/wp-content/uploads/images/CppTutorial/cppreference/if-init-min.png"
+    alt="If Statements with Initializer"
+  />
+</div>
+<p>
+  First, it is shown how the <code>init-statement</code> can be written without
+  actually using an <code>init-statement</code>. Now we know what the code in
+  question is doing. It’s a normal variable declaration, just merged into the
+  <code>if-statement</code>.
+</p>
+<p>
+  The sentence after that is interesting, because it lets us know that the names
+  from the <code>init-statement</code> are available in <em>both</em> statements
+  (<code>statement-true</code> and <code>statement-false</code>). This may be
+  surprising, since you might otherwise assume the variable is only available in
+  the <code>statement-true</code>.
+</p>
+<p>
+  The <code>init-statement</code> examples use features and types that we
+  haven’t covered yet. You don’t have to understand everything you see to
+  understand how the <code>init-statement</code> works. Let’s skip everything
+  that’s too confusing until we find something we can work with:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token comment">// Iterators, we don't know them. Skip.</span>
+<span class="token keyword keyword-if">if</span> <span class="token punctuation brace-round brace-open brace-level-1" id="pair-153-close">(</span><span class="token keyword keyword-auto">auto</span> it <span class="token operator">=</span> m<span class="token punctuation">.</span><span class="token function">find</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-151-close">(</span><span class="token number">10</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-151-open">)</span><span class="token punctuation">;</span> it <span class="token operator">!=</span> m<span class="token punctuation">.</span><span class="token function">end</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-152-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-152-open">)</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-153-open">)</span> <span class="token punctuation brace-curly brace-open brace-level-1" id="pair-172-close">{</span> <span class="token keyword keyword-return">return</span> it<span class="token operator">-&gt;</span>second<span class="token punctuation">.</span><span class="token function">size</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-154-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-154-open">)</span><span class="token punctuation">;</span> <span class="token punctuation brace-curly brace-close brace-level-1" id="pair-172-open">}</span>
+
+<span class="token comment">// [10], what's that? Skip.</span>
+<span class="token keyword keyword-if">if</span> <span class="token punctuation brace-round brace-open brace-level-1" id="pair-156-close">(</span><span class="token keyword keyword-char">char</span> buf<span class="token punctuation brace-square brace-open brace-level-2" id="pair-169-close">[</span><span class="token number">10</span><span class="token punctuation brace-square brace-close brace-level-2" id="pair-169-open">]</span><span class="token punctuation">;</span> std<span class="token double-colon punctuation">::</span><span class="token function">fgets</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-155-close">(</span>buf<span class="token punctuation">,</span> <span class="token number">10</span><span class="token punctuation">,</span> <span class="token constant">stdin</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-155-open">)</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-156-open">)</span> <span class="token punctuation brace-curly brace-open brace-level-1" id="pair-173-close">{</span> m<span class="token punctuation brace-square brace-open brace-level-2" id="pair-170-close">[</span><span class="token number">0</span><span class="token punctuation brace-square brace-close brace-level-2" id="pair-170-open">]</span> <span class="token operator">+=</span> buf<span class="token punctuation">;</span> <span class="token punctuation brace-curly brace-close brace-level-1" id="pair-173-open">}</span>
+
+<span class="token comment">// std::lock_guard, we don't know that, but it's some type. We know what types are!</span>
+<span class="token keyword keyword-if">if</span> <span class="token punctuation brace-round brace-open brace-level-1" id="pair-158-close">(</span>std<span class="token double-colon punctuation">::</span>lock_guard <span class="token function">lock</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-157-close">(</span>mx<span class="token punctuation brace-round brace-close brace-level-2" id="pair-157-open">)</span><span class="token punctuation">;</span> shared_flag<span class="token punctuation brace-round brace-close brace-level-1" id="pair-158-open">)</span> <span class="token punctuation brace-curly brace-open brace-level-1" id="pair-174-close">{</span> <span class="token function">unsafe_ping</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-159-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-159-open">)</span><span class="token punctuation">;</span> shared_flag <span class="token operator">=</span> <span class="token boolean">false</span><span class="token punctuation">;</span> <span class="token punctuation brace-curly brace-close brace-level-1" id="pair-174-open">}</span>
+
+<span class="token comment">// This is easy, that's an int!</span>
+<span class="token keyword keyword-if">if</span> <span class="token punctuation brace-round brace-open brace-level-1" id="pair-161-close">(</span><span class="token keyword keyword-int">int</span> s<span class="token punctuation">;</span> <span class="token keyword keyword-int">int</span> count <span class="token operator">=</span> <span class="token function">ReadBytesWithSignal</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-160-close">(</span><span class="token operator">&amp;</span>s<span class="token punctuation brace-round brace-close brace-level-2" id="pair-160-open">)</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-161-open">)</span> <span class="token punctuation brace-curly brace-open brace-level-1" id="pair-175-close">{</span> <span class="token function">publish</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-162-close">(</span>count<span class="token punctuation brace-round brace-close brace-level-2" id="pair-162-open">)</span><span class="token punctuation">;</span> <span class="token function">raise</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-163-close">(</span>s<span class="token punctuation brace-round brace-close brace-level-2" id="pair-163-open">)</span><span class="token punctuation">;</span> <span class="token punctuation brace-curly brace-close brace-level-1" id="pair-175-open">}</span>
+
+<span class="token comment">// Whew, no thanks!</span>
+<span class="token keyword keyword-if">if</span> <span class="token punctuation brace-round brace-open brace-level-1" id="pair-168-close">(</span><span class="token keyword keyword-auto">auto</span> keywords <span class="token operator">=</span> <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-176-close">{</span><span class="token string">"if"</span><span class="token punctuation">,</span> <span class="token string">"for"</span><span class="token punctuation">,</span> <span class="token string">"while"</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-176-open">}</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span><span class="token function">any_of</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-167-close">(</span>keywords<span class="token punctuation">.</span><span class="token function">begin</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-164-close">(</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-164-open">)</span><span class="token punctuation">,</span> keywords<span class="token punctuation">.</span><span class="token function">end</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-165-close">(</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-165-open">)</span><span class="token punctuation">,</span>
+                <span class="token punctuation brace-square brace-open brace-level-3" id="pair-171-close">[</span><span class="token operator">&amp;</span>s<span class="token punctuation brace-square brace-close brace-level-3" id="pair-171-open">]</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-166-close">(</span><span class="token keyword keyword-const">const</span> <span class="token keyword keyword-char">char</span><span class="token operator">*</span> kw<span class="token punctuation brace-round brace-close brace-level-3" id="pair-166-open">)</span> <span class="token punctuation brace-curly brace-open brace-level-3" id="pair-177-close">{</span> <span class="token keyword keyword-return">return</span> s <span class="token operator">==</span> kw<span class="token punctuation">;</span> <span class="token punctuation brace-curly brace-close brace-level-3" id="pair-177-open">}</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-167-open">)</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-168-open">)</span> <span class="token punctuation brace-curly brace-open brace-level-1" id="pair-178-close">{</span>
+  std<span class="token double-colon punctuation">::</span>cerr <span class="token operator">&lt;&lt;</span> <span class="token string">"Token must not be a keyword\n"</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-178-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  The easiest example seems to be the one with an <code>int</code>. Then we look
+  after the semicolon and there’s another definition, odd… Let’s go back to the
+  <code>std::lock_guard</code> example.
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-if">if</span> <span class="token punctuation brace-round brace-open brace-level-1" id="pair-180-close">(</span>std<span class="token double-colon punctuation">::</span>lock_guard <span class="token function">lock</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-179-close">(</span>mx<span class="token punctuation brace-round brace-close brace-level-2" id="pair-179-open">)</span><span class="token punctuation">;</span> shared_flag<span class="token punctuation brace-round brace-close brace-level-1" id="pair-180-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-182-close">{</span>
+  <span class="token function">unsafe_ping</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-181-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-181-open">)</span><span class="token punctuation">;</span>
+  shared_flag <span class="token operator">=</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-182-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  From this, it’s relatively easy to see how an
+  <code>init-statement</code> works. Define some variable (<code>lock</code>),
+  then a semicolon, then the condition. That’s exactly what happened in our
+  example.
+</p>
+<p class="cpp-section cpp-topline" style="clear: both">
+  A warning about the accuracy of cppreference
+</p>
+<p>
+  Cppreference is not an official documentation source -- rather, it is a wiki.
+  With wikis, anyone can add and modify content -- the content is sourced from
+  the community. Although this means that it’s easy for someone to add wrong
+  information, that misinformation is typically quickly caught and removed,
+  making cppreference a reliable source.
+</p>
+<p>
+  The only official source for C++ is
+  <a href="https://isocpp.org/std/the-standard">the standard</a> (Free drafts on
+  <a href="https://github.com/cplusplus/draft/tree/master/papers">github</a>),
+  which is a formal document and not easily usable as a reference.
+</p>
+<p class="cpp-section cpp-topline" style="clear: both">Quiz time</p>
+<div class="quiz" style="clear: both">
+  <p class="quiz-header">Question #1</p>
+  <p>
+    What does the following program print? Don’t run it, use a reference to
+    figure out what <code>erase</code> does.
+  </p>
+  <div class="code-toolbar">
+    <pre
+      class="line-numbers language-cpp"
+      tabindex="0"
+    ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;string&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-183-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-183-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-186-close">{</span>
+  std<span class="token double-colon punctuation">::</span>string str<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-185-close">{</span> <span class="token string">"The rice is cooking"</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-185-open">}</span><span class="token punctuation">;</span>
+
+  str<span class="token punctuation">.</span><span class="token function">erase</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-184-close">(</span><span class="token number">4</span><span class="token punctuation">,</span> <span class="token number">11</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-184-open">)</span><span class="token punctuation">;</span>
+
+  std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> str <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+  <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-186-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+    <div class="toolbar">
+      <div class="toolbar-item">
+        <button
+          class="copy-to-clipboard-button"
+          type="button"
+          data-copy-state="copy"
+        >
+          <span>Copy</span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="cpp-note cpp-lightbluebackground">
+    <p class="cpp-note-title cpp-bottomline">Tip</p>
+    <p>
+      When you find <code>erase</code> on cppreference, you can ignore the
+      overloads that use iterators.
+    </p>
+  </div>
+  <div class="cpp-note cpp-lightbluebackground">
+    <p class="cpp-note-title cpp-bottomline">Tip</p>
+    <p>
+      Indexes in C++ start at 0. The character at index 0 in the string “House”
+      is ‘H’, at 1 it’s ‘o’, and so on.
+    </p>
+  </div>
+  <p>
+    <a
+      class="solution_link_show"
+      href="javascript:void(0)"
+      onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_0'), this, 'Show Solution', 'Hide Solution')"
+      >Show Solution</a
+    >
+  </p>
+  <div class="wpsolution" id="cpp_solution_id_0" style="display: none">
+    <pre>
+The king
+</pre
+    >
+    <p>
+      Here’s how you’d get there by using the search function on cppreference
+      (you might have skipped the first step by using a search engine):
+    </p>
+    <p>
+      <a
+        href="https://en.cppreference.com/mwiki/index.php?title=Special%3ASearch&amp;search=string&amp;button="
+        >Searching for string</a
+      >
+      and clicking “std::string” leads us to
+      <a href="https://en.cppreference.com/w/cpp/string/basic_string"
+        ><code>std::basic_string</code></a
+      >.
+    </p>
+    <p>
+      Scrolling to the “Member functions” list, we find
+      <a href="https://en.cppreference.com/w/cpp/string/basic_string/erase"
+        >erase</a
+      >. As hinted in the tip above, the first
+      <strong>function overload</strong> is used. It takes 2
+      <code>size_type</code> (Unsigned integer type) arguments. In our example,
+      4 and 11. According to the description of (1), it removes “<code
+        >min(count, size() - index)</code
+      >
+      characters starting at <code>index</code>“. Plugging in our arguments, it
+      removes <code>min(11, 19 - 4) = 11</code> characters starting at index 4.
+    </p>
+  </div>
+  <p></p>
+</div>
+<div class="quiz" style="clear: both">
+  <p class="quiz-header">Question #2</p>
+  <p>
+    In the following code, modify <code>str</code> so that its value is “I saw a
+    blue car yesterday.” without repeating the string. For example, don’t do
+    this:
+  </p>
+  <div class="code-toolbar">
+    <pre
+      class="line-numbers language-cpp"
+      tabindex="0"
+    ><code class="match-braces language-cpp">str <span class="token operator">=</span> <span class="token string">"I saw a blue car yesterday."</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+    <div class="toolbar">
+      <div class="toolbar-item">
+        <button
+          class="copy-to-clipboard-button"
+          type="button"
+          data-copy-state="copy"
+        >
+          <span>Copy</span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <p>
+    You only need to call one function to <em>replace</em> “red” with “blue”.
+  </p>
+  <div class="code-toolbar">
+    <pre
+      class="line-numbers language-cpp"
+      tabindex="0"
+    ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;string&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-187-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-187-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-189-close">{</span>
+  std<span class="token double-colon punctuation">::</span>string str<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-188-close">{</span> <span class="token string">"I saw a red car yesterday."</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-188-open">}</span><span class="token punctuation">;</span>
+
+  <span class="token comment">// ...</span>
+
+  std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> str <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span> <span class="token comment">// I saw a blue car yesterday.</span>
+
+  <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-189-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+    <div class="toolbar">
+      <div class="toolbar-item">
+        <button
+          class="copy-to-clipboard-button"
+          type="button"
+          data-copy-state="copy"
+        >
+          <span>Copy</span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <p>
+    <a
+      class="hint_link_show"
+      href="javascript:void(0)"
+      onclick="cppHintToggle(document.getElementById('cpp_hint_id_0'), this, 'Show Hint', '')"
+      >Show Hint</a
+    >
+  </p>
+  <div
+    class="wphint"
+    id="cpp_hint_id_0"
+    style="display: none; margin-bottom: 1em"
+  >
+    Hint:
+    <a href="https://en.cppreference.com/w/cpp/string/basic_string"
+      ><code>std::basic_string</code></a
+    >
+  </div>
+  <p>
+    <a
+      class="hint_link_show"
+      href="javascript:void(0)"
+      onclick="cppHintToggle(document.getElementById('cpp_hint_id_1'), this, 'Show Hint', '')"
+      >Show Hint</a
+    >
+  </p>
+  <div
+    class="wphint"
+    id="cpp_hint_id_1"
+    style="display: none; margin-bottom: 1em"
+  >
+    Hint:
+    <a
+      href="https://en.cppreference.com/w/cpp/string/basic_string#Member_functions"
+      >Member functions of <code>std::basic_string</code></a
+    >
+  </div>
+  <p>
+    <a
+      class="hint_link_show"
+      href="javascript:void(0)"
+      onclick="cppHintToggle(document.getElementById('cpp_hint_id_2'), this, 'Show Hint', '')"
+      >Show Hint</a
+    >
+  </p>
+  <div
+    class="wphint"
+    id="cpp_hint_id_2"
+    style="display: none; margin-bottom: 1em"
+  >
+    Hint:
+    <a href="https://en.cppreference.com/w/cpp/string/basic_string#modifiers"
+      >Modifiers of <code>std::basic_string</code></a
+    >
+  </div>
+  <p>
+    <a
+      class="hint_link_show"
+      href="javascript:void(0)"
+      onclick="cppHintToggle(document.getElementById('cpp_hint_id_3'), this, 'Show Hint', '')"
+      >Show Hint</a
+    >
+  </p>
+  <div
+    class="wphint"
+    id="cpp_hint_id_3"
+    style="display: none; margin-bottom: 1em"
+  >
+    Hint:
+    <a href="https://en.cppreference.com/w/cpp/string/basic_string/replace"
+      ><code>std::basic_string::replace</code></a
+    >
+  </div>
+  <p>
+    <a
+      class="solution_link_show"
+      href="javascript:void(0)"
+      onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_1'), this, 'Show Solution', 'Hide Solution')"
+      >Show Solution</a
+    >
+  </p>
+  <div class="wpsolution" id="cpp_solution_id_1" style="display: none">
+    <div class="code-toolbar">
+      <pre
+        class="line-numbers language-cpp"
+        tabindex="0"
+      ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;string&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-190-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-190-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-193-close">{</span>
+  std<span class="token double-colon punctuation">::</span>string str<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-192-close">{</span> <span class="token string">"I saw a red car yesterday."</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-192-open">}</span><span class="token punctuation">;</span>
+
+  str<span class="token punctuation">.</span><span class="token function">replace</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-191-close">(</span><span class="token number">8</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token string">"blue"</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-191-open">)</span><span class="token punctuation">;</span>
+
+  std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> str <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span> <span class="token comment">// I saw a blue car yesterday.</span>
+
+  <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-193-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+      <div class="toolbar">
+        <div class="toolbar-item">
+          <button
+            class="copy-to-clipboard-button"
+            type="button"
+            data-copy-state="copy"
+          >
+            <span>Copy</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="prevnext">
+  <div class="prevnext-inline">
+    <a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/introduction-to-object-oriented-programming/"
+    >
+      <div class="nav-button nav-button-next">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-right" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Next lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">14.1</span>Introduction to
+            object-oriented programming
+          </div>
+        </div>
+      </div></a
+    >
+    <a class="nav-link" href="/">
+      <div class="nav-button nav-button-index">
+        <div class="nav-button-icon">
+          <i class="fa fa-home" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Back to table of contents</div>
+        </div>
+      </div></a
+    >
+    <a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/chapter-13-summary-and-quiz/"
+    >
+      <div class="nav-button nav-button-prev">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-left" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Previous lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">13.x</span>Chapter 13 summary
+            and quiz
+          </div>
+        </div>
+      </div></a
+    >
+  </div>
+</div>
+<div class="code-block code-block-10" style="margin: 8px 0; clear: both"></div>

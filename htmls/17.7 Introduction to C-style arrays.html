@@ -1,0 +1,1449 @@
+<div
+  class="code-block code-block-1"
+  style="margin: 8px 8px 8px 0; float: left"
+></div>
+<p>
+  Now that we’ve covered <code>std::vector</code> and <code>std::array</code>,
+  we’ll complete our coverage of arrays by covering the last array type: C-style
+  arrays.
+</p>
+<p>
+  As mentioned in lesson
+  <a
+    href="https://www.learncpp.com/cpp-tutorial/introduction-to-containers-and-arrays/"
+    >16.1 -- Introduction to containers and arrays</a
+  >, C-style arrays were inherited from the C language, and are built-in to the
+  core language of C++ (unlike the rest of the array types, which are standard
+  library container classes). This means we don’t need to #include a header file
+  to use them.
+</p>
+<div class="cpp-note cpp-lightgraybackground">
+  <p class="cpp-note-title cpp-bottomline">As an aside…</p>
+  <p>
+    Because they are the only array type natively supported by the language, the
+    standard library array container types (e.g. <code>std::array</code> and
+    <code>std::vector</code>) are typically implemented using a C-style array.
+  </p>
+</div>
+<p class="cpp-section cpp-topline" style="clear: both">
+  Declaring a C-style array
+</p>
+<p>
+  Because they are part of the core language, C-style arrays have their own
+  special declaration syntax. In an C-style array declaration, we use square
+  brackets (<code>[]</code>) to tell the compiler that a declared object is a
+  C-style array. Inside the square brackets, we can optionally provide the
+  length of the array, which is an integral value of type
+  <code>std::size_t</code> that tells the compiler how many elements are in the
+  array.
+</p>
+<p>
+  The following definition creates a C-style array variable named
+  <code>testScore</code> which contains 30 elements of type <code>int</code>:
+</p>
+<div class="code-block code-block-2" style="margin: 8px 0; clear: both"></div>
+
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-0-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-0-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-3-close">{</span>
+    <span class="token keyword keyword-int">int</span> testScore<span class="token punctuation brace-square brace-open brace-level-2" id="pair-1-close">[</span><span class="token number">30</span><span class="token punctuation brace-square brace-close brace-level-2" id="pair-1-open">]</span> <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-2-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-2-open">}</span><span class="token punctuation">;</span>      <span class="token comment">// Defines a C-style array named testScore that contains 30 value-initialized int elements (no include required)</span>
+
+<span class="token comment">//  std::array&lt;int, 30&gt; arr{}; // For comparison, here's a std::array of 30 value-initialized int elements (requires #including &lt;array&gt;)</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-3-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 32px;"></span><span style="height: 16px;"></span><span style="height: 32px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  The length of a C-style array must be at least 1. The compiler will error if
+  the array length is zero, negative, or a non-integral value.
+</p>
+<div class="cpp-note cpp-lightgraybackground">
+  <p class="cpp-note-title cpp-bottomline">For advanced readers</p>
+  <p>
+    C-style arrays dynamically allocated on the heap are allowed to have length
+    0.
+  </p>
+</div>
+<p class="cpp-section cpp-topline" style="clear: both">
+  The array length of a c-style array must be a constant expression
+</p>
+<div
+  class="google-auto-placed ap_container"
+  style="width: 100%; height: auto; clear: both; text-align: center"
+>
+  <ins
+    data-ad-format="auto"
+    class="adsbygoogle adsbygoogle-noablate"
+    data-ad-client="ca-pub-0588844875925051"
+    data-adsbygoogle-status="done"
+    style="
+      display: block;
+      margin: auto;
+      background-color: transparent;
+      height: 0px;
+    "
+    data-ad-status="unfilled"
+    ><div
+      id="aswift_5_host"
+      style="
+        border: none;
+        height: 0px;
+        width: 1027px;
+        margin: 0px;
+        padding: 0px;
+        position: relative;
+        visibility: visible;
+        background-color: transparent;
+        display: inline-block;
+        overflow: hidden;
+        opacity: 0;
+      "
+    >
+      <iframe
+        id="aswift_5"
+        name="aswift_5"
+        browsingtopics="true"
+        style="
+          left: 0px;
+          position: absolute;
+          top: 0px;
+          border: 0px;
+          width: 1027px;
+          height: 0px;
+          min-height: auto;
+          max-height: none;
+          min-width: auto;
+          max-width: none;
+        "
+        sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation"
+        width="1027"
+        height="0"
+        frameborder="0"
+        marginwidth="0"
+        marginheight="0"
+        vspace="0"
+        hspace="0"
+        allowtransparency="true"
+        scrolling="no"
+        allow="attribution-reporting; run-ad-auction"
+        src="https://googleads.g.doubleclick.net/pagead/ads?client=ca-pub-0588844875925051&amp;output=html&amp;h=280&amp;adk=22516852&amp;adf=1528815468&amp;w=1027&amp;abgtt=11&amp;fwrn=4&amp;fwrnh=100&amp;lmt=1749706679&amp;num_ads=1&amp;rafmt=1&amp;armr=3&amp;sem=mc&amp;pwprc=4633386603&amp;ad_type=text_image&amp;format=1027x280&amp;url=https%3A%2F%2Fwww.learncpp.com%2Fcpp-tutorial%2Fintroduction-to-c-style-arrays%2F&amp;fwr=0&amp;pra=3&amp;rh=200&amp;rw=1026&amp;rpe=1&amp;resp_fmts=3&amp;wgl=1&amp;fa=27&amp;uach=WyJXaW5kb3dzIiwiMTkuMC4wIiwieDg2IiwiIiwiMTM3LjAuNzE1MS4xMjIiLG51bGwsMCxudWxsLCI2NCIsW1siR29vZ2xlIENocm9tZSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJDaHJvbWl1bSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJOb3QvQSlCcmFuZCIsIjI0LjAuMC4wIl1dLDBd&amp;dt=1751963157548&amp;bpp=2&amp;bdt=2067&amp;idt=-M&amp;shv=r20250702&amp;mjsv=m202507020101&amp;ptt=9&amp;saldr=aa&amp;abxe=1&amp;cookie=ID%3D05f6e82287d810b4%3AT%3D1751962604%3ART%3D1751962911%3AS%3DALNI_MaQYA0TSAU2k8xwY5tqlN0xFCcd6g&amp;gpic=UID%3D00001157d9e27d0a%3AT%3D1751962604%3ART%3D1751962911%3AS%3DALNI_MYgtHzQJAQQXY_151HTGSSfVxE8_A&amp;eo_id_str=ID%3D52c21936d98c6d2b%3AT%3D1751962604%3ART%3D1751962911%3AS%3DAA-AfjZsJ15yjdEPJ8d11hPojsJQ&amp;prev_fmts=0x0%2C336x280%2C160x600%2C160x600&amp;nras=2&amp;correlator=8643612460075&amp;frm=20&amp;pv=1&amp;u_tz=480&amp;u_his=2&amp;u_h=600&amp;u_w=800&amp;u_ah=600&amp;u_aw=800&amp;u_cd=24&amp;u_sd=1&amp;dmc=8&amp;adx=27&amp;ady=1164&amp;biw=1080&amp;bih=1024&amp;scr_x=0&amp;scr_y=0&amp;eid=31093235%2C95353387%2C95362656%2C95365226%2C95365234%2C95365108%2C95359265%2C95365115%2C95365798&amp;oid=2&amp;pvsid=7777953499570173&amp;tmod=1708485235&amp;uas=0&amp;nvt=1&amp;fc=1408&amp;brdim=10%2C10%2C10%2C10%2C800%2C0%2C780%2C580%2C1080%2C1024&amp;vis=1&amp;rsz=%7C%7Cs%7C&amp;abl=NS&amp;fu=128&amp;bc=31&amp;bz=0.72&amp;td=1&amp;tdf=2&amp;psd=W251bGwsbnVsbCxudWxsLDNd&amp;nt=1&amp;ifi=6&amp;uci=a!6&amp;btvi=1&amp;fsb=1&amp;dtd=25"
+        data-google-container-id="a!6"
+        tabindex="0"
+        title="Advertisement"
+        aria-label="Advertisement"
+        data-load-complete="true"
+        data-google-query-id="CLqH8qzrrI4DFadIwgUdFJQTtA"
+      ></iframe></div
+  ></ins>
+</div>
+<p>
+  Just like <code>std::array</code>, when declaring a C-style array, the length
+  of the array must be a constant expression (of type <code>std::size_t</code>,
+  though this typically doesn’t matter).
+</p>
+<div class="cpp-note cpp-lightbluebackground">
+  <p class="cpp-note-title cpp-bottomline">Tip</p>
+  <p>
+    Some compilers may allow creation of arrays with non-constexpr lengths, for
+    compatibility with a C99 feature called variable-length arrays (VLAs).
+  </p>
+  <p>
+    Variable-length arrays are not valid C++, and should not be used in C++
+    programs. If your compiler allows these arrays, you probably forgot to
+    disable compiler extensions (see
+    <a
+      href="https://www.learncpp.com/cpp-tutorial/configuring-your-compiler-compiler-extensions/"
+      >0.10 -- Configuring your compiler: Compiler extensions</a
+    >).
+  </p>
+</div>
+<p class="cpp-section cpp-topline" style="clear: both">
+  Subscripting a C-style array
+</p>
+<p>
+  Just like with a <code>std::array</code>, C-style arrays can be indexed using
+  the subscript operator (<code>operator[]</code>):
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-4-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-4-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-8-close">{</span>
+    <span class="token keyword keyword-int">int</span> arr<span class="token punctuation brace-square brace-open brace-level-2" id="pair-5-close">[</span><span class="token number">5</span><span class="token punctuation brace-square brace-close brace-level-2" id="pair-5-open">]</span><span class="token punctuation">;</span> <span class="token comment">// define an array of 5 int values</span>
+
+    arr<span class="token punctuation brace-square brace-open brace-level-2" id="pair-6-close">[</span><span class="token number">1</span><span class="token punctuation brace-square brace-close brace-level-2" id="pair-6-open">]</span> <span class="token operator">=</span> <span class="token number">7</span><span class="token punctuation">;</span> <span class="token comment">// use subscript operator to index array element 1</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> arr<span class="token punctuation brace-square brace-open brace-level-2" id="pair-7-close">[</span><span class="token number">1</span><span class="token punctuation brace-square brace-close brace-level-2" id="pair-7-open">]</span><span class="token punctuation">;</span> <span class="token comment">// prints 7</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-8-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  Unlike the standard library container classes (which use unsigned indices of
+  type <code>std::size_t</code> only), the index of a C-style array can be a
+  value of any integral type (signed or unsigned) or an unscoped enumeration.
+  This means that C-style arrays are not subject to all of the sign conversion
+  indexing issues that the standard library container classes have!
+</p>
+<div class="code-block code-block-3" style="margin: 8px 0; clear: both"></div>
+
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-9-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-9-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-16-close">{</span>
+    <span class="token keyword keyword-const">const</span> <span class="token keyword keyword-int">int</span> arr<span class="token punctuation brace-square brace-open brace-level-2" id="pair-10-close">[</span><span class="token punctuation brace-square brace-close brace-level-2" id="pair-10-open">]</span> <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-13-close">{</span> <span class="token number">9</span><span class="token punctuation">,</span> <span class="token number">8</span><span class="token punctuation">,</span> <span class="token number">7</span><span class="token punctuation">,</span> <span class="token number">6</span><span class="token punctuation">,</span> <span class="token number">5</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-13-open">}</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-int">int</span> s <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-14-close">{</span> <span class="token number">2</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-14-open">}</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> arr<span class="token punctuation brace-square brace-open brace-level-2" id="pair-11-close">[</span>s<span class="token punctuation brace-square brace-close brace-level-2" id="pair-11-open">]</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span> <span class="token comment">// okay to use signed index</span>
+
+    <span class="token keyword keyword-unsigned">unsigned</span> <span class="token keyword keyword-int">int</span> u <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-15-close">{</span> <span class="token number">2</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-15-open">}</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> arr<span class="token punctuation brace-square brace-open brace-level-2" id="pair-12-close">[</span>u<span class="token punctuation brace-square brace-close brace-level-2" id="pair-12-open">]</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span> <span class="token comment">// okay to use unsigned index</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-16-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<div class="cpp-note cpp-lightbluebackground" style="height: auto !important">
+  <p class="cpp-note-title cpp-bottomline">Tip</p>
+  <div
+    class="google-auto-placed ap_container"
+    style="width: 100%; height: auto; clear: both; text-align: center"
+  >
+    <ins
+      data-ad-format="auto"
+      class="adsbygoogle adsbygoogle-noablate"
+      data-ad-client="ca-pub-0588844875925051"
+      data-adsbygoogle-status="done"
+      style="
+        display: block;
+        margin: auto;
+        background-color: transparent;
+        height: 0px;
+      "
+      data-ad-status="unfilled"
+      ><div
+        id="aswift_6_host"
+        style="
+          border: none;
+          height: 0px;
+          width: 995px;
+          margin: 0px;
+          padding: 0px;
+          position: relative;
+          visibility: visible;
+          background-color: transparent;
+          display: inline-block;
+          overflow: hidden;
+          opacity: 0;
+        "
+      >
+        <iframe
+          id="aswift_6"
+          name="aswift_6"
+          browsingtopics="true"
+          style="
+            left: 0px;
+            position: absolute;
+            top: 0px;
+            border: 0px;
+            width: 995px;
+            height: 0px;
+            min-height: auto;
+            max-height: none;
+            min-width: auto;
+            max-width: none;
+          "
+          sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation"
+          width="995"
+          height="0"
+          frameborder="0"
+          marginwidth="0"
+          marginheight="0"
+          vspace="0"
+          hspace="0"
+          allowtransparency="true"
+          scrolling="no"
+          allow="attribution-reporting; run-ad-auction"
+          src="https://googleads.g.doubleclick.net/pagead/ads?client=ca-pub-0588844875925051&amp;output=html&amp;h=280&amp;adk=3317089821&amp;adf=1297849922&amp;w=995&amp;abgtt=11&amp;fwrn=4&amp;fwrnh=100&amp;lmt=1749706679&amp;num_ads=1&amp;rafmt=1&amp;armr=3&amp;sem=mc&amp;pwprc=4633386603&amp;ad_type=text_image&amp;format=995x280&amp;url=https%3A%2F%2Fwww.learncpp.com%2Fcpp-tutorial%2Fintroduction-to-c-style-arrays%2F&amp;fwr=0&amp;pra=3&amp;rh=200&amp;rw=994&amp;rpe=1&amp;resp_fmts=3&amp;wgl=1&amp;fa=27&amp;uach=WyJXaW5kb3dzIiwiMTkuMC4wIiwieDg2IiwiIiwiMTM3LjAuNzE1MS4xMjIiLG51bGwsMCxudWxsLCI2NCIsW1siR29vZ2xlIENocm9tZSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJDaHJvbWl1bSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJOb3QvQSlCcmFuZCIsIjI0LjAuMC4wIl1dLDBd&amp;dt=1751963157548&amp;bpp=1&amp;bdt=2067&amp;idt=-M&amp;shv=r20250702&amp;mjsv=m202507020101&amp;ptt=9&amp;saldr=aa&amp;abxe=1&amp;cookie=ID%3D05f6e82287d810b4%3AT%3D1751962604%3ART%3D1751962911%3AS%3DALNI_MaQYA0TSAU2k8xwY5tqlN0xFCcd6g&amp;gpic=UID%3D00001157d9e27d0a%3AT%3D1751962604%3ART%3D1751962911%3AS%3DALNI_MYgtHzQJAQQXY_151HTGSSfVxE8_A&amp;eo_id_str=ID%3D52c21936d98c6d2b%3AT%3D1751962604%3ART%3D1751962911%3AS%3DAA-AfjZsJ15yjdEPJ8d11hPojsJQ&amp;prev_fmts=0x0%2C336x280%2C160x600%2C160x600%2C1027x280&amp;nras=3&amp;correlator=8643612460075&amp;frm=20&amp;pv=1&amp;u_tz=480&amp;u_his=2&amp;u_h=600&amp;u_w=800&amp;u_ah=600&amp;u_aw=800&amp;u_cd=24&amp;u_sd=1&amp;dmc=8&amp;adx=43&amp;ady=2353&amp;biw=1080&amp;bih=1024&amp;scr_x=0&amp;scr_y=0&amp;eid=31093235%2C95353387%2C95362656%2C95365226%2C95365234%2C95365108%2C95359265%2C95365115%2C95365798&amp;oid=2&amp;pvsid=7777953499570173&amp;tmod=1708485235&amp;uas=0&amp;nvt=1&amp;fc=1408&amp;brdim=10%2C10%2C10%2C10%2C800%2C0%2C780%2C580%2C1080%2C1024&amp;vis=1&amp;rsz=%7C%7Cs%7C&amp;abl=NS&amp;fu=128&amp;bc=31&amp;bz=0.72&amp;td=1&amp;tdf=2&amp;psd=W251bGwsbnVsbCxudWxsLDNd&amp;nt=1&amp;ifi=7&amp;uci=a!7&amp;btvi=2&amp;fsb=1&amp;dtd=26"
+          data-google-container-id="a!7"
+          tabindex="0"
+          title="Advertisement"
+          aria-label="Advertisement"
+          data-load-complete="true"
+          data-google-query-id="CMud8qzrrI4DFbtEwgUdA-AK1A"
+        ></iframe></div
+    ></ins>
+  </div>
+  <p>
+    C-style arrays will accept signed or unsigned indexes (or unscoped
+    enumerations).
+  </p>
+</div>
+<p>
+  <code>operator[]</code> does not do any bounds checking, and passing in an
+  out-of-bounds index will result in undefined behavior.
+</p>
+<div class="cpp-note cpp-lightgraybackground">
+  <p class="cpp-note-title cpp-bottomline">As an aside…</p>
+  <p>
+    When declaring an array (e.g. <code>int arr[5]</code>), the use of
+    <code>[]</code> is part of the declaration syntax, not an invocation of the
+    subscript operator <code>operator[]</code>.
+  </p>
+</div>
+<p class="cpp-section cpp-topline" style="clear: both">
+  Aggregate initialization of C-style arrays
+</p>
+<p>
+  Just like <code>std::array</code>, C-style arrays are aggregates, which means
+  they can be initialized using aggregate initialization.
+</p>
+<p>
+  As a quick recap, aggregate initialization allows us to directly initialize
+  the members of aggregates. To do this, we provide an initializer list, which
+  is a brace-enclosed list of comma-separated initialization values.
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-17-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-17-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-22-close">{</span>
+    <span class="token keyword keyword-int">int</span> fibonnaci<span class="token punctuation brace-square brace-open brace-level-2" id="pair-18-close">[</span><span class="token number">6</span><span class="token punctuation brace-square brace-close brace-level-2" id="pair-18-open">]</span> <span class="token operator">=</span> <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-20-close">{</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">5</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-20-open">}</span><span class="token punctuation">;</span> <span class="token comment">// copy-list initialization using braced list</span>
+    <span class="token keyword keyword-int">int</span> prime<span class="token punctuation brace-square brace-open brace-level-2" id="pair-19-close">[</span><span class="token number">5</span><span class="token punctuation brace-square brace-close brace-level-2" id="pair-19-open">]</span> <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-21-close">{</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">,</span> <span class="token number">7</span><span class="token punctuation">,</span> <span class="token number">11</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-21-open">}</span><span class="token punctuation">;</span>         <span class="token comment">// list initialization using braced list (preferred)</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-22-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  Each of these initialization forms initializes the array members in sequence,
+  starting with element 0.
+</p>
+<div
+  class="google-auto-placed ap_container"
+  style="width: 100%; height: auto; clear: both; text-align: center"
+>
+  <ins
+    data-ad-format="auto"
+    class="adsbygoogle adsbygoogle-noablate"
+    data-ad-client="ca-pub-0588844875925051"
+    data-adsbygoogle-status="done"
+    style="
+      display: block;
+      margin: auto;
+      background-color: transparent;
+      height: 0px;
+    "
+    data-ad-status="unfilled"
+    ><div
+      id="aswift_7_host"
+      style="
+        border: none;
+        height: 0px;
+        width: 1027px;
+        margin: 0px;
+        padding: 0px;
+        position: relative;
+        visibility: visible;
+        background-color: transparent;
+        display: inline-block;
+        overflow: hidden;
+        opacity: 0;
+      "
+    >
+      <iframe
+        id="aswift_7"
+        name="aswift_7"
+        browsingtopics="true"
+        style="
+          left: 0px;
+          position: absolute;
+          top: 0px;
+          border: 0px;
+          width: 1027px;
+          height: 0px;
+          min-height: auto;
+          max-height: none;
+          min-width: auto;
+          max-width: none;
+        "
+        sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation"
+        width="1027"
+        height="0"
+        frameborder="0"
+        marginwidth="0"
+        marginheight="0"
+        vspace="0"
+        hspace="0"
+        allowtransparency="true"
+        scrolling="no"
+        allow="attribution-reporting; run-ad-auction"
+        src="https://googleads.g.doubleclick.net/pagead/ads?client=ca-pub-0588844875925051&amp;output=html&amp;h=280&amp;adk=22516852&amp;adf=427251217&amp;w=1027&amp;abgtt=11&amp;fwrn=4&amp;fwrnh=100&amp;lmt=1749706679&amp;num_ads=1&amp;rafmt=1&amp;armr=3&amp;sem=mc&amp;pwprc=4633386603&amp;ad_type=text_image&amp;format=1027x280&amp;url=https%3A%2F%2Fwww.learncpp.com%2Fcpp-tutorial%2Fintroduction-to-c-style-arrays%2F&amp;fwr=0&amp;pra=3&amp;rh=200&amp;rw=1026&amp;rpe=1&amp;resp_fmts=3&amp;wgl=1&amp;fa=27&amp;uach=WyJXaW5kb3dzIiwiMTkuMC4wIiwieDg2IiwiIiwiMTM3LjAuNzE1MS4xMjIiLG51bGwsMCxudWxsLCI2NCIsW1siR29vZ2xlIENocm9tZSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJDaHJvbWl1bSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJOb3QvQSlCcmFuZCIsIjI0LjAuMC4wIl1dLDBd&amp;dt=1751963157548&amp;bpp=1&amp;bdt=2066&amp;idt=1&amp;shv=r20250702&amp;mjsv=m202507020101&amp;ptt=9&amp;saldr=aa&amp;abxe=1&amp;cookie=ID%3D05f6e82287d810b4%3AT%3D1751962604%3ART%3D1751962911%3AS%3DALNI_MaQYA0TSAU2k8xwY5tqlN0xFCcd6g&amp;gpic=UID%3D00001157d9e27d0a%3AT%3D1751962604%3ART%3D1751962911%3AS%3DALNI_MYgtHzQJAQQXY_151HTGSSfVxE8_A&amp;eo_id_str=ID%3D52c21936d98c6d2b%3AT%3D1751962604%3ART%3D1751962911%3AS%3DAA-AfjZsJ15yjdEPJ8d11hPojsJQ&amp;prev_fmts=0x0%2C336x280%2C160x600%2C160x600%2C1027x280%2C995x280&amp;nras=4&amp;correlator=8643612460075&amp;frm=20&amp;pv=1&amp;u_tz=480&amp;u_his=2&amp;u_h=600&amp;u_w=800&amp;u_ah=600&amp;u_aw=800&amp;u_cd=24&amp;u_sd=1&amp;dmc=8&amp;adx=27&amp;ady=3146&amp;biw=1080&amp;bih=1024&amp;scr_x=0&amp;scr_y=0&amp;eid=31093235%2C95353387%2C95362656%2C95365226%2C95365234%2C95365108%2C95359265%2C95365115%2C95365798&amp;oid=2&amp;pvsid=7777953499570173&amp;tmod=1708485235&amp;uas=0&amp;nvt=1&amp;fc=1408&amp;brdim=10%2C10%2C10%2C10%2C800%2C0%2C780%2C580%2C1080%2C1024&amp;vis=1&amp;rsz=%7C%7Cs%7C&amp;abl=NS&amp;fu=128&amp;bc=31&amp;bz=0.72&amp;td=1&amp;tdf=2&amp;psd=W251bGwsbnVsbCxudWxsLDNd&amp;nt=1&amp;ifi=8&amp;uci=a!8&amp;btvi=3&amp;fsb=1&amp;dtd=27"
+        data-google-container-id="a!8"
+        tabindex="0"
+        title="Advertisement"
+        aria-label="Advertisement"
+        data-load-complete="true"
+        data-google-query-id="CJbb8qzrrI4DFfJOwgUdoK8Dvg"
+      ></iframe></div
+  ></ins>
+</div>
+<div class="code-block code-block-4" style="margin: 8px 0; clear: both"></div>
+
+<p>
+  If you do not provide an initializer for a C-style array, the elements will be
+  default initialized. In most cases, this will result in elements being left
+  uninitialized. Because we generally want our elements to be initialized,
+  C-style arrays should be value initialized (using empty braces) when defined
+  with no initializers.
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-23-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-23-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-27-close">{</span>
+    <span class="token keyword keyword-int">int</span> arr1<span class="token punctuation brace-square brace-open brace-level-2" id="pair-24-close">[</span><span class="token number">5</span><span class="token punctuation brace-square brace-close brace-level-2" id="pair-24-open">]</span><span class="token punctuation">;</span>    <span class="token comment">// Members default initialized int elements are left uninitialized)</span>
+    <span class="token keyword keyword-int">int</span> arr2<span class="token punctuation brace-square brace-open brace-level-2" id="pair-25-close">[</span><span class="token number">5</span><span class="token punctuation brace-square brace-close brace-level-2" id="pair-25-open">]</span> <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-26-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-26-open">}</span><span class="token punctuation">;</span> <span class="token comment">// Members value initialized (int elements are zero uninitialized) (preferred)</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-27-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  If more initializers are provided in an initializer list than the defined
+  array length, the compiler will error. If fewer initializers are provided in
+  an initializer list than the defined array length, the remaining elements
+  without initializers are value initialized:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-28-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-28-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-33-close">{</span>
+    <span class="token keyword keyword-int">int</span> a<span class="token punctuation brace-square brace-open brace-level-2" id="pair-29-close">[</span><span class="token number">4</span><span class="token punctuation brace-square brace-close brace-level-2" id="pair-29-open">]</span> <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-31-close">{</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">,</span> <span class="token number">5</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-31-open">}</span><span class="token punctuation">;</span> <span class="token comment">// compile error: too many initializers</span>
+    <span class="token keyword keyword-int">int</span> b<span class="token punctuation brace-square brace-open brace-level-2" id="pair-30-close">[</span><span class="token number">4</span><span class="token punctuation brace-square brace-close brace-level-2" id="pair-30-open">]</span> <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-32-close">{</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-32-open">}</span><span class="token punctuation">;</span>          <span class="token comment">// arr[2] and arr[3] are value initialized</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-33-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  One downside of using a C-style array is that the element’s type must be
+  explicitly specified. CTAD doesn’t work because C-style arrays aren’t class
+  templates. And using <code>auto</code> to try to deduce the element type of an
+  array from the list of initializers doesn’t work either:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-34-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-34-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-37-close">{</span>
+    <span class="token keyword keyword-auto">auto</span> squares<span class="token punctuation brace-square brace-open brace-level-2" id="pair-35-close">[</span><span class="token number">5</span><span class="token punctuation brace-square brace-close brace-level-2" id="pair-35-open">]</span> <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-36-close">{</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">,</span> <span class="token number">9</span><span class="token punctuation">,</span> <span class="token number">16</span><span class="token punctuation">,</span> <span class="token number">25</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-36-open">}</span><span class="token punctuation">;</span> <span class="token comment">// compile error: can't use type deduction on C-style arrays</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-37-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p class="cpp-section cpp-topline" style="clear: both">Omitted length</p>
+<div
+  class="google-auto-placed ap_container"
+  style="width: 100%; height: auto; clear: both; text-align: center"
+>
+  <ins
+    data-ad-format="auto"
+    class="adsbygoogle adsbygoogle-noablate"
+    data-ad-client="ca-pub-0588844875925051"
+    data-adsbygoogle-status="done"
+    style="
+      display: block;
+      margin: auto;
+      background-color: transparent;
+      height: 0px;
+    "
+    ><div
+      id="aswift_8_host"
+      style="
+        border: none;
+        height: 0px;
+        width: 1027px;
+        margin: 0px;
+        padding: 0px;
+        position: relative;
+        visibility: visible;
+        background-color: transparent;
+        display: inline-block;
+        overflow: hidden;
+        opacity: 0;
+      "
+    >
+      <iframe
+        id="aswift_8"
+        name="aswift_8"
+        browsingtopics="true"
+        style="
+          left: 0px;
+          position: absolute;
+          top: 0px;
+          border: 0px;
+          width: 1027px;
+          height: 0px;
+          min-height: auto;
+          max-height: none;
+          min-width: auto;
+          max-width: none;
+        "
+        sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation"
+        width="1027"
+        height="0"
+        frameborder="0"
+        marginwidth="0"
+        marginheight="0"
+        vspace="0"
+        hspace="0"
+        allowtransparency="true"
+        scrolling="no"
+        allow="attribution-reporting; run-ad-auction"
+        src="https://googleads.g.doubleclick.net/pagead/ads?client=ca-pub-0588844875925051&amp;output=html&amp;h=280&amp;adk=22516852&amp;adf=1817384771&amp;w=1027&amp;abgtt=11&amp;fwrn=4&amp;fwrnh=100&amp;lmt=1749706679&amp;num_ads=1&amp;rafmt=1&amp;armr=3&amp;sem=mc&amp;pwprc=4633386603&amp;ad_type=text_image&amp;format=1027x280&amp;url=https%3A%2F%2Fwww.learncpp.com%2Fcpp-tutorial%2Fintroduction-to-c-style-arrays%2F&amp;fwr=0&amp;pra=3&amp;rh=200&amp;rw=1026&amp;rpe=1&amp;resp_fmts=3&amp;wgl=1&amp;fa=27&amp;uach=WyJXaW5kb3dzIiwiMTkuMC4wIiwieDg2IiwiIiwiMTM3LjAuNzE1MS4xMjIiLG51bGwsMCxudWxsLCI2NCIsW1siR29vZ2xlIENocm9tZSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJDaHJvbWl1bSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJOb3QvQSlCcmFuZCIsIjI0LjAuMC4wIl1dLDBd&amp;dt=1751963157551&amp;bpp=1&amp;bdt=2070&amp;idt=0&amp;shv=r20250702&amp;mjsv=m202507020101&amp;ptt=9&amp;saldr=aa&amp;abxe=1&amp;cookie=ID%3D05f6e82287d810b4%3AT%3D1751962604%3ART%3D1751962911%3AS%3DALNI_MaQYA0TSAU2k8xwY5tqlN0xFCcd6g&amp;gpic=UID%3D00001157d9e27d0a%3AT%3D1751962604%3ART%3D1751962911%3AS%3DALNI_MYgtHzQJAQQXY_151HTGSSfVxE8_A&amp;eo_id_str=ID%3D52c21936d98c6d2b%3AT%3D1751962604%3ART%3D1751962911%3AS%3DAA-AfjZsJ15yjdEPJ8d11hPojsJQ&amp;prev_fmts=0x0%2C336x280%2C160x600%2C160x600%2C1027x280%2C995x280%2C1027x280&amp;nras=5&amp;correlator=8643612460075&amp;frm=20&amp;pv=1&amp;u_tz=480&amp;u_his=2&amp;u_h=600&amp;u_w=800&amp;u_ah=600&amp;u_aw=800&amp;u_cd=24&amp;u_sd=1&amp;dmc=8&amp;adx=27&amp;ady=3267&amp;biw=1080&amp;bih=1024&amp;scr_x=0&amp;scr_y=0&amp;eid=31093235%2C95353387%2C95362656%2C95365226%2C95365234%2C95365108%2C95359265%2C95365115%2C95365798&amp;oid=2&amp;pvsid=7777953499570173&amp;tmod=1708485235&amp;uas=0&amp;nvt=1&amp;fc=1408&amp;brdim=10%2C10%2C10%2C10%2C800%2C0%2C780%2C580%2C1080%2C1024&amp;vis=1&amp;rsz=%7C%7Cs%7C&amp;abl=NS&amp;fu=128&amp;bc=31&amp;bz=0.72&amp;td=1&amp;tdf=2&amp;psd=W251bGwsbnVsbCxudWxsLDNd&amp;nt=1&amp;ifi=9&amp;uci=a!9&amp;btvi=4&amp;fsb=1&amp;dtd=385"
+        data-google-container-id="a!9"
+        tabindex="0"
+        title="Advertisement"
+        aria-label="Advertisement"
+        data-load-complete="true"
+        data-google-query-id="CLiDiK3rrI4DFbVMwgUd9poMsA"
+      ></iframe></div
+  ></ins>
+</div>
+<p>There’s a subtle redundancy in the following array definition. See it?</p>
+<div class="code-block code-block-5" style="margin: 8px 0; clear: both"></div>
+
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-38-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-38-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-41-close">{</span>
+    <span class="token keyword keyword-const">const</span> <span class="token keyword keyword-int">int</span> prime<span class="token punctuation brace-square brace-open brace-level-2" id="pair-39-close">[</span><span class="token number">5</span><span class="token punctuation brace-square brace-close brace-level-2" id="pair-39-open">]</span> <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-40-close">{</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">,</span> <span class="token number">7</span><span class="token punctuation">,</span> <span class="token number">11</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-40-open">}</span><span class="token punctuation">;</span> <span class="token comment">// prime has length 5</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-41-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  We’re explicitly telling the compiler the array has length 5, and then we’re
+  also initializing it with 5 elements. When we initialize a C-style array with
+  an initializer list, we can omit the length (in the array definition) and let
+  the compiler deduce the length of the array from the number of initializers.
+</p>
+<p>The following array definitions behave identically:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-42-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-42-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-47-close">{</span>
+    <span class="token keyword keyword-const">const</span> <span class="token keyword keyword-int">int</span> prime1<span class="token punctuation brace-square brace-open brace-level-2" id="pair-43-close">[</span><span class="token number">5</span><span class="token punctuation brace-square brace-close brace-level-2" id="pair-43-open">]</span> <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-45-close">{</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">,</span> <span class="token number">7</span><span class="token punctuation">,</span> <span class="token number">11</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-45-open">}</span><span class="token punctuation">;</span> <span class="token comment">// prime1 explicitly defined to have length 5</span>
+    <span class="token keyword keyword-const">const</span> <span class="token keyword keyword-int">int</span> prime2<span class="token punctuation brace-square brace-open brace-level-2" id="pair-44-close">[</span><span class="token punctuation brace-square brace-close brace-level-2" id="pair-44-open">]</span> <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-46-close">{</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">,</span> <span class="token number">7</span><span class="token punctuation">,</span> <span class="token number">11</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-46-open">}</span><span class="token punctuation">;</span>  <span class="token comment">// prime2 deduced by compiler to have length 5</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-47-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  This only works when initializers are explicitly provided for all array
+  members.
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-48-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-48-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-51-close">{</span>
+    <span class="token keyword keyword-int">int</span> bad<span class="token punctuation brace-square brace-open brace-level-2" id="pair-49-close">[</span><span class="token punctuation brace-square brace-close brace-level-2" id="pair-49-open">]</span> <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-50-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-50-open">}</span><span class="token punctuation">;</span> <span class="token comment">// error: the compiler will deduce this to be a zero-length array, which is disallowed!</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-51-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  When using an initializer list to initialize all elements of a C-style array,
+  it’s preferable to omit the length and let the compiler calculate the length
+  of the array. That way, if initializers are added or removed, the length of
+  the array will automatically adjust, and we are not at risk for a mismatch
+  between the defined array length and number of initializers provided.
+</p>
+<div class="cpp-note cpp-lightgreenbackground">
+  <p class="cpp-note-title cpp-bottomline">Best practice</p>
+  <p>
+    Prefer omitting the length of a C-style array when explicitly initializing
+    every array element with a value.
+  </p>
+</div>
+<p class="cpp-section cpp-topline" style="clear: both">
+  Const and constexpr C-style arrays
+</p>
+<div
+  class="google-auto-placed ap_container"
+  style="width: 100%; height: auto; clear: both; text-align: center"
+>
+  <ins
+    data-ad-format="auto"
+    class="adsbygoogle adsbygoogle-noablate"
+    data-ad-client="ca-pub-0588844875925051"
+    data-adsbygoogle-status="done"
+    style="
+      display: block;
+      margin: auto;
+      background-color: transparent;
+      height: 0px;
+    "
+    ><div
+      id="aswift_9_host"
+      style="
+        border: none;
+        height: 0px;
+        width: 1027px;
+        margin: 0px;
+        padding: 0px;
+        position: relative;
+        visibility: visible;
+        background-color: transparent;
+        display: inline-block;
+        overflow: hidden;
+        opacity: 0;
+      "
+    >
+      <iframe
+        id="aswift_9"
+        name="aswift_9"
+        browsingtopics="true"
+        style="
+          left: 0px;
+          position: absolute;
+          top: 0px;
+          border: 0px;
+          width: 1027px;
+          height: 0px;
+          min-height: auto;
+          max-height: none;
+          min-width: auto;
+          max-width: none;
+        "
+        sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation"
+        width="1027"
+        height="0"
+        frameborder="0"
+        marginwidth="0"
+        marginheight="0"
+        vspace="0"
+        hspace="0"
+        allowtransparency="true"
+        scrolling="no"
+        allow="attribution-reporting; run-ad-auction"
+        src="https://googleads.g.doubleclick.net/pagead/ads?client=ca-pub-0588844875925051&amp;output=html&amp;h=280&amp;adk=22516852&amp;adf=2210601700&amp;w=1027&amp;abgtt=11&amp;fwrn=4&amp;fwrnh=100&amp;lmt=1749706679&amp;num_ads=1&amp;rafmt=1&amp;armr=3&amp;sem=mc&amp;pwprc=4633386603&amp;ad_type=text_image&amp;format=1027x280&amp;url=https%3A%2F%2Fwww.learncpp.com%2Fcpp-tutorial%2Fintroduction-to-c-style-arrays%2F&amp;fwr=0&amp;pra=3&amp;rh=200&amp;rw=1026&amp;rpe=1&amp;resp_fmts=3&amp;wgl=1&amp;fa=27&amp;uach=WyJXaW5kb3dzIiwiMTkuMC4wIiwieDg2IiwiIiwiMTM3LjAuNzE1MS4xMjIiLG51bGwsMCxudWxsLCI2NCIsW1siR29vZ2xlIENocm9tZSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJDaHJvbWl1bSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJOb3QvQSlCcmFuZCIsIjI0LjAuMC4wIl1dLDBd&amp;dt=1751963157554&amp;bpp=1&amp;bdt=2072&amp;idt=0&amp;shv=r20250702&amp;mjsv=m202507020101&amp;ptt=9&amp;saldr=aa&amp;abxe=1&amp;cookie=ID%3D05f6e82287d810b4%3AT%3D1751962604%3ART%3D1751962911%3AS%3DALNI_MaQYA0TSAU2k8xwY5tqlN0xFCcd6g&amp;gpic=UID%3D00001157d9e27d0a%3AT%3D1751962604%3ART%3D1751962911%3AS%3DALNI_MYgtHzQJAQQXY_151HTGSSfVxE8_A&amp;eo_id_str=ID%3D52c21936d98c6d2b%3AT%3D1751962604%3ART%3D1751962911%3AS%3DAA-AfjZsJ15yjdEPJ8d11hPojsJQ&amp;prev_fmts=0x0%2C336x280%2C160x600%2C160x600%2C1027x280%2C995x280%2C1027x280%2C1027x280&amp;nras=6&amp;correlator=8643612460075&amp;frm=20&amp;pv=1&amp;u_tz=480&amp;u_his=2&amp;u_h=600&amp;u_w=800&amp;u_ah=600&amp;u_aw=800&amp;u_cd=24&amp;u_sd=1&amp;dmc=8&amp;adx=27&amp;ady=4089&amp;biw=1080&amp;bih=1024&amp;scr_x=0&amp;scr_y=0&amp;eid=31093235%2C95353387%2C95362656%2C95365226%2C95365234%2C95365108%2C95359265%2C95365115%2C95365798&amp;oid=2&amp;pvsid=7777953499570173&amp;tmod=1708485235&amp;uas=0&amp;nvt=1&amp;fc=1408&amp;brdim=10%2C10%2C10%2C10%2C800%2C0%2C780%2C580%2C1080%2C1024&amp;vis=1&amp;rsz=%7C%7Cs%7C&amp;abl=NS&amp;fu=128&amp;bc=31&amp;bz=0.72&amp;td=1&amp;tdf=2&amp;psd=W251bGwsbnVsbCxudWxsLDNd&amp;nt=1&amp;ifi=10&amp;uci=a!a&amp;btvi=5&amp;fsb=1&amp;dtd=589"
+        data-google-container-id="a!a"
+        tabindex="0"
+        title="Advertisement"
+        aria-label="Advertisement"
+        data-load-complete="true"
+        data-google-query-id="CKr9lK3rrI4DFbtFwgUdXc06IA"
+      ></iframe></div
+  ></ins>
+</div>
+<div class="code-block code-block-6" style="margin: 8px 0; clear: both"></div>
+
+<p>
+  Just like <code>std::array</code>, C-style arrays can be <code>const</code> or
+  <code>constexpr</code>. Just like other const variables, const arrays must be
+  initialized, and the value of the elements cannot be changed afterward.
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-namespace">namespace</span> ProgramData
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-57-close">{</span>
+    <span class="token keyword keyword-constexpr">constexpr</span> <span class="token keyword keyword-int">int</span> squares<span class="token punctuation brace-square brace-open brace-level-2" id="pair-53-close">[</span><span class="token number">5</span><span class="token punctuation brace-square brace-close brace-level-2" id="pair-53-open">]</span> <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-56-close">{</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">,</span> <span class="token number">9</span><span class="token punctuation">,</span> <span class="token number">16</span><span class="token punctuation">,</span> <span class="token number">25</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-56-open">}</span><span class="token punctuation">;</span> <span class="token comment">// an array of constexpr int</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-57-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-52-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-52-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-59-close">{</span>
+    <span class="token keyword keyword-const">const</span> <span class="token keyword keyword-int">int</span> prime<span class="token punctuation brace-square brace-open brace-level-2" id="pair-54-close">[</span><span class="token number">5</span><span class="token punctuation brace-square brace-close brace-level-2" id="pair-54-open">]</span> <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-58-close">{</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">,</span> <span class="token number">7</span><span class="token punctuation">,</span> <span class="token number">11</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-58-open">}</span><span class="token punctuation">;</span> <span class="token comment">// an array of const int</span>
+    prime<span class="token punctuation brace-square brace-open brace-level-2" id="pair-55-close">[</span><span class="token number">0</span><span class="token punctuation brace-square brace-close brace-level-2" id="pair-55-open">]</span> <span class="token operator">=</span> <span class="token number">17</span><span class="token punctuation">;</span> <span class="token comment">// compile error: can't change const int</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-59-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p class="cpp-section cpp-topline" style="clear: both">
+  The sizeof a C-style array
+</p>
+<div
+  class="google-auto-placed ap_container"
+  style="width: 100%; height: auto; clear: both; text-align: center"
+>
+  <ins
+    data-ad-format="auto"
+    class="adsbygoogle adsbygoogle-noablate"
+    data-ad-client="ca-pub-0588844875925051"
+    data-adsbygoogle-status="done"
+    style="
+      display: block;
+      margin: auto;
+      background-color: transparent;
+      height: 280px;
+    "
+    ><div
+      id="aswift_10_host"
+      style="
+        border: none;
+        height: 280px;
+        width: 1027px;
+        margin: 0px;
+        padding: 0px;
+        position: relative;
+        visibility: visible;
+        background-color: transparent;
+        display: inline-block;
+      "
+    ></div
+  ></ins>
+</div>
+<p>
+  In previous lessons, we used the <code>sizeof()</code> operator to get the
+  size of an object or type in bytes. Applied to a C-style array,
+  <code>sizeof()</code> returns the number of bytes used by the entire array:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-60-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-60-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-64-close">{</span>
+    <span class="token keyword keyword-const">const</span> <span class="token keyword keyword-int">int</span> prime<span class="token punctuation brace-square brace-open brace-level-2" id="pair-62-close">[</span><span class="token punctuation brace-square brace-close brace-level-2" id="pair-62-open">]</span> <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-63-close">{</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">,</span> <span class="token number">7</span><span class="token punctuation">,</span> <span class="token number">11</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-63-open">}</span><span class="token punctuation">;</span> <span class="token comment">// the compiler will deduce prime to have length 5</span>
+
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token keyword keyword-sizeof">sizeof</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-61-close">(</span>prime<span class="token punctuation brace-round brace-close brace-level-2" id="pair-61-open">)</span><span class="token punctuation">;</span> <span class="token comment">// prints 20 (assuming 4 byte ints)</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-64-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  Assuming 4 byte ints, the above program prints <code>20</code>. The
+  <code>prime</code> array contains 5 <code>int</code> elements that are 4 bytes
+  each, so 5 * 4 = 20 bytes.
+</p>
+<div
+  class="google-auto-placed ap_container"
+  style="width: 100%; height: auto; clear: both; text-align: center"
+>
+  <ins
+    data-ad-format="auto"
+    class="adsbygoogle adsbygoogle-noablate"
+    data-ad-client="ca-pub-0588844875925051"
+    data-adsbygoogle-status="done"
+    style="
+      display: block;
+      margin: auto;
+      background-color: transparent;
+      height: 280px;
+    "
+    ><div
+      id="aswift_11_host"
+      style="
+        border: none;
+        height: 280px;
+        width: 1027px;
+        margin: 0px;
+        padding: 0px;
+        position: relative;
+        visibility: visible;
+        background-color: transparent;
+        display: inline-block;
+      "
+    ></div
+  ></ins>
+</div>
+<p>
+  Note that there is no overhead here. An C-style array object contains its
+  elements and nothing more.
+</p>
+<div class="code-block code-block-7" style="margin: 8px 0; clear: both"></div>
+
+<p class="cpp-section cpp-topline" style="clear: both">
+  Getting the length of a C-style array
+</p>
+<p>
+  In C++17, we can use <code>std::size()</code> (defined in the &lt;iterator&gt;
+  header), which returns the array length as an unsigned integral value (of type
+  <code>std::size_t</code>). In C++20, we can also use
+  <code>std::ssize()</code>, which returns the array length as a signed integral
+  value (of a large signed integral type, probably <code>std::ptrdiff_t</code>).
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iterator&gt;</span> <span class="token comment">// for std::size and std::ssize</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-65-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-65-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-70-close">{</span>
+    <span class="token keyword keyword-const">const</span> <span class="token keyword keyword-int">int</span> prime<span class="token punctuation brace-square brace-open brace-level-2" id="pair-68-close">[</span><span class="token punctuation brace-square brace-close brace-level-2" id="pair-68-open">]</span> <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-69-close">{</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">,</span> <span class="token number">7</span><span class="token punctuation">,</span> <span class="token number">11</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-69-open">}</span><span class="token punctuation">;</span>   <span class="token comment">// the compiler will deduce prime to have length 5</span>
+
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> std<span class="token double-colon punctuation">::</span><span class="token function">size</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-66-close">(</span>prime<span class="token punctuation brace-round brace-close brace-level-2" id="pair-66-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>  <span class="token comment">// C++17, returns unsigned integral value 5</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> std<span class="token double-colon punctuation">::</span><span class="token function">ssize</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-67-close">(</span>prime<span class="token punctuation brace-round brace-close brace-level-2" id="pair-67-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span> <span class="token comment">// C++20, returns signed integral value 5</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-70-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<div class="cpp-note cpp-lightbluebackground">
+  <p class="cpp-note-title cpp-bottomline">Tip</p>
+  <p>
+    The canonical header for the definition of <code>std::size()</code> and
+    <code>std::ssize()</code> is &lt;iterator&gt;. However, because these
+    functions are so useful, many other headers also make them available,
+    including &lt;array&gt; and &lt;vector&gt;. When using
+    <code>std::size()</code> or <code>std::ssize()</code> on a C-style array, we
+    may not have already included one of the other headers. In such a case, the
+    &lt;iterator&gt; header is the one that’s conventionally included.
+  </p>
+  <p>
+    You can see the full list of headers that define these functions in the
+    <a href="https://en.cppreference.com/w/cpp/iterator/size"
+      >cppreference documentation for the size functions</a
+    >.
+  </p>
+</div>
+<p class="cpp-section cpp-topline" style="clear: both">
+  Getting the length of a C-style array (C++14 or older)
+</p>
+<div
+  class="google-auto-placed ap_container"
+  style="width: 100%; height: auto; clear: both; text-align: center"
+>
+  <ins
+    data-ad-format="auto"
+    class="adsbygoogle adsbygoogle-noablate"
+    data-ad-client="ca-pub-0588844875925051"
+    data-adsbygoogle-status="done"
+    style="
+      display: block;
+      margin: auto;
+      background-color: transparent;
+      height: 280px;
+    "
+    ><div
+      id="aswift_12_host"
+      style="
+        border: none;
+        height: 280px;
+        width: 1027px;
+        margin: 0px;
+        padding: 0px;
+        position: relative;
+        visibility: visible;
+        background-color: transparent;
+        display: inline-block;
+      "
+    ></div
+  ></ins>
+</div>
+<p>
+  Prior to C++17, there was no standard library function to get the length of a
+  C-style array.
+</p>
+<p>If you’re using C++11 or C++14, you can use this function instead:</p>
+<div class="code-block code-block-8" style="margin: 8px 0; clear: both"></div>
+
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;cstddef&gt;</span> <span class="token comment">// for std::size_t</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-template">template</span> <span class="token operator">&lt;</span><span class="token keyword keyword-typename">typename</span> <span class="token class-name">T</span><span class="token punctuation">,</span> std<span class="token double-colon punctuation">::</span>size_t N<span class="token operator">&gt;</span>
+<span class="token keyword keyword-constexpr">constexpr</span> std<span class="token double-colon punctuation">::</span>size_t <span class="token function">length</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-72-close">(</span><span class="token keyword keyword-const">const</span> <span class="token function">T</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-71-close">(</span><span class="token operator">&amp;</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-71-open">)</span><span class="token punctuation brace-square brace-open brace-level-2" id="pair-75-close">[</span>N<span class="token punctuation brace-square brace-close brace-level-2" id="pair-75-open">]</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-72-open">)</span> <span class="token keyword keyword-noexcept">noexcept</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-77-close">{</span>
+	<span class="token keyword keyword-return">return</span> N<span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-77-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-73-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-73-open">)</span> <span class="token punctuation brace-curly brace-open brace-level-1" id="pair-79-close">{</span>
+
+	<span class="token keyword keyword-int">int</span> array<span class="token punctuation brace-square brace-open brace-level-2" id="pair-76-close">[</span><span class="token punctuation brace-square brace-close brace-level-2" id="pair-76-open">]</span><span class="token punctuation brace-curly brace-open brace-level-2" id="pair-78-close">{</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">,</span> <span class="token number">8</span><span class="token punctuation">,</span> <span class="token number">13</span><span class="token punctuation">,</span> <span class="token number">21</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-78-open">}</span><span class="token punctuation">;</span>
+	std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"The array has: "</span> <span class="token operator">&lt;&lt;</span> <span class="token function">length</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-74-close">(</span>array<span class="token punctuation brace-round brace-close brace-level-2" id="pair-74-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">" elements\n"</span><span class="token punctuation">;</span>
+
+	<span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-79-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  This uses a function template that takes a C-style array by reference and then
+  returns the non-type template parameter representing the array’s length.
+</p>
+<div
+  class="google-auto-placed ap_container"
+  style="width: 100%; height: auto; clear: both; text-align: center"
+>
+  <ins
+    data-ad-format="auto"
+    class="adsbygoogle adsbygoogle-noablate"
+    data-ad-client="ca-pub-0588844875925051"
+    data-adsbygoogle-status="done"
+    style="
+      display: block;
+      margin: auto;
+      background-color: transparent;
+      height: 280px;
+    "
+    ><div
+      id="aswift_13_host"
+      style="
+        border: none;
+        height: 280px;
+        width: 1027px;
+        margin: 0px;
+        padding: 0px;
+        position: relative;
+        visibility: visible;
+        background-color: transparent;
+        display: inline-block;
+      "
+    ></div
+  ></ins>
+</div>
+<p>
+  In much older codebases, you may see the length of a C-style array determined
+  by dividing the size of the entire array by the size of an array element:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-80-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-80-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-86-close">{</span>
+    <span class="token keyword keyword-int">int</span> array<span class="token punctuation brace-square brace-open brace-level-2" id="pair-83-close">[</span><span class="token number">8</span><span class="token punctuation brace-square brace-close brace-level-2" id="pair-83-open">]</span> <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-85-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-85-open">}</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"The array has: "</span> <span class="token operator">&lt;&lt;</span> <span class="token keyword keyword-sizeof">sizeof</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-81-close">(</span>array<span class="token punctuation brace-round brace-close brace-level-2" id="pair-81-open">)</span> <span class="token operator">/</span> <span class="token keyword keyword-sizeof">sizeof</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-82-close">(</span>array<span class="token punctuation brace-square brace-open brace-level-3" id="pair-84-close">[</span><span class="token number">0</span><span class="token punctuation brace-square brace-close brace-level-3" id="pair-84-open">]</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-82-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">" elements\n"</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-86-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>This prints:</p>
+<pre>
+The array has: 8 elements
+</pre>
+<p>
+  How does this work? First, note that the size of the entire array is equal to
+  the array’s length multiplied by the size of an element. Put more compactly:
+  <code>array size = length * element size</code>.
+</p>
+<p>
+  Using algebra, we can rearrange this equation:
+  <code>length = array size / element size</code>. We typically use
+  <code>sizeof(array[0])</code> for the element size. Therefore, length =
+  <code>sizeof(array) / sizeof(array[0])</code>. You may also occasionally see
+  this written as <code>sizeof(array) / sizeof(*array)</code>, which does the
+  same thing.
+</p>
+<p>
+  However, as we will show you in the next lesson, this formula can fail quite
+  easily (when passed a decayed array), leaving the program unexpectedly broken.
+  C++17’s <code>std::size()</code> and the <code>length()</code> function
+  template shown above will both cause compilation errors in this case, so they
+  are safe to use.
+</p>
+<div class="cpp-note cpp-lightgraybackground">
+  <p class="cpp-note-title cpp-bottomline">Related content</p>
+  <p>
+    We cover array decay in the next lesson
+    <a href="https://www.learncpp.com/cpp-tutorial/c-style-array-decay/"
+      >17.8 -- C-style array decay</a
+    >.
+  </p>
+</div>
+<p class="cpp-section cpp-topline" style="clear: both">
+  C-style arrays don’t support assignment
+</p>
+<p>Perhaps surprisingly, C++ arrays don’t support assignment:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-87-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-87-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-92-close">{</span>
+    <span class="token keyword keyword-int">int</span> arr<span class="token punctuation brace-square brace-open brace-level-2" id="pair-88-close">[</span><span class="token punctuation brace-square brace-close brace-level-2" id="pair-88-open">]</span> <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-90-close">{</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-90-open">}</span><span class="token punctuation">;</span> <span class="token comment">// okay: initialization is fine</span>
+    arr<span class="token punctuation brace-square brace-open brace-level-2" id="pair-89-close">[</span><span class="token number">0</span><span class="token punctuation brace-square brace-close brace-level-2" id="pair-89-open">]</span> <span class="token operator">=</span> <span class="token number">4</span><span class="token punctuation">;</span>            <span class="token comment">// assignment to individual elements is fine</span>
+    arr <span class="token operator">=</span> <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-91-close">{</span> <span class="token number">5</span><span class="token punctuation">,</span> <span class="token number">6</span><span class="token punctuation">,</span> <span class="token number">7</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-91-open">}</span><span class="token punctuation">;</span>     <span class="token comment">// compile error: array assignment not valid</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-92-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  Technically, this doesn’t work because assignment requires the left-operand to
+  be a modifiable lvalue, and C-style arrays are not considered to be modifiable
+  lvalues.
+</p>
+<p>
+  If you need to assign a new list of values to an C-style array, it’s best to
+  use a <code>std::vector</code> instead. Alternatively, you can assign new
+  values to a C-style array element-by-element, or use <code>std::copy</code> to
+  copy an existing C-style array:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;algorithm&gt;</span> <span class="token comment">// for std::copy</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-93-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-93-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-102-close">{</span>
+    <span class="token keyword keyword-int">int</span> arr<span class="token punctuation brace-square brace-open brace-level-2" id="pair-98-close">[</span><span class="token punctuation brace-square brace-close brace-level-2" id="pair-98-open">]</span> <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-100-close">{</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-100-open">}</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-int">int</span> src<span class="token punctuation brace-square brace-open brace-level-2" id="pair-99-close">[</span><span class="token punctuation brace-square brace-close brace-level-2" id="pair-99-open">]</span> <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-101-close">{</span> <span class="token number">5</span><span class="token punctuation">,</span> <span class="token number">6</span><span class="token punctuation">,</span> <span class="token number">7</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-101-open">}</span><span class="token punctuation">;</span>
+
+    <span class="token comment">// Copy src into arr</span>
+    std<span class="token double-colon punctuation">::</span><span class="token function">copy</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-97-close">(</span>std<span class="token double-colon punctuation">::</span><span class="token function">begin</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-94-close">(</span>src<span class="token punctuation brace-round brace-close brace-level-3" id="pair-94-open">)</span><span class="token punctuation">,</span> std<span class="token double-colon punctuation">::</span><span class="token function">end</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-95-close">(</span>src<span class="token punctuation brace-round brace-close brace-level-3" id="pair-95-open">)</span><span class="token punctuation">,</span> std<span class="token double-colon punctuation">::</span><span class="token function">begin</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-96-close">(</span>arr<span class="token punctuation brace-round brace-close brace-level-3" id="pair-96-open">)</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-97-open">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-102-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p class="cpp-section cpp-topline" style="clear: both">Quiz time</p>
+<p class="cpp-quiz-question" style="clear: both">Question #1</p>
+<p>
+  Convert the following <code>std::array</code> definition to an equivalent
+  constexpr C-style array definition:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-constexpr">constexpr</span> std<span class="token double-colon punctuation">::</span>array<span class="token operator">&lt;</span><span class="token keyword keyword-int">int</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token operator">&gt;</span> a<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-103-close">{</span><span class="token punctuation brace-curly brace-close brace-level-1" id="pair-103-open">}</span><span class="token punctuation">;</span> <span class="token comment">// allocate 3 ints</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  <a
+    class="solution_link_show"
+    href="javascript:void(0)"
+    onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_0'), this, 'Show Solution', 'Hide Solution')"
+    >Show Solution</a
+  >
+</p>
+<div class="wpsolution" id="cpp_solution_id_0" style="display: none">
+  <div class="code-toolbar">
+    <pre
+      class="line-numbers language-cpp"
+      tabindex="0"
+    ><code class="match-braces language-cpp"><span class="token keyword keyword-constexpr">constexpr</span> <span class="token keyword keyword-int">int</span> a<span class="token punctuation brace-square brace-open brace-level-1" id="pair-104-close">[</span><span class="token number">3</span><span class="token punctuation brace-square brace-close brace-level-1" id="pair-104-open">]</span> <span class="token punctuation brace-curly brace-open brace-level-1" id="pair-105-close">{</span><span class="token punctuation brace-curly brace-close brace-level-1" id="pair-105-open">}</span><span class="token punctuation">;</span> <span class="token comment">// allocate 3 ints</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 0px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+    <div class="toolbar">
+      <div class="toolbar-item">
+        <button
+          class="copy-to-clipboard-button"
+          type="button"
+          data-copy-state="copy"
+        >
+          <span>Copy</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<p class="cpp-quiz-question cpp-topline" style="clear: both">Question #2</p>
+<p>What three things are wrong with the following program?</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-106-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-106-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-112-close">{</span>
+    <span class="token keyword keyword-int">int</span> length<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-110-close">{</span> <span class="token number">5</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-110-open">}</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-const">const</span> <span class="token keyword keyword-int">int</span> arr<span class="token punctuation brace-square brace-open brace-level-2" id="pair-107-close">[</span>length<span class="token punctuation brace-square brace-close brace-level-2" id="pair-107-open">]</span> <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-111-close">{</span> <span class="token number">9</span><span class="token punctuation">,</span> <span class="token number">7</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">1</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-111-open">}</span><span class="token punctuation">;</span>
+
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> arr<span class="token punctuation brace-square brace-open brace-level-2" id="pair-108-close">[</span>length<span class="token punctuation brace-square brace-close brace-level-2" id="pair-108-open">]</span><span class="token punctuation">;</span>
+    arr<span class="token punctuation brace-square brace-open brace-level-2" id="pair-109-close">[</span><span class="token number">0</span><span class="token punctuation brace-square brace-close brace-level-2" id="pair-109-open">]</span> <span class="token operator">=</span> <span class="token number">4</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-112-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  <a
+    class="solution_link_show"
+    href="javascript:void(0)"
+    onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_1'), this, 'Show Solution', 'Hide Solution')"
+    >Show Solution</a
+  >
+</p>
+<div class="wpsolution" id="cpp_solution_id_1" style="display: none">
+  <ol start="1">
+    <li>
+      When defining an array, the length must be a compile-time constant. In the
+      above program, <code>length</code> is non-const, so the definition
+      <code>const int arr[length]</code> is not allowed.
+    </li>
+    <li>
+      Arrays are indexed from 0 to length-1. Therefore,
+      <code>arr[length]</code> is an out-of-bounds index, and will lead to
+      undefined behavior.
+    </li>
+    <li>
+      The array elements have type “const int”, and thus
+      <code>arr[0]</code> cannot be modified by assignment.
+    </li>
+  </ol>
+</div>
+<p class="cpp-quiz-question cpp-topline" style="clear: both">Question #3</p>
+<p>
+  A “perfect square” is a natural number whose square root is an integer. We can
+  make perfect squares by multiplying a natural number (including zero) by
+  itself. The first 4 perfect squares are: 0, 1, 4, 9.
+</p>
+<p>
+  Use a global constexpr C-style array to hold the perfect squares between 0 and
+  9 (inclusive). Repeatedly ask the user to enter a single digit integer, or -1
+  to quit. Print whether the digit the user entered is a perfect square.
+</p>
+<p>The output should match the following:</p>
+<pre>
+Enter a single digit integer, or -1 to quit: 4
+4 is a perfect square
+
+Enter a single digit integer, or -1 to quit: 5
+5 is not a perfect square
+
+Enter a single digit integer, or -1 to quit: -1
+Bye
+</pre>
+<p>
+  Hints: Use a range-based for loop to traverse the C-style array to look for a
+  match.
+</p>
+<p>
+  <a
+    class="solution_link_show"
+    href="javascript:void(0)"
+    onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_2'), this, 'Show Solution', 'Hide Solution')"
+    >Show Solution</a
+  >
+</p>
+<div class="wpsolution" id="cpp_solution_id_2" style="display: none">
+  <div class="code-toolbar">
+    <pre
+      class="line-numbers language-cpp"
+      tabindex="0"
+    ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-namespace">namespace</span> ProgramData
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-123-close">{</span>
+    <span class="token keyword keyword-constexpr">constexpr</span> <span class="token keyword keyword-int">int</span> squares<span class="token punctuation brace-square brace-open brace-level-2" id="pair-121-close">[</span><span class="token punctuation brace-square brace-close brace-level-2" id="pair-121-open">]</span> <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-122-close">{</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">,</span> <span class="token number">9</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-122-open">}</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-123-open">}</span>
+
+<span class="token keyword keyword-bool">bool</span> <span class="token function">matchSquare</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-113-close">(</span><span class="token keyword keyword-int">int</span> input<span class="token punctuation brace-round brace-close brace-level-1" id="pair-113-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-125-close">{</span>
+    <span class="token keyword keyword-for">for</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-114-close">(</span><span class="token keyword keyword-const">const</span> <span class="token keyword keyword-auto">auto</span><span class="token operator">&amp;</span> e <span class="token operator">:</span> ProgramData<span class="token double-colon punctuation">::</span>squares<span class="token punctuation brace-round brace-close brace-level-2" id="pair-114-open">)</span>
+    <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-124-close">{</span>
+        <span class="token keyword keyword-if">if</span> <span class="token punctuation brace-round brace-open brace-level-3" id="pair-115-close">(</span>input <span class="token operator">==</span> e<span class="token punctuation brace-round brace-close brace-level-3" id="pair-115-open">)</span>
+            <span class="token keyword keyword-return">return</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+    <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-124-open">}</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-125-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-116-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-116-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-128-close">{</span>
+    <span class="token keyword keyword-while">while</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-117-close">(</span><span class="token boolean">true</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-117-open">)</span>
+    <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-127-close">{</span>
+        std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Enter a single digit integer, or -1 to quit: "</span><span class="token punctuation">;</span>
+        <span class="token keyword keyword-int">int</span> input<span class="token punctuation brace-curly brace-open brace-level-3" id="pair-126-close">{</span><span class="token punctuation brace-curly brace-close brace-level-3" id="pair-126-open">}</span><span class="token punctuation">;</span>
+        std<span class="token double-colon punctuation">::</span>cin <span class="token operator">&gt;&gt;</span> input<span class="token punctuation">;</span>
+
+        <span class="token keyword keyword-if">if</span> <span class="token punctuation brace-round brace-open brace-level-3" id="pair-118-close">(</span>input <span class="token operator">==</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-118-open">)</span>
+            <span class="token keyword keyword-break">break</span><span class="token punctuation">;</span>
+
+        <span class="token keyword keyword-if">if</span> <span class="token punctuation brace-round brace-open brace-level-3" id="pair-120-close">(</span><span class="token function">matchSquare</span><span class="token punctuation brace-round brace-open brace-level-4" id="pair-119-close">(</span>input<span class="token punctuation brace-round brace-close brace-level-4" id="pair-119-open">)</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-120-open">)</span>
+            std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> input <span class="token operator">&lt;&lt;</span> <span class="token string">" is a perfect square\n"</span><span class="token punctuation">;</span>
+        <span class="token keyword keyword-else">else</span>
+            std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> input <span class="token operator">&lt;&lt;</span> <span class="token string">" is not a perfect square\n"</span><span class="token punctuation">;</span>
+    <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-127-open">}</span>
+
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Bye\n"</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-128-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+    <div class="toolbar">
+      <div class="toolbar-item">
+        <button
+          class="copy-to-clipboard-button"
+          type="button"
+          data-copy-state="copy"
+        >
+          <span>Copy</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="prevnext">
+  <div class="prevnext-inline">
+    <a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/c-style-array-decay/"
+    >
+      <div class="nav-button nav-button-next">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-right" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Next lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">17.8</span>C-style array
+            decay
+          </div>
+        </div>
+      </div></a
+    >
+    <a class="nav-link" href="/">
+      <div class="nav-button nav-button-index">
+        <div class="nav-button-icon">
+          <i class="fa fa-home" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Back to table of contents</div>
+        </div>
+      </div></a
+    >
+    <a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/stdarray-and-enumerations/"
+    >
+      <div class="nav-button nav-button-prev">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-left" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Previous lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">17.6</span>std::array and
+            enumerations
+          </div>
+        </div>
+      </div></a
+    >
+  </div>
+</div>
+<div class="code-block code-block-10" style="margin: 8px 0; clear: both"></div>

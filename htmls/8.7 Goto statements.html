@@ -1,0 +1,326 @@
+<div
+  class="code-block code-block-1"
+  style="margin: 8px 8px 8px 0; float: left"
+></div>
+<p>
+  The next kind of control flow statement we’ll cover is the unconditional jump.
+  An unconditional jump causes execution to jump to another spot in the code.
+  The term “unconditional” means the jump always happens (unlike an if-statement
+  or switch-statement, where the jump only happens conditionally based on the
+  result of an expression).
+</p>
+<p>
+  In C++, unconditional jumps are implemented via a
+  <strong>goto statement</strong>, and the spot to jump to is identified through
+  use of a <strong>statement label</strong>. Just like with switch case labels,
+  statement labels are conventionally not indented.
+</p>
+<p>The following is an example of a goto statement and statement label:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;cmath&gt;</span> <span class="token comment">// for sqrt() function</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-91-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-91-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-95-close">{</span>
+    <span class="token keyword keyword-double">double</span> x<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-94-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-94-open">}</span><span class="token punctuation">;</span>
+tryAgain<span class="token operator">:</span> <span class="token comment">// this is a statement label</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Enter a non-negative number: "</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>cin <span class="token operator">&gt;&gt;</span> x<span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-if">if</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-92-close">(</span>x <span class="token operator">&lt;</span> <span class="token number">0.0</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-92-open">)</span>
+        <span class="token keyword keyword-goto">goto</span> tryAgain<span class="token punctuation">;</span> <span class="token comment">// this is the goto statement</span>
+
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"The square root of "</span> <span class="token operator">&lt;&lt;</span> x <span class="token operator">&lt;&lt;</span> <span class="token string">" is "</span> <span class="token operator">&lt;&lt;</span> std<span class="token double-colon punctuation">::</span><span class="token function">sqrt</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-93-close">(</span>x<span class="token punctuation brace-round brace-close brace-level-2" id="pair-93-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-95-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  In this program, the user is asked to enter a non-negative number. However, if
+  a negative number is entered, the program utilizes a goto statement to jump
+  back to the <code>tryAgain</code> label. The user is then asked again to enter
+  a new number. In this way, we can continually ask the user for input until he
+  or she enters something valid.
+</p>
+<p>Here’s a sample run of this program:</p>
+<div class="code-block code-block-2" style="margin: 8px 0; clear: both"></div>
+
+<pre>
+Enter a non-negative number: -4
+Enter a non-negative number: 4
+The square root of 4 is 2
+</pre>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Statement labels have function scope
+</p>
+<p>
+  In the chapter on object scope (<a href="https://www.learncpp.com#Chapter7"
+    >chapter 7</a
+  >), we covered two kinds of scope: local (block) scope, and file (global)
+  scope. Statement labels utilize a third kind of scope:
+  <strong>function scope</strong>, which means the label is visible throughout
+  the function even before its point of declaration. The goto statement and its
+  corresponding <code>statement label</code> must appear in the same function.
+</p>
+<p>
+  While the above example shows a goto statement that jumps backwards (to a
+  preceding point in the function), goto statements can also jump forward:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-void">void</span> <span class="token function">printCats</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-96-close">(</span><span class="token keyword keyword-bool">bool</span> skip<span class="token punctuation brace-round brace-close brace-level-1" id="pair-96-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-101-close">{</span>
+    <span class="token keyword keyword-if">if</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-97-close">(</span>skip<span class="token punctuation brace-round brace-close brace-level-2" id="pair-97-open">)</span>
+        <span class="token keyword keyword-goto">goto</span> end<span class="token punctuation">;</span> <span class="token comment">// jump forward; statement label 'end' is visible here due to it having function scope</span>
+
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"cats\n"</span><span class="token punctuation">;</span>
+end<span class="token operator">:</span>
+    <span class="token punctuation">;</span> <span class="token comment">// statement labels must be associated with a statement</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-101-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-98-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-98-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-102-close">{</span>
+    <span class="token function">printCats</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-99-close">(</span><span class="token boolean">true</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-99-open">)</span><span class="token punctuation">;</span>  <span class="token comment">// jumps over the print statement and doesn't print anything</span>
+    <span class="token function">printCats</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-100-close">(</span><span class="token boolean">false</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-100-open">)</span><span class="token punctuation">;</span> <span class="token comment">// prints "cats"</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-102-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>This prints:</p>
+<pre>
+cats
+</pre>
+<p>
+  Beyond the jumping forward, there are a couple of interesting things worth
+  mentioning in the program above.
+</p>
+<p>
+  First, note that statement labels must be associated with a statement (hence
+  their name: they label a statement). Because the end of the function had no
+  statement, we had to use a null statement so we had a statement to label.
+  Second, we were able to jump to the statement labeled by <code>end</code> even
+  though we hadn’t declared <code>end</code> yet due to statement labels having
+  function scope. No forward declaration of statement labels is necessary.
+  Third, it’s worth explicitly mentioning that the above program is poor form --
+  it would have been better to use an if-statement to skip the print statement
+  than a goto statement to jump over it.
+</p>
+<div class="code-block code-block-3" style="margin: 8px 0; clear: both"></div>
+
+<p>
+  There are two primary limitations to jumping: You can jump only within the
+  bounds of a single function (you can’t jump out of one function and into
+  another), and if you jump forward, you can’t jump forward over the
+  initialization of any variable that is still in scope at the location being
+  jumped to. For example:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-103-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-103-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-105-close">{</span>
+    <span class="token keyword keyword-goto">goto</span> skip<span class="token punctuation">;</span>   <span class="token comment">// error: this jump is illegal because...</span>
+    <span class="token keyword keyword-int">int</span> x <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-104-close">{</span> <span class="token number">5</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-104-open">}</span><span class="token punctuation">;</span> <span class="token comment">// this initialized variable is still in scope at statement label 'skip'</span>
+skip<span class="token operator">:</span>
+    x <span class="token operator">+=</span> <span class="token number">3</span><span class="token punctuation">;</span>      <span class="token comment">// what would this even evaluate to if x wasn't initialized?</span>
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-105-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  Note that you can jump backwards over a variable initialization, and the
+  variable will be re-initialized when the initialization is executed.
+</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Avoid using goto
+</p>
+<p>
+  Use of <code>goto</code> is shunned in C++ (and other modern high level
+  languages as well).
+  <a href="https://en.wikipedia.org/wiki/Edsger_Dijkstra">Edsger W. Dijkstra</a
+  >, a noted computer scientist, laid out the case for avoiding goto in a famous
+  but difficult to read paper called
+  <a href="http://www.cs.utexas.edu/users/EWD/ewd02xx/EWD215.PDF"
+    >Go To Statement Considered Harmful</a
+  >. The primary problem with goto is that it allows a programmer to jump around
+  the code arbitrarily. This creates what is not-so-affectionately known as
+  spaghetti code. <strong>Spaghetti code</strong> is code that has a path of
+  execution that resembles a bowl of spaghetti (all tangled and twisted), making
+  it extremely difficult to follow the logic of such code.
+</p>
+<p>
+  As Dijkstra says somewhat humorously, “the quality of programmers is a
+  decreasing function of the density of go to statements in the programs they
+  produce”.
+</p>
+<p>
+  Almost any code written using a goto statement can be more clearly written
+  using other constructs in C++, such as if-statements and loops. One notable
+  exception is when you need to exit a nested loop but not the entire function
+  -- in such a case, a goto to just beyond the loops is probably the cleanest
+  solution.
+</p>
+<div class="code-block code-block-4" style="margin: 8px 0; clear: both"></div>
+
+<div class="cpp-note cpp-lightgraybackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">For advanced readers</p>
+  <p>
+    Here’s a contrived example of using a goto to exit a nested loop without
+    exiting the function:
+  </p>
+  <div class="code-toolbar">
+    <pre
+      class="line-numbers language-cpp"
+      tabindex="0"
+    ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-106-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-106-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-113-close">{</span>
+    <span class="token keyword keyword-for">for</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-107-close">(</span><span class="token keyword keyword-int">int</span> i <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> <span class="token number">5</span><span class="token punctuation">;</span> <span class="token operator">++</span>i<span class="token punctuation brace-round brace-close brace-level-2" id="pair-107-open">)</span>
+    <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-112-close">{</span>
+        <span class="token keyword keyword-for">for</span> <span class="token punctuation brace-round brace-open brace-level-3" id="pair-108-close">(</span><span class="token keyword keyword-int">int</span> j <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span> j <span class="token operator">&lt;</span> <span class="token number">5</span><span class="token punctuation">;</span> <span class="token operator">++</span>j<span class="token punctuation brace-round brace-close brace-level-3" id="pair-108-open">)</span>
+        <span class="token punctuation brace-curly brace-open brace-level-3" id="pair-111-close">{</span>
+            std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> i <span class="token operator">&lt;&lt;</span> <span class="token string">" * "</span> <span class="token operator">&lt;&lt;</span> j <span class="token operator">&lt;&lt;</span> <span class="token string">" is "</span> <span class="token operator">&lt;&lt;</span> i<span class="token operator">*</span>j <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+            <span class="token comment">// If the product is divisible by 9, jump to the "end" label</span>
+            <span class="token keyword keyword-if">if</span> <span class="token punctuation brace-round brace-open brace-level-4" id="pair-109-close">(</span>i<span class="token operator">*</span>j <span class="token operator">%</span> <span class="token number">9</span> <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation brace-round brace-close brace-level-4" id="pair-109-open">)</span>
+            <span class="token punctuation brace-curly brace-open brace-level-4" id="pair-110-close">{</span>
+                std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Found product divisible by 9.  Ending early.\n"</span><span class="token punctuation">;</span>
+                <span class="token keyword keyword-goto">goto</span> end<span class="token punctuation">;</span>
+            <span class="token punctuation brace-curly brace-close brace-level-4" id="pair-110-open">}</span>
+        <span class="token punctuation brace-curly brace-close brace-level-3" id="pair-111-open">}</span>
+
+        std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Incrementing the first factor.\n"</span><span class="token punctuation">;</span>
+    <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-112-open">}</span>
+
+end<span class="token operator">:</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"And we're done."</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-113-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+    <div class="toolbar">
+      <div class="toolbar-item">
+        <button
+          class="copy-to-clipboard-button"
+          type="button"
+          data-copy-state="copy"
+        >
+          <span>Copy</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="cpp-note cpp-lightgraybackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Author’s note</p>
+  <p>From our friends at <a href="https://xkcd.com/292/">xkcd</a>:</p>
+  <p>
+    <img
+      src="https://imgs.xkcd.com/comics/goto.png"
+      alt="https://imgs.xkcd.com/comics/goto.png"
+    />
+  </p>
+</div>
+<div class="cpp-note cpp-lightgreenbackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Best practice</p>
+  <p>
+    Avoid goto statements (unless the alternatives are significantly worse for
+    code readability).
+  </p>
+</div>
+<div class="prevnext">
+  <div class="prevnext-inline">
+    <a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/introduction-to-loops-and-while-statements/"
+    >
+      <div class="nav-button nav-button-next">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-right" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Next lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">8.8</span>Introduction to
+            loops and while statements
+          </div>
+        </div>
+      </div></a
+    >
+    <a class="nav-link" href="/">
+      <div class="nav-button nav-button-index">
+        <div class="nav-button-icon">
+          <i class="fa fa-home" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Back to table of contents</div>
+        </div>
+      </div></a
+    >
+    <a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/switch-fallthrough-and-scoping/"
+    >
+      <div class="nav-button nav-button-prev">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-left" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Previous lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">8.6</span>Switch fallthrough
+            and scoping
+          </div>
+        </div>
+      </div></a
+    >
+  </div>
+</div>
+<div class="code-block code-block-10" style="margin: 8px 0; clear: both"></div>

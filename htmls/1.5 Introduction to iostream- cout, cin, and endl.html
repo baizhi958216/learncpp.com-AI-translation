@@ -1,0 +1,1321 @@
+<div
+  class="code-block code-block-1"
+  style="margin: 8px 8px 8px 0; float: left"
+></div>
+<p>
+  In this lesson, we’ll talk more about std::cout, which we used in our
+  <em>Hello world!</em> program to output the text <em>Hello world!</em> to the
+  console. We’ll also explore how to get input from the user, which we will use
+  to make our programs more interactive.
+</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  The input/output library
+</p>
+<p>
+  The <strong>input/output library</strong> (io library) is part of the C++
+  standard library that deals with basic input and output. We’ll use the
+  functionality in this library to get input from the keyboard and output data
+  to the console. The <em>io</em> part of <em>iostream</em> stands for
+  <em>input/output</em>.
+</p>
+<p>
+  To use the functionality defined within the <em>iostream</em> library, we need
+  to include the <em>iostream</em> header at the top of any code file that uses
+  the content defined in <em>iostream</em>, like so:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token comment">// rest of code that uses iostream functionality here</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  std::cout
+</p>
+<p>
+  The <em>iostream</em> library contains a few predefined variables for us to
+  use. One of the most useful is <strong>std::cout</strong>, which allows us to
+  send data to the console to be printed as text. <em>cout</em> stands for
+  “character output”.
+</p>
+<p>As a reminder, here’s our <em>Hello world</em> program:</p>
+<div class="code-block code-block-2" style="margin: 8px 0; clear: both"></div>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span> <span class="token comment">// for std::cout</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-106-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-106-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-107-close">{</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Hello world!"</span><span class="token punctuation">;</span> <span class="token comment">// print Hello world! to console</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-107-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  In this program, we have included <em>iostream</em> so that we have access to
+  <em>std::cout</em>. Inside our <em>main</em> function, we use
+  <em>std::cout</em>, along with the
+  <strong>insertion operator (<code>&lt;&lt;</code>)</strong>, to send the text
+  <em>Hello world!</em> to the console to be printed.
+</p>
+<p><em>std::cout</em> can not only print text, it can also print numbers:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span> <span class="token comment">// for std::cout</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-108-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-108-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-109-close">{</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token number">4</span><span class="token punctuation">;</span> <span class="token comment">// print 4 to console</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-109-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>This produces the result:</p>
+<pre>
+4
+</pre>
+<p>It can also be used to print the value of variables:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span> <span class="token comment">// for std::cout</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-110-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-110-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-112-close">{</span>
+    <span class="token keyword keyword-int">int</span> x<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-111-close">{</span> <span class="token number">5</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-111-open">}</span><span class="token punctuation">;</span> <span class="token comment">// define integer variable x, initialized with value 5</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> x<span class="token punctuation">;</span> <span class="token comment">// print value of x (5) to console</span>
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-112-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>This produces the result:</p>
+<pre>
+5
+</pre>
+<p>
+  To print more than one thing on the same line, the insertion operator
+  (<code>&lt;&lt;</code>) can be used multiple times in a single statement to
+  concatenate (link together) multiple pieces of output. For example:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span> <span class="token comment">// for std::cout</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-113-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-113-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-114-close">{</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Hello"</span> <span class="token operator">&lt;&lt;</span> <span class="token string">" world!"</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-114-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  This uses the <code>&lt;&lt;</code> operator twice, first to output
+  <code>Hello</code> and then to output <code>world</code>.
+</p>
+<p>Thus, this program prints:</p>
+<pre>
+Hello world!
+</pre>
+<div class="cpp-note cpp-lightbluebackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Tip</p>
+  <p>
+    It might be helpful to imagine the <code>&lt;&lt;</code> operator (and
+    <code>&gt;&gt;</code> operator) as a conveyor belt that moves data in the
+    direction indicated. In this case, when the content is conveyed to
+    <code>std::cout</code>, it gets output.
+  </p>
+</div>
+<p>
+  Here’s another example where we print both text and the value of a variable in
+  the same statement:
+</p>
+<div class="code-block code-block-3" style="margin: 8px 0; clear: both"></div>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span> <span class="token comment">// for std::cout</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-115-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-115-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-117-close">{</span>
+    <span class="token keyword keyword-int">int</span> x<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-116-close">{</span> <span class="token number">5</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-116-open">}</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"x is equal to: "</span> <span class="token operator">&lt;&lt;</span> x<span class="token punctuation">;</span>
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-117-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>This program prints:</p>
+<pre>
+x is equal to: 5
+</pre>
+<div class="cpp-note cpp-lightgraybackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Related content</p>
+  <p>
+    We discuss what the <em>std::</em> prefix actually does in lesson
+    <a
+      href="https://www.learncpp.com/cpp-tutorial/naming-collisions-and-an-introduction-to-namespaces/"
+      >2.9 -- Naming collisions and an introduction to namespaces</a
+    >.
+  </p>
+</div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Using <code>std::endl</code> to output a newline
+</p>
+<p>What would you expect this program to print?</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span> <span class="token comment">// for std::cout</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-118-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-118-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-119-close">{</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Hi!"</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"My name is Alex."</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-119-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>You might be surprised at the result:</p>
+<pre>
+Hi!My name is Alex.
+</pre>
+<p>
+  Separate output statements don’t result in separate lines of output on the
+  console.
+</p>
+<div class="code-block code-block-4" style="margin: 8px 0; clear: both"></div>
+<p>
+  If we want to print separate lines of output to the console, we need to tell
+  the console to move the cursor to the next line. We can do that by outputting
+  a newline. A <strong>newline</strong> is an OS-specific character or sequence
+  of characters that moves the cursor to the start of the next line.
+</p>
+<p>
+  One way to output a newline is to output <code>std::endl</code> (which stands
+  for “end line”):
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span> <span class="token comment">// for std::cout and std::endl</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-120-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-120-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-121-close">{</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Hi!"</span> <span class="token operator">&lt;&lt;</span> std<span class="token double-colon punctuation">::</span>endl<span class="token punctuation">;</span> <span class="token comment">// std::endl will cause the cursor to move to the next line</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"My name is Alex."</span> <span class="token operator">&lt;&lt;</span> std<span class="token double-colon punctuation">::</span>endl<span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-121-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>This prints:</p>
+<pre>
+Hi!
+My name is Alex.
+</pre>
+<div class="cpp-note cpp-lightbluebackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Tip</p>
+  <p>
+    In the above program, the second <code>std::endl</code> isn’t technically
+    necessary, since the program ends immediately afterward. However, it serves
+    a few useful purposes.
+  </p>
+  <p>
+    First, it helps indicate that the line of output is a “complete thought” (as
+    opposed to partial output that is completed somewhere later in the code). In
+    this sense, it functions similarly to using a period in standard English.
+  </p>
+  <p>
+    Second, it positions the cursor on the next line, so that if we later add
+    additional lines of output (e.g. have the program say “bye!”), those lines
+    will appear where we expect (rather than appended to the prior line of
+    output).
+  </p>
+  <p>
+    Third, after running an executable from the command line, some operating
+    systems do not output a new line before showing the command prompt again. If
+    our program does not end with the cursor on a new line, the command prompt
+    may appear appended to the prior line of output, rather than at the start of
+    a new line as the user would expect.
+  </p>
+</div>
+<div class="cpp-note cpp-lightgreenbackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Best practice</p>
+  <p>Output a newline whenever a line of output is complete.</p>
+</div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  <code>std::cout</code> is buffered
+</p>
+<p>
+  Consider a rollercoaster ride at your favorite amusement park. Passengers show
+  up (at some variable rate) and get in line. Periodically, a train arrives and
+  boards passengers (up to the maximum capacity of the train). When the train is
+  full, or when enough time has passed, the train departs with a batch of
+  passengers, and the ride commences. Any passengers unable to board the current
+  train wait for the next one.
+</p>
+<p>
+  This analogy is similar to how output sent to <code>std::cout</code> is
+  typically processed in C++. Statements in our program request that output be
+  sent to the console. However, that output is typically not sent to the console
+  immediately. Instead, the requested output “gets in line”, and is stored in a
+  region of memory set aside to collect such requests (called a
+  <strong>buffer</strong>). Periodically, the buffer is
+  <strong>flushed</strong>, meaning all of the data collected in the buffer is
+  transferred to its destination (in this case, the console).
+</p>
+<div class="code-block code-block-5" style="margin: 8px 0; clear: both"></div>
+<div class="cpp-note cpp-lightgraybackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Author’s note</p>
+  <p>
+    To use another analogy, flushing a buffer is kind of like flushing a toilet.
+    All of your collected “output” is transferred to … wherever it goes next.
+    Eew.
+  </p>
+</div>
+<p>
+  This also means that if your program crashes, aborts, or is paused (e.g. for
+  debugging purposes) before the buffer is flushed, any output still waiting in
+  the buffer will not be displayed.
+</p>
+<div class="cpp-note cpp-lightbluebackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Key insight</p>
+  <p>
+    The opposite of buffered output is unbuffered output. With unbuffered
+    output, each individual output request is sent directly to the output
+    device.
+  </p>
+  <p>
+    Writing data to a buffer is typically fast, whereas transferring a batch of
+    data to an output device is comparatively slow. Buffering can significantly
+    increase performance by batching multiple output requests together to
+    minimize the number of times output has to be sent to the output device.
+  </p>
+</div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  <code>std::endl</code> vs <code>\n</code>
+</p>
+<p>
+  Using <code>std::endl</code> is often inefficient, as it actually does two
+  jobs: it outputs a newline (moving the cursor to the next line of the
+  console), and it flushes the buffer (which is slow). If we output multiple
+  lines of text ending with <code>std::endl</code>, we will get multiple
+  flushes, which is slow and probably unnecessary.
+</p>
+<p>
+  When outputting text to the console, we typically don’t need to explicitly
+  flush the buffer ourselves. C++’s output system is designed to self-flush
+  periodically, and it’s both simpler and more efficient to let it flush itself.
+</p>
+<p>
+  To output a newline without flushing the output buffer, we use
+  <code>\n</code> (inside either single or double quotes), which is a special
+  symbol that the compiler interprets as a newline character.
+  <code>\n</code> moves the cursor to the next line of the console without
+  causing a flush, so it will typically perform better. <code>\n</code> is also
+  more concise to type and can be embedded into existing double-quoted text.
+</p>
+<p>Here’s an example that uses <code>\n</code> in a few different ways:</p>
+<div class="code-block code-block-6" style="margin: 8px 0; clear: both"></div>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span> <span class="token comment">// for std::cout</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-122-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-122-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-124-close">{</span>
+    <span class="token keyword keyword-int">int</span> x<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-123-close">{</span> <span class="token number">5</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-123-open">}</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"x is equal to: "</span> <span class="token operator">&lt;&lt;</span> x <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span> <span class="token comment">// single quoted (by itself) (conventional)</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Yep."</span> <span class="token operator">&lt;&lt;</span> <span class="token string">"\n"</span><span class="token punctuation">;</span>                 <span class="token comment">// double quoted (by itself) (unconventional but okay)</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"And that's all, folks!\n"</span><span class="token punctuation">;</span>     <span class="token comment">// between double quotes in existing text (conventional)</span>
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-124-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>This prints:</p>
+<pre>
+x is equal to: 5
+Yep.
+And that's all, folks!
+</pre>
+<p>
+  When <code>\n</code> is not being embedded into an existing line of
+  double-quoted text (e.g. <code>"hello\n")</code>, it is conventionally single
+  quoted (<code>'\n'</code>).
+</p>
+<div class="cpp-note cpp-lightgraybackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">For advanced readers</p>
+  <p>
+    In C++, we use single quotes to represent single characters (such as
+    <code>'a'</code> or <code>'$'</code>), and double-quotes to represent text
+    (zero or more characters).
+  </p>
+  <p>
+    Even though ‘\n’ is represented in source code as two symbols, it is treated
+    by the compiler as a single linefeed (LF) character (with ASCII value 10),
+    and thus is conventionally single quoted (unless embedded into existing
+    double-quoted text). We discuss this more in lesson
+    <a href="https://www.learncpp.com/cpp-tutorial/chars/">4.11 -- Chars</a>.
+  </p>
+  <p>
+    When ‘\n’ is output, the library doing the outputting is responsible for
+    translating this single LF character into the appropriate newline sequence
+    for the given OS. See
+    <a href="https://en.wikipedia.org/wiki/Newline">Wikipedia</a> for more
+    information on OS conventions for newlines.
+  </p>
+</div>
+<div class="cpp-note cpp-lightgraybackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Author’s note</p>
+  <p>
+    Although unconventional, we believe it’s fine to use (or even prefer) double
+    quoted <code>"\n"</code> in standard output statements.
+  </p>
+  <p>This has two primary benefits:</p>
+  <ol start="1">
+    <li>
+      It’s simpler to double-quote all outputted text rather than having to
+      determine what should be single-quoted and double-quoted.
+    </li>
+    <li>
+      More importantly, it helps avoid inadvertent multicharacter literals. We
+      cover multicharacter literals and some of the unexpected output they can
+      cause in lesson
+      <a href="https://www.learncpp.com/cpp-tutorial/chars/">4.11 -- Chars</a>.
+    </li>
+  </ol>
+  <p>Single quotes should be preferred in non-output cases.</p>
+</div>
+<p>
+  We’ll cover what ‘\n’ is in more detail when we get to the lesson on chars (<a
+    href="https://www.learncpp.com/cpp-tutorial/chars/"
+    >4.11 -- Chars</a
+  >).
+</p>
+<div class="cpp-note cpp-lightgreenbackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Best practice</p>
+  <p>
+    Prefer <code>\n</code> over <code>std::endl</code> when outputting text to
+    the console.
+  </p>
+</div>
+<div class="cpp-note cpp-lightredbackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Warning</p>
+  <p>
+    <code>'\n'</code> uses a backslash (as do all special characters in C++),
+    not a forward slash.
+  </p>
+  <p>
+    Using a forward slash (e.g. <code>'/n'</code>) or including other characters
+    inside the single quotes (e.g. <code>' \n'</code> or <code>'.\n'</code>)
+    will result in unexpected behavior. For example,
+    <code>std::cout &lt;&lt; '/n';</code> will often print as
+    <code>12142</code>, which probably isn’t what you were expecting.
+  </p>
+</div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  std::cin
+</p>
+<p>
+  <code>std::cin</code> is another predefined variable in the
+  <code>iostream</code> library. Whereas <code>std::cout</code> prints data to
+  the console (using the insertion operator <code>&lt;&lt;</code> to provide the
+  data), <code>std::cin</code> (which stands for “character input”) reads input
+  from keyboard. We typically use the extraction operator
+  <code>&gt;&gt;</code> to put the input data in a variable (which can then be
+  used in subsequent statements).
+</p>
+<div class="code-block code-block-7" style="margin: 8px 0; clear: both"></div>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span>  <span class="token comment">// for std::cout and std::cin</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-125-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-125-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-127-close">{</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Enter a number: "</span><span class="token punctuation">;</span> <span class="token comment">// ask user for a number</span>
+
+    <span class="token keyword keyword-int">int</span> x<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-126-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-126-open">}</span><span class="token punctuation">;</span>       <span class="token comment">// define variable x to hold user input (and value-initialize it)</span>
+    std<span class="token double-colon punctuation">::</span>cin <span class="token operator">&gt;&gt;</span> x<span class="token punctuation">;</span> <span class="token comment">// get number from keyboard and store it in variable x</span>
+
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"You entered "</span> <span class="token operator">&lt;&lt;</span> x <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-127-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  Try compiling this program and running it for yourself. When you run the
+  program, line 5 will print “Enter a number: “. When the code gets to line 8,
+  your program will wait for you to enter input. Once you enter a number (and
+  press enter), the number you enter will be assigned to variable
+  <code>x</code>. Finally, on line 10, the program will print “You entered ”
+  followed by the number you just entered.
+</p>
+<p>For example (entering the value 4 as input):</p>
+<pre>
+Enter a number: 4
+You entered 4
+</pre>
+<p>
+  This is an easy way to get keyboard input from the user, and we will use it in
+  many of our examples going forward.
+</p>
+<div class="cpp-note cpp-lightbluebackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Tip</p>
+  <p>
+    Note that you don’t need to output <code>'\n'</code> when accepting a line
+    of input, as the user will need to press the <em>enter</em> key to have
+    their input accepted, and this will move the cursor to the next line of the
+    console.
+  </p>
+  <ul>
+    <li>
+      If your screen closes immediately after entering a number, please see
+      lesson
+      <a href="https://www.learncpp.com/cpp-tutorial/a-few-common-cpp-problems/"
+        >0.8 -- A few common C++ problems</a
+      >
+      for a solution.
+    </li>
+    <li>
+      If you are using CLion and “You entered” has a space before it, this is a
+      bug in CLion. See
+      <a href="https://youtrack.jetbrains.com/issue/CPP-17579"
+        >the CLion bug tracker</a
+      >
+      for workarounds.
+    </li>
+  </ul>
+</div>
+<p>
+  Just like it is possible to output more than one bit of text in a single line,
+  it is also possible to input more than one value on a single line:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span>  <span class="token comment">// for std::cout and std::cin</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-128-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-128-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-131-close">{</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Enter two numbers separated by a space: "</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-int">int</span> x<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-129-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-129-open">}</span><span class="token punctuation">;</span> <span class="token comment">// define variable x to hold user input (and value-initialize it)</span>
+    <span class="token keyword keyword-int">int</span> y<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-130-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-130-open">}</span><span class="token punctuation">;</span> <span class="token comment">// define variable y to hold user input (and value-initialize it)</span>
+    std<span class="token double-colon punctuation">::</span>cin <span class="token operator">&gt;&gt;</span> x <span class="token operator">&gt;&gt;</span> y<span class="token punctuation">;</span> <span class="token comment">// get two numbers and store in variable x and y respectively</span>
+
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"You entered "</span> <span class="token operator">&lt;&lt;</span> x <span class="token operator">&lt;&lt;</span> <span class="token string">" and "</span> <span class="token operator">&lt;&lt;</span> y <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-131-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>This produces the output:</p>
+<div class="code-block code-block-8" style="margin: 8px 0; clear: both"></div>
+<pre>
+Enter two numbers separated by a space: 5 6
+You entered 5 and 6
+</pre>
+<p>
+  Values entered should be separated by whitespace (spaces, tabs, or newlines).
+</p>
+<div class="cpp-note cpp-lightbluebackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Key insight</p>
+  <p>
+    There’s some debate over whether it’s necessary to initialize a variable
+    immediately before you give it a user provided value via another source
+    (e.g. std::cin), since the user-provided value will just overwrite the
+    initialization value. In line with our previous recommendation that
+    variables should always be initialized, best practice is to initialize the
+    variable first.
+  </p>
+</div>
+<div class="cpp-note cpp-lightgraybackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">For advanced readers</p>
+  <p>
+    The C++ I/O library does not provide a way to accept keyboard input without
+    the user having to press <em>enter</em>. If this is something you desire,
+    you’ll have to use a third party library. For console applications, we’d
+    recommend <a href="https://pdcurses.org/">pdcurses</a>,
+    <a href="https://github.com/ArthurSonzogni/FTXUI">FXTUI</a>,
+    <a href="https://github.com/jupyter-xeus/cpp-terminal">cpp-terminal</a>, or
+    <a href="https://github.com/dankamongmen/notcurses">notcurses</a>. Many
+    graphical user interface libraries have their own functions to do this kind
+    of thing.
+  </p>
+</div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  <code>std::cin</code> is buffered
+</p>
+<p>
+  In a prior section, we noted that outputting data is actually a two stage
+  process:
+</p>
+<ul>
+  <li>
+    The data from each output request is added (to the end) of an output buffer.
+  </li>
+  <li>
+    Later, data from (the front of) the output buffer is flushed to the output
+    device (the console).
+  </li>
+</ul>
+<div class="cpp-note cpp-lightbluebackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Key insight</p>
+  <p>
+    Adding data to the end of a buffer and removing it from the front of a
+    buffer ensures data is processed in the same order in which it was added.
+    This is sometimes called FIFO (first in, first out).
+  </p>
+</div>
+<p>Similarly, inputting data is also a two stage process:</p>
+<ul>
+  <li>
+    The individual characters you enter as input are added to the end of an
+    input buffer (inside <code>std::cin</code>). The enter key (pressed to
+    submit the data) is also stored as a <code>'\n'</code> character.
+  </li>
+  <li>
+    The extraction operator ‘&gt;&gt;’ removes characters from the front of the
+    input buffer and converts them into a value that is assigned (via
+    copy-assignment) to the associated variable. This variable can then be used
+    in subsequent statements.
+  </li>
+</ul>
+<div class="cpp-note cpp-lightbluebackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Key insight</p>
+  <p>
+    Each line of input data in the input buffer is terminated by a
+    <code>'\n'</code> character.
+  </p>
+</div>
+<p>We’ll demonstrate this using the following program:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span>  <span class="token comment">// for std::cout and std::cin</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-132-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-132-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-135-close">{</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Enter two numbers: "</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-int">int</span> x<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-133-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-133-open">}</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>cin <span class="token operator">&gt;&gt;</span> x<span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-int">int</span> y<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-134-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-134-open">}</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>cin <span class="token operator">&gt;&gt;</span> y<span class="token punctuation">;</span>
+
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"You entered "</span> <span class="token operator">&lt;&lt;</span> x <span class="token operator">&lt;&lt;</span> <span class="token string">" and "</span> <span class="token operator">&lt;&lt;</span> y <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-135-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  This program inputs to two variables (this time as separate statements). We’ll
+  run this program twice.
+</p>
+<p>
+  Run #1: When <code>std::cin &gt;&gt; x;</code> is encountered, the program
+  will wait for input. Enter the value <code>4</code>. The input
+  <code>4\n</code> goes into the input buffer, and the value <code>4</code> is
+  extracted to variable <code>x</code>.
+</p>
+<p>
+  When <code>std::cin &gt;&gt; y;</code> is encountered, the program will again
+  wait for input. Enter the value <code>5</code>. The input
+  <code>5\n</code> goes into the input buffer, and the value <code>5</code> is
+  extracted to variable <code>y</code>. Finally, the program will print
+  <code>You entered 4 and 5</code>.
+</p>
+<p>There should be nothing surprising about this run.</p>
+<p>
+  Run #2: When <code>std::cin &gt;&gt; x</code> is encountered, the program will
+  wait for input. Enter <code>4 5</code>. The input <code>4 5\n</code> goes into
+  the input buffer, but only the <code>4</code> is extracted to variable
+  <code>x</code> (extraction stops at the space).
+</p>
+<p>
+  When <code>std::cin &gt;&gt; y</code> is encountered, the program will
+  <em>not</em> wait for input. Instead, the <code>5</code> that is still in the
+  input buffer is extracted to variable <code>y</code>. The program then prints
+  <code>You entered 4 and 5</code>.
+</p>
+<p>
+  Note that in run 2, the program didn’t wait for the user to enter additional
+  input when extracting to variable <code>y</code> because there was already
+  prior input in the input buffer that could be used.
+</p>
+<div class="cpp-note cpp-lightbluebackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Key insight</p>
+  <p>
+    <code>std::cin</code> is buffered because it allows us to separate the
+    entering of input from the extract of input. We can enter input once and
+    then perform multiple extraction requests on it.
+  </p>
+</div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  <a name="extraction"></a>The basic extraction process
+  <a href="#extraction"><i class="fa fa-link" style="font-size: 0.8em"></i></a>
+</p>
+<p>
+  Here’s a simplified view of how operator <code>&gt;&gt;</code> works for
+  input.
+</p>
+<ol start="1">
+  <li>
+    If <code>std::cin</code> is not in a good state (e.g. the prior extraction
+    failed and <code>std::cin</code> has not yet been cleared), no extraction is
+    attempted, and the extraction process aborts immediately.
+  </li>
+  <li>
+    Leading whitespace characters (spaces, tabs, and newlines at the front of
+    the buffer) are discarded from the input buffer. This will discard an
+    unextracted newline character remaining from a prior line of input.
+  </li>
+  <li>
+    If the input buffer is now empty, operator <code>&gt;&gt;</code> will wait
+    for the user to enter more data. Any leading whitespace is discarded from
+    the entered data.
+  </li>
+  <li>
+    operator <code>&gt;&gt;</code> then extracts as many consecutive characters
+    as it can, until it encounters either a newline character (representing the
+    end of the line of input) or a character that is not valid for the variable
+    being extracted to.
+  </li>
+</ol>
+<p>The result of the extraction process is as follows:</p>
+<ul>
+  <li>
+    If the extraction aborted in step 1, then no extraction attempt occurred.
+    Nothing else happens.
+  </li>
+  <li>
+    If any characters were extracted in step 4 above, extraction is a success.
+    The extracted characters are converted into a value that is then
+    copy-assigned to the variable.
+  </li>
+  <li>
+    If no characters could be extracted in step 4 above, extraction has failed.
+    The object being extracted to is copy-assigned the value <code>0</code> (as
+    of C++11), and any future extractions will immediately fail (until
+    <code>std::cin</code> is cleared).
+  </li>
+</ul>
+<p>
+  Any non-extracted characters (including newlines) remain available for the
+  next extraction attempt.
+</p>
+<div class="cpp-note cpp-lightgraybackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Related content</p>
+  <p>
+    We discuss how to detect and handle extraction failures, handle extraneous
+    input, and clear <code>std::cin</code> in lesson
+    <a
+      href="https://www.learncpp.com/cpp-tutorial/stdcin-and-handling-invalid-input/"
+      >9.5 -- std::cin and handling invalid input</a
+    >.
+  </p>
+</div>
+<p>For example, given the following snippet:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-int">int</span> x<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-136-close">{</span><span class="token punctuation brace-curly brace-close brace-level-1" id="pair-136-open">}</span><span class="token punctuation">;</span>
+std<span class="token double-colon punctuation">::</span>cin <span class="token operator">&gt;&gt;</span> x<span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>Here’s what happens in a three different input cases:</p>
+<ul>
+  <li>
+    If the user types <code>5a</code> and enter, <code>5a\n</code> will be added
+    to the buffer. <code>5</code> will be extracted, converted to an integer,
+    and assigned to variable <code>x</code>. <code>a\n</code> will be left in
+    the input buffer for the next extraction.
+  </li>
+  <li>
+    If the user types ‘b’ and enter, <code>b\n</code> would be added to the
+    buffer. Because <code>b</code> is not a valid integer, no characters can be
+    extracted, so this is an extraction failure. Variable <code>x</code> would
+    be set to <code>0</code>, and future extractions will fail until the input
+    stream is cleared.
+  </li>
+  <li>
+    If <code>std::cin</code> is not in a good state due to a prior failed
+    extraction, nothing happens here. The value of variable <code>x</code> is
+    not altered.
+  </li>
+</ul>
+<p>We’ll explore more cases in the quiz below.</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  <code>operator&lt;&lt;</code> vs <code>operator&gt;&gt;</code>
+</p>
+<p>
+  New programmers often mix up <code>std::cin</code>, <code>std::cout</code>,
+  the insertion operator (<code>&lt;&lt;</code>) and the extraction operator
+  (<code>&gt;&gt;</code>). Here’s an easy way to remember:
+</p>
+<ul>
+  <li>
+    <code>std::cin</code> and <code>std::cout</code> always go on the left-hand
+    side of the operator.
+  </li>
+  <li>
+    <code>std::cout</code> is used to output a value (cout = character output).
+  </li>
+  <li>
+    <code>std::cin</code> is used to get an input value (cin = character input).
+  </li>
+  <li>
+    <code>&lt;&lt;</code> is used with <code>std::cout</code>, and shows the
+    direction that data is moving. <code>std::cout &lt;&lt; 4</code> moves the
+    value <code>4</code> to the console.
+  </li>
+  <li>
+    <code>&gt;&gt;</code> is used with <code>std::cin</code>, and shows the
+    direction that data is moving. <code>std::cin &gt;&gt; x</code> moves the
+    value the user entered from the keyboard into variable <code>x</code>.
+  </li>
+</ul>
+<p>
+  We’ll talk more about operators in lesson
+  <a
+    href="https://www.learncpp.com/cpp-tutorial/introduction-to-literals-and-operators/"
+    >1.9 -- Introduction to literals and operators</a
+  >.
+</p>
+<div class="cpp-note cpp-lightgraybackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">As an aside…</p>
+  <p>
+    If you’re wondering why C++ uses <code>std::cout</code> and
+    <code>std::cin</code> instead of something else, see
+    <a href="https://en.wikipedia.org/wiki/Standard_streams"
+      >https://en.wikipedia.org/wiki/Standard_streams</a
+    >.
+  </p>
+</div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Quiz time
+</p>
+<p class="cpp-quiz-question" style="clear: both">Question #1</p>
+<p>Consider the following program that we used above:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span>  <span class="token comment">// for std::cout and std::cin</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-137-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-137-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-139-close">{</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Enter a number: "</span><span class="token punctuation">;</span> <span class="token comment">// ask user for a number</span>
+    <span class="token keyword keyword-int">int</span> x<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-138-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-138-open">}</span><span class="token punctuation">;</span> <span class="token comment">// define variable x to hold user input</span>
+    std<span class="token double-colon punctuation">::</span>cin <span class="token operator">&gt;&gt;</span> x<span class="token punctuation">;</span> <span class="token comment">// get number from keyboard and store it in variable x</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"You entered "</span> <span class="token operator">&lt;&lt;</span> x <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-139-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  The program expects you to enter an integer value, as the variable
+  <code>x</code> that the user input will be put into is an integer variable.
+</p>
+<p>
+  Run this program multiple times and describe the output that results when you
+  enter the following types of input:
+</p>
+<p>a) A letter, such as <code>h</code>.</p>
+<p>
+  <a
+    class="solution_link_show"
+    href="javascript:void(0)"
+    onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_0'),this,'Show Solution','Hide Solution')"
+    >Show Solution</a
+  >
+</p>
+<div class="wpsolution" id="cpp_solution_id_0" style="display: none">
+  <p>
+    Result: 0 is always printed.<br />What’s happening: An integer can’t hold a
+    letter, so extraction completely fails. <code>x</code> is assigned the value
+    0.
+  </p>
+</div>
+<p>
+  b) A number with a fractional part (e.g. <code>3.2</code>). Try numbers with
+  fractional parts less than 0.5 and greater than 0.5 (e.g. <code>3.2</code> and
+  <code>3.7</code>).
+</p>
+<p>
+  <a
+    class="solution_link_show"
+    href="javascript:void(0)"
+    onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_1'),this,'Show Solution','Hide Solution')"
+    >Show Solution</a
+  >
+</p>
+<div class="wpsolution" id="cpp_solution_id_1" style="display: none">
+  <p>
+    Result: The fractional part is dropped (not rounded).<br />What’s happening:
+    Given the number <code>3.2</code>, the <code>3</code> gets extracted, but
+    <code>.</code> is an invalid character, so extraction stops here. The
+    <code>.2</code> remains for a future extraction attempt.
+  </p>
+  <p>
+    If you are wondering why this isn’t a disallowed narrowing conversion,
+    narrowing conversions are only disallowed during list-initialization (which
+    happens on line 6). The extraction happens on line 7.
+  </p>
+</div>
+<p>c) A small negative integer, such as <code>-3</code>.</p>
+<p>
+  <a
+    class="solution_link_show"
+    href="javascript:void(0)"
+    onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_2'),this,'Show Solution','Hide Solution')"
+    >Show Solution</a
+  >
+</p>
+<div class="wpsolution" id="cpp_solution_id_2" style="display: none">
+  <p>
+    Result: The entered number is output.<br />What’s happening: A minus sign at
+    the beginning of a number is acceptable, so it is extracted. The remaining
+    numbers are extracted as well.
+  </p>
+</div>
+<p>d) A word, such as <code>Hello</code>.</p>
+<p>
+  <a
+    class="solution_link_show"
+    href="javascript:void(0)"
+    onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_3'),this,'Show Solution','Hide Solution')"
+    >Show Solution</a
+  >
+</p>
+<div class="wpsolution" id="cpp_solution_id_3" style="display: none">
+  <p>
+    Result: 0 is always printed.<br />What’s happening: An integer can’t hold a
+    letter, so extraction completely fails. <code>x</code> is assigned the value
+    0.
+  </p>
+</div>
+<p>e) A really big number (at least 3 billion).</p>
+<p>
+  <a
+    class="solution_link_show"
+    href="javascript:void(0)"
+    onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_4'),this,'Show Solution','Hide Solution')"
+    >Show Solution</a
+  >
+</p>
+<div class="wpsolution" id="cpp_solution_id_4" style="display: none">
+  <p>
+    Result: You are most likely to get the number
+    <code>2147483647</code>.<br />What’s happening: <code>x</code> can only hold
+    numbers up to a certain size. If you enter a value larger than the largest
+    number <code>x</code> can hold, it will be set to the largest number that
+    <code>x</code> can hold (which is probably <code>2147483647</code>, but
+    might be different on your system). We discuss this further in lesson
+    <a href="https://www.learncpp.com/cpp-tutorial/signed-integers/"
+      >4.4 -- Signed integers</a
+    >.
+  </p>
+</div>
+<p>f) A small number followed by some letters, such as <code>123abc</code>.</p>
+<p>
+  <a
+    class="solution_link_show"
+    href="javascript:void(0)"
+    onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_5'),this,'Show Solution','Hide Solution')"
+    >Show Solution</a
+  >
+</p>
+<div class="wpsolution" id="cpp_solution_id_5" style="display: none">
+  <p>
+    Result: The numeric values are printed (e.g. 123).<br />What’s happening:
+    <code>123</code> is extracted, the remaining characters (e.g.
+    <code>abc</code>) are left for a later extraction.
+  </p>
+</div>
+<p>g) A few letters followed by a small number, such as <code>abc123</code>.</p>
+<p>
+  <a
+    class="solution_link_show"
+    href="javascript:void(0)"
+    onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_6'),this,'Show Solution','Hide Solution')"
+    >Show Solution</a
+  >
+</p>
+<div class="wpsolution" id="cpp_solution_id_6" style="display: none">
+  <p>
+    Result: 0 is always printed.<br />What’s happening: An integer can’t hold a
+    letter, so extraction completely fails. <code>x</code> is assigned the value
+    0.
+  </p>
+</div>
+<p>h) <code>+5</code> (three spaces, followed by a plus symbol, and a 5).</p>
+<p>
+  <a
+    class="solution_link_show"
+    href="javascript:void(0)"
+    onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_7'),this,'Show Solution','Hide Solution')"
+    >Show Solution</a
+  >
+</p>
+<div class="wpsolution" id="cpp_solution_id_7" style="display: none">
+  <p>
+    Result: 5 is printed.<br />What’s happening: The leading whitespace is
+    skipped. Plus is a valid symbol at the start of a number (just as a minus
+    sign would be), so it is extracted. The 5 is also extracted.
+  </p>
+</div>
+<p>i) <code>5b6</code>.</p>
+<p>
+  <a
+    class="solution_link_show"
+    href="javascript:void(0)"
+    onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_8'),this,'Show Solution','Hide Solution')"
+    >Show Solution</a
+  >
+</p>
+<div class="wpsolution" id="cpp_solution_id_8" style="display: none">
+  <p>
+    Result: 5 is printed.<br />What’s happening: <code>5</code> is extracted.
+    <code>b</code> is invalid, so extraction stops here. The
+    <code>b6</code> remains for a future extraction attempt.
+  </p>
+</div>
+<p class="cpp-quiz-question cpp-topline" style="clear: both">Question #2</p>
+<p>
+  Ask the user to enter three values. The program should then print these
+  values. Add an appropriate comment above function <code>main()</code>.
+</p>
+<p>
+  The program should match the following output (when run with input values
+  <code>4</code>, <code>5</code>, and <code>6</code>):
+</p>
+<pre>
+Enter three numbers: 4 5 6
+You entered 4, 5, and 6.
+</pre>
+<p>
+  <a
+    class="hint_link_show"
+    href="javascript:void(0)"
+    onclick="cppHintToggle(document.getElementById('cpp_hint_id_0'),this,'Show Hint','')"
+    >Show Hint</a
+  >
+</p>
+<div
+  class="wphint"
+  id="cpp_hint_id_0"
+  style="display: none; margin-bottom: 1em"
+>
+  Hint: Comments above a function should describe <em>what</em> the function
+  does.
+</div>
+<p>
+  <a
+    class="hint_link_show"
+    href="javascript:void(0)"
+    onclick="cppHintToggle(document.getElementById('cpp_hint_id_1'),this,'Show Hint','')"
+    >Show Hint</a
+  >
+</p>
+<div
+  class="wphint"
+  id="cpp_hint_id_1"
+  style="display: none; margin-bottom: 1em"
+>
+  Hint: Make sure you’re double quoting your output.
+</div>
+<p>
+  <a
+    class="solution_link_show"
+    href="javascript:void(0)"
+    onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_9'),this,'Show Solution','Hide Solution')"
+    >Show Solution</a
+  >
+</p>
+<div class="wpsolution" id="cpp_solution_id_9" style="display: none">
+  <div class="code-toolbar">
+    <pre
+      class="line-numbers language-cpp"
+      tabindex="0"
+    ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token comment">// Asks the user to enter three values and then print those values as a sentence.</span>
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-140-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-140-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-144-close">{</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Enter three numbers: "</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-int">int</span> x<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-141-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-141-open">}</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-int">int</span> y<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-142-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-142-open">}</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-int">int</span> z<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-143-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-143-open">}</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>cin <span class="token operator">&gt;&gt;</span> x <span class="token operator">&gt;&gt;</span> y <span class="token operator">&gt;&gt;</span> z<span class="token punctuation">;</span>
+
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"You entered "</span> <span class="token operator">&lt;&lt;</span> x <span class="token operator">&lt;&lt;</span> <span class="token string">", "</span> <span class="token operator">&lt;&lt;</span> y <span class="token operator">&lt;&lt;</span> <span class="token string">", and "</span> <span class="token operator">&lt;&lt;</span> z <span class="token operator">&lt;&lt;</span> <span class="token string">".\n"</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-144-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span><span style="height: 0px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+    <div class="toolbar">
+      <div class="toolbar-item">
+        <button
+          class="copy-to-clipboard-button"
+          type="button"
+          data-copy-state="copy"
+        >
+          <span>Copy</span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <p>
+    Note that <code>".\n"</code> must be double-quoted since we’re outputting
+    more than one character.
+  </p>
+</div>
+<div class="prevnext">
+  <div class="prevnext-inline">
+    <a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/uninitialized-variables-and-undefined-behavior/"
+      ><div class="nav-button nav-button-next">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-right" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Next lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">1.6</span>Uninitialized
+            variables and undefined behavior
+          </div>
+        </div>
+      </div></a
+    ><a class="nav-link" href="/"
+      ><div class="nav-button nav-button-index">
+        <div class="nav-button-icon">
+          <i class="fa fa-home" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Back to table of contents</div>
+        </div>
+      </div></a
+    ><a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/variable-assignment-and-initialization/"
+      ><div class="nav-button nav-button-prev">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-left" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Previous lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">1.4</span>Variable assignment
+            and initialization
+          </div>
+        </div>
+      </div></a
+    >
+  </div>
+</div>
+<div class="code-block code-block-10" style="margin: 8px 0; clear: both"></div>

@@ -1,0 +1,807 @@
+<div
+  class="code-block code-block-1"
+  style="margin: 8px 8px 8px 0; float: left"
+></div>
+<p class="cpp-section">Stream states</p>
+<p>
+  The ios_base class contains several state flags that are used to signal
+  various conditions that may occur when using streams:
+</p>
+<div class="cpp-table-wrapper">
+  <p></p>
+  <p></p>
+  <table class="cpp-table">
+    <tbody>
+      <tr>
+        <th>Flag</th>
+        <th>Meaning</th>
+      </tr>
+      <tr>
+        <td>goodbit</td>
+        <td>Everything is okay</td>
+      </tr>
+      <tr>
+        <td>badbit</td>
+        <td>
+          Some kind of fatal error occurred (e.g. the program tried to read past
+          the end of a file)
+        </td>
+      </tr>
+      <tr>
+        <td>eofbit</td>
+        <td>The stream has reached the end of a file</td>
+      </tr>
+      <tr>
+        <td>failbit</td>
+        <td>
+          A non-fatal error occurred (e.g. the user entered letters when the
+          program was expecting an integer)
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<p>
+  Although these flags live in ios_base, because ios is derived from ios_base
+  and ios takes less typing than ios_base, they are generally accessed through
+  ios (e.g. as std::ios::failbit).
+</p>
+<p>
+  ios also provides a number of member functions in order to conveniently access
+  these states:
+</p>
+<div class="cpp-table-wrapper">
+  <p></p>
+  <p></p>
+  <table class="cpp-table">
+    <tbody>
+      <tr>
+        <th>Member function</th>
+        <th>Meaning</th>
+      </tr>
+      <tr>
+        <td>good()</td>
+        <td>Returns true if the goodbit is set (the stream is ok)</td>
+      </tr>
+      <tr>
+        <td>bad()</td>
+        <td>Returns true if the badbit is set (a fatal error occurred)</td>
+      </tr>
+      <tr>
+        <td>eof()</td>
+        <td>
+          Returns true if the eofbit is set (the stream is at the end of a file)
+        </td>
+      </tr>
+      <tr>
+        <td>fail()</td>
+        <td>Returns true if the failbit is set (a non-fatal error occurred)</td>
+      </tr>
+      <tr>
+        <td>clear()</td>
+        <td>Clears all flags and restores the stream to the goodbit state</td>
+      </tr>
+      <tr>
+        <td>clear(state)</td>
+        <td>Clears all flags and sets the state flag passed in</td>
+      </tr>
+      <tr>
+        <td>rdstate()</td>
+        <td>Returns the currently set flags</td>
+      </tr>
+      <tr>
+        <td>setstate(state)</td>
+        <td>Sets the state flag passed in</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<p>
+  The most commonly dealt with bit is the failbit, which is set when the user
+  enters invalid input. For example, consider the following program:
+</p>
+<div
+  class="google-auto-placed ap_container"
+  style="width: 100%; height: auto; clear: both; text-align: center"
+>
+  <ins
+    data-ad-format="auto"
+    class="adsbygoogle adsbygoogle-noablate"
+    data-ad-client="ca-pub-0588844875925051"
+    data-adsbygoogle-status="done"
+    style="
+      display: block;
+      margin: auto;
+      background-color: transparent;
+      height: 280px;
+    "
+    data-ad-status="unfilled"
+    ><div
+      id="aswift_2_host"
+      style="
+        border: none;
+        height: 280px;
+        width: 1027px;
+        margin: 0px;
+        padding: 0px;
+        position: relative;
+        visibility: visible;
+        background-color: transparent;
+        display: inline-block;
+        overflow: visible;
+      "
+    >
+      <iframe
+        id="aswift_2"
+        name="aswift_2"
+        browsingtopics="true"
+        style="
+          left: 0;
+          position: absolute;
+          top: 0;
+          border: 0;
+          width: 1027px;
+          height: 280px;
+          min-height: auto;
+          max-height: none;
+          min-width: auto;
+          max-width: none;
+        "
+        sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation"
+        width="1027"
+        height="280"
+        frameborder="0"
+        marginwidth="0"
+        marginheight="0"
+        vspace="0"
+        hspace="0"
+        allowtransparency="true"
+        scrolling="no"
+        allow="attribution-reporting; run-ad-auction"
+        src="https://googleads.g.doubleclick.net/pagead/ads?client=ca-pub-0588844875925051&amp;output=html&amp;h=280&amp;adk=2156968368&amp;adf=3763289039&amp;w=1027&amp;abgtt=11&amp;fwrn=4&amp;fwrnh=100&amp;lmt=1750945107&amp;num_ads=1&amp;rafmt=1&amp;armr=3&amp;sem=mc&amp;pwprc=4633386603&amp;ad_type=text_image&amp;format=1027x280&amp;url=https%3A%2F%2Fwww.learncpp.com%2Fcpp-tutorial%2Fstream-states-and-input-validation%2F&amp;fwr=0&amp;pra=3&amp;rh=200&amp;rw=1026&amp;rpe=1&amp;resp_fmts=3&amp;wgl=1&amp;fa=27&amp;uach=WyJXaW5kb3dzIiwiMTkuMC4wIiwieDg2IiwiIiwiMTM3LjAuNzE1MS4xMjIiLG51bGwsMCxudWxsLCI2NCIsW1siR29vZ2xlIENocm9tZSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJDaHJvbWl1bSIsIjEzNy4wLjcxNTEuMTIyIl0sWyJOb3QvQSlCcmFuZCIsIjI0LjAuMC4wIl1dLDBd&amp;dt=1751963794112&amp;bpp=1&amp;bdt=938&amp;idt=1&amp;shv=r20250702&amp;mjsv=m202507020101&amp;ptt=9&amp;saldr=aa&amp;abxe=1&amp;cookie=ID%3D05f6e82287d810b4%3AT%3D1751962604%3ART%3D1751963528%3AS%3DALNI_MaQYA0TSAU2k8xwY5tqlN0xFCcd6g&amp;gpic=UID%3D00001157d9e27d0a%3AT%3D1751962604%3ART%3D1751963528%3AS%3DALNI_MYgtHzQJAQQXY_151HTGSSfVxE8_A&amp;eo_id_str=ID%3D52c21936d98c6d2b%3AT%3D1751962604%3ART%3D1751963528%3AS%3DAA-AfjZsJ15yjdEPJ8d11hPojsJQ&amp;prev_fmts=0x0%2C336x280&amp;nras=2&amp;correlator=2481255482050&amp;frm=20&amp;pv=1&amp;u_tz=480&amp;u_his=2&amp;u_h=600&amp;u_w=800&amp;u_ah=600&amp;u_aw=800&amp;u_cd=24&amp;u_sd=1&amp;dmc=8&amp;adx=27&amp;ady=990&amp;biw=1080&amp;bih=1024&amp;scr_x=0&amp;scr_y=0&amp;eid=95353386%2C95362655%2C95365226%2C95365234%2C95365700%2C95344788%2C95359266%2C95365121%2C95365797&amp;oid=2&amp;pvsid=166675000500742&amp;tmod=1708485235&amp;uas=0&amp;nvt=1&amp;fc=1408&amp;brdim=10%2C10%2C10%2C10%2C800%2C0%2C780%2C580%2C1080%2C1024&amp;vis=1&amp;rsz=%7C%7Cs%7C&amp;abl=NS&amp;cms=2&amp;fu=128&amp;bc=31&amp;bz=0.72&amp;td=1&amp;tdf=2&amp;psd=W251bGwsbnVsbCxudWxsLDNd&amp;nt=1&amp;ifi=3&amp;uci=a!3&amp;fsb=1&amp;dtd=4"
+        data-google-container-id="a!3"
+        tabindex="0"
+        title="Advertisement"
+        aria-label="Advertisement"
+        data-load-complete="true"
+        data-google-query-id="CMK1tdztrI4DFR7KFgUdTa0PjQ"
+      ></iframe></div
+  ></ins>
+</div>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp">std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Enter your age: "</span><span class="token punctuation">;</span>
+<span class="token keyword keyword-int">int</span> age <span class="token punctuation brace-curly brace-open brace-level-1" id="pair-0-close">{</span><span class="token punctuation brace-curly brace-close brace-level-1" id="pair-0-open">}</span><span class="token punctuation">;</span>
+std<span class="token double-colon punctuation">::</span>cin <span class="token operator">&gt;&gt;</span> age<span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  Note that this program is expecting the user to enter an integer. However, if
+  the user enters non-numeric data, such as “Alex”, cin will be unable to
+  extract anything to age, and the failbit will be set.
+</p>
+<div class="code-block code-block-2" style="margin: 8px 0; clear: both"></div>
+
+<p>
+  If an error occurs and a stream is set to anything other than goodbit, further
+  stream operations on that stream will be ignored. This condition can be
+  cleared by calling the clear() function.
+</p>
+<p class="cpp-section cpp-topline" style="clear: both">Input validation</p>
+<p>
+  <strong>Input validation</strong> is the process of checking whether the user
+  input meets some set of criteria. Input validation can generally be broken
+  down into two types: string and numeric.
+</p>
+<p>
+  With string validation, we accept all user input as a string, and then accept
+  or reject that string depending on whether it is formatted appropriately. For
+  example, if we ask the user to enter a telephone number, we may want to ensure
+  the data they enter has ten digits. In most languages (especially scripting
+  languages like Perl and PHP), this is done via regular expressions. The C++
+  standard library has a
+  <a href="https://en.cppreference.com/w/cpp/regex"
+    >regular expression library</a
+  >
+  as well. Because regular expressions are slow compared to manual string
+  validation, they should only be used if performance (compile-time and
+  run-time) is of no concern or manual validation is too cumbersome.
+</p>
+<p>
+  With numerical validation, we are typically concerned with making sure the
+  number the user enters is within a particular range (e.g. between 0 and 20).
+  However, unlike with string validation, it’s possible for the user to enter
+  things that aren’t numbers at all -- and we need to handle these cases too.
+</p>
+<p>
+  To help us out, C++ provides a number of useful functions that we can use to
+  determine whether specific characters are numbers or letters. The following
+  functions live in the cctype header:
+</p>
+<div class="code-block code-block-3" style="margin: 8px 0; clear: both"></div>
+
+<div class="cpp-table-wrapper">
+  <p></p>
+  <p></p>
+  <table class="cpp-table">
+    <tbody>
+      <tr>
+        <th>Function</th>
+        <th>Meaning</th>
+      </tr>
+      <tr>
+        <td>std::isalnum(int)</td>
+        <td>Returns non-zero if the parameter is a letter or a digit</td>
+      </tr>
+      <tr>
+        <td>std::isalpha(int)</td>
+        <td>Returns non-zero if the parameter is a letter</td>
+      </tr>
+      <tr>
+        <td>std::iscntrl(int)</td>
+        <td>Returns non-zero if the parameter is a control character</td>
+      </tr>
+      <tr>
+        <td>std::isdigit(int)</td>
+        <td>Returns non-zero if the parameter is a digit</td>
+      </tr>
+      <tr>
+        <td>std::isgraph(int)</td>
+        <td>
+          Returns non-zero if the parameter is printable character that is not
+          whitespace
+        </td>
+      </tr>
+      <tr>
+        <td>std::isprint(int)</td>
+        <td>
+          Returns non-zero if the parameter is printable character (including
+          whitespace)
+        </td>
+      </tr>
+      <tr>
+        <td>std::ispunct(int)</td>
+        <td>
+          Returns non-zero if the parameter is neither alphanumeric nor
+          whitespace
+        </td>
+      </tr>
+      <tr>
+        <td>std::isspace(int)</td>
+        <td>Returns non-zero if the parameter is whitespace</td>
+      </tr>
+      <tr>
+        <td>std::isxdigit(int)</td>
+        <td>
+          Returns non-zero if the parameter is a hexadecimal digit (0-9, a-f,
+          A-F)
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<p class="cpp-section cpp-topline" style="clear: both">String validation</p>
+<p>
+  Let’s do a simple case of string validation by asking the user to enter their
+  name. Our validation criteria will be that the user enters only alphabetic
+  characters or spaces. If anything else is encountered, the input will be
+  rejected.
+</p>
+<p>
+  When it comes to variable length inputs, the best way to validate strings
+  (besides using a regular expression library) is to step through each character
+  of the string and ensure it meets the validation criteria. That’s exactly what
+  we’ll do here, or better, that’s what <code>std::all_of</code> does for us.
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;algorithm&gt;</span> <span class="token comment">// std::all_of</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;cctype&gt;</span> <span class="token comment">// std::isalpha, std::isspace</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;ranges&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;string&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;string_view&gt;</span></span>
+
+<span class="token keyword keyword-bool">bool</span> <span class="token function">isValidName</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-1-close">(</span>std<span class="token double-colon punctuation">::</span>string_view name<span class="token punctuation brace-round brace-close brace-level-1" id="pair-1-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-12-close">{</span>
+  <span class="token keyword keyword-return">return</span> std<span class="token double-colon punctuation">::</span>ranges<span class="token double-colon punctuation">::</span><span class="token function">all_of</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-5-close">(</span>name<span class="token punctuation">,</span> <span class="token punctuation brace-square brace-open brace-level-3" id="pair-10-close">[</span><span class="token punctuation brace-square brace-close brace-level-3" id="pair-10-open">]</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-2-close">(</span><span class="token keyword keyword-char">char</span> ch<span class="token punctuation brace-round brace-close brace-level-3" id="pair-2-open">)</span> <span class="token punctuation brace-curly brace-open brace-level-3" id="pair-11-close">{</span>
+    <span class="token keyword keyword-return">return</span> std<span class="token double-colon punctuation">::</span><span class="token function">isalpha</span><span class="token punctuation brace-round brace-open brace-level-4" id="pair-3-close">(</span>ch<span class="token punctuation brace-round brace-close brace-level-4" id="pair-3-open">)</span> <span class="token operator">||</span> std<span class="token double-colon punctuation">::</span><span class="token function">isspace</span><span class="token punctuation brace-round brace-open brace-level-4" id="pair-4-close">(</span>ch<span class="token punctuation brace-round brace-close brace-level-4" id="pair-4-open">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation brace-curly brace-close brace-level-3" id="pair-11-open">}</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-5-open">)</span><span class="token punctuation">;</span>
+
+  <span class="token comment">// Before C++20, without ranges</span>
+  <span class="token comment">// return std::all_of(name.begin(), name.end(), [](char ch) {</span>
+  <span class="token comment">//    return std::isalpha(ch) || std::isspace(ch);</span>
+  <span class="token comment">// });</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-12-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-6-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-6-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-15-close">{</span>
+  std<span class="token double-colon punctuation">::</span>string name<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-13-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-13-open">}</span><span class="token punctuation">;</span>
+
+  <span class="token keyword keyword-do">do</span>
+  <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-14-close">{</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Enter your name: "</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span><span class="token function">getline</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-7-close">(</span>std<span class="token double-colon punctuation">::</span>cin<span class="token punctuation">,</span> name<span class="token punctuation brace-round brace-close brace-level-3" id="pair-7-open">)</span><span class="token punctuation">;</span> <span class="token comment">// get the entire line, including spaces</span>
+  <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-14-open">}</span> <span class="token keyword keyword-while">while</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-9-close">(</span><span class="token operator">!</span><span class="token function">isValidName</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-8-close">(</span>name<span class="token punctuation brace-round brace-close brace-level-3" id="pair-8-open">)</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-9-open">)</span><span class="token punctuation">;</span>
+
+  std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Hello "</span> <span class="token operator">&lt;&lt;</span> name <span class="token operator">&lt;&lt;</span> <span class="token string">"!\n"</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-15-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  Note that this code isn’t perfect: the user could say their name was “asf w
+  jweo s di we ao” or some other bit of gibberish, or even worse, just a bunch
+  of spaces. We could address this somewhat by refining our validation criteria
+  to only accept strings that contain at least one character and at most one
+  space.
+</p>
+<div class="cpp-note cpp-lightgraybackground">
+  <p class="cpp-note-title cpp-bottomline">Author’s note</p>
+  <p>
+    Reader “Waldo” provides a C++20 solution (using std::ranges) that addresses
+    these shortcomings <a href="#comment-571052">here</a>
+  </p>
+</div>
+<p>
+  Now let’s take a look at another example where we are going to ask the user to
+  enter their phone number. Unlike a user’s name, which is variable-length and
+  where the validation criteria are the same for every character, a phone number
+  is a fixed length but the validation criteria differ depending on the position
+  of the character. Consequently, we are going to take a different approach to
+  validating our phone number input. In this case, we’re going to write a
+  function that will check the user’s input against a predetermined template to
+  see whether it matches. The template will work as follows:
+</p>
+<p>
+  A # will match any digit in the user input.<br />
+  A @ will match any alphabetic character in the user input.<br />
+  A _ will match any whitespace.<br />
+  A ? will match anything.<br />
+  Otherwise, the characters in the user input and the template must match
+  exactly.
+</p>
+<div class="code-block code-block-4" style="margin: 8px 0; clear: both"></div>
+
+<p>
+  So, if we ask the function to match the template “(###) ###-####”, that means
+  we expect the user to enter a ‘(‘ character, three numbers, a ‘)’ character, a
+  space, three numbers, a dash, and four more numbers. If any of these things
+  doesn’t match, the input will be rejected.
+</p>
+<p>Here is the code:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;algorithm&gt;</span> <span class="token comment">// std::equal</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;cctype&gt;</span> <span class="token comment">// std::isdigit, std::isspace, std::isalpha</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;map&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;ranges&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;string&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;string_view&gt;</span></span>
+
+<span class="token keyword keyword-bool">bool</span> <span class="token function">inputMatches</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-16-close">(</span>std<span class="token double-colon punctuation">::</span>string_view input<span class="token punctuation">,</span> std<span class="token double-colon punctuation">::</span>string_view pattern<span class="token punctuation brace-round brace-close brace-level-1" id="pair-16-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-46-close">{</span>
+    <span class="token keyword keyword-if">if</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-19-close">(</span>input<span class="token punctuation">.</span><span class="token function">length</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-17-close">(</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-17-open">)</span> <span class="token operator">!=</span> pattern<span class="token punctuation">.</span><span class="token function">length</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-18-close">(</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-18-open">)</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-19-open">)</span>
+    <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-36-close">{</span>
+        <span class="token keyword keyword-return">return</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+    <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-36-open">}</span>
+
+    <span class="token comment">// This table defines all special symbols that can match a range of user input</span>
+    <span class="token comment">// Each symbol is mapped to a function that determines whether the input is valid for that symbol</span>
+    <span class="token keyword keyword-static">static</span> <span class="token keyword keyword-const">const</span> std<span class="token double-colon punctuation">::</span>map<span class="token operator">&lt;</span><span class="token keyword keyword-char">char</span><span class="token punctuation">,</span> <span class="token keyword keyword-int">int</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-20-close">(</span><span class="token operator">*</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-20-open">)</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-21-close">(</span><span class="token keyword keyword-int">int</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-21-open">)</span><span class="token operator">&gt;</span> validators<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-42-close">{</span>
+      <span class="token punctuation brace-curly brace-open brace-level-3" id="pair-37-close">{</span> <span class="token string">'#'</span><span class="token punctuation">,</span> <span class="token operator">&amp;</span>std<span class="token double-colon punctuation">::</span>isdigit <span class="token punctuation brace-curly brace-close brace-level-3" id="pair-37-open">}</span><span class="token punctuation">,</span>
+      <span class="token punctuation brace-curly brace-open brace-level-3" id="pair-38-close">{</span> <span class="token string">'_'</span><span class="token punctuation">,</span> <span class="token operator">&amp;</span>std<span class="token double-colon punctuation">::</span>isspace <span class="token punctuation brace-curly brace-close brace-level-3" id="pair-38-open">}</span><span class="token punctuation">,</span>
+      <span class="token punctuation brace-curly brace-open brace-level-3" id="pair-39-close">{</span> <span class="token string">'@'</span><span class="token punctuation">,</span> <span class="token operator">&amp;</span>std<span class="token double-colon punctuation">::</span>isalpha <span class="token punctuation brace-curly brace-close brace-level-3" id="pair-39-open">}</span><span class="token punctuation">,</span>
+      <span class="token punctuation brace-curly brace-open brace-level-3" id="pair-41-close">{</span> <span class="token string">'?'</span><span class="token punctuation">,</span> <span class="token punctuation brace-square brace-open brace-level-4" id="pair-34-close">[</span><span class="token punctuation brace-square brace-close brace-level-4" id="pair-34-open">]</span><span class="token punctuation brace-round brace-open brace-level-4" id="pair-22-close">(</span><span class="token keyword keyword-int">int</span><span class="token punctuation brace-round brace-close brace-level-4" id="pair-22-open">)</span> <span class="token punctuation brace-curly brace-open brace-level-4" id="pair-40-close">{</span> <span class="token keyword keyword-return">return</span> <span class="token number">1</span><span class="token punctuation">;</span> <span class="token punctuation brace-curly brace-close brace-level-4" id="pair-40-open">}</span> <span class="token punctuation brace-curly brace-close brace-level-3" id="pair-41-open">}</span>
+    <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-42-open">}</span><span class="token punctuation">;</span>
+
+    <span class="token comment">// Before C++20, use</span>
+    <span class="token comment">// return std::equal(input.begin(), input.end(), pattern.begin(), [](char ch, char mask) -&gt; bool {</span>
+    <span class="token comment">// ...</span>
+
+    <span class="token keyword keyword-return">return</span> std<span class="token double-colon punctuation">::</span>ranges<span class="token double-colon punctuation">::</span><span class="token function">equal</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-29-close">(</span>input<span class="token punctuation">,</span> pattern<span class="token punctuation">,</span> <span class="token punctuation brace-square brace-open brace-level-3" id="pair-35-close">[</span><span class="token punctuation brace-square brace-close brace-level-3" id="pair-35-open">]</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-23-close">(</span><span class="token keyword keyword-char">char</span> ch<span class="token punctuation">,</span> <span class="token keyword keyword-char">char</span> mask<span class="token punctuation brace-round brace-close brace-level-3" id="pair-23-open">)</span> <span class="token operator">-&gt;</span> <span class="token keyword keyword-bool">bool</span> <span class="token punctuation brace-curly brace-open brace-level-3" id="pair-45-close">{</span>
+        <span class="token keyword keyword-auto">auto</span> found<span class="token punctuation brace-curly brace-open brace-level-4" id="pair-43-close">{</span> validators<span class="token punctuation">.</span><span class="token function">find</span><span class="token punctuation brace-round brace-open brace-level-5" id="pair-24-close">(</span>mask<span class="token punctuation brace-round brace-close brace-level-5" id="pair-24-open">)</span> <span class="token punctuation brace-curly brace-close brace-level-4" id="pair-43-open">}</span><span class="token punctuation">;</span>
+
+        <span class="token keyword keyword-if">if</span> <span class="token punctuation brace-round brace-open brace-level-4" id="pair-26-close">(</span>found <span class="token operator">!=</span> validators<span class="token punctuation">.</span><span class="token function">end</span><span class="token punctuation brace-round brace-open brace-level-5" id="pair-25-close">(</span><span class="token punctuation brace-round brace-close brace-level-5" id="pair-25-open">)</span><span class="token punctuation brace-round brace-close brace-level-4" id="pair-26-open">)</span>
+        <span class="token punctuation brace-curly brace-open brace-level-4" id="pair-44-close">{</span>
+            <span class="token comment">// The pattern's current element was found in the validators. Call the</span>
+            <span class="token comment">// corresponding function.</span>
+            <span class="token keyword keyword-return">return</span> <span class="token punctuation brace-round brace-open brace-level-5" id="pair-27-close">(</span><span class="token operator">*</span>found<span class="token operator">-&gt;</span>second<span class="token punctuation brace-round brace-close brace-level-5" id="pair-27-open">)</span><span class="token punctuation brace-round brace-open brace-level-5" id="pair-28-close">(</span>ch<span class="token punctuation brace-round brace-close brace-level-5" id="pair-28-open">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation brace-curly brace-close brace-level-4" id="pair-44-open">}</span>
+
+        <span class="token comment">// The pattern's current element was not found in the validators. The</span>
+        <span class="token comment">// characters have to be an exact match.</span>
+        <span class="token keyword keyword-return">return</span> ch <span class="token operator">==</span> mask<span class="token punctuation">;</span>
+        <span class="token punctuation brace-curly brace-close brace-level-3" id="pair-45-open">}</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-29-open">)</span><span class="token punctuation">;</span> <span class="token comment">// end of lambda</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-46-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-30-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-30-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-49-close">{</span>
+    std<span class="token double-colon punctuation">::</span>string phoneNumber<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-47-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-47-open">}</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-do">do</span>
+    <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-48-close">{</span>
+        std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Enter a phone number (###) ###-####: "</span><span class="token punctuation">;</span>
+        std<span class="token double-colon punctuation">::</span><span class="token function">getline</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-31-close">(</span>std<span class="token double-colon punctuation">::</span>cin<span class="token punctuation">,</span> phoneNumber<span class="token punctuation brace-round brace-close brace-level-3" id="pair-31-open">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-48-open">}</span> <span class="token keyword keyword-while">while</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-33-close">(</span><span class="token operator">!</span><span class="token function">inputMatches</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-32-close">(</span>phoneNumber<span class="token punctuation">,</span> <span class="token string">"(###) ###-####"</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-32-open">)</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-33-open">)</span><span class="token punctuation">;</span>
+
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"You entered: "</span> <span class="token operator">&lt;&lt;</span> phoneNumber <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-49-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  Using this function, we can force the user to match our specific format
+  exactly. However, this function is still subject to several constraints: if #,
+  @, _, and ? are valid characters in the user input, this function won’t work,
+  because those symbols have been given special meanings. Also, unlike with
+  regular expressions, there is no template symbol that means “a variable number
+  of characters can be entered”. Thus, such a template could not be used to
+  ensure the user enters two words separated by a whitespace, because it can not
+  handle the fact that the words are of variable lengths. For such problems, the
+  non-template approach is generally more appropriate.
+</p>
+<p class="cpp-section cpp-topline" style="clear: both">Numeric validation</p>
+<p>
+  When dealing with numeric input, the obvious way to proceed is to use the
+  extraction operator to extract input to a numeric type. By checking the
+  failbit, we can then tell whether the user entered a number or not.
+</p>
+<p>Let’s try this approach:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;limits&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-50-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-50-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-61-close">{</span>
+    <span class="token keyword keyword-int">int</span> age<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-58-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-58-open">}</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-while">while</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-51-close">(</span><span class="token boolean">true</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-51-open">)</span>
+    <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-60-close">{</span>
+        std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Enter your age: "</span><span class="token punctuation">;</span>
+        std<span class="token double-colon punctuation">::</span>cin <span class="token operator">&gt;&gt;</span> age<span class="token punctuation">;</span>
+
+        <span class="token keyword keyword-if">if</span> <span class="token punctuation brace-round brace-open brace-level-3" id="pair-53-close">(</span>std<span class="token double-colon punctuation">::</span>cin<span class="token punctuation">.</span><span class="token function">fail</span><span class="token punctuation brace-round brace-open brace-level-4" id="pair-52-close">(</span><span class="token punctuation brace-round brace-close brace-level-4" id="pair-52-open">)</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-53-open">)</span> <span class="token comment">// no extraction took place</span>
+        <span class="token punctuation brace-curly brace-open brace-level-3" id="pair-59-close">{</span>
+            std<span class="token double-colon punctuation">::</span>cin<span class="token punctuation">.</span><span class="token function">clear</span><span class="token punctuation brace-round brace-open brace-level-4" id="pair-54-close">(</span><span class="token punctuation brace-round brace-close brace-level-4" id="pair-54-open">)</span><span class="token punctuation">;</span> <span class="token comment">// reset the state bits back to goodbit so we can use ignore()</span>
+            std<span class="token double-colon punctuation">::</span>cin<span class="token punctuation">.</span><span class="token function">ignore</span><span class="token punctuation brace-round brace-open brace-level-4" id="pair-56-close">(</span>std<span class="token double-colon punctuation">::</span><span class="token class-name">numeric_limits</span><span class="token operator">&lt;</span>std<span class="token double-colon punctuation">::</span>streamsize<span class="token operator">&gt;</span><span class="token double-colon punctuation">::</span><span class="token function">max</span><span class="token punctuation brace-round brace-open brace-level-5" id="pair-55-close">(</span><span class="token punctuation brace-round brace-close brace-level-5" id="pair-55-open">)</span><span class="token punctuation">,</span> <span class="token string">'\n'</span><span class="token punctuation brace-round brace-close brace-level-4" id="pair-56-open">)</span><span class="token punctuation">;</span> <span class="token comment">// clear out the bad input from the stream</span>
+            <span class="token keyword keyword-continue">continue</span><span class="token punctuation">;</span> <span class="token comment">// try again</span>
+        <span class="token punctuation brace-curly brace-close brace-level-3" id="pair-59-open">}</span>
+
+        <span class="token keyword keyword-if">if</span> <span class="token punctuation brace-round brace-open brace-level-3" id="pair-57-close">(</span>age <span class="token operator">&lt;=</span> <span class="token number">0</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-57-open">)</span> <span class="token comment">// make sure age is positive</span>
+            <span class="token keyword keyword-continue">continue</span><span class="token punctuation">;</span>
+
+        <span class="token keyword keyword-break">break</span><span class="token punctuation">;</span>
+    <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-60-open">}</span>
+
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"You entered: "</span> <span class="token operator">&lt;&lt;</span> age <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-61-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  If the user enters an integer, the extraction will succeed. std::cin.fail()
+  will evaluate to false, skipping the conditional, and (assuming the user
+  entered a positive number), we will hit the break statement, exiting the loop.
+</p>
+<p>
+  If the user instead enters input starting with a letter, the extraction will
+  fail. std::cin.fail() will evaluate to true, and we will go into the
+  conditional. At the end of the conditional block, we will hit the continue
+  statement, which will jump back to the top of the while loop, and the user
+  will be asked to enter input again.
+</p>
+<div class="code-block code-block-5" style="margin: 8px 0; clear: both"></div>
+
+<p>
+  However, there’s one more case we haven’t tested for, and that’s when the user
+  enters a string that starts with numbers but then contains letters (e.g.
+  “34abcd56”). In this case, the starting numbers (34) will be extracted into
+  age, the remainder of the string (“abcd56”) will be left in the input stream,
+  and the failbit will NOT be set. This causes two potential problems:
+</p>
+<ol start="1">
+  <li>
+    If you want this to be valid input, you now have garbage in your stream.
+  </li>
+  <li>
+    If you don’t want this to be valid input, it is not rejected (and you have
+    garbage in your stream).
+  </li>
+</ol>
+<p>Let’s fix the first problem. This is easy:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;limits&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-62-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-62-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-75-close">{</span>
+    <span class="token keyword keyword-int">int</span> age<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-72-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-72-open">}</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-while">while</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-63-close">(</span><span class="token boolean">true</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-63-open">)</span>
+    <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-74-close">{</span>
+        std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Enter your age: "</span><span class="token punctuation">;</span>
+        std<span class="token double-colon punctuation">::</span>cin <span class="token operator">&gt;&gt;</span> age<span class="token punctuation">;</span>
+
+        <span class="token keyword keyword-if">if</span> <span class="token punctuation brace-round brace-open brace-level-3" id="pair-65-close">(</span>std<span class="token double-colon punctuation">::</span>cin<span class="token punctuation">.</span><span class="token function">fail</span><span class="token punctuation brace-round brace-open brace-level-4" id="pair-64-close">(</span><span class="token punctuation brace-round brace-close brace-level-4" id="pair-64-open">)</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-65-open">)</span> <span class="token comment">// no extraction took place</span>
+        <span class="token punctuation brace-curly brace-open brace-level-3" id="pair-73-close">{</span>
+            std<span class="token double-colon punctuation">::</span>cin<span class="token punctuation">.</span><span class="token function">clear</span><span class="token punctuation brace-round brace-open brace-level-4" id="pair-66-close">(</span><span class="token punctuation brace-round brace-close brace-level-4" id="pair-66-open">)</span><span class="token punctuation">;</span> <span class="token comment">// reset the state bits back to goodbit so we can use ignore()</span>
+            std<span class="token double-colon punctuation">::</span>cin<span class="token punctuation">.</span><span class="token function">ignore</span><span class="token punctuation brace-round brace-open brace-level-4" id="pair-68-close">(</span>std<span class="token double-colon punctuation">::</span><span class="token class-name">numeric_limits</span><span class="token operator">&lt;</span>std<span class="token double-colon punctuation">::</span>streamsize<span class="token operator">&gt;</span><span class="token double-colon punctuation">::</span><span class="token function">max</span><span class="token punctuation brace-round brace-open brace-level-5" id="pair-67-close">(</span><span class="token punctuation brace-round brace-close brace-level-5" id="pair-67-open">)</span><span class="token punctuation">,</span> <span class="token string">'\n'</span><span class="token punctuation brace-round brace-close brace-level-4" id="pair-68-open">)</span><span class="token punctuation">;</span> <span class="token comment">// clear out the bad input from the stream</span>
+            <span class="token keyword keyword-continue">continue</span><span class="token punctuation">;</span> <span class="token comment">// try again</span>
+        <span class="token punctuation brace-curly brace-close brace-level-3" id="pair-73-open">}</span>
+
+        std<span class="token double-colon punctuation">::</span>cin<span class="token punctuation">.</span><span class="token function">ignore</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-70-close">(</span>std<span class="token double-colon punctuation">::</span><span class="token class-name">numeric_limits</span><span class="token operator">&lt;</span>std<span class="token double-colon punctuation">::</span>streamsize<span class="token operator">&gt;</span><span class="token double-colon punctuation">::</span><span class="token function">max</span><span class="token punctuation brace-round brace-open brace-level-4" id="pair-69-close">(</span><span class="token punctuation brace-round brace-close brace-level-4" id="pair-69-open">)</span><span class="token punctuation">,</span> <span class="token string">'\n'</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-70-open">)</span><span class="token punctuation">;</span> <span class="token comment">// clear out any additional input from the stream</span>
+
+        <span class="token keyword keyword-if">if</span> <span class="token punctuation brace-round brace-open brace-level-3" id="pair-71-close">(</span>age <span class="token operator">&lt;=</span> <span class="token number">0</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-71-open">)</span> <span class="token comment">// make sure age is positive</span>
+            <span class="token keyword keyword-continue">continue</span><span class="token punctuation">;</span>
+
+      <span class="token keyword keyword-break">break</span><span class="token punctuation">;</span>
+    <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-74-open">}</span>
+
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"You entered: "</span> <span class="token operator">&lt;&lt;</span> age <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-75-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  If you don’t want such input to be valid, we’ll have to do a little extra
+  work. Fortunately, the previous solution gets us half way there. We can use
+  the gcount() function to determine how many characters were ignored. If our
+  input was valid, gcount() should return 1 (the newline character that was
+  discarded). If it returns more than 1, the user entered something that wasn’t
+  extracted properly, and we should ask them for new input. Here’s an example of
+  this:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;limits&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-76-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-76-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-93-close">{</span>
+    <span class="token keyword keyword-int">int</span> age<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-88-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-88-open">}</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-while">while</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-77-close">(</span><span class="token boolean">true</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-77-open">)</span>
+    <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-92-close">{</span>
+        std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Enter your age: "</span><span class="token punctuation">;</span>
+        std<span class="token double-colon punctuation">::</span>cin <span class="token operator">&gt;&gt;</span> age<span class="token punctuation">;</span>
+
+        <span class="token keyword keyword-if">if</span> <span class="token punctuation brace-round brace-open brace-level-3" id="pair-79-close">(</span>std<span class="token double-colon punctuation">::</span>cin<span class="token punctuation">.</span><span class="token function">fail</span><span class="token punctuation brace-round brace-open brace-level-4" id="pair-78-close">(</span><span class="token punctuation brace-round brace-close brace-level-4" id="pair-78-open">)</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-79-open">)</span> <span class="token comment">// no extraction took place</span>
+        <span class="token punctuation brace-curly brace-open brace-level-3" id="pair-89-close">{</span>
+            std<span class="token double-colon punctuation">::</span>cin<span class="token punctuation">.</span><span class="token function">clear</span><span class="token punctuation brace-round brace-open brace-level-4" id="pair-80-close">(</span><span class="token punctuation brace-round brace-close brace-level-4" id="pair-80-open">)</span><span class="token punctuation">;</span> <span class="token comment">// reset the state bits back to goodbit so we can use ignore()</span>
+            std<span class="token double-colon punctuation">::</span>cin<span class="token punctuation">.</span><span class="token function">ignore</span><span class="token punctuation brace-round brace-open brace-level-4" id="pair-82-close">(</span>std<span class="token double-colon punctuation">::</span><span class="token class-name">numeric_limits</span><span class="token operator">&lt;</span>std<span class="token double-colon punctuation">::</span>streamsize<span class="token operator">&gt;</span><span class="token double-colon punctuation">::</span><span class="token function">max</span><span class="token punctuation brace-round brace-open brace-level-5" id="pair-81-close">(</span><span class="token punctuation brace-round brace-close brace-level-5" id="pair-81-open">)</span><span class="token punctuation">,</span> <span class="token string">'\n'</span><span class="token punctuation brace-round brace-close brace-level-4" id="pair-82-open">)</span><span class="token punctuation">;</span> <span class="token comment">// clear out the bad input from the stream</span>
+            <span class="token keyword keyword-continue">continue</span><span class="token punctuation">;</span> <span class="token comment">// try again</span>
+        <span class="token punctuation brace-curly brace-close brace-level-3" id="pair-89-open">}</span>
+
+        std<span class="token double-colon punctuation">::</span>cin<span class="token punctuation">.</span><span class="token function">ignore</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-84-close">(</span>std<span class="token double-colon punctuation">::</span><span class="token class-name">numeric_limits</span><span class="token operator">&lt;</span>std<span class="token double-colon punctuation">::</span>streamsize<span class="token operator">&gt;</span><span class="token double-colon punctuation">::</span><span class="token function">max</span><span class="token punctuation brace-round brace-open brace-level-4" id="pair-83-close">(</span><span class="token punctuation brace-round brace-close brace-level-4" id="pair-83-open">)</span><span class="token punctuation">,</span> <span class="token string">'\n'</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-84-open">)</span><span class="token punctuation">;</span> <span class="token comment">// clear out any additional input from the stream</span>
+        <span class="token keyword keyword-if">if</span> <span class="token punctuation brace-round brace-open brace-level-3" id="pair-86-close">(</span>std<span class="token double-colon punctuation">::</span>cin<span class="token punctuation">.</span><span class="token function">gcount</span><span class="token punctuation brace-round brace-open brace-level-4" id="pair-85-close">(</span><span class="token punctuation brace-round brace-close brace-level-4" id="pair-85-open">)</span> <span class="token operator">&gt;</span> <span class="token number">1</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-86-open">)</span> <span class="token comment">// if we cleared out more than one additional character</span>
+        <span class="token punctuation brace-curly brace-open brace-level-3" id="pair-90-close">{</span>
+            <span class="token keyword keyword-continue">continue</span><span class="token punctuation">;</span> <span class="token comment">// we'll consider this input to be invalid</span>
+        <span class="token punctuation brace-curly brace-close brace-level-3" id="pair-90-open">}</span>
+
+        <span class="token keyword keyword-if">if</span> <span class="token punctuation brace-round brace-open brace-level-3" id="pair-87-close">(</span>age <span class="token operator">&lt;=</span> <span class="token number">0</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-87-open">)</span> <span class="token comment">// make sure age is positive</span>
+        <span class="token punctuation brace-curly brace-open brace-level-3" id="pair-91-close">{</span>
+            <span class="token keyword keyword-continue">continue</span><span class="token punctuation">;</span>
+        <span class="token punctuation brace-curly brace-close brace-level-3" id="pair-91-open">}</span>
+
+        <span class="token keyword keyword-break">break</span><span class="token punctuation">;</span>
+    <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-92-open">}</span>
+
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"You entered: "</span> <span class="token operator">&lt;&lt;</span> age <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-93-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p class="cpp-section cpp-topline" style="clear: both">
+  Numeric validation as a string
+</p>
+<p>
+  The above example was quite a bit of work simply to get a simple value!
+  Another way to process numeric input is to read it in as a string, then try to
+  convert it to a numeric type. The following program makes use of that
+  methodology:
+</p>
+<div class="code-block code-block-6" style="margin: 8px 0; clear: both"></div>
+
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;charconv&gt;</span> <span class="token comment">// std::from_chars</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;limits&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;optional&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;string&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;string_view&gt;</span></span>
+
+<span class="token comment">// std::optional&lt;int&gt; returns either an int or nothing</span>
+std<span class="token double-colon punctuation">::</span>optional<span class="token operator">&lt;</span><span class="token keyword keyword-int">int</span><span class="token operator">&gt;</span> <span class="token function">extractAge</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-94-close">(</span>std<span class="token double-colon punctuation">::</span>string_view age<span class="token punctuation brace-round brace-close brace-level-1" id="pair-94-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-117-close">{</span>
+    <span class="token keyword keyword-int">int</span> result<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-110-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-110-open">}</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-const">const</span> <span class="token keyword keyword-auto">auto</span> end<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-111-close">{</span> age<span class="token punctuation">.</span><span class="token function">data</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-95-close">(</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-95-open">)</span> <span class="token operator">+</span> age<span class="token punctuation">.</span><span class="token function">length</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-96-close">(</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-96-open">)</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-111-open">}</span><span class="token punctuation">;</span> <span class="token comment">// get end iterator of underlying C-style string</span>
+
+    <span class="token comment">// Try to parse an int from age</span>
+    <span class="token comment">// If we got an error of some kind...</span>
+    <span class="token keyword keyword-if">if</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-99-close">(</span>std<span class="token double-colon punctuation">::</span><span class="token function">from_chars</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-98-close">(</span>age<span class="token punctuation">.</span><span class="token function">data</span><span class="token punctuation brace-round brace-open brace-level-4" id="pair-97-close">(</span><span class="token punctuation brace-round brace-close brace-level-4" id="pair-97-open">)</span><span class="token punctuation">,</span> end<span class="token punctuation">,</span> result<span class="token punctuation brace-round brace-close brace-level-3" id="pair-98-open">)</span><span class="token punctuation">.</span>ec <span class="token operator">!=</span> std<span class="token double-colon punctuation">::</span>errc<span class="token punctuation brace-curly brace-open brace-level-3" id="pair-112-close">{</span><span class="token punctuation brace-curly brace-close brace-level-3" id="pair-112-open">}</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-99-open">)</span>
+    <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-114-close">{</span>
+        <span class="token keyword keyword-return">return</span> <span class="token punctuation brace-curly brace-open brace-level-3" id="pair-113-close">{</span><span class="token punctuation brace-curly brace-close brace-level-3" id="pair-113-open">}</span><span class="token punctuation">;</span> <span class="token comment">// return nothing</span>
+    <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-114-open">}</span>
+
+    <span class="token keyword keyword-if">if</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-100-close">(</span>result <span class="token operator">&lt;=</span> <span class="token number">0</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-100-open">)</span> <span class="token comment">// make sure age is positive</span>
+    <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-116-close">{</span>
+        <span class="token keyword keyword-return">return</span> <span class="token punctuation brace-curly brace-open brace-level-3" id="pair-115-close">{</span><span class="token punctuation brace-curly brace-close brace-level-3" id="pair-115-open">}</span><span class="token punctuation">;</span> <span class="token comment">// return nothing</span>
+    <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-116-open">}</span>
+
+    <span class="token keyword keyword-return">return</span> result<span class="token punctuation">;</span> <span class="token comment">// return an int value</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-117-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-101-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-101-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-123-close">{</span>
+    <span class="token keyword keyword-int">int</span> age<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-118-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-118-open">}</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-while">while</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-102-close">(</span><span class="token boolean">true</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-102-open">)</span>
+    <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-122-close">{</span>
+        std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Enter your age: "</span><span class="token punctuation">;</span>
+        std<span class="token double-colon punctuation">::</span>string strAge<span class="token punctuation brace-curly brace-open brace-level-3" id="pair-119-close">{</span><span class="token punctuation brace-curly brace-close brace-level-3" id="pair-119-open">}</span><span class="token punctuation">;</span>
+
+        <span class="token comment">// Try to get a line of input</span>
+        <span class="token keyword keyword-if">if</span> <span class="token punctuation brace-round brace-open brace-level-3" id="pair-104-close">(</span><span class="token operator">!</span>std<span class="token double-colon punctuation">::</span><span class="token function">getline</span><span class="token punctuation brace-round brace-open brace-level-4" id="pair-103-close">(</span>std<span class="token double-colon punctuation">::</span>cin <span class="token operator">&gt;&gt;</span> std<span class="token double-colon punctuation">::</span>ws<span class="token punctuation">,</span> strAge<span class="token punctuation brace-round brace-close brace-level-4" id="pair-103-open">)</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-104-open">)</span>
+        <span class="token punctuation brace-curly brace-open brace-level-3" id="pair-120-close">{</span>
+            <span class="token comment">// If we failed, clean up and try again</span>
+            std<span class="token double-colon punctuation">::</span>cin<span class="token punctuation">.</span><span class="token function">clear</span><span class="token punctuation brace-round brace-open brace-level-4" id="pair-105-close">(</span><span class="token punctuation brace-round brace-close brace-level-4" id="pair-105-open">)</span><span class="token punctuation">;</span>
+            std<span class="token double-colon punctuation">::</span>cin<span class="token punctuation">.</span><span class="token function">ignore</span><span class="token punctuation brace-round brace-open brace-level-4" id="pair-107-close">(</span>std<span class="token double-colon punctuation">::</span><span class="token class-name">numeric_limits</span><span class="token operator">&lt;</span>std<span class="token double-colon punctuation">::</span>streamsize<span class="token operator">&gt;</span><span class="token double-colon punctuation">::</span><span class="token function">max</span><span class="token punctuation brace-round brace-open brace-level-5" id="pair-106-close">(</span><span class="token punctuation brace-round brace-close brace-level-5" id="pair-106-open">)</span><span class="token punctuation">,</span> <span class="token string">'\n'</span><span class="token punctuation brace-round brace-close brace-level-4" id="pair-107-open">)</span><span class="token punctuation">;</span>
+            <span class="token keyword keyword-continue">continue</span><span class="token punctuation">;</span>
+        <span class="token punctuation brace-curly brace-close brace-level-3" id="pair-120-open">}</span>
+
+        <span class="token comment">// Try to extract the age</span>
+        <span class="token keyword keyword-auto">auto</span> extracted<span class="token punctuation brace-curly brace-open brace-level-3" id="pair-121-close">{</span> <span class="token function">extractAge</span><span class="token punctuation brace-round brace-open brace-level-4" id="pair-108-close">(</span>strAge<span class="token punctuation brace-round brace-close brace-level-4" id="pair-108-open">)</span> <span class="token punctuation brace-curly brace-close brace-level-3" id="pair-121-open">}</span><span class="token punctuation">;</span>
+
+        <span class="token comment">// If we failed, try again</span>
+        <span class="token keyword keyword-if">if</span> <span class="token punctuation brace-round brace-open brace-level-3" id="pair-109-close">(</span><span class="token operator">!</span>extracted<span class="token punctuation brace-round brace-close brace-level-3" id="pair-109-open">)</span>
+            <span class="token keyword keyword-continue">continue</span><span class="token punctuation">;</span>
+
+        age <span class="token operator">=</span> <span class="token operator">*</span>extracted<span class="token punctuation">;</span> <span class="token comment">// get the value</span>
+        <span class="token keyword keyword-break">break</span><span class="token punctuation">;</span>
+    <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-122-open">}</span>
+
+  std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"You entered: "</span> <span class="token operator">&lt;&lt;</span> age <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-123-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  Whether this approach is more or less work than straight numeric extraction
+  depends on your validation parameters and restrictions.
+</p>
+<p>
+  As you can see, doing input validation in C++ is a lot of work. Fortunately,
+  many such tasks (e.g. doing numeric validation as a string) can be easily
+  turned into functions that can be reused in a wide variety of situations.
+</p>
+<div class="prevnext">
+  <div class="prevnext-inline">
+    <a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/basic-file-io/"
+    >
+      <div class="nav-button nav-button-next">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-right" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Next lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">28.6</span>Basic file I/O
+          </div>
+        </div>
+      </div></a
+    >
+    <a class="nav-link" href="/">
+      <div class="nav-button nav-button-index">
+        <div class="nav-button-icon">
+          <i class="fa fa-home" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Back to table of contents</div>
+        </div>
+      </div></a
+    >
+    <a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/stream-classes-for-strings/"
+    >
+      <div class="nav-button nav-button-prev">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-left" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Previous lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">28.4</span>Stream classes for
+            strings
+          </div>
+        </div>
+      </div></a
+    >
+  </div>
+</div>
+<div class="code-block code-block-10" style="margin: 8px 0; clear: both"></div>

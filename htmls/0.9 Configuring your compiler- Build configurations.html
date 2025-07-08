@@ -1,0 +1,234 @@
+<div
+  class="code-block code-block-1"
+  style="margin: 8px 8px 8px 0; float: left"
+></div>
+<p>
+  A <strong>build configuration</strong> (also called a
+  <strong>build target</strong>) is a collection of project settings that
+  determines how your IDE will build your project. The build configuration
+  typically includes things like what the executable will be named, what
+  directories the IDE will look in for other code and library files, whether to
+  keep or strip out debugging information, how much to have the compiler
+  optimize your program, etc… Generally, you will want to leave these settings
+  at their default values unless you have a specific reason to change something.
+</p>
+<p>
+  When you create a new project in your IDE, most IDEs will set up two different
+  build configurations for you: a release configuration, and a debug
+  configuration.
+</p>
+<p>
+  The <strong>debug configuration</strong> is designed to help you debug your
+  program, and is generally the one you will use when writing your programs.
+  This configuration turns off all optimizations, and includes debugging
+  information, which makes your programs larger and slower, but much easier to
+  debug. The debug configuration is usually selected as the active configuration
+  by default. We’ll talk more about debugging techniques in a later lesson.
+</p>
+<p>
+  The <strong>release configuration</strong> is designed to be used when
+  releasing your program to the public. This version is typically optimized for
+  size and performance, and doesn’t contain the extra debugging information.
+  Because the release configuration includes all optimizations, this mode is
+  also useful for testing the performance of your code (which we’ll show you how
+  to do later in the tutorial series).
+</p>
+<p>
+  When the <em>Hello World</em> program (from lesson
+  <a href="https://www.learncpp.com/cpp-tutorial/compiling-your-first-program/"
+    >0.7 -- Compiling your first program</a
+  >) was built using Visual Studio, the executable produced in the debug
+  configuration was 65KB, whereas the executable built in the release version
+  was 12KB. The difference is largely due to the extra debugging information
+  kept in the debug build.
+</p>
+<div class="code-block code-block-2" style="margin: 8px 0; clear: both"></div>
+<p>
+  Although you can create your own custom build configurations, you’ll rarely
+  have a reason to unless you want to compare two builds made using different
+  compiler settings.
+</p>
+<div class="cpp-note cpp-lightgreenbackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Best practice</p>
+  <p>
+    Use the <em>debug</em> build configuration when developing your programs.
+    When you’re ready to release your executable to others, or want to test
+    performance, use the <em>release</em> build configuration.
+  </p>
+</div>
+<p>
+  Some IDEs (e.g. Visual Studio) also create separate build configurations for
+  different platforms. For example, Visual Studio creates build configurations
+  for both the x86 (32-bit) and the x64 (64-bit) platforms.
+</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Switching between build configurations
+</p>
+<div class="cpp-note cpp-lightyellowbackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">For Visual Studio users</p>
+  <p>
+    There are multiple ways to switch between <em>debug</em> and
+    <em>release</em> in Visual Studio. The easiest way is to set your selection
+    directly from the <em>Solution Configurations</em> dropdown in the
+    <em>Standard Toolbar Options</em>:
+  </p>
+  <div class="cpp-image-wrapper">
+    <img
+      src="https://www.learncpp.com/images/CppTutorial/Chapter0/VS-BuildTarget-min.png"
+      alt="VS Solution Configurations Dropdown"
+    />
+  </div>
+  <p>Set it to <em>Debug</em> for now.</p>
+  <p>
+    You can also access the configuration manager dialog by selecting
+    <em>Build menu &gt; Configuration Manager</em>, and change the
+    <em>active solution configuration</em>.
+  </p>
+  <p>
+    To the right of the <em>Solutions Configurations</em> dropdown, Visual
+    Studio also has a <em>Solutions Platform</em> dropdown that allows you to
+    switch between x86 (32-bit) and x64 (64-bit) platforms.
+  </p>
+</div>
+<div class="cpp-note cpp-lightyellowbackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">For Code::Blocks users</p>
+  <p>
+    In Code::Blocks, you should see an item called <em>Build Target</em> in the
+    <em>Compiler toolbar</em>:
+  </p>
+  <div class="cpp-image-wrapper">
+    <img
+      src="https://www.learncpp.com/images/CppTutorial/Chapter0/CB-BuildTarget-min.png"
+      alt="Code::Blocks Build Target Dropdown"
+    />
+  </div>
+  <p>Set it to <em>Debug</em> for now.</p>
+</div>
+<div class="cpp-note cpp-lightyellowbackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">For gcc and Clang users</p>
+  <p>
+    Add <code>-ggdb</code> to the command line for debug builds and
+    <code>-O2 -DNDEBUG</code> for release builds. Use the debug build options
+    for now.
+  </p>
+  <p>
+    For GCC and Clang, the <code>-O#</code> option is used to control
+    optimization settings. The most common options are as follows:
+  </p>
+  <ul>
+    <li>
+      <code>-O0</code> is the recommended optimization level for debug builds,
+      as it disables optimization. This is the default setting.
+    </li>
+    <li>
+      <code>-O2</code> is the recommended optimization level for release builds,
+      as it applies optimizations that should be beneficial for all programs.
+    </li>
+    <li>
+      <code>-O3</code> adds additional optimizations that may or may not perform
+      better than <code>-O2</code> depending on the specific program. Once your
+      program is written, you can try compiling your release build with
+      <code>-O3</code> instead of <code>-O2</code> and measure to see which is
+      faster.
+    </li>
+  </ul>
+  <p>
+    See
+    <a href="https://gcc.gnu.org/onlinedocs/gcc/Optimize-Options.html"
+      >https://gcc.gnu.org/onlinedocs/gcc/Optimize-Options.html</a
+    >
+    for information on optimization options.
+  </p>
+</div>
+<div class="cpp-note cpp-lightyellowbackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">For VS Code users</p>
+  <p>
+    When you first ran your program, a new file called <em>tasks.json</em> was
+    created under the <em>.vscode</em> folder in the explorer pane. Open the
+    <em>tasks.json</em> file, find <em>“args”</em>, and then locate the line
+    <em>“${file}”</em> within that section.
+  </p>
+  <p>
+    Above the <em>“${file}”</em> line, add a new line containing the following
+    command (one per line) when debugging:<br /><code>"-ggdb",</code>
+  </p>
+  <p>
+    Above the <em>“${file}”</em> line, add new lines containing the following
+    commands (one per line) for release builds:<br /><code>"-O2",</code
+    ><br /><code>"-DNDEBUG",</code>
+  </p>
+</div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Modifying build configurations
+</p>
+<p>
+  In the next few lessons, we’ll show you how to tweak some settings in your
+  build configurations. Whenever changing a project setting, we recommend making
+  the change in all build configurations.
+</p>
+<p>
+  This will help prevent making the change to the wrong build configuration, and
+  ensure the change is still applied if you happen to switch build
+  configurations later.
+</p>
+<div class="code-block code-block-3" style="margin: 8px 0; clear: both"></div>
+<div class="cpp-note cpp-lightbluebackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Tip</p>
+  <p>
+    Whenever you update your project settings, make the change for all build
+    configurations (unless it’s not appropriate for some reason).
+  </p>
+</div>
+<div class="prevnext">
+  <div class="prevnext-inline">
+    <a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/configuring-your-compiler-compiler-extensions/"
+      ><div class="nav-button nav-button-next">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-right" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Next lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">0.10</span>Configuring your
+            compiler: Compiler extensions
+          </div>
+        </div>
+      </div></a
+    ><a class="nav-link" href="/"
+      ><div class="nav-button nav-button-index">
+        <div class="nav-button-icon">
+          <i class="fa fa-home" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Back to table of contents</div>
+        </div>
+      </div></a
+    ><a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/a-few-common-cpp-problems/"
+      ><div class="nav-button nav-button-prev">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-left" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Previous lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">0.8</span>A few common C++
+            problems
+          </div>
+        </div>
+      </div></a
+    >
+  </div>
+</div>
+<div class="code-block code-block-10" style="margin: 8px 0; clear: both"></div>

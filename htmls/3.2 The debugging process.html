@@ -1,0 +1,206 @@
+<div
+  class="code-block code-block-1"
+  style="margin: 8px 8px 8px 0; float: left"
+></div>
+<p>
+  Let’s say you’ve written a program, and it’s not working correctly -- the code
+  compiles fine, but when you run it, you’re getting an incorrect result. You
+  must have a semantic error somewhere. How can you find it? If you’ve been
+  following best practices by writing a little bit of code and then testing it,
+  you may have a good idea where your error is. Or you may have no clue at all.
+</p>
+<p>
+  All bugs stem from a simple premise: Something that you thought was correct,
+  isn’t. Actually figuring out where that error is can be challenging. In this
+  lesson, we’ll outline the general process of debugging a program.
+</p>
+<p>
+  Because we haven’t covered that many C++ topics yet, our example programs in
+  this chapter are going to be pretty basic. That may make some of the
+  techniques we’re showing here seem excessive. However, keep in mind that these
+  techniques are designed to be used with larger, more complex programs, and
+  will be of more use in such a setting (which is where you need them most).
+</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  A general approach to debugging
+</p>
+<p>
+  Once a problem has been identified, debugging the problem generally consists
+  of six steps:
+</p>
+<div class="code-block code-block-2" style="margin: 8px 0; clear: both"></div>
+
+<ol start="1">
+  <li>
+    Find the root cause of the problem (usually the line of code that’s not
+    working). We’ll discuss some strategies on how to do this in the next
+    lesson.
+  </li>
+  <li>Ensure you understand why the issue is occurring.</li>
+  <li>Determine how you’ll fix the issue.</li>
+  <li>Repair the issue causing the problem.</li>
+  <li>Retest to ensure the problem has been fixed.</li>
+  <li>Retest to ensure no new problems have emerged.</li>
+</ol>
+<p>
+  Let’s use a real-life analogy here. Let’s say one evening, you go to get some
+  ice from the ice dispenser in your freezer. You put your cup up to the
+  dispenser, press the lever, and … nothing comes out. Uh oh. You’ve discovered
+  some kind of defect. What would you do? You’d probably start an investigation
+  to see if you could identify the root cause of the issue.
+</p>
+<p>
+  <strong>Find the root cause:</strong> Since you hear the ice dispenser trying
+  to deliver ice, it’s probably not the ice delivery mechanism itself. So you
+  open the freezer, and examine the ice tray. No ice. Is that the root cause of
+  the issue? No, it’s another symptom. After further examination, you determine
+  that the ice maker does not appear to be making ice. Is the problem the ice
+  maker or something else? The freezer is still cold, the water line isn’t
+  clogged, and everything else seems to be working, so you conclude that the
+  root cause is that the ice maker is non-functional.
+</p>
+<p>
+  <strong>Understand the problem:</strong> This is simple in this case. A broken
+  ice maker won’t make ice.
+</p>
+<p>
+  <strong>Determine a fix:</strong> At this point, you have several options for
+  a fix: You could work around the issue (buy bags of ice from the store). You
+  could try to diagnose the ice-maker further, to see if there’s a part that can
+  be repaired. You could buy a new ice maker and install it in place of the
+  current one. Or you could buy a new freezer. You decide to buy a new ice
+  maker.
+</p>
+<p>
+  <strong>Repair the issue:</strong> Once the ice maker has arrived, you install
+  it.
+</p>
+<div class="code-block code-block-3" style="margin: 8px 0; clear: both"></div>
+
+<p>
+  <strong>Retest:</strong> After turning the electricity back on and waiting
+  overnight, your new ice maker starts making ice. No new issues are discovered.
+</p>
+<p>
+  Now let’s apply this process to our simple program from the previous lesson:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">add</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-10-close">(</span><span class="token keyword keyword-int">int</span> x<span class="token punctuation">,</span> <span class="token keyword keyword-int">int</span> y<span class="token punctuation brace-round brace-close brace-level-1" id="pair-10-open">)</span> <span class="token comment">// this function is supposed to perform addition</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-13-close">{</span>
+    <span class="token keyword keyword-return">return</span> x <span class="token operator">-</span> y<span class="token punctuation">;</span> <span class="token comment">// but it doesn't due to the wrong operator being used</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-13-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-11-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-11-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-14-close">{</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"5 + 3 = "</span> <span class="token operator">&lt;&lt;</span> <span class="token function">add</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-12-close">(</span><span class="token number">5</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-12-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span> <span class="token comment">// should produce 8, but produces 2</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-14-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  This code is nice in one regard: the bug is very apparent, because the wrong
+  answer gets printed to the screen via line 10. That gives us a starting point
+  for our investigation.
+</p>
+<p>
+  <strong>Find the root cause:</strong> On line 10, we can see that we’re
+  passing in literals for arguments (5 and 3), so there is no room for error
+  there. Since the inputs to function <em>add</em> are correct, but the output
+  isn’t, it’s pretty apparent that function <em>add</em> must be producing the
+  wrong value. The only statement in function <em>add</em> is the return
+  statement, which must be the culprit. We’ve found the problem line. Now that
+  we know where to focus our attention, noticing that we’re subtracting instead
+  of adding is something you’re likely to find via inspection.
+</p>
+<p>
+  <strong>Understand the problem:</strong> In this case, it’s obvious why the
+  wrong value is being generated -- we’re using the wrong operator.
+</p>
+<div class="code-block code-block-4" style="margin: 8px 0; clear: both"></div>
+
+<p>
+  <strong>Determine a fix:</strong> We’ll simply change <em>operator-</em> to
+  <em>operator+</em>.
+</p>
+<p>
+  <strong>Repair the issue:</strong> This is actually changing
+  <em>operator-</em> to <em>operator+</em> and ensuring the program recompiles.
+</p>
+<p>
+  <strong>Retest:</strong> After implementing the change, rerunning the program
+  will indicate that our program now produces the correct value of 8. For this
+  simple program, that’s all the testing that’s needed.
+</p>
+<p>
+  This example is trivial, but illustrates the basic process you’ll go through
+  when diagnosing any program.
+</p>
+<div class="prevnext">
+  <div class="prevnext-inline">
+    <a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/a-strategy-for-debugging/"
+    >
+      <div class="nav-button nav-button-next">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-right" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Next lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">3.3</span>A strategy for
+            debugging
+          </div>
+        </div>
+      </div></a
+    >
+    <a class="nav-link" href="/">
+      <div class="nav-button nav-button-index">
+        <div class="nav-button-icon">
+          <i class="fa fa-home" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Back to table of contents</div>
+        </div>
+      </div></a
+    >
+    <a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/syntax-and-semantic-errors/"
+    >
+      <div class="nav-button nav-button-prev">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-left" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Previous lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">3.1</span>Syntax and semantic
+            errors
+          </div>
+        </div>
+      </div></a
+    >
+  </div>
+</div>
+<div class="code-block code-block-10" style="margin: 8px 0; clear: both"></div>

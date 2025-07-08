@@ -1,0 +1,525 @@
+<div
+  class="code-block code-block-1"
+  style="margin: 8px 8px 8px 0; float: left"
+></div>
+<p>
+  An <strong>integer</strong> is an integral type that can represent positive
+  and negative whole numbers, including 0 (e.g. -2, -1, 0, 1, 2). C++ has
+  <em>4</em> primary fundamental integer types available for use:
+</p>
+<p style="clear: both"></p>
+<p></p>
+<div class="cpp-table-wrapper" data-ezoic-video-excluded="1">
+  <p></p>
+  <p></p>
+  <table class="cpp-table" data-ezoic-video-excluded="1">
+    <tbody>
+      <tr>
+        <th>Type</th>
+        <th>Minimum Size</th>
+        <th>Note</th>
+      </tr>
+      <tr>
+        <td>short int</td>
+        <td>16 bits</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>int</td>
+        <td>16 bits</td>
+        <td>Typically 32 bits on modern architectures</td>
+      </tr>
+      <tr>
+        <td>long int</td>
+        <td>32 bits</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>long long int</td>
+        <td>64 bits</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<p>
+  The key difference between the various integer types is that they have varying
+  sizes -- the larger integers can hold bigger numbers.
+</p>
+<div class="cpp-note cpp-lightgraybackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">A reminder</p>
+  <p>
+    C++ only guarantees that integers will have a certain minimum size, not that
+    they will have a specific size. See lesson
+    <a
+      href="https://www.learncpp.com/cpp-tutorial/object-sizes-and-the-sizeof-operator/"
+      >4.3 -- Object sizes and the sizeof operator</a
+    >
+    for information on how to determine how large each type is on your machine.
+  </p>
+</div>
+<div class="cpp-note cpp-lightgraybackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">As an aside…</p>
+  <p>
+    Technically, the <code>bool</code> and <code>char</code> types are
+    considered to be integral types (because these types store their values as
+    integer values). For the purpose of the next few lessons, we’ll exclude
+    these types from our discussion.
+  </p>
+</div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Signed integers
+</p>
+<p>
+  When writing negative numbers in everyday life, we use a negative sign. For
+  example, <em>-3</em> means “negative 3”. We’d also typically recognize
+  <em>+3</em> as “positive 3” (though common convention dictates that we
+  typically omit plus prefixes).
+</p>
+<p>
+  This attribute of being positive, negative, or zero is called the number’s
+  <strong>sign</strong>.
+</p>
+<div class="code-block code-block-2" style="margin: 8px 0; clear: both"></div>
+<p>
+  By default, integers in C++ are <strong>signed</strong>, which means the
+  number’s sign is stored as part of the value. Therefore, a signed integer can
+  hold both positive and negative numbers (and 0).
+</p>
+<p>
+  In this lesson, we’ll focus on signed integers. We’ll discuss unsigned
+  integers (which can only hold non-negative numbers) in the next lesson.
+</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Defining signed integers
+</p>
+<p>Here is the preferred way to define the four types of signed integers:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-short">short</span> s<span class="token punctuation">;</span>      <span class="token comment">// prefer "short" instead of "short int"</span>
+<span class="token keyword keyword-int">int</span> i<span class="token punctuation">;</span>
+<span class="token keyword keyword-long">long</span> l<span class="token punctuation">;</span>       <span class="token comment">// prefer "long" instead of "long int"</span>
+<span class="token keyword keyword-long">long</span> <span class="token keyword keyword-long">long</span> ll<span class="token punctuation">;</span> <span class="token comment">// prefer "long long" instead of "long long int"</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  Although <em>short int</em>, <em>long int</em>, or <em>long long int</em> will
+  work, we prefer the short names for these types (that do not use the
+  <em>int</em> suffix). In addition to being more typing, adding the
+  <em>int</em> suffix makes the type harder to distinguish from variables of
+  type <em>int</em>. This can lead to mistakes if the short or long modifier is
+  inadvertently missed.
+</p>
+<p>
+  The integer types can also take an optional <em>signed</em> keyword, which by
+  convention is typically placed before the type name:
+</p>
+<div class="code-block code-block-3" style="margin: 8px 0; clear: both"></div>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-signed">signed</span> <span class="token keyword keyword-short">short</span> ss<span class="token punctuation">;</span>
+<span class="token keyword keyword-signed">signed</span> <span class="token keyword keyword-int">int</span> si<span class="token punctuation">;</span>
+<span class="token keyword keyword-signed">signed</span> <span class="token keyword keyword-long">long</span> sl<span class="token punctuation">;</span>
+<span class="token keyword keyword-signed">signed</span> <span class="token keyword keyword-long">long</span> <span class="token keyword keyword-long">long</span> sll<span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  However, this keyword should not be used, as it is redundant, since integers
+  are signed by default.
+</p>
+<div class="cpp-note cpp-lightgreenbackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Best practice</p>
+  <p>
+    Prefer the shorthand types that do not use the <code>int</code> suffix or
+    <code>signed</code> prefix.
+  </p>
+</div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Signed integer ranges
+</p>
+<p>
+  As you learned in the last section, a variable with <em>n</em> bits can hold
+  2<sup>n</sup> possible values. But which specific values? We call the set of
+  specific values that a data type can hold its <strong>range</strong>. The
+  range of an integer variable is determined by two factors: its size (in bits),
+  and whether it is signed or not.
+</p>
+<p>
+  For example, an 8-bit signed integer has a range of -128 to 127. This means an
+  8-bit signed integer can store any integer value between -128 and 127
+  (inclusive) safely.
+</p>
+<p>
+  Here’s a table containing the range of signed integers of different sizes:
+</p>
+<div class="code-block code-block-4" style="margin: 8px 0; clear: both"></div>
+<div class="cpp-table-wrapper" data-ezoic-video-excluded="1">
+  <table class="cpp-table" data-ezoic-video-excluded="1">
+    <tbody>
+      <tr>
+        <th>Size / Type</th>
+        <th>Range</th>
+      </tr>
+      <tr>
+        <td>8-bit signed</td>
+        <td>-128 to 127</td>
+      </tr>
+      <tr>
+        <td>16-bit signed</td>
+        <td>-32,768 to 32,767</td>
+      </tr>
+      <tr>
+        <td>32-bit signed</td>
+        <td>-2,147,483,648 to 2,147,483,647</td>
+      </tr>
+      <tr>
+        <td>64-bit signed</td>
+        <td>-9,223,372,036,854,775,808 to 9,223,372,036,854,775,807</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<p>
+  For the math inclined, an n-bit signed variable has a range of
+  -(2<sup>n-1</sup>) to (2<sup>n-1</sup>)-1.
+</p>
+<p>For the non-math inclined… use the table. :)</p>
+<div class="cpp-note cpp-lightgraybackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">For advanced readers</p>
+  <p>
+    The above ranges assume “two’s complement” binary representation. This
+    representation is the de-facto standard for modern architectures (as it is
+    easier to implement in hardware), and is now required by the C++20 standard.
+    We discuss two’s complement in lesson
+    <a
+      href="https://www.learncpp.com/cpp-tutorial/converting-integers-between-binary-and-decimal-representation/"
+      >O.4 -- Converting integers between binary and decimal representation</a
+    >.
+  </p>
+  <p>
+    In prior standards, sign-magnitude and ones complement representations were
+    permitted for historical reasons. Such representations produce values in the
+    range -(2<sup>n-1</sup>-1) to +(2<sup>n-1</sup>-1).
+  </p>
+</div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Overflow
+</p>
+<p>
+  What happens if we try to assign the value <em>140</em> to an 8-bit signed
+  integer? This number is outside the range that an 8-bit signed integer can
+  hold. The number 140 requires 9 bits to represent (8 magnitude bits and 1 sign
+  bit), but we only have 8 bits (7 magnitude bits and 1 sign bit) available in
+  an 8-bit signed integer.
+</p>
+<p>
+  The C++20 standard makes this blanket statement: “If during the evaluation of
+  an expression, the result is not mathematically defined or not in the range of
+  representable values for its type, the behavior is undefined”. Colloquially,
+  this is called <strong>overflow</strong>.
+</p>
+<div class="code-block code-block-5" style="margin: 8px 0; clear: both"></div>
+<p>
+  Therefore, assigning value 140 to an 8-bit signed integer will result in
+  undefined behavior.
+</p>
+<p>
+  If an arithmetic operation (such as addition or multiplication) attempts to
+  create a value outside the range that can be represented, this is called
+  <strong>integer overflow</strong> (or <strong>arithmetic overflow</strong>).
+  For signed integers, integer overflow will result in undefined behavior.
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-29-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-29-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-31-close">{</span>
+    <span class="token comment">// assume 4 byte integers</span>
+    <span class="token keyword keyword-int">int</span> x <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-30-close">{</span> <span class="token number">2'147'483'647</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-30-open">}</span><span class="token punctuation">;</span> <span class="token comment">// the maximum value of a 4-byte signed integer</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> x <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+    x <span class="token operator">=</span> x <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">;</span> <span class="token comment">// integer overflow, undefined behavior</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> x <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-31-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>On the author’s machine, the above printed:</p>
+<pre>
+2147483647
+-2147483648
+</pre>
+<p>
+  However, because the second output is the result of undefined behavior, the
+  value output may vary on your machine.
+</p>
+<div class="cpp-note cpp-lightgraybackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">For advanced readers</p>
+  <p>
+    We cover what happens when unsigned integers overflow in lesson
+    <a
+      href="https://www.learncpp.com/cpp-tutorial/unsigned-integers-and-why-to-avoid-them/"
+      >4.5 -- Unsigned integers, and why to avoid them</a
+    >.
+  </p>
+</div>
+<p>
+  In general, overflow results in information being lost, which is almost never
+  desirable. If there is <em>any</em> suspicion that an object might need to
+  store a value that falls outside its range, use a type with a bigger range!
+</p>
+<div class="code-block code-block-6" style="margin: 8px 0; clear: both"></div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Integer division
+</p>
+<p>
+  When dividing two integers, C++ works like you’d expect when the quotient is a
+  whole number:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-32-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-32-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-33-close">{</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token number">20</span> <span class="token operator">/</span> <span class="token number">4</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-33-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>This produces the expected result:</p>
+<pre>
+5
+</pre>
+<p>
+  But let’s look at what happens when integer division causes a fractional
+  result:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-34-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-34-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-35-close">{</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token number">8</span> <span class="token operator">/</span> <span class="token number">5</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-35-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>This produces a possibly unexpected result:</p>
+<pre>
+1
+</pre>
+<p>
+  When doing division with two integers (called
+  <strong>integer division</strong>), C++ always produces an integer result.
+  Since integers can’t hold fractional values, any fractional portion is simply
+  dropped (not rounded!).
+</p>
+<div class="code-block code-block-7" style="margin: 8px 0; clear: both"></div>
+<p>
+  Taking a closer look at the above example, 8 / 5 produces the value 1.6. The
+  fractional part (0.6) is dropped, and the result of 1 remains. Alternatively,
+  we can say 8 / 5 equals 1 remainder 3. The remainder is dropped, leaving 1.
+</p>
+<p>Similarly, -8 / 5 results in the value -1.</p>
+<div class="cpp-note cpp-lightredbackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Warning</p>
+  <p>
+    Be careful when using integer division, as you will lose any fractional
+    parts of the quotient. However, if it’s what you want, integer division is
+    safe to use, as the results are predictable.
+  </p>
+</div>
+<p>
+  If fractional results are desired, we show a method to do this in lesson
+  <a href="https://www.learncpp.com/cpp-tutorial/arithmetic-operators/"
+    >6.2 -- Arithmetic operators</a
+  >.
+</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Quiz time
+</p>
+<p class="cpp-quiz-question" style="clear: both">Question #1</p>
+<p>What would the range of a 5-bit signed integer be?</p>
+<p>
+  <a
+    class="solution_link_show"
+    href="javascript:void(0)"
+    onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_0'),this,'Show Solution','Hide Solution')"
+    >Show Solution</a
+  >
+</p>
+<div class="wpsolution" id="cpp_solution_id_0" style="display: none">
+  <p>
+    A 5-bit number can support 2<sup>5</sup> = 32 unique values. For a signed
+    integer, these are split almost evenly amongst positive and negative
+    numbers, with negative receiving an extra value. So the range would be -16
+    to 15.
+  </p>
+  <p>
+    Another way to think about this: 1 of the 5 bits is required to hold the
+    sign. That leaves 4 bits for the magnitude. With 4 bits, we have 16 unique
+    values available. On the negative side, these magnitude bits represent
+    values -1 to -16. On the non-negative side, these magnitude bits represent
+    values 0 to 15. The non-negative side has one less value of range because it
+    includes 0.
+  </p>
+</div>
+<p class="cpp-quiz-question cpp-topline" style="clear: both">Question #2</p>
+<p>a) What is the result of 13 / 5?</p>
+<div class="code-block code-block-8" style="margin: 8px 0; clear: both"></div>
+<p>
+  <a
+    class="solution_link_show"
+    href="javascript:void(0)"
+    onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_1'),this,'Show Solution','Hide Solution')"
+    >Show Solution</a
+  >
+</p>
+<div class="wpsolution" id="cpp_solution_id_1" style="display: none">
+  <p>13 / 5 = 2 remainder 3. The remainder is dropped, leaving 2.</p>
+</div>
+<p>b) What is the result of -13 / 5?</p>
+<p>
+  <a
+    class="solution_link_show"
+    href="javascript:void(0)"
+    onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_2'),this,'Show Solution','Hide Solution')"
+    >Show Solution</a
+  >
+</p>
+<div class="wpsolution" id="cpp_solution_id_2" style="display: none">
+  <p>-13 / 5 = -2 remainder -3. The remainder is dropped, leaving -2.</p>
+</div>
+<div class="prevnext">
+  <div class="prevnext-inline">
+    <a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/unsigned-integers-and-why-to-avoid-them/"
+      ><div class="nav-button nav-button-next">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-right" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Next lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">4.5</span>Unsigned integers,
+            and why to avoid them
+          </div>
+        </div>
+      </div></a
+    ><a class="nav-link" href="/"
+      ><div class="nav-button nav-button-index">
+        <div class="nav-button-icon">
+          <i class="fa fa-home" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Back to table of contents</div>
+        </div>
+      </div></a
+    ><a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/object-sizes-and-the-sizeof-operator/"
+      ><div class="nav-button nav-button-prev">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-left" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Previous lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">4.3</span>Object sizes and
+            the sizeof operator
+          </div>
+        </div>
+      </div></a
+    >
+  </div>
+</div>
+<div class="code-block code-block-10" style="margin: 8px 0; clear: both"></div>

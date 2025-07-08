@@ -1,0 +1,1175 @@
+<div
+  class="code-block code-block-1"
+  style="margin: 8px 8px 8px 0; float: left"
+></div>
+<p>
+  In lesson
+  <a
+    href="https://www.learncpp.com/cpp-tutorial/programs-with-multiple-code-files/"
+    >2.8 -- Programs with multiple code files</a
+  >, we discussed how programs can be split across multiple files. We also
+  discussed how forward declarations are used to allow the code in one file to
+  access something defined in another file.
+</p>
+<p>
+  When programs contain only a few small files, manually adding a few forward
+  declarations to the top of each file isn’t too bad. However, as programs grow
+  larger (and make use of more files and functions), having to manually add a
+  large number of (possibly different) forward declarations to the top of each
+  file becomes extremely tedious. For example, if you have a 5 file program,
+  each of which requires 10 forward declarations, you’re going to have to
+  copy/paste in 50 forward declarations. Now consider the case where you have
+  100 files and they each require 100 forward declarations. This simply doesn’t
+  scale!
+</p>
+<p>To address this issue, C++ programs typically take a different approach.</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Header files
+</p>
+<p>
+  C++ code files (with a .cpp extension) are not the only files commonly seen in
+  C++ programs. The other type of file is called a <strong>header file</strong>.
+  Header files usually have a .h extension, but you will occasionally see them
+  with a .hpp extension or no extension at all.
+</p>
+<p>
+  Conventionally, header files are used to propagate a bunch of related forward
+  declarations into a code file.
+</p>
+<div class="code-block code-block-2" style="margin: 8px 0; clear: both"></div>
+<div class="cpp-note cpp-lightbluebackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Key insight</p>
+  <p>
+    Header files allow us to put declarations in one place and then import them
+    wherever we need them. This can save a lot of typing in multi-file programs.
+  </p>
+</div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Using standard library header files
+</p>
+<p>Consider the following program:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-112-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-112-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-113-close">{</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Hello, world!"</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-113-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  This program prints “Hello, world!” to the console using <em>std::cout</em>.
+  However, this program never provided a definition or declaration for
+  <em>std::cout</em>, so how does the compiler know what <em>std::cout</em> is?
+</p>
+<p>
+  The answer is that <em>std::cout</em> has been forward declared in the
+  “iostream” header file. When we <code>#include &lt;iostream&gt;</code>, we’re
+  requesting that the preprocessor copy all of the content (including forward
+  declarations for std::cout) from the file named “iostream” into the file doing
+  the #include.
+</p>
+<div class="cpp-note cpp-lightbluebackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Key insight</p>
+  <p>
+    When you <code>#include</code> a file, the content of the included file is
+    inserted at the point of inclusion. This provides a useful way to pull in
+    declarations from another file.
+  </p>
+</div>
+<p>
+  Consider what would happen if the <em>iostream</em> header did not exist.
+  Wherever you used <em>std::cout</em>, you would have to manually type or copy
+  in all of the declarations related to <em>std::cout</em> into the top of each
+  file that used <em>std::cout</em>! This would require a lot of knowledge about
+  how <em>std::cout</em> was declared, and would be a ton of work. Even worse,
+  if a function prototype was added or changed, we’d have to go manually update
+  all of the forward declarations.
+</p>
+<p>It’s much easier to just <code>#include &lt;iostream&gt;</code>!</p>
+<div class="code-block code-block-3" style="margin: 8px 0; clear: both"></div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Using header files to propagate forward declarations
+</p>
+<p>
+  Now let’s go back to the example we were discussing in a previous lesson. When
+  we left off, we had two files, <em>add.cpp</em> and <em>main.cpp</em>, that
+  looked like this:
+</p>
+<p>add.cpp:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-int">int</span> <span class="token function">add</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-114-close">(</span><span class="token keyword keyword-int">int</span> x<span class="token punctuation">,</span> <span class="token keyword keyword-int">int</span> y<span class="token punctuation brace-round brace-close brace-level-1" id="pair-114-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-115-close">{</span>
+    <span class="token keyword keyword-return">return</span> x <span class="token operator">+</span> y<span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-115-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>main.cpp:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">add</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-116-close">(</span><span class="token keyword keyword-int">int</span> x<span class="token punctuation">,</span> <span class="token keyword keyword-int">int</span> y<span class="token punctuation brace-round brace-close brace-level-1" id="pair-116-open">)</span><span class="token punctuation">;</span> <span class="token comment">// forward declaration using function prototype</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-117-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-117-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-119-close">{</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"The sum of 3 and 4 is "</span> <span class="token operator">&lt;&lt;</span> <span class="token function">add</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-118-close">(</span><span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-118-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-119-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  (If you’re recreating this example from scratch, don’t forget to add
+  <em>add.cpp</em> to your project so it gets compiled in).
+</p>
+<p>
+  In this example, we used a forward declaration so that the compiler will know
+  what identifier <em>add</em> is when compiling <em>main.cpp</em>. As
+  previously mentioned, manually adding forward declarations for every function
+  you want to use that lives in another file can get tedious quickly.
+</p>
+<div class="code-block code-block-4" style="margin: 8px 0; clear: both"></div>
+<p>
+  Let’s write a header file to relieve us of this burden. Writing a header file
+  is surprisingly easy, as header files only consist of two parts:
+</p>
+<ol>
+  <li>
+    A <em>header guard</em>, which we’ll discuss in more detail in the next
+    lesson (<a href="https://www.learncpp.com/cpp-tutorial/header-guards/"
+      >2.12 -- Header guards</a
+    >).
+  </li>
+  <li>
+    The actual content of the header file, which should be the forward
+    declarations for all of the identifiers we want other files to be able to
+    see.
+  </li>
+</ol>
+<p>
+  Adding a header file to a project works analogously to adding a source file
+  (covered in lesson
+  <a
+    href="https://www.learncpp.com/cpp-tutorial/programs-with-multiple-code-files/"
+    >2.8 -- Programs with multiple code files</a
+  >).
+</p>
+<p>
+  If using an IDE, go through the same steps and choose “Header” instead of
+  “Source” when asked. The header file should appear as part of your project.
+</p>
+<p>
+  If using the command line, just create a new file in your favorite editor in
+  the same directory as your source (.cpp) files. Unlike source files, header
+  files should <em>not</em> be added to your compile command (they are
+  implicitly included by #include statements and compiled as part of your source
+  files).
+</p>
+<div class="cpp-note cpp-lightgreenbackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Best practice</p>
+  <p>
+    Prefer a .h suffix when naming your header files (unless your project
+    already follows some other convention).
+  </p>
+  <p>
+    This is a longstanding convention for C++ header files, and most IDEs still
+    default to .h over other options.
+  </p>
+</div>
+<p>
+  Header files are often paired with code files, with the header file providing
+  forward declarations for the corresponding code file. Since our header file
+  will contain a forward declaration for functions defined in <em>add.cpp</em>,
+  we’ll call our new header file <em>add.h</em>.
+</p>
+<div class="code-block code-block-5" style="margin: 8px 0; clear: both"></div>
+<div class="cpp-note cpp-lightgreenbackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Best practice</p>
+  <p>
+    If a header file is paired with a code file (e.g. add.h with add.cpp), they
+    should both have the same base name (add).
+  </p>
+</div>
+<p>Here’s our completed header file:</p>
+<p>add.h:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token comment">// We really should have a header guard here, but will omit it for simplicity (we'll cover header guards in the next lesson)</span>
+
+<span class="token comment">// This is the content of the .h file, which is where the declarations go</span>
+<span class="token keyword keyword-int">int</span> <span class="token function">add</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-120-close">(</span><span class="token keyword keyword-int">int</span> x<span class="token punctuation">,</span> <span class="token keyword keyword-int">int</span> y<span class="token punctuation brace-round brace-close brace-level-1" id="pair-120-open">)</span><span class="token punctuation">;</span> <span class="token comment">// function prototype for add.h -- don't forget the semicolon!</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  In order to use this header file in main.cpp, we have to #include it (using
+  quotes, not angle brackets).
+</p>
+<p>main.cpp:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">"add.h"</span> <span class="token comment">// Insert contents of add.h at this point.  Note use of double quotes here.</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-121-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-121-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-123-close">{</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"The sum of 3 and 4 is "</span> <span class="token operator">&lt;&lt;</span> <span class="token function">add</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-122-close">(</span><span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-122-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-123-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>add.cpp:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">"add.h"</span> <span class="token comment">// Insert contents of add.h at this point.  Note use of double quotes here.</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">add</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-124-close">(</span><span class="token keyword keyword-int">int</span> x<span class="token punctuation">,</span> <span class="token keyword keyword-int">int</span> y<span class="token punctuation brace-round brace-close brace-level-1" id="pair-124-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-125-close">{</span>
+    <span class="token keyword keyword-return">return</span> x <span class="token operator">+</span> y<span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-125-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  When the preprocessor processes the <code>#include "add.h"</code> line, it
+  copies the contents of add.h into the current file at that point. Because our
+  <em>add.h</em> contains a forward declaration for function <em>add()</em>,
+  that forward declaration will be copied into <em>main.cpp</em>. The end result
+  is a program that is functionally the same as the one where we manually added
+  the forward declaration at the top of <em>main.cpp</em>.
+</p>
+<p>Consequently, our program will compile and link correctly.</p>
+<div class="code-block code-block-6" style="margin: 8px 0; clear: both"></div>
+<p>
+  <img
+    src="https://www.learncpp.com/images/CppTutorial/Section1/IncludeHeader.png"
+  />
+</p>
+<p>
+  Note: In the graphic above, “Standard Runtime Library” should be labelled as
+  the “C++ Standard Library”.
+</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  How including definitions in a header file results in a violation of the
+  one-definition rule
+</p>
+<p>
+  For now, you should avoid putting function or variable definitions in header
+  files. Doing so will generally result in a violation of the one-definition
+  rule (ODR) in cases where the header file is included into more than one
+  source file.
+</p>
+<div class="cpp-note cpp-lightgraybackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Related content</p>
+  <p>
+    We covered the one-definition rule (ODR) in lesson
+    <a href="https://www.learncpp.com/cpp-tutorial/forward-declarations/"
+      >2.7 -- Forward declarations and definitions</a
+    >.
+  </p>
+</div>
+<p>Let’s illustrate how this happens:</p>
+<p>add.h:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token comment">// We really should have a header guard here, but will omit it for simplicity (we'll cover header guards in the next lesson)</span>
+
+<span class="token comment">// definition for add() in header file -- don't do this!</span>
+<span class="token keyword keyword-int">int</span> <span class="token function">add</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-126-close">(</span><span class="token keyword keyword-int">int</span> x<span class="token punctuation">,</span> <span class="token keyword keyword-int">int</span> y<span class="token punctuation brace-round brace-close brace-level-1" id="pair-126-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-127-close">{</span>
+    <span class="token keyword keyword-return">return</span> x <span class="token operator">+</span> y<span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-127-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>main.cpp:</p>
+<div class="code-block code-block-7" style="margin: 8px 0; clear: both"></div>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">"add.h"</span> <span class="token comment">// Contents of add.h copied here</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-128-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-128-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-130-close">{</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"The sum of 3 and 4 is "</span> <span class="token operator">&lt;&lt;</span> <span class="token function">add</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-129-close">(</span><span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-129-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-130-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>add.cpp:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">"add.h"</span> <span class="token comment">// Contents of add.h copied here</span></span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  When <code>main.cpp</code> is compiled, the <code>#include "add.h"</code> will
+  be replaced with the contents of <code>add.h</code> and then compiled.
+  Therefore, the compiler will compile something that looks like this:
+</p>
+<p>main.cpp (after preprocessing):</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token comment">// from add.h:</span>
+<span class="token keyword keyword-int">int</span> <span class="token function">add</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-131-close">(</span><span class="token keyword keyword-int">int</span> x<span class="token punctuation">,</span> <span class="token keyword keyword-int">int</span> y<span class="token punctuation brace-round brace-close brace-level-1" id="pair-131-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-134-close">{</span>
+    <span class="token keyword keyword-return">return</span> x <span class="token operator">+</span> y<span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-134-open">}</span>
+
+<span class="token comment">// contents of iostream header here</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-132-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-132-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-135-close">{</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"The sum of 3 and 4 is "</span> <span class="token operator">&lt;&lt;</span> <span class="token function">add</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-133-close">(</span><span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-133-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-135-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>This will compile just fine.</p>
+<p>
+  When the compiler compiles <code>add.cpp</code>, the
+  <code>#include "add.h"</code> will be replaced with the contents of
+  <code>add.h</code> and then compiled. Therefore, the compiler will compile
+  something like this:
+</p>
+<p>add.cpp (after preprocessing):</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-int">int</span> <span class="token function">add</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-136-close">(</span><span class="token keyword keyword-int">int</span> x<span class="token punctuation">,</span> <span class="token keyword keyword-int">int</span> y<span class="token punctuation brace-round brace-close brace-level-1" id="pair-136-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-137-close">{</span>
+    <span class="token keyword keyword-return">return</span> x <span class="token operator">+</span> y<span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-137-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>This will also compile just fine.</p>
+<div class="code-block code-block-8" style="margin: 8px 0; clear: both"></div>
+<p>
+  Finally, the linker will run. And the linker will see that there are now two
+  definitions for function <code>add()</code>: one in main.cpp, and one in
+  add.cpp. This is a violation of ODR part 2, which states, “Within a given
+  program, a variable or normal function can only have one definition.”
+</p>
+<div class="cpp-note cpp-lightgreenbackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Best practice</p>
+  <p>
+    Do not put function and variable definitions in your header files (for now).
+  </p>
+  <p>
+    Defining either of these in a header file will likely result in a violation
+    of the one-definition rule (ODR) if that header is then #included into more
+    than one source (.cpp) file.
+  </p>
+</div>
+<div class="cpp-note cpp-lightgraybackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Author’s note</p>
+  <p>
+    In future lessons, we will encounter additional kinds of definitions that
+    can be safely defined in header files (because they are exempt from the
+    ODR). This includes definitions for inline functions, inline variables,
+    types, and templates. We’ll discuss this further when we introduce each of
+    these.
+  </p>
+</div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  <a name="corresponding_include"></a>Source files should include their paired
+  header
+  <a href="#corresponding_include"
+    ><i class="fa fa-link" style="font-size: 0.8em"></i
+  ></a>
+</p>
+<p>
+  In C++, it is a best practice for code files to #include their paired header
+  file (if one exists). This allows the compiler to catch certain kinds of
+  errors at compile time instead of link time. For example:
+</p>
+<p>add.h:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token comment">// We really should have a header guard here, but will omit it for simplicity (we'll cover header guards in the next lesson)</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">add</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-138-close">(</span><span class="token keyword keyword-int">int</span> x<span class="token punctuation">,</span> <span class="token keyword keyword-int">int</span> y<span class="token punctuation brace-round brace-close brace-level-1" id="pair-138-open">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>main.cpp:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">"add.h"</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-139-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-139-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-141-close">{</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"The sum of 3 and 4 is "</span> <span class="token operator">&lt;&lt;</span> <span class="token function">add</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-140-close">(</span><span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-140-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-141-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>add.cpp:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">"add.h"</span>         <span class="token comment">// copies forward declaration from add.h here</span></span>
+
+<span class="token keyword keyword-double">double</span> <span class="token function">add</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-142-close">(</span><span class="token keyword keyword-int">int</span> x<span class="token punctuation">,</span> <span class="token keyword keyword-int">int</span> y<span class="token punctuation brace-round brace-close brace-level-1" id="pair-142-open">)</span> <span class="token comment">// oops, return type is double instead of int</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-143-close">{</span>
+    <span class="token keyword keyword-return">return</span> x <span class="token operator">+</span> y<span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-143-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  When <em>add.cpp</em> is compiled, the forward declaration
+  <code>int add(int x, int y)</code> will be copied into <em>add.cpp</em> at the
+  point of the #include. When the compiler reaches the definition
+  <code>double add(int x, int y)</code>, it will note that the return types of
+  the forward declaration and the definition don’t match. Because functions
+  can’t differ by only a return type, the compiler will error and abort
+  compilation immediately. In a larger project, this can save a lot of time and
+  help pinpoint where the issue is.
+</p>
+<div class="cpp-note cpp-lightgraybackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">As an aside…</p>
+  <p>
+    Unfortunately, this doesn’t work if it is a parameter with a different type
+    instead of a return type. This is because C++ supports overloaded functions
+    (functions with the same name but different parameter types), so the
+    compiler will assume a function with a mismatched parameter type is a
+    different overload. Can’t win em all.
+  </p>
+</div>
+<p>
+  If the <code>#include "add.h"</code> is not present, the compiler won’t catch
+  the issue because it doesn’t see the mismatch. We have to wait until link time
+  for the issue to surface.
+</p>
+<p>
+  We will also see many examples in future lessons where content required by the
+  source file is defined in the paired header. In such cases, including the
+  header is a necessity.
+</p>
+<div class="cpp-note cpp-lightgreenbackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Best practice</p>
+  <p>Source files should #include their paired header file (if one exists).</p>
+</div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  <a name="includecpp"></a>Do not #include .cpp files
+  <a href="#includecpp"><i class="fa fa-link" style="font-size: 0.8em"></i></a>
+</p>
+<p>
+  Although the preprocessor will happily do so, you should generally not
+  <code>#include</code> .cpp files. These should be added to your project and
+  compiled.
+</p>
+<p>There are number of reasons for this:</p>
+<ul>
+  <li>Doing so can cause naming collisions between source files.</li>
+  <li>
+    In a large project it can be hard to avoid one definition rules (ODR)
+    issues.
+  </li>
+  <li>
+    Any change to such a .cpp file will cause both the .cpp file and any other
+    .cpp file that includes it to recompile, which can take a long time. Headers
+    tend to change less often than source files.
+  </li>
+  <li>It is non-conventional to do so.</li>
+</ul>
+<div class="cpp-note cpp-lightgreenbackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Best practice</p>
+  <p>Avoid #including .cpp files.</p>
+</div>
+<div class="cpp-note cpp-lightbluebackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Tip</p>
+  <p>
+    If your project doesn’t compile unless you #include .cpp files, that means
+    those .cpp files are not being compiled as part of your project. Add them to
+    your project or command line so they get compiled.
+  </p>
+</div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Troubleshooting
+</p>
+<p>
+  If you get a compiler error indicating that <em>add.h</em> isn’t found, make
+  sure the file is really named <em>add.h</em>. Depending on how you created and
+  named it, it’s possible the file could have been named something like
+  <em>add</em> (no extension) or <em>add.h.txt</em> or <em>add.hpp</em>. Also
+  make sure it’s sitting in the same directory as the rest of your code files.
+</p>
+<p>
+  If you get a linker error about function <em>add</em> not being defined, make
+  sure you’ve included <em>add.cpp</em> in your project so the definition for
+  function <em>add</em> can be linked into the program.
+</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  <a name="includemethod"></a>Angled brackets vs double quotes
+  <a href="#includemethod"
+    ><i class="fa fa-link" style="font-size: 0.8em"></i
+  ></a>
+</p>
+<p>
+  You’re probably curious why we use angled brackets for <code>iostream</code>,
+  and double quotes for <code>add.h</code>. It’s possible that a header file
+  with the same filename might exist in multiple directories. Our use of angled
+  brackets vs double quotes helps give the preprocessor a clue as to where it
+  should look for header files.
+</p>
+<p>
+  When we use angled brackets, we’re telling the preprocessor that this is a
+  header file we didn’t write ourselves. The preprocessor will search for the
+  header only in the directories specified by the
+  <code>include directories</code>. The <code>include directories</code> are
+  configured as part of your project/IDE settings/compiler settings, and
+  typically default to the directories containing the header files that come
+  with your compiler and/or OS. The preprocessor will not search for the header
+  file in your project’s source code directory.
+</p>
+<p>
+  When we use double-quotes, we’re telling the preprocessor that this is a
+  header file that we wrote. The preprocessor will first search for the header
+  file in the current directory. If it can’t find a matching header there, it
+  will then search the <code>include directories</code>.
+</p>
+<div class="cpp-note cpp-lightpurplebackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Rule</p>
+  <p>
+    Use double quotes to include header files that you’ve written or are
+    expected to be found in the current directory. Use angled brackets to
+    include headers that come with your compiler, OS, or third-party libraries
+    you’ve installed elsewhere on your system.
+  </p>
+</div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Why doesn’t iostream have a .h extension?
+</p>
+<p>
+  Another commonly asked question is “why doesn’t iostream (or any of the other
+  standard library header files) have a .h extension?”. The answer is that
+  <em>iostream.h</em> is a different header file than <em>iostream</em>! To
+  explain requires a short history lesson.
+</p>
+<p>
+  When C++ was first created, all of the headers in the standard library ended
+  in a <em>.h</em> suffix. These headers included:
+</p>
+<div class="cpp-table-wrapper" data-ezoic-video-excluded="1">
+  <table class="cpp-table" data-ezoic-video-excluded="1">
+    <tbody>
+      <tr>
+        <th>Header type</th>
+        <th>Naming convention</th>
+        <th>Example</th>
+        <th>Identifiers placed in namespace</th>
+      </tr>
+      <tr>
+        <td>C++ specific</td>
+        <td>&lt;xxx.h&gt;</td>
+        <td>iostream.h</td>
+        <td>Global namespace</td>
+      </tr>
+      <tr>
+        <td>C compatibility</td>
+        <td>&lt;xxx.h&gt;</td>
+        <td>stddef.h</td>
+        <td>Global namespace</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<p>
+  The original versions of <em>cout</em> and <em>cin</em> were declared in
+  <em>iostream.h</em> in the global namespace. Life was consistent, and it was
+  good.
+</p>
+<p>
+  When the language was standardized by the ANSI committee, they decided to move
+  all of the names used in the standard library into the <em>std</em> namespace
+  to help avoid naming conflicts with user-declared identifiers. However, this
+  presented a problem: if they moved all the names into the
+  <em>std</em> namespace, none of the old programs (that included iostream.h)
+  would work anymore!
+</p>
+<p>
+  To work around this issue, C++ introduced new header files that lack the
+  <em>.h</em> extension. These new header files declare all names inside the
+  <em>std</em> namespace. This way, older programs that include
+  <code>#include &lt;iostream.h&gt;</code> do not need to be rewritten, and
+  newer programs can <code>#include &lt;iostream&gt;</code>.
+</p>
+<p>Modern C++ now contains 4 sets of header files:</p>
+<div class="cpp-table-wrapper" data-ezoic-video-excluded="1">
+  <table class="cpp-table" data-ezoic-video-excluded="1">
+    <tbody>
+      <tr>
+        <th>Header type</th>
+        <th>Naming convention</th>
+        <th>Example</th>
+        <th>Identifiers placed in namespace</th>
+      </tr>
+      <tr>
+        <td>C++ specific (new)</td>
+        <td>&lt;xxx&gt;</td>
+        <td>iostream</td>
+        <td><code>std</code> namespace</td>
+      </tr>
+      <tr>
+        <td>C compatibility (new)</td>
+        <td>&lt;cxxx&gt;</td>
+        <td>cstddef</td>
+        <td>
+          <code>std</code> namespace (required)<br />global namespace (optional)
+        </td>
+      </tr>
+      <tr>
+        <td>C++ specific (old)</td>
+        <td>&lt;xxx.h&gt;</td>
+        <td>iostream.h</td>
+        <td>Global namespace</td>
+      </tr>
+      <tr>
+        <td>C compatibility (old)</td>
+        <td>&lt;xxx.h&gt;</td>
+        <td>stddef.h</td>
+        <td>
+          Global namespace (required)<br /><code>std</code> namespace (optional)
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<div class="cpp-note cpp-lightredbackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Warning</p>
+  <p>
+    The new C compatibility headers &lt;cxxx&gt; may optionally declare names in
+    the global namespace, and the old C compatibility headers &lt;xxx.h&gt; may
+    optionally declare names in the <code>std</code> namespace. Names in these
+    locations should be avoided, as those names may not be declared in those
+    locations on other implementations.
+  </p>
+</div>
+<div class="cpp-note cpp-lightgreenbackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Best practice</p>
+  <p>
+    Use the standard library header files without the .h extension. User-defined
+    headers should still use a .h extension.
+  </p>
+</div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Including header files from other directories
+</p>
+<p>
+  Another common question involves how to include header files from other
+  directories.
+</p>
+<p>
+  One (bad) way to do this is to include a relative path to the header file you
+  want to include as part of the #include line. For example:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">"headers/myHeader.h"</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">"../moreHeaders/myOtherHeader.h"</span></span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  While this will compile (assuming the files exist in those relative
+  directories), the downside of this approach is that it requires you to reflect
+  your directory structure in your code. If you ever update your directory
+  structure, your code won’t work anymore.
+</p>
+<p>
+  A better method is to tell your compiler or IDE that you have a bunch of
+  header files in some other location, so that it will look there when it can’t
+  find them in the current directory. This can generally be done by setting an
+  <em>include path</em> or <em>search directory</em> in your IDE project
+  settings.
+</p>
+<div class="cpp-note cpp-lightyellowbackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">For Visual Studio users</p>
+  <p>
+    Right click on your project in the <em>Solution Explorer</em>, and choose
+    <em>Properties</em>, then the <em>VC++ Directories</em> tab. From here, you
+    will see a line called <em>Include Directories</em>. Add the directories
+    you’d like the compiler to search for additional headers there.
+  </p>
+</div>
+<div class="cpp-note cpp-lightyellowbackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">For Code::Blocks users</p>
+  <p>
+    In Code::Blocks, go to the <em>Project</em> menu and select
+    <em>Build Options</em>, then the <em>Search directories</em> tab. Add the
+    directories you’d like the compiler to search for additional headers there.
+  </p>
+</div>
+<div class="cpp-note cpp-lightyellowbackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">For gcc users</p>
+  <p>
+    Using g++, you can use the -I option to specify an alternate include
+    directory:<br /><code>g++ -o main -I./source/includes main.cpp</code>
+  </p>
+  <p>
+    There is no space after the <code>-I</code>. For a full path (rather than a
+    relative path), remove the <code>.</code> after <code>-I</code>.
+  </p>
+</div>
+<div class="cpp-note cpp-lightyellowbackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">For VS Code users</p>
+  <p>
+    In your <em>tasks.json</em> configuration file, add a new line in the
+    <em>“Args”</em> section:<br /><code>"-I./source/includes",</code>
+  </p>
+  <p>
+    There is no space after the <code>-I</code>. For a full path (rather than a
+    relative path), remove the <code>.</code> after <code>-I</code>.
+  </p>
+</div>
+<p>
+  The nice thing about this approach is that if you ever change your directory
+  structure, you only have to change a single compiler or IDE setting instead of
+  every code file.
+</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Headers may include other headers
+</p>
+<p>
+  It’s common that the content of a header file will make use of something that
+  is declared (or defined) in another header file. When this happens, the header
+  file should #include the other header file containing the declaration (or
+  definition) that it needs.
+</p>
+<p>Foo.h:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;string_view&gt;</span> <span class="token comment">// required to use std::string_view</span></span>
+
+std<span class="token double-colon punctuation">::</span>string_view <span class="token function">getApplicationName</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-144-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-144-open">)</span><span class="token punctuation">;</span> <span class="token comment">// std::string_view used here</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  <a name="transitive"></a>Transitive includes
+  <a href="#transitive"><i class="fa fa-link" style="font-size: 0.8em"></i></a>
+</p>
+<p>
+  When your source (.cpp) file #includes a header file, you’ll also get any
+  other header files that are #included by that header (and any header files
+  those include, and so on). These additional header files are sometimes called
+  <strong>transitive includes</strong>, as they’re included implicitly rather
+  than explicitly.
+</p>
+<p>
+  The content of these transitive includes are available for use in your code
+  file. However, you generally should not rely on the content of headers that
+  are included transitively (unless reference documentation indicates that those
+  transitive includes are required). The implementation of header files may
+  change over time, or be different across different systems. If that happens,
+  your code may only compile on certain systems, or may compile now but not in
+  the future. This is easily avoided by explicitly including all of the header
+  files the content of your code file requires.
+</p>
+<div class="cpp-note cpp-lightgreenbackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Best practice</p>
+  <p>
+    Each file should explicitly #include all of the header files it needs to
+    compile. Do not rely on headers included transitively from other headers.
+  </p>
+</div>
+<p>
+  Unfortunately, there is no easy way to detect when your code file is
+  accidentally relying on content of a header file that has been included by
+  another header file.
+</p>
+<div class="cpp-note cpp-lightbluebackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">
+    Q: I didn’t include &lt;someheader&gt; and my program worked anyway! Why?
+  </p>
+  <div id="missing_include_but_works"></div>
+  <p>
+    This is one of the most commonly asked questions on this site. The answer
+    is: it’s likely working, because you included some other header (e.g.
+    &lt;iostream&gt;), which itself included &lt;someheader&gt;. Although your
+    program will compile, per the best practice above, you should not rely on
+    this. What compiles for you might not compile on a friend’s machine.
+  </p>
+</div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  The order of inclusion for header files
+</p>
+<p>
+  If your header files are written properly and #include everything they need,
+  the order of inclusion shouldn’t matter.
+</p>
+<p>
+  Now consider the following scenario: let’s say header A needs declarations
+  from header B, but forgets to include it. In our code file, if we include
+  header B before header A, our code will still compile! This is because the
+  compiler will compile all the declarations from B before it compiles the code
+  from A that depends on those declarations.
+</p>
+<p>
+  However, if we include header A first, then the compiler will complain because
+  the code from A will be compiled before the compiler has seen the declarations
+  from B. This is actually preferable, because the error has been surfaced, and
+  we can then fix it.
+</p>
+<div class="cpp-note cpp-lightgreenbackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Best practice</p>
+  <p>
+    To maximize the chance that missing includes will be flagged by compiler,
+    order your #includes as follows (skipping any that are not relevant):
+  </p>
+  <ul>
+    <li>
+      The paired header file for this code file (e.g.
+      <code>add.cpp</code> should <code>#include "add.h"</code>)
+    </li>
+    <li>
+      Other headers from the same project (e.g.
+      <code>#include "mymath.h"</code>)
+    </li>
+    <li>
+      3rd party library headers (e.g.
+      <code>#include &lt;boost/tuple/tuple.hpp&gt;</code>)
+    </li>
+    <li>
+      Standard library headers (e.g. <code>#include &lt;iostream&gt;</code>)
+    </li>
+  </ul>
+  <p>
+    The headers for each grouping should be sorted alphabetically (unless the
+    documentation for a 3rd party library instructs you to do otherwise).
+  </p>
+</div>
+<p>
+  That way, if one of your user-defined headers is missing an #include for a 3rd
+  party library or standard library header, it’s more likely to cause a compile
+  error so you can fix it.
+</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Header file best practices
+</p>
+<p>Here are a few more recommendations for creating and using header files.</p>
+<ul>
+  <li>Always include header guards (we’ll cover these next lesson).</li>
+  <li>Do not define variables and functions in header files (for now).</li>
+  <li>
+    Give a header file the same name as the source file it’s associated with
+    (e.g. <code>grades.h</code> is paired with <code>grades.cpp</code>).
+  </li>
+  <li>
+    Each header file should have a specific job, and be as independent as
+    possible. For example, you might put all your declarations related to
+    functionality A in A.h and all your declarations related to functionality B
+    in B.h. That way if you only care about A later, you can just include A.h
+    and not get any of the stuff related to B.
+  </li>
+  <li>
+    Be mindful of which headers you need to explicitly include for the
+    functionality that you are using in your code files, to avoid inadvertent
+    transitive includes.
+  </li>
+  <li>
+    A header file should #include any other headers containing functionality it
+    needs. Such a header should compile successfully when #included into a .cpp
+    file by itself.
+  </li>
+  <li>
+    Only #include what you need (don’t include everything just because you can).
+  </li>
+  <li>Do not #include .cpp files.</li>
+  <li>
+    Prefer putting documentation on what something does or how to use it in the
+    header. It’s more likely to be seen there. Documentation describing how
+    something works should remain in the source files.
+  </li>
+</ul>
+<div class="prevnext">
+  <div class="prevnext-inline">
+    <a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/header-guards/"
+      ><div class="nav-button nav-button-next">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-right" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Next lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">2.12</span>Header guards
+          </div>
+        </div>
+      </div></a
+    ><a class="nav-link" href="/"
+      ><div class="nav-button nav-button-index">
+        <div class="nav-button-icon">
+          <i class="fa fa-home" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Back to table of contents</div>
+        </div>
+      </div></a
+    ><a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/introduction-to-the-preprocessor/"
+      ><div class="nav-button nav-button-prev">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-left" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Previous lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">2.10</span>Introduction to
+            the preprocessor
+          </div>
+        </div>
+      </div></a
+    >
+  </div>
+</div>
+<div class="code-block code-block-10" style="margin: 8px 0; clear: both"></div>

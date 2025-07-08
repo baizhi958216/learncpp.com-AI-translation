@@ -1,0 +1,467 @@
+<div
+  class="code-block code-block-1"
+  style="margin: 8px 8px 8px 0; float: left"
+></div>
+<p>
+  C++ supports two variants of namespaces that are worth at least knowing about.
+  We won’t build on these, so consider this lesson optional for now.
+</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Unnamed (anonymous) namespaces
+</p>
+<p>
+  An <strong>unnamed namespace</strong> (also called an
+  <strong>anonymous namespace</strong>) is a namespace that is defined without a
+  name, like so:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-namespace">namespace</span> <span class="token comment">// unnamed namespace</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-135-close">{</span>
+    <span class="token keyword keyword-void">void</span> <span class="token function">doSomething</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-131-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-131-open">)</span> <span class="token comment">// can only be accessed in this file</span>
+    <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-134-close">{</span>
+        std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"v1\n"</span><span class="token punctuation">;</span>
+    <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-134-open">}</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-135-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-132-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-132-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-136-close">{</span>
+    <span class="token function">doSomething</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-133-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-133-open">)</span><span class="token punctuation">;</span> <span class="token comment">// we can call doSomething() without a namespace prefix</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-136-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>This prints:</p>
+<pre>
+v1
+</pre>
+<p>
+  All content declared in an unnamed namespace is treated as if it is part of
+  the parent namespace. So even though function <code>doSomething()</code> is
+  defined in the unnamed namespace, the function itself is accessible from the
+  parent namespace (which in this case is the global namespace), which is why we
+  can call <code>doSomething()</code> from <code>main()</code> without any
+  qualifiers.
+</p>
+<p>
+  This might make unnamed namespaces seem useless. But the other effect of
+  unnamed namespaces is that all identifiers inside an unnamed namespace are
+  treated as if they have internal linkage, which means that the content of an
+  unnamed namespace can’t be seen outside of the file in which the unnamed
+  namespace is defined.
+</p>
+<p>
+  For functions, this is effectively the same as defining all functions in the
+  unnamed namespace as static functions. The following program is effectively
+  identical to the one above:
+</p>
+<div class="code-block code-block-2" style="margin: 8px 0; clear: both"></div>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-static">static</span> <span class="token keyword keyword-void">void</span> <span class="token function">doSomething</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-137-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-137-open">)</span> <span class="token comment">// can only be accessed in this file</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-140-close">{</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"v1\n"</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-140-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-138-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-138-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-141-close">{</span>
+    <span class="token function">doSomething</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-139-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-139-open">)</span><span class="token punctuation">;</span> <span class="token comment">// we can call doSomething() without a namespace prefix</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-141-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  Unnamed namespaces are typically used when you have a lot of content that you
+  want to ensure stays local to a given translation unit, as it’s easier to
+  cluster such content in a single unnamed namespace than individually mark all
+  declarations as <code>static</code>. Unnamed namespaces will also keep
+  program-defined types (something we’ll discuss in a later lesson) local to the
+  translation unit, something for which there is no alternative equivalent
+  mechanism to do.
+</p>
+<div class="cpp-note cpp-lightbluebackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Tip</p>
+  <p>
+    If you’re hardcore, you can take the opposite approach -- put all content
+    that isn’t explicitly meant to be exported/external in an unnamed namespace.
+  </p>
+</div>
+<p>
+  Unnamed namespaces should generally not be used in header files.
+  <a
+    href="https://wiki.sei.cmu.edu/confluence/display/cplusplus/DCL59-CPP.+Do+not+define+an+unnamed+namespace+in+a+header+file"
+    >SEI CERT (rule DCL59-CPP)</a
+  >
+  has some good examples as to why.
+</p>
+<div class="cpp-note cpp-lightgreenbackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Best practice</p>
+  <p>
+    Prefer unnamed namespaces when you have content you want to keep local to a
+    translation unit.
+  </p>
+  <p>Avoid unnamed namespaces in header files.</p>
+</div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Inline namespaces
+</p>
+<p>Now consider the following program:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-void">void</span> <span class="token function">doSomething</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-142-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-142-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-145-close">{</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"v1\n"</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-145-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-143-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-143-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-146-close">{</span>
+    <span class="token function">doSomething</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-144-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-144-open">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-146-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>This prints:</p>
+<pre>
+v1
+</pre>
+<p>Pretty straightforward, right?</p>
+<p>
+  But let’s say you’re not happy with <code>doSomething()</code>, and you want
+  to improve it in some way that changes how it behaves. But if you do this, you
+  risk breaking existing programs using the older version. How do you handle
+  this?
+</p>
+<p>
+  One way would be to create a new version of the function with a different
+  name. But over the course of many changes, you could end up with a whole set
+  of almost-identically named functions (<code>doSomething</code>,
+  <code>doSomething_v2</code>, <code>doSomething_v3</code>, etc…).
+</p>
+<div class="code-block code-block-3" style="margin: 8px 0; clear: both"></div>
+<p>
+  An alternative is to use an inline namespace. An
+  <strong>inline namespace</strong> is a namespace that is typically used to
+  version content. Much like an unnamed namespace, anything declared inside an
+  inline namespace is considered part of the parent namespace. However, unlike
+  unnamed namespaces, inline namespaces don’t affect linkage.
+</p>
+<p>To define an inline namespace, we use the <code>inline</code> keyword:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-inline">inline</span> <span class="token keyword keyword-namespace">namespace</span> V1 <span class="token comment">// declare an inline namespace named V1</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-154-close">{</span>
+    <span class="token keyword keyword-void">void</span> <span class="token function">doSomething</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-147-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-147-open">)</span>
+    <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-153-close">{</span>
+        std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"V1\n"</span><span class="token punctuation">;</span>
+    <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-153-open">}</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-154-open">}</span>
+
+<span class="token keyword keyword-namespace">namespace</span> V2 <span class="token comment">// declare a normal namespace named V2</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-156-close">{</span>
+    <span class="token keyword keyword-void">void</span> <span class="token function">doSomething</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-148-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-148-open">)</span>
+    <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-155-close">{</span>
+        std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"V2\n"</span><span class="token punctuation">;</span>
+    <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-155-open">}</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-156-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-149-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-149-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-157-close">{</span>
+    <span class="token class-name">V1</span><span class="token double-colon punctuation">::</span><span class="token function">doSomething</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-150-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-150-open">)</span><span class="token punctuation">;</span> <span class="token comment">// calls the V1 version of doSomething()</span>
+    <span class="token class-name">V2</span><span class="token double-colon punctuation">::</span><span class="token function">doSomething</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-151-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-151-open">)</span><span class="token punctuation">;</span> <span class="token comment">// calls the V2 version of doSomething()</span>
+
+    <span class="token function">doSomething</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-152-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-152-open">)</span><span class="token punctuation">;</span> <span class="token comment">// calls the inline version of doSomething() (which is V1)</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-157-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>This prints:</p>
+<pre>
+V1
+V2
+V1
+</pre>
+<p>
+  In the above example, callers to <code>doSomething()</code> will get the V1
+  (the inline version) of <code>doSomething()</code>. Callers who want to use
+  the newer version can explicitly call <code>V2::doSomething()</code>. This
+  preserves the function of existing programs while allowing newer programs to
+  take advantage of newer/better variations.
+</p>
+<p>Alternatively, if you want to push the newer version:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-namespace">namespace</span> V1 <span class="token comment">// declare a normal namespace named V1</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-165-close">{</span>
+    <span class="token keyword keyword-void">void</span> <span class="token function">doSomething</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-158-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-158-open">)</span>
+    <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-164-close">{</span>
+        std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"V1\n"</span><span class="token punctuation">;</span>
+    <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-164-open">}</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-165-open">}</span>
+
+<span class="token keyword keyword-inline">inline</span> <span class="token keyword keyword-namespace">namespace</span> V2 <span class="token comment">// declare an inline namespace named V2</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-167-close">{</span>
+    <span class="token keyword keyword-void">void</span> <span class="token function">doSomething</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-159-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-159-open">)</span>
+    <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-166-close">{</span>
+        std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"V2\n"</span><span class="token punctuation">;</span>
+    <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-166-open">}</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-167-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-160-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-160-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-168-close">{</span>
+    <span class="token class-name">V1</span><span class="token double-colon punctuation">::</span><span class="token function">doSomething</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-161-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-161-open">)</span><span class="token punctuation">;</span> <span class="token comment">// calls the V1 version of doSomething()</span>
+    <span class="token class-name">V2</span><span class="token double-colon punctuation">::</span><span class="token function">doSomething</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-162-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-162-open">)</span><span class="token punctuation">;</span> <span class="token comment">// calls the V2 version of doSomething()</span>
+
+    <span class="token function">doSomething</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-163-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-163-open">)</span><span class="token punctuation">;</span> <span class="token comment">// calls the inline version of doSomething() (which is V2)</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-168-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>This prints:</p>
+<pre>
+V1
+V2
+V2
+</pre>
+<p>
+  In this example, all callers to <code>doSomething()</code> will get the v2
+  version by default (the newer and better version). Users who still want the
+  older version of <code>doSomething()</code> can explicitly call
+  <code>V1::doSomething()</code> to access the old behavior. This means existing
+  programs who want the V1 version will need to globally replace
+  <code>doSomething</code> with <code>V1::doSomething</code>, but this typically
+  won’t be problematic if the functions are well named.
+</p>
+<div class="code-block code-block-4" style="margin: 8px 0; clear: both"></div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Mixing inline and unnamed namespaces
+  <span class="cpp-section-pill cpp-section-optional">Optional</span>
+</p>
+<p>A namespace can be both inline and unnamed:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-namespace">namespace</span> V1 <span class="token comment">// declare a normal namespace named V1</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-175-close">{</span>
+    <span class="token keyword keyword-void">void</span> <span class="token function">doSomething</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-169-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-169-open">)</span>
+    <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-174-close">{</span>
+        std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"V1\n"</span><span class="token punctuation">;</span>
+    <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-174-open">}</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-175-open">}</span>
+
+<span class="token keyword keyword-inline">inline</span> <span class="token keyword keyword-namespace">namespace</span> <span class="token comment">// declare an inline unnamed namespace</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-177-close">{</span>
+    <span class="token keyword keyword-void">void</span> <span class="token function">doSomething</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-170-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-170-open">)</span> <span class="token comment">// has internal linkage</span>
+    <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-176-close">{</span>
+        std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"V2\n"</span><span class="token punctuation">;</span>
+    <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-176-open">}</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-177-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-171-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-171-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-178-close">{</span>
+    <span class="token class-name">V1</span><span class="token double-colon punctuation">::</span><span class="token function">doSomething</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-172-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-172-open">)</span><span class="token punctuation">;</span> <span class="token comment">// calls the V1 version of doSomething()</span>
+    <span class="token comment">// there is no V2 in this example, so we can't use V2:: as a namespace prefix</span>
+
+    <span class="token function">doSomething</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-173-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-173-open">)</span><span class="token punctuation">;</span> <span class="token comment">// calls the inline version of doSomething() (which is the anonymous one)</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-178-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  However, in such cases, it’s probably better to nest an anonymous namespace
+  inside an inline namespace. This has the same effect (all functions inside the
+  anonymous namespace have internal linkage by default) but still gives you an
+  explicit namespace name you can use:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-namespace">namespace</span> V1 <span class="token comment">// declare a normal namespace named V1</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-186-close">{</span>
+    <span class="token keyword keyword-void">void</span> <span class="token function">doSomething</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-179-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-179-open">)</span>
+    <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-185-close">{</span>
+        std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"V1\n"</span><span class="token punctuation">;</span>
+    <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-185-open">}</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-186-open">}</span>
+
+<span class="token keyword keyword-inline">inline</span> <span class="token keyword keyword-namespace">namespace</span> V2 <span class="token comment">// declare an inline namespace named V2</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-189-close">{</span>
+    <span class="token keyword keyword-namespace">namespace</span> <span class="token comment">// unnamed namespace</span>
+    <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-188-close">{</span>
+        <span class="token keyword keyword-void">void</span> <span class="token function">doSomething</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-180-close">(</span><span class="token punctuation brace-round brace-close brace-level-3" id="pair-180-open">)</span> <span class="token comment">// has internal linkage</span>
+        <span class="token punctuation brace-curly brace-open brace-level-3" id="pair-187-close">{</span>
+            std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"V2\n"</span><span class="token punctuation">;</span>
+        <span class="token punctuation brace-curly brace-close brace-level-3" id="pair-187-open">}</span>
+
+    <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-188-open">}</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-189-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-181-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-181-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-190-close">{</span>
+    <span class="token class-name">V1</span><span class="token double-colon punctuation">::</span><span class="token function">doSomething</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-182-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-182-open">)</span><span class="token punctuation">;</span> <span class="token comment">// calls the V1 version of doSomething()</span>
+    <span class="token class-name">V2</span><span class="token double-colon punctuation">::</span><span class="token function">doSomething</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-183-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-183-open">)</span><span class="token punctuation">;</span> <span class="token comment">// calls the V2 version of doSomething()</span>
+
+    <span class="token function">doSomething</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-184-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-184-open">)</span><span class="token punctuation">;</span> <span class="token comment">// calls the inline version of doSomething() (which is V2)</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-190-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<div class="prevnext">
+  <div class="prevnext-inline">
+    <a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/chapter-7-summary-and-quiz/"
+      ><div class="nav-button nav-button-next">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-right" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Next lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">7.x</span>Chapter 7 summary
+            and quiz
+          </div>
+        </div>
+      </div></a
+    ><a class="nav-link" href="/"
+      ><div class="nav-button nav-button-index">
+        <div class="nav-button-icon">
+          <i class="fa fa-home" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Back to table of contents</div>
+        </div>
+      </div></a
+    ><a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/using-declarations-and-using-directives/"
+      ><div class="nav-button nav-button-prev">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-left" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Previous lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">7.13</span>Using declarations
+            and using directives
+          </div>
+        </div>
+      </div></a
+    >
+  </div>
+</div>
+<div class="code-block code-block-10" style="margin: 8px 0; clear: both"></div>

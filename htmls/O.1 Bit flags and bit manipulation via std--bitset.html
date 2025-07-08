@@ -1,0 +1,449 @@
+<div
+  class="code-block code-block-1"
+  style="margin: 8px 8px 8px 0; float: left"
+></div>
+<p>
+  On modern computer architectures, the smallest addressable unit of memory is a
+  byte. Since all objects need to have unique memory addresses, this means
+  objects must be at least one byte in size. For most variable types, this is
+  fine. However, for Boolean values, this is a bit wasteful (pun intended).
+  Boolean types only have two states: true (1), or false (0). This set of states
+  only requires one bit to store. However, if a variable must be at least a
+  byte, and a byte is 8 bits, that means a Boolean is using 1 bit and leaving
+  the other 7 unused.
+</p>
+<p>
+  In the majority of cases, this is fine -- we’re usually not so hard-up for
+  memory that we need to care about 7 wasted bits (we’re better off optimizing
+  for understandability and maintainability). However, in some storage-intensive
+  cases, it can be useful to “pack” 8 individual Boolean values into a single
+  byte for storage efficiency purposes.
+</p>
+<p>
+  Doing these things requires that we can manipulate objects at the bit level.
+  Fortunately, C++ gives us tools to do precisely this. Modifying individual
+  bits within an object is called <strong>bit manipulation</strong>.
+</p>
+<div class="cpp-note cpp-lightgraybackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Author’s note</p>
+  <p>
+    Bit manipulation is used a lot in certain programming contexts (e.g.
+    graphics, encryption, compression, optimization), but not as much in general
+    programming.
+  </p>
+  <p>
+    Because of that, this entire chapter is optional reading. Feel free to skip
+    or skim it and come back later.
+  </p>
+</div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Bit flags
+</p>
+<p>Up to this point, we’ve used variables to hold single values:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-int">int</span> foo <span class="token punctuation brace-curly brace-open brace-level-1" id="pair-110-close">{</span> <span class="token number">5</span> <span class="token punctuation brace-curly brace-close brace-level-1" id="pair-110-open">}</span><span class="token punctuation">;</span> <span class="token comment">// assign foo the value 5 (probably uses 32 bits of storage)</span>
+std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> foo<span class="token punctuation">;</span> <span class="token comment">// print the value 5</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  However, instead of viewing objects as holding a single value, we can instead
+  treat each bit in the object as an independent Boolean value. When individual
+  bits of an object are used as Boolean values, the bits are called
+  <strong>bit flags</strong>.
+</p>
+<div class="code-block code-block-2" style="margin: 8px 0; clear: both"></div>
+<div class="cpp-note cpp-lightgraybackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Nomenclature</p>
+  <p>
+    A bit holding a <code>0</code> value is said to be “false”, “off”, or “not
+    set”.<br />A bit holding a <code>1</code> value is said to be “true”, “on”,
+    or “set”.<br />When a bit is changed from a <code>0</code> to a
+    <code>1</code> or a <code>1</code> to a <code>0</code>, we say it has been
+    “flipped” or “inverted”.
+  </p>
+</div>
+<div class="cpp-note cpp-lightgraybackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">As an aside…</p>
+  <p>
+    In computing, a <strong>flag</strong> is a value that signals when some
+    condition exists in a program. With a bit flag, a value of
+    <code>true</code> means the condition exists.
+  </p>
+  <p>
+    Analogously, in the United States, many mailboxes have small (usually red)
+    physical flags attached to the side. When outgoing mail is waiting to be
+    picked up by the carrier, the flag is raised to signal that there is
+    outgoing mail.
+  </p>
+</div>
+<p>
+  To define a set of bit flags, we’ll typically use an unsigned integer of the
+  appropriate size (8 bits, 16 bits, 32 bits, etc… depending on how many flags
+  we have), or <code>std::bitset</code>.
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;bitset&gt;</span> <span class="token comment">// for std::bitset</span></span>
+
+std<span class="token double-colon punctuation">::</span>bitset<span class="token operator">&lt;</span><span class="token number">8</span><span class="token operator">&gt;</span> mybitset <span class="token punctuation brace-curly brace-open brace-level-1" id="pair-111-close">{</span><span class="token punctuation brace-curly brace-close brace-level-1" id="pair-111-open">}</span><span class="token punctuation">;</span> <span class="token comment">// 8 bits in size means room for 8 flags</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<div class="cpp-note cpp-lightgreenbackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Best practice</p>
+  <p>
+    Bit manipulation is one of the few times when you should unambiguously use
+    unsigned integers (or <code>std::bitset</code>).
+  </p>
+</div>
+<p>
+  In this lesson, we’ll show how to do bit manipulation the easy way, via
+  <code>std::bitset</code>. In the next set of lessons, we’ll explore how to do
+  it the more difficult but versatile way.
+</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Bit numbering and bit positions
+</p>
+<p>
+  Given a sequence of bits, we typically number the bits from right to left,
+  starting with 0 (not 1). Each number denotes a <strong>bit position</strong>.
+</p>
+<pre>
+76543210  Bit position
+00000101  Bit sequence
+</pre>
+<p>
+  Given the bit sequence 0000 0101, the bits that are in position 0 and 2 have
+  value 1, and the other bits have value 0.
+</p>
+<div class="code-block code-block-3" style="margin: 8px 0; clear: both"></div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Manipulating bits via <code>std::bitset</code>
+</p>
+<p>
+  In lesson
+  <a
+    href="https://www.learncpp.com/cpp-tutorial/numeral-systems-decimal-binary-hexadecimal-and-octal/"
+    >5.3 -- Numeral systems (decimal, binary, hexadecimal, and octal)</a
+  >
+  we already showed how to use a <code>std::bitset</code> to print values in
+  binary. However, this isn’t the only useful thing <code>std::bitset</code> can
+  do.
+</p>
+<p>
+  <code>std::bitset</code> provides 4 key member functions that are useful for
+  doing bit manipulation:
+</p>
+<ul>
+  <li>test() allows us to query whether a bit is a 0 or 1.</li>
+  <li>
+    set() allows us to turn a bit on (this will do nothing if the bit is already
+    on).
+  </li>
+  <li>
+    reset() allows us to turn a bit off (this will do nothing if the bit is
+    already off).
+  </li>
+  <li>flip() allows us to flip a bit value from a 0 to a 1 or vice versa.</li>
+</ul>
+<p>
+  Each of these functions takes the position of the bit we want to operate on as
+  their only argument.
+</p>
+<p>Here’s an example:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;bitset&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-112-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-112-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-119-close">{</span>
+    std<span class="token double-colon punctuation">::</span>bitset<span class="token operator">&lt;</span><span class="token number">8</span><span class="token operator">&gt;</span> bits<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-118-close">{</span> <span class="token number">0b0000'0101</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-118-open">}</span><span class="token punctuation">;</span> <span class="token comment">// we need 8 bits, start with bit pattern 0000 0101</span>
+    bits<span class="token punctuation">.</span><span class="token function">set</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-113-close">(</span><span class="token number">3</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-113-open">)</span><span class="token punctuation">;</span>   <span class="token comment">// set bit position 3 to 1 (now we have 0000 1101)</span>
+    bits<span class="token punctuation">.</span><span class="token function">flip</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-114-close">(</span><span class="token number">4</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-114-open">)</span><span class="token punctuation">;</span>  <span class="token comment">// flip bit 4 (now we have 0001 1101)</span>
+    bits<span class="token punctuation">.</span><span class="token function">reset</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-115-close">(</span><span class="token number">4</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-115-open">)</span><span class="token punctuation">;</span> <span class="token comment">// set bit 4 back to 0 (now we have 0000 1101)</span>
+
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"All the bits: "</span> <span class="token operator">&lt;&lt;</span> bits<span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Bit 3 has value: "</span> <span class="token operator">&lt;&lt;</span> bits<span class="token punctuation">.</span><span class="token function">test</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-116-close">(</span><span class="token number">3</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-116-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Bit 4 has value: "</span> <span class="token operator">&lt;&lt;</span> bits<span class="token punctuation">.</span><span class="token function">test</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-117-close">(</span><span class="token number">4</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-117-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-119-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>This prints:</p>
+<pre>
+All the bits: 00001101
+Bit 3 has value: 1
+Bit 4 has value: 0
+</pre>
+<div class="cpp-note cpp-lightgraybackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">A reminder</p>
+  <p>
+    We introduced member functions in lesson
+    <a href="https://www.learncpp.com/cpp-tutorial/introduction-to-stdstring/"
+      >5.7 -- Introduction to std::string</a
+    >. With normal functions, we call <code>function(object)</code>. With member
+    functions, we call <code>object.function()</code>.
+  </p>
+  <p>
+    We covered the <code>0b</code> binary literal prefix and the
+    <code>'</code> digit separator in lesson
+    <a
+      href="https://www.learncpp.com/cpp-tutorial/numeral-systems-decimal-binary-hexadecimal-and-octal/"
+      >5.3 -- Numeral systems (decimal, binary, hexadecimal, and octal)</a
+    >.
+  </p>
+</div>
+<p>Giving our bits names can help make our code more readable:</p>
+<div class="code-block code-block-4" style="margin: 8px 0; clear: both"></div>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;bitset&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-120-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-120-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-151-close">{</span>
+    <span class="token punctuation brace-square brace-open brace-level-2" id="pair-127-close">[</span><span class="token punctuation brace-square brace-open brace-level-3" id="pair-126-close">[</span>maybe_unused<span class="token punctuation brace-square brace-close brace-level-3" id="pair-126-open">]</span><span class="token punctuation brace-square brace-close brace-level-2" id="pair-127-open">]</span> <span class="token keyword keyword-constexpr">constexpr</span> <span class="token keyword keyword-int">int</span>  isHungry   <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-142-close">{</span> <span class="token number">0</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-142-open">}</span><span class="token punctuation">;</span>
+    <span class="token punctuation brace-square brace-open brace-level-2" id="pair-129-close">[</span><span class="token punctuation brace-square brace-open brace-level-3" id="pair-128-close">[</span>maybe_unused<span class="token punctuation brace-square brace-close brace-level-3" id="pair-128-open">]</span><span class="token punctuation brace-square brace-close brace-level-2" id="pair-129-open">]</span> <span class="token keyword keyword-constexpr">constexpr</span> <span class="token keyword keyword-int">int</span>  isSad      <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-143-close">{</span> <span class="token number">1</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-143-open">}</span><span class="token punctuation">;</span>
+    <span class="token punctuation brace-square brace-open brace-level-2" id="pair-131-close">[</span><span class="token punctuation brace-square brace-open brace-level-3" id="pair-130-close">[</span>maybe_unused<span class="token punctuation brace-square brace-close brace-level-3" id="pair-130-open">]</span><span class="token punctuation brace-square brace-close brace-level-2" id="pair-131-open">]</span> <span class="token keyword keyword-constexpr">constexpr</span> <span class="token keyword keyword-int">int</span>  isMad      <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-144-close">{</span> <span class="token number">2</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-144-open">}</span><span class="token punctuation">;</span>
+    <span class="token punctuation brace-square brace-open brace-level-2" id="pair-133-close">[</span><span class="token punctuation brace-square brace-open brace-level-3" id="pair-132-close">[</span>maybe_unused<span class="token punctuation brace-square brace-close brace-level-3" id="pair-132-open">]</span><span class="token punctuation brace-square brace-close brace-level-2" id="pair-133-open">]</span> <span class="token keyword keyword-constexpr">constexpr</span> <span class="token keyword keyword-int">int</span>  isHappy    <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-145-close">{</span> <span class="token number">3</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-145-open">}</span><span class="token punctuation">;</span>
+    <span class="token punctuation brace-square brace-open brace-level-2" id="pair-135-close">[</span><span class="token punctuation brace-square brace-open brace-level-3" id="pair-134-close">[</span>maybe_unused<span class="token punctuation brace-square brace-close brace-level-3" id="pair-134-open">]</span><span class="token punctuation brace-square brace-close brace-level-2" id="pair-135-open">]</span> <span class="token keyword keyword-constexpr">constexpr</span> <span class="token keyword keyword-int">int</span>  isLaughing <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-146-close">{</span> <span class="token number">4</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-146-open">}</span><span class="token punctuation">;</span>
+    <span class="token punctuation brace-square brace-open brace-level-2" id="pair-137-close">[</span><span class="token punctuation brace-square brace-open brace-level-3" id="pair-136-close">[</span>maybe_unused<span class="token punctuation brace-square brace-close brace-level-3" id="pair-136-open">]</span><span class="token punctuation brace-square brace-close brace-level-2" id="pair-137-open">]</span> <span class="token keyword keyword-constexpr">constexpr</span> <span class="token keyword keyword-int">int</span>  isAsleep   <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-147-close">{</span> <span class="token number">5</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-147-open">}</span><span class="token punctuation">;</span>
+    <span class="token punctuation brace-square brace-open brace-level-2" id="pair-139-close">[</span><span class="token punctuation brace-square brace-open brace-level-3" id="pair-138-close">[</span>maybe_unused<span class="token punctuation brace-square brace-close brace-level-3" id="pair-138-open">]</span><span class="token punctuation brace-square brace-close brace-level-2" id="pair-139-open">]</span> <span class="token keyword keyword-constexpr">constexpr</span> <span class="token keyword keyword-int">int</span>  isDead     <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-148-close">{</span> <span class="token number">6</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-148-open">}</span><span class="token punctuation">;</span>
+    <span class="token punctuation brace-square brace-open brace-level-2" id="pair-141-close">[</span><span class="token punctuation brace-square brace-open brace-level-3" id="pair-140-close">[</span>maybe_unused<span class="token punctuation brace-square brace-close brace-level-3" id="pair-140-open">]</span><span class="token punctuation brace-square brace-close brace-level-2" id="pair-141-open">]</span> <span class="token keyword keyword-constexpr">constexpr</span> <span class="token keyword keyword-int">int</span>  isCrying   <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-149-close">{</span> <span class="token number">7</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-149-open">}</span><span class="token punctuation">;</span>
+
+    std<span class="token double-colon punctuation">::</span>bitset<span class="token operator">&lt;</span><span class="token number">8</span><span class="token operator">&gt;</span> me<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-150-close">{</span> <span class="token number">0b0000'0101</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-150-open">}</span><span class="token punctuation">;</span> <span class="token comment">// we need 8 bits, start with bit pattern 0000 0101</span>
+    me<span class="token punctuation">.</span><span class="token function">set</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-121-close">(</span>isHappy<span class="token punctuation brace-round brace-close brace-level-2" id="pair-121-open">)</span><span class="token punctuation">;</span>      <span class="token comment">// set bit position 3 to 1 (now we have 0000 1101)</span>
+    me<span class="token punctuation">.</span><span class="token function">flip</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-122-close">(</span>isLaughing<span class="token punctuation brace-round brace-close brace-level-2" id="pair-122-open">)</span><span class="token punctuation">;</span>  <span class="token comment">// flip bit 4 (now we have 0001 1101)</span>
+    me<span class="token punctuation">.</span><span class="token function">reset</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-123-close">(</span>isLaughing<span class="token punctuation brace-round brace-close brace-level-2" id="pair-123-open">)</span><span class="token punctuation">;</span> <span class="token comment">// set bit 4 back to 0 (now we have 0000 1101)</span>
+
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"All the bits: "</span> <span class="token operator">&lt;&lt;</span> me <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"I am happy: "</span> <span class="token operator">&lt;&lt;</span> me<span class="token punctuation">.</span><span class="token function">test</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-124-close">(</span>isHappy<span class="token punctuation brace-round brace-close brace-level-2" id="pair-124-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"I am laughing: "</span> <span class="token operator">&lt;&lt;</span> me<span class="token punctuation">.</span><span class="token function">test</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-125-close">(</span>isLaughing<span class="token punctuation brace-round brace-close brace-level-2" id="pair-125-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-151-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<div class="cpp-note cpp-lightgraybackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Related content</p>
+  <p>
+    We cover <code>[maybe_unused]</code> in lesson
+    <a
+      href="https://www.learncpp.com/cpp-tutorial/variable-assignment-and-initialization/"
+      >1.4 -- Variable assignment and initialization</a
+    >.
+  </p>
+  <p>
+    In lesson
+    <a href="https://www.learncpp.com/cpp-tutorial/unscoped-enumerations/"
+      >13.2 -- Unscoped enumerations</a
+    >, we show how enumerators make an even better collection of named bits.
+  </p>
+</div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  What if we want to get or set multiple bits at once
+</p>
+<p>
+  <code>std::bitset</code> doesn’t make this easy. In order to do this, or if we
+  want to use unsigned integer bit flags instead of <code>std::bitset</code>, we
+  need to turn to more traditional methods. We’ll cover these in the next couple
+  of lessons.
+</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  The size of <code>std::bitset</code>
+</p>
+<p>
+  One potential surprise is that <code>std::bitset</code> is optimized for
+  speed, not memory savings. The size of a <code>std::bitset</code> is typically
+  the number of bytes needed to hold the bits, rounded <em>up</em> to the
+  nearest <code>sizeof(size_t)</code>, which is 4 bytes on 32-bit machines, and
+  8-bytes on 64-bit machines.
+</p>
+<p>
+  Thus, a <code>std::bitset&lt;8&gt;</code> will typically use either 4 or 8
+  bytes of memory, even though it technically only needs 1 byte to store 8 bits.
+  Thus, <code>std::bitset</code> is most useful when we desire convenience, not
+  memory savings.
+</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Querying <code>std::bitset</code>
+</p>
+<p>There are a few other member functions that are often useful:</p>
+<div class="code-block code-block-5" style="margin: 8px 0; clear: both"></div>
+<ul>
+  <li>size() returns the number of bits in the bitset.</li>
+  <li>
+    count() returns the number of bits in the bitset that are set to
+    <code>true</code>.
+  </li>
+  <li>
+    all() returns a Boolean indicating whether all bits are set to
+    <code>true</code>.
+  </li>
+  <li>
+    any() returns a Boolean indicating whether any bits are set to
+    <code>true</code>.
+  </li>
+  <li>
+    none() returns a Boolean indicating whether no bits are set to
+    <code>true</code>.
+  </li>
+</ul>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;bitset&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-152-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-152-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-159-close">{</span>
+    std<span class="token double-colon punctuation">::</span>bitset<span class="token operator">&lt;</span><span class="token number">8</span><span class="token operator">&gt;</span> bits<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-158-close">{</span> <span class="token number">0b0000'1101</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-158-open">}</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> bits<span class="token punctuation">.</span><span class="token function">size</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-153-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-153-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">" bits are in the bitset\n"</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> bits<span class="token punctuation">.</span><span class="token function">count</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-154-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-154-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">" bits are set to true\n"</span><span class="token punctuation">;</span>
+
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> std<span class="token double-colon punctuation">::</span>boolalpha<span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"All bits are true: "</span> <span class="token operator">&lt;&lt;</span> bits<span class="token punctuation">.</span><span class="token function">all</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-155-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-155-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Some bits are true: "</span> <span class="token operator">&lt;&lt;</span> bits<span class="token punctuation">.</span><span class="token function">any</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-156-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-156-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"No bits are true: "</span> <span class="token operator">&lt;&lt;</span> bits<span class="token punctuation">.</span><span class="token function">none</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-157-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-157-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-159-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>This prints:</p>
+<pre>
+8 bits are in the bitset
+3 bits are set to true
+All bits are true: false
+Some bits are true: true
+No bits are true: false
+</pre>
+<div class="prevnext">
+  <div class="prevnext-inline">
+    <a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/bitwise-operators/"
+      ><div class="nav-button nav-button-next">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-right" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Next lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">O.2</span>Bitwise operators
+          </div>
+        </div>
+      </div></a
+    ><a class="nav-link" href="/"
+      ><div class="nav-button nav-button-index">
+        <div class="nav-button-icon">
+          <i class="fa fa-home" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Back to table of contents</div>
+        </div>
+      </div></a
+    ><a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/chapter-6-summary-and-quiz/"
+      ><div class="nav-button nav-button-prev">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-left" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Previous lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">6.x</span>Chapter 6 summary
+            and quiz
+          </div>
+        </div>
+      </div></a
+    >
+  </div>
+</div>
+<div class="code-block code-block-10" style="margin: 8px 0; clear: both"></div>

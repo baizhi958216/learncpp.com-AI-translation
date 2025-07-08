@@ -1,0 +1,755 @@
+<div
+  class="code-block code-block-1"
+  style="margin: 8px 8px 8px 0; float: left"
+></div>
+<p>
+  The first category of control flow statements we’ll talk about is conditional
+  statements. A <strong>conditional statement</strong> is a statement that
+  specifies whether some associated statement(s) should be executed or not.
+</p>
+<p>
+  C++ supports two basic kinds of conditionals:
+  <code>if statements</code> (which we introduced in lesson
+  <a href="https://www.learncpp.com/cpp-tutorial/introduction-to-if-statements/"
+    >4.10 -- Introduction to if statements</a
+  >, and will talk about further here) and <code>switch statements</code> (which
+  we’ll cover in a couple of lessons).
+</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Quick if-statement recap
+</p>
+<p>
+  The most basic kind of conditional statement in C++ is the
+  <code>if statement</code>. An <code>if statement</code> takes the form:
+</p>
+<pre>
+if (condition)
+    true_statement;
+</pre>
+<p>or with an optional <code>else statement</code>:</p>
+<pre>
+if (condition)
+    true_statement;
+else
+    false_statement;
+</pre>
+<p>
+  If the <code>condition</code> evaluates to <code>true</code>, the
+  <code>true_statement</code> executes. If the <code>condition</code> evaluates
+  to <code>false</code> and the optional <code>else statement</code> exists, the
+  <code>false_statement</code> executes.
+</p>
+<div class="code-block code-block-2" style="margin: 8px 0; clear: both"></div>
+<p>
+  Here is a simple program that uses an <code>if statement</code> with the
+  optional <code>else statement</code>:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-174-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-174-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-177-close">{</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Enter a number: "</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-int">int</span> x<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-176-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-176-open">}</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>cin <span class="token operator">&gt;&gt;</span> x<span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-if">if</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-175-close">(</span>x <span class="token operator">&gt;</span> <span class="token number">10</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-175-open">)</span>
+        std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> x <span class="token operator">&lt;&lt;</span> <span class="token string">" is greater than 10\n"</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-else">else</span>
+        std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> x <span class="token operator">&lt;&lt;</span> <span class="token string">" is not greater than 10\n"</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-177-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>This program works just like you’d expect:</p>
+<pre>
+Enter a number: 15
+15 is greater than 10
+</pre>
+<pre>
+Enter a number: 4
+4 is not greater than 10
+</pre>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  If or else with multiple conditional statements
+</p>
+<p>New programmers often try something like this:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-namespace">namespace</span> constants
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-181-close">{</span>
+    <span class="token keyword keyword-constexpr">constexpr</span> <span class="token keyword keyword-int">int</span> minRideHeightCM <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-180-close">{</span> <span class="token number">140</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-180-open">}</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-181-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-178-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-178-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-183-close">{</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Enter your height (in cm): "</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-int">int</span> x<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-182-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-182-open">}</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>cin <span class="token operator">&gt;&gt;</span> x<span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-if">if</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-179-close">(</span>x <span class="token operator">&gt;=</span> constants<span class="token double-colon punctuation">::</span>minRideHeightCM<span class="token punctuation brace-round brace-close brace-level-2" id="pair-179-open">)</span>
+        std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"You are tall enough to ride.\n"</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-else">else</span>
+        std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"You are not tall enough to ride.\n"</span><span class="token punctuation">;</span>
+        std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Too bad!\n"</span><span class="token punctuation">;</span> <span class="token comment">// focus on this line</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-183-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>However, consider the following run of the program:</p>
+<div class="code-block code-block-3" style="margin: 8px 0; clear: both"></div>
+<pre>
+Enter your height (in cm): 180
+You are tall enough to ride.
+Too bad!
+</pre>
+<p>
+  This program doesn’t work as expected because the
+  <code>true_statement</code> and <code>false_statement</code> can only be a
+  single statement. The indentation is deceiving us here -- the above program
+  executes as if it had been written as follows:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-namespace">namespace</span> constants
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-187-close">{</span>
+    <span class="token keyword keyword-constexpr">constexpr</span> <span class="token keyword keyword-int">int</span> minRideHeightCM <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-186-close">{</span> <span class="token number">140</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-186-open">}</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-187-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-184-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-184-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-189-close">{</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Enter your height (in cm): "</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-int">int</span> x<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-188-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-188-open">}</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>cin <span class="token operator">&gt;&gt;</span> x<span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-if">if</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-185-close">(</span>x <span class="token operator">&gt;=</span> constants<span class="token double-colon punctuation">::</span>minRideHeightCM<span class="token punctuation brace-round brace-close brace-level-2" id="pair-185-open">)</span>
+        std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"You are tall enough to ride.\n"</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-else">else</span>
+        std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"You are not tall enough to ride.\n"</span><span class="token punctuation">;</span>
+
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Too bad!\n"</span><span class="token punctuation">;</span> <span class="token comment">// focus on this line</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-189-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>This makes it clearer that “Too bad!” will always execute.</p>
+<p>
+  However, it’s common to want to execute multiple statements based on some
+  condition. To do so, we can use a compound statement (block):
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-namespace">namespace</span> constants
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-193-close">{</span>
+    <span class="token keyword keyword-constexpr">constexpr</span> <span class="token keyword keyword-int">int</span> minRideHeightCM <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-192-close">{</span> <span class="token number">140</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-192-open">}</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-193-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-190-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-190-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-196-close">{</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Enter your height (in cm): "</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-int">int</span> x<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-194-close">{</span><span class="token punctuation brace-curly brace-close brace-level-2" id="pair-194-open">}</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>cin <span class="token operator">&gt;&gt;</span> x<span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-if">if</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-191-close">(</span>x <span class="token operator">&gt;=</span> constants<span class="token double-colon punctuation">::</span>minRideHeightCM<span class="token punctuation brace-round brace-close brace-level-2" id="pair-191-open">)</span>
+        std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"You are tall enough to ride.\n"</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-else">else</span>
+    <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-195-close">{</span> <span class="token comment">// note addition of block here</span>
+        std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"You are not tall enough to ride.\n"</span><span class="token punctuation">;</span>
+        std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Too bad!\n"</span><span class="token punctuation">;</span>
+    <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-195-open">}</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-196-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  Remember that blocks are treated as a single statement, so this now works as
+  expected:
+</p>
+<pre>
+Enter your height (in cm): 180
+You are tall enough to ride.
+</pre>
+<pre>
+Enter your height (in cm): 130
+You are not tall enough to ride.
+Too bad!
+</pre>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Implicit blocks
+</p>
+<p>
+  If the programmer does not declare a block in the statement portion of an
+  <code>if statement</code> or <code>else statement</code>, the compiler will
+  implicitly declare one. Thus:
+</p>
+<div class="code-block code-block-4" style="margin: 8px 0; clear: both"></div>
+<pre>
+if (condition)
+    true_statement;
+else
+    false_statement;
+</pre>
+<p>is actually the equivalent of:</p>
+<pre>
+if (condition)
+{
+    true_statement;
+}
+else
+{
+    false_statement;
+}
+</pre>
+<p>
+  Most of the time, this doesn’t matter. However, new programmers sometimes try
+  to define variables in the implicit block, like this:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-197-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-197-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-201-close">{</span>
+    <span class="token keyword keyword-if">if</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-198-close">(</span><span class="token boolean">true</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-198-open">)</span>
+        <span class="token keyword keyword-int">int</span> x<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-199-close">{</span> <span class="token number">5</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-199-open">}</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-else">else</span>
+        <span class="token keyword keyword-int">int</span> x<span class="token punctuation brace-curly brace-open brace-level-2" id="pair-200-close">{</span> <span class="token number">6</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-200-open">}</span><span class="token punctuation">;</span>
+
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> x <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-201-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  This won’t compile, with the compiler generating an error that identifier
+  <code>x</code> isn’t defined. This is because the above example is the
+  equivalent of:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-202-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-202-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-208-close">{</span>
+    <span class="token keyword keyword-if">if</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-203-close">(</span><span class="token boolean">true</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-203-open">)</span>
+    <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-205-close">{</span>
+        <span class="token keyword keyword-int">int</span> x<span class="token punctuation brace-curly brace-open brace-level-3" id="pair-204-close">{</span> <span class="token number">5</span> <span class="token punctuation brace-curly brace-close brace-level-3" id="pair-204-open">}</span><span class="token punctuation">;</span>
+    <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-205-open">}</span> <span class="token comment">// x destroyed here</span>
+    <span class="token keyword keyword-else">else</span>
+    <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-207-close">{</span>
+        <span class="token keyword keyword-int">int</span> x<span class="token punctuation brace-curly brace-open brace-level-3" id="pair-206-close">{</span> <span class="token number">6</span> <span class="token punctuation brace-curly brace-close brace-level-3" id="pair-206-open">}</span><span class="token punctuation">;</span>
+    <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-207-open">}</span> <span class="token comment">// x destroyed here</span>
+
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> x <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span> <span class="token comment">// x isn't in scope here</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-208-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  In this context, it’s clearer that variable <code>x</code> has block scope and
+  is destroyed at the end of the block. By the time we get to the
+  <code>std::cout</code> line, <code>x</code> doesn’t exist.
+</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  To block or not to block single statements
+</p>
+<div class="code-block code-block-5" style="margin: 8px 0; clear: both"></div>
+<p>
+  There is debate within the programmer community as to whether single
+  statements following an <code>if</code> or <code>else</code> should be
+  explicitly enclosed in blocks or not.
+</p>
+<p>There are many reasons given as rationale for using blocks.</p>
+<ol start="1">
+  <li>
+    Not using blocks makes it easier to inadvertently add statements that look
+    like they are conditional but aren’t. Consider:
+  </li>
+</ol>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-if">if</span> <span class="token punctuation brace-round brace-open brace-level-1" id="pair-209-close">(</span>age <span class="token operator">&gt;=</span> minDrinkingAge<span class="token punctuation brace-round brace-close brace-level-1" id="pair-209-open">)</span>
+    <span class="token function">purchaseBeer</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-210-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-210-open">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  Now let’s say we’re in a hurry and modify this program to add another ability:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-if">if</span> <span class="token punctuation brace-round brace-open brace-level-1" id="pair-211-close">(</span>age <span class="token operator">&gt;=</span> minDrinkingAge<span class="token punctuation brace-round brace-close brace-level-1" id="pair-211-open">)</span>
+    <span class="token function">purchaseBeer</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-212-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-212-open">)</span><span class="token punctuation">;</span>
+    <span class="token function">gamble</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-213-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-213-open">)</span><span class="token punctuation">;</span> <span class="token comment">// will always execute</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>Oops, we’ve just allowed minors to gamble. Have fun in jail!</p>
+<ol start="2">
+  <li>
+    Not using blocks can make programs more difficult to debug. Let’s say we
+    have the following snippet:
+  </li>
+</ol>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-if">if</span> <span class="token punctuation brace-round brace-open brace-level-1" id="pair-214-close">(</span>age <span class="token operator">&gt;=</span> minDrinkingAge<span class="token punctuation brace-round brace-close brace-level-1" id="pair-214-open">)</span>
+    <span class="token function">addBeerToCart</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-215-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-215-open">)</span><span class="token punctuation">;</span> <span class="token comment">// conditionally executes</span>
+
+<span class="token function">checkout</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-216-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-216-open">)</span><span class="token punctuation">;</span> <span class="token comment">// always executes</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  Let’s say we suspect something is wrong with the
+  <code>addBeerToCart()</code> function, so we comment it out:
+</p>
+<div class="code-block code-block-6" style="margin: 8px 0; clear: both"></div>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-if">if</span> <span class="token punctuation brace-round brace-open brace-level-1" id="pair-217-close">(</span>age <span class="token operator">&gt;=</span> minDrinkingAge<span class="token punctuation brace-round brace-close brace-level-1" id="pair-217-open">)</span>
+<span class="token comment">//    addBeerToCart();</span>
+
+<span class="token function">checkout</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-218-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-218-open">)</span><span class="token punctuation">;</span> <span class="token comment">// conditionally executes now</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  Now we’ve made <code>checkout()</code> conditional, which we certainly didn’t
+  intend.
+</p>
+<p>
+  Neither of the above occur if you always use blocks after an
+  <code>if</code> or <code>else</code>.
+</p>
+<ol start="3">
+  <li>
+    <code>if constexpr</code> (a variant of the if-statement added in C++23)
+    requires the use of blocks. Thus using blocks ensures consistency between
+    <code>if</code> and <code>if constexpr</code>.
+  </li>
+</ol>
+<p>
+  The best argument for not using blocks around single statements is that adding
+  blocks makes you able to see less of your code at one time by spacing it out
+  vertically, which makes your code less readable and can lead to other, more
+  serious mistakes.
+</p>
+<p>
+  The community seems to be more in favor of always using blocks than not,
+  though this recommendation certainly isn’t ubiquitous.
+</p>
+<div class="cpp-note cpp-lightgreenbackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Best practice</p>
+  <p>
+    Consider putting single statements associated with an <code>if</code> or
+    <code>else</code> in blocks (particularly while you are learning). More
+    experienced C++ developers sometimes disregard this practice in favor of
+    tighter vertical spacing.
+  </p>
+</div>
+<p>
+  A reasonable middle-ground alternative is to put single-lines on the same line
+  as the <code>if</code> or <code>else</code>:
+</p>
+<div class="code-block code-block-7" style="margin: 8px 0; clear: both"></div>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-if">if</span> <span class="token punctuation brace-round brace-open brace-level-1" id="pair-219-close">(</span>age <span class="token operator">&gt;=</span> minDrinkingAge<span class="token punctuation brace-round brace-close brace-level-1" id="pair-219-open">)</span> <span class="token function">purchaseBeer</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-220-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-220-open">)</span><span class="token punctuation">;</span>
+<span class="token keyword keyword-else">else</span> std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"No drinky for you\n"</span><span class="token punctuation">.</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  This avoids both of the above downsides mentioned above at some minor cost to
+  readability.
+</p>
+<p>
+  One fair criticism of the single-line method is that it produces code that is
+  harder to debug:
+</p>
+<ul>
+  <li>
+    Because the conditional and associated statement will execute as part of the
+    same step, it is more difficult to tell whether the statement actually
+    executed or was skipped.
+  </li>
+  <li>
+    Because the conditional and associated statement are on the same line, you
+    can’t breakpoint just the associated statement (to stop execution only when
+    the statement actually executes).
+  </li>
+</ul>
+<p>
+  However, if either of the above points are hindering when debugging, you can
+  insert a newline between the conditional and the statement (so they are on
+  separate lines), do your debugging, then remove the newline afterward.
+</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  If-else vs if-if
+</p>
+<p>
+  New programmers sometimes wonder when they should use if-else (if followed by
+  one or more else-statements) or if-if (if followed by one or more additional
+  if-statements).
+</p>
+<ul>
+  <li>
+    Use if-else when you only want to execute the code after the first
+    <code>true</code> condition.
+  </li>
+  <li>
+    Use if-if when you want to execute the code after all
+    <code>true</code> conditions.
+  </li>
+</ul>
+<p>Here’s a program that demonstrates this:</p>
+<div class="code-block code-block-8" style="margin: 8px 0; clear: both"></div>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-void">void</span> <span class="token function">ifelse</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-221-close">(</span><span class="token keyword keyword-bool">bool</span> a<span class="token punctuation">,</span> <span class="token keyword keyword-bool">bool</span> b<span class="token punctuation">,</span> <span class="token keyword keyword-bool">bool</span> c<span class="token punctuation brace-round brace-close brace-level-1" id="pair-221-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-232-close">{</span>
+    <span class="token keyword keyword-if">if</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-222-close">(</span>a<span class="token punctuation brace-round brace-close brace-level-2" id="pair-222-open">)</span>      <span class="token comment">// always evaluates</span>
+        std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"a"</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-else">else</span> <span class="token keyword keyword-if">if</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-223-close">(</span>b<span class="token punctuation brace-round brace-close brace-level-2" id="pair-223-open">)</span> <span class="token comment">// only evaluates when prior if-statement condition is false</span>
+        std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"b"</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-else">else</span> <span class="token keyword keyword-if">if</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-224-close">(</span>c<span class="token punctuation brace-round brace-close brace-level-2" id="pair-224-open">)</span> <span class="token comment">// only evaluates when prior if-statement condition is false</span>
+        std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"c"</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-232-open">}</span>
+
+<span class="token keyword keyword-void">void</span> <span class="token function">ifif</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-225-close">(</span><span class="token keyword keyword-bool">bool</span> a<span class="token punctuation">,</span> <span class="token keyword keyword-bool">bool</span> b<span class="token punctuation">,</span> <span class="token keyword keyword-bool">bool</span> c<span class="token punctuation brace-round brace-close brace-level-1" id="pair-225-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-233-close">{</span>
+    <span class="token keyword keyword-if">if</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-226-close">(</span>a<span class="token punctuation brace-round brace-close brace-level-2" id="pair-226-open">)</span> <span class="token comment">// always evaluates</span>
+        std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"a"</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-if">if</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-227-close">(</span>b<span class="token punctuation brace-round brace-close brace-level-2" id="pair-227-open">)</span> <span class="token comment">// always evaluates</span>
+        std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"b"</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-if">if</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-228-close">(</span>c<span class="token punctuation brace-round brace-close brace-level-2" id="pair-228-open">)</span> <span class="token comment">// always evaluates</span>
+        std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"c"</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-233-open">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-229-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-229-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-234-close">{</span>
+    <span class="token function">ifelse</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-230-close">(</span><span class="token boolean">false</span><span class="token punctuation">,</span> <span class="token boolean">true</span><span class="token punctuation">,</span> <span class="token boolean">true</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-230-open">)</span><span class="token punctuation">;</span>
+    <span class="token function">ifif</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-231-close">(</span><span class="token boolean">false</span><span class="token punctuation">,</span> <span class="token boolean">true</span><span class="token punctuation">,</span> <span class="token boolean">true</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-231-open">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-234-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  In the call to <code>ifelse(false, true, true)</code>, <code>a</code> is
+  <code>false</code>, so we do not execute the associated statement, and the
+  associated <code>else</code> is executed instead. <code>b</code> is true, so
+  we print <code>b</code>. Since this <code>if</code> condition was true, the
+  associated <code>else</code> will not execute (and neither would any other
+  <code>else</code> statements immediately following that one). Note that we
+  only executed the code immediately after the first <code>true</code> condition
+  (<code>b</code>).
+</p>
+<p>
+  In the call to <code>ifif(false, true, true)</code>, <code>a</code> is false,
+  so we do not execute the associated statement, and move to the next
+  <code>if</code>. <code>b</code> is true, so we print <code>b</code> and move
+  to the next <code>if</code>. <code>c</code> is true, so we print
+  <code>c</code>. Note that we executed the code after all
+  <code>true</code> conditions (<code>b</code> and <code>c</code>).
+</p>
+<p>Now look at this somewhat similar function:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-char">char</span> <span class="token function">getFirstMatchingChar</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-235-close">(</span><span class="token keyword keyword-bool">bool</span> a<span class="token punctuation">,</span> <span class="token keyword keyword-bool">bool</span> b<span class="token punctuation">,</span> <span class="token keyword keyword-bool">bool</span> c<span class="token punctuation brace-round brace-close brace-level-1" id="pair-235-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-239-close">{</span>
+    <span class="token keyword keyword-if">if</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-236-close">(</span>a<span class="token punctuation brace-round brace-close brace-level-2" id="pair-236-open">)</span> <span class="token comment">// always evaluates</span>
+        <span class="token keyword keyword-return">return</span> <span class="token string">'a'</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-else">else</span> <span class="token keyword keyword-if">if</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-237-close">(</span>b<span class="token punctuation brace-round brace-close brace-level-2" id="pair-237-open">)</span> <span class="token comment">// only evaluates when prior if-statement condition is false</span>
+        <span class="token keyword keyword-return">return</span> <span class="token string">'b'</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-else">else</span> <span class="token keyword keyword-if">if</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-238-close">(</span>c<span class="token punctuation brace-round brace-close brace-level-2" id="pair-238-open">)</span> <span class="token comment">// only evaluates when prior if-statement condition is false</span>
+        <span class="token keyword keyword-return">return</span> <span class="token string">'c'</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-239-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  Since we’re using if-else, it’s clear we only want to execute the code after
+  the first <code>true</code> condition. But when every associated statement
+  returns a value, we can write this instead:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-char">char</span> <span class="token function">getFirstMatchingChar</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-240-close">(</span><span class="token keyword keyword-bool">bool</span> a<span class="token punctuation">,</span> <span class="token keyword keyword-bool">bool</span> b<span class="token punctuation">,</span> <span class="token keyword keyword-bool">bool</span> c<span class="token punctuation brace-round brace-close brace-level-1" id="pair-240-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-244-close">{</span>
+    <span class="token keyword keyword-if">if</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-241-close">(</span>a<span class="token punctuation brace-round brace-close brace-level-2" id="pair-241-open">)</span> <span class="token comment">// always evaluates</span>
+        <span class="token keyword keyword-return">return</span> <span class="token string">'a'</span><span class="token punctuation">;</span> <span class="token comment">// returns when if-statement is true</span>
+    <span class="token keyword keyword-if">if</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-242-close">(</span>b<span class="token punctuation brace-round brace-close brace-level-2" id="pair-242-open">)</span> <span class="token comment">// only evaluates when prior if-statement condition is false</span>
+        <span class="token keyword keyword-return">return</span> <span class="token string">'b'</span><span class="token punctuation">;</span> <span class="token comment">// returns when if-statement is true</span>
+    <span class="token keyword keyword-if">if</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-243-close">(</span>c<span class="token punctuation brace-round brace-close brace-level-2" id="pair-243-open">)</span> <span class="token comment">// only evaluates when prior if-statement condition is false</span>
+        <span class="token keyword keyword-return">return</span> <span class="token string">'c'</span><span class="token punctuation">;</span> <span class="token comment">// returns when if-statement is true</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-244-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  While this might superficially look like we want to execute the code after
+  every <code>true</code> condition, as soon as we find the first
+  <code>true</code> condition, the associated statement will cause the function
+  to return. The remaining if-statements never have a chance to evaluate.
+  Therefore, this behaves equivalently to the prior version. When every
+  associated statement returns a value, many programmers prefer to omit the
+  <code>else</code> keywords, as doing so avoids unnecessary clutter and the
+  conditions line up better.
+</p>
+<div class="cpp-note cpp-lightbluebackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Key insight</p>
+  <p>
+    When all associated statements return a value, you can always just use if-if
+    since <code>else</code> provides no value.
+  </p>
+</div>
+<p>We’ll continue our exploration of if-statements in the next lesson.</p>
+<div class="prevnext">
+  <div class="prevnext-inline">
+    <a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/common-if-statement-problems/"
+      ><div class="nav-button nav-button-next">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-right" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Next lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">8.3</span>Common if statement
+            problems
+          </div>
+        </div>
+      </div></a
+    ><a class="nav-link" href="/"
+      ><div class="nav-button nav-button-index">
+        <div class="nav-button-icon">
+          <i class="fa fa-home" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Back to table of contents</div>
+        </div>
+      </div></a
+    ><a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/control-flow-introduction/"
+      ><div class="nav-button nav-button-prev">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-left" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Previous lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">8.1</span>Control flow
+            introduction
+          </div>
+        </div>
+      </div></a
+    >
+  </div>
+</div>
+<div class="code-block code-block-10" style="margin: 8px 0; clear: both"></div>

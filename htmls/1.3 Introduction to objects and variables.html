@@ -1,0 +1,674 @@
+<div
+  class="code-block code-block-1"
+  style="margin: 8px 8px 8px 0; float: left"
+></div>
+<p class="cpp-section" data-ezoic-video-excluded="1">Data and values</p>
+<p>
+  In lesson
+  <a
+    href="https://www.learncpp.com/cpp-tutorial/statements-and-the-structure-of-a-program/"
+    >1.1 -- Statements and the structure of a program</a
+  >, you learned that the majority of instructions in a program are statements,
+  and that functions are groups of statements that execute sequentially. The
+  statements inside the function perform actions that (hopefully) generate
+  whatever result the program was designed to produce.
+</p>
+<p>
+  But how do programs actually produce results? They do so by manipulating
+  (reading, changing, and writing) data. In computing, <strong>data</strong> is
+  any information that can be moved, processed, or stored by a computer.
+</p>
+<div class="cpp-note cpp-lightbluebackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Key insight</p>
+  <p>
+    Programs are collections of instructions that manipulate data to produce a
+    desired result.
+  </p>
+  <p>
+    Computer programs (both in source code format and compiled) are technically
+    data too, since they can be moved, processed, and stored. However, in the
+    context of a computer program, we typically use the term “code” to mean the
+    program itself, and “data” to mean the information that the program works
+    with to produce a result.
+  </p>
+</div>
+<p>
+  A program can acquire data to work with in many ways: from a file or database,
+  over a network, from the user providing input on a keyboard, or from the
+  programmer putting data directly into the source code of the program itself.
+  In the “Hello world” program from the aforementioned lesson, the text “Hello
+  world!” was inserted directly into the source code of the program, providing
+  data for the program to use. The program then manipulates this data by sending
+  it to the monitor to be displayed.
+</p>
+<p>
+  In programming, a single piece of data is called a
+  <strong>value</strong> (sometimes called a <strong>data value</strong>).
+  Common examples of values include:
+</p>
+<ul>
+  <li>Numbers (e.g. <code>5</code> or <code>-6.7</code>).</li>
+  <li>
+    Characters, which are placed between single-quotes (e.g. <code>'H'</code> or
+    <code>'$'</code>). Only a single symbol may be used.
+  </li>
+  <li>
+    Text, which must be placed between double-quotes (e.g.
+    <code>"Hello"</code> or <code>"H"</code>). Text can contain 0 or more
+    characters.
+  </li>
+</ul>
+<div class="cpp-note cpp-lightbluebackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Key insight</p>
+  <p>
+    Values placed in single-quotes are interpreted by the compiler as character
+    values.<br />Values placed in double-quotes are interpreted by the compiler
+    as text values.<br />Numeric values are not quoted.
+  </p>
+</div>
+<p>
+  Values that are placed directly into the source code are called
+  <strong>literals</strong>. We cover literals in detail in lesson
+  <a href="https://www.learncpp.com/cpp-tutorial/literals/">5.2 -- Literals</a>.
+</p>
+<div class="code-block code-block-2" style="margin: 8px 0; clear: both"></div>
+<p>
+  One of the most common thing to do with values is print them to the screen.
+  For example:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span> <span class="token comment">// for std::cout</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-8-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-8-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-9-close">{</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token number">5</span><span class="token punctuation">;</span>       <span class="token comment">// print the literal number `5`</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token operator">-</span><span class="token number">6.7</span><span class="token punctuation">;</span>    <span class="token comment">// print the literal number `-6.7`</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">'H'</span><span class="token punctuation">;</span>     <span class="token comment">// print the literal character `H`</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Hello"</span><span class="token punctuation">;</span> <span class="token comment">// print the literal text `Hello`</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-9-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  If a character value or text value is not properly quoted, the compiler will
+  try to interpret that value as if it were C++ code. That will almost always
+  result in a compilation error.
+</p>
+<p>
+  Literals are the easiest way to provide values for your program, but they have
+  some shortcomings. Literals are read-only values, so their values can’t be
+  modified. Thus, if we want to store data in memory, we need some other way to
+  do this.
+</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Random Access Memory
+</p>
+<p>
+  The main memory in a computer is called
+  <strong>Random Access Memory</strong> (often called <strong>RAM</strong> for
+  short). When we run a program, the operating system loads the program into
+  RAM. Any data that is hardcoded into the program itself (e.g. text such as
+  “Hello, world!”) is loaded at this point.
+</p>
+<p>
+  The operating system also reserves some additional RAM for the program to use
+  while it is running. Common uses for this memory are to store values entered
+  by the user, to store data read in from a file or network, or to store values
+  calculated while the program is running (e.g. the sum of two values) so they
+  can be used again later.
+</p>
+<div class="code-block code-block-3" style="margin: 8px 0; clear: both"></div>
+<p>
+  You can think of RAM as a series of numbered boxes that can be used to store
+  data while the program is running.
+</p>
+<p>
+  In some older programming languages (like Applesoft BASIC), you could directly
+  access these boxes (e.g. you could write a statement to “go get the value
+  stored in membox number 7532”).
+</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Objects and variables
+</p>
+<p>
+  In C++, direct memory access is discouraged. Instead, we access memory
+  indirectly through an object. An <strong>object</strong> represents a region
+  of storage (typically RAM or a CPU register) that can hold a value. Objects
+  also have associated properties (that we’ll cover in future lessons).
+</p>
+<p>
+  How the compiler and operating system work to assign memory to objects is
+  beyond the scope of this lesson. But the key point here is that rather than
+  say “go get the value stored in mailbox number 7532”, we can say, “go get the
+  value stored by this object” and let the compiler figure out where and how to
+  retrieve the value. This means we can focus on using objects to store and
+  retrieve values, and not have to worry about where in memory those objects are
+  actually being placed.
+</p>
+<p>
+  Although objects in C++ can be unnamed (anonymous), more often we name our
+  objects using an identifier. An object with a name is called a
+  <strong>variable</strong>.
+</p>
+<div class="code-block code-block-4" style="margin: 8px 0; clear: both"></div>
+<div class="cpp-note cpp-lightbluebackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Key insight</p>
+  <p>
+    An object is used to store a value in memory. A variable is an object that
+    has a name (identifier).
+  </p>
+  <p>
+    Naming our objects let us refer to those objects again later in the program.
+  </p>
+</div>
+<div class="cpp-note cpp-lightgraybackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Nomenclature</p>
+  <p>
+    In general programming, the term <em>object</em> typically refers to an
+    unnamed object in memory, a variable, or a function. In C++, the term
+    <em>object</em> has a narrower definition that excludes functions. When we
+    use the term object in this tutorial series, this narrower C++ definition is
+    the one we mean.
+  </p>
+</div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Variable definition
+</p>
+<p>
+  In order to use a variable in our program, we need to tell the compiler that
+  we want one. The most common way to do this is by use of a special kind of
+  declaration statement called a <strong>definition</strong> (we’ll clarify the
+  difference between a declaration and definition later, in lesson
+  <a href="https://www.learncpp.com/cpp-tutorial/forward-declarations/"
+    >2.7 -- Forward declarations and definitions</a
+  >).
+</p>
+<div class="cpp-note cpp-lightbluebackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Key insight</p>
+  <p>
+    A definition statement can be used to tell the compiler that we want to use
+    a variable in our program.
+  </p>
+</div>
+<p>Here’s an example of defining a variable named <code>x</code>:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-int">int</span> x<span class="token punctuation">;</span> <span class="token comment">// define a variable named x (of type int)</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  At <strong>compile-time</strong> (when the program is being compiled), when
+  encountering this statement, the compiler makes a note to itself that we want
+  a variable with the name <code>x</code>, and that the variable has the data
+  type <code>int</code> (more on data types in a moment). From that point
+  forward (with some limitations that we’ll talk about in a future lesson),
+  whenever we use the identifier <code>x</code> in our code, the compiler will
+  know that we are referring to this variable.
+</p>
+<p>
+  The compiler handles all of the other details about this variable for us,
+  including determining how much memory the object will need, in what kind of
+  storage the object will be placed (e.g. in RAM or a CPU register), where it
+  will be placed relative to other objects, when it will be created and
+  destroyed, etc…
+</p>
+<div class="code-block code-block-5" style="margin: 8px 0; clear: both"></div>
+<p>
+  A variable created via a definition statement is said to be
+  <strong>defined</strong> at the point where the definition statement is
+  placed. For now, your variables should be defined inside functions (such as
+  within <code>main()</code>).
+</p>
+<p>Here is a full program containing a variable definition statement:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-10-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-10-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-11-close">{</span>
+    <span class="token keyword keyword-int">int</span> x<span class="token punctuation">;</span> <span class="token comment">// definition of variable x</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-11-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Variable creation
+</p>
+<p>
+  At <strong>runtime</strong> (when the program is loaded into memory and run),
+  each object is given an actual storage location (such as RAM, or a CPU
+  register) that it can use to store values. The process of reserving storage
+  for an object’s use is called <strong>allocation</strong>. Once allocation has
+  occurred, the object has been created and can be used.
+</p>
+<p>
+  For the sake of example, let’s say that variable <code>x</code> is
+  instantiated at memory location 140. Whenever the program uses variable
+  <code>x</code>, it will access the value in memory location 140.
+</p>
+<div class="code-block code-block-6" style="margin: 8px 0; clear: both"></div>
+<div class="cpp-note cpp-lightbluebackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Key insight</p>
+  <p>
+    An object is “created” once actual storage has been reserved for the
+    object’s use.
+  </p>
+</div>
+<p>
+  When the above program is run, execution starts at the top of
+  <code>main()</code>. Memory for <code>x</code> is allocated. Then the program
+  ends.
+</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Data types
+</p>
+<p>
+  So far, we’ve covered that objects are regions of storage that can store a
+  data value (how exactly data is stored is a topic for a future lesson). A
+  <strong>data type</strong> (more commonly just called a <strong>type</strong>)
+  determines what kind of value (e.g. a number, a letter, text, etc…) the object
+  will store.
+</p>
+<p>
+  In the above example, our variable <code>x</code> was given type
+  <code>int</code>, which means variable <code>x</code> will store an integer
+  value. An <strong>integer</strong> is a number that can be written without a
+  fractional component, such as <code>4</code>, <code>27</code>, <code>0</code>,
+  <code>-2</code>, or <code>-12</code>. For short, we can say that
+  <code>x</code> is an <code>integer variable</code>.
+</p>
+<p>
+  In C++, the type of an object must be known at compile-time, and that type can
+  not be changed without recompiling the program. This means an integer variable
+  can only hold integer values. If you want to store some other kind of value,
+  you’ll need to use a different type.
+</p>
+<div class="cpp-note cpp-lightbluebackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Key insight</p>
+  <p>
+    The data type of an object must be known at compile-time (so the compiler
+    knows how much memory that object requires).
+  </p>
+</div>
+<p>
+  Integers are just one of many types that C++ supports out of the box. For
+  illustrative purposes, here’s another example of defining a variable using
+  data type <code>double</code>:
+</p>
+<div class="code-block code-block-7" style="margin: 8px 0; clear: both"></div>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-double">double</span> width<span class="token punctuation">;</span> <span class="token comment">// define a variable named width, of type double</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  C++ also allows you to create your own custom types. This is something we’ll
+  do a lot of in future lessons, and it’s part of what makes C++ powerful.
+</p>
+<p>
+  For these introductory chapters, we’ll stick with integer variables because
+  they are conceptually simple, but we’ll explore many of the other types C++
+  has to offer (including <code>double</code>) soon.
+</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Defining multiple variables
+</p>
+<p>
+  It is possible to define multiple variables <em>of the same type</em> in a
+  single statement by separating the names with a comma. The following code
+  snippet:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-int">int</span> a<span class="token punctuation">;</span>
+<span class="token keyword keyword-int">int</span> b<span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>is effectively the same as this one:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-int">int</span> a<span class="token punctuation">,</span> b<span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  When defining multiple variables this way, there are three common mistakes
+  that new programmers tend to make (neither serious, since the compiler will
+  catch these and ask you to fix them):
+</p>
+<div class="code-block code-block-8" style="margin: 8px 0; clear: both"></div>
+<p>
+  The first mistake is giving each variable a type when defining variables in
+  sequence.
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-int">int</span> a<span class="token punctuation">,</span> <span class="token keyword keyword-int">int</span> b<span class="token punctuation">;</span> <span class="token comment">// wrong (compiler error)</span>
+
+<span class="token keyword keyword-int">int</span> a<span class="token punctuation">,</span> b<span class="token punctuation">;</span> <span class="token comment">// correct</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  The second mistake is to try to define variables of different types in the
+  same statement, which is not allowed. Variables of different types must be
+  defined in separate statements.
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token keyword keyword-int">int</span> a<span class="token punctuation">,</span> <span class="token keyword keyword-double">double</span> b<span class="token punctuation">;</span> <span class="token comment">// wrong (compiler error)</span>
+
+<span class="token keyword keyword-int">int</span> a<span class="token punctuation">;</span> <span class="token keyword keyword-double">double</span> b<span class="token punctuation">;</span> <span class="token comment">// correct (but not recommended)</span>
+
+<span class="token comment">// correct and recommended (easier to read)</span>
+<span class="token keyword keyword-int">int</span> a<span class="token punctuation">;</span>
+<span class="token keyword keyword-double">double</span> b<span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  We’ll discuss the third issue next lesson, when we cover initialization of
+  variables.
+</p>
+<div class="cpp-note cpp-lightgreenbackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Best practice</p>
+  <p>
+    Although the language allows you to do so, avoid defining multiple variables
+    of the same type in a single statement. Instead, define each variable in a
+    separate statement on its own line (and then use a single-line comment to
+    document what it is used for).
+  </p>
+</div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Summary
+</p>
+<p>
+  In C++, we use objects to access memory. A named object is called a variable.
+  Each variable has an identifier, a type, and a value (and some other
+  attributes that aren’t relevant here). A variable’s type is used to determine
+  how the value in memory should be interpreted.
+</p>
+<p>
+  Variables are actually created at runtime, when memory is allocated for their
+  use.
+</p>
+<p>
+  In the next lesson, we’ll look at how to give values to our variables and how
+  to actually use them.
+</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Quiz time
+</p>
+<p class="cpp-quiz-question" style="clear: both">Question #1</p>
+<p>What is data?</p>
+<p>
+  <a
+    class="solution_link_show"
+    href="javascript:void(0)"
+    onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_0'),this,'Show Solution','Hide Solution')"
+    >Show Solution</a
+  >
+</p>
+<div class="wpsolution" id="cpp_solution_id_0" style="display: none">
+  <p>
+    Data is any information that can be moved, processed, or stored by a
+    computer.
+  </p>
+</div>
+<p class="cpp-quiz-question cpp-topline" style="clear: both">Question #2</p>
+<p>What is a value?</p>
+<p>
+  <a
+    class="solution_link_show"
+    href="javascript:void(0)"
+    onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_1'),this,'Show Solution','Hide Solution')"
+    >Show Solution</a
+  >
+</p>
+<div class="wpsolution" id="cpp_solution_id_1" style="display: none">
+  <p>
+    A value is a letter (e.g. <code>a</code>), number (e.g. <code>5</code>),
+    text (e.g. <code>Hello</code>), or instance of some other useful concept
+    that can be represented as data.
+  </p>
+</div>
+<p class="cpp-quiz-question cpp-topline" style="clear: both">Question #3</p>
+<p>What is an object?</p>
+<p>
+  <a
+    class="solution_link_show"
+    href="javascript:void(0)"
+    onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_2'),this,'Show Solution','Hide Solution')"
+    >Show Solution</a
+  >
+</p>
+<div class="wpsolution" id="cpp_solution_id_2" style="display: none">
+  <p>
+    An object is a region of storage (usually memory) that can store a value.
+  </p>
+</div>
+<p class="cpp-quiz-question cpp-topline" style="clear: both">Question #4</p>
+<p>What is a variable?</p>
+<p>
+  <a
+    class="solution_link_show"
+    href="javascript:void(0)"
+    onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_3'),this,'Show Solution','Hide Solution')"
+    >Show Solution</a
+  >
+</p>
+<div class="wpsolution" id="cpp_solution_id_3" style="display: none">
+  <p>A variable is an object that has a name.</p>
+</div>
+<p class="cpp-quiz-question cpp-topline" style="clear: both">Question #5</p>
+<p>What is an identifier?</p>
+<p>
+  <a
+    class="solution_link_show"
+    href="javascript:void(0)"
+    onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_4'),this,'Show Solution','Hide Solution')"
+    >Show Solution</a
+  >
+</p>
+<div class="wpsolution" id="cpp_solution_id_4" style="display: none">
+  <p>An identifier is the name that a variable is accessed by.</p>
+</div>
+<p class="cpp-quiz-question cpp-topline" style="clear: both">Question #6</p>
+<p>What is a data type used for?</p>
+<p>
+  <a
+    class="solution_link_show"
+    href="javascript:void(0)"
+    onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_5'),this,'Show Solution','Hide Solution')"
+    >Show Solution</a
+  >
+</p>
+<div class="wpsolution" id="cpp_solution_id_5" style="display: none">
+  <p>
+    A data type determines what kind of value (e.g. a number, a letter, text,
+    etc…) the object will store.
+  </p>
+</div>
+<p class="cpp-quiz-question cpp-topline" style="clear: both">Question #7</p>
+<p>What is an integer?</p>
+<p>
+  <a
+    class="solution_link_show"
+    href="javascript:void(0)"
+    onclick="cppSolutionToggle(document.getElementById('cpp_solution_id_6'),this,'Show Solution','Hide Solution')"
+    >Show Solution</a
+  >
+</p>
+<div class="wpsolution" id="cpp_solution_id_6" style="display: none">
+  <p>
+    An integer is a number that can be written without a fractional component.
+  </p>
+</div>
+<div class="prevnext">
+  <div class="prevnext-inline">
+    <a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/variable-assignment-and-initialization/"
+      ><div class="nav-button nav-button-next">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-right" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Next lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">1.4</span>Variable assignment
+            and initialization
+          </div>
+        </div>
+      </div></a
+    ><a class="nav-link" href="/"
+      ><div class="nav-button nav-button-index">
+        <div class="nav-button-icon">
+          <i class="fa fa-home" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Back to table of contents</div>
+        </div>
+      </div></a
+    ><a class="nav-link" href="https://www.learncpp.com/cpp-tutorial/comments/"
+      ><div class="nav-button nav-button-prev">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-left" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Previous lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">1.2</span>Comments
+          </div>
+        </div>
+      </div></a
+    >
+  </div>
+</div>
+<div class="code-block code-block-10" style="margin: 8px 0; clear: both"></div>

@@ -1,0 +1,815 @@
+<div
+  class="code-block code-block-1"
+  style="margin: 8px 8px 8px 0; float: left"
+></div>
+<p>
+  In the previous lessons on integers, we covered that C++ only guarantees that
+  integer variables will have a minimum size -- but they could be larger,
+  depending on the target system.
+</p>
+<p>
+  For example, an <code>int</code> has a minimum size of 16-bits, but it’s
+  typically 32-bits on modern architectures.
+</p>
+<p>
+  If you assume an <code>int</code> is 32-bits because that’s most likely, then
+  your program will probably misbehave on architectures where
+  <code>int</code> is actually 16-bits (since you will probably be storing
+  values that require 32-bits of storage in a variable with only 16-bits of
+  storage, which will cause overflow or undefined behavior).
+</p>
+<p>For example:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-70-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-70-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-72-close">{</span>
+    <span class="token keyword keyword-int">int</span> x <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-71-close">{</span> <span class="token number">32767</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-71-open">}</span><span class="token punctuation">;</span>        <span class="token comment">// x may be 16-bits or 32-bits</span>
+    x <span class="token operator">=</span> x <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">;</span>              <span class="token comment">// 32768 overflows if int is 16-bits, okay if int is 32-bits</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> x <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span> <span class="token comment">// what will this print?</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-72-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  On a machine where <code>int</code> is 32-bits, the value
+  <code>32768</code> fits within the range of an <code>int</code>, and therefore
+  can be stored in <code>x</code> without issue. On such a machine, this program
+  will print <code>32768</code>. However, on a machine where <code>int</code> is
+  16-bits, the value <code>32768</code> does not fit within the range of a
+  16-bit integer (which has range -32,768 to 32,767). On such a machine,
+  <code>x = x + 1</code> will cause overflow, and the value
+  <code>-32768</code> will be stored in <code>x</code> and then printed.
+</p>
+<p>
+  Instead, if you assume an <code>int</code> is only 16-bits to ensure your
+  program will behave on all architectures, then the range of values you can
+  safely store in an <code>int</code> is significantly limited. And on systems
+  where <code>int</code> is actually 32-bits, you’re not making use of half of
+  the memory allocated per <code>int</code>.
+</p>
+<div class="code-block code-block-2" style="margin: 8px 0; clear: both"></div>
+<div class="cpp-note cpp-lightbluebackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Key insight</p>
+  <p>
+    In most cases, we only instantiate a small number of
+    <code>int</code> variables at a time, and these are typically destroyed at
+    the end of the function in which they are created. In such cases, wasting 2
+    bytes of memory per variable isn’t a concern (the limited range is a bigger
+    issue). However, in cases where our program allocates millions of
+    <code>int</code> variables, wasting 2 bytes of memory per variable can have
+    a significant impact on the program’s overall memory usage.
+  </p>
+</div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Why isn’t the size of the integer types fixed?
+</p>
+<p>
+  The short answer is that this goes back to the early days of C, when computers
+  were slow and performance was of the utmost concern. C opted to intentionally
+  leave the size of an integer open so that the compiler implementers could pick
+  a size for <code>int</code> that performs best on the target computer
+  architecture. That way, programmers could just use <code>int</code> without
+  having to worry about whether they could be using something more performant.
+</p>
+<p>
+  By modern standards, the lack of consistent ranges for the various integral
+  types sucks (especially in a language designed to be portable).
+</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Fixed-width integers
+</p>
+<p>
+  To address the above issues, C++11 provides an alternate set of integer types
+  that are guaranteed to be the same size on any architecture. Because the size
+  of these integers is fixed, they are called
+  <strong>fixed-width integers</strong>.
+</p>
+<p>
+  The fixed-width integers are defined (in the &lt;cstdint&gt;\ header) as
+  follows:
+</p>
+<div class="code-block code-block-3" style="margin: 8px 0; clear: both"></div>
+<div class="cpp-table-wrapper" data-ezoic-video-excluded="1">
+  <p></p>
+  <p></p>
+  <table class="cpp-table" data-ezoic-video-excluded="1">
+    <tbody>
+      <tr>
+        <th>Name</th>
+        <th>Fixed Size</th>
+        <th>Fixed Range</th>
+        <th>Notes</th>
+      </tr>
+      <tr>
+        <td>std::int8_t</td>
+        <td>1 byte signed</td>
+        <td>-128 to 127</td>
+        <td>Treated like a signed char on many systems. See note below.</td>
+      </tr>
+      <tr>
+        <td>std::uint8_t</td>
+        <td>1 byte unsigned</td>
+        <td>0 to 255</td>
+        <td>Treated like an unsigned char on many systems. See note below.</td>
+      </tr>
+      <tr>
+        <td>std::int16_t</td>
+        <td>2 byte signed</td>
+        <td>-32,768 to 32,767</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>std::uint16_t</td>
+        <td>2 byte unsigned</td>
+        <td>0 to 65,535</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>std::int32_t</td>
+        <td>4 byte signed</td>
+        <td>-2,147,483,648 to 2,147,483,647</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>std::uint32_t</td>
+        <td>4 byte unsigned</td>
+        <td>0 to 4,294,967,295</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>std::int64_t</td>
+        <td>8 byte signed</td>
+        <td>-9,223,372,036,854,775,808 to 9,223,372,036,854,775,807</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>std::uint64_t</td>
+        <td>8 byte unsigned</td>
+        <td>0 to 18,446,744,073,709,551,615</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<p>Here’s an example:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;cstdint&gt;</span> <span class="token comment">// for fixed-width integers</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-73-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-73-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-75-close">{</span>
+    std<span class="token double-colon punctuation">::</span><span class="token keyword keyword-int32_t">int32_t</span> x <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-74-close">{</span> <span class="token number">32767</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-74-open">}</span><span class="token punctuation">;</span> <span class="token comment">// x is always a 32-bit integer</span>
+    x <span class="token operator">=</span> x <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">;</span>                <span class="token comment">// so 32768 will always fit</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> x <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-75-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<div class="cpp-note cpp-lightgreenbackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Best practice</p>
+  <p>
+    Use a fixed-width integer type when you need an integral type that has a
+    guaranteed range.
+  </p>
+</div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Warning: <code>std::int8_t</code> and <code>std::uint8_t</code> typically
+  behave like chars
+</p>
+<p>
+  Due to an oversight in the C++ specification, modern compilers typically treat
+  <code>std::int8_t</code> and <code>std::uint8_t</code> (and the corresponding
+  fast and least fixed-width types, which we’ll introduce in a moment) the same
+  as <code>signed char</code> and <code>unsigned char</code> respectively. Thus
+  on most modern systems, the 8-bit fixed-width integral types will behave like
+  char types.
+</p>
+<p>As a quick teaser:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;cstdint&gt;</span> <span class="token comment">// for fixed-width integers</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-76-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-76-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-78-close">{</span>
+    std<span class="token double-colon punctuation">::</span><span class="token keyword keyword-int8_t">int8_t</span> x <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-77-close">{</span> <span class="token number">65</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-77-open">}</span><span class="token punctuation">;</span>   <span class="token comment">// initialize 8-bit integral type with value 65</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> x <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span> <span class="token comment">// You're probably expecting this to print 65</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-78-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  Although you’re probably expecting the above program to print <code>65</code>,
+  it most likely won’t.
+</p>
+<p>
+  We discuss what this example actually prints (and how to ensure it always
+  prints <code>65</code>) in lesson
+  <a
+    href="https://www.learncpp.com/cpp-tutorial/introduction-to-type-conversion-and-static_cast/"
+    >4.12 -- Introduction to type conversion and static_cast</a
+  >, after we cover chars (and how they print) in lesson
+  <a href="https://www.learncpp.com/cpp-tutorial/chars/">4.11 -- Chars</a>.
+</p>
+<div class="cpp-note cpp-lightredbackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Warning</p>
+  <p>
+    The 8-bit fixed-width integer types are often treated like chars instead of
+    integer values (and this may vary per system). The 16-bit and wider integral
+    types are not subject to this issue.
+  </p>
+</div>
+<div class="cpp-note cpp-lightgraybackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">For advanced readers</p>
+  <p>
+    The fixed-width integers actually don’t define new types -- they are just
+    aliases for existing integral types with the desired size. For each
+    fixed-width type, the implementation (the compiler and standard library)
+    gets to determine which existing type is aliased. As an example, on a
+    platform where <code>int</code> is 32-bits, <code>std::int32_t</code> will
+    be an alias for <code>int</code>. On a system where <code>int</code> is
+    16-bits (and <code>long</code> is 32-bits), <code>std::int32_t</code> will
+    be an alias for <code>long</code> instead.
+  </p>
+  <p>So what about the 8-bit fixed-width types?</p>
+  <p>
+    In most cases, <code>std::int8_t</code> is an alias for
+    <code>signed char</code> because it is the only available 8-bit signed
+    integral type (<code>bool</code> and <code>char</code> are not considered to
+    be signed integral types). And when this is the case,
+    <code>std::int8_t</code> will behave just like a char on that platform.
+  </p>
+  <p>
+    However, in rare cases, if a platform has an implementation-specific 8-bit
+    signed integral type, the implementation may decide to make
+    <code>std::int8_t</code> an alias for that type instead. In that case,
+    <code>std::int8_t</code> will behave like that type, which may be more like
+    an int than a char.
+  </p>
+  <p><code>std::uint8_t</code> behaves similarly.</p>
+</div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Other fixed-width downsides
+</p>
+<div class="code-block code-block-4" style="margin: 8px 0; clear: both"></div>
+<p>The fixed-width integers have some potential downsides:</p>
+<p>
+  First, the fixed-width integers are not guaranteed to be defined on all
+  architectures. They only exist on systems where there are fundamental integral
+  types that match their widths and following a certain binary representation.
+  Your program will fail to compile on any such architecture that does not
+  support a fixed-width integer that your program is using. However, given that
+  modern architectures have standardized around 8/16/32/64-bit variables, this
+  is unlikely to be a problem unless your program needs to be portable to some
+  exotic mainframe or embedded architectures.
+</p>
+<p>
+  Second, if you use a fixed-width integer, it may be slower than a wider type
+  on some architectures. For example, if you need an integer that is guaranteed
+  to be 32-bits, you might decide to use <code>std::int32_t</code>, but your CPU
+  might actually be faster at processing 64-bit integers. However, just because
+  your CPU can process a given type faster doesn’t mean your program will be
+  faster overall -- modern programs are often constrained by memory usage rather
+  than CPU, and the larger memory footprint may slow your program more than the
+  faster CPU processing accelerates it. It’s hard to know without actually
+  measuring.
+</p>
+<p>These are just minor quibbles though.</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Fast and least integral types
+  <span class="cpp-section-pill cpp-section-optional">Optional</span>
+</p>
+<div class="code-block code-block-5" style="margin: 8px 0; clear: both"></div>
+<p>
+  To help address the above downsides, C++ also defines two alternative sets of
+  integers that are guaranteed to exist.
+</p>
+<p>
+  The fast types (std::int_fast#_t and std::uint_fast#_t) provide the fastest
+  signed/unsigned integer type with a width of at least # bits (where # = 8, 16,
+  32, or 64). For example, <code>std::int_fast32_t</code> will give you the
+  fastest signed integer type that’s at least 32-bits. By fastest, we mean the
+  integral type that can be processed most quickly by the CPU.
+</p>
+<p>
+  The least types (std::int_least#_t and std::uint_least#_t) provide the
+  smallest signed/unsigned integer type with a width of at least # bits (where #
+  = 8, 16, 32, or 64). For example, <code>std::uint_least32_t</code> will give
+  you the smallest unsigned integer type that’s at least 32-bits.
+</p>
+<p>
+  Here’s an example from the author’s Visual Studio (32-bit console
+  application):
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;cstdint&gt;</span> <span class="token comment">// for fast and least types</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-79-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-79-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-86-close">{</span>
+	std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"least 8:  "</span> <span class="token operator">&lt;&lt;</span> <span class="token keyword keyword-sizeof">sizeof</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-80-close">(</span>std<span class="token double-colon punctuation">::</span>int_least8_t<span class="token punctuation brace-round brace-close brace-level-2" id="pair-80-open">)</span>  <span class="token operator">*</span> <span class="token number">8</span> <span class="token operator">&lt;&lt;</span> <span class="token string">" bits\n"</span><span class="token punctuation">;</span>
+	std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"least 16: "</span> <span class="token operator">&lt;&lt;</span> <span class="token keyword keyword-sizeof">sizeof</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-81-close">(</span>std<span class="token double-colon punctuation">::</span>int_least16_t<span class="token punctuation brace-round brace-close brace-level-2" id="pair-81-open">)</span> <span class="token operator">*</span> <span class="token number">8</span> <span class="token operator">&lt;&lt;</span> <span class="token string">" bits\n"</span><span class="token punctuation">;</span>
+	std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"least 32: "</span> <span class="token operator">&lt;&lt;</span> <span class="token keyword keyword-sizeof">sizeof</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-82-close">(</span>std<span class="token double-colon punctuation">::</span>int_least32_t<span class="token punctuation brace-round brace-close brace-level-2" id="pair-82-open">)</span> <span class="token operator">*</span> <span class="token number">8</span> <span class="token operator">&lt;&lt;</span> <span class="token string">" bits\n"</span><span class="token punctuation">;</span>
+	std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+	std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"fast 8:  "</span>  <span class="token operator">&lt;&lt;</span> <span class="token keyword keyword-sizeof">sizeof</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-83-close">(</span>std<span class="token double-colon punctuation">::</span>int_fast8_t<span class="token punctuation brace-round brace-close brace-level-2" id="pair-83-open">)</span>   <span class="token operator">*</span> <span class="token number">8</span> <span class="token operator">&lt;&lt;</span> <span class="token string">" bits\n"</span><span class="token punctuation">;</span>
+	std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"fast 16: "</span>  <span class="token operator">&lt;&lt;</span> <span class="token keyword keyword-sizeof">sizeof</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-84-close">(</span>std<span class="token double-colon punctuation">::</span>int_fast16_t<span class="token punctuation brace-round brace-close brace-level-2" id="pair-84-open">)</span>  <span class="token operator">*</span> <span class="token number">8</span> <span class="token operator">&lt;&lt;</span> <span class="token string">" bits\n"</span><span class="token punctuation">;</span>
+	std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"fast 32: "</span>  <span class="token operator">&lt;&lt;</span> <span class="token keyword keyword-sizeof">sizeof</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-85-close">(</span>std<span class="token double-colon punctuation">::</span>int_fast32_t<span class="token punctuation brace-round brace-close brace-level-2" id="pair-85-open">)</span>  <span class="token operator">*</span> <span class="token number">8</span> <span class="token operator">&lt;&lt;</span> <span class="token string">" bits\n"</span><span class="token punctuation">;</span>
+
+	<span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-86-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>This produced the result:</p>
+<div class="code-block code-block-6" style="margin: 8px 0; clear: both"></div>
+<pre>
+least 8:  8 bits
+least 16: 16 bits
+least 32: 32 bits
+
+fast 8:  8 bits
+fast 16: 32 bits
+fast 32: 32 bits
+</pre>
+<p>
+  You can see that <code>std::int_least16_t</code> is 16-bits, whereas
+  <code>std::int_fast16_t</code> is actually 32-bits. This is because on the
+  author’s machine, 32-bit integers are faster to process than 16-bit integers.
+</p>
+<p>
+  As another example, let’s assume we’re on an architecture that has only 16-bit
+  and 64-bit integral types. <code>std::int32_t</code> would not exist, whereas
+  <code>std::least_int32_t</code> (and <code>std::fast_int32_t</code>) would be
+  64 bits.
+</p>
+<p>
+  However, these fast and least integers have their own downsides. First, not
+  many programmers actually use them, and a lack of familiarity can lead to
+  errors. Then the fast types can also lead to memory wastage, as their actual
+  size may be significantly larger than indicated by their name.
+</p>
+<p>
+  Most seriously, because the size of the fast/least integers is
+  implementation-defined, your program may exhibit different behaviors on
+  architectures where they resolve to different sizes. For example:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;cstdint&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-87-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-87-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-89-close">{</span>
+    std<span class="token double-colon punctuation">::</span>uint_fast16_t sometype <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-88-close">{</span> <span class="token number">0</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-88-open">}</span><span class="token punctuation">;</span>
+    sometype <span class="token operator">=</span> sometype <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">;</span> <span class="token comment">// intentionally overflow to invoke wraparound behavior</span>
+
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> sometype <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-89-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  This code will produce different results depending on whether
+  <code>std::uint_fast16_t</code> is 16, 32, or 64 bits! This is exactly what we
+  were trying to avoid by using fixed-width integers in the first place!
+</p>
+<div class="code-block code-block-7" style="margin: 8px 0; clear: both"></div>
+<div class="cpp-note cpp-lightgreenbackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Best practice</p>
+  <p>
+    Avoid the fast and least integral types because they may exhibit different
+    behaviors on architectures where they resolve to different sizes.
+  </p>
+</div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  Best practices for integral types
+</p>
+<p>
+  Given the various pros and cons of the fundamental integral types, the
+  fixed-width integral types, the fast/least integral types, and signed/unsigned
+  challenges, there is little consensus on integral best practices.
+</p>
+<p>
+  Our stance is that it’s better to be correct than fast, and better to fail at
+  compile time than runtime. Therefore, if you need an integral type with a
+  guaranteed range, we recommend avoiding the fast/least types in favor of the
+  fixed-width types. If you later discover the need to support an esoteric
+  platform for which a specific fixed-width integral type won’t compile, then
+  you can decide how to migrate your program (and thoroughly retest) at that
+  point.
+</p>
+<div class="cpp-note cpp-lightgreenbackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Best practice</p>
+  <ul>
+    <li>
+      Prefer <code>int</code> when the size of the integer doesn’t matter (e.g.
+      the number will always fit within the range of a 2-byte signed integer).
+      For example, if you’re asking the user to enter their age, or counting
+      from 1 to 10, it doesn’t matter whether <code>int</code> is 16-bits or
+      32-bits (the numbers will fit either way). This will cover the vast
+      majority of the cases you’re likely to run across.
+    </li>
+    <li>
+      Prefer <code>std::int#_t</code> when storing a quantity that needs a
+      guaranteed range.
+    </li>
+    <li>
+      Prefer <code>std::uint#_t</code> when doing bit manipulation or
+      well-defined wrap-around behavior is required (e.g. for cryptography or
+      random number generation).
+    </li>
+  </ul>
+  <p>Avoid the following when possible:</p>
+  <ul>
+    <li>
+      <code>short</code> and <code>long</code> integers (prefer a fixed-width
+      integer type instead).
+    </li>
+    <li>
+      The fast and least integral types (prefer a fixed-width integer type
+      instead).
+    </li>
+    <li>
+      Unsigned types for holding quantities (prefer a signed integer type
+      instead).
+    </li>
+    <li>
+      The 8-bit fixed-width integer types (prefer a 16-bit fixed-width integer
+      type instead).
+    </li>
+    <li>
+      Any compiler-specific fixed-width integers (for example, Visual Studio
+      defines __int8, __int16, etc…)
+    </li>
+  </ul>
+</div>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  What is std::size_t?
+</p>
+<p>Consider the following code:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-90-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-90-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-92-close">{</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token keyword keyword-sizeof">sizeof</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-91-close">(</span><span class="token keyword keyword-int">int</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-91-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-92-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>On the author’s machine, this prints:</p>
+<div class="code-block code-block-8" style="margin: 8px 0; clear: both"></div>
+<pre>
+4
+</pre>
+<p>
+  Pretty simple, right? We can infer that operator <code>sizeof</code> returns
+  an integer value -- but what integral type is that return value? An int? A
+  short? The answer is that <code>sizeof</code> returns a value of type
+  <code>std::size_t</code>. <strong>std::size_t</strong> is an alias for an
+  implementation-defined unsigned integral type. In other words, the compiler
+  decides if <code>std::size_t</code> is an unsigned int, an unsigned long, an
+  unsigned long long, etc…
+</p>
+<div class="cpp-note cpp-lightbluebackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Key insight</p>
+  <p>
+    <code>std::size_t</code> is an alias for an implementation-defined unsigned
+    integral type. It is used within the standard library to represent the
+    byte-size or length of objects.
+  </p>
+</div>
+<div class="cpp-note cpp-lightgraybackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">For advanced readers</p>
+  <p>
+    <code>std::size_t</code> is actually a typedef. We cover typedefs in lesson
+    <a href="https://www.learncpp.com/cpp-tutorial/typedefs-and-type-aliases/"
+      >10.7 -- Typedefs and type aliases</a
+    >.
+  </p>
+</div>
+<p>
+  <code>std::size_t</code> is defined in a number of different headers. If you
+  need to use <code>std::size_t</code>, &lt;cstddef&gt; is the best header to
+  include, as it contains the least number of other defined identifiers.
+</p>
+<p>For example:</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;cstddef&gt;</span>  <span class="token comment">// for std::size_t</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-93-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-93-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-97-close">{</span>
+    <span class="token keyword keyword-int">int</span> x <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-95-close">{</span> <span class="token number">5</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-95-open">}</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>size_t s <span class="token punctuation brace-curly brace-open brace-level-2" id="pair-96-close">{</span> <span class="token keyword keyword-sizeof">sizeof</span><span class="token punctuation brace-round brace-open brace-level-3" id="pair-94-close">(</span>x<span class="token punctuation brace-round brace-close brace-level-3" id="pair-94-open">)</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-96-open">}</span><span class="token punctuation">;</span> <span class="token comment">// sizeof returns a value of type std::size_t, so that should be the type of s</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> s <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-97-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<div class="cpp-note cpp-lightgreenbackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Best practice</p>
+  <p>
+    If you use <code>std::size_t</code> explicitly in your code, #include one of
+    the headers that defines <code>std::size_t</code> (we recommend
+    &lt;cstddef&gt;).
+  </p>
+  <p>
+    Using <code>sizeof</code> does not require a header (even though it returns
+    a value whose type is <code>std::size_t</code>).
+  </p>
+</div>
+<p>
+  Much like an integer can vary in size depending on the system,
+  <code>std::size_t</code> also varies in size. <code>std::size_t</code> is
+  guaranteed to be unsigned and at least 16 bits, but on most systems will be
+  equivalent to the address-width of the application. That is, for 32-bit
+  applications, <code>std::size_t</code> will typically be a 32-bit unsigned
+  integer, and for a 64-bit application, <code>std::size_t</code> will typically
+  be a 64-bit unsigned integer.
+</p>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  The <code>sizeof</code> operator returns a value of type
+  <code>std::size_t</code>
+  <span class="cpp-section-pill cpp-section-optional">Optional</span>
+</p>
+<div class="cpp-note cpp-lightgraybackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">Author’s note</p>
+  <p>
+    The following sections are optional reading. It is not critical that you
+    understand what follows.
+  </p>
+</div>
+<p>
+  Amusingly, we can use the <code>sizeof</code> operator (which returns a value
+  of type <code>std::size_t</code>) to ask for the size of
+  <code>std::size_t</code> itself:
+</p>
+<div class="code-toolbar">
+  <pre
+    class="line-numbers language-cpp"
+    tabindex="0"
+  ><code class="match-braces language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;cstddef&gt;</span> <span class="token comment">// for std::size_t</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-98-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-98-open">)</span>
+<span class="token punctuation brace-curly brace-open brace-level-1" id="pair-100-close">{</span>
+	std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token keyword keyword-sizeof">sizeof</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-99-close">(</span>std<span class="token double-colon punctuation">::</span>size_t<span class="token punctuation brace-round brace-close brace-level-2" id="pair-99-open">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+
+	<span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation brace-curly brace-close brace-level-1" id="pair-100-open">}</span><span aria-hidden="true" class="line-numbers-rows"><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span><span style="height: 16px;"></span></span><span class="line-numbers-sizer" style="display: none;"></span></code></pre>
+  <div class="toolbar">
+    <div class="toolbar-item">
+      <button
+        class="copy-to-clipboard-button"
+        type="button"
+        data-copy-state="copy"
+      >
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p>
+  Compiled as a 32-bit (4 byte) console app on the author’s system, this prints:
+</p>
+<pre>
+4
+</pre>
+<p
+  class="cpp-section cpp-topline"
+  style="clear: both"
+  data-ezoic-video-excluded="1"
+>
+  <code>std::size_t</code> imposes an upper limit on the size of an object
+  <span class="cpp-section-pill cpp-section-optional">Optional</span>
+</p>
+<p>
+  The <code>sizeof</code> operator must be able to return the byte-size of an
+  object as a value of type <code>std::size_t</code>. Therefore, the byte-size
+  of an object can be no larger than the largest value
+  <code>std::size_t</code> can hold.
+</p>
+<p>
+  The
+  <a href="https://isocpp.org/files/papers/N4860.pdf#subsection.6.8.2"
+    >C++20 standard</a
+  >
+  ([basic.compound] 1.8.2) says: “Constructing a type such that the number of
+  bytes in its object representation exceeds the maximum value representable in
+  the type std::size_t (17.2) is ill-formed.”
+</p>
+<p>
+  If it were possible to create a larger object, <code>sizeof</code> would not
+  be able to return its byte-size, as it would be outside the range that a
+  <code>std::size_t</code> could hold. Thus, creating an object with a size (in
+  bytes) larger than the largest value an object of type
+  <code>std::size_t</code> can hold is invalid (and will cause a compile error).
+</p>
+<p>
+  For example, let’s assume that <code>std::size_t</code> has a size of 4 bytes
+  on our system. An unsigned 4-byte integral type has range 0 to 4,294,967,295.
+  Therefore, a 4-byte <code>std::size_t</code> object can hold any value from 0
+  to 4,294,967,295. Any object with a byte-size of 0 to 4,294,967,295 could have
+  it’s size returned in a value of type <code>std::size_t</code>, so this is
+  fine. However, if the byte-size of an object were larger than 4,294,967,295
+  bytes, then <code>sizeof</code> would not be able to return the size of that
+  object accurately, as the value would be outside the range of a
+  <code>std::size_t</code>. Therefore, no object larger than 4,294,967,295 bytes
+  could be created on this system.
+</p>
+<div class="cpp-note cpp-lightgraybackground" data-ezoic-video-excluded="1">
+  <p class="cpp-note-title cpp-bottomline">As an aside…</p>
+  <p>
+    The size of <code>std::size_t</code> imposes a strict mathematical upper
+    limit on an object’s size. In practice, the largest creatable object may be
+    smaller than this amount (perhaps significantly so).
+  </p>
+  <p>
+    Some compilers limit the largest creatable object to half the maximum value
+    of <code>std::size_t</code> (an explanation for this can be found
+    <a href="https://stackoverflow.com/a/42428240">here</a>).
+  </p>
+  <p>
+    Other factors may also play a role, such as how much contiguous memory your
+    computer has available for allocation.
+  </p>
+</div>
+<p>
+  When 8-bit and 16-bit applications were the norm, this limit imposed a
+  significant constraint on the size of objects. In the 32-bit and 64-bit era,
+  this is rarely an issue, and therefore not something you generally need to
+  worry about.
+</p>
+<div class="prevnext">
+  <div class="prevnext-inline">
+    <a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/introduction-to-scientific-notation/"
+      ><div class="nav-button nav-button-next">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-right" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Next lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">4.7</span>Introduction to
+            scientific notation
+          </div>
+        </div>
+      </div></a
+    ><a class="nav-link" href="/"
+      ><div class="nav-button nav-button-index">
+        <div class="nav-button-icon">
+          <i class="fa fa-home" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Back to table of contents</div>
+        </div>
+      </div></a
+    ><a
+      class="nav-link"
+      href="https://www.learncpp.com/cpp-tutorial/unsigned-integers-and-why-to-avoid-them/"
+      ><div class="nav-button nav-button-prev">
+        <div class="nav-button-icon">
+          <i class="fa fa-chevron-circle-left" aria-hidden="true"></i>
+        </div>
+        <div class="nav-button-text">
+          <div class="nav-button-title">Previous lesson</div>
+          <div class="nav-button-lesson">
+            <span class="nav-button-lesson-number">4.5</span>Unsigned integers,
+            and why to avoid them
+          </div>
+        </div>
+      </div></a
+    >
+  </div>
+</div>
+<div class="code-block code-block-10" style="margin: 8px 0; clear: both"></div>
